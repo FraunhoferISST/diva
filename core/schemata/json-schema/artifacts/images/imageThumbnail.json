@@ -1,0 +1,17 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "imageThumbnail",
+    "type": "object",
+    "title": "Thumbnail of an Image",
+    "properties": {
+        "imageThumbnail": {
+            "type": "string",
+            "title": "Image Thumbnail",
+            "description": "A base64 encoded image",
+            "examples": [
+              "/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaH..."
+            ],
+            "pattern": "^(.*)$"
+        }
+    }
+}

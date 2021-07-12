@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "review",
+  "type": "object",
+  "title": "Review schema",
+  "required": [
+    "reviewText",
+    "belongsTo",
+    "rating"
+  ],
+  "unevaluatedProperties": false,
+  "allOf": [
+    {
+      "$ref": "/entity"
+    }
+  ],
+  "properties": {
+
+    "reviewText": {
+      "$id": "reviewText",
+      "type": "string",
+      "title": "Review text",
+      "description": "Creators comment to the review",
+      "examples": [
+        "This resource was super helpful!",
+        "Awesome Data",
+        "The data owner should take more care of his data!"
+      ],
+      "pattern": "^(.*)$"
+    },
+
+    "belongsTo": {
+      "$id": "belongsTo",
+      "type": "string",
+      "title": "Belongs To",
+      "description": "The uuid of the entity id to which the review belongs to. Can be any possible entity like resource, asset, user or even an review itself.",
+      "examples": [
+        "resource:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
+      ],
+      "pattern": "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+
+    "rating": {
+      "$id": "rating",
+      "type": "number",
+      "title": "Review rating",
+      "description": "Rating assigned to an entity within a review (1-5)",
+      "minimum": 1,
+      "maximum": 5,
+      "examples": [
+        2,
+        3.4,
+        5
+      ]
+    }
+  }
+}

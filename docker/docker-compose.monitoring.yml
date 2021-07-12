@@ -1,0 +1,36 @@
+version: '3.5'
+
+services:
+
+  #######################################
+  # Kibana Elasticsearch GUI
+  #######################################
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.1
+    container_name: kibana
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+    networks:
+      - core
+
+
+  #######################################
+  # Konga: Kong GUI
+  #######################################
+  konga:
+    image: pantsel/konga:0.14.7
+    restart: always
+    networks:
+      - core
+    environment:
+      NODE_ENV: production
+    ports:
+      - "1337:1337"
+
+networks:
+  core:
+    name: core

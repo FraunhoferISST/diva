@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "personalData",
+  "type": "object",
+  "title": "Personal Data",
+  "properties": {
+    "personalData": {
+      "type": "object",
+      "title": "Personal Data",
+      "description": "Detected information about Personal Data of a text file",
+      "required": [
+        "numberOfFoundEmails",
+        "numberOfFoundPhoneNumbers",
+        "numberOfFoundOrganizations",
+        "numberOfFoundPersons",
+        "numberOfFoundLocations",
+        "evaluatedPrivacyMetric"
+      ],
+      "properties": {
+        "numberOfFoundEmails": {
+          "type": "number",
+          "title": "Number of found emails",
+          "description": "The number of found emails",
+          "minimum": 0,
+          "examples": [
+            1,
+            5,
+            14
+          ]
+        },
+        "numberOfFoundPhoneNumbers": {
+          "type": "number",
+          "title": "Number of found phone numbers",
+          "description": "The number of found phone numbers",
+          "minimum": 0,
+          "examples": [
+            1,
+            5,
+            14
+          ]
+        },
+        "numberOfFoundOrganizations": {
+          "type": "number",
+          "title": "Number of found organizations",
+          "description": "The number of found organizations",
+          "minimum": 0,
+          "examples": [
+            1,
+            5,
+            14
+          ]
+        },
+        "numberOfFoundPersons": {
+          "type": "number",
+          "title": "Number of found persons",
+          "description": "The number of found persons",
+          "minimum": 0,
+          "examples": [
+            1,
+            5,
+            14
+          ]
+        },
+        "numberOfFoundLocations": {
+          "type": "number",
+          "title": "Number of found locations",
+          "description": "The number of found locations",
+          "minimum": 0,
+          "examples": [
+            1,
+            5,
+            14
+          ]
+        },
+        "evaluatedPrivacyMetric": {
+          "type": "number",
+          "title": "Evaluated Privacy Metric",
+          "description": "Evaluated Privacy Metric",
+          "minimum": 0,
+          "maximum": 100,
+          "examples": [
+            1,
+            45,
+            98
+          ]
+        }
+      }
+    }
+  }
+}

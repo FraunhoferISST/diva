@@ -1,0 +1,204 @@
+openapi: 3.0.0
+info:
+  description: Urban Pulse Adapter provides an API to import Urban Pulse Sensors as resource to DIVA
+  version: 1.0.0
+  title: Urban Pulse Adapter API
+tags:
+  - name: import
+    description: Imports the Urban Pulse sensors as DIVA resources
+paths:
+  /import:
+    post:
+      tags:
+        - import
+      summary: Import sensors from the provided Urban Pulse instace
+      description: The adapter connects to the Urban Pulse instance with the provided base URL and credentials and imports all availiable sensors
+        as DIVA resources. Also specific seonsors can be specified in an array of id's to import only this sensors. If one of the provided sensors where not found,
+        a corresponsing error is thrown. Optionaly the resources can be grouped to an asset. The adapter is aible to create a new asset
+        or to group the sensors in an existing asset. The adapter responses with an array with further information for the import of each sensor
+      operationId: import
+      parameters:
+        - $ref: "#/components/parameters/useridParam"
+        - name: createAsset
+          in: query
+          description: Indicates whether the imported sensors should be grouped to a newly created asset
+          required: false
+          explode: true
+          schema:
+            type: boolean
+            default: false
+            example: true
+        - name: assetId
+          in: query
+          description: The id of the existing asset under wich the sensors should be grouped. If provided, `createAsset`
+            must not be sended explicitly
+          required: false
+          explode: true
+          schema:
+            type: string
+            example: "asset:uuid:e574eb15-c88d-4293-a48d-bafa242f41e7"
+      requestBody:
+        $ref: "#/components/requestBodies/ImportData"
+      responses:
+        207:
+          $ref: "#/components/responses/ImportSucces"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+        500:
+          $ref: "#/components/responses/UnexpectedError"
+
+servers:
+  - url: http://localhost:3456
+components:
+  requestBodies:
+    ImportData:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ImportData"
+
+  schemas:
+    ImportData:
+      description: Data for resources import
+      type: object
+      additionalProperties: false
+      required:
+        - baseUrl
+        - username
+        - password
+        - since
+        - until
+      properties:
+        baseUrl:
+          type: string
+          title: BaseUrl
+          description: The base url of the urban pulse instance
+          minLength: 1
+          pattern: "^(.*)$"
+          example: "https://example.urbanpulse.com"
+        username:
+          type: string
+          title: Username
+          description: Username to access the urban pulse instance
+          minLength: 1
+          pattern: "^(.*)$"
+        password:
+          type: string
+          title: Password
+          description: Password to access the urban pulse instance
+          minLength: 1
+        since:
+          type: string
+          format: date-time
+          title: Startdate
+          description: Starting date for fetching sensor data
+        until:
+          type: string
+          format: date-time
+          title: Startdate
+          description: End date for fetching sensor data
+        sensors:
+          type: array
+          title: Sensors Id's
+          description: An optional array of Urban Pulse sensors id's that should be imported. If not provided,
+            all availiable sensors will be imported
+          example: ["d4bd81aa-e305-422a-8d2a-d97287f98e33"]
+          items:
+            type: string
+            example: "d4bd81aa-e305-422a-8d2a-d97287f98e31"
+
+    Error:
+      type: object
+      title: Operation error
+      description: Error that can occure on request processing
+      required:
+        - type
+        - message
+        - code
+      properties:
+        type:
+          title: Error type
+          description: Futher error type information
+          type: string
+        message:
+          title: Error message
+          description: Details about error
+          type: string
+        code:
+          title: Error code
+          description: HTTP error code
+          type: number
+          format: int32
+          example: 409
+        errors:
+          title: Errors
+          description: More error details that are reference in most case specification or schema validation errors
+          type: array
+          items:
+            type: object
+  responses:
+    ImportSucces:
+      description: Multi-status response in case of a successful import
+      content:
+        application/json:
+          schema:
+            title: Multi-status response
+            description: Indicates the status for operation for each sensor that should be imported
+            type: array
+            items:
+              type: object
+              required:
+                - statusCode
+                - uniqueFingerprint
+              properties:
+                statusCode:
+                  title: Status Code
+                  description: Status Code for single sensor import operation.
+                  type: integer
+                  example: 201
+                uniqueFingerprint:
+                  type: string
+                  title: Unique indentifier
+                  description: Global Unique indentifier as described in resource schema
+                data:
+                  title: Operation data
+                  description: Additional data as a result of a single resource operation
+                  oneOf:
+                    - type: string
+                    - type: object
+                error:
+                  $ref: "#/components/schemas/Error"
+    UnexpectedError:
+      description: Internal error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFoundError:
+      description: Sensor not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    InvalidDataError:
+      description: Invalid data supplied
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    ResourceAlreadyExistsError:
+      description: Resource already imported
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  parameters:
+    useridParam:
+      in: header
+      description: The id of the origin that produces action/message. Can be a user or service
+      name: x-actorid
+      schema:
+        type: string
+        minLength: 1
+      required: true

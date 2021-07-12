@@ -1,0 +1,23 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "imageCommonProperties",
+    "type": "object",
+    "title": "Image Resource Data",
+    "allOf": [
+        {
+            "$ref": "/imageOcr"
+        },
+        {
+            "$ref": "/imageThumbnail"
+        },
+        {
+            "$ref": "/imageExif"
+        },
+        {
+            "$ref": "/imageCaptions"
+        },
+        {
+            "$ref": "/imageObjects"
+        }
+    ]
+}

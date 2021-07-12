@@ -1,0 +1,461 @@
+version: '3.9'
+
+x-mongodb-env: &mongodb-env
+  MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@documentstore:${MONGODB_PORT}
+
+x-schema-registry-env: &schema-registry-env
+  SCHEMA_REGISTRY_URL: http://schema-registry:${SCHEMA_REGISTRY_PORT}/
+
+x-elasticsearch-env: &elasticsearch-env
+  ELASTICSEARCH_URL: http://elasticsearch:${ELASTICSEARCH_PORT}
+
+x-airflow-env: &airflow-env
+  AIRFLOW_URL: http://airflow-webserver:${AIRFLOW_PORT}
+
+x-kafka-env: &kafka-env
+  KAFKA_URL: broker:${KAFKA_PORT}
+
+x-base-core-service-env: &base-core-service-env
+  <<: *mongodb-env
+  <<: *schema-registry-env
+  <<: *kafka-env
+
+x-base-core-service: &base-core-service
+  depends_on:
+    - documentstore
+    - broker
+    - schema-registry
+  networks:
+    - core
+  restart: always
+  environment:
+    <<: *base-core-service-env
+
+services:
+
+  # ####################################################################################################################
+  # STATIC VUE WEB CLIENT
+  # ####################################################################################################################
+
+  web-client:
+    container_name: web-client
+    image: ${registry}web-client:18.20.0
+    ports:
+      - ${WEB_CLIENT_PORT}:80
+    restart: always
+    environment:
+      VUE_APP_API_GATEWAY_URL: ${VUE_APP_API_GATEWAY_URL}
+    networks:
+      - core
+
+  kong:
+    image: kong:2.3.3
+    environment:
+      - KONG_PROXY_ACCESS_LOG=/dev/stdout
+      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+      - KONG_PROXY_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001
+      - KONG_LUA_PACKAGE_PATH=/plugins/?.lua
+      - KONG_DATABASE=off
+      - KONG_DECLARATIVE_CONFIG=/kong.yml
+    ports:
+      - ${KONG_PORT}:${KONG_PORT}
+      - "8443:8443"
+      - "8001:8001"
+      - "8444:8444"
+    restart: always
+    volumes:
+      - ../core/kong-gateway/plugins:/plugins/kong/plugins
+      - ../core/kong-gateway/kong.yml:/kong.yml
+      - ../core/kong-gateway/kong.conf:/etc/kong/kong.conf
+    networks:
+      - core
+
+  # ####################################################################################################################
+  # Resource Management Microservice
+  # ####################################################################################################################
+  
+  resource-management:
+    <<: *base-core-service
+    image: ${registry}resource-management:17.0.0-beta.2
+    container_name: resource-management
+    environment:
+      <<: *base-core-service-env
+      PORT: ${RESOURCE_MANAGEMENT_PORT}
+      KAFKA_EVENT_TOPIC: resource.events
+    ports:
+      - ${RESOURCE_MANAGEMENT_PORT}:${RESOURCE_MANAGEMENT_PORT}
+
+
+  # ####################################################################################################################
+  # Asset Management Microservice
+  # ####################################################################################################################
+  
+  asset-management:
+    <<: *base-core-service
+    image: ${registry}asset-management:17.0.0-beta.2
+    container_name: asset-management
+    environment:
+      <<: *base-core-service-env
+      PORT: ${ASSET_MANAGEMENT_PORT}
+      KAFKA_EVENT_TOPIC: asset.events
+    ports:
+      - ${ASSET_MANAGEMENT_PORT}:${ASSET_MANAGEMENT_PORT}
+
+  # ####################################################################################################################
+  # User Management Microservice
+  # ####################################################################################################################
+  
+  user-management:
+    <<: *base-core-service
+    image: ghcr.io/fraunhoferisst/diva/user-management:4.0.0-beta.6
+    container_name: user-management
+    environment:
+      <<: *base-core-service-env
+      PORT: ${USER_MANAGEMENT_PORT}
+      KAFKA_EVENT_TOPIC: user.events
+    ports:
+      - ${USER_MANAGEMENT_PORT}:${USER_MANAGEMENT_PORT}
+
+  # ####################################################################################################################
+  # Reviews Management Service
+  # ####################################################################################################################
+
+  review-management:
+    <<: *base-core-service
+    image: ${registry}drm/review-management:1.0.0-beta.1
+    container_name: reviews-management
+    environment:
+      <<: *base-core-service-env
+      PORT: ${REVIEW_MANAGEMENT_PORT}
+      KAFKA_EVENT_TOPIC: review.events
+      MONGO_DB_NAME: reviewsDb
+      MONGO_DB_COLLECTION_NAME: reviews
+    ports:
+      - ${REVIEW_MANAGEMENT_PORT}:${REVIEW_MANAGEMENT_PORT}
+
+  # ####################################################################################################################
+  # JSON Document Store
+  # ####################################################################################################################
+
+  documentstore:
+    image: mongo:4.1-xenial
+    container_name: documentstore
+    volumes:
+      - documentstore:/data/db
+      - ./util/docker-mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    restart: always
+    ports:
+      - ${MONGODB_PORT}:27017
+    networks:
+      - core
+
+
+  # ####################################################################################################################
+  # Search and Aggregation Microservices
+  # ####################################################################################################################
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    container_name: elasticsearch
+    restart: always
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+      - ../core/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - ${ELASTICSEARCH_PORT}:${ELASTICSEARCH_PORT}
+    networks:
+      - core
+
+  elasticsearch-connector:
+    <<: *base-core-service
+    image: ${registry}elasticsearch-connector:0.1.0-beta.3
+    container_name: elasticsearch-connector
+    depends_on:
+      - broker
+      - elasticsearch
+      - documentstore
+    environment:
+      <<: *base-core-service-env
+      <<: *elasticsearch-env
+      PORT: ${ELASTICSEARCH_CONNECTOR_PORT}
+      KAFKA_CONSUMER_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\"]"
+    ports:
+      - ${ELASTICSEARCH_CONNECTOR_PORT}:${ELASTICSEARCH_CONNECTOR_PORT}
+
+  search-assistant:
+    image: ${registry}search-assistant:0.1.0-alpha.3
+    container_name: search-assistant
+    environment:
+      <<: *elasticsearch-env
+      NODE_ENV: production
+      PORT: ${SEARCH_ASSISTANT_PORT}
+    restart: always
+    depends_on:
+      - elasticsearch
+    ports:
+      - ${SEARCH_ASSISTANT_PORT}:${SEARCH_ASSISTANT_PORT}
+    networks:
+      - core
+
+  analytics-assistant:
+    image: ${registry}analytics-assistant:1.0.0-beta.2
+    container_name: analytics-assistant
+    environment:
+      <<: *elasticsearch-env
+      NODE_ENV: production
+      PORT: ${ANALYTIC_ASSISTANT_PORT}
+    restart: always
+    depends_on:
+      - elasticsearch
+    ports:
+      - ${ANALYTIC_ASSISTANT_PORT}:${ANALYTIC_ASSISTANT_PORT}
+    networks:
+      - core      
+
+  # ####################################################################################################################
+  # History Assistant
+  # ####################################################################################################################
+
+  history-assistant:
+    image: ${registry}history-assistant:0.0.1-beta.3
+    container_name: history-assistant
+    environment:
+      <<: *base-core-service-env
+      NODE_ENV: production
+      PORT: ${HISTORY_ASSISTANT_PORT}
+      IGNORE_FIELDS: "[\"modified\"]"
+      REVIEW_ROOT_SCHEMA: history
+    restart: always
+    ports:
+      - ${HISTORY_ASSISTANT_PORT}:${HISTORY_ASSISTANT_PORT}
+    networks:
+      - core       
+
+  # ####################################################################################################################
+  # Profiling Assistant
+  # ####################################################################################################################
+
+  profiling-assistant:
+    image: ${registry}profiling-assistant:1.0.0-beta.2
+    container_name: profiling-assistant
+    environment:
+      <<: *mongodb-env
+      <<: *airflow-env
+      NODE_ENV: production
+      PORT: ${PROFILING_ASSISTANT_PORT}
+      MONGO_RESOURCE_DB_NAME: resourcesDb
+      MONGO_RESOURCE_COLLECTION_NAME: resources
+
+    restart: always
+    ports:
+      - ${PROFILING_ASSISTANT_PORT}:${PROFILING_ASSISTANT_PORT}
+    networks:
+      - core       
+
+  # ####################################################################################################################
+  # Apache Kafka & ZooKeeper
+  # ####################################################################################################################
+
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    container_name: zookeeper
+    restart: always
+    hostname: zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - core
+    volumes:
+      - zookeeperData:/var/lib/zookeeper/data
+      - zookeeperDatalog:/var/lib/zookeeper/log
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  broker:
+    image: wurstmeister/kafka:2.13-2.7.0
+    container_name: broker
+    hostname: broker
+    restart: always
+    depends_on:
+      - zookeeper
+    ports:
+      - ${KAFKA_PORT}:${KAFKA_PORT}
+    networks:
+      - core
+    volumes:
+      - brokerData:/var/lib/kafka/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENERS: PLAINTEXT://broker:${KAFKA_PORT}
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:${KAFKA_PORT}
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_LOG_RETENTION_HOURS: -1
+      KAFKA_LOG_RETENTION_BYTES: -1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_CREATE_TOPICS: >-
+        resource.events:1:1,
+        user.events:1:1,
+        asset.events:1:1,
+        review.events:1:1
+
+
+  # ####################################################################################################################
+  # Schema Registry Services
+  # ####################################################################################################################
+
+  schema-registry:
+    image: ${registry}schema-registry:0.0.2
+    hostname: schema-registry
+    container_name: schema-registry
+    restart: always
+    networks:
+      - core
+    ports:    
+      - ${SCHEMA_REGISTRY_PORT}:${SCHEMA_REGISTRY_PORT}
+    environment:
+      PORT: ${SCHEMA_REGISTRY_PORT}
+      SCHEMA_DIR: schemata
+    volumes:
+      - ../core/schemata:/usr/src/app/schemata
+
+  # ####################################################################################################################
+  # DIVA Lake Services
+  # ####################################################################################################################
+
+  diva-lake:
+    image: minio/minio:RELEASE.2021-03-26T00-00-41Z
+    container_name: diva-lake
+    ports:
+      - ${DIVALAKE_PORT}:${DIVALAKE_PORT}
+    restart: always
+    volumes:
+      - divaLake:/data
+    environment:
+      MINIO_ACCESS_KEY: minio_access
+      MINIO_SECRET_KEY: minio_secret
+    entrypoint: sh
+    command: -c 'mkdir -p /data/file-lake && mkdir -p /data/analyze && /usr/bin/minio server /data'
+    networks:
+      - core
+
+  diva-lake-adapter:
+    image: ${registry}diva-lake-adapter:0.1.0-beta.1
+    container_name: diva-lake-adapter
+    restart: always
+    networks:
+      - core
+    ports:
+      - ${DIVALAKE_ADAPTER_PORT}:${DIVALAKE_ADAPTER_PORT}
+    depends_on:
+      - resource-management
+    environment:
+      NODE_ENV: development
+      PORT: ${DIVALAKE_ADAPTER_PORT}
+      RESOURCE_MANAGEMENT_URL: http://resource-management:${RESOURCE_MANAGEMENT_PORT}
+      DIVA_LAKE_HOST: diva-lake
+      DIVA_LAKE_PORT: ${DIVALAKE_PORT}
+      DIVA_LAKE_USERNAME: minio_access
+      DIVA_LAKE_PASSWORD: minio_secret
+      BUCKET_NAME: file-lake
+
+  # ####################################################################################################################
+  # IDS Connector Adapter  Services
+  # ####################################################################################################################
+
+  dsc-adapter:
+    image: ${registry}dsc-adapter:0.1.0-beta.1
+    container_name: ids-adapter
+    restart: always
+    networks:
+      - core
+    ports:
+      - ${DSC_ADAPTER_PORT}:${DSC_ADAPTER_PORT}
+    depends_on:
+      - broker
+      - documentstore
+    environment:
+      <<: *base-core-service-env
+      MONGO_RESOURCE_DB_NAME: resourcesDb
+      MONGO_RESOURCE_COLLECTION_NAME: resources
+      DSC_USERNAME: ${DSC_USERNAME}
+      DSC_PASSWORD: ${DSC_PASSWORD}
+      DSC_URL: ${DSC_URL}
+      RESOURCE_MANAGEMENT_URL: http://resource-management:${RESOURCE_MANAGEMENT_PORT}
+      KAFKA_TOPICS: "[\"resource.events\"]"
+
+  # ####################################################################################################################
+  # Urban Pulse Services
+  # ####################################################################################################################
+
+  urban-pulse-adapter:
+    image: ${registry}urban-pulse-adapter:0.1.0-beta.0
+    container_name: urban-pulse-adapter
+    restart: always
+    networks:
+      - core
+    ports:
+      - ${URBAN_PULSE_ADAPTER_PORT}:${URBAN_PULSE_ADAPTER_PORT}
+    depends_on:
+      - documentstore
+    environment:
+      PORT: ${URBAN_PULSE_ADAPTER_PORT}
+      RESOURCE_MANAGEMENT_URL: http://resource-management:${RESOURCE_MANAGEMENT_PORT}
+      ASSET_MANAGEMENT_URL: http://asset-management:${ASSET_MANAGEMENT_PORT}
+
+  # ####################################################################################################################
+  # Event Emitter Service
+  # ####################################################################################################################
+
+  event-emitter:
+    <<: *base-core-service
+    image: ${registry}event-emitter:0.1.0-beta.2
+    container_name: event-emitter
+    depends_on:
+      - broker
+    ports:
+      - ${EVENT_EMITTER_PORT}:${EVENT_EMITTER_PORT}
+    environment:
+      <<: *schema-registry-env
+      <<: *kafka-env
+      PORT: ${EVENT_EMITTER_PORT}
+      ASYNCAPI_SPECIFICATION: asyncapi
+      EVENT_EMITTER_SPECIFICATION: event-emitter-api
+      KAFKA_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\"]"
+
+# ####################################################################################################################
+# Docker Volume and Network Settings
+# ####################################################################################################################
+
+volumes:
+  documentstore:
+    driver: local
+  elasticsearch:
+    driver: local
+  divaLake:
+    driver: local
+  brokerData:
+    driver: local
+  zookeeperData:
+    driver: local
+  zookeeperDatalog:
+    driver: local
+
+networks:
+  core:
+    name: core

@@ -1,0 +1,133 @@
+version: '3.9'
+x-airflow-common:
+  &airflow-common
+  image: registry.gitlab.cc-asp.fraunhofer.de:4567/diva/drm/airflow:5.0.0
+  environment:
+    &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres/airflow
+    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@airflow-postgres/airflow
+    AIRFLOW__CELERY__BROKER_URL: redis://:@airflow-redis:6379/0
+    AIRFLOW__CORE__FERNET_KEY: ''
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'
+    AIRFLOW_DAG_DISCOVERY_SAFE_MODE: 'false'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__API__AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'
+    AIRFLOW_CONN_MINIO: s3://${DIVA_LAKE_USERNAME}:${DIVA_LAKE_PASSWORD}@diva-lake:${DIVALAKE_PORT}?host=http://diva-lake:${DIVALAKE_PORT}
+    AIRFLOW_CONN_FAAS_DOCKER: http://${FAAS_DEPLOY_TOKEN}@registry.gitlab.cc-asp.fraunhofer.de:4567
+    AIRFLOW__WEBSERVER__WEB_SERVER_PORT: ${AIRFLOW_PORT}
+  volumes:
+    - ${AIRFLOW_DAGS}:/opt/airflow/dags
+    - ${AIRFLOW_PLUGINS}:/opt/airflow/plugins
+    - /var/run/docker.sock:/var/run/docker.sock
+    - airflow_workflow_inputs:/wf_inputs
+    - airflow_workflow_outputs:/wf_outputs
+  user: "${A_UID}:${A_GID}"
+  depends_on:
+    airflow-redis:
+      condition: service_healthy
+    airflow-postgres:
+      condition: service_healthy
+
+services:
+  airflow-postgres:
+    image: postgres:13
+    container_name: airflow-postgres
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - airflow-postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+    restart: always
+    networks:
+      - core
+
+  airflow-redis:
+    image: redis:latest
+    container_name: airflow-redis
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 30s
+      retries: 50
+    restart: always
+    networks:
+      - core
+
+  airflow-webserver:
+    <<: *airflow-common
+    container_name: airflow-webserver
+    command: webserver
+    ports:
+      - ${AIRFLOW_PORT}:${AIRFLOW_PORT}
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
+    networks:
+      - core
+
+  airflow-scheduler:
+    <<: *airflow-common
+    container_name: airflow-scheduler
+    command: scheduler
+    restart: always
+    networks:
+      - core
+
+  airflow-worker:
+    <<: *airflow-common
+    container_name: airflow-worker
+    command: celery worker
+    restart: always
+    networks:
+      - core
+
+  airflow-init:
+    <<: *airflow-common
+    container_name: airflow-init
+    command: version
+    environment:
+      <<: *airflow-common-env
+      _AIRFLOW_DB_UPGRADE: 'true'
+      _AIRFLOW_WWW_USER_CREATE: 'true'
+      _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
+      _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
+    networks:
+      - core
+
+  airflow-flower:
+    <<: *airflow-common
+    container_name: airflow-flower
+    command: celery flower
+    ports:
+      - 5555:5555
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:5555/"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
+    networks:
+      - core
+
+volumes:
+  airflow-postgres-db-volume:
+    name: airflow-postgres-db-volume
+  airflow_workflow_inputs:
+    name: airflow_workflow_inputs
+  airflow_workflow_outputs:
+    name: airflow_workflow_outputs
+
+networks:
+  core:
+    name: core

@@ -1,0 +1,57 @@
+@mixin btn-primary($from: 1, $to:1, $reverse: false) {
+  @if($reverse == false) {
+    background-image: linear-gradient(29deg, rgba(#3a7eff, $from)  0%, rgba(#624fff, $to) 100%);
+  }@else {
+    background-image: linear-gradient(29deg, rgba(#624fff, $to) 0%, rgba(#1076ff, $from) 100%);
+  }
+}
+@mixin btn-success($from: 1, $to:1, $reverse: false) {
+  @if($reverse == false) {
+    background-image: linear-gradient(29deg, rgba(#009374, $from)  0%, rgba(#3ca861, $to) 100%);
+  }@else {
+    background-image: linear-gradient(29deg, rgba(#624fff, $to) 0%, rgba(#1076ff, $from) 100%);
+  }
+}
+@mixin btn-secondary($from: 1, $to:1, $reverse: false) {
+  @if($reverse == false) {
+    background-image: linear-gradient(29deg, rgba(#0002b4, $from)  0%, rgba(#673AB7, $to) 100%);
+  }@else {
+    background-image: linear-gradient(29deg, rgba(#673AB7, $to) 0%, rgba(#0002b4, $from) 100%);
+  }
+}
+/* Custom buttons styling */
+.v-btn {
+  text-transform: unset !important;
+  font-weight: bold;
+  &.gprimary {
+    @include btn-primary();
+    font-weight: bold;
+    &.v-btn--disabled {
+      background-image: unset;
+    }
+  }
+  &.gsecondary {
+    @include btn-secondary();
+    font-weight: bold;
+    &.v-btn--disabled {
+      background-image: unset;
+    }
+  }
+  &.gsuccess {
+    @include btn-success();
+    font-weight: bold;
+    &.v-btn--disabled {
+      background-image: unset;
+    }
+  }
+  &.gerror {
+    @include gradient-error();
+    font-weight: bold;
+    &.v-btn--disabled {
+      background-image: unset;
+    }
+  }
+  .v-btn__content{
+    font-weight: bold;
+  }
+}

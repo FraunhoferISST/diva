@@ -1,0 +1,19 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "maxNumberOfRows",
+    "type": "object",
+    "title": "Sample rows of a table",
+    "properties": {
+        "maxNumberOfRows": {
+            "type": "integer",
+            "title": "Max Number of Rows",
+            "description": "the max number of rows found in the vectors of a table",
+            "default": 0,
+            "examples": [
+                234,
+                338,
+                40
+            ]
+        }
+    }
+}

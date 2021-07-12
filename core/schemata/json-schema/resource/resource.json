@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "resource",
+  "type": "object",
+  "title": "General Resource Data",
+  "required": [
+    "resourceType"
+  ],
+  "unevaluatedProperties": false,
+  "allOf": [
+    {
+      "properties": {
+        "resourceType": {
+          "$id": "resourceType",
+          "type": "string",
+          "title": "Resource Type",
+          "description": "The general type of the resource",
+          "enum": [
+            "generic",
+            "file",
+            "urbanPulseSensor"
+          ]
+        }
+      }
+    },
+    {
+      "$ref": "/entity"
+    },
+    {
+      "$ref": "/commonProperties"
+    },
+    {
+      "$ref": "/distributionProperties"
+    },
+    {
+      "$ref": "/dscProperties"
+    },
+    {
+      "$ref": "/costs"
+    },
+    {
+      "if": {
+        "properties": {
+          "resourceType": {
+            "const": "urbanPulseSensor"
+          }
+        }
+      },
+      "then": {
+        "$ref": "/resourceUrbanPulseSensor"
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "resourceType": {
+            "const": "file"
+          }
+        }
+      },
+      "then": {
+        "$ref": "/resourceFile"
+      }
+    }
+  ]
+}

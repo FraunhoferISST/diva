@@ -1,0 +1,6 @@
+/* Custom expansion panel styling */
+.v-expansion-panel {
+  &:before {
+    box-shadow: none !important;
+  }
+}

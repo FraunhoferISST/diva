@@ -1,0 +1,152 @@
+openapi: 3.0.0
+info:
+  description: DIVA Lake Adapter provides an API to interact with the DIVA Lake. 
+    Currently, only uploading local files to the DIVA Lake is supported.
+  version: 1.0.0
+  title: DIVA Lake Adapter API
+tags:
+  - name: import
+    description: Imports a local File into the DIVA Lake
+paths:
+  /import:
+    post:
+      tags:
+        - import
+      summary: POST a local file into the DIVA Lake
+      description: Users can have files stored locally on their machine. 
+        As we do not have access to these machines (at least no direct access) a user can upload files to a so called DIVA Lake.
+      operationId: import
+      parameters:
+        - $ref: "#/components/parameters/actorId"
+
+      requestBody:
+        $ref: "#/components/requestBodies/File"
+
+      responses:
+        201:
+          $ref: "#/components/responses/Success"
+        4XX:
+          $ref: "#/components/responses/RequestValidationError"
+        406:
+          $ref: "#/components/responses/InvalidDataError"
+        500:
+          $ref: "#/components/responses/UnexpectedError"
+
+servers:
+  - url: http://localhost:3457
+
+components:
+
+  requestBodies:
+
+    File:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - file
+            properties:
+              file:
+                type: string
+                format: binary
+
+  schemas:
+
+    ResourceId:
+      title: ResourceId
+      description: Unique resource identifier
+      type: string
+      example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
+      pattern: "^resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+
+    Error:
+      type: object
+      title: Operation error
+      description: Error that can occure on request processing
+      required:
+        - type
+        - message
+        - code
+      properties:
+        type:
+          title: Error type
+          description: Futher error type information
+          type: string
+        message:
+          title: Error message
+          description: Details about error
+          type: string
+        code:
+          title: Error code
+          description: HTTP error code
+          type: number
+          format: int32
+          example: 409
+        errors:
+          title: Errors
+          description: More error details that are reference in most case specification or schema validation errors
+          type: array
+          items:
+            type: object
+
+  responses:
+
+    Success:
+      description: Successful operation with response data
+      content:
+        text/html:
+          schema:
+            $ref: "#/components/schemas/ResourceId"
+
+    RequestValidationError:
+      description: Request violates API Specification
+      content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Error"        
+
+    ImportUknowlegment:
+      description: Import successfuly initiated
+    UnexpectedError:
+      description: Internal error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    NotFoundError:
+      description: Entity not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    InvalidDataError:
+      description: Invalid data supplied
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    ResourceAlreadyExistsError:
+      description: Resource already imported
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+
+  parameters:
+
+    actorId:
+      in: header
+      description: The id of the origin that produces action/message. Can be a user or service
+      name: x-actorid
+      schema:
+        type: string
+        minLength: 1
+        pattern: "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      required: true

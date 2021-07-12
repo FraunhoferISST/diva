@@ -1,0 +1,26 @@
+/* Custom snack styling */
+.v-snack {
+  .v-snack__wrapper {
+    @include border-radius-half();
+    font-weight: bold;
+  }
+  &.gprimary {
+    .v-snack__wrapper {
+      @include gradient-primary();
+      font-weight: bold;
+    }
+  }
+  &.gsuccess {
+    .v-snack__wrapper {
+      @include gradient-success();
+      font-weight: bold;
+    }
+  }
+  &.gerror {
+    .v-snack__wrapper {
+      background: transparent;
+      @include gradient-error(1, 1);
+      font-weight: bold;
+    }
+  }
+}

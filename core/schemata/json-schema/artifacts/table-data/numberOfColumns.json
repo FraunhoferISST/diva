@@ -1,0 +1,17 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "numberOfColumns",
+    "type": "object",
+    "title": "Number of Columns of a Table",
+    "properties": {
+        "numberOfColumns": {
+            "type": "integer",
+            "title": "Number of columns",
+            "description": "the number of existing columns in the csv file",
+            "default": 0,
+            "examples": [
+                7
+            ]
+        }
+    }
+}

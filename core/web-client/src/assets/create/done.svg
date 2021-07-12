@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#29ABE2;}
+	.st1{fill:none;stroke:#29ABE2;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#29ABE2;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st3{fill:#29ECA5;}
+	.st4{fill:none;stroke:#29ECA5;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st5{fill:none;stroke:#29ECA5;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
+	.st6{fill:none;stroke:#009374;stroke-width:10.9176;stroke-linecap:round;stroke-miterlimit:10;}
+</style>
+<g>
+	<path class="st0" d="M-190,2c26.5,0,48,21.5,48,48s-21.5,48-48,48s-48-21.5-48-48S-216.5,2-190,2 M-190,0c-27.6,0-50,22.4-50,50
+		s22.4,50,50,50s50-22.4,50-50S-162.4,0-190,0L-190,0z"/>
+</g>
+<g>
+	<line class="st1" x1="-195" y1="39.6" x2="-189.8" y2="34.4"/>
+	<line class="st1" x1="-189" y1="34.4" x2="-183.8" y2="39.6"/>
+	<g>
+		<line class="st2" x1="-189.5" y1="34.6" x2="-189.5" y2="55.1"/>
+	</g>
+	<path class="st1" d="M-168.5,52.6v6.8c0,3.4-2.8,6.2-6.2,6.2h-30.7c-3.4,0-6.2-2.8-6.2-6.2v-6.8"/>
+</g>
+<g>
+	<path class="st3" d="M-70,2c26.5,0,48,21.5,48,48s-21.5,48-48,48s-48-21.5-48-48S-96.5,2-70,2 M-70,0c-27.6,0-50,22.4-50,50
+		s22.4,50,50,50s50-22.4,50-50S-42.4,0-70,0L-70,0z"/>
+</g>
+<g>
+	<g>
+		<line class="st4" x1="-69.5" y1="30.6" x2="-69.5" y2="44.6"/>
+	</g>
+	<line class="st5" x1="-75" y1="35.6" x2="-69.8" y2="30.4"/>
+	<line class="st5" x1="-69" y1="30.4" x2="-63.8" y2="35.6"/>
+	<path class="st5" d="M-48.5,56.6v6.8c0,3.4-2.8,6.2-6.2,6.2h-30.7c-3.4,0-6.2-2.8-6.2-6.2v-6.8"/>
+	<g>
+		<line class="st5" x1="-86" y1="48.6" x2="-53" y2="48.6"/>
+		<line class="st5" x1="-86" y1="53.6" x2="-61" y2="53.6"/>
+		<line class="st5" x1="-86" y1="58.6" x2="-69" y2="58.6"/>
+	</g>
+</g>
+<g>
+	<line class="st6" x1="34.4" y1="79" x2="91.6" y2="21"/>
+	<line class="st6" x1="8.4" y1="53.2" x2="34.3" y2="79"/>
+</g>
+</svg>

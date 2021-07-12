@@ -1,0 +1,163 @@
+openapi: 3.0.0
+info:
+  description: "Profiling Assistant is responsible for triggering profilings if available."
+  version: 1.0.0
+  title: Profiling Assistant API
+servers:
+  - url: http://localhost:3011
+tags:
+  - name: profiling
+    description: Profiling requests
+
+paths:
+  /profiling/exists:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+    post:
+      tags:
+        - profiling
+      summary: Check if profiling workflow exists for given resource.
+      operationId: profilingExists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resourceId:
+                  $ref: "#/components/schemas/ResourceId"
+      responses:
+        "200":
+          description: Exist result
+          content:
+            text/plain:
+              schema:
+                type: string   
+        "404":
+          description: not found error
+          content:
+            application/json:
+              schema:
+                oneOf:
+                 - $ref: "#/components/responses/DAGNotFoundError"
+                 - $ref: "#/components/responses/ResourceNotFoundError"                
+        "4XX":
+          $ref: "#/components/responses/UnexpectedError"
+        "5XX":
+          $ref: "#/components/responses/UnexpectedError"
+
+  /profiling/run:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+    post:
+      tags:
+        - profiling
+      summary: Trigger pofiling workflow for a resource.
+      operationId: profilingRun
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resourceId:
+                  $ref: "#/components/schemas/ResourceId"
+      responses:
+        "200":
+          description: Triggered profiling
+          content:
+            application/json:
+              schema:
+                type: object   
+        "404":
+          description: not found error
+          content:
+            application/json:
+              schema:
+                oneOf:
+                 - $ref: "#/components/responses/DAGNotFoundError"
+                 - $ref: "#/components/responses/ResourceNotFoundError"                
+        "4XX":
+          $ref: "#/components/responses/UnexpectedError"
+        "5XX":
+          $ref: "#/components/responses/UnexpectedError"
+
+components:
+
+  schemas:
+
+    ResourceId:
+      title: Resource ID
+      description: Unique identifier of an entity
+      type: string
+      example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
+      pattern: "^resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+
+    Error:
+      type: object
+      title: Operation error
+      description: Error that can occure on request processing
+      required:
+        - type
+        - message
+        - code
+      properties:
+        type:
+          title: Error type
+          description: Futher error type information
+          type: string
+        message:
+          title: Error message
+          description: Details about error
+          type: string
+        code:
+          title: Error code
+          description: HTTP error code
+          type: number
+          format: int32
+          example: 409
+        errors:
+          title: Errors
+          description: More error details that are reference in most case specification or schema validation errors
+          type: array
+          items:
+            type: object
+
+  responses:
+    Success:
+      description: Succesful
+    DAGNotFoundError:
+      description: DAG for Resource does not exist
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    ResourceNotFoundError:
+      description: Resource does not exist
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"          
+    UnexpectedError:
+      description: Internal error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    InvalidDataError:
+      description: Invalid data supplied
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    
+  parameters:
+    actoridParam:
+      in: header
+      description: The id of the origin that requests the API. Can be a user or service.
+      name: x-actorid
+      schema:
+        type: string
+        minLength: 1
+        pattern: "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      required: true

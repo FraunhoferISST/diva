@@ -1,0 +1,168 @@
+openapi: 3.0.0
+
+info:
+  description: "The Analytics Service is connected to the Elasticsearch in DIVA. It uses the ES DSL to generate interesting metrics about entities and other stuff."
+  version: 1.0.0
+  title: Analytics Assistant API
+
+servers:
+  - url: http://localhost:3007
+
+tags:
+  - name: Global Metrics
+    description: Analytics that return global DIVA metrics
+  - name: Resource Metrics
+    description: Analytics that return specifc metrics regarding resources
+
+paths:
+
+  /analytics/distributionOfEntities:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+    get:
+      tags:
+        - Global Metrics
+      summary: Returns the percentual and absolut distribution of an entities
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object 
+        '4XX':
+          $ref: "#/components/responses/Error"
+        '5XX':
+          $ref: "#/components/responses/Error"
+
+  /analytics/distributionOfResourceTypes:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+    get:
+      tags:
+        - Resource Metrics
+      summary: Returns the percentual and absolut distribution of resource types
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object 
+        '4XX':
+          $ref: "#/components/responses/Error"
+        '5XX':
+          $ref: "#/components/responses/Error"        
+
+  /analytics/distributionOfResourceMimeTypes:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+    get:
+      tags:
+        - Resource Metrics
+      summary: Returns the percentual and absolut distribution of the mime type
+        of file resources
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object 
+        '4XX':
+          $ref: "#/components/responses/Error"
+        '5XX':
+          $ref: "#/components/responses/Error"
+
+  /analytics/resources/{resourceId}/rating:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+    get:
+      tags:
+        - Resource Metrics
+      summary: Returns the average rating of a resource
+      description: Returns the average rating of a resource calculated on reviews, empty response is returned, if
+        no reviews are availible.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: number
+        '4XX':
+          $ref: "#/components/responses/Error"
+        '5XX':
+          $ref: "#/components/responses/Error"
+
+components:
+
+  schemas:
+    
+    EntityId:
+      title: Entity ID
+      description: Unique identifier of an entity
+      type: string
+      example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
+      pattern: "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+
+    ResourceId:
+      title: Resource ID
+      description: Unique identifier of an entity
+      type: string
+      example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
+      pattern: "^resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - message
+        - code
+      properties:
+        type:
+          description: Description of the error type
+          type: string
+        message:
+          description: Description of the error
+          type: string
+        code:
+          description: Erro status code
+          type: number
+          format: int32
+        errors:
+          description: JSON Schema validation errors
+          type: array
+          items:
+            type: object
+  
+  responses:
+    
+    Error:
+      description: Internal error
+      content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Error"
+
+
+  parameters:
+
+    actoridParam:
+      in: header
+      description: The id of the origin that produces action/message. Can be a user or service
+      name: x-actorid
+      schema:
+        type: string
+        minLength: 1
+        pattern: "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      required: true
+
+    resourceIdParam:
+      in: path
+      description: Existing identifier of the resource that should be used by the operation
+      name: resourceId
+      schema:
+        $ref: "#/components/schemas/ResourceId"
+      required: true  

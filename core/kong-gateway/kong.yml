@@ -1,0 +1,353 @@
+_format_version: "2.1"
+
+services:
+  - name: "Event-Service"
+    protocol: http
+    host: "172.17.0.1"
+    port: 3009
+    path: "/socket.io"
+    routes:
+      - name: event-route
+        paths:
+          - "/events"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: true
+    plugins:
+      - name: jwt
+        config:
+          secret_is_base64: false
+          key_claim_name: "iss"
+          run_on_preflight: true
+          uri_param_names:
+            - jw
+
+
+  - name: "Resource-Management"
+    protocol: http
+    host: "172.17.0.1"
+    port: 3000
+    path: "/resources"
+    routes:
+      - name: resources-route
+        paths:
+          - "/resources"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: true
+    plugins:
+      - name: jwt
+        config:
+          secret_is_base64: false
+          key_claim_name: "iss"
+          run_on_preflight: true
+          uri_param_names:
+            - jw
+
+  - name: "Asset-Management"
+    protocol: http
+    host: "172.17.0.1"
+    port: 3002
+    path: "/assets"
+    routes:
+      - name: assets-route
+        paths:
+          - "/assets"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: true
+    plugins:
+      - name: jwt
+        config:
+          secret_is_base64: false
+          key_claim_name: "iss"
+          run_on_preflight: true
+          uri_param_names:
+            - jwt
+
+  - name: "Reviews-Management"
+    protocol: http
+    host: "172.17.0.1"
+    port: 3003
+    path: "/reviews"
+    routes:
+      - name: reviews-route
+        paths:
+          - "/reviews"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: true
+    plugins:
+      - name: jwt
+        config:
+          secret_is_base64: false
+          key_claim_name: "iss"
+          run_on_preflight: true
+          uri_param_names:
+            - jwt
+
+  - name: "Search-Assistant"
+    protocol: http
+    host: "172.17.0.1"
+    port: 3005
+    path: "/search"
+    routes:
+      - name: search-route
+        paths:
+          - "/search"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: true
+    plugins:
+      - name: jwt
+        config:
+          secret_is_base64: false
+          key_claim_name: "iss"
+          run_on_preflight: true
+          uri_param_names:
+            - jwt
+
+  - name: "Profiling-Assistant"
+    protocol: http
+    host: "172.17.0.1"
+    port: 3011
+    path: "/profiling"
+    routes:
+      - name: profiling-route
+        paths:
+          - "/profiling"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: true
+    plugins:
+      - name: jwt
+        config:
+          secret_is_base64: false
+          key_claim_name: "iss"
+          run_on_preflight: true
+          uri_param_names:
+            - jwt
+
+  - name: "History-Assistant"
+    protocol: http
+    host: "172.17.0.1"
+    port: 3006
+    path: "/histories"
+    routes:
+      - name: history-route
+        paths:
+          - "/histories"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: true
+    plugins:
+      - name: jwt
+        config:
+          secret_is_base64: false
+          key_claim_name: "iss"
+          run_on_preflight: true
+          uri_param_names:
+            - jwt
+
+  - name: "Analytics-Assistant"
+    protocol: http
+    host: "172.17.0.1"
+    port: 3007
+    path: "/analytics"
+    routes:
+      - name: analytics-route
+        paths:
+          - "/analytics"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: true
+    plugins:
+      - name: jwt
+        config:
+          secret_is_base64: false
+          key_claim_name: "iss"
+          run_on_preflight: true
+          uri_param_names:
+            - jwt
+
+  - name: "User-Management-Service"
+    protocol: http
+    host: "172.17.0.1"
+    port: 3001
+    path: "/"
+    routes:
+      - name: usermanagement-route
+        paths:
+          - "/users/"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
+        plugins:
+          - name: jwt
+            config:
+              secret_is_base64: false
+              key_claim_name: "iss"
+              run_on_preflight: true
+              uri_param_names:
+                - jwt
+      - name: usermanagement-route-images
+        methods:
+          - POST
+          - PUT
+          - OPTIONS
+        paths:
+          - "/userImages"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
+        plugins:
+          - name: jwt
+            config:
+              secret_is_base64: false
+              key_claim_name: "iss"
+              run_on_preflight: true
+              uri_param_names:
+                - jwt
+      - name: usermanagement-route-get-images
+        methods:
+          - GET
+        paths:
+          - "/userImages"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
+      - name: usermanagement-route-login
+        paths:
+          - "/users/login/"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
+      - name: usermanagement-route-register
+        paths:
+          - "/users/register/"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
+    plugins:
+      - name: cors
+
+  - name: "Diva-Lake-Adapter"
+    protocol: http
+    host: "172.17.0.1"
+    port: 4001
+    path: "/"
+    routes:
+      - name: diva-lake-adapter-route
+        paths:
+          - "/divaLakeAdapter"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: true
+    plugins:
+      - name: jwt
+        config:
+          secret_is_base64: false
+          key_claim_name: "iss"
+          run_on_preflight: true
+          uri_param_names:
+            - jwt
+
+  - name: "Urban-Pulse-Adapter"
+    protocol: http
+    host: "172.17.0.1"
+    port: 4003
+    path: "/"
+    routes:
+      - name: urban-pulse-adapter-route
+        paths:
+          - "/urbanPulseAdapter"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: true
+    plugins:
+      - name: jwt
+        config:
+          secret_is_base64: false
+          key_claim_name: "iss"
+          run_on_preflight: true
+          uri_param_names:
+            - jwt
+
+  - name: "DSC-Adapter"
+    protocol: http
+    host: "172.17.0.1"
+    port: 4002
+    path: "/"
+    routes:
+      - name: dsc-adapter-route
+        paths:
+          - "/dscAdapter"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: true
+    plugins:
+      - name: jwt
+        config:
+          secret_is_base64: false
+          key_claim_name: "iss"
+          run_on_preflight: true
+          uri_param_names:
+            - jwt
+
+  - name: "Schema-Registry"
+    protocol: http
+    host: "172.17.0.1"
+    port: 3010
+    path: "/schemata"
+    routes:
+      - name: schema-registry-route
+        paths:
+          - "/schemata"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: true
+
+consumers:
+  - username: web-client
+    id: cbb297c0-14a9-46bc-ad91-1d0ef9b42df9
+    jwt_secrets:
+      - key: cef1fe6937e444a6b18a26965d619718
+        algorithm: "HS256"
+        secret: "b9f813fb8753440eabb1b44f9ba4da2f"
+    basicauth_credentials:
+      - username: "foo"
+        password: 23d696aebd2ccacb9e5efb790baa1c72260f2ba7
+
+plugins:
+  - name: jwt-claims-headers
+    config:
+      claims_to_include:
+        - "email"
+        - "username"
+        - "id"
+      continue_on_error: true
+      uri_param_names:
+        - "jwt"
+  - name: cors
+    config:
+      origins:
+        - "*"
+      preflight_continue: false
+      credentials: false

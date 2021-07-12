@@ -1,0 +1,7 @@
+#app {
+  /* Custom modal styling */
+  .v-dialog {
+    @include border-radius();
+    overflow: hidden;
+  }
+}

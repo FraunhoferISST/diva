@@ -1,0 +1,1730 @@
+{
+  "schemata": [
+    {
+      "name": "asset",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "$id": "asset",
+        "type": "object",
+        "title": "General Asset Data",
+        "required": [],
+        "allOf": [
+          {
+            "$ref": "entity"
+          },
+          {
+            "properties": {
+              "assetType": {
+                "$id": "#/properties/resourceType",
+                "type": "string",
+                "title": "Resource Type",
+                "description": "The general type of the resource",
+                "enum": [
+                  "generic",
+                  "urban-pulse"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "entity",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "$id": "entity",
+        "type": "object",
+        "title": "General Entity Data",
+        "required": [
+          "id",
+          "title",
+          "created",
+          "modified",
+          "creator"
+        ],
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "$id": "#/properties/id",
+            "type": "string",
+            "title": "Unique Identifier",
+            "description": "An unique ID of the processed entity. shortCut for -> dctermsIdentifier",
+            "examples": [
+              "user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9",
+              "asset:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9",
+              "resource:urban-pulse-sensor:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9",
+              "resource:file:image::uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
+            ],
+            "format": "uri",
+            "pattern": "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "created": {
+            "$id": "#/properties/created",
+            "type": "string",
+            "title": "Creation date",
+            "description": "Date of creation of the entity",
+            "examples": [
+              "2018-11-08T13:55:45Z"
+            ],
+            "format": "date-time"
+          },
+          "modified": {
+            "$id": "#/properties/modified",
+            "type": "string",
+            "title": "Modification date",
+            "description": "Date on which the entity was changed.",
+            "examples": [
+              "2018-11-08T13:55:45Z"
+            ],
+            "format": "date-time"
+          },
+          "issued": {
+            "$id": "#/properties/issued",
+            "type": "string",
+            "title": "Issued date",
+            "description": "Date of formal issuance of the entity.",
+            "examples": [
+              "2020-08-08T13:33:41Z"
+            ],
+            "format": "date-time"
+          },
+          "title": {
+            "$id": "#/properties/title",
+            "type": "string",
+            "title": "Title",
+            "description": "The title of the entity",
+            "examples": [
+              "Financial Report 2019",
+              "Data Destruction Process",
+              "Street Sign Training Data Asset"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "description": {
+            "$id": "#/properties/description",
+            "type": "string",
+            "title": "Description",
+            "description": "The description of the entity",
+            "default": "",
+            "examples": [
+              "lorem ipsum dolor sit amet..."
+            ]
+          },
+          "keywords": {
+            "$id": "#/properties/keywords",
+            "type": "array",
+            "title": "Keywords",
+            "description": "Keywords which tag the entity",
+            "default": [],
+            "items": {
+              "$id": "#/properties/keywords/items/",
+              "type": "string",
+              "title": "Items",
+              "description": "A keyword"
+            }
+          },
+          "owner": {
+            "$id": "#/properties/owner",
+            "type": "string",
+            "title": "Owner",
+            "description": "Owner of this entity",
+            "default": "",
+            "examples": [
+              "user:urban-pulse-sensor:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
+            ],
+            "pattern": "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "creator": {
+            "$id": "#/properties/creator",
+            "type": "string",
+            "title": "Publisher",
+            "description": "The person who created this entity",
+            "examples": [
+              "user:urban-pulse-sensor:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
+            ],
+            "pattern": "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          },
+          "versionInfo": {
+            "$id": "#/properties/versionInfo",
+            "type": "string",
+            "title": "Version Info",
+            "description": "A string describing the version of the entity",
+            "default": "",
+            "examples": [
+              "1.0.1",
+              "v2.0",
+              "3.0-alpha"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "versionNotes": {
+            "$id": "#/properties/versionNotes",
+            "type": "string",
+            "title": "Version notes",
+            "description": "A string describing the version of the entity",
+            "default": "",
+            "examples": [
+              "This is a new release with awesome features"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "licenses": {
+            "$id": "#/properties/licenses",
+            "type": "array",
+            "title": "Licenses",
+            "description": "Licenses which are applied to the entity",
+            "items": {
+              "$id": "#/properties/licenses/items/",
+              "type": "string",
+              "title": "Items",
+              "description": "A license encoded using an URI",
+              "format": "uri"
+            }
+          },
+          "rating": {
+            "$id": "#/properties/rating",
+            "type": "number",
+            "title": "Entity rating",
+            "description": "Rating of an entity (1-5)",
+            "minimum": 1,
+            "maximum": 5,
+            "examples": [
+              2,
+              3.4,
+              5
+            ]
+          },
+          "accessCount": {
+            "$id": "#/properties/accessCount",
+            "title": "Access count",
+            "description": "How many times this entity was viewed",
+            "type": "integer",
+            "minimum": 0,
+            "examples": [
+              0,
+              1,
+              2,
+              999
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "profiling-general-result",
+      "schema": {
+        "definitions": {},
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "$id": "profiling-general-result",
+        "type": "object",
+        "title": "General profiling result",
+        "description": "This schema describes all possible profiling results and is composed of all type specific results",
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "$ref": "profiling-text-result"
+          },
+          {
+            "$ref": "profiling-tabledata-result"
+          }
+        ]
+      }
+    },
+    {
+      "name": "profiling-tabledata-result",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "$id": "profiling-tabledata-result",
+        "type": "object",
+        "title": "Table-Data profiling result",
+        "additionalProperties": true,
+        "properties": {
+          "serverType": {
+            "$id": "#/properties/serverType",
+            "type": "string",
+            "title": "Server Type",
+            "description": "The server type of the sas7bdat database",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "9.0401M4"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "sasRelease": {
+            "$id": "#/properties/sasRelease",
+            "type": "string",
+            "title": "SAS Release",
+            "description": "The version of sas used in the sas7bdat database",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "utf-8"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "databaseName": {
+            "$id": "#/properties/databaseName",
+            "type": "string",
+            "title": "SAS Release",
+            "description": "The name of the sas7bdat database",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "cancer study"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "platform": {
+            "$id": "#/properties/platform",
+            "type": "string",
+            "title": "SAS Release",
+            "description": "The platform of the sas7bdat database",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "windows"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "dctermsCreated": {
+            "$id": "#/properties/dctermsCreated",
+            "type": "string",
+            "title": "dctermsCreated",
+            "description": "Date the sas7bdat database was created",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "2018-11-08T13:55:45Z"
+            ],
+            "format": "date-time"
+          },
+          "dctermsModified": {
+            "$id": "#/properties/dctermsModified",
+            "type": "string",
+            "title": "dctermsModified",
+            "description": "Date the sas7bdat database was modified",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "2018-11-08T13:55:45Z"
+            ],
+            "format": "date-time"
+          },
+          "byteSize": {
+            "$id": "#/properties/byteSize",
+            "type": "integer",
+            "title": "ByteSize",
+            "description": "The size of the file in bytes",
+            "default": 0,
+            "minimum": 0,
+            "examples": [
+              3129,
+              3235235,
+              242
+            ]
+          },
+          "characterEncoding": {
+            "$id": "#/properties/encoding",
+            "type": "string",
+            "title": "Charset",
+            "description": "The used content encoding of the file",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "utf-8",
+              "ISO-8859-1"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "numberOfColumns": {
+            "$id": "#/properties/numberOfColumns",
+            "type": "integer",
+            "title": "Number of columns",
+            "description": "the number of existing columns in the csv file",
+            "default": 0,
+            "examples": [
+              7
+            ]
+          },
+          "columnHeaders": {
+            "$id": "#/properties/columnHeaders",
+            "type": "array",
+            "title": "Column list",
+            "description": "The column headers of the resource",
+            "minItems": 1,
+            "items": {
+              "$id": "#/properties/columnHeaders/items",
+              "type": "object",
+              "title": "Columnheader objects",
+              "description": "the unique id and name of a column",
+              "required": [
+                "id",
+                "name"
+              ]
+            },
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$id": "#/properties/columnHeaders/items/properties/id",
+                "type": "string",
+                "title": "ID",
+                "default": "",
+                "examples": [
+                  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855#1#col1"
+                ]
+              },
+              "name": {
+                "$id": "#/properties/columnHeaders/items/properties/name",
+                "type": "string",
+                "title": "Name",
+                "default": "",
+                "examples": [
+                  "col1"
+                ]
+              }
+            }
+          },
+          "sample": {
+            "$id": "#/properties/sample",
+            "type": "array",
+            "title": "Sample Array",
+            "description": "An Array that contains the example rows of an CSV",
+            "minItems": 0,
+            "maxItems": 20,
+            "items": {
+              "$id": "#/properties/sample/items",
+              "type": "array",
+              "title": "Sample CSV rows",
+              "description": "A sample CSV row",
+              "items": {
+                "$id": "#/properties/sample/items/items",
+                "type": "string",
+                "title": "Element",
+                "description": "One element of a row",
+                "pattern": "^(.*)$"
+              }
+            }
+          },
+          "keywords": {
+            "$id": "#/properties/keywords",
+            "type": "array",
+            "title": "Extracted keywords",
+            "description": "Extracted keywords",
+            "items": {
+              "$id": "#/properties/keywords/items/",
+              "type": "string",
+              "title": "Items",
+              "description": "guessed keywords"
+            }
+          },
+          "maxNumberOfRows": {
+            "$id": "#/properties/maxNumberOfRows",
+            "type": "integer",
+            "title": "max number of rows",
+            "description": "the max number of rows found in the vectors",
+            "default": 0,
+            "examples": [
+              234,
+              338,
+              40
+            ]
+          },
+          "columnStatistics": {
+            "$id": "#/properties/columnStatistics",
+            "type": "array",
+            "title": "The columnstatistics Schema",
+            "items": {
+              "$id": "#/properties/columnStatistics/items",
+              "type": "object",
+              "title": "The Items Schema",
+              "required": [
+                "numberOfRows",
+                "maxNumberOfRows",
+                "numberOfNumbers",
+                "numberOfStrings",
+                "numberOfNullElements",
+                "dataType",
+                "columnIndex",
+                "completeness"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "numberOfNumbers": {
+                  "$id": "#/properties/columnStatistics/items/properties/numberOfNumbers",
+                  "type": "integer",
+                  "title": "Number of Numbers",
+                  "description": "the number of numbers in a vector",
+                  "default": 0,
+                  "examples": [
+                    201
+                  ]
+                },
+                "numberOfStrings": {
+                  "$id": "#/properties/columnStatistics/items/properties/numberOfStrings",
+                  "type": "integer",
+                  "title": "Number of Strings",
+                  "description": "the number of strings in a vector",
+                  "default": 0,
+                  "examples": [
+                    40
+                  ]
+                },
+                "numberOfNullElements": {
+                  "$id": "#/properties/columnStatistics/items/properties/numberOfNullElements",
+                  "type": "integer",
+                  "title": "NullElements",
+                  "description": "Number of intentionally empty fields.",
+                  "default": 0,
+                  "examples": [
+                    23
+                  ]
+                },
+                "numberOfRows": {
+                  "$id": "#/properties/columnStatistics/items/properties/numberOfRows",
+                  "type": "integer",
+                  "title": "Number of Rows",
+                  "description": "the number of terms in a vector",
+                  "default": 0,
+                  "examples": [
+                    228
+                  ]
+                },
+                "maxNumberOfRows": {
+                  "$id": "#/properties/columnStatistics/items/properties/maxNumberOfRows",
+                  "type": "integer",
+                  "title": "Max number of rows",
+                  "description": "the max number of terms the vector could have in regards to other vectors compared",
+                  "default": 0,
+                  "examples": [
+                    230
+                  ]
+                },
+                "dataType": {
+                  "$id": "#/properties/columnStatistics/items/properties/dataType",
+                  "type": "string",
+                  "title": "Data Type",
+                  "description": "the data type used in a vector",
+                  "default": 0,
+                  "examples": [
+                    "string",
+                    "number",
+                    "mixed"
+                  ],
+                  "pattern": "^(string|number|mixed)$"
+                },
+                "frequencyNumbers": {
+                  "$id": "#/properties/columnStatistics/items/properties/frequencyNumbers",
+                  "type": "array",
+                  "title": "Frequency",
+                  "description": "Array with frequency per number value",
+                  "items": {
+                    "$id": "#/properties/columnStatistics/items/properties/frequencyNumbers/items",
+                    "type": "object",
+                    "title": "Items",
+                    "description": "the value and its number of appearance",
+                    "required": [
+                      "token",
+                      "count"
+                    ],
+                    "properties": {
+                      "token": {
+                        "$id": "#/properties/columnStatistics/items/properties/frequencyNumbers/items/properties/token",
+                        "type": "number",
+                        "title": "Token",
+                        "default": "",
+                        "examples": [
+                          115
+                        ]
+                      },
+                      "count": {
+                        "$id": "#/properties/columnStatistics/items/properties/frequencyNumbers/items/properties/count",
+                        "type": "integer",
+                        "title": "Count",
+                        "default": 0,
+                        "examples": [
+                          1
+                        ]
+                      }
+                    }
+                  }
+                },
+                "frequencyStrings": {
+                  "$id": "#/properties/columnStatistics/items/properties/frequencyStrings",
+                  "type": "array",
+                  "title": "FrequencyStrings",
+                  "description": "Array with frequency per string value",
+                  "items": {
+                    "$id": "#/properties/columnStatistics/items/properties/frequencyStrings/items",
+                    "type": "object",
+                    "title": "Items",
+                    "description": "the value and its number of appearance",
+                    "required": [
+                      "token",
+                      "count"
+                    ],
+                    "properties": {
+                      "token": {
+                        "$id": "#/properties/columnStatistics/items/properties/frequencyStrings/items/properties/token",
+                        "type": "string",
+                        "title": "Token",
+                        "default": "",
+                        "examples": [
+                          "115"
+                        ]
+                      },
+                      "count": {
+                        "$id": "#/properties/columnStatistics/items/properties/frequencyStrings/items/properties/count",
+                        "type": "integer",
+                        "title": "Count",
+                        "default": 0,
+                        "examples": [
+                          1
+                        ]
+                      }
+                    }
+                  }
+                },
+                "minCharLength": {
+                  "$id": "#/properties/columnStatistics/items/properties/minCharLength",
+                  "type": "integer",
+                  "minimum": 0,
+                  "title": "Minimum Character Length",
+                  "description": "the number of characters of the shortest string in a vector",
+                  "default": 0,
+                  "examples": [
+                    2
+                  ]
+                },
+                "maxCharLength": {
+                  "$id": "#/properties/columnStatistics/items/properties/maxCharLength",
+                  "type": "integer",
+                  "minimum": 0,
+                  "title": "Maximal Character Length",
+                  "description": "the number of characters of the longest string in a vector",
+                  "default": 0,
+                  "examples": [
+                    312532
+                  ]
+                },
+                "sum": {
+                  "$id": "#/properties/columnStatistics/items/properties/sum",
+                  "type": "number",
+                  "title": "Sum",
+                  "description": "the sum of a vector or matrix columns",
+                  "default": 0,
+                  "examples": [
+                    26106
+                  ]
+                },
+                "sumSquared": {
+                  "$id": "#/properties/columnStatistics/items/properties/sumSquared",
+                  "type": "number",
+                  "title": "Sum Squared",
+                  "description": "the sum squared of a vector or matrix columns",
+                  "default": 0,
+                  "examples": [
+                    3976814.12
+                  ]
+                },
+                "sumSquaredError": {
+                  "$id": "#/properties/columnStatistics/items/properties/sumSquaredError",
+                  "type": "number",
+                  "title": "Sum Squared Error",
+                  "description": "the sum of squared errors of prediction of a vector",
+                  "default": 0,
+                  "examples": [
+                    987677
+                  ]
+                },
+                "minValue": {
+                  "$id": "#/properties/columnStatistics/items/properties/minValue",
+                  "type": "number",
+                  "title": "minValue",
+                  "description": "the minimum value of a vector",
+                  "default": 0,
+                  "examples": [
+                    0.023
+                  ]
+                },
+                "maxValue": {
+                  "$id": "#/properties/columnStatistics/items/properties/maxValue",
+                  "type": "number",
+                  "title": "Max Value",
+                  "description": "the maximum value of a vector",
+                  "default": 0,
+                  "examples": [
+                    228.23
+                  ]
+                },
+                "mean": {
+                  "$id": "#/properties/columnStatistics/items/properties/mean",
+                  "type": "number",
+                  "title": "Mean Value",
+                  "description": "the mean of a vector",
+                  "default": 0,
+                  "examples": [
+                    114.5
+                  ]
+                },
+                "meanSquaredError": {
+                  "$id": "#/properties/columnStatistics/items/properties/meanSquaredError",
+                  "type": "number",
+                  "title": "Mean Squared Error",
+                  "description": "the mean squared error of a vector",
+                  "default": 0,
+                  "examples": [
+                    4331.916666666667
+                  ]
+                },
+                "median": {
+                  "$id": "#/properties/columnStatistics/items/properties/median",
+                  "type": "number",
+                  "title": "Median Value",
+                  "description": "the median of a vector",
+                  "default": 0,
+                  "examples": [
+                    114.5
+                  ]
+                },
+                "variancePopulation": {
+                  "$id": "#/properties/columnStatistics/items/properties/variancePopulation",
+                  "type": "number",
+                  "title": "Variance Population",
+                  "description": "the variance of a vector (population)",
+                  "default": 0,
+                  "examples": [
+                    4331.916666666667
+                  ]
+                },
+                "varianceSample": {
+                  "$id": "#/properties/columnStatistics/items/properties/varianceSample",
+                  "type": "number",
+                  "title": "Variance Sample",
+                  "description": "the variance of a vector (sample)",
+                  "default": 0,
+                  "examples": [
+                    4351
+                  ]
+                },
+                "standardDeviationPopulation": {
+                  "$id": "#/properties/columnStatistics/items/properties/standardDeviationPopulation",
+                  "type": "number",
+                  "title": "Standard Deviation Population",
+                  "description": "the standard deviation of a vector (population)",
+                  "default": 0,
+                  "examples": [
+                    65.81729762506713
+                  ]
+                },
+                "standardDeviationSample": {
+                  "$id": "#/properties/columnStatistics/items/properties/standardDeviationSample",
+                  "type": "number",
+                  "title": "Standard Deviation Sample",
+                  "description": "the standard deviation of a vector (sample)",
+                  "default": 0,
+                  "examples": [
+                    65.96211033616193
+                  ]
+                },
+                "meanDeviation": {
+                  "$id": "#/properties/columnStatistics/items/properties/meanDeviation",
+                  "type": "number",
+                  "title": "Mean Deviation",
+                  "description": "the mean absolute deviation of a vector",
+                  "default": 0,
+                  "examples": [
+                    57.01
+                  ]
+                },
+                "medianDeviation": {
+                  "$id": "#/properties/columnStatistics/items/properties/medianDeviation",
+                  "type": "number",
+                  "title": "Median Deviation",
+                  "description": "the median absolute deviation of a vector",
+                  "default": 0,
+                  "examples": [
+                    57.22
+                  ]
+                },
+                "skewness": {
+                  "$id": "#/properties/columnStatistics/items/properties/skewness",
+                  "type": "number",
+                  "title": "Skewness",
+                  "description": "the skewness of a vector (third standardized moment)",
+                  "default": 0,
+                  "examples": [
+                    -1.1686558153949016e-17
+                  ]
+                },
+                "excessKurtosis": {
+                  "$id": "#/properties/columnStatistics/items/properties/excessKurtosis",
+                  "type": "number",
+                  "title": "Excess Kurtosis",
+                  "description": "the excess kurtosis of a vector (fourth standardized moment - 3)",
+                  "default": 0,
+                  "examples": [
+                    -1.2000461689398456
+                  ]
+                },
+                "coefficientVariation": {
+                  "$id": "#/properties/columnStatistics/items/properties/coefficientVariation",
+                  "type": "number",
+                  "title": "Coefficient Variation",
+                  "description": "the coefficient of variation of a vector",
+                  "default": 0,
+                  "examples": [
+                    0.5748235600442544
+                  ]
+                },
+                "quantileQ1": {
+                  "$id": "#/properties/columnStatistics/items/properties/quantileQ1",
+                  "type": "number",
+                  "title": "Quantile Q1",
+                  "description": "the 1-th percentile of values in a range",
+                  "default": 0,
+                  "examples": [
+                    57.75
+                  ]
+                },
+                "quantileQ2": {
+                  "$id": "#/properties/columnStatistics/items/properties/quantileQ2",
+                  "type": "number",
+                  "title": "Quantile Q2",
+                  "description": "the 2-th percentile of values in a range",
+                  "default": 0,
+                  "examples": [
+                    114.5
+                  ]
+                },
+                "quantileQ3": {
+                  "$id": "#/properties/columnStatistics/items/properties/quantileQ3",
+                  "type": "number",
+                  "title": "Quantile Q3",
+                  "description": "the 3-th percentile of values in a range",
+                  "default": 0,
+                  "examples": [
+                    171.25
+                  ]
+                },
+                "title": {
+                  "$id": "#/properties/columnStatistics/items/properties/dct:title",
+                  "type": "string",
+                  "title": "Title",
+                  "description": "Title of a vector or column",
+                  "default": "",
+                  "examples": [
+                    "status",
+                    "name",
+                    "gender"
+                  ],
+                  "pattern": "^(.*)$"
+                },
+                "id": {
+                  "$id": "#/properties/columnStatistics/items/properties/id",
+                  "type": "string",
+                  "title": "Unique ID of a column",
+                  "examples": [
+                    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855#1#col1"
+                  ],
+                  "pattern": "^(.*)$"
+                },
+                "columnIndex": {
+                  "$id": "#/properties/columnStatistics/items/properties/columnIndex",
+                  "type": "number",
+                  "title": "Column Index",
+                  "description": "the index of the vector in a matrix",
+                  "minimum": 0,
+                  "examples": [
+                    0
+                  ]
+                },
+                "completeness": {
+                  "$id": "#/properties/columnStatistics/items/properties/completeness",
+                  "type": "number",
+                  "title": "Completeness",
+                  "description": "Completeness of the row",
+                  "default": 0,
+                  "minimum": 0,
+                  "maximum": 100,
+                  "examples": [
+                    0.76
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "profiling-text-result",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "$id": "profiling-text-result",
+        "type": "object",
+        "title": "Text profiling result",
+        "additionalProperties": true,
+        "properties": {
+          "characterEncoding": {
+            "$id": "#/properties/encoding",
+            "type": "string",
+            "title": "Charset",
+            "description": "The used content encoding of the file",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "utf-8",
+              "ISO-8859-1"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "dctermsCreated": {
+            "$id": "#/properties/dctermsCreated",
+            "type": "string",
+            "title": "dctermsCreated",
+            "description": "Date the file was created",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "2018-11-08T13:55:45Z"
+            ],
+            "format": "date-time"
+          },
+          "dctermsModified": {
+            "$id": "#/properties/dctermsModified",
+            "type": "string",
+            "title": "dctermsModified",
+            "description": "Date the file was modified",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "2018-11-08T13:55:45Z"
+            ],
+            "format": "date-time"
+          },
+          "lastSaveDate": {
+            "$id": "#/properties/lastSaveDate",
+            "type": "string",
+            "title": "lastSaveDate",
+            "description": "Date the file was saved last time",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "2018-11-08T13:55:45Z"
+            ],
+            "format": "date-time"
+          },
+          "pdfDocinfoCreatorTool": {
+            "$id": "#/properties/pdfDocinfoCreatorTool",
+            "type": "string",
+            "title": "pdfDocinfoCreatorTool",
+            "description": "Tool, which was used to create the pdf",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "Chromium"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "pdfDocinfoProducer": {
+            "$id": "#/properties/pdfDocinfoProducer",
+            "type": "string",
+            "title": "pdfDocinfoProducer",
+            "description": "Producer of the PDF File",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "Skia/PDF m58"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "pdfEncrypted": {
+            "$id": "#/properties/pdfEncrypted",
+            "type": "boolean",
+            "title": "pdfEncrypted",
+            "description": "PDF is encrypted",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              true,
+              false
+            ]
+          },
+          "pdfVersion": {
+            "$id": "#/properties/pdfVersion",
+            "type": "string",
+            "title": "pdfVersion",
+            "description": "Version of the PDF compiler",
+            "default": "",
+            "minLength": 1,
+            "examples": [
+              "1.4"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "numberOfPages": {
+            "$id": "#/properties/numberOfPages",
+            "type": "integer",
+            "title": "numberOfPages",
+            "description": "Number of pages in the document",
+            "default": 0,
+            "examples": [
+              74,
+              55
+            ]
+          },
+          "statistics": {
+            "$id": "#/properties/statistics",
+            "type": "object",
+            "title": "Statistics",
+            "description": "Statistics of a text file",
+            "required": [
+              "numberOfCharacters",
+              "numberOfWords",
+              "numberOfSentences",
+              "characterDistribution"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "numberOfCharacters": {
+                "$id": "#/properties/statistics/properties/numberOfCharacters",
+                "type": "integer",
+                "title": "Number of Characters",
+                "description": "Number of characters of a text",
+                "default": 0,
+                "minimum": 0,
+                "examples": [
+                  22856,
+                  572557
+                ]
+              },
+              "numberOfWords": {
+                "$id": "#/properties/statistics/properties/numberOfWords",
+                "type": "integer",
+                "title": "Number of Words",
+                "description": "Number of words of a text",
+                "default": 0,
+                "minimum": 0,
+                "examples": [
+                  46464,
+                  4363
+                ]
+              },
+              "numberOfSentences": {
+                "$id": "#/properties/statistics/properties/numberOfSentences",
+                "type": "integer",
+                "title": "Number of Sentences",
+                "description": "Number of sentences of a text",
+                "default": 0,
+                "minimum": 0,
+                "examples": [
+                  8568,
+                  12478
+                ]
+              },
+              "characterDistribution": {
+                "$id": "#/properties/statistics/properties/characterDistribution",
+                "type": "array",
+                "title": "Character Distribution",
+                "description": "How many characters are in the text",
+                "default": 0,
+                "minItems": 0,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "character": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 1
+                    },
+                    "count": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "character",
+                    "count"
+                  ]
+                }
+              }
+            }
+          },
+          "languages": {
+            "$id": "#/properties/languages",
+            "type": "array",
+            "title": "Languages",
+            "description": "Possible detected Languages of a text file",
+            "items": {
+              "$id": "#/properties/languages/items/",
+              "type": "object",
+              "title": "Items",
+              "description": "guessed languages",
+              "required": [
+                "alpha3",
+                "alpha2",
+                "language",
+                "score"
+              ],
+              "properties": {
+                "alpha3": {
+                  "$id": "#/properties/ressourceMetadata/properties/alpha3",
+                  "type": "string",
+                  "title": "Alpha3",
+                  "description": "Alpha3 description of language",
+                  "minLength": 3,
+                  "maxLength": 3,
+                  "examples": [
+                    "deu",
+                    "nld",
+                    "afr"
+                  ]
+                },
+                "alpha2": {
+                  "$id": "#/properties/ressourceMetadata/properties/alpha2",
+                  "type": "string",
+                  "title": "Alpha2",
+                  "description": "Alpha2 description of language",
+                  "minLength": 2,
+                  "maxLength": 2,
+                  "examples": [
+                    "de",
+                    "nl",
+                    "af"
+                  ]
+                },
+                "language": {
+                  "$id": "#/properties/ressourceMetadata/properties/language",
+                  "type": "string",
+                  "title": "Language",
+                  "description": "Language",
+                  "minLength": 1,
+                  "examples": [
+                    "German",
+                    "Dutch",
+                    "Afrikaans"
+                  ],
+                  "pattern": "^(.*)$"
+                },
+                "score": {
+                  "$id": "#/properties/ressourceMetadata/properties/score",
+                  "type": "number",
+                  "title": "Score",
+                  "description": "Score of probability of language",
+                  "default": 1,
+                  "examples": [
+                    1,
+                    0.9724364236,
+                    0.90947
+                  ]
+                }
+              }
+            }
+          },
+          "keywords": {
+            "$id": "#/properties/keywords",
+            "type": "array",
+            "title": "Languages",
+            "description": "Extracted keywords from a text file",
+            "items": {
+              "$id": "#/properties/keywords/items/",
+              "type": "string",
+              "title": "Items",
+              "description": "guessed languages"
+            }
+          },
+          "corePhrases": {
+            "$id": "#/properties/corePhrases",
+            "type": "array",
+            "minItems": 1,
+            "title": "Core Phrases LSA",
+            "description": "Extracted most important sentences using LSA algorithm",
+            "items": {
+              "$id": "#/properties/corePhrases/items",
+              "type": "object",
+              "title": "Items",
+              "description": "Important sentences by algorithm",
+              "additionalProperties": false,
+              "properties": {
+                "algorithm": {
+                  "$id": "#/properties/corePhrases/items/algorithm",
+                  "type": "string",
+                  "enum": [
+                    "LSA",
+                    "Luhn",
+                    "LexRank",
+                    "SumBasic",
+                    "KL",
+                    "Manual"
+                  ]
+                },
+                "sentences": {
+                  "$id": "#/properties/corePhrases/items/sentences",
+                  "type": "array",
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "resource-file",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "$id": "resource-file",
+        "type": "object",
+        "title": "General file resource Data",
+        "required": [
+          "uniqueFingerprint",
+          "mimeType",
+          "fileName",
+          "byteSize"
+        ],
+        "allOf": [
+          {
+            "$ref": "resource"
+          },
+          {
+            "$ref": "profiling-text-result"
+          },
+          {
+            "$ref": "profiling-tabledata-result"
+          },
+          {
+            "properties": {
+              "byteSize": {
+                "$id": "#/properties/byteSize",
+                "type": "integer",
+                "title": "ByteSize",
+                "description": "The size of the file in bytes",
+                "default": 0,
+                "minimum": 0,
+                "examples": [
+                  3129,
+                  3235235,
+                  242
+                ]
+              },
+              "filename": {
+                "$id": "#/properties/filename",
+                "type": "string",
+                "title": "Filename",
+                "description": "filename of the resource",
+                "default": "",
+                "examples": [
+                  "foo.txt"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "mimeType": {
+                "$id": "#/properties/mimeType",
+                "type": "string",
+                "title": "MimeType",
+                "description": "The MIME-Type of the resource",
+                "default": "",
+                "examples": [
+                  "application/pdf",
+                  "image/jpg",
+                  "text/plain"
+                ]
+              },
+              "uniqueFingerprint": {
+                "$id": "#/properties/uniqueFingerprint",
+                "type": "string",
+                "title": "The SHA256 hash unique identifier",
+                "description": "The SHA256 hash of the file content that uniquely indicates a resource",
+                "default": "",
+                "examples": [
+                  "3a0d32967309cbc44d377c0aa801e95bfbf50f48c103f288ce25cc1f4df30f9a"
+                ],
+                "pattern": "^[A-Fa-f0-9]{64}$"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "resource-urban-pulse-sensor",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "$id": "resource-urban-pulse-sensor",
+        "type": "object",
+        "title": "General Urban Pulse sensor resource Data",
+        "required": [
+          "sensorId",
+          "uniqueFingerprint",
+          "since",
+          "until",
+          "distributions"
+        ],
+        "allOf": [
+          {
+            "$ref": "resource"
+          },
+          {
+            "properties": {
+              "sensorId": {
+                "$id": "#/properties/sensorId",
+                "type": "string",
+                "title": "UrbanPulse sensor id",
+                "description": "UrbanPulse sensor unique identifier",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+                "examples": [
+                  "d55d64cf-2e80-43d6-82ba-2107c3f96dc6"
+                ]
+              },
+              "uniqueFingerprint": {
+                "$id": "#/properties/uniqueFingerprint",
+                "type": "string",
+                "title": "Unique sensor identifier",
+                "description": "Unique sensor identifier is a SHA256 hash from 'sensorId', 'since' and 'until' fields",
+                "pattern": "^[A-Fa-f0-9]{64}$",
+                "examples": [
+                  "7103cd78f9f78e778f3c2b8d902c8c1e936b10c39aeb6e47d2b9a16b82093e6c"
+                ]
+              },
+              "since": {
+                "$id": "#/properties/since",
+                "type": "string",
+                "title": "Since date",
+                "description": "The start of the date range of the retrieved sensor data",
+                "minLength": 1,
+                "example": "2018-11-08T13:55:45Z",
+                "format": "date-time"
+              },
+              "until": {
+                "$id": "#/properties/until",
+                "type": "string",
+                "title": "Until date",
+                "description": "The end of the date range of the retrieved sensor data",
+                "minLength": 1,
+                "example": "2018-11-08T13:55:45Z",
+                "format": "date-time"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "resource",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "$id": "resource",
+        "type": "object",
+        "title": "General Resource Data",
+        "required": [
+          "resourceType"
+        ],
+        "allOf": [
+          {
+            "$ref": "entity"
+          },
+          {
+            "properties": {
+              "resourceType": {
+                "$id": "#/properties/resourceType",
+                "type": "string",
+                "title": "Resource Type",
+                "description": "The general type of the resource",
+                "enum": [
+                  "file",
+                  "database",
+                  "urban-pulse-sensor",
+                  "stream"
+                ]
+              },
+              "ids": {
+                "$id": "#/properties/ids",
+                "type": "object",
+                "title": "IDS",
+                "description": "IDS configuration attributes",
+                "additionalProperties": false,
+                "properties": {
+                  "policies": {
+                    "$id": "#/properties/ids/properties/policies",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "title": "Policies",
+                    "description": "IDS policies",
+                    "additionalProperties": false,
+                    "properties": {
+                      "provideAccess": {
+                        "$id": "#/properties/ids/properties/policies/properties/provideAccess",
+                        "type": "boolean",
+                        "default": false,
+                        "title": "Is available on connector flag",
+                        "description": "Flag indicating if the resource is available via a connector"
+                      },
+                      "prohibitAccess": {
+                        "$id": "#/properties/ids/properties/policies/properties/prohibitAccess",
+                        "type": "boolean",
+                        "default": false,
+                        "title": "Is prohibited on connector flag",
+                        "description": "Flag indicating if the access to the resource is prohibited on connector"
+                      },
+                      "usageLogging": {
+                        "$id": "#/properties/ids/properties/policies/properties/usageLogging",
+                        "type": "boolean",
+                        "default": false,
+                        "title": "Is usage logging active flag",
+                        "description": "Flag indicating if the usage logging of the resource is active on connector"
+                      },
+                      "nTimesUsage": {
+                        "$id": "#/properties/ids/properties/policies/properties/nTimesUsage",
+                        "type": "number",
+                        "default": 0,
+                        "title": "nTimesUsage",
+                        "description": "nTimesUsage"
+                      },
+                      "durationUsage": {
+                        "$id": "#/properties/ids/properties/policies/properties/durationUsage",
+                        "type": "string",
+                        "default": "",
+                        "title": "xsd:duration usage duration",
+                        "description": "xsd:duration duration of time expressed as a number of years, months, days, hours, minutes, and seconds",
+                        "examples": [
+                          "P2Y6M5DT12H35M30S"
+                        ]
+                      },
+                      "usageNotification": {
+                        "$id": "#/properties/ids/properties/policies/properties/usageNotification",
+                        "type": "string",
+                        "format": "uri",
+                        "default": "",
+                        "title": "Usage notification URI",
+                        "description": "Usage notification URI",
+                        "examples": [
+                          "https://de.wikipedia.org/wiki/Uniform_Resource_Identifier"
+                        ]
+                      },
+                      "usageDuringInterval": {
+                        "$id": "#/properties/ids/properties/policies/properties/usageDuringInterval",
+                        "type": "object",
+                        "title": "Resource usage duration interval",
+                        "description": "Allowed usage duration interval on connector",
+                        "required": [
+                          "from",
+                          "to"
+                        ],
+                        "properties": {
+                          "from": {
+                            "type": "string",
+                            "format": "date-time",
+                            "examples": [
+                              "2011-10-05T14:48:00.000Z"
+                            ]
+                          },
+                          "to": {
+                            "type": "string",
+                            "format": "date-time",
+                            "examples": [
+                              "2011-10-05T14:48:00.000Z"
+                            ]
+                          }
+                        }
+                      },
+                      "usageUntilDeletion": {
+                        "$id": "#/properties/ids/properties/policies/properties/usageUntilDeletion",
+                        "type": "object",
+                        "title": "Resource usage duration interval until deletion",
+                        "description": "Allowed usage duration interval on connector until deletion",
+                        "required": [
+                          "from",
+                          "to",
+                          "delete"
+                        ],
+                        "properties": {
+                          "from": {
+                            "type": "string",
+                            "format": "date-time",
+                            "examples": [
+                              "2011-10-05T14:48:00.000Z"
+                            ]
+                          },
+                          "to": {
+                            "type": "string",
+                            "format": "date-time",
+                            "examples": [
+                              "2011-10-05T14:48:00.000Z"
+                            ]
+                          },
+                          "delete": {
+                            "type": "string",
+                            "format": "date-time",
+                            "examples": [
+                              "2011-10-05T14:48:00.000Z"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "isAvailable": {
+                    "$id": "#/properties/ids/properties/isAvailable",
+                    "type": "boolean",
+                    "default": false,
+                    "title": "Is available flag",
+                    "description": "Flag indicating if the resource is available via a connector"
+                  },
+                  "brokerEndpoints": {
+                    "$id": "#/properties/ids/properties/brokerEndpoints",
+                    "type": "array",
+                    "default": "",
+                    "title": "Broker URLs",
+                    "description": "Broker URLs",
+                    "examples": [
+                      [
+                        "https://broker1.ids/",
+                        "https://company-ids:4044/broker/"
+                      ]
+                    ]
+                  }
+                }
+              },
+              "distributions": {
+                "title": "Resource distributions",
+                "description": "Resource distributions specifies the sources from which the resource can be requested",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "type"
+                  ],
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "title": "Distribution type",
+                      "description": "Specific type of the resource source",
+                      "minLength": 1,
+                      "enum": [
+                        "hadoop",
+                        "http-get-basic-auth",
+                        "mariadb"
+                      ]
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "uri",
+                      "title": "Distribution URL",
+                      "description": "URL of the resource source",
+                      "minLength": 1
+                    },
+                    "username": {
+                      "type": "string",
+                      "title": "Login username",
+                      "description": "Login credentials username",
+                      "minLength": 1
+                    },
+                    "password": {
+                      "type": "string",
+                      "title": "Login password",
+                      "description": "Login credentials password",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "review-general",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "$id": "review-general",
+        "type": "object",
+        "title": "General review data",
+        "required": [
+          "_id",
+          "resourceId",
+          "id",
+          "rating",
+          "created",
+          "authorId"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "resourceId": {
+            "$id": "#/properties/resourceId",
+            "type": "string",
+            "title": "Unique ID",
+            "description": "An unique ID of the processed resource",
+            "default": "",
+            "examples": [
+              "resource:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
+            ],
+            "format": "uri",
+            "pattern": "^resource:uuid:"
+          },
+          "id": {
+            "$id": "#/properties/id",
+            "type": "string",
+            "title": "Review ID",
+            "description": "The ID of the review",
+            "examples": [
+              "review:uuid:86017a15-6102-4ba8-8751-fa7a1a541e7c"
+            ],
+            "format": "uri",
+            "pattern": "^review:uuid:"
+          },
+          "_id": {
+            "$id": "#/properties/_id",
+            "type": "string",
+            "title": "Review ID",
+            "description": "The ID of the review",
+            "examples": [
+              "review:uuid:86017a15-6102-4ba8-8751-fa7a1a541e7c"
+            ],
+            "format": "uri",
+            "pattern": "^review:uuid:"
+          },
+          "rating": {
+            "$id": "#/properties/rating",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "title": "Rating",
+            "description": "Rating for the resource",
+            "examples": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "comment": {
+            "$id": "#/properties/comment",
+            "type": "string",
+            "title": "Comment text",
+            "description": "The comment of a review",
+            "default": "",
+            "examples": [
+              "nice resource",
+              "lorem ipsum dolor..."
+            ]
+          },
+          "created": {
+            "$id": "#/properties/created",
+            "type": "string",
+            "title": "Creation date",
+            "description": "Creation date of the review",
+            "examples": [
+              "2018-11-08T13:55:45Z"
+            ],
+            "format": "date-time"
+          },
+          "authorId": {
+            "$id": "#/properties/authorId",
+            "type": "string",
+            "title": "User ID",
+            "description": "The ID of the Author",
+            "examples": [
+              "86017a15-6102-4ba8-8751-fa7a1a541e7c"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "user-schema",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "$id": "user-schema",
+        "type": "object",
+        "title": "User Data",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "username",
+          "email",
+          "creationDate"
+        ],
+        "properties": {
+          "id": {
+            "$id": "/properties/id",
+            "type": "string",
+            "title": "The id Schema ",
+            "default": "",
+            "examples": [
+              "urn:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
+            ],
+            "format": "uri",
+            "pattern": "^urn:uuid:"
+          },
+          "username": {
+            "$id": "/properties/username",
+            "type": "string",
+            "title": "The Username Schema ",
+            "default": "",
+            "examples": [
+              "mmustermann"
+            ],
+            "minLength": 3
+          },
+          "email": {
+            "$id": "/properties/email",
+            "type": "string",
+            "format": "email",
+            "title": "The Email Schema ",
+            "default": "",
+            "examples": [
+              "muster@mann.de"
+            ]
+          },
+          "password": {
+            "$id": "/properties/password",
+            "type": "string",
+            "title": "The Password Schema ",
+            "default": "",
+            "examples": [
+              "foobarpassword123"
+            ],
+            "minLength": 4
+          },
+          "imageId": {
+            "$id": "/properties/imageId",
+            "type": "string",
+            "title": "The imageId Schema ",
+            "default": "",
+            "examples": [
+              "67d4acaa-00e0-4a00-8b61-15abe20e1413"
+            ]
+          },
+          "imageURL": {
+            "$id": "/properties/imageURL",
+            "type": "string",
+            "title": "The imageURL Schema ",
+            "description": "The URL of externally provided user profile image",
+            "default": "",
+            "examples": [
+              "https://image-host.com"
+            ],
+            "format": "uri"
+          },
+          "creationDate": {
+            "$id": "/properties/creationDate",
+            "type": "string",
+            "format": "date-time",
+            "title": "The creation date Schema ",
+            "default": "",
+            "examples": [
+              "2020-11-18T09:34:07.857Z"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

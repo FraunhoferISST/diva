@@ -1,0 +1,153 @@
+asyncapi: 2.0.0
+info:
+  title: Event Emitter
+  version: 0.1.0-beta.1
+  description: This service emitts events if it detects event messages in specific kafka topics.
+
+servers:
+  production:
+    url: localhost:{port}
+    protocol: http
+    description: DIVA Event Emitter
+    variables:
+      port:
+        default: '4000'
+
+channels:
+
+  default:
+    description: Default channel where a client can send and receive events. WebSockets do not have native channels. You can set specific event names instead and do a server side filtering of who gets an event.
+    subscribe:
+      message:
+        oneOf:
+          - $ref: '#/components/messages/entitySubscribeResponse'
+          - $ref: '#/components/messages/entityUnsubscribeResponse'
+          - $ref: '#/components/messages/entityEvent'
+    publish:
+      message:
+        oneOf:
+          - $ref: '#/components/messages/entitySubscribeRequest'
+          - $ref: '#/components/messages/entityUnsubscribeRequest'  
+
+components:
+  messages:
+    entitySubscribeRequest:
+      name: entitySubscribeRequest
+      title: Entity Subscribe Request
+      payload:
+        $ref: '#/components/schemas/EntityId'
+    entitySubscribeResponse:
+      name: entitySubscribeResponse
+      title: Entity Subscribe Response
+      payload:
+        $ref: '#/components/schemas/GenericUnSubscribeResponse'
+    entityUnsubscribeRequest:
+      name: entityUnsubscribeRequest
+      title: Entity Unsubscribe Request
+      payload:
+        $ref: '#/components/schemas/EntityId'    
+    entityUnsubscribeResponse:
+      name: entityUnsubscribeResponse
+      title: Entity Unsubscribe Response
+      payload:
+        $ref: '#/components/schemas/GenericUnSubscribeResponse'    
+    entityEvent:
+      name: entityEvent
+      title: Entity Event
+      description: Sends data of an entity event. 
+      payload:
+        $ref: '#/components/schemas/GenericEventPayload'
+
+  schemas:
+    GenericUnSubscribeResponse:
+      type: object
+      additionalProperites: false
+      required:
+        - type
+        - message
+      properties:
+        entity:
+          $ref: '#/components/schemas/EntityId'
+        type:
+          type: string
+          enum:
+            - success
+            - failure
+        message:
+          type: string
+                   
+    GenericEventPayload:
+      type: object
+      title: Generic Event Payload
+      description: Generic event payload required attributes
+      additionalProperites: true
+      required:
+        - type
+        - actor
+        - object
+      properties:
+        type:
+          title: Operation type
+          type: string
+          description: The type of the perfomed operation that indicates specific events like resource update or deletion
+          enum:
+            - create
+            - update
+            - delete
+            - read
+          example: update
+        actor:
+          title: Actor
+          describe: Actor that executed the operation. Can be a person or a service
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              title: Actor Id
+              description: The id of the Actor that executed the operation
+              $ref: '#/components/schemas/ActorId'
+        object:
+          title: Object
+          description: The by the operation affected entity object.
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              title: Object id
+              description: The id of the affected entity object
+              $ref: '#/components/schemas/EntityId'
+        attributedTo:
+          title: Reladet entites
+          description: The Array contains the id's of the entities that are related or referenced by the original event. For
+            example a creation of a review may contain in this filed the id of the resource for wich this review was created
+          type: array
+          items:
+            type: object
+            required:
+              - object
+            additionalProperties: false
+            additionalItems: false
+            properties:
+              object:
+                title: Affected entity
+                description: The by the operation referenced entity object.
+                type: object
+                additionalProperties: false
+                required:
+                  - id
+                properties:
+                  id:
+                    title: Entity id
+                    description: The id of the referenced entity
+                    $ref: '#/components/schemas/EntityId'
+    EntityId:
+      type: string
+      pattern: ^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$      
+      example: resource:uuid:1fbfb29b-2905-40c5-a8a4-48a5e5684180
+
+    ActorId:
+      type: string
+      pattern: ^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$      
+      example: user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9 

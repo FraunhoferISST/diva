@@ -1,0 +1,36 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "history",
+    "type": "object",
+    "title": "History schema",
+    "required": [
+      "belongsTo",
+      "delta"
+    ],
+    "unevaluatedProperties": false,
+    "allOf": [
+      {
+        "$ref": "/entity"
+      }
+    ],
+    "properties": {
+  
+      "belongsTo": {
+        "$id": "belongsTo",
+        "type": "string",
+        "title": "Belongs To",
+        "description": "The uuid of the entity id to which this history entry belongs to. Can be any possible entity like resource, asset, user or review. Could also be history entity itself, but seems not recommended",
+        "examples": [
+          "resource:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
+        ],
+        "pattern": "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      },
+  
+      "delta": {
+        "$id": "delta",
+        "type": "object",
+        "title": "Delta of metadata",
+        "description": "Delta of metadata of the entity this belongs to"
+      }
+    }
+  }

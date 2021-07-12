@@ -1,0 +1,356 @@
+openapi: 3.0.0
+info:
+  description: "IDS Adapter API"
+  version: 1.0.0
+  title: IDS Adapter API
+tags:
+  - name: offers
+    description: Operations on DSC offers
+paths:
+  /resources/{id}/offers:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+      - $ref: "#/components/parameters/resourceIdParam"
+    post:
+      tags:
+        - offers
+      summary: Create offer
+      description: Create mew offer on DSC from a DIVA resource. The Adapter creates an offer associated with a DIVA
+        resource with a rule (policy) and representation under the "DIVA Catalog" catalog. On successful operation the
+        created offer data (`offerId`, `ruleId` and `representationId`) will be automaticaly added to the DIVA resource
+        under `ids.offer` property
+      operationId: createOffer
+      requestBody:
+        $ref: "#/components/requestBodies/OfferCreate"
+      responses:
+        201:
+          $ref: "#/components/responses/Success"
+        4XX:
+          $ref: "#/components/responses/BadRequestError"
+        5XX:
+          $ref: "#/components/responses/UnexpectedError"
+  /resources/{id}/offers/{offerId}:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+      - $ref: "#/components/parameters/resourceIdParam"
+      - $ref: "#/components/parameters/offerIdParam"
+    put:
+      tags:
+        - offers
+      summary: Update offer
+      description: Update the offer rule (policy) on DSC
+      operationId: updateOffer
+      requestBody:
+        $ref: "#/components/requestBodies/OfferCreate"
+      responses:
+        200:
+          $ref: "#/components/responses/SuccessEmpty"
+        4XX:
+          $ref: "#/components/responses/BadRequestError"
+        5XX:
+          $ref: "#/components/responses/UnexpectedError"
+    get:
+      tags:
+        - offers
+      summary: Get DSC offer
+      description: Responses with the detailed offer information stored on DSC
+      operationId: getUsers
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Offer"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+        4XX:
+          $ref: "#/components/responses/BadRequestError"
+        5XX:
+          $ref: "#/components/responses/UnexpectedError"
+    delete:
+      tags:
+        - offers
+      summary: Delete DSC offer
+      description: Removes the offer and associated rules and representations from DSC. The Adapter also updates
+        correspondingly the DIVA resource `ids` property
+      operationId: deleteOffer
+      responses:
+        200:
+          $ref: "#/components/responses/SuccessEmpty"
+        404:
+          $ref: "#/components/responses/NotFoundError"
+        4XX:
+          $ref: "#/components/responses/BadRequestError"
+        5XX:
+          $ref: "#/components/responses/UnexpectedError"
+
+servers:
+  - url: http://localhost:4002
+components:
+  requestBodies:
+    OfferCreate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Policy"
+  schemas:
+    Policy:
+      title: Policy
+      description: Policy schema
+      type: object
+      oneOf:
+        - properties:
+            provideAccess:
+              type: boolean
+              default: false
+              title: Is available on connector flag
+              description: Flag indicating if the resource is available via a connector
+          required:
+            - provideAccess
+        - properties:
+            usageLogging:
+              type: boolean
+              default: false
+              title: Is usage logging active flag
+              description: Flag indicating if the usage logging of the resource
+                is active on connector
+          required:
+            - usageLogging
+        - properties:
+            nTimesUsage:
+              type: number
+              default: 0
+              title: nTimesUsage
+              description: nTimesUsage
+          required:
+            - nTimesUsage
+        - properties:
+            durationUsage:
+              type: string
+              default: ''
+              title: xsd:duration usage duration
+              description: xsd:duration duration of time expressed as a number of
+                years, months, days, hours, minutes, and seconds
+              example: P2Y6M5DT12H35M30S
+          required:
+            - durationUsage
+        - properties:
+            usageNotification:
+              type: string
+              format: uri
+              default: ''
+              title: Usage notification URI
+              description: Usage notification URI
+              example: https://de.wikipedia.org/wiki/Uniform_Resource_Identifier
+          required:
+            - usageNotification
+        - properties:
+            usageUntilDeletion:
+              type: object
+              title: Resource usage duration interval until deletion
+              description: Allowed usage duration interval on connector until deletion
+              required:
+                - from
+                - to
+                - delete
+              properties:
+                from:
+                  type: string
+                  format: date-time
+                  example: 2011-10-05T14:48:00.000Z
+                to:
+                  type: string
+                  format: date-time
+                  example: 2011-10-05T14:48:00.000Z
+                delete:
+                  type: string
+                  format: date-time
+                  example: 2011-10-05T14:48:00.000Z
+          required:
+            - usageUntilDeletion
+        - properties:
+            usageDuringInterval:
+              type: object
+              title: Resource usage duration interval
+              description: Allowed usage duration interval on connector
+              required:
+                - from
+                - to
+              properties:
+                from:
+                  type: string
+                  format: date-time
+                  example: 2011-10-05T14:48:00.000Z
+                to:
+                  type: string
+                  format: date-time
+                  example: 2011-10-05T14:48:00.000Z
+          required:
+            - usageDuringInterval
+        - properties:
+            connectorRestrictedUsage:
+              type: string
+              format: uri
+              title: Connector Restricted Usage
+              description: The Connector that is allowed to use the resource
+              example: https://w3id.org/idsa/autogen/baseConnector/7b934432-a85e-41c5-9f65-669219dde4ae
+          required:
+            - connectorRestrictedUsage
+    Offer:
+      type: object
+      additionalProperties: true
+      description: Offer data from the DSC
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        publisher:
+          type: string
+          format: uri
+        language:
+          type: string
+        licence:
+          type: string
+          format: uri
+        sovereign:
+          type: string
+          format: uri
+        endpointDocumentation:
+          type: string
+          format: uri
+        remoteId:
+          type: string
+          format: uri
+          readOnly: true
+        additionalProperties:
+          type: object
+    OfferInformation:
+      type: object
+      additionalProperties: false
+      description: id's of the data on DSC associated with the created offer
+      properties:
+        offerId:
+          $ref: "#/components/schemas/OfferId"
+        ruleId:
+          title: Rule id
+          description: Unique identifier of the rule (policy) created within an offer
+          type: string
+          example: "11678716-9c28-4534-978b-401ec9527669"
+          pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        representationId:
+          title: Representation id
+          description: Unique identifier of the representation created within an offer
+          type: string
+          example: "11678716-9c28-4534-978b-401ec9527669"
+          pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        artifactId:
+          title: Artifact id
+          description: Unique identifier of the artifact created within an offer
+          type: string
+          example: "11678716-9c28-4534-978b-401ec9527669"
+          pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        contractId:
+          title: Contract id
+          description: Unique identifier of the contract created within an offer
+          type: string
+          example: "11678716-9c28-4534-978b-401ec9527669"
+          pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    ResourceId:
+      title: Resoruce id
+      description: Unique resource identifier
+      type: string
+      example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
+      pattern: "^resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    OfferId:
+      title: Offer id
+      description: Unique identifier of the offer associated with a DIVA resource under `ids.offer.offerId`
+      type: string
+      example: "11678716-9c28-4534-978b-401ec9527669"
+      pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - message
+        - code
+      properties:
+        type:
+          description: Description of the error type
+          type: string
+        message:
+          description: Description of the error
+          type: string
+        code:
+          description: Erro status code
+          type: number
+          format: int32
+        errors:
+          description: JSON Schema validation errors
+          type: array
+          items:
+            type: object
+  responses:
+    Success:
+      description: Succesful operation with response data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OfferInformation"
+    SuccessEmpty:
+      description: Succesful operation
+    UnexpectedError:
+      description: Internal error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFoundError:
+      description: Entity not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    InvalidDataError:
+      description: Invalid data supplied
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    BadRequestError:
+      description: Request violates API Specification or supplied data is not valid
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  parameters:
+    actoridParam:
+      in: header
+      description: The id of the origin that produces action/message. Can be a user or service
+      name: x-actorid
+      schema:
+        type: string
+        minLength: 1
+        pattern: "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      required: true
+    resourceIdParam:
+      in: path
+      description: Existing identifier of the resource that should be affected by the operation
+      name: id
+      schema:
+        $ref: "#/components/schemas/ResourceId"
+      required: true
+    offerIdParam:
+      in: path
+      description: Existing identifier of the offer that should be affected by the operation
+      name: offerId
+      schema:
+        $ref: "#/components/schemas/OfferId"
+      required: true

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "resourceFileApplicationXSasData",
+  "type": "object",
+  "title": "SAS7BDAT Resource Data",
+  "allOf": [
+    {
+      "$ref": "/tableSchema"
+    },
+    {
+      "$ref": "/tableSample"
+    },
+    {
+      "$ref": "/columnStatistics"
+    },
+    {
+      "$ref": "/maxNumberOfRows"
+    },
+    {
+      "$ref": "/numberOfColumns"
+    },
+    {
+      "$ref": "/characterEncoding"
+    },
+    {
+      "$ref": "/tableCompleteness"
+    },
+    {
+      "properties": {
+        "sas7bdatServerType": {
+          "type": "string",
+          "title": "Server Type",
+          "description": "The server type of the sas7bdat database",
+          "default": "",
+          "minLength": 1,
+          "examples": [
+            "9.0401M4"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "sas7bdatSasRelease": {
+          "type": "string",
+          "title": "SAS Release",
+          "description": "The version of sas used in the sas7bdat database",
+          "default": "",
+          "minLength": 1,
+          "examples": [
+            "utf-8"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "sas7bdatDatabaseName": {
+          "type": "string",
+          "title": "SAS Release",
+          "description": "The name of the sas7bdat database",
+          "default": "",
+          "minLength": 1,
+          "examples": [
+            "cancer study"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "sas7bdatPlatform": {
+          "type": "string",
+          "title": "SAS Release",
+          "description": "The platform of the sas7bdat database",
+          "default": "",
+          "minLength": 1,
+          "examples": [
+            "windows"
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    }
+  ]
+}

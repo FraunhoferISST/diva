@@ -1,0 +1,20 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "numberOfWords",
+    "type": "object",
+    "title": "Number of Words",
+    "additionalProperties": true,
+    "properties": {
+        "numberOfWords": {
+            "type": "integer",
+            "title": "Number of Words",
+            "description": "Number of words in a text",
+            "default": 0,
+            "minimum": 0,
+            "examples": [
+                46464,
+                4363
+            ]
+        }
+    }
+}

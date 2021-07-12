@@ -1,0 +1,39 @@
+.table-container {
+  overflow: hidden;
+  @include border-radius-half();
+  .v-data-table {
+    thead {
+      th {
+        border-bottom: 2px solid #eeeeee !important;
+      }
+    }
+    td {
+      border-bottom: 2px solid #eeeeee !important;
+    }
+    tr.v-data-table__expanded__content {
+      transition: 0.3s;
+      background-color: $bg_card_secondary;
+      border: none;
+      box-shadow: none !important;
+      &:hover {
+        background-color: $bg_card_secondary !important;
+      }
+    }
+    tr.v-data-table__expanded.v-data-table__expanded__row {
+      transition: 0.3s;
+      background-color: $bg_card_secondary !important;
+      td {
+        border-bottom: 2px solid transparent !important;
+      }
+    }
+  }
+  .table-max-height {
+    .v-data-table__wrapper {
+      max-height: 84vh!important;
+      overflow-y: auto;
+    }
+  }
+  .v-data-footer {
+    border-top: none !important;
+  }
+}

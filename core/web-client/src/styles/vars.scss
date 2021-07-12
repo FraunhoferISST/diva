@@ -1,0 +1,195 @@
+//COLORS
+$bg_dark: #273159;
+$bg_primary: #f0f4f9;
+$bg_card: white;
+$bg_card_secondary: #eff3f7;
+$bg_toolbar: #3251ad;
+$bg_toolbar_2: #2e42a2;
+$bg_toolbar_hover: #4e6fce;
+$bg_toolbar_secondary: #283fb0;
+$bg_toolbar_secondary_2: #253ba1;
+$bg_hover: #eaeaea;
+
+/*BUTTONS*/
+$btn_flat: #edf4fc;
+$btn_flat_text: #2d68fc;
+$btn_flat_secondary: #f6f4fe;
+$btn_flat_secondary_text: #613cea;
+$btn_flat_green: #daf2ea;
+$btn_flat_green_text: #20a66f;
+$btn_flat_red: #fadcdf;
+$btn_flat_red_text: #d73d51;
+
+$isst_color: #009374;
+$secondary_color: #030227;
+
+$c_accent_primary: #137efc;
+$c_accent_secondary: #7dd2f6;
+$c_accent_success: #5BECC0;
+$c_accent_error: #762849;
+$c_accent_error_light: #A34C68;
+
+//resources types colors
+$type_resource: $isst_color;
+$type_asset: #3ab3ff;
+$type_process: #ff7689;
+$type_app: #b3a9ff;
+$type_agent: #ffac34;
+
+/*FONTS*/
+$font_header: 'Montserrat', sans-serif;
+$font_body: 'Quicksand', sans-serif;
+$font_primary_color: #17196D;
+$font_primary_color_inverse: white;
+$font_secondary_color: #686f80;
+$font_secondary_color_inverse: #dcdcdc;
+$font_link_color_hover: #6a41ff;
+$font_link_color: #6a41ff;
+
+//Gradients colors
+$g_primary_1: $c_accent_primary;
+$g_primary_2: $c_accent_secondary;
+$g_secondary_1: $c_accent_primary;
+$g_secondary_2: $font_primary_color;
+$g_success_1: #11a27b;
+$g_success_2: #77c8b5;
+
+//CHARTS COLORS
+$chart_from_1: $c_accent_primary;
+$chart_to_1: #6b3afd;
+$chart_from_2: $g_success_1;
+$chart_to_2: $g_primary_2;
+$chart_from_3: rgba($c_accent_primary, 0.2);
+$chart_to_3: $bg_hover;
+$progressbar: #7579ff;
+
+//CIRCLE PROGRESS COLORS
+$circle_from: $c_accent_secondary;
+$circle_to: $c_accent_primary;
+
+//COLORED CARD COLORS
+$colored_card_primary: rgba(54, 89, 255, 0.83);
+
+$border_radius: 8px;
+
+/*MIXINS*/
+@mixin font-style($size: 16px, $family: $font_header, $weight: normal, $color:$font_primary_color) {
+  font: {
+    family: $family !important;
+    size: $size !important;
+    weight: $weight !important;
+  }
+  color: $color;
+}
+
+@mixin gradient-primary($from: 1, $to:1, $reverse: false) {
+  @if($reverse == false) {
+    background-image: linear-gradient(29deg, rgba($g_primary_1, $from)  0%, rgba($g_primary_2, $to) 100%);
+  }@else {
+    background-image: linear-gradient(29deg, rgba($g_primary_2, $to) 0%, rgba($g_primary_1, $from) 100%);
+  }
+}
+
+@mixin gradient-secondary($from: 1, $to:1, $reverse: false) {
+  @if($reverse == false) {
+    background-image: linear-gradient(29deg, rgba($g_primary_1, $from)  0%, rgba($g_secondary_2, $to) 100%);
+  }@else {
+    background-image: linear-gradient(29deg, rgba($g_secondary_2, $to) 0%, rgba($g_primary_1, $from) 100%);
+  }
+}
+
+@mixin gradient-alternative($from: 1, $to:1, $reverse: false) {
+  @if($reverse == false) {
+    background-image: linear-gradient(29deg, rgba(#a692ff, $from)  0%, rgba(#878cfc, $to) 100%);
+  }@else {
+    background-image: linear-gradient(29deg, rgba(#878cfc, $to) 0%, rgba(#a692ff, $from) 100%);
+  }
+}
+
+@mixin gradient-red($from: 1, $to:1, $reverse: false) {
+  @if($reverse == false) {
+    background-image: linear-gradient(29deg, rgba(#ff827b, $from)  0%, rgba(#f67b85, $to) 100%);
+  }@else {
+    background-image: linear-gradient(29deg, rgba(#f69382, $to) 0%, rgba(#ffb8ae, $from) 100%);
+  }
+}
+
+@mixin gradient-success($from: 1, $to:1, $reverse: false) {
+  @if ($reverse == false) {
+    background-image: linear-gradient(29deg, rgba($g_success_1, $from) 0%, rgba($g_success_2, $to) 100%);
+  } @else {
+    background-image: linear-gradient(29deg, rgba($g_success_2, $to) 0%, rgba($g_success_1, $from) 100%);
+  }
+}
+
+@mixin gradient-error ($from: 1, $to:1, $reverse: false){
+  @if ($reverse == false) {
+    background-image: linear-gradient(29deg, rgba($c_accent_error, $from) 0%, rgba($c_accent_error_light, $to) 100%);
+  } @else {
+    background-image: linear-gradient(29deg, rgba($c_accent_error_light, $to) 100%, rgba($c_accent_error, $from) 0%);
+  }
+}
+
+@mixin gradient-toolbar($from: 1, $to:1, $reverse: false) {
+  @if($reverse == false) {
+    background-image: linear-gradient(29deg, rgba($bg_toolbar, $from)  0%, rgba($bg_toolbar_2, $to) 100%);
+  }@else {
+    background-image: linear-gradient(29deg, rgba($bg_toolbar_2, $to) 0%, rgba($bg_toolbar, $from) 100%);
+  }
+}
+
+@mixin gradient-toolbar-secondary($from: 1, $to:1, $reverse: false) {
+  @if($reverse == false) {
+    background-image: linear-gradient(29deg, rgba($bg_toolbar_secondary, $from)  0%, rgba($bg_toolbar_secondary_2, $to) 100%);
+  }@else {
+    background-image: linear-gradient(29deg, rgba($bg_toolbar_secondary_2, $to) 0%, rgba($bg_toolbar_secondary, $from) 100%);
+  }
+}
+
+@mixin bg-dotted($dott-size: 1px, $spacing: 10px, $color: $bg_dark) {
+  background: radial-gradient($color $dott-size, transparent $dott-size),
+  radial-gradient($color $dott-size, transparent $dott-size), transparent;
+  background-size: 100%, $spacing $spacing, $spacing $spacing, 100%;
+  background-position: 0 0, 0 0, 10px 18px, 0 0;
+}
+
+@mixin border-radius($lt: $border_radius, $rt: $border_radius, $br: $border_radius, $bl: $border_radius) {
+  border-radius:  $lt $rt $br $bl;
+}
+
+@mixin border-radius-half() {
+  border-radius:  $border_radius / 2;
+}
+
+  :export {
+  accentPrimary: $c_accent_primary;
+  accentSecondary: $c_accent_secondary;
+  accentSuccess: $c_accent_success;
+  accentError: $c_accent_error;
+  bgPrimary: $bg_primary;
+  bgCard: $bg_card;
+  bgHover: $bg_hover;
+
+  chartFrom1: $chart_from_1;
+  chartTo1: $chart_to_1;
+  chartFrom2: $chart_from_2;
+  chartTo2: $chart_to_2;
+  chartFrom3: $chart_from_3;
+  chartTo3: $chart_to_3;
+
+  circleFrom: $circle_from;
+  circleTo: $circle_to;
+
+  typeColorRes: $type_resource;
+  typeColorApp: $type_app;
+  typeColorAsset: $type_asset;
+  typeColorProc: $type_process;
+  typeColorAgent: $type_agent;
+
+  fontPrimaryColor: $font_primary_color;
+  fontPrimaryColorInvers: $font_primary_color_inverse;
+  fontSecondaryColor: $font_secondary_color;
+  fontSecondaryColorInvers: $font_secondary_color_inverse;
+}
+
+

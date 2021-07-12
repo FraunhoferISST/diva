@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "user",
+  "type": "object",
+  "title": "User Data",
+  "required": [
+    "username",
+    "email"
+  ],
+  "unevaluatedProperties": false,
+  "allOf": [
+    {
+      "$ref": "/entity"
+    },
+    {
+      "properties": {
+
+        "username": {
+          "$id": "/properties/username",
+          "type": "string",
+          "title": "The Username Schema",
+          "examples": [
+            "mustermann"
+          ],
+          "minLength": 3
+        },
+
+        "email": {
+          "$id": "/properties/email",
+          "type": "string",
+          "format": "email",
+          "title": "The Email Schema ",
+          "examples": [
+            "muster@mann.de"
+          ]
+        },
+
+        "password": {
+          "$id": "/properties/password",
+          "type": "string",
+          "title": "The Password Schema ",
+          "examples": [
+            "foobarpassword123"
+          ],
+          "minLength": 4
+        },
+
+        "imageId": {
+          "$id": "/properties/imageId",
+          "type": "string",
+          "title": "The imageId Schema ",
+          "examples": [
+            "67d4acaa-00e0-4a00-8b61-15abe20e1413"
+          ]
+        },
+
+        "imageUrl": {
+          "$id": "/properties/imageUrl",
+          "type": "string",
+          "title": "The imageURL Schema",
+          "description": "The URL of externally provided user profile image",
+          "examples": [
+            "https://image-host.com"
+          ],
+          "format": "uri"
+        },
+
+        "company": {
+          "$id": "/properties/company",
+          "type": "string",
+          "title": "Company Name",
+          "examples": [
+            "Example Company GmbH"
+          ]
+        },
+
+        "jobTitle": {
+          "$id": "/properties/jobTitle",
+          "type": "string",
+          "title": "Job Title",
+          "examples": [
+            "Senior Software Developer"
+          ]
+        },
+
+        "phoneNumber": {
+          "$id": "/properties/phoneNumber",
+          "type": "string",
+          "title": "Phone Number",
+          "examples": [
+            "+49 1234 56789",
+            "0022 1111 2222 3333"
+          ]
+        },
+
+        "mobileNumber": {
+          "$id": "/properties/mobileNumber",
+          "type": "string",
+          "title": "Mobile Number",
+          "examples": [
+            "+49 150 1111 2222"
+          ]
+        },
+
+        "addressLocality": {
+          "type": "string",
+          "title": "Address Locality"
+        },
+        "addressRegion": {
+          "type": "string",
+          "title": "Address Region"
+        },
+        "postalCode": {
+          "type": "string",
+          "title": "Postal Code"
+        },
+        "streetAddress": {
+          "type": "string",
+          "title": "Street Address"
+        },
+        "postOfficeBoxNumber": {
+          "type": "string",
+          "title": "Post Office Box Number"
+        }
+        
+      }
+    }
+  ]
+}

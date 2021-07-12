@@ -1,0 +1,52 @@
+{
+  "name": "user-management",
+  "version": "4.0.0-beta.6",
+  "description": "User management service with CRUD operations for users",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development node index.js",
+    "eslint-fix": "eslint --fix . --ext .js",
+    "test:e2e": "NODE_ENV=test mocha --recursive test/e2e/*.spec.js --timeout 3000",
+    "test:unit": "NODE_ENV=test mocha --recursive test/unit/*.spec.js"
+  },
+  "author": "",
+  "license": "ISST",
+  "dependencies": {
+    "ajv": "^8.0.0",
+    "ajv-formats": "^2.0.0",
+    "asyncapi-validator": "^2.5.0",
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
+    "chalk": "^4.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-openapi-validator": "^4.12.5",
+    "hasha": "^5.2.2",
+    "jsondiffpatch": "^0.4.1",
+    "jsonwebtoken": "^8.5.1",
+    "kafkajs": "^1.15.0",
+    "lodash": "^4.17.21",
+    "mongodb": "^3.6.4",
+    "multer": "^1.4.2",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "url-join": "^4.0.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-openapi-response-validator": "^0.13.0",
+    "chai-sorted": "^0.2.0",
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "mocha": "^8.3.2",
+    "prettier": "^2.2.1",
+    "rewire": "^5.0.0",
+    "supertest": "^6.1.3"
+  }
+}

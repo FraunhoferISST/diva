@@ -1,0 +1,66 @@
+version: '3.9'
+
+services:
+
+  text-metadata-extractor:
+    container_name: text-metadata-extractor
+    image: ${registry}text-metadata-extractor:2.0.0
+  text-core-phrase-extractor:
+    container_name: text-core-phrase-extractor
+    image: ${registry}text-core-phrase-extractor:2.0.0
+  text-keyword-extractor:
+    container_name: text-keyword-extractor
+    image: ${registry}text-keyword-extractor:4.0.0
+  text-statistican:
+    container_name: text-statistican
+    image: ${registry}text-statistican:2.0.0
+  tika-extraction:
+    container_name: tika-extraction
+    image: ${registry}tika-extraction:1.0.0
+  text-language-guesser:
+    container_name: text-language-guesser
+    image: ${registry}text-language-guesser:2.0.0
+
+  table-data-apriori-associations-extractor:
+    container_name: table-data-apriori-associations-extractor
+    image: ${registry}table-data-apriori-associations-extractor:2.0.0
+  table-data-metadata-extractor:
+    container_name: table-data-metadata-extractor
+    image: ${registry}table-data-metadata-extractor:3.0.0
+  table-data-column-statistican:
+    container_name: table-data-column-statistican
+    image: ${registry}table-data-column-statistican:3.0.0
+  table-data-schema-extractor:
+    container_name: table-data-schema-extractor
+    image: ${registry}table-data-schema-extractor:2.0.0
+  table-data-sample-extractor:
+    container_name: table-data-sample-extractor
+    image: ${registry}table-data-sample-extractor:3.0.0
+  table-data-to-csv:
+    container_name: table-data-to-csv
+    image: ${registry}table-data-to-csv:1.0.0
+
+
+  image-caption-generator:
+    container_name: image-caption-generator
+    image: ${registry}image-caption-generator:2.0.0
+  image-object-detection:
+    container_name: image-object-detection
+    image: ${registry}image-object-detection:2.0.0
+  image-metadata-extractor:
+    container_name: image-metadata-extractor
+    image: ${registry}image-metadata-extractor:2.0.0
+  image-sample-extractor:
+    container_name: image-sample-extractor
+    image: ${registry}image-sample-extractor:3.0.0
+  image-text-extractor:
+    container_name: image-text-extractor
+    image: ${registry}image-text-extractor:3.0.0
+
+
+  resource-management-sink:
+    container_name: resource-management-sink
+    image: ${registry}resource-management-sink:1.0.1
+  personal-data-evaluation:
+    container_name: personal-data-evaluation
+    image: ${registry}personal-data-evaluation:2.0.0

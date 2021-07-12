@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "costs",
+  "type": "object",
+  "title": "Costs",
+  "definitions": {
+    "cost": {
+      "title": "Costs",
+      "type": "object",
+      "properties": {
+        "value": {
+          "title": "Value",
+          "description": "A value representing a the cost numerically",
+          "type": ["number", "null"],
+          "examples": [0.93, 1000, 285639572, -3]
+        },
+        "currency": {
+          "type": "string",
+          "title": "Currency",
+          "description": "The currency for the costs",
+          "examples": ["$", "€"]
+        },
+        "period": {
+          "type": ["string", "null"],
+          "title": "Period",
+          "description": "The period the costs occur",
+          "enum": ["unlimited", "monthly","quarterly", "half-yearly", "yearly", ""],
+          "examples": ["yearly", "daily"]
+        }
+      },
+      "additionalProperties": false,
+      "required": ["value", "currency"]
+    }
+  },
+  "properties": {
+    "costs": {
+      "type": "object",
+      "title": "Costs",
+      "description": "Costs information for a resource",
+      "additionalProperties": false,
+      "properties": {
+        "internalCosts": {
+          "type": "object",
+          "title": "Internal Costs",
+          "description": "Costs that are incurred internally",
+          "additionalProperties": false,
+          "properties": {
+            "maintenanceCost": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/cost"
+                },
+                {
+                  "title": "Maintenance Costs",
+                  "description": "Maintenance cost of a resource",
+                  "default": "0.00"
+                }
+              ]
+            },
+            "storageCost": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/cost"
+                },
+                {
+                  "title": "Storage Costs",
+                  "description": "Storage cost of a resource",
+                  "default": "0.00"
+                }
+              ]
+            },
+            "distributionCost": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/cost"
+                },
+                {
+                  "title": "Distribution Costs",
+                  "description": "Distribution cost of a resource",
+                  "default": "0.00"
+                }
+              ]
+            }
+          }
+        },
+        "externalCost": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/cost"
+            },
+            {
+              "title": "Distribution Costs",
+              "description": "Distribution cost of a resource",
+              "default": "0.00"
+            }
+          ],
+          "description": "Costs that are incurred externally"
+        }
+      }
+    }
+  }
+}
+
+

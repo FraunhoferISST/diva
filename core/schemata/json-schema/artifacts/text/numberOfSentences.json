@@ -1,0 +1,20 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "numberOfSentences",
+    "type": "object",
+    "title": "Number of Sentences",
+    "additionalProperties": true,
+    "properties": {
+        "numberOfSentences": {
+            "type": "integer",
+            "title": "Number of Sentences",
+            "description": "Number of sentences in a text",
+            "default": 0,
+            "minimum": 0,
+            "examples": [
+                22856,
+                572557
+            ]
+        }
+    }
+}
