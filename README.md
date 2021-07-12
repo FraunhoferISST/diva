@@ -31,7 +31,7 @@
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Technologies and Frameworks used](#technologies-and-frameworks-used)
-- [Installation and Contribution](#installation-and-contribution)
+- [Quick start](#quick-start)
 
 <!-- END TABLE OF CONTENT -->
 
@@ -76,20 +76,23 @@ We also use this tool as a playground for our students, where they can work out 
 |[MinIO](https://min.io/)|our object store to save files uploaded by browser (aka `diva-lake`)|
 |[DataspaceConnector](https://www.dataspace-connector.io/)|our connection to the world of secure and sovereign data exchange|
 
-## Installation and Contribution
+## Quick start
 
-> ⚠️ Coming Soon...
-> Currently everything documented is written in `README` files in the services.
+> ⚠️ 
+> The project is currently being migrated to GitHub and we are in the reconstruction phase.
+> In parallel, we are putting a lot of effort into writing a comprehensive documentation for DIVA.
+> But this will also take some time. Currently, this is the only piece of information we can provide
 
-## Docker-Compose
+ The whole system can be bootstrapped with Docker. The images are currently not available in GitHub Container Registry 
+ and must be built manually
 
-- `docker-compose.yml`, `docker-compose.override.yml`: Core
-
-- `docker-compose.dsc.yml`: `Data Space Connector` for `DIVA`
-
-- `docker-compose.monitoring.yml`: Extra services for debugging und monitoring (Kibana, KongA)
-
-> You can start everything with the [`up_core.sh`](./docker/up_core.sh) script
+```sh
+cd docker
+# create .env and copy contents from .env.default to it
+cp .env.default .env
+# execute the script to boot all necessary components
+./up_core.sh
+```
 
 ## Credits
 
