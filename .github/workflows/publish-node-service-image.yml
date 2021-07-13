@@ -3,12 +3,27 @@ name: Create and publish a Docker image
 on:
   push:
     branches: ['Add_ci_pipeline']
+    paths:
+      - "core/services/test-service/**"
+      - "!*.md"
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  PATH: core/services/test-service
 
 jobs:
+  extract-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: get-npm-version
+        id: version
+        uses: martinbeentjes/npm-get-version-action@master
+        with:
+          path: ${{ env.REGISTRY }}
+
   build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
