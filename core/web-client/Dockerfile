@@ -1,5 +1,6 @@
 # Stage 1
 FROM node:14.16.0-alpine as builder
+LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
 
 ARG VUE_APP_GATEWAY_ENDPOINT
 
@@ -16,6 +17,7 @@ RUN npm run build
 
 # Stage 2
 FROM nginx:1.17-alpine
+LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
 
 RUN mkdir -p /static_files
 WORKDIR /static_files

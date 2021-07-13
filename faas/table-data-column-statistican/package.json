@@ -1,0 +1,27 @@
+{
+  "name": "table-data-column-statistican",
+  "version": "3.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "lint": "eslint --fix *.js"
+  },
+  "dependencies": {
+    "csv-sniffer": "^0.1.1",
+    "fast-csv": "^4.3.6",
+    "fs-extra": "^9.1.0",
+    "is-number": "^7.0.0",
+    "is-string": "^1.0.5",
+    "jstat": "^1.9.4",
+    "lodash.omitby": "^4.6.0",
+    "tmp-promise": "^3.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.24.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.2.1"
+  }
+}

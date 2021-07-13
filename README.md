@@ -83,9 +83,7 @@ We also use this tool as a playground for our students, where they can work out 
 > In parallel, we are putting a lot of effort into writing a comprehensive documentation for DIVA.
 > But this will also take some time. Currently, this is the only piece of information we can provide
 
- The whole system can be bootstrapped with Docker. The images are currently not available in GitHub Container Registry 
- and must be built manually
-
+ The whole system can be bootstrapped with Docker:
 ```sh
 cd docker
 # create .env and copy contents from .env.default to it

@@ -1,0 +1,3 @@
+efficient-apriori==1.1.1
+pandas==1.1.2
+sas7bdat_converter

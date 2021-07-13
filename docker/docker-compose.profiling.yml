@@ -1,6 +1,8 @@
-### This compose file contains extra services required for certain workflows.
-# E.g. some image analytics task require an external, long-running service for intermediate request.
-# Such services should be placed here.
+# ####################################################################################################################
+# This compose file contains extra services required for certain workflows.
+# E.g. some image analytics task require an external, long-running service for intermediate request. Such services should
+# be placed here.
+# ####################################################################################################################
 
 version: '3.9'
 

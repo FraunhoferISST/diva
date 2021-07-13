@@ -1,3 +1,9 @@
+# ####################################################################################################################
+# Microservices, Webclient, Kafka and Databases
+# The heart of the DIVA
+# ####################################################################################################################
+
+
 version: '3.9'
 
 x-mongodb-env: &mongodb-env
@@ -39,7 +45,7 @@ services:
 
   web-client:
     container_name: web-client
-    image: ${registry}web-client:18.20.0
+    image: ${REGISTRY}web-client:18.20.0
     ports:
       - ${WEB_CLIENT_PORT}:80
     restart: always
@@ -78,7 +84,7 @@ services:
   
   resource-management:
     <<: *base-core-service
-    image: ${registry}resource-management:17.0.0-beta.2
+    image: ${REGISTRY}resource-management:17.0.0-beta.2
     container_name: resource-management
     environment:
       <<: *base-core-service-env
@@ -94,7 +100,7 @@ services:
   
   asset-management:
     <<: *base-core-service
-    image: ${registry}asset-management:17.0.0-beta.2
+    image: ${REGISTRY}asset-management:17.0.0-beta.2
     container_name: asset-management
     environment:
       <<: *base-core-service-env
@@ -109,7 +115,7 @@ services:
   
   user-management:
     <<: *base-core-service
-    image: ghcr.io/fraunhoferisst/diva/user-management:4.0.0-beta.6
+    image: ${REGISTRY}user-management:4.0.0-beta.6
     container_name: user-management
     environment:
       <<: *base-core-service-env
@@ -124,7 +130,7 @@ services:
 
   review-management:
     <<: *base-core-service
-    image: ${registry}drm/review-management:1.0.0-beta.1
+    image: ${REGISTRY}review-management:1.0.0-beta.1
     container_name: reviews-management
     environment:
       <<: *base-core-service-env
@@ -181,7 +187,7 @@ services:
 
   elasticsearch-connector:
     <<: *base-core-service
-    image: ${registry}elasticsearch-connector:0.1.0-beta.3
+    image: ${REGISTRY}elasticsearch-connector:0.1.0-beta.3
     container_name: elasticsearch-connector
     depends_on:
       - broker
@@ -196,7 +202,7 @@ services:
       - ${ELASTICSEARCH_CONNECTOR_PORT}:${ELASTICSEARCH_CONNECTOR_PORT}
 
   search-assistant:
-    image: ${registry}search-assistant:0.1.0-alpha.3
+    image: ${REGISTRY}search-assistant:0.1.0-alpha.3
     container_name: search-assistant
     environment:
       <<: *elasticsearch-env
@@ -211,7 +217,7 @@ services:
       - core
 
   analytics-assistant:
-    image: ${registry}analytics-assistant:1.0.0-beta.2
+    image: ${REGISTRY}analytics-assistant:1.0.0-beta.2
     container_name: analytics-assistant
     environment:
       <<: *elasticsearch-env
@@ -230,7 +236,7 @@ services:
   # ####################################################################################################################
 
   history-assistant:
-    image: ${registry}history-assistant:0.0.1-beta.3
+    image: ${REGISTRY}history-assistant:0.0.1-beta.3
     container_name: history-assistant
     environment:
       <<: *base-core-service-env
@@ -249,7 +255,7 @@ services:
   # ####################################################################################################################
 
   profiling-assistant:
-    image: ${registry}profiling-assistant:1.0.0-beta.2
+    image: ${REGISTRY}profiling-assistant:1.0.0-beta.2
     container_name: profiling-assistant
     environment:
       <<: *mongodb-env
@@ -320,7 +326,7 @@ services:
   # ####################################################################################################################
 
   schema-registry:
-    image: ${registry}schema-registry:0.0.2
+    image: ${REGISTRY}schema-registry:0.0.2
     hostname: schema-registry
     container_name: schema-registry
     restart: always
@@ -355,7 +361,7 @@ services:
       - core
 
   diva-lake-adapter:
-    image: ${registry}diva-lake-adapter:0.1.0-beta.1
+    image: ${REGISTRY}diva-lake-adapter:0.1.0-beta.1
     container_name: diva-lake-adapter
     restart: always
     networks:
@@ -379,7 +385,7 @@ services:
   # ####################################################################################################################
 
   dsc-adapter:
-    image: ${registry}dsc-adapter:0.1.0-beta.1
+    image: ${REGISTRY}dsc-adapter:0.1.0-beta.1
     container_name: ids-adapter
     restart: always
     networks:
@@ -404,7 +410,7 @@ services:
   # ####################################################################################################################
 
   urban-pulse-adapter:
-    image: ${registry}urban-pulse-adapter:0.1.0-beta.0
+    image: ${REGISTRY}urban-pulse-adapter:0.1.0-beta.0
     container_name: urban-pulse-adapter
     restart: always
     networks:
@@ -424,7 +430,7 @@ services:
 
   event-emitter:
     <<: *base-core-service
-    image: ${registry}event-emitter:0.1.0-beta.2
+    image: ${REGISTRY}event-emitter:0.1.0-beta.2
     container_name: event-emitter
     depends_on:
       - broker

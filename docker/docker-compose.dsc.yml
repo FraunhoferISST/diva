@@ -1,3 +1,8 @@
+# ####################################################################################################################
+# Data Space Connector
+# Example configuration for the DSC (https://github.com/International-Data-Spaces-Association/DataspaceConnector)
+# ####################################################################################################################
+
 version: '3.9'
 
 services:

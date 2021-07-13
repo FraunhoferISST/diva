@@ -1,0 +1,4 @@
+sumy
+nltk
+numpy
+guess_language-spirit

@@ -1,0 +1,695 @@
+{
+    "tableCompleteness": 1,
+    "maxNumberOfRows": 56,
+    "numberOfColumns": 8,
+    "columnStatistics": [
+        {
+            "title": "airline",
+            "columnIndex": 0,
+            "numberOfNumbers": 0,
+            "numberOfStrings": 56,
+            "numberOfNullElements": 0,
+            "numberOfRows": 56,
+            "dataType": "string",
+            "frequencyStrings": [],
+            "minCharLength": 3,
+            "maxCharLength": 26,
+            "completeness": 1,
+            "maxNumberOfRows": 56,
+            "id": "col#0#airline"
+        },
+        {
+            "title": "avail_seat_km_per_week",
+            "columnIndex": 1,
+            "numberOfNumbers": 56,
+            "numberOfStrings": 0,
+            "numberOfNullElements": 0,
+            "numberOfRows": 56,
+            "dataType": "number",
+            "frequencyNumbers": [],
+            "sum": 77538793065,
+            "sumSquared": 225455312960067440000,
+            "sumSquaredError": 118093448139051520000,
+            "minValue": 259373346,
+            "maxValue": 7139291291,
+            "mean": 1384621304.732143,
+            "meanSquaredError": 2108811573911634200,
+            "median": 802908893,
+            "variancePopulation": 2108811573911634200,
+            "varianceSample": 2147153602528209400,
+            "standardDeviationPopulation": 1452174773.8862681,
+            "standardDeviationSample": 1465316894.9166625,
+            "meanDeviation": 1030451488.5389029,
+            "medianDeviation": 430887157.5,
+            "skewness": 2.2748168749400617,
+            "excessKurtosis": 5.383455419046772,
+            "coefficientVariation": 1.0487884080096497,
+            "quantileQ1": 474036222.75,
+            "quantileQ2": 802908893,
+            "quantileQ3": 1847239083.25,
+            "completeness": 1,
+            "maxNumberOfRows": 56,
+            "id": "col#1#avail_seat_km_per_week"
+        },
+        {
+            "title": "incidents_85_99",
+            "columnIndex": 2,
+            "numberOfNumbers": 56,
+            "numberOfStrings": 0,
+            "numberOfNullElements": 0,
+            "numberOfRows": 56,
+            "dataType": "number",
+            "frequencyNumbers": [
+                {
+                    "token": 2,
+                    "count": 9
+                },
+                {
+                    "token": 76,
+                    "count": 1
+                },
+                {
+                    "token": 6,
+                    "count": 2
+                },
+                {
+                    "token": 3,
+                    "count": 8
+                },
+                {
+                    "token": 14,
+                    "count": 1
+                },
+                {
+                    "token": 5,
+                    "count": 4
+                },
+                {
+                    "token": 7,
+                    "count": 5
+                },
+                {
+                    "token": 21,
+                    "count": 1
+                },
+                {
+                    "token": 1,
+                    "count": 7
+                },
+                {
+                    "token": 4,
+                    "count": 2
+                },
+                {
+                    "token": 0,
+                    "count": 3
+                },
+                {
+                    "token": 12,
+                    "count": 2
+                },
+                {
+                    "token": 24,
+                    "count": 1
+                },
+                {
+                    "token": 8,
+                    "count": 5
+                },
+                {
+                    "token": 25,
+                    "count": 1
+                },
+                {
+                    "token": 10,
+                    "count": 1
+                },
+                {
+                    "token": 19,
+                    "count": 1
+                },
+                {
+                    "token": 16,
+                    "count": 1
+                },
+                {
+                    "token": 9,
+                    "count": 1
+                }
+            ],
+            "sum": 402,
+            "sumSquared": 9584,
+            "sumSquaredError": 6698.214285714285,
+            "minValue": 0,
+            "maxValue": 76,
+            "mean": 7.178571428571429,
+            "meanSquaredError": 119.61096938775509,
+            "median": 4,
+            "variancePopulation": 119.61096938775509,
+            "varianceSample": 121.78571428571428,
+            "standardDeviationPopulation": 10.936679998416114,
+            "standardDeviationSample": 11.035656495456637,
+            "meanDeviation": 5.8265306122448965,
+            "medianDeviation": 3,
+            "skewness": 4.60347699461335,
+            "excessKurtosis": 25.34207064008027,
+            "coefficientVariation": 1.5235176117196576,
+            "quantileQ1": 2,
+            "quantileQ2": 4,
+            "quantileQ3": 8,
+            "completeness": 1,
+            "maxNumberOfRows": 56,
+            "id": "col#2#incidents_85_99"
+        },
+        {
+            "title": "fatal_accidents_85_99",
+            "columnIndex": 3,
+            "numberOfNumbers": 56,
+            "numberOfStrings": 0,
+            "numberOfNullElements": 0,
+            "numberOfRows": 56,
+            "dataType": "number",
+            "frequencyNumbers": [
+                {
+                    "token": 0,
+                    "count": 17
+                },
+                {
+                    "token": 14,
+                    "count": 1
+                },
+                {
+                    "token": 1,
+                    "count": 16
+                },
+                {
+                    "token": 4,
+                    "count": 3
+                },
+                {
+                    "token": 2,
+                    "count": 4
+                },
+                {
+                    "token": 5,
+                    "count": 3
+                },
+                {
+                    "token": 3,
+                    "count": 8
+                },
+                {
+                    "token": 6,
+                    "count": 1
+                },
+                {
+                    "token": 12,
+                    "count": 1
+                },
+                {
+                    "token": 8,
+                    "count": 1
+                },
+                {
+                    "token": 7,
+                    "count": 1
+                }
+            ],
+            "sum": 122,
+            "sumSquared": 716,
+            "sumSquaredError": 450.21428571428584,
+            "minValue": 0,
+            "maxValue": 14,
+            "mean": 2.1785714285714284,
+            "meanSquaredError": 8.039540816326532,
+            "median": 1,
+            "variancePopulation": 8.039540816326532,
+            "varianceSample": 8.185714285714289,
+            "standardDeviationPopulation": 2.8354084037976843,
+            "standardDeviationSample": 2.861068731385929,
+            "meanDeviation": 2.0216836734693877,
+            "medianDeviation": 1,
+            "skewness": 2.2345495153776818,
+            "excessKurtosis": 5.66864731956397,
+            "coefficientVariation": 1.3014989394481176,
+            "quantileQ1": 0,
+            "quantileQ2": 1,
+            "quantileQ3": 3,
+            "completeness": 1,
+            "maxNumberOfRows": 56,
+            "id": "col#3#fatal_accidents_85_99"
+        },
+        {
+            "title": "fatalities_85_99",
+            "columnIndex": 4,
+            "numberOfNumbers": 56,
+            "numberOfStrings": 0,
+            "numberOfNullElements": 0,
+            "numberOfRows": 56,
+            "dataType": "number",
+            "frequencyNumbers": [
+                {
+                    "token": 0,
+                    "count": 17
+                },
+                {
+                    "token": 128,
+                    "count": 1
+                },
+                {
+                    "token": 64,
+                    "count": 2
+                },
+                {
+                    "token": 79,
+                    "count": 1
+                },
+                {
+                    "token": 329,
+                    "count": 1
+                },
+                {
+                    "token": 50,
+                    "count": 1
+                },
+                {
+                    "token": 1,
+                    "count": 1
+                },
+                {
+                    "token": 101,
+                    "count": 1
+                },
+                {
+                    "token": 323,
+                    "count": 1
+                },
+                {
+                    "token": 535,
+                    "count": 1
+                },
+                {
+                    "token": 16,
+                    "count": 1
+                },
+                {
+                    "token": 47,
+                    "count": 1
+                },
+                {
+                    "token": 407,
+                    "count": 1
+                },
+                {
+                    "token": 282,
+                    "count": 1
+                },
+                {
+                    "token": 4,
+                    "count": 1
+                },
+                {
+                    "token": 167,
+                    "count": 1
+                },
+                {
+                    "token": 260,
+                    "count": 1
+                },
+                {
+                    "token": 148,
+                    "count": 1
+                },
+                {
+                    "token": 520,
+                    "count": 1
+                },
+                {
+                    "token": 3,
+                    "count": 2
+                },
+                {
+                    "token": 425,
+                    "count": 1
+                },
+                {
+                    "token": 21,
+                    "count": 1
+                },
+                {
+                    "token": 2,
+                    "count": 1
+                },
+                {
+                    "token": 34,
+                    "count": 1
+                },
+                {
+                    "token": 234,
+                    "count": 1
+                },
+                {
+                    "token": 74,
+                    "count": 1
+                },
+                {
+                    "token": 51,
+                    "count": 1
+                },
+                {
+                    "token": 313,
+                    "count": 1
+                },
+                {
+                    "token": 6,
+                    "count": 1
+                },
+                {
+                    "token": 159,
+                    "count": 1
+                },
+                {
+                    "token": 14,
+                    "count": 1
+                },
+                {
+                    "token": 229,
+                    "count": 1
+                },
+                {
+                    "token": 98,
+                    "count": 1
+                },
+                {
+                    "token": 308,
+                    "count": 1
+                },
+                {
+                    "token": 319,
+                    "count": 1
+                },
+                {
+                    "token": 224,
+                    "count": 1
+                },
+                {
+                    "token": 171,
+                    "count": 1
+                },
+                {
+                    "token": 82,
+                    "count": 1
+                }
+            ],
+            "sum": 6295,
+            "sumSquared": 1891131,
+            "sumSquaredError": 1183505.5535714282,
+            "minValue": 0,
+            "maxValue": 535,
+            "mean": 112.41071428571429,
+            "meanSquaredError": 21134.02774234693,
+            "median": 48.5,
+            "variancePopulation": 21134.02774234693,
+            "varianceSample": 21518.282792207785,
+            "standardDeviationPopulation": 145.37547159802074,
+            "standardDeviationSample": 146.691113542054,
+            "meanDeviation": 119.47130102040822,
+            "medianDeviation": 48.5,
+            "skewness": 1.2807594149721375,
+            "excessKurtosis": 0.6561473264887545,
+            "coefficientVariation": 1.2932528053199621,
+            "quantileQ1": 0,
+            "quantileQ2": 48.5,
+            "quantileQ3": 184.25,
+            "completeness": 1,
+            "maxNumberOfRows": 56,
+            "id": "col#4#fatalities_85_99"
+        },
+        {
+            "title": "incidents_00_14",
+            "columnIndex": 5,
+            "numberOfNumbers": 56,
+            "numberOfStrings": 0,
+            "numberOfNullElements": 0,
+            "numberOfRows": 56,
+            "dataType": "number",
+            "frequencyNumbers": [
+                {
+                    "token": 0,
+                    "count": 9
+                },
+                {
+                    "token": 6,
+                    "count": 4
+                },
+                {
+                    "token": 1,
+                    "count": 9
+                },
+                {
+                    "token": 5,
+                    "count": 6
+                },
+                {
+                    "token": 2,
+                    "count": 8
+                },
+                {
+                    "token": 4,
+                    "count": 5
+                },
+                {
+                    "token": 7,
+                    "count": 2
+                },
+                {
+                    "token": 17,
+                    "count": 1
+                },
+                {
+                    "token": 24,
+                    "count": 1
+                },
+                {
+                    "token": 3,
+                    "count": 5
+                },
+                {
+                    "token": 10,
+                    "count": 1
+                },
+                {
+                    "token": 11,
+                    "count": 2
+                },
+                {
+                    "token": 8,
+                    "count": 2
+                },
+                {
+                    "token": 14,
+                    "count": 1
+                }
+            ],
+            "sum": 231,
+            "sumSquared": 2089,
+            "sumSquaredError": 1136.125,
+            "minValue": 0,
+            "maxValue": 24,
+            "mean": 4.125,
+            "meanSquaredError": 20.287946428571427,
+            "median": 3,
+            "variancePopulation": 20.287946428571427,
+            "varianceSample": 20.65681818181818,
+            "standardDeviationPopulation": 4.504214296475183,
+            "standardDeviationSample": 4.544977247667823,
+            "meanDeviation": 3.1607142857142856,
+            "medianDeviation": 2,
+            "skewness": 2.1504963984219816,
+            "excessKurtosis": 5.805344687352983,
+            "coefficientVariation": 1.0919307385394383,
+            "quantileQ1": 1,
+            "quantileQ2": 3,
+            "quantileQ3": 5.25,
+            "completeness": 1,
+            "maxNumberOfRows": 56,
+            "id": "col#5#incidents_00_14"
+        },
+        {
+            "title": "fatal_accidents_00_14",
+            "columnIndex": 6,
+            "numberOfNumbers": 56,
+            "numberOfStrings": 0,
+            "numberOfNullElements": 0,
+            "numberOfRows": 56,
+            "dataType": "number",
+            "frequencyNumbers": [
+                {
+                    "token": 0,
+                    "count": 32
+                },
+                {
+                    "token": 1,
+                    "count": 12
+                },
+                {
+                    "token": 2,
+                    "count": 11
+                },
+                {
+                    "token": 3,
+                    "count": 1
+                }
+            ],
+            "sum": 37,
+            "sumSquared": 65,
+            "sumSquaredError": 40.55357142857141,
+            "minValue": 0,
+            "maxValue": 3,
+            "mean": 0.6607142857142857,
+            "meanSquaredError": 0.7241709183673466,
+            "median": 0,
+            "variancePopulation": 0.7241709183673466,
+            "varianceSample": 0.737337662337662,
+            "standardDeviationPopulation": 0.8509823255317037,
+            "standardDeviationSample": 0.8586836800228953,
+            "meanDeviation": 0.7551020408163265,
+            "medianDeviation": 0,
+            "skewness": 0.8827758509175948,
+            "excessKurtosis": -0.5621776380960957,
+            "coefficientVariation": 1.2879732494533895,
+            "quantileQ1": 0,
+            "quantileQ2": 0,
+            "quantileQ3": 1,
+            "completeness": 1,
+            "maxNumberOfRows": 56,
+            "id": "col#6#fatal_accidents_00_14"
+        },
+        {
+            "title": "fatalities_00_14",
+            "columnIndex": 7,
+            "numberOfNumbers": 56,
+            "numberOfStrings": 0,
+            "numberOfNullElements": 0,
+            "numberOfRows": 56,
+            "dataType": "number",
+            "frequencyNumbers": [
+                {
+                    "token": 0,
+                    "count": 32
+                },
+                {
+                    "token": 88,
+                    "count": 2
+                },
+                {
+                    "token": 337,
+                    "count": 1
+                },
+                {
+                    "token": 158,
+                    "count": 1
+                },
+                {
+                    "token": 7,
+                    "count": 1
+                },
+                {
+                    "token": 416,
+                    "count": 1
+                },
+                {
+                    "token": 225,
+                    "count": 1
+                },
+                {
+                    "token": 51,
+                    "count": 1
+                },
+                {
+                    "token": 14,
+                    "count": 1
+                },
+                {
+                    "token": 92,
+                    "count": 1
+                },
+                {
+                    "token": 22,
+                    "count": 1
+                },
+                {
+                    "token": 143,
+                    "count": 1
+                },
+                {
+                    "token": 283,
+                    "count": 1
+                },
+                {
+                    "token": 537,
+                    "count": 1
+                },
+                {
+                    "token": 46,
+                    "count": 1
+                },
+                {
+                    "token": 1,
+                    "count": 2
+                },
+                {
+                    "token": 110,
+                    "count": 1
+                },
+                {
+                    "token": 83,
+                    "count": 1
+                },
+                {
+                    "token": 3,
+                    "count": 1
+                },
+                {
+                    "token": 188,
+                    "count": 1
+                },
+                {
+                    "token": 84,
+                    "count": 1
+                },
+                {
+                    "token": 109,
+                    "count": 1
+                },
+                {
+                    "token": 23,
+                    "count": 1
+                }
+            ],
+            "sum": 3109,
+            "sumSquared": 854329,
+            "sumSquaredError": 681723.9821428568,
+            "minValue": 0,
+            "maxValue": 537,
+            "mean": 55.517857142857146,
+            "meanSquaredError": 12173.6425382653,
+            "median": 0,
+            "variancePopulation": 12173.6425382653,
+            "varianceSample": 12394.981493506488,
+            "standardDeviationPopulation": 110.33423103581816,
+            "standardDeviationSample": 111.33275121682068,
+            "meanDeviation": 75.29400510204084,
+            "medianDeviation": 0,
+            "skewness": 2.6024405602063374,
+            "excessKurtosis": 6.79016369144829,
+            "coefficientVariation": 1.9873647275670046,
+            "quantileQ1": 0,
+            "quantileQ2": 0,
+            "quantileQ3": 83.25,
+            "completeness": 1,
+            "maxNumberOfRows": 56,
+            "id": "col#7#fatalities_00_14"
+        }
+    ]
+}

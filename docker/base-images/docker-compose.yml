@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+
+  base-node14-python3:
+    image: ghcr.io/fraunhoferisst/diva/base-node14-python3:1.0.0
+    build:
+      context: base-node14-python3
+
+  base-node14-java8:
+    image: ghcr.io/fraunhoferisst/diva/base-node14-java8:1.0.0
+    build:
+      context: base-node14-java8
+  
+  base-python3-nltk:
+    image: ghcr.io/fraunhoferisst/diva/base-python3-nltk:1.0.0
+    build:
+      context: base-python3-nltk
+
+  base-python3:
+    image: ghcr.io/fraunhoferisst/diva/base-python3:1.0.0
+    build:
+      context: base-python3    
+  

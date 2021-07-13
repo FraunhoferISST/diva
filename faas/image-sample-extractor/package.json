@@ -1,0 +1,24 @@
+{
+  "name": "image-sample-extractor",
+  "version": "3.0.0",
+  "description": "a microservice for extracting thumbnails of resources",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "eslint-fix": "eslint --fix *.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^9.1.0",
+    "sharp": "^0.28.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.24.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.2.1"
+  }
+}

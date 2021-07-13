@@ -1,4 +1,5 @@
 FROM apache/airflow:2.0.2
+LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
 
 USER root
 #RUN useradd airflow

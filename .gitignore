@@ -16,7 +16,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+# *.jar
 *.war
 *.nar
 *.ear
@@ -283,4 +283,5 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+.idea
 # End of https://www.toptal.com/developers/gitignore/api/node,python,vue,java

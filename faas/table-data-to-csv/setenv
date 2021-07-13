@@ -1,0 +1,3 @@
+export INPUT_FILE=airline.csv
+export OUTPUT_FILE=test.csv
+export MIME_TYPE=text/csv

@@ -1,7 +1,13 @@
+# ####################################################################################################################
+# Airflow workflow engine
+# Uses adjust Airflow image
+# ####################################################################################################################
+
+
 version: '3.9'
 x-airflow-common:
   &airflow-common
-  image: registry.gitlab.cc-asp.fraunhofer.de:4567/diva/drm/airflow:5.0.0
+  image: ghcr.io/fraunhoferisst/diva/airflow:5.0.0
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -60,6 +66,9 @@ services:
     restart: always
     networks:
       - core
+
+  airflow:
+    <<: *airflow-common
 
   airflow-webserver:
     <<: *airflow-common

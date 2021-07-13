@@ -1,0 +1,28 @@
+{
+  "name": "diva-faas-personal-data-evaluation",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "start-local": "node app.js"
+  },
+  "dependencies": {
+    "corenlp": "^1.5.2",
+    "fs-extra": "^8.1.0",
+    "jstring": "^1.3.0",
+    "natural": "^0.6.3",
+    "ner-promise": "^1.0.1",
+    "ner-server": "^2.0.2",
+    "node-nlp": "^4.3.0",
+    "spacy-nlp": "^1.0.11",
+    "tmp-promise": "^2.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1"
+  }
+}

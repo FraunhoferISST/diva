@@ -1,0 +1,3 @@
+export INPUT_FILE=./sample/test.csv
+export OUTPUT_FILE=test.json
+export MIME_TYPE=text/csv

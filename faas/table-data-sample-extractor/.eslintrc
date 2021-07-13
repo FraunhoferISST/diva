@@ -1,0 +1,29 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 10,
+    "sourceType": "module"
+  },
+  "extends": [
+    "plugin:prettier/recommended",
+    "airbnb-base"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "no-console": 0,
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "indent": "off",
+    "comma-dangle": "off",
+    "implicit-arrow-linebreak": "off",
+    "quotes": [
+      "error",
+      "double"
+    ]
+  }
+}

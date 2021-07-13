@@ -1,3 +1,8 @@
+# ####################################################################################################################
+# Helpful monitoring tools
+# These services are not necessary for DIVA to function, but can help with debugging and monitoring
+# ####################################################################################################################
+
 version: '3.5'
 
 services:
