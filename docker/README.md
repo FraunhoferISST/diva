@@ -99,7 +99,7 @@ Push image to container registry:
 ```sh
 docker-compose -f docker-compose.faas.yml push text-keywords-extractor
 # for example
-docker-compose -f docker-compose.faas.yml push text-keywords-extractor
+docker-compose -f docker-compose.faas.yml -f docker-compose.faas.build.yml push text-keywords-extractor
 ```
 
 ### Manage Airflow
