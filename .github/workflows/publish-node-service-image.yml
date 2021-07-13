@@ -25,7 +25,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      -name: list
+      - name: list
         run: ls
 
       - name: get-npm-version
