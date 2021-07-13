@@ -3,10 +3,14 @@ name: Create and publish a Docker image
 on:
   push:
     branches: ['Add_ci_pipeline']
+    paths:
+      - "core/services/test-service/**"
+      - "!*.md"
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  PATH: core/services/test-service
 
 jobs:
   build-and-push-image:
@@ -19,11 +23,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: List all added files
-        run: |
-          for file in ${{ steps.changed-files.outputs.modified_files }}; do
-            echo "$file was changed"
-          done
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
+        with:
+          path: ${{ env.REGISTRY }}
 
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
