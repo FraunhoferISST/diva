@@ -21,8 +21,8 @@ jobs:
 
       - name: List all added files
         run: |
-          for file in "${{ steps.changed-files.outputs.modified_files }}"; do
-            echo "$file was added"
+          for file in ${{ steps.changed-files.outputs.modified_files }}; do
+            echo "$file was changed"
           done
 
       - name: Log in to the Container registry
