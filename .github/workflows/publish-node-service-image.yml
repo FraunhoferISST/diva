@@ -8,7 +8,7 @@ on:
       - "!*.md"
 
 env:
-  REGISTRY: ghcr.io/fraunhoferisst/diva/
+  REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: test-service
   SERVICE_PATH: core/services/test-service
 
