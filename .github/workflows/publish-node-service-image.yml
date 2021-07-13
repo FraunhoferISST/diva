@@ -3,9 +3,6 @@ name: Create and publish a Docker image
 on:
   push:
     branches: ['Add_ci_pipeline']
-    paths:
-      - "core/services/test-service/**"
-      - "!*.md"
 
 env:
   REGISTRY: ghcr.io
