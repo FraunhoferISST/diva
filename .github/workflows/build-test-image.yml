@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Check Python
-        run: python
+        run: python setup.py --version
 
       - name: Checkout repository
         uses: actions/checkout@v2
