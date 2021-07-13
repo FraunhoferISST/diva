@@ -55,9 +55,9 @@ docker-compose pull user-management
 To explicitly build the image from source, specify the path to the build `.yml` :
 
 ```sh
-docker-compose -f docker-compose.build.yml build <service_name>
+docker-compose f docker-compose.yml -f docker-compose.build.yml build <service_name>
 # for example
-docker-compose -f docker-compose.build.yml build user-management
+docker-compose f docker-compose.yml -f docker-compose.build.yml build user-management
 ```
 
 **Push image**
@@ -87,9 +87,9 @@ docker-compose -f docker-compose.faas.yml pull text-keywords-extractor
 To explicitly build the image from source, specify the path to the build `.yml` :
 
 ```sh
-docker-compose -f docker-compose.faas.build.yml build <service_name>
+docker-compose -f docker-compose.faas.yml -f docker-compose.faas.build.yml build <service_name>
 # for example
-docker-compose -f docker-compose.faas.build.yml build text-keywords-extractor
+docker-compose -f docker-compose.faas.yml -f docker-compose.faas.build.yml build text-keywords-extractor
 ```
 
 **Push image**
