@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="test-python-services",
-    version="5.0.567",
+    version="5.0.568",
     author="Example Author",
     author_email="author@example.com",
     description="Extracts apriori associations for CSV and SAS7BDAT",
