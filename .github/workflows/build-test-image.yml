@@ -16,11 +16,14 @@ jobs:
       packages: write
 
     steps:
-      - name: Check Python
-        run: python setup.py --version
-
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: List all added files
+        run: |
+          for file in "${{ steps.changed-files.outputs.added_files }}"; do
+            echo "$file was added"
+          done
 
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
