@@ -1,16 +1,16 @@
-name: Create and publish a Docker image
+name: Build and publish +name+ image
 
 on:
   push:
     branches: ['Add_ci_pipeline']
     paths:
-      - "core/services/test-python-service/**"
+      - "+path+/**"
       - "!*.md"
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  IMAGE_NAME: test-service
-  SERVICE_PATH: core/services/test-python-service
+  IMAGE_NAME: +name+
+  SERVICE_PATH: +path+
 
 jobs:
   build-and-push-image:
