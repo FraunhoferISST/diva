@@ -1,0 +1,31 @@
+name: Create and publish a Docker image
+
+on:
+  push:
+    branches: ['Add_ci_pipeline']
+    paths:
+      - "core/services/test-python-service/**"
+      - "!*.md"
+
+env:
+  REGISTRY: ghcr.io/fraunhoferisst/diva
+  IMAGE_NAME: test-service
+  SERVICE_PATH: core/services/test-python-service
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: get-version
+        id: package-version
+        run: echo ::set-output name=VERSION::python ${env.SERVICE_PATH}/setup.py --version
+
+      - name: showv
+        run: echo ${{ steps.package-version.outputs.VERSION }}
