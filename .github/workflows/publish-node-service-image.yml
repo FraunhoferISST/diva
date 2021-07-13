@@ -18,6 +18,9 @@ jobs:
     permissions:
       contents: read
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: get-npm-version
         id: version
         uses: martinbeentjes/npm-get-version-action@master
