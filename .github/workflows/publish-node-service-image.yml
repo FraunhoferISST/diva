@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  PATH: core/services/test-service
+  SERVICE_PATH: core/services/test-service
 
 jobs:
   build-and-push-image:
@@ -27,7 +27,7 @@ jobs:
         id: package-version
         uses: martinbeentjes/npm-get-version-action@master
         with:
-          path: ${{ env.REGISTRY }}
+          path: ${{ env.SERVICE_PATH }}
 
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
