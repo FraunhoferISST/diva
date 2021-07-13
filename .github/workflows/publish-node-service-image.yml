@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  SERVICE_PATH: core/services/test-service
+  SERVICE_PATH: ./core/services/test-service
 
 jobs:
   build-and-push-image:
