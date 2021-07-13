@@ -25,7 +25,7 @@ jobs:
 
       - name: get-version
         id: package-version
-        run: echo ::set-output name=VERSION::python core/services/test-python-service/setup.py --version
+        run: echo ::set-output name=VERSION::$(python core/services/test-python-service/setup.py --version)
 
       - name: showv
         run: echo ${{ steps.package-version.outputs.VERSION }}

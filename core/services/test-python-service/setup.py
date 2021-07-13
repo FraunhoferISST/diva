@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(
-    name="test-python-services",
+    name="test-python-service",
     version="2.0.1",
     author="Example Author",
     author_email="author@example.com",
