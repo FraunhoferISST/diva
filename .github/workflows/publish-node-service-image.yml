@@ -41,5 +41,5 @@ jobs:
         with:
           context: ${{ env.SERVICE_PATH }}
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          labels: ${{ steps.package-version.outputs.current-version}}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: ${{ steps.package-version.outputs.current-version}}
