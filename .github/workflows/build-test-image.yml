@@ -15,6 +15,9 @@ jobs:
       contents: read
       packages: write
 
+    - name: Check Python
+      run: python
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
