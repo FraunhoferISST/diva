@@ -21,7 +21,7 @@ jobs:
 
       - name: List all added files
         run: |
-          for file in "${{ steps.changed-files.outputs.added_files }}"; do
+          for file in "${{ steps.changed-files.outputs.modified_files }}"; do
             echo "$file was added"
           done
 
