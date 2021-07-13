@@ -22,7 +22,7 @@ jobs:
         id: version
         uses: martinbeentjes/npm-get-version-action@master
         with:
-          path: ${{ env.REGISTRY }}
+          path: ${{ env.PATH }}
 
   build-and-push-image:
     runs-on: ubuntu-latest
