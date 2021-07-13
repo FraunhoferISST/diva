@@ -1,1 +1,1 @@
-console.log("dasd")
+console.log("")
