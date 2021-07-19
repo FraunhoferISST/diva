@@ -25,4 +25,5 @@ jobs:
       packages: write
 
     steps:
+      - uses: actions/checkout@v2
       - uses: ./.github/workflows/composite
