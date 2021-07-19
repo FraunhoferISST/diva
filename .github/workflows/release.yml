@@ -1,0 +1,67 @@
+# Create a DIVA release on each new tag and attach distribution to the release
+
+name: Release DIVA
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  get-tag-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get tag
+        id: get_tag
+        run: echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\//}
+        shell: bash
+      - name: Is prerelease
+        id: is_prerelease
+        env:
+          PRERELEASE: ${{ contains(steps.get_tag.outputs.TAG, 'beta') || contains(steps.get_tag.outputs.TAG, 'alpha') }}
+        run: echo ::set-output name=PRERELEASE::$PRERELEASE
+      - name: Is beta
+        id: is_beta
+        env:
+          BETA: ${{ contains(steps.get_tag.outputs.TAG, 'beta') }}
+        run: echo ::set-output name=BETA::$BETA
+      - name: Is alpha
+        id: is_alpha
+        env:
+          ALPHA: ${{ contains(steps.get_tag.outputs.TAG, 'alpha') }}
+        run: echo ::set-output name=ALPHA::$ALPHA
+      - run: echo "Tag:" ${{steps.get_tag.outputs.TAG}}
+      - run: echo "Prerelease:" ${{steps.is_prerelease.outputs.PRERELEASE}}
+    outputs:
+      alpha:  ${{ steps.is_alpha.outputs.ALPHA }}
+      beta:  ${{ steps.is_beta.outputs.BETA }}
+      prerelease:  ${{ steps.is_prerelease.outputs.PRERELEASE }}
+      current_tag:  ${{ steps.get_tag.outputs.TAG }}
+
+  create-release:
+    needs: [get-tag-info]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build distrubution
+        run: build-dist.sh ${{needs.get-tag-info.outputs.current_tag}}
+      - uses: ncipollo/release-action@v1
+        with:
+          body: DIVA ${{needs.get-tag-info.outputs.prerelease}} release. Please refer to the CHANGELOG.md to see what's new.
+          token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: ${{needs.get-tag-info.outputs.prerelease}}
+          artifacts: dist/docker-deployment-${{needs.get-tag-info.outputs.current_tag}}
+
+  update-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Update CHANGELOG-md
+        run: |
+          npx autochangelog
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add CHANGELOG.md
+          git commit -m "chore: update CHANGELOG.md"
+          git push
