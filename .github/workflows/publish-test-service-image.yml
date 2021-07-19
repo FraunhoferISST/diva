@@ -6,6 +6,11 @@ on:
     paths:
       - "core/services/test-service/**"
       - "!*.md"
+  pull_request:
+    branches: [ 'Add_ci_pipeline' ]
+    paths:
+      - "core/services/test-service/**"
+      - "!*.md"
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
