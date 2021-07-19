@@ -2,19 +2,17 @@
   <img src="https://owncloud.fraunhofer.de/index.php/s/aAuhMQl4gNiFDsa/download" />
 </div>
 <!-- START TOP README -->
-<h1 align="center">DIVA - Data Inventory and Valuation Approach 📚</h1>
-
-[![version](https://img.shields.io/badge/diva-v2.1.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/drm)
-
-<div align="center">
-  <h2>📡⚗🧪🧬</h2>
-</div>
+<h2 align="center">DIVA - Data Inventory and Valuation Approach</h1>
 <div align="center">
   <strong>An awesome data catalog application</strong>
 </div>
 <div align="center">
   Developed for evaluating the newest data management technologies in context of data transparency, data insight and data networking
 </div>
+
+<br />
+
+[![version](https://img.shields.io/badge/diva-v2.1.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/drm)
 
 <br />
 
@@ -29,9 +27,9 @@
 
 - [Motivation](#motivation)
 - [Features](#features)
-- [Screenshots](#screenshots)
 - [Technologies and Frameworks used](#technologies-and-frameworks-used)
 - [Quick start](#quick-start)
+- [Documentation](https://fraunhoferisst.github.io/diva-docs/)
 
 <!-- END TABLE OF CONTENT -->
 
@@ -81,9 +79,8 @@ We also use this tool as a playground for our students, where they can work out 
 > ⚠️ 
 > The project is currently being migrated to GitHub and we are in the reconstruction phase.
 > In parallel, we are putting a lot of effort into writing a comprehensive documentation for DIVA.
-> But this will also take some time. Currently, this is the only piece of information we can provide
 
- The whole system can be bootstrapped with Docker:
+ The whole system can be bootstrapped in your deployment environment with Docker:
 ```sh
 cd docker
 # create .env and copy contents from .env.default to it
@@ -91,6 +88,8 @@ cp .env.default .env
 # execute the script to boot all necessary components
 ./up_core.sh
 ```
+
+In the [documentation](https://fraunhoferisst.github.io/diva-docs/) you will learn more about the configuration of DIVA, concepts and architecture!
 
 ## Credits
 
