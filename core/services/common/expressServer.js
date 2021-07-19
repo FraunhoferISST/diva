@@ -3,21 +3,21 @@ const chalk = require("chalk");
 const cors = require("cors");
 const path = require("path");
 const OpenApiValidator = require("express-openapi-validator");
-const packageJson = require("./package.json");
-const {
-  createError,
-  isOpenAPISpecValidationError,
-  isCustomError,
-  createOpenAPIValidationError,
-} = require("./utils/errors");
-
-const PORT = process.env.PORT || 3001;
+const WORK_DIR = process.cwd();
 const NODE_ENV = process.env.NODE_ENV || "development";
-const corsOpt = {
+const corsDefaults = {
   origin: process.env.CORS_ALLOW_ORIGIN || "*",
   methods: ["GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: ["Content-Type"],
 };
+
+const {
+  createError,
+  isCustomError,
+  isOpenAPISpecValidationError,
+  createOpenAPIValidationError,
+} = require(`${WORK_DIR}/utils/errors`);
+const packageJson = require(`${WORK_DIR}/package.json`);
 
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
@@ -34,7 +34,7 @@ const errorHandler = (err, req, res, next) => {
   }
 };
 
-module.exports = (onBoot, port = PORT) =>
+module.exports = (onBoot, { port, openapiPath, corsOptions = {} }) =>
   new Promise(async (resolve, reject) => {
     try {
       console.info(
@@ -43,26 +43,16 @@ module.exports = (onBoot, port = PORT) =>
         )
       );
       const app = express();
-      app.use(express.json({ limit: "10mb", extended: true }));
-      app.use(express.urlencoded({ limit: "10mb", extended: false }));
-      app.use(cors(corsOpt));
+      app.use(cors({ ...corsDefaults, ...corsOptions }));
       app.use(
         OpenApiValidator.middleware({
-          apiSpec: path.join(__dirname, "./apiDoc/openapi.yml"),
+          apiSpec: openapiPath || `${WORK_DIR}/apiDocs/openapi.yml`,
         })
       );
-      // TODO: extract image file, fix until https://github.com/cdimascio/express-openapi-validator/pull/464 resolved
-      app.use((req, res, next) => {
-        if (req.files) {
-          req.file = req.files[0];
-          delete req.body.image;
-        }
-        next();
-      });
-      docker;
 
       await onBoot(app);
       app.use(errorHandler);
+
       const server = app.listen(port, () => {
         console.info(
           chalk.blue(`✅ REST API ready at port ${server.address().port} 🌐`)
@@ -72,7 +62,6 @@ module.exports = (onBoot, port = PORT) =>
       });
     } catch (e) {
       console.error(e);
-      reject(e);
       process.exit(1);
     }
   });

@@ -1,0 +1,12 @@
+{
+  "name": "@diva/common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "expressServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node expressServer.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
