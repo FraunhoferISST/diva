@@ -25,4 +25,4 @@ jobs:
       packages: write
 
     steps:
-      - uses: ./composite/composite-publish-node-service-image.yml
+      - uses: ./composite/action.yml
