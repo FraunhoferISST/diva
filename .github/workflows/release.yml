@@ -44,24 +44,26 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build distrubution
-        run: build-dist.sh ${{needs.get-tag-info.outputs.current_tag}}
+        run: ./build-dist.sh
       - uses: ncipollo/release-action@v1
         with:
-          body: DIVA ${{needs.get-tag-info.outputs.prerelease}} release. Please refer to the CHANGELOG.md to see what's new.
+          body: DIVA ${{needs.get-tag-info.outputs.current_tag}} release. Please refer to the CHANGELOG.md to see what's new.
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: ${{needs.get-tag-info.outputs.prerelease}}
-          artifacts: dist/docker-deployment-${{needs.get-tag-info.outputs.current_tag}}
+          artifacts: dist/docker-deployment.zip
 
   update-changelog:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: master
       - uses: actions/setup-node@v2
       - name: Update CHANGELOG-md
         run: |
-          npx autochangelog
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add CHANGELOG.md
-          git commit -m "chore: update CHANGELOG.md"
-          git push
+          npx auto-changelog -o CHANGELOG.md -t changelog-template.hbs
+      - uses: EndBug/add-and-commit@v7
+        with:
+          default_author: github_actions
+          message: "chore: update CHANGELOG.md"
+          add: "CHANGELOG.md"

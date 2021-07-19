@@ -28,4 +28,6 @@ cp -r "$SCHEMAS_FOLDER" "$DOCKER_DIST_FOLDER"
 
 echo "# DIVA Docker distribution\nQuick start:\n\`\`\`\ncd docker\n./up_core.sh\n\`\`\`" >> "$DOCKER_DIST_FOLDER/README.md"
 
+zip -r dist/docker-deployment.zip dist/docker-deployment
+
 echo "🚀 Finished"
