@@ -25,4 +25,4 @@ jobs:
       packages: write
 
     steps:
-      - uses: ./.github/workflows/composite/action.yml
+      - uses: ./.github/workflows/composite
