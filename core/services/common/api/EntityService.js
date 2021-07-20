@@ -2,8 +2,6 @@ const { ObjectId } = require("mongodb");
 const createHistoryEntry = require("../createHistoryEntry");
 const { entityAlreadyExistsError, entityNotFoundError } = require("../Error");
 
-const historyCollectionName =
-  process.env.HISTORY_COLLECTION_NAME || "histories";
 const HISTORY_ROOT_SCHEMA = process.env.HISTORY_ROOT_SCHEMA || "history";
 
 const createProjectionObject = (projectionQuery) => {
@@ -100,7 +98,7 @@ class EntityService {
 
   updateById(id, entity) {
     return this.collection
-      .update({ id }, entity, {
+      .replaceOne({ id }, entity, {
         upsert: true,
       })
       .catch((err) => {
@@ -113,7 +111,10 @@ class EntityService {
 
   async patchById(id, patch, actorId) {
     if (await this.entityExists(id)) {
-      const existingEntity = await this.getById(id);
+      const existingEntity = await this.collection.findOne(
+        { id },
+        { projection: { _id: false } }
+      );
       const updatedEntity = {
         ...existingEntity,
         ...patch,
@@ -124,7 +125,7 @@ class EntityService {
         modified: new Date().toISOString(),
       };
       this.validate(updatedEntity);
-      this.updateById(id, updatedEntity);
+      await this.updateById(id, updatedEntity);
       return this.createHistoryEntry(existingEntity, updatedEntity, actorId);
     }
     throw entityNotFoundError;
