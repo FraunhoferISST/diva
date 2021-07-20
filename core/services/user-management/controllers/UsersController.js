@@ -4,7 +4,7 @@ const usersService = require("../services/UsersService");
 class UsersController {
   async registerUser(req, res, next) {
     try {
-      const newUserId = await usersService.createUser(req.body);
+      const newUserId = await usersService.create(req.body);
       res.status(201).send(newUserId);
       messagesProducer.produce(newUserId, newUserId, "create");
     } catch (err) {
@@ -14,7 +14,7 @@ class UsersController {
 
   async createUser(req, res, next) {
     try {
-      const newUserId = await usersService.createUser(
+      const newUserId = await usersService.create(
         req.body,
         req.headers["x-actorid"]
       );
@@ -31,7 +31,7 @@ class UsersController {
 
   async getUsers(req, res, next) {
     try {
-      const result = await usersService.getUsers(req.query);
+      const result = await usersService.get(req.query);
       res.status(200).send(result);
     } catch (err) {
       return next(err);
@@ -40,19 +40,8 @@ class UsersController {
 
   async getUser(req, res, next) {
     try {
-      const result = await usersService.getUserById(req.params.id, req.query);
+      const result = await usersService.getById(req.params.id, req.query);
       res.status(200).send(result);
-    } catch (err) {
-      return next(err);
-    }
-  }
-
-  async updateUser(req, res, next) {
-    try {
-      const { id } = req.params;
-      await usersService.updateUser(id, req.body, req.headers["x-actorid"]);
-      res.status(204).send();
-      messagesProducer.produce(id, req.headers["x-actorid"], "update");
     } catch (err) {
       return next(err);
     }
@@ -61,7 +50,7 @@ class UsersController {
   async patchUser(req, res, next) {
     try {
       const { id } = req.params;
-      await usersService.patchUser(id, req.body, req.headers["x-actorid"]);
+      await usersService.patchById(id, req.body, req.headers["x-actorid"]);
       res.status(204).send();
       messagesProducer.produce(id, req.headers["x-actorid"], "update");
     } catch (err) {
@@ -72,7 +61,7 @@ class UsersController {
   async deleteUser(req, res, next) {
     try {
       const { id } = req.params;
-      await usersService.deleteUser(id, req.headers["x-actorid"]);
+      await usersService.deleteById(id, req.headers["x-actorid"]);
       res.status(200).send();
       messagesProducer.produce(id, req.headers["x-actorid"], "delete");
     } catch (err) {

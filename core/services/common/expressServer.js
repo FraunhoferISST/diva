@@ -1,8 +1,8 @@
 const express = require("express");
 const chalk = require("chalk");
 const cors = require("cors");
-const path = require("path");
 const OpenApiValidator = require("express-openapi-validator");
+
 const WORK_DIR = process.cwd();
 const NODE_ENV = process.env.NODE_ENV || "development";
 const corsDefaults = {
@@ -16,7 +16,7 @@ const {
   isCustomError,
   isOpenAPISpecValidationError,
   createOpenAPIValidationError,
-} = require(`${WORK_DIR}/utils/errors`);
+} = require(`./Error`);
 const packageJson = require(`${WORK_DIR}/package.json`);
 
 // eslint-disable-next-line no-unused-vars
@@ -43,10 +43,12 @@ module.exports = (onBoot, { port, openapiPath, corsOptions = {} }) =>
         )
       );
       const app = express();
+      app.use(express.json({ limit: "10mb", extended: true }));
+      app.use(express.urlencoded({ limit: "10mb", extended: false }));
       app.use(cors({ ...corsDefaults, ...corsOptions }));
       app.use(
         OpenApiValidator.middleware({
-          apiSpec: openapiPath || `${WORK_DIR}/apiDocs/openapi.yml`,
+          apiSpec: openapiPath || `${WORK_DIR}/apiDoc/openapi.yml`,
         })
       );
 

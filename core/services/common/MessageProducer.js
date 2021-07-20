@@ -2,6 +2,7 @@ const { Kafka } = require("kafkajs");
 const { v4 } = require("uuid");
 const AsyncApiValidator = require("asyncapi-validator");
 const urljoin = require("url-join");
+const { createError } = require("./Error");
 
 const serviceId = `urn:uuid:${v4()}`;
 const KAFKA_URL = process.env.KAFKA_URL || "broker:9092";
@@ -28,7 +29,7 @@ const validateMessage = (msg, operation = "publish") => {
       operation
     );
   } catch (validationError) {
-    throw new Error(
+    throw createError(
       {
         type: validationError.name,
         message: `Supplied message for the operation "${validationError.key}" violates "${ASYNCAPI_SPECIFICATION}" schema`,

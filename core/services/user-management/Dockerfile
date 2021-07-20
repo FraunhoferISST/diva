@@ -7,6 +7,7 @@ WORKDIR /usr/src/
 ENV NODE_ENV=production
 
 COPY services/common ./services/common
+COPY services/eslint-config ./services/eslint-config
 COPY services/user-management ./services/user-management
 COPY *.json ./
 

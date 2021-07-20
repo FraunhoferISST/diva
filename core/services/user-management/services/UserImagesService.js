@@ -1,6 +1,6 @@
 const { Readable } = require("stream");
-const { v4 } = require("uuid");
-const { db } = require("../utils/database");
+const generateUuid = require("@diva/common/generateUuid");
+const { db } = require("../utils/mongoDbConnectors");
 const {
   imageNotFoundError,
   wrongImageFormatError,
@@ -16,7 +16,7 @@ const getImageObject = async (id) => {
 
 const imageExists = async (id) => !!(await getImageObject(id));
 
-const writeImage = async (file, id = v4()) => {
+const writeImage = async (file, id = generateUuid("image")) => {
   const { mimetype, buffer, originalname } = file;
   return new Promise((resolve, reject) => {
     const readable = Readable.from(buffer);

@@ -1,15 +1,12 @@
 const _ = require("lodash");
 const hasha = require("hasha");
 const jsondiffpatch = require("jsondiffpatch");
-
-const { generateHistoryId } = require("./util");
-const { validateHistorySchema } = require("./validation/jsonSchemaValidation");
+const generateUuid = require("./generateUuid");
 
 const jdp = jsondiffpatch.create({
   objectHash(obj) {
     const newObj = _(obj).toPairs().sortBy(0).fromPairs().value();
-    const hash = hasha(JSON.stringify(newObj), { algorithm: "sha256" });
-    return hash;
+    return hasha(JSON.stringify(newObj), { algorithm: "sha256" });
   },
   arrays: {
     detectMove: true,
@@ -24,8 +21,8 @@ const jdp = jsondiffpatch.create({
   cloneDiffValues: false,
 });
 
-const buildHistoryEntity = (oldObj, newObj, actorId) => ({
-  id: generateHistoryId(),
+const generateHistoryEntity = (oldObj, newObj, actorId) => ({
+  id: generateUuid("history"),
   created: new Date().toISOString(),
   modified: new Date().toISOString(),
   creatorId: actorId,
@@ -34,12 +31,4 @@ const buildHistoryEntity = (oldObj, newObj, actorId) => ({
   delta: jdp.diff(oldObj, newObj) || {},
 });
 
-const generateHistoryEntity = (oldObj, newObj, actorId) => {
-  const historyEntry = buildHistoryEntity(oldObj, newObj, actorId);
-  validateHistorySchema(historyEntry);
-  return historyEntry;
-};
-
-module.exports = {
-  generateHistoryEntity,
-};
+module.exports = generateHistoryEntity;

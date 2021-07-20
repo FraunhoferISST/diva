@@ -9,7 +9,7 @@ router.post("/", usersController.createUser);
 router.get("/", usersController.getUsers);
 router.get("/:id", usersController.getUser);
 router.post("/login", login);
-router.put("/:id", usersController.updateUser);
+// router.put("/:id", usersController.updateUser);
 router.patch("/:id", usersController.patchUser);
 router.post("/verify", verify);
 router.post("/register", usersController.registerUser);

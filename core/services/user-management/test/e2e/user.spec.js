@@ -3,7 +3,7 @@ const request = require("supertest");
 const chaiResponseValidator = require("chai-openapi-response-validator");
 
 const createTestServer = require("../testApp");
-const { db } = require("../../utils/database");
+const { db } = require("../../utils/mongoDbConnectors");
 const mockData = require("../mockData");
 
 chai.use(require("chai-sorted"));
