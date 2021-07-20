@@ -1,13 +1,15 @@
 const boot = require("@diva/common/expressServer");
+const messagesProducer = require("@diva/common/MessageProducer");
 const { passport } = require("./utils/passport");
 const usersRouter = require("./routes/users");
 const userImagesRouter = require("./routes/userImages");
-const messagesProducer = require("./services/MessagesProducerService");
 const { loadAsyncAPISpec } = require("./utils/validation/messagesValidation");
 const { loadSchemas } = require("./utils/validation/jsonSchemaValidation");
 const { db } = require("./utils/database");
+const serviceName = require("./package.json").name;
 
 const port = process.env.PORT || 3001;
+const topic = process.env.KAFKA_EVENT_TOPIC || "user.events";
 
 boot(
   (app) => {
@@ -27,7 +29,7 @@ boot(
 
     return Promise.all([
       db.connect(),
-      messagesProducer.init(),
+      messagesProducer.init(topic, serviceName),
       loadSchemas(),
       loadAsyncAPISpec(),
     ]);

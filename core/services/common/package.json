@@ -8,5 +8,16 @@
     "start": "node expressServer.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "asyncapi-validator": "^3.0.0",
+    "express": "^4.17.1",
+    "express-openapi-validator": "^4.12.14",
+    "kafkajs": "^1.15.0",
+    "url-join": "^4.0.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@diva/eslint-config": "^0.1.0"
+  }
 }

@@ -1,5 +1,5 @@
+const messagesProducer = require("@diva/common/MessageProducer");
 const usersService = require("../services/UsersService");
-const messagesProducer = require("../services/MessagesProducerService");
 
 class UsersController {
   async registerUser(req, res, next) {

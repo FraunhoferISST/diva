@@ -1,22 +1,19 @@
 FROM node:14.15.1-alpine
 LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
 
-ARG proxy
-ARG sproxy
-ARG noproxy
+RUN mkdir -p /usr/src
+WORKDIR /usr/src/
 
-ENV http_proxy="$proxy"
-ENV https_proxy="$sproxy"
-ENV no_proxy="$noproxy"
+ENV NODE_ENV=production
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+COPY services/common ./services/common
+COPY services/user-management ./services/user-management
+COPY *.json ./
 
-COPY package*.json ./
-RUN npm install --production
+RUN npm ci --ignore-scripts --production --no-optional
+RUN npx lerna bootstrap --hoist --ignore-scripts -- --production --no-optional
 
-COPY . .
+EXPOSE 3001
 
-EXPOSE 5000
-
-CMD npm run start
+# CMD npx lerna run start --scope=user-management
+CMD npm run start --prefix services/user-management

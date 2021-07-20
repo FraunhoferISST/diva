@@ -18,7 +18,8 @@ services:
   user-management:
     restart: unless-stopped
     build:
-      context: ../core/services/user-management
+      context: ../core
+      dockerfile: ../core/services/user-management/Dockerfile
     environment:
       - hostname=${DIVAHOSTNAME}
 
