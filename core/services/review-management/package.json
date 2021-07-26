@@ -16,6 +16,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@diva/common": "^1.0.0",
+    "@diva/eslint-config": "^0.1.0",
     "ajv": "^8.0.5",
     "ajv-formats": "^2.0.0",
     "asyncapi-validator": "^3.0.0",

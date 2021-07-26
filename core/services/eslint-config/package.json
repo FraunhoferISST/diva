@@ -10,5 +10,8 @@
     "eslint-plugin-prettier": "^3.4.0",
     "pkg": "^5.3.1",
     "prettier": "^2.3.2"
+  },
+  "dependencies": {
+    "@diva/common": "^1.0.0"
   }
 }

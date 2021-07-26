@@ -1,4 +1,4 @@
-const boot = require("@diva/common/expressServer");
+const boot = require("@diva/common/api/expressServer");
 const messagesProducer = require("@diva/common/MessageProducer");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const { passport } = require("./utils/passport");
@@ -29,7 +29,7 @@ boot(
     app.use("/userImages", userImagesRouter);
 
     return Promise.all([
-      messagesProducer.init(topic, serviceName),
+      messagesProducer.init(topic, serviceName, "userEvents"),
       jsonSchemaValidator.init([USER_ROOT_SCHEMA, HISTORY_ROOT_SCHEMA]),
       usersService.init(),
     ]);

@@ -29,8 +29,8 @@ services:
   resource-management:
     restart: unless-stopped
     build:
-      context: ../core/services/resource-management
-
+      context: ../core
+      dockerfile: ../core/services/resource-management/Dockerfile
   # ####################################################################################################################
   # Resource Management Microservice
   # ####################################################################################################################

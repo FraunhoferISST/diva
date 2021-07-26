@@ -2,14 +2,15 @@
   "name": "@diva/common",
   "version": "1.0.0",
   "description": "",
-  "main": "expressServer.js",
+  "main": "api/expressServer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node expressServer.js"
+    "start": "node api/expressServer.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@diva/eslint-config": "^0.1.0",
     "ajv": "^8.6.2",
     "ajv-formats": "^2.1.0",
     "asyncapi-validator": "^3.0.0",

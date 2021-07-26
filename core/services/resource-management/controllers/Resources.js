@@ -1,11 +1,8 @@
+const messageProducerService = require("@diva/common/MessageProducer");
 const resourcesService = require("../services/ResourcesService");
-const messageProducerService = require("../services/MessageProducerService");
 
 const createSingleResource = async (resource, actorid) => {
-  const newResourceId = await resourcesService.createResource(
-    resource,
-    actorid
-  );
+  const newResourceId = await resourcesService.create(resource, actorid);
   messageProducerService.produce(newResourceId, actorid, "create");
   return newResourceId;
 };
@@ -29,7 +26,7 @@ const processCreateBulkRequest = async (bulk, actorid) =>
 class ResourcesController {
   async getResources(req, res, next) {
     try {
-      const result = await resourcesService.getResources(req.query);
+      const result = await resourcesService.get(req.query);
       res.status(200).send(result);
     } catch (err) {
       return next(err);
@@ -38,10 +35,7 @@ class ResourcesController {
 
   async getResource(req, res, next) {
     try {
-      const result = await resourcesService.getResourceById(
-        req.params.id,
-        req.query
-      );
+      const result = await resourcesService.getById(req.params.id, req.query);
       res.status(200).send(result);
     } catch (err) {
       return next(err);
@@ -67,21 +61,9 @@ class ResourcesController {
     try {
       const { id } = req.params;
       const actorId = req.headers["x-actorid"];
-      await resourcesService.deleteResource(id);
+      await resourcesService.deleteById(id);
       res.send();
       messageProducerService.produce(id, actorId, "delete");
-    } catch (err) {
-      return next(err);
-    }
-  }
-
-  async updateResource(req, res, next) {
-    try {
-      const { id } = req.params;
-      const actorId = req.headers["x-actorid"];
-      await resourcesService.updateResource(id, req.body, actorId);
-      res.send();
-      messageProducerService.produce(id, actorId, "update");
     } catch (err) {
       return next(err);
     }
@@ -91,7 +73,7 @@ class ResourcesController {
     try {
       const { id } = req.params;
       const actorId = req.headers["x-actorid"];
-      await resourcesService.patchResource(id, req.body, actorId);
+      await resourcesService.patchById(id, req.body, actorId);
       res.send();
       messageProducerService.produce(id, actorId, "update");
     } catch (err) {

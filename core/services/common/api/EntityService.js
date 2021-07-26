@@ -26,13 +26,21 @@ const createNextCursor = async (currentDoc, collection) => {
 
 class EntityService {
   constructor() {
-    this.collection = {};
-    this.historyCollection = {};
-    this.jsonSchemaValidator = {};
+    this.collection = {}; // primary entity collection (users, resources...)
+    this.historyCollection = {}; // collection for history entries
+    this.jsonSchemaValidator = {}; // initialized JsonSchemaValidator instance
   }
 
   init() {
-    // Override;
+    // Override to initialize collections in constructor
+  }
+
+  validate() {
+    // Override how to validate entity
+  }
+
+  sanitizeEntity() {
+    // Override
   }
 
   async create(entity, actorId) {
@@ -151,14 +159,6 @@ class EntityService {
 
   count() {
     return this.collection.countDocuments({});
-  }
-
-  validate() {
-    // Override
-  }
-
-  sanitizeEntity() {
-    // Override this
   }
 }
 

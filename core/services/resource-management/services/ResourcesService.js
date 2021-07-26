@@ -1,48 +1,32 @@
-const { mongoDb, ObjectId } = require("../utils/mongoDb");
+const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
+const EntityService = require("@diva/common/api/EntityService");
+const generateUuid = require("@diva/common/generateUuid");
 const {
-  resourceNotFoundError,
-  resourceAlreadyExistsError,
-} = require("../utils/errors");
-const {
-  validateJsonSchema,
-} = require("../utils/validation/jsonSchemaValidation");
-const { generateResourceId } = require("../utils/util");
-const { generateHistoryEntity } = require("../utils/history");
+  resourcesMongoDbConnector,
+  historyMongoDbConnector,
+} = require("../utils/mongoDbConnectors");
 
-const sanitizeResource = ({ _id, ...rest }) => rest;
+const RESOURCES_ROOT_SCHEMA = process.env.USER_ROOT_SCHEMA || "resource";
+const HISTORY_ROOT_SCHEMA = process.env.HISTORY_ROOT_SCHEMA || "history";
 
-const resourceExists = async (id, collection) =>
-  (await collection.countDocuments({ id }, { limit: 1 })) !== 0;
+const resourcesCollectionName =
+  process.env.MONGO_COLLECTION_NAME || "resources";
+const historyCollectionName =
+  process.env.HISTORY_COLLECTION_NAME || "histories";
 
-const createProjection = (projectionQuery) => {
-  const projectionObject = {};
-  if (projectionQuery) {
-    for (const field of projectionQuery.split(",")) {
-      projectionObject[field] = 1;
-    }
-  }
-  return projectionObject;
-};
-
-const encodeCursor = (data) => Buffer.from(data, "utf8").toString("base64");
-const decodeCursor = (data) => Buffer.from(data, "base64").toString();
-const createNextPageQuery = (id) => ({ _id: { $lt: ObjectId(id) } });
-const createNextCursor = async (currentDoc, collection) => {
-  const nextDoc = await collection.findOne({
-    _id: { $lt: ObjectId(currentDoc._id) },
-  });
-  return nextDoc ? encodeCursor(`${currentDoc._id}`) : undefined;
-};
-
-const createHistoryEntry = async (oldObj, newObj, actorId) => {
-  const historyEntity = generateHistoryEntity(oldObj, newObj, actorId);
-  return mongoDb.historyCollection.insertOne(historyEntity);
-};
-
-class ResourcesService {
+class ResourcesService extends EntityService {
   async init() {
-    await mongoDb.connect();
-    this.collection = mongoDb.resourceCollection;
+    await jsonSchemaValidator.init([
+      RESOURCES_ROOT_SCHEMA,
+      HISTORY_ROOT_SCHEMA,
+    ]);
+    await historyMongoDbConnector.connect();
+    await resourcesMongoDbConnector.connect();
+    this.collection =
+      resourcesMongoDbConnector.collections[resourcesCollectionName];
+    this.historyCollection =
+      historyMongoDbConnector.collections[historyCollectionName];
+    this.jsonSchemaValidator = jsonSchemaValidator;
     this.collection.createIndex(
       { uniqueFingerprint: 1 },
       {
@@ -52,105 +36,21 @@ class ResourcesService {
     );
   }
 
-  async createResource(resource, actorId) {
+  async create(resource, actorId) {
     const newResource = {
       ...resource,
-      id: generateResourceId(),
-      created: new Date().toISOString(),
-      modified: new Date().toISOString(),
-      creatorId: actorId,
+      id: generateUuid("resource"),
       entityType: "resource",
     };
-    validateJsonSchema(newResource);
-    await this.collection.insertOne({ ...newResource }).catch((err) => {
-      if (err.code && err.code === 11000) {
-        throw resourceAlreadyExistsError;
-      }
-      throw err;
-    });
-    await createHistoryEntry({}, newResource, actorId);
-    return newResource.id;
+    return super.create(newResource, actorId);
   }
 
-  async deleteResource(id) {
-    if (await resourceExists(id, this.collection)) {
-      // TODO: delete history? --> HA listens to delete Events and does clean up
-      return this.collection.deleteOne({ id });
-    }
-    throw resourceNotFoundError;
+  validate(user) {
+    jsonSchemaValidator.validate(RESOURCES_ROOT_SCHEMA, user);
   }
 
-  async getResourceById(id, query = {}) {
-    const { fields } = query;
-    if (await resourceExists(id, this.collection)) {
-      return sanitizeResource(
-        await this.collection.findOne(
-          { id },
-          { projection: createProjection(fields) }
-        )
-      );
-    }
-    throw resourceNotFoundError;
-  }
-
-  async updateResource(id, resource, actorId) {
-    validateJsonSchema(resource);
-    const existingResource = await this.getResourceById(id);
-    await this.collection.replaceOne(
-      { id },
-      { ...resource, id },
-      {
-        upsert: true,
-      }
-    );
-    await createHistoryEntry(existingResource, resource, actorId);
-    return resource.id;
-  }
-
-  async patchResource(id, patch, actorId) {
-    if (await resourceExists(id, this.collection)) {
-      const existingResource = await this.getResourceById(id);
-      const updatedResource = {
-        ...existingResource,
-        ...patch,
-        id,
-        entityType: existingResource.entityType,
-        creatorId: existingResource.creatorId,
-        created: existingResource.created,
-        modified: new Date().toISOString(),
-      };
-      validateJsonSchema(updatedResource);
-      return this.updateResource(id, updatedResource, actorId);
-    }
-    throw resourceNotFoundError;
-  }
-
-  async getResources(query) {
-    const { cursor, pageSize = 30, fields } = query;
-    let dbQuery = {};
-    if (cursor) {
-      const prevId = decodeCursor(cursor);
-      dbQuery = createNextPageQuery(prevId);
-    }
-    const parsedPageSize = parseInt(pageSize, 10);
-    const resources = await this.collection
-      .find(dbQuery)
-      .project(createProjection(fields))
-      .sort({ _id: -1 })
-      .limit(parsedPageSize)
-      .toArray();
-    let nextCursor;
-    if (resources.length === parsedPageSize) {
-      nextCursor = await createNextCursor(
-        resources[resources.length - 1],
-        this.collection
-      );
-    }
-    return {
-      collectionSize: resources.length,
-      collection: resources.map(sanitizeResource),
-      cursor: nextCursor,
-    };
+  sanitizeEntity({ _id, ...rest }) {
+    return rest;
   }
 }
 

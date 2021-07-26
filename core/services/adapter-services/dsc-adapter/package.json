@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@diva/common": "^1.0.0",
+    "@diva/eslint-config": "^0.1.0",
     "asyncapi-validator": "^2.5.0",
     "axios": "^0.21.1",
     "chalk": "^4.1.0",

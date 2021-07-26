@@ -1,4 +1,5 @@
 const axios = require("axios");
+const chalk = require("chalk");
 const urljoin = require("url-join");
 const Ajv19 = require("ajv/dist/2019");
 const addFormats = require("ajv-formats");
@@ -20,7 +21,9 @@ const compileValidator = async (schemaName) => {
     urljoin(SCHEMA_REGISTRY_URL, "schemata", schemaName)
   );
   return ajv.compileAsync(schema.data).then((validator) => {
-    console.log(`✅ Received all JSON Schemata for entity "${schemaName}"`);
+    console.log(
+      chalk.blue(`✅ Received all JSON Schemata for entity "${schemaName}"`)
+    );
     return validator;
   });
 };

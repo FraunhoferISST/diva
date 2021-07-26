@@ -22,7 +22,8 @@ const {
   isCustomError,
   isOpenAPISpecValidationError,
   createOpenAPIValidationError,
-} = require(`./Error`);
+} = require("../Error");
+
 const packageJson = require(`${WORK_DIR}/package.json`);
 
 // eslint-disable-next-line no-unused-vars

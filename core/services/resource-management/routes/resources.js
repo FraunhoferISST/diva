@@ -6,7 +6,6 @@ const router = express.Router();
 router.get("/", ResourcesController.getResources);
 router.get("/:id", ResourcesController.getResource);
 router.post("/", ResourcesController.createResource);
-router.put("/:id", ResourcesController.updateResource);
 router.patch("/:id", ResourcesController.patchResource);
 router.delete("/:id", ResourcesController.deleteResource);
 

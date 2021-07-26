@@ -121,7 +121,7 @@ components:
         messageName:
           type: string
           description: Corresponding AsyncAPI specification message name
-          example: userEvent
+          example: userEvents
         messageId:
           type: string
           description: Random message uuid

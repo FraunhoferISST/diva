@@ -23,6 +23,8 @@
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
   },
   "dependencies": {
+    "@diva/common": "^1.0.0",
+    "@diva/eslint-config": "^0.1.0",
     "chalk": "^4.1.0",
     "express": "^4.17.1",
     "express-openapi-validator": "^4.11.0",
