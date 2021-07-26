@@ -6,6 +6,8 @@
   "scripts": {
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development node index.js",
+    "build:alpine": "pkg -t node14-alpine-x64 --output index-alpine index.js",
+    "build:linux": "pkg -t node14-linux-x64 index.js",
     "eslint-fix": "eslint --fix . --ext .js",
     "test:e2e": "NODE_ENV=test mocha --recursive test/e2e/*.spec.js --timeout 3000",
     "test:unit": "NODE_ENV=test mocha --recursive test/unit/*.spec.js"
@@ -13,33 +15,27 @@
   "author": "",
   "license": "ISST",
   "dependencies": {
-    "@diva/common": "^1.0.0",
-    "ajv": "^8.0.0",
-    "ajv-formats": "^2.0.0",
-    "axios": "^0.21.1",
+    "@diva/common": "1.0.0",
     "bcryptjs": "^2.4.3",
     "chalk": "^4.1.0",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "express-openapi-validator": "^4.12.5",
     "hasha": "^5.2.2",
-    "jsondiffpatch": "^0.4.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mongodb": "^3.6.4",
-    "multer": "^1.4.2",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
+    "pkg": "^5.3.1",
     "url-join": "^4.0.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@diva/eslint-config": "^0.1.0",
+    "@diva/eslint-config": "0.1.0",
     "chai": "^4.3.4",
     "chai-openapi-response-validator": "^0.13.0",
     "chai-sorted": "^0.2.0",
     "mocha": "^8.3.2",
+    "pkg": "^5.3.1",
     "rewire": "^5.0.0",
     "supertest": "^6.1.3"
   }

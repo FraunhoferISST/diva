@@ -23,10 +23,12 @@
     "kafkajs": "^1.15.0",
     "lodash": "^4.17.21",
     "mongodb": "^4.0.0",
+    "pkg": "^5.3.1",
     "url-join": "^4.0.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@diva/eslint-config": "^0.1.0"
+    "@diva/eslint-config": "^0.1.0",
+    "pkg": "^5.3.1"
   }
 }

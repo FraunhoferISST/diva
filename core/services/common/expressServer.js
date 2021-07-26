@@ -3,8 +3,14 @@ const chalk = require("chalk");
 const cors = require("cors");
 const OpenApiValidator = require("express-openapi-validator");
 
-const WORK_DIR = process.cwd();
+let WORK_DIR = process.cwd();
 const NODE_ENV = process.env.NODE_ENV || "development";
+
+if (process.pkg?.entrypoint) {
+  const pkgEntryPoint = process.pkg?.entrypoint ?? "";
+  WORK_DIR = pkgEntryPoint.substring(0, pkgEntryPoint.lastIndexOf("/") + 1);
+}
+
 const corsDefaults = {
   origin: process.env.CORS_ALLOW_ORIGIN || "*",
   methods: ["GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
@@ -35,7 +41,7 @@ const errorHandler = (err, req, res, next) => {
 };
 
 module.exports = (onBoot, { port, openapiPath, corsOptions = {} }) =>
-  new Promise(async (resolve, reject) => {
+  new Promise(async (resolve) => {
     try {
       console.info(
         chalk.blue(
