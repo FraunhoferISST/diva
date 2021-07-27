@@ -76,7 +76,8 @@ services:
 
   elasticsearch-connector:
     build:
-      context: ../core/services/elasticsearch-connector
+      context: ../core
+      dockerfile: ../core/services/elasticsearch-connector/Dockerfile
 
   # ####################################################################################################################
   # IDS Adapter Service
@@ -108,7 +109,8 @@ services:
 
   search-assistant:
     build:
-      context: ../core/services/search-assistant
+      context: ../core
+      dockerfile: ../core/services/elasticsearch-connector/Dockerfile
 
   # ####################################################################################################################
   # Analytics Assistant

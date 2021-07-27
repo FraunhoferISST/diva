@@ -6,7 +6,9 @@
   "scripts": {
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development node index.js",
-    "eslint-fix": "eslint --fix . --ext .js"
+    "eslint-fix": "eslint --fix . --ext .js",
+    "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
+    "build:linux": "pkg -t node14-linux-x64 index.js"
   },
   "repository": {
     "type": "git",
@@ -21,20 +23,13 @@
   "license": "ISC",
   "dependencies": {
     "@diva/common": "^1.0.0",
-    "@diva/eslint-config": "^0.1.0",
-    "@elastic/elasticsearch": "^7.13.0",
-    "chalk": "^4.1.1",
-    "elastic-builder": "^2.15.0",
-    "express": "^4.17.1",
-    "express-openapi-validator": "^4.12.11"
+    "elastic-builder": "^2.15.0"
   },
   "devDependencies": {
-    "eslint": "^7.27.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-prettier": "^3.4.0",
-    "pkg": "^5.3.1",
-    "prettier": "^2.3.0"
+    "@diva/eslint-config": "^0.1.0",
+    "pkg": "^5.3.1"
+  },
+  "pkg": {
+    "assets": ["package.json", "apiDoc"]
   }
 }
