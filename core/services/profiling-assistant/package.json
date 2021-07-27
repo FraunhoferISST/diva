@@ -1,6 +1,6 @@
 {
   "name": "profiling-assistant",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.4",
   "description": "A service helping in triggering profilings using airflow 1.10",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,9 @@
     "pkg": "^5.3.1"
   },
   "pkg": {
-    "assets": ["package.json", "apiDoc"]
+    "assets": [
+      "package.json",
+      "apiDoc"
+    ]
   }
 }

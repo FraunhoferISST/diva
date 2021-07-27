@@ -1,6 +1,6 @@
 {
   "name": "analytics-assistant",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Analytics Assistant utilizes Elasticsearch for generating interesting metrics",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,9 @@
     "pkg": "^5.3.1"
   },
   "pkg": {
-    "assets": ["package.json", "apiDoc"]
+    "assets": [
+      "package.json",
+      "apiDoc"
+    ]
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "asset-management",
-  "version": "17.0.0-beta.2",
+  "version": "17.0.0-beta.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,9 @@
     "pkg": "^5.3.1"
   },
   "pkg": {
-    "assets": ["package.json", "apiDoc"]
+    "assets": [
+      "package.json",
+      "apiDoc"
+    ]
   }
 }

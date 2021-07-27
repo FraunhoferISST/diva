@@ -1,6 +1,6 @@
 {
   "name": "user-management",
-  "version": "4.0.0-beta.6",
+  "version": "4.0.0-beta.7",
   "description": "User management service with CRUD operations for users",
   "main": "index.js",
   "scripts": {
@@ -36,6 +36,9 @@
     "supertest": "^6.1.3"
   },
   "pkg": {
-    "assets": ["package.json", "apiDoc"]
+    "assets": [
+      "package.json",
+      "apiDoc"
+    ]
   }
 }

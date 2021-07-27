@@ -1,6 +1,6 @@
 {
   "name": "event-emitter",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0-beta.3",
   "description": "A microservice for delivering events to a client",
   "repository": {
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
@@ -26,6 +26,8 @@
     "pkg": "^5.3.1"
   },
   "pkg": {
-    "assets": ["package.json"]
+    "assets": [
+      "package.json"
+    ]
   }
 }
