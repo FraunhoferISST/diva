@@ -127,7 +127,8 @@ services:
 
   history-assistant:
     build:
-      context: ../core/services/history-assistant
+      context: ../core
+      dockerfile: ../core/services/history-assistant/Dockerfile
 
   # ####################################################################################################################
   # Profiling Assistant

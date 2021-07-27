@@ -23,12 +23,10 @@ const createNextCursor = async (currentDoc, collection) => {
   return nextDoc ? encodeCursor(`${currentDoc._id}`) : undefined;
 };
 
-const extractSearchQueryParams = ({
-  pageSize,
-  fields,
-  cursor,
-  ...searchParams
-}) => searchParams;
+const extractFilterQueryParams = (filterParams, query) =>
+  Object.fromEntries(
+    filterParams.map((p) => [p, query[p]]).filter(([_, v]) => v)
+  );
 
 const createSearchQuery = (searchParams) =>
   Object.fromEntries(
@@ -43,18 +41,29 @@ class EntityService {
     this.collection = {}; // primary entity collection (users, resources...)
     this.historyCollection = {}; // collection for history entries
     this.jsonSchemaValidator = {}; // initialized JsonSchemaValidator instance
+    /**
+     * query parameters that can be use for filtering by default, the list can be extended with filterParams in child class
+     */
+    this.defaultFilterParams = ["belongsTo", "creatorId", "email", "username"];
   }
 
   init() {
     // Override to initialize collections in constructor
+    throw Error(`Method "init" must be overwritten`);
   }
 
-  validate() {
+  validate(_entity) {
     // Override how to validate entity
+    throw Error(
+      `Method "validate" must be overwritten with "entity" parameter`
+    );
   }
 
-  sanitizeEntity() {
+  sanitizeEntity(_entity, _query) {
     // Override
+    throw Error(
+      `Method "sanitizeEntity" must be overwritten with "entity" and optional "query" parameters`
+    );
   }
 
   async create(entity, actorId) {
@@ -65,7 +74,7 @@ class EntityService {
       creatorId: actorId,
     };
     this.validate(newEntity);
-    await this.collection.insertOne({ ...newEntity }).catch((err) => {
+    await this.collection.insertOne(newEntity).catch((err) => {
       if (err.code && err.code === 11000) {
         throw entityAlreadyExistsError;
       }
@@ -77,7 +86,10 @@ class EntityService {
 
   async get(query) {
     const { cursor, pageSize = 30, fields } = query;
-    const searchQueryParams = extractSearchQueryParams(query);
+    const searchQueryParams = extractFilterQueryParams(
+      [...this.defaultFilterParams, ...(this.filterParams ?? [])],
+      query
+    );
     const parsedPageSize = parseInt(pageSize, 10);
     let dbQuery = {};
     if (cursor) {
@@ -103,7 +115,7 @@ class EntityService {
     }
     return {
       collectionSize: collection.length,
-      collection: collection.map(this.sanitizeEntity),
+      collection: collection.map((e) => this.sanitizeEntity(e, query)),
       cursor: nextCursor,
       total: await this.count(),
     };
@@ -116,7 +128,8 @@ class EntityService {
         await this.collection.findOne(
           { id },
           { projection: createProjectionObject(fields) }
-        )
+        ),
+        query
       );
     }
     throw entityNotFoundError;

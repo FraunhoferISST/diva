@@ -40,7 +40,7 @@ const cleanKey = (k) => {
   return k;
 };
 
-const humanReadable = (delta, parentKey = "") => {
+const deltaToHumanReadable = (delta, parentKey = "") => {
   const human = [];
 
   // eslint-disable-next-line guard-for-in
@@ -117,12 +117,12 @@ const humanReadable = (delta, parentKey = "") => {
       }
 
       if (isArrayInnerChange(value)) {
-        const nestedHuman = humanReadable(value, key);
+        const nestedHuman = deltaToHumanReadable(value, key);
         human.push(...nestedHuman);
       }
 
       if (isObjectInnerChange(value)) {
-        const nestedHuman = humanReadable(value, key);
+        const nestedHuman = deltaToHumanReadable(value, key);
         human.push(...nestedHuman);
       }
     }
@@ -131,5 +131,5 @@ const humanReadable = (delta, parentKey = "") => {
 };
 
 module.exports = {
-  humanReadable,
+  deltaToHumanReadable,
 };
