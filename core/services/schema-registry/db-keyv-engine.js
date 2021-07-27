@@ -16,20 +16,7 @@ const loadSchema = async (p) => {
 
 const buildInMemoryDb = async () => {
   console.log(`👀 Read Schemata`);
-  const schemaFolder = path.join(process.env.SCHEMA_DIR || "../../schemata");
-
-  // fs.readdirSync(path.join(__dirname, "../../schemata"));
-  if (process.pkg?.entrypoint) {
-    // schemaFolder = path.join(process.cwd(), schemaFolder);
-  }
-  console.log(schemaFolder);
-  console.log(process.cwd());
-
-  fs.readdir(__dirname, (err, files) => {
-    files.forEach((file) => {
-      console.log(file);
-    });
-  });
+  const schemaFolder = process.env.SCHEMA_DIR || "../../schemata";
 
   try {
     const schemataPaths = glob.sync(`${schemaFolder}/**/*.*`);

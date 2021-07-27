@@ -10,10 +10,13 @@ ENV NODE_ENV=production
 
 COPY services/common ./services/common
 COPY services/eslint-config ./services/eslint-config
-COPY schemata ./services/$SERVICE_NAME/
+COPY schemata ./services/$SERVICE_NAME/schemata
 COPY services/$SERVICE_NAME ./services/$SERVICE_NAME
 COPY *.json ./
 
+RUN npm ci --ignore-scripts --production --no-optional
+RUN npx lerna bootstrap --hoist --ignore-scripts -- --production --no-optional
+RUN npm run build:alpine --prefix services/$SERVICE_NAME
 
 # Execute binary
 FROM alpine:3.14.0
@@ -24,8 +27,7 @@ RUN mkdir -p /app
 WORKDIR /app
 ENV NODE_ENV=production
 
-COPY --from=builder /usr/src/services/$SERVICE_NAME/** .
-RUN ls
+COPY --from=builder /usr/src/services/$SERVICE_NAME/index-alpine /app/index-alpine
 
 EXPOSE 3010
 

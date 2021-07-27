@@ -338,7 +338,7 @@ services:
       PORT: ${SCHEMA_REGISTRY_PORT}
       SCHEMA_DIR: schemata
     volumes:
-      - ../core/schemata:/usr/src/app/schemata
+      - ../core/schemata:/app/schemata
 
   # ####################################################################################################################
   # DIVA Lake Services
