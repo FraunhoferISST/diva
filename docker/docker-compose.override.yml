@@ -110,7 +110,7 @@ services:
   search-assistant:
     build:
       context: ../core
-      dockerfile: ../core/services/elasticsearch-connector/Dockerfile
+      dockerfile: ../core/services/search-assistant/Dockerfile
 
   # ####################################################################################################################
   # Analytics Assistant
@@ -135,4 +135,5 @@ services:
 
   profiling-assistant:
     build:
-      context: ../core/services/profiling-assistant
+      context: ../core
+      dockerfile: ../core/services/profiling-assistant/Dockerfile

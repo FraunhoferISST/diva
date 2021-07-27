@@ -1,7 +1,7 @@
 const esb = require("elastic-builder");
 const { decodeCursor, encodeCursor } = require("@diva/common/api/cursor");
 
-const ElasticsearchConnector = require("@diva/common/ElasticsearchConnector");
+const ElasticsearchConnector = require("@diva/common/databases/ElasticsearchConnector");
 
 class SearchService {
   async init() {

@@ -1,8 +1,13 @@
-const boot = require("./server");
+const boot = require("@diva/common/api/expressServer");
 const profilingRouter = require("./routes/profiling");
-const ProfilingService = require("./services/ProfilingService");
+const profilingService = require("./services/ProfilingService");
 
-boot((app) => {
-  app.use("/profiling", profilingRouter);
-  return ProfilingService.init();
-});
+const port = process.env.PORT || 3011;
+
+boot(
+  (app) => {
+    app.use("/profiling", profilingRouter);
+    return profilingService.init();
+  },
+  { port }
+);

@@ -1,8 +1,11 @@
 const { MongoClient, ObjectId } = require("mongodb");
 const chalk = require("chalk");
 
+const mongoURI =
+  process.env.MONGODB_URI || "mongodb://admin:admin@localhost:27017";
+
 class MongoDBConnector {
-  constructor(URI, databaseName, collectionsNames = []) {
+  constructor(databaseName, collectionsNames = [], URI = mongoURI) {
     this.URI = URI;
     this.databaseName = databaseName;
     this.collectionsNames = collectionsNames;

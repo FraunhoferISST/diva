@@ -18,7 +18,6 @@
     "@diva/common": "1.0.0",
     "@diva/eslint-config": "^0.1.0",
     "bcryptjs": "^2.4.3",
-    "chalk": "^4.1.0",
     "hasha": "^5.2.2",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
@@ -26,9 +25,7 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "pkg": "^5.3.1",
-    "url-join": "^4.0.1",
-    "uuid": "^8.3.2"
+    "pkg": "^5.3.1"
   },
   "devDependencies": {
     "@diva/eslint-config": "0.1.0",
