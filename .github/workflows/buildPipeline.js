@@ -9,7 +9,7 @@ const coreServices = fs
     .filter((dir) => dir !== "adapter-services")
     .map((dir) => ({
         name: require(path.join("../../core/services", dir, "package.json")).name,
-        path: `core/services/${dir}`,
+        path: `core/services/${dir}/Dockerfile`,
         type: "node",
     }));
 
@@ -21,7 +21,7 @@ const adapterServices = fs
             dir,
             "package.json"
         )).name,
-        path: `core/services/adapter-services/${dir}`,
+        path: `core/services/adapter-services/${dir}/Dockerfile`,
         type: "node",
     }));
 
@@ -34,7 +34,7 @@ const faasNodeServices = fs
     .filter(({ contents }) => contents.includes("package.json"))
     .map(({ dir }) => ({
         name: require(path.join("../../faas", dir, "package.json")).name,
-        path: `faas/${dir}`,
+        path: `faas/${dir}/Dockerfile`,
         type: "node",
     }));
 
@@ -47,7 +47,7 @@ const faasPythonServices = fs
     .filter(({ contents }) => contents.includes("setup.py"))
     .map(({ dir }) => ({
         name: dir,
-        path: `faas/${dir}`,
+        path: `faas/${dir}/Dockerfile`,
         type: "python",
     }));
 
