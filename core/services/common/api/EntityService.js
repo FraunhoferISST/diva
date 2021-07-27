@@ -1,5 +1,6 @@
 const { ObjectId } = require("mongodb");
 const createHistoryEntry = require("../createHistoryEntry");
+const { decodeCursor, encodeCursor } = require("./cursor");
 const { entityAlreadyExistsError, entityNotFoundError } = require("../Error");
 
 const HISTORY_ROOT_SCHEMA = process.env.HISTORY_ROOT_SCHEMA || "history";
@@ -14,8 +15,6 @@ const createProjectionObject = (projectionQuery) => {
   return projectionObject;
 };
 
-const encodeCursor = (data) => Buffer.from(data, "utf8").toString("base64");
-const decodeCursor = (data) => Buffer.from(data, "base64").toString();
 const createNextPageQuery = (id) => ({ _id: { $lt: ObjectId(id) } });
 const createNextCursor = async (currentDoc, collection) => {
   const nextDoc = await collection.findOne({
