@@ -1,7 +1,7 @@
 # Buld service binary
 FROM node:14.16.0-alpine as builder
 LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
-ARG SERVICE_NAME=user-management
+ARG SERVICE_NAME=event-emitter
 
 RUN mkdir -p /usr/src
 WORKDIR /usr/src/
@@ -20,7 +20,7 @@ RUN npm run build:alpine --prefix services/$SERVICE_NAME
 # Execute binary
 FROM alpine:3.14.0
 LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
-ARG SERVICE_NAME=user-management
+ARG SERVICE_NAME=event-emitter
 
 RUN mkdir -p /app
 WORKDIR /app
@@ -28,7 +28,7 @@ ENV NODE_ENV=production
 
 COPY --from=builder /usr/src/services/$SERVICE_NAME/index-alpine /app/index-alpine
 
-EXPOSE 3001
+EXPOSE 3009
 
 CMD ["/app/index-alpine"]
 

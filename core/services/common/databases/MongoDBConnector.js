@@ -5,7 +5,7 @@ const mongoURI =
   process.env.MONGODB_URI || "mongodb://admin:admin@localhost:27017";
 
 class MongoDBConnector {
-  constructor(databaseName, collectionsNames = [], URI = mongoURI) {
+  constructor(databaseName = "", collectionsNames = [], URI = mongoURI) {
     this.URI = URI;
     this.databaseName = databaseName;
     this.collectionsNames = collectionsNames;
@@ -23,17 +23,20 @@ class MongoDBConnector {
     });
 
     await this.client.connect();
-    this.database = this.client.db(this.databaseName);
-    const collections = this.collectionsNames.map((c) => [
-      c,
-      this.database.collection(c),
-    ]);
-    this.collections = Object.fromEntries(collections);
-    console.info(
-      chalk.blue(
-        `✅ MongoDB ready: Connected to "${this.collectionsNames}" collection in "${this.databaseName}" database 💽`
-      )
-    );
+    if (this.databaseName) {
+      this.database = this.client.db(this.databaseName);
+      const collections = this.collectionsNames.map((c) => [
+        c,
+        this.database.collection(c),
+      ]);
+      this.collections = Object.fromEntries(collections);
+      console.info(
+        chalk.blue(
+          `✅ MongoDB ready: Connected to "${this.collectionsNames}" collection in "${this.databaseName}" database 💽`
+        )
+      );
+    }
+    return this.client;
   }
 
   async disconnect() {

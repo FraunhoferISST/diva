@@ -76,7 +76,6 @@ const connectionHandler = (client) => {
 
 const emitEntityEvent = (payload) => {
   try {
-    validateSocketMessage(ENTITY_EVENT, payload, DEFAULT_CHANNEL, "subscribe");
     messagesValidator.validate(
       EVENT_EMITTER_SPECIFICATION,
       {
