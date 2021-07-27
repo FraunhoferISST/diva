@@ -1,8 +1,8 @@
 const path = require("path");
-const fs = require("fs");
 const glob = require("glob");
 const Keyv = require("keyv");
 const mime = require("mime");
+const fs = require("fs");
 const { schemaNotFoundError } = require("./errors");
 
 const keyv = new Keyv();
@@ -17,6 +17,19 @@ const loadSchema = async (p) => {
 const buildInMemoryDb = async () => {
   console.log(`👀 Read Schemata`);
   const schemaFolder = path.join(process.env.SCHEMA_DIR || "../../schemata");
+
+  // fs.readdirSync(path.join(__dirname, "../../schemata"));
+  if (process.pkg?.entrypoint) {
+    // schemaFolder = path.join(process.cwd(), schemaFolder);
+  }
+  console.log(schemaFolder);
+  console.log(process.cwd());
+
+  fs.readdir(__dirname, (err, files) => {
+    files.forEach((file) => {
+      console.log(file);
+    });
+  });
 
   try {
     const schemataPaths = glob.sync(`${schemaFolder}/**/*.*`);

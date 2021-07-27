@@ -41,4 +41,9 @@ module.exports = {
     "Entity with the given id not found",
     404
   ),
+  notFoundError: customErrorFactory(
+    "NotFound",
+    "Requested data not found",
+    404
+  ),
 };

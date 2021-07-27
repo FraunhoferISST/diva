@@ -1,6 +1,7 @@
 const express = require("express");
 const chalk = require("chalk");
 const cors = require("cors");
+const path = require("path");
 const OpenApiValidator = require("express-openapi-validator");
 
 let WORK_DIR = process.cwd();
@@ -8,7 +9,10 @@ const NODE_ENV = process.env.NODE_ENV || "development";
 
 if (process.pkg?.entrypoint) {
   const pkgEntryPoint = process.pkg?.entrypoint ?? "";
+  console.log(process.pkg);
   WORK_DIR = pkgEntryPoint.substring(0, pkgEntryPoint.lastIndexOf("/") + 1);
+  console.log(WORK_DIR);
+  console.log(path.join(`${WORK_DIR}`, "package.json"));
 }
 
 const corsDefaults = {
@@ -24,7 +28,7 @@ const {
   createOpenAPIValidationError,
 } = require("../Error");
 
-const packageJson = require(`${WORK_DIR}/package.json`);
+// const packageJson = require(path.join(`${WORK_DIR}`, "package.json"));
 
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
@@ -44,18 +48,15 @@ const errorHandler = (err, req, res, next) => {
 module.exports = (onBoot, { port, openapiPath, corsOptions = {} }) =>
   new Promise(async (resolve) => {
     try {
-      console.info(
-        chalk.blue(
-          `✅ Running ${packageJson.name}:${packageJson.version} in ${NODE_ENV} mode`
-        )
-      );
+      console.info(chalk.blue(`✅ Running service in ${NODE_ENV} mode`));
       const app = express();
       app.use(express.json({ limit: "10mb", extended: true }));
       app.use(express.urlencoded({ limit: "10mb", extended: false }));
       app.use(cors({ ...corsDefaults, ...corsOptions }));
       app.use(
         OpenApiValidator.middleware({
-          apiSpec: openapiPath || `${WORK_DIR}/apiDoc/openapi.yml`,
+          apiSpec:
+            openapiPath || path.join(`${WORK_DIR}`, "/apiDoc/openapi.yml"),
         })
       );
 

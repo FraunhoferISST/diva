@@ -24,6 +24,21 @@ const createNextCursor = async (currentDoc, collection) => {
   return nextDoc ? encodeCursor(`${currentDoc._id}`) : undefined;
 };
 
+const extractSearchQueryParams = ({
+  pageSize,
+  fields,
+  cursor,
+  ...searchParams
+}) => searchParams;
+
+const createSearchQuery = (searchParams) =>
+  Object.fromEntries(
+    Object.entries(searchParams).map(([key, value]) => [
+      key,
+      { $regex: new RegExp(`${value}`, "i") },
+    ])
+  );
+
 class EntityService {
   constructor() {
     this.collection = {}; // primary entity collection (users, resources...)
@@ -63,6 +78,7 @@ class EntityService {
 
   async get(query) {
     const { cursor, pageSize = 30, fields } = query;
+    const searchQueryParams = extractSearchQueryParams(query);
     const parsedPageSize = parseInt(pageSize, 10);
     let dbQuery = {};
     if (cursor) {
@@ -70,7 +86,10 @@ class EntityService {
       dbQuery = createNextPageQuery(prevId);
     }
     const collection = await this.collection
-      .find(dbQuery)
+      .find({
+        ...createSearchQuery(searchQueryParams),
+        ...dbQuery,
+      })
       .project(createProjectionObject(fields))
       .sort({ _id: -1 })
       .limit(parsedPageSize)

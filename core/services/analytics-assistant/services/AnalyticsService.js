@@ -1,5 +1,4 @@
 const elasticsearch = require("../utils/es-connector");
-const { notFoundError } = require("../utils/errors");
 
 class AnalyticsService {
   init() {

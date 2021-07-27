@@ -49,6 +49,14 @@ paths:
           example: "aHVpXzYwMTkzZmJlZTM0NmZhODVkNTE4YzJlYg=="
           schema:
             type: string
+        - name: fields
+          in: query
+          description: Projection fields
+          required: false
+          explode: true
+          example: "reviewText,rating"
+          schema:
+            type: string
         - name: pageSize
           in: query
           description: Page size

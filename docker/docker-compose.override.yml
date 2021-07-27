@@ -31,6 +31,7 @@ services:
     build:
       context: ../core
       dockerfile: ../core/services/resource-management/Dockerfile
+
   # ####################################################################################################################
   # Resource Management Microservice
   # ####################################################################################################################
@@ -47,7 +48,8 @@ services:
   schema-registry:
     restart: unless-stopped
     build:
-      context: ../core/services/schema-registry
+      context: ../core
+      dockerfile: ../core/services/schema-registry/Dockerfile
 
   # ####################################################################################################################
   # EVENT EMITTER SERVICE
@@ -56,7 +58,8 @@ services:
   event-emitter:
     restart: unless-stopped
     build:
-      context: ../core/services/event-emitter
+      context: ../core
+      dockerfile: ../core/services/event-emitter/Dockerfile
 
   # ####################################################################################################################
   # Reviews Management Microservice
@@ -64,7 +67,8 @@ services:
   review-management:
     restart: unless-stopped
     build:
-      context: ../core/services/review-management
+      context: ../core
+      dockerfile: ../core/services/review-management/Dockerfile
 
   # ####################################################################################################################
   # Elasticsearch Connector Nanoservice
@@ -112,7 +116,8 @@ services:
 
   analytics-assistant:
     build:
-      context: ../core/services/analytics-assistant
+      context: ../core
+      dockerfile: ../core/services/analytics-assistant/Dockerfile
 
   # ####################################################################################################################
   # History Assistant
