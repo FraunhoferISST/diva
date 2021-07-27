@@ -38,8 +38,8 @@ services:
   asset-management:
     restart: unless-stopped
     build:
-      context: ../core/services/asset-management
-
+      context: ../core
+      dockerfile: ../core/services/asset-management/Dockerfile
 
   # ####################################################################################################################
   # SCHEMA REGISTRY

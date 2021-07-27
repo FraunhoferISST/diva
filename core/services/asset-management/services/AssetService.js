@@ -1,136 +1,48 @@
-const { mongoDb, ObjectId } = require("../utils/mongoDb");
+const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
+const EntityService = require("@diva/common/api/EntityService");
+const { encodeCursor, decodeCursor } = require("@diva/common/api/cursor");
+const generateUuid = require("@diva/common/generateUuid");
 const {
-  assetNotFoundError,
-  assetAlreadyExistsError,
+  assetsMongoDbConnector,
+  historyMongoDbConnector,
+} = require("../utils/mongoDbConnectors");
+const {
   linkAssetToItselfError,
+  assetNotFoundError,
 } = require("../utils/errors");
-const {
-  validateJsonSchema,
-} = require("../utils/validation/jsonSchemaValidation");
-const { generateAssetId } = require("../utils/util");
-const { generateHistoryEntity } = require("../utils/history");
 
-const sanitizeAsset = ({ _id, ...rest }) => rest;
+const ASSET_ROOT_SCHEMA = process.env.ASSET_ROOT_SCHEMA || "asset";
+const assetsCollectionName = process.env.MONGO_COLLECTION_NAME || "assets";
+const historyCollectionName =
+  process.env.HISTORY_COLLECTION_NAME || "histories";
 
-const assetExists = async (id, collection) =>
-  (await collection.countDocuments({ id }, { limit: 1 })) !== 0;
-
-const createProjection = (projectionQuery) => {
-  const projectionObject = {};
-  if (projectionQuery) {
-    for (const field of projectionQuery.split(",")) {
-      projectionObject[field] = true;
-    }
-  } else {
-    projectionObject.entities = false;
-  }
-  return projectionObject;
-};
-
-const encodeCursor = (data) => Buffer.from(data, "utf8").toString("base64");
-const decodeCursor = (data) => Buffer.from(data, "base64").toString();
-const createNextPageQuery = (id) => ({ _id: { $lt: ObjectId(id) } });
-const createNextCursor = async (currentDoc, collection) => {
-  const nextDoc = await collection.findOne({
-    _id: { $lt: ObjectId(currentDoc._id) },
-  });
-  return nextDoc ? encodeCursor(`${currentDoc._id}`) : undefined;
-};
-
-const createHistoryEntry = async (oldObj, newObj, actorId) => {
-  const historyEntity = generateHistoryEntity(oldObj, newObj, actorId);
-  return mongoDb.historyCollection.insertOne(historyEntity).catch((err) => {
-    throw err;
-  });
-};
-
-class AssetService {
-  async init(dbName = "assetsDb") {
-    await mongoDb.connect(dbName);
-    this.collection = mongoDb.assetCollection;
-    // this.collection.createIndex({ uniqueFingerprint: 1 }, { unique: true });
+class AssetService extends EntityService {
+  async init() {
+    await historyMongoDbConnector.connect();
+    await assetsMongoDbConnector.connect();
+    this.collection = assetsMongoDbConnector.collections[assetsCollectionName];
+    await this.collection.createIndex({ email: 1 }, { unique: true });
+    this.historyCollection =
+      historyMongoDbConnector.collections[historyCollectionName];
+    this.jsonSchemaValidator = jsonSchemaValidator;
   }
 
-  async createAsset(asset, actorId) {
-    const newAsset = {
-      ...asset,
-      id: generateAssetId(),
-      entityType: "asset",
-      created: new Date().toISOString(),
-      modified: new Date().toISOString(),
-      creatorId: actorId,
-    };
-    validateJsonSchema(newAsset);
-    await this.collection.insertOne({ ...newAsset }).catch((err) => {
-      if (err.code && err.code === 11000) {
-        throw assetAlreadyExistsError;
-      }
-      throw err;
-    });
-    await createHistoryEntry({}, newAsset, actorId);
-    return newAsset.id;
-  }
-
-  async deleteAsset(id) {
-    if (await assetExists(id, this.collection)) {
-      return this.collection.deleteOne({ id });
-    }
-    throw assetNotFoundError;
-  }
-
-  async getAssetById(id, query = {}) {
-    if (await assetExists(id, this.collection)) {
-      return sanitizeAsset(
-        await this.collection.findOne({ id }, createProjection(query.fields))
-      );
-    }
-    throw assetNotFoundError;
-  }
-
-  async updateAsset(id, asset, actorId) {
-    validateJsonSchema(asset);
-    const existingAsset = await this.getAssetById(id);
-    await this.collection.replaceOne(
-      { id },
+  async create(asset, actorId) {
+    return super.create(
       {
         ...asset,
-        id,
-        entityType: existingAsset.entityType,
-        creatorId: existingAsset.creatorId,
-        created: existingAsset.created,
-        modified: new Date().toISOString(),
+        id: generateUuid("asset"),
+        entityType: "asset",
       },
-      {
-        upsert: true,
-      }
+      actorId
     );
-    await createHistoryEntry(existingAsset, asset, actorId);
-    return asset.id;
-  }
-
-  async patchAsset(id, patch, actorId) {
-    if (await assetExists(id, this.collection)) {
-      const existingAsset = await this.getAssetById(id);
-      const updatedAsset = {
-        ...existingAsset,
-        ...patch,
-        id,
-        entityType: existingAsset.entityType,
-        creatorId: existingAsset.creatorId,
-        created: existingAsset.created,
-        modified: new Date().toISOString(),
-      };
-      validateJsonSchema(updatedAsset);
-      return this.updateAsset(id, updatedAsset, actorId);
-    }
-    throw assetNotFoundError;
   }
 
   async linkEntity(assetId, entityId, actorId) {
     if (assetId === entityId) {
       throw linkAssetToItselfError;
     }
-    const existingAsset = await this.getAssetById(assetId);
+    const existingAsset = await this.getById(assetId);
     if (existingAsset) {
       const { value: newAsset } = await this.collection.findOneAndUpdate(
         { id: assetId },
@@ -142,14 +54,18 @@ class AssetService {
         },
         { returnOriginal: false }
       );
-      await createHistoryEntry(existingAsset, sanitizeAsset(newAsset), actorId);
+      await this.createHistoryEntry(
+        existingAsset,
+        this.sanitizeEntity(newAsset),
+        actorId
+      );
       return newAsset;
     }
     throw assetNotFoundError;
   }
 
   async unlinkEntity(assetId, entityId, actorId) {
-    const existingAsset = await this.getAssetById(assetId);
+    const existingAsset = await this.getById(assetId);
     if (existingAsset) {
       const { value: newAsset } = await this.collection.findOneAndUpdate(
         { id: assetId },
@@ -161,33 +77,14 @@ class AssetService {
         },
         { returnOriginal: false }
       );
-      await createHistoryEntry(existingAsset, sanitizeAsset(newAsset), actorId);
+      await this.createHistoryEntry(
+        existingAsset,
+        this.sanitizeEntity(newAsset),
+        actorId
+      );
       return newAsset;
     }
     throw assetNotFoundError;
-  }
-
-  async getAssets(query) {
-    const { cursor, pageSize = 30, fields } = query;
-    let dbQuery = {};
-    if (cursor) {
-      const prevId = decodeCursor(cursor);
-      dbQuery = createNextPageQuery(prevId);
-    }
-    const parsedPageSize = parseInt(pageSize, 10);
-    const assets = await this.collection
-      .find(dbQuery)
-      .project(createProjection(fields))
-      .sort({ _id: -1 })
-      .limit(parsedPageSize)
-      .toArray();
-    return {
-      collectionSize: assets.length,
-      collection: assets.map(sanitizeAsset),
-      cursor:
-        assets.length === parsedPageSize &&
-        (await createNextCursor(assets[assets.length - 1], this.collection)),
-    };
   }
 
   async getLinkedEntities(assetId, query) {
@@ -206,9 +103,18 @@ class AssetService {
         collectionSize: page.length,
         collection: page,
         cursor: entities[endIndex + 1] && encodeCursor(endIndex.toString()),
+        total: entities.length,
       };
     }
     throw assetNotFoundError;
+  }
+
+  validate(asset) {
+    jsonSchemaValidator.validate(ASSET_ROOT_SCHEMA, asset);
+  }
+
+  sanitizeEntity({ _id, ...rest }) {
+    return rest;
   }
 }
 

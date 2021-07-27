@@ -1,7 +1,9 @@
 const chalk = require("chalk");
 const KafkaConnector = require("./KafkaConnector");
 const generateUuid = require("../generateUuid");
-const messagesValidator = require("./MessagesValidator");
+const MessagesValidator = require("./MessagesValidator");
+
+const messagesValidator = new MessagesValidator();
 
 const ASYNCAPI_SPECIFICATION = process.env.ASYNCAPI_SPECIFICATION || "asyncapi";
 

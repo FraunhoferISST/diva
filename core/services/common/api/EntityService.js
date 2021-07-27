@@ -59,11 +59,8 @@ class EntityService {
     );
   }
 
-  sanitizeEntity(_entity, _query) {
-    // Override
-    throw Error(
-      `Method "sanitizeEntity" must be overwritten with "entity" and optional "query" parameters`
-    );
+  sanitizeEntity({ _id, ...rest }) {
+    return rest;
   }
 
   async create(entity, actorId) {
