@@ -23,8 +23,11 @@ const onMessage = async (message) => {
 };
 
 (async () => {
-  await messageConsumer.init(KAFKA_CONSUMER_TOPICS, serviceName);
-  await messageConsumer.consume(onMessage());
+  await messageConsumer.init(
+    KAFKA_CONSUMER_TOPICS.map((topic) => ({ topic, spec: "asyncapi" })),
+    serviceName
+  );
+  await messageConsumer.consume(onMessage);
   await Connector.init();
   console.info("✅ Elasticsearch connector is running!");
 })();

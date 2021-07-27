@@ -15,7 +15,9 @@ class MessageConsumer {
     this.kafkaConnector = new KafkaConnector();
     this.topics = topics;
     this.serviceName = serviceName;
-    await messagesValidator.init(this.topics.map(({ spec }) => spec));
+    await messagesValidator.init([
+      ...new Set(this.topics.map(({ spec }) => spec)),
+    ]);
   }
 
   consume(onMessage) {
