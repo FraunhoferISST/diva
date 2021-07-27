@@ -1,16 +1,22 @@
 const { Readable } = require("stream");
+const { GridFSBucket } = require("mongodb");
 const generateUuid = require("@diva/common/generateUuid");
-const { db } = require("../utils/mongoDbConnectors");
+const { usersMongoDbConnector } = require("../utils/mongoDbConnectors");
 const {
   imageNotFoundError,
   wrongImageFormatError,
 } = require("../utils/errors");
 
+const MONGO_GFS_USER_IMAGE_BUCKET_NAME =
+  process.env.MONGO_GFS_USER_IMAGE_BUCKET_NAME || "userImages";
+
 const isSupportedMimeType = (mimeType) =>
   ["image/png", "image/jpeg"].includes(mimeType);
 
 const getImageObject = async (id) => {
-  const images = await db.gfs.find({ _id: id }, { limit: 1 }).toArray();
+  const images = await usersMongoDbConnector.gfs
+    .find({ _id: id }, { limit: 1 })
+    .toArray();
   return images[0];
 };
 
@@ -20,10 +26,13 @@ const writeImage = async (file, id = generateUuid("image")) => {
   const { mimetype, buffer, originalname } = file;
   return new Promise((resolve, reject) => {
     const readable = Readable.from(buffer);
-    const writeStream = db.gfs.openUploadStream(originalname, {
-      id,
-      contentType: mimetype,
-    });
+    const writeStream = usersMongoDbConnector.gfs.openUploadStream(
+      originalname,
+      {
+        id,
+        contentType: mimetype,
+      }
+    );
     const imageId = writeStream.id.toString();
     readable
       .pipe(writeStream)
@@ -33,6 +42,15 @@ const writeImage = async (file, id = generateUuid("image")) => {
 };
 
 class UserImagesService {
+  async init() {
+    usersMongoDbConnector.gfs = new GridFSBucket(
+      usersMongoDbConnector.database,
+      {
+        bucketName: MONGO_GFS_USER_IMAGE_BUCKET_NAME,
+      }
+    );
+  }
+
   async addImage(file) {
     if (!isSupportedMimeType(file.mimetype)) {
       throw wrongImageFormatError;
@@ -46,7 +64,7 @@ class UserImagesService {
       throw imageNotFoundError;
     }
     return {
-      stream: db.gfs.openDownloadStream(id),
+      stream: usersMongoDbConnector.gfs.openDownloadStream(id),
       contentType: existingImage.contentType,
     };
   }
@@ -58,7 +76,7 @@ class UserImagesService {
     if (!isSupportedMimeType(file.mimetype)) {
       throw wrongImageFormatError;
     }
-    await db.gfs.delete(id);
+    await usersMongoDbConnector.gfs.delete(id);
     return writeImage(file);
   }
 
@@ -66,7 +84,7 @@ class UserImagesService {
     if (!(await imageExists(id))) {
       throw imageNotFoundError;
     }
-    return db.gfs.delete(id);
+    return usersMongoDbConnector.gfs.delete(id);
   }
 }
 

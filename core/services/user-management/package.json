@@ -16,7 +16,6 @@
   "license": "ISST",
   "dependencies": {
     "@diva/common": "1.0.0",
-    "@diva/eslint-config": "^0.1.0",
     "bcryptjs": "^2.4.3",
     "hasha": "^5.2.2",
     "jsonwebtoken": "^8.5.1",
@@ -24,8 +23,7 @@
     "mongodb": "^3.6.4",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "pkg": "^5.3.1"
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "@diva/eslint-config": "0.1.0",

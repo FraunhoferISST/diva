@@ -14,9 +14,6 @@ COPY schemata ./services/$SERVICE_NAME/
 COPY services/$SERVICE_NAME ./services/$SERVICE_NAME
 COPY *.json ./
 
-RUN npm ci --ignore-scripts --production --no-optional
-RUN npx lerna bootstrap --hoist --ignore-scripts -- --production --no-optional
-RUN npm run build:alpine --prefix services/$SERVICE_NAME
 
 # Execute binary
 FROM alpine:3.14.0
@@ -27,7 +24,8 @@ RUN mkdir -p /app
 WORKDIR /app
 ENV NODE_ENV=production
 
-COPY --from=builder /usr/src/services/$SERVICE_NAME/index-alpine /app/index-alpine
+COPY --from=builder /usr/src/services/$SERVICE_NAME/** .
+RUN ls
 
 EXPOSE 3010
 

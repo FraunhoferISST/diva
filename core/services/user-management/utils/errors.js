@@ -1,7 +1,6 @@
 const {
   genericError,
   catchHandler,
-  isCustomError,
   createError,
   customErrorFactory,
 } = require("@diva/common/Error");
@@ -10,7 +9,6 @@ module.exports = {
   genericError,
   catchHandler,
   createError,
-  isCustomError,
   invalidDataError: customErrorFactory(
     "InvalidDataSupplied",
     "Invalid data supplied for the operation",
