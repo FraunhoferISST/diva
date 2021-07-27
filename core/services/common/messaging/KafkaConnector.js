@@ -47,7 +47,7 @@ class KafkaConnector {
     await Promise.all(promises);
 
     await consumer.run({
-      eachMessage: ({ message }) => onMessage(message),
+      eachMessage: ({ topic, message }) => onMessage(message, topic),
     });
     console.info(
       chalk.blue(

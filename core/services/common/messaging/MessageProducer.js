@@ -44,7 +44,7 @@ class MessageProducer {
     this.serviceName = serviceName;
     this.messageName = messageName;
     this.producer = producer || (await kafkaConnector.createProducer(topic));
-    return messagesValidator.init(this.spec);
+    return messagesValidator.init([this.spec]);
   }
 
   produce(entityId, actorid, type = "update") {
@@ -60,7 +60,10 @@ class MessageProducer {
         this.messageName,
         this.spec
       );
-      messagesValidator.validate(this.spec, msg, "publish");
+      messagesValidator.validate(this.spec, msg, {
+        ...msg,
+        operation: "publish",
+      });
       return this.producer(msg).then(() =>
         console.log(
           chalk.green(

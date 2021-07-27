@@ -10,9 +10,14 @@ const loadAsyncAPISpec = (spec) =>
     msgIdentifier: "name",
   });
 
-const validateMessage = (spec, validator, msg, operation = "publish") => {
+const validateMessage = (
+  spec,
+  validator,
+  msg,
+  { messageName, channel, operation = "publish" }
+) => {
   try {
-    return validator.validate(msg.messageName, msg, msg.channel, operation);
+    return validator.validate(messageName, msg, channel, operation);
   } catch (validationError) {
     throw createError({
       type: validationError.name,
@@ -34,9 +39,9 @@ class MessagesValidator {
     );
   }
 
-  validate(spec, msg, operation) {
+  validate(spec, msg, specInfo) {
     const validator = this.validators[spec];
-    return validateMessage(spec, validator, msg, operation);
+    return validateMessage(spec, validator, msg, specInfo);
   }
 }
 
