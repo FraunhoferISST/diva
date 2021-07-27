@@ -15,7 +15,8 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: history-assistant
-  SERVICE_PATH: core/services/history-assistant
+  DOCKER_CONTEXT: core
+  DOCKERFILE_PATH: core/services/history-assistant/Dockerfile
 
 jobs:
   build-and-push-image:
@@ -51,7 +52,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: ${{ env.SERVICE_PATH }}
+          context: ${{ env.DOCKER_CONTEXT }}
+          file: ${{ env.DOCKERFILE_PATH }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

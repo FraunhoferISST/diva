@@ -16,7 +16,7 @@ env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: +name+
   DOCKER_CONTEXT: core
-  DOCKERFILE_PATH: +path+
+  DOCKERFILE_PATH: +dockerfile+
 
 jobs:
   build-and-push-image:

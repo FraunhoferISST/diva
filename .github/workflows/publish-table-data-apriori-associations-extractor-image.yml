@@ -14,8 +14,8 @@ on:
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  IMAGE_NAME: table-data-apriori-associations-extractor
-  SERVICE_PATH: faas/table-data-apriori-associations-extractor
+  DOCKER_CONTEXT: core
+  DOCKERFILE_PATH: faas/table-data-apriori-associations-extractor/Dockerfile
 
 jobs:
   build-and-push-image:
@@ -51,7 +51,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: ${{ env.SERVICE_PATH }}
+          context: ${{ env.DOCKER_CONTEXT }}
+          file: ${{ env.DOCKERFILE_PATH }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
