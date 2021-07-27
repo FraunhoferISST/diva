@@ -23,5 +23,4 @@
   "pkg": {
     "assets": ["package.json", "apiDoc"]
   }
-
 }

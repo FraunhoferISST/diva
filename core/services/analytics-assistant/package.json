@@ -7,17 +7,19 @@
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development node index.js",
     "eslint-fix": "eslint --fix . --ext .js",
-    "build:alpine": "pkg -t node14-alpine-x64 --output index-alpine index.js",
-    "build:linux": "pkg -t node14-linux-x64 index.js"
+    "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
+    "build:linux": "pkg --config package.json -t node14-linux-x64 index.js"
   },
   "author": "",
   "license": "ISST",
   "dependencies": {
-    "@diva/common": "^1.0.0",
-    "@elastic/elasticsearch": "^7.12.0"
+    "@diva/common": "^1.0.0"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",
     "pkg": "^5.3.1"
+  },
+  "pkg": {
+    "assets": ["package.json", "apiDoc"]
   }
 }

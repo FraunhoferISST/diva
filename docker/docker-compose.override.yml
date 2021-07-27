@@ -85,7 +85,8 @@ services:
 
   dsc-adapter:
     build:
-      context: ../core/services/adapter-services/dsc-adapter
+      context: ../core
+      dockerfile: ../core/services/adapter-services/dsc-adapter/Dockerfile
 
   # ####################################################################################################################
   # Urban Pulse Adapter Service
@@ -93,7 +94,8 @@ services:
 
   urban-pulse-adapter:
     build:
-      context: ../core/services/adapter-services/urban-pulse-adapter
+      context: ../core
+      dockerfile: ../core/services/adapter-services/urban-pulse-adapter/Dockerfile
 
   # ####################################################################################################################
   # DIVA Lake Adapter Service
@@ -101,7 +103,8 @@ services:
 
   diva-lake-adapter:
     build:
-      context: ../core/services/adapter-services/diva-lake-adapter
+      context: ../core
+      dockerfile: ../core/services/adapter-services/diva-lake-adapter/Dockerfile
 
   # ####################################################################################################################
   # Search Assistant

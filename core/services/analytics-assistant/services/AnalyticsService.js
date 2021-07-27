@@ -1,13 +1,15 @@
-const elasticsearch = require("../utils/es-connector");
+const ElasticsearchConnector = require("@diva/common/databases/ElasticsearchConnector");
+
+const esConnector = new ElasticsearchConnector();
 
 class AnalyticsService {
-  init() {
-    return elasticsearch.connect();
+  async init() {
+    esConnector.connect();
   }
 
   async countDocumentsByIndex(indexSelection = "*") {
     try {
-      const { count } = await elasticsearch.client.count({
+      const { count } = await esConnector.client.count({
         index: indexSelection,
         body: { query: { match_all: {} } },
       });
@@ -23,7 +25,7 @@ class AnalyticsService {
 
   async entityDistribution() {
     try {
-      const res = await elasticsearch.client.search({
+      const res = await esConnector.client.search({
         index: "*,-.*",
         size: 0,
         body: {
@@ -53,7 +55,7 @@ class AnalyticsService {
 
   async resourceTypeDistribution() {
     try {
-      const res = await elasticsearch.client.search({
+      const res = await esConnector.client.search({
         index: "resources",
         size: 0,
         body: {
@@ -87,7 +89,7 @@ class AnalyticsService {
 
   async resourceMimeTypeDistribution() {
     try {
-      const res = await elasticsearch.client.search({
+      const res = await esConnector.client.search({
         index: "resources",
         size: 0,
         body: {
@@ -129,7 +131,7 @@ class AnalyticsService {
   async resourceGetAvgRating(resourceId) {
     let res = "";
     try {
-      res = await elasticsearch.client.search({
+      res = await esConnector.client.search({
         index: "reviews",
         size: 0,
         body: {

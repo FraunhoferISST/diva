@@ -9,10 +9,7 @@ const NODE_ENV = process.env.NODE_ENV || "development";
 
 if (process.pkg?.entrypoint) {
   const pkgEntryPoint = process.pkg?.entrypoint ?? "";
-  console.log(process.pkg);
   WORK_DIR = pkgEntryPoint.substring(0, pkgEntryPoint.lastIndexOf("/") + 1);
-  console.log(WORK_DIR);
-  console.log(path.join(`${WORK_DIR}`, "package.json"));
 }
 
 const corsDefaults = {
