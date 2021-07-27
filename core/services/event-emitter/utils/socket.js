@@ -1,6 +1,8 @@
 const chalk = require("chalk");
 const io = require("socket.io")();
-const messagesValidator = require("@diva/common/messaging/MessagesValidator");
+const MessagesValidator = require("@diva/common/messaging/MessagesValidator");
+
+const messagesValidator = new MessagesValidator();
 
 const EVENT_EMITTER_SPECIFICATION =
   process.env.EVENT_EMITTER_SPECIFICATION || "event-emitter-api";
@@ -76,14 +78,12 @@ const connectionHandler = (client) => {
 
 const emitEntityEvent = (payload) => {
   try {
-    messagesValidator.validate(
-      EVENT_EMITTER_SPECIFICATION,
-      {
-        ...payload,
-        channel: DEFAULT_CHANNEL,
-      },
-      "subscribe"
-    );
+    messagesValidator.validate(EVENT_EMITTER_SPECIFICATION, payload, {
+      ...payload,
+      messageName: ENTITY_EVENT,
+      channel: DEFAULT_CHANNEL,
+      operation: "subscribe",
+    });
     io.to(`entity.events.${payload.object.id}`).emit(ENTITY_EVENT, payload);
 
     if (payload.attributedTo) {
@@ -96,17 +96,16 @@ const emitEntityEvent = (payload) => {
   }
 };
 
-const bootSocket = async () =>
-  new Promise((resolve) => {
-    io.on("connection", connectionHandler);
-    io.listen(PORT, {
-      cors: {
-        origin: "*",
-      },
-    });
-    console.info(chalk.blue(`✅ Websocket listening on port ${PORT} 🌐`));
-    resolve();
+const bootSocket = async () => {
+  await messagesValidator.init([EVENT_EMITTER_SPECIFICATION]);
+  io.on("connection", connectionHandler);
+  io.listen(PORT, {
+    cors: {
+      origin: "*",
+    },
   });
+  console.info(chalk.blue(`✅ Websocket listening on port ${PORT} 🌐`));
+};
 
 module.exports = {
   bootSocket,

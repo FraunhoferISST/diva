@@ -1,5 +1,7 @@
 const KafkaConnector = require("./KafkaConnector");
-const messagesValidator = require("./MessagesValidator");
+const MessagesValidator = require("./MessagesValidator");
+
+const messagesValidator = new MessagesValidator();
 
 class MessageConsumer {
   /**
@@ -24,7 +26,7 @@ class MessageConsumer {
         const parsedMsg = JSON.parse(message.value.toString());
         const { spec } = this.topics.find(
           ({ topic }) => topic === messageTopic
-        )[0];
+        );
         messagesValidator.validate(spec, parsedMsg, {
           ...parsedMsg,
           operation: "publish",

@@ -45,4 +45,4 @@ class MessagesValidator {
   }
 }
 
-module.exports = new MessagesValidator();
+module.exports = MessagesValidator;

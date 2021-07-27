@@ -20,7 +20,6 @@
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",
-    "chai-openapi-response-validator": "^0.11.0",
     "pkg": "^5.3.1"
   }
 }

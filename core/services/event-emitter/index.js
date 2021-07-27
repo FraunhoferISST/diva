@@ -1,13 +1,10 @@
 const chalk = require("chalk");
 const messageConsumer = require("@diva/common/messaging/MessageConsumer");
-const messagesValidator = require("@diva/common/messaging/MessagesValidator");
 const serviceName = require("./package.json").name;
 const { bootSocket, emitEntityEvent } = require("./utils/socket");
 
 const KAFKA_TOPICS = ["resource.events", "asset.events", "user.events"];
 const ASYNCAPI_SPECIFICATION = process.env.ASYNCAPI_SPECIFICATION || "asyncapi";
-const EVENT_EMITTER_SPECIFICATION =
-  process.env.EVENT_EMITTER_SPECIFICATION || "event-emitter-api";
 
 const NODE_ENV = process.env.NODE_ENV || "development";
 
@@ -36,7 +33,6 @@ const boot = async () => {
     KAFKA_TOPICS.map((topic) => ({ topic, spec: ASYNCAPI_SPECIFICATION })),
     serviceName
   );
-  await messagesValidator.init([EVENT_EMITTER_SPECIFICATION]);
   await messageConsumer.consume(onMessage);
   await bootSocket();
 };
