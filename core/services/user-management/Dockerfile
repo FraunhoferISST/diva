@@ -28,7 +28,7 @@ ENV NODE_ENV=production
 
 COPY --from=builder /usr/src/services/$SERVICE_NAME/index-alpine /app/index-alpine
 
-EXPOSE 3007
+EXPOSE 3001
 
 CMD ["/app/index-alpine"]
 
