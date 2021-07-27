@@ -1,4 +1,4 @@
-const messagesProducer = require("@diva/common/MessageProducer");
+const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const usersService = require("../services/UsersService");
 
 class UsersController {

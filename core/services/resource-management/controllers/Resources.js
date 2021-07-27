@@ -1,4 +1,4 @@
-const messageProducerService = require("@diva/common/MessageProducer");
+const messageProducerService = require("@diva/common/messaging/MessageProducer");
 const resourcesService = require("../services/ResourcesService");
 
 const createSingleResource = async (resource, actorid) => {

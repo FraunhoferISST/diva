@@ -1,5 +1,5 @@
 const boot = require("@diva/common/api/expressServer");
-const messagesProducer = require("@diva/common/MessageProducer");
+const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const { passport } = require("./utils/passport");
 const usersRouter = require("./routes/users");

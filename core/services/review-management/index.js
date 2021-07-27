@@ -1,4 +1,4 @@
-const messagesProducer = require("@diva/common/MessageProducer");
+const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const boot = require("@diva/common/api/expressServer");
 const reviewsRouter = require("./routes/reviews");
 const reviewsService = require("./services/ReviewsService");

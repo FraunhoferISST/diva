@@ -1,5 +1,5 @@
 const boot = require("@diva/common/api/expressServer");
-const messagesProducer = require("@diva/common/MessageProducer");
+const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const resourcesService = require("./services/ResourcesService");
 const resourcesRouter = require("./routes/resources");
 const serviceName = require("./package.json").name;
