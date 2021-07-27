@@ -10,7 +10,6 @@ ENV NODE_ENV=production
 
 COPY services/common ./services/common
 COPY services/eslint-config ./services/eslint-config
-COPY schemata ./services/$SERVICE_NAME/schemata
 COPY services/$SERVICE_NAME ./services/$SERVICE_NAME
 COPY *.json ./
 
