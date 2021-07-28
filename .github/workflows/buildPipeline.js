@@ -57,6 +57,7 @@ const faasPythonServices = fs
 
 const services = [
     ...coreServices,
+    ...adapterServices,
     ...faasNodeServices,
     ...faasPythonServices,
     {
