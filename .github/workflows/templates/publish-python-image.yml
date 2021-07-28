@@ -14,8 +14,8 @@ on:
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  DOCKER_CONTEXT: core
-  DOCKERFILE_PATH: +dockerfile+
+  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKERFILE_PATH: +dockerfile+
   SERVICE_PATH: +path+
 
 jobs:
