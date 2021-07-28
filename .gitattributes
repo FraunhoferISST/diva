@@ -190,3 +190,4 @@ Procfile          text
 *.*ignore         text
 *.pickle filter=lfs diff=lfs merge=lfs -text
 *.conll09 filter=lfs diff=lfs merge=lfs -text
+faas/personal-data-evaluation/ext/stanford-ner/stanford-ner.jar filter=lfs diff=lfs merge=lfs -text
