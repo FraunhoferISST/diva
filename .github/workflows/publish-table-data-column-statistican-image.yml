@@ -15,8 +15,8 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: table-data-column-statistican
-  DOCKER_CONTEXT: core
-  DOCKERFILE_PATH: faas/table-data-column-statistican/Dockerfile
+  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKERFILE_PATH: faas/table-data-column-statistican/Dockerfile
   SERVICE_PATH: faas/table-data-column-statistican
 
 jobs:

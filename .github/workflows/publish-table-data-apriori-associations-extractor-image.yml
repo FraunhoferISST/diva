@@ -14,8 +14,8 @@ on:
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  DOCKER_CONTEXT: core
-  DOCKERFILE_PATH: faas/table-data-apriori-associations-extractor/Dockerfile
+  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKERFILE_PATH: faas/table-data-apriori-associations-extractor/Dockerfile
   SERVICE_PATH: faas/table-data-apriori-associations-extractor
 
 jobs:

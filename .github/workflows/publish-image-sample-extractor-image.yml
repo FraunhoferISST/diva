@@ -15,8 +15,8 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: image-sample-extractor
-  DOCKER_CONTEXT: core
-  DOCKERFILE_PATH: faas/image-sample-extractor/Dockerfile
+  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKERFILE_PATH: faas/image-sample-extractor/Dockerfile
   SERVICE_PATH: faas/image-sample-extractor
 
 jobs:

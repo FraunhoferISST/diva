@@ -15,8 +15,8 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: review-management
-  DOCKER_CONTEXT: core
-  DOCKERFILE_PATH: core/services/review-management/Dockerfile
+  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKERFILE_PATH: core/services/review-management/Dockerfile
   SERVICE_PATH: core/services/review-management
 
 jobs:

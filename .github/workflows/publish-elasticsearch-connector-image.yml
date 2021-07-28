@@ -15,8 +15,8 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: elasticsearch-connector
-  DOCKER_CONTEXT: core
-  DOCKERFILE_PATH: core/services/elasticsearch-connector/Dockerfile
+  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKERFILE_PATH: core/services/elasticsearch-connector/Dockerfile
   SERVICE_PATH: core/services/elasticsearch-connector
 
 jobs:

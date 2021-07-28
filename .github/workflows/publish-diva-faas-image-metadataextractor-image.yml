@@ -15,8 +15,8 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: diva-faas-image-metadataextractor
-  DOCKER_CONTEXT: core
-  DOCKERFILE_PATH: faas/image-metadata-extractor/Dockerfile
+  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKERFILE_PATH: faas/image-metadata-extractor/Dockerfile
   SERVICE_PATH: faas/image-metadata-extractor
 
 jobs:

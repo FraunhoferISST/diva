@@ -14,8 +14,8 @@ on:
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  DOCKER_CONTEXT: core
-  DOCKERFILE_PATH: faas/table-data-to-csv/Dockerfile
+  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKERFILE_PATH: faas/table-data-to-csv/Dockerfile
   SERVICE_PATH: faas/table-data-to-csv
 
 jobs:

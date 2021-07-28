@@ -15,8 +15,8 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: schema-registry
-  DOCKER_CONTEXT: core
-  DOCKERFILE_PATH: core/services/schema-registry/Dockerfile
+  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKERFILE_PATH: core/services/schema-registry/Dockerfile
   SERVICE_PATH: core/services/schema-registry
 
 jobs:
