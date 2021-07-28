@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: history-assistant
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: core/services/history-assistant/Dockerfile
+  SERVICE_PATH: core/services/history-assistant
 
 jobs:
   build-and-push-image:

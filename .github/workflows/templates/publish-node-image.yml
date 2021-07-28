@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: +name+
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: +dockerfile+
+  SERVICE_PATH: +path+
 
 jobs:
   build-and-push-image:

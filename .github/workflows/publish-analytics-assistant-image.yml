@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: analytics-assistant
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: core/services/analytics-assistant/Dockerfile
+  SERVICE_PATH: core/services/analytics-assistant
 
 jobs:
   build-and-push-image:

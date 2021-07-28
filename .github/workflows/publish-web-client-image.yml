@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: web-client
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: core/web-client/Dockerfile
+  SERVICE_PATH: core/web-client
 
 jobs:
   build-and-push-image:

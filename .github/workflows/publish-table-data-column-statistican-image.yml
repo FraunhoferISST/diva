@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: table-data-column-statistican
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: faas/table-data-column-statistican/Dockerfile
+  SERVICE_PATH: faas/table-data-column-statistican
 
 jobs:
   build-and-push-image:

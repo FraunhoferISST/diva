@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: diva-faas-personal-data-evaluation
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: faas/personal-data-evaluation/Dockerfile
+  SERVICE_PATH: faas/personal-data-evaluation
 
 jobs:
   build-and-push-image:

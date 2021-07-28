@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: resource-management
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: core/services/resource-management/Dockerfile
+  SERVICE_PATH: core/services/resource-management
 
 jobs:
   build-and-push-image:

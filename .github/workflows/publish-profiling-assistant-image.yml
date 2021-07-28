@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: profiling-assistant
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: core/services/profiling-assistant/Dockerfile
+  SERVICE_PATH: core/services/profiling-assistant
 
 jobs:
   build-and-push-image:

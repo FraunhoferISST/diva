@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: elasticsearch-connector
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: core/services/elasticsearch-connector/Dockerfile
+  SERVICE_PATH: core/services/elasticsearch-connector
 
 jobs:
   build-and-push-image:

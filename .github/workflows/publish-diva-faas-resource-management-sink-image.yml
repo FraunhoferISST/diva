@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: diva-faas-resource-management-sink
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: faas/resource-management-sink/Dockerfile
+  SERVICE_PATH: faas/resource-management-sink
 
 jobs:
   build-and-push-image:

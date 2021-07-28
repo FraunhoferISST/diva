@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: asset-management
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: core/services/asset-management/Dockerfile
+  SERVICE_PATH: core/services/asset-management
 
 jobs:
   build-and-push-image:

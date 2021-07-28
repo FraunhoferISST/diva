@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: diva-faas-table-data-schemaextractor
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: faas/table-data-schema-extractor/Dockerfile
+  SERVICE_PATH: faas/table-data-schema-extractor
 
 jobs:
   build-and-push-image:

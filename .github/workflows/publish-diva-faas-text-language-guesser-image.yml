@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: diva-faas-text-language-guesser
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: faas/text-language-guesser/Dockerfile
+  SERVICE_PATH: faas/text-language-guesser
 
 jobs:
   build-and-push-image:

@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: review-management
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: core/services/review-management/Dockerfile
+  SERVICE_PATH: core/services/review-management
 
 jobs:
   build-and-push-image:

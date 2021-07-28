@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: search-assistant
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: core/services/search-assistant/Dockerfile
+  SERVICE_PATH: core/services/search-assistant
 
 jobs:
   build-and-push-image:

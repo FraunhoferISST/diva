@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: diva-faas-text-metadataextractor
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: faas/text-metadata-extractor/Dockerfile
+  SERVICE_PATH: faas/text-metadata-extractor
 
 jobs:
   build-and-push-image:

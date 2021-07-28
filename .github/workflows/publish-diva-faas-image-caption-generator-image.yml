@@ -17,6 +17,7 @@ env:
   IMAGE_NAME: diva-faas-image-caption-generator
   DOCKER_CONTEXT: core
   DOCKERFILE_PATH: faas/image-caption-generator/Dockerfile
+  SERVICE_PATH: faas/image-caption-generator
 
 jobs:
   build-and-push-image:
