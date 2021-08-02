@@ -12,10 +12,10 @@ services:
     image: ${REGISTRY}text-metadata-extractor:2.0.0
   text-core-phrase-extractor:
     container_name: text-core-phrase-extractor
-    image: ${REGISTRY}text-core-phrase-extractor:2.0.0
+    image: ${REGISTRY}text-core-phrase-extractor:4.1.0
   text-keyword-extractor:
     container_name: text-keyword-extractor
-    image: ${REGISTRY}text-keyword-extractor:4.0.0
+    image: ${REGISTRY}text-keyword-extractor:4.1.0
   text-statistican:
     container_name: text-statistican
     image: ${REGISTRY}text-statistican:2.0.0
