@@ -1,7 +1,11 @@
 const chalk = require("chalk");
 const io = require("socket.io")();
-const { validateSocketMessage } = require("./messagesValidation");
+const MessagesValidator = require("@diva/common/messaging/MessagesValidator");
 
+const messagesValidator = new MessagesValidator();
+
+const EVENT_EMITTER_SPECIFICATION =
+  process.env.EVENT_EMITTER_SPECIFICATION || "event-emitter-api";
 const PORT = process.env.PORT || 3009;
 
 const DEFAULT_CHANNEL = "default";
@@ -14,58 +18,56 @@ const ENTITY_EVENT = "entityEvent";
 const connectionHandler = (client) => {
   console.info(chalk.green(`🔌 Client "${client.id}" connected`));
 
-  client.on(ENTITY_SUBSCRIBE_REQUEST, (entity) => {
+  client.on(ENTITY_SUBSCRIBE_REQUEST, (entityId) => {
     try {
-      validateSocketMessage(
-        ENTITY_SUBSCRIBE_REQUEST,
-        entity,
-        DEFAULT_CHANNEL,
-        "publish"
-      );
+      messagesValidator.validate(EVENT_EMITTER_SPECIFICATION, entityId, {
+        messageName: ENTITY_SUBSCRIBE_REQUEST,
+        channel: DEFAULT_CHANNEL,
+        operation: "publish",
+      });
 
-      client.join(`entity.events.${entity}`);
+      client.join(`entity.events.${entityId}`);
 
       client.emit(ENTITY_SUBSCRIBE_RESPONSE, {
         type: "success",
-        entity,
-        message: `subscribed to "${entity}" events`,
+        entity: entityId,
+        message: `subscribed to "${entityId}" events`,
       });
     } catch (e) {
       client.emit(ENTITY_SUBSCRIBE_RESPONSE, {
         type: "failure",
-        message: `🛑 Could not subscribed to "${entity}" events`,
+        message: `🛑 Could not subscribed to "${entityId}" events`,
       });
 
-      console.error(`🛑 ${e.message} Message: ${JSON.stringify(entity)}`);
+      console.error(`🛑 ${e}`);
     }
   });
 
-  client.on(ENTITY_UNSUBSCRIBE_REQUEST, (entity) => {
+  client.on(ENTITY_UNSUBSCRIBE_REQUEST, (entityId) => {
     try {
-      validateSocketMessage(
-        ENTITY_UNSUBSCRIBE_REQUEST,
-        entity,
-        DEFAULT_CHANNEL,
-        "publish"
-      );
+      messagesValidator.validate(EVENT_EMITTER_SPECIFICATION, entityId, {
+        messageName: ENTITY_UNSUBSCRIBE_REQUEST,
+        channel: DEFAULT_CHANNEL,
+        operation: "publish",
+      });
 
-      client.leave(`entity.events.${entity}`);
+      client.leave(`entity.events.${entityId}`);
 
       client.emit(
         ENTITY_UNSUBSCRIBE_RESPONSE,
         JSON.stringify({
           type: "success",
-          entity,
-          message: `unsubscribed from "${entity}" events`,
+          entity: entityId,
+          message: `unsubscribed from "${entityId}" events`,
         })
       );
     } catch (e) {
       client.emit(ENTITY_UNSUBSCRIBE_RESPONSE, {
         type: "failure",
-        message: `🛑 Could not unsubscribed from "${entity}" events`,
+        message: `🛑 Could not unsubscribed from "${entityId}" events`,
       });
 
-      console.error(`🛑 ${e.message} Message: ${JSON.stringify(entity)}`);
+      console.error(`🛑 ${e.message} Message: ${JSON.stringify(entityId)}`);
     }
   });
 
@@ -76,7 +78,12 @@ const connectionHandler = (client) => {
 
 const emitEntityEvent = (payload) => {
   try {
-    validateSocketMessage(ENTITY_EVENT, payload, DEFAULT_CHANNEL, "subscribe");
+    messagesValidator.validate(EVENT_EMITTER_SPECIFICATION, payload, {
+      ...payload,
+      messageName: ENTITY_EVENT,
+      channel: DEFAULT_CHANNEL,
+      operation: "subscribe",
+    });
     io.to(`entity.events.${payload.object.id}`).emit(ENTITY_EVENT, payload);
 
     if (payload.attributedTo) {
@@ -89,17 +96,16 @@ const emitEntityEvent = (payload) => {
   }
 };
 
-const bootSocket = async () =>
-  new Promise((resolve) => {
-    io.on("connection", connectionHandler);
-    io.listen(PORT, {
-      cors: {
-        origin: "*",
-      },
-    });
-    console.info(chalk.blue(`✅ Websocket listening on port ${PORT} 🌐`));
-    resolve();
+const bootSocket = async () => {
+  await messagesValidator.init([EVENT_EMITTER_SPECIFICATION]);
+  io.on("connection", connectionHandler);
+  io.listen(PORT, {
+    cors: {
+      origin: "*",
+    },
   });
+  console.info(chalk.blue(`✅ Websocket listening on port ${PORT} 🌐`));
+};
 
 module.exports = {
   bootSocket,

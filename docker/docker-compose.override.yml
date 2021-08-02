@@ -1,0 +1,143 @@
+version: '3.9'
+
+services:
+
+  # ####################################################################################################################
+  # STATIC VUE WEB CLIENT
+  # ####################################################################################################################
+
+  web-client:
+    build:
+      context: ../core/web-client
+      args:
+        - VUE_APP_GATEWAY_ENDPOINT=http://localhost:8000
+
+  # ####################################################################################################################
+  # User Management Microservice
+  # ####################################################################################################################
+  user-management:
+    restart: unless-stopped
+    build:
+      context: ../core
+      dockerfile: ../core/services/user-management/Dockerfile
+    environment:
+      - hostname=${DIVAHOSTNAME}
+
+  # ####################################################################################################################
+  # Resource Management Microservice
+  # ####################################################################################################################
+  resource-management:
+    restart: unless-stopped
+    build:
+      context: ../core
+      dockerfile: ../core/services/resource-management/Dockerfile
+
+  # ####################################################################################################################
+  # Resource Management Microservice
+  # ####################################################################################################################
+  asset-management:
+    restart: unless-stopped
+    build:
+      context: ../core
+      dockerfile: ../core/services/asset-management/Dockerfile
+
+  # ####################################################################################################################
+  # SCHEMA REGISTRY
+  # ####################################################################################################################
+
+  schema-registry:
+    restart: unless-stopped
+    build:
+      context: ../core
+      dockerfile: ../core/services/schema-registry/Dockerfile
+
+  # ####################################################################################################################
+  # EVENT EMITTER SERVICE
+  # ####################################################################################################################
+
+  event-emitter:
+    restart: unless-stopped
+    build:
+      context: ../core
+      dockerfile: ../core/services/event-emitter/Dockerfile
+
+  # ####################################################################################################################
+  # Reviews Management Microservice
+  # ####################################################################################################################
+  review-management:
+    restart: unless-stopped
+    build:
+      context: ../core
+      dockerfile: ../core/services/review-management/Dockerfile
+
+  # ####################################################################################################################
+  # Elasticsearch Connector Nanoservice
+  # ####################################################################################################################
+
+  elasticsearch-connector:
+    build:
+      context: ../core
+      dockerfile: ../core/services/elasticsearch-connector/Dockerfile
+
+  # ####################################################################################################################
+  # IDS Adapter Service
+  # ####################################################################################################################
+
+  dsc-adapter:
+    build:
+      context: ../core
+      dockerfile: ../core/services/adapter-services/dsc-adapter/Dockerfile
+
+  # ####################################################################################################################
+  # Urban Pulse Adapter Service
+  # ####################################################################################################################
+
+  urban-pulse-adapter:
+    build:
+      context: ../core
+      dockerfile: ../core/services/adapter-services/urban-pulse-adapter/Dockerfile
+
+  # ####################################################################################################################
+  # DIVA Lake Adapter Service
+  # ####################################################################################################################
+
+  diva-lake-adapter:
+    build:
+      context: ../core
+      dockerfile: ../core/services/adapter-services/diva-lake-adapter/Dockerfile
+
+  # ####################################################################################################################
+  # Search Assistant
+  # ####################################################################################################################
+
+  search-assistant:
+    build:
+      context: ../core
+      dockerfile: ../core/services/search-assistant/Dockerfile
+
+  # ####################################################################################################################
+  # Analytics Assistant
+  # ####################################################################################################################
+
+  analytics-assistant:
+    build:
+      context: ../core
+      dockerfile: ../core/services/analytics-assistant/Dockerfile
+
+  # ####################################################################################################################
+  # History Assistant
+  # ####################################################################################################################
+
+  history-assistant:
+    build:
+      context: ../core
+      dockerfile: ../core/services/history-assistant/Dockerfile
+
+  # ####################################################################################################################
+  # Profiling Assistant
+  # ####################################################################################################################
+
+  profiling-assistant:
+    build:
+      context: ../core
+      dockerfile: ../core/services/profiling-assistant/Dockerfile

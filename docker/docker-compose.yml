@@ -84,7 +84,7 @@ services:
   
   resource-management:
     <<: *base-core-service
-    image: ${REGISTRY}resource-management:17.0.0-beta.2
+    image: ${REGISTRY}resource-management:17.0.0-beta.3
     container_name: resource-management
     environment:
       <<: *base-core-service-env
@@ -100,7 +100,7 @@ services:
   
   asset-management:
     <<: *base-core-service
-    image: ${REGISTRY}asset-management:17.0.0-beta.2
+    image: ${REGISTRY}asset-management:17.0.0-beta.3
     container_name: asset-management
     environment:
       <<: *base-core-service-env
@@ -115,7 +115,7 @@ services:
   
   user-management:
     <<: *base-core-service
-    image: ${REGISTRY}user-management:4.0.0-beta.6
+    image: ${REGISTRY}user-management:4.0.0-beta.7
     container_name: user-management
     environment:
       <<: *base-core-service-env
@@ -130,7 +130,7 @@ services:
 
   review-management:
     <<: *base-core-service
-    image: ${REGISTRY}review-management:1.0.0-beta.1
+    image: ${REGISTRY}review-management:1.0.0-beta.3
     container_name: reviews-management
     environment:
       <<: *base-core-service-env
@@ -187,7 +187,7 @@ services:
 
   elasticsearch-connector:
     <<: *base-core-service
-    image: ${REGISTRY}elasticsearch-connector:0.1.0-beta.3
+    image: ${REGISTRY}elasticsearch-connector:0.1.0-beta.4
     container_name: elasticsearch-connector
     depends_on:
       - broker
@@ -202,7 +202,7 @@ services:
       - ${ELASTICSEARCH_CONNECTOR_PORT}:${ELASTICSEARCH_CONNECTOR_PORT}
 
   search-assistant:
-    image: ${REGISTRY}search-assistant:0.1.0-alpha.3
+    image: ${REGISTRY}search-assistant:0.1.0-alpha.4
     container_name: search-assistant
     environment:
       <<: *elasticsearch-env
@@ -217,7 +217,7 @@ services:
       - core
 
   analytics-assistant:
-    image: ${REGISTRY}analytics-assistant:1.0.0-beta.2
+    image: ${REGISTRY}analytics-assistant:1.0.0-beta.3
     container_name: analytics-assistant
     environment:
       <<: *elasticsearch-env
@@ -255,7 +255,7 @@ services:
   # ####################################################################################################################
 
   profiling-assistant:
-    image: ${REGISTRY}profiling-assistant:1.0.0-beta.2
+    image: ${REGISTRY}profiling-assistant:1.0.0-beta.4
     container_name: profiling-assistant
     environment:
       <<: *mongodb-env
@@ -326,7 +326,7 @@ services:
   # ####################################################################################################################
 
   schema-registry:
-    image: ${REGISTRY}schema-registry:0.0.2
+    image: ${REGISTRY}schema-registry:0.1.0-beta.0
     hostname: schema-registry
     container_name: schema-registry
     restart: always
@@ -338,7 +338,7 @@ services:
       PORT: ${SCHEMA_REGISTRY_PORT}
       SCHEMA_DIR: schemata
     volumes:
-      - ../core/schemata:/usr/src/app/schemata
+      - ../core/schemata:/app/schemata
 
   # ####################################################################################################################
   # DIVA Lake Services
@@ -430,7 +430,7 @@ services:
 
   event-emitter:
     <<: *base-core-service
-    image: ${REGISTRY}event-emitter:0.1.0-beta.2
+    image: ${REGISTRY}event-emitter:0.1.0-beta.3
     container_name: event-emitter
     depends_on:
       - broker

@@ -1,13 +1,34 @@
-FROM node:14.16.0-alpine
+# Buld service binary
+FROM node:14.16.0-alpine as builder
 LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
+ARG SERVICE_NAME=schema-registry
 
+RUN mkdir -p /usr/src
+WORKDIR /usr/src/
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+ENV NODE_ENV=production
 
-COPY package*.json ./
-RUN npm install --production
+COPY services/common ./services/common
+COPY services/eslint-config ./services/eslint-config
+COPY services/$SERVICE_NAME ./services/$SERVICE_NAME
+COPY *.json ./
 
-COPY . .
+RUN npm ci --ignore-scripts --production --no-optional
+RUN npx lerna bootstrap --hoist --ignore-scripts -- --production --no-optional
+RUN npm run build:alpine --prefix services/$SERVICE_NAME
 
-CMD npm run start
+# Execute binary
+FROM alpine:3.14.0
+LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
+ARG SERVICE_NAME=schema-registry
+
+RUN mkdir -p /app
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY --from=builder /usr/src/services/$SERVICE_NAME/index-alpine /app/index-alpine
+
+EXPOSE 3010
+
+CMD ["/app/index-alpine"]
+

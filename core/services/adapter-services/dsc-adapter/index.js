@@ -1,11 +1,14 @@
-const boot = require("./server");
+const messageConsumer = require("@diva/common/messaging/MessageConsumer");
+const boot = require("@diva/common/api/expressServer");
 const IDSService = require("./services/DscAdapterService");
 const adapterRouter = require("./routes/adapter");
-const consume = require("./utils/broker");
-const {
-  loadAsyncAPISpec,
-  validateMessage,
-} = require("./utils/messagesValidation");
+const serviceName = require("./package.json").name;
+
+const port = process.env.PORT || 4002;
+const KAFKA_EVENT_TOPICS = process.env.KAFKA_EVENT_TOPICS
+  ? JSON.parse(process.env.KAFKA_EVENT_TOPICS)
+  : ["resource.events"];
+const ASYNCAPI_SPECIFICATION = process.env.ASYNCAPI_SPECIFICATION || "asyncapi";
 
 const getOperationByMessageType = (type) => {
   const operationsMap = {
@@ -18,10 +21,9 @@ const getOperationByMessageType = (type) => {
   );
 };
 
-const processMassage = async (message) => {
+const onMessage = async (message) => {
   try {
     const parsedMassage = JSON.parse(message.value.toString());
-    validateMessage(parsedMassage);
     const {
       type,
       object: { id: resourceId },
@@ -36,8 +38,18 @@ const processMassage = async (message) => {
   }
 };
 
-boot(async (app) => {
-  app.use("/resources", adapterRouter);
-  await consume(processMassage);
-  return Promise.all([IDSService.init(), loadAsyncAPISpec()]);
-});
+boot(
+  async (app) => {
+    app.use("/resources", adapterRouter);
+    await messageConsumer.init(
+      KAFKA_EVENT_TOPICS.map((topic) => ({
+        topic,
+        spec: ASYNCAPI_SPECIFICATION,
+      })),
+      serviceName
+    );
+    await messageConsumer.consume(onMessage);
+    await IDSService.init();
+  },
+  { port }
+);

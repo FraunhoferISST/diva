@@ -6,30 +6,21 @@
   "scripts": {
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development node index.js",
-    "eslint-fix": "eslint --fix . --ext .js"
+    "eslint-fix": "eslint --fix . --ext .js",
+    "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
+    "build:linux": "pkg -t node14-linux-x64 index.js"
   },
   "author": "",
   "license": "ISST",
   "dependencies": {
-    "ajv": "^8.5.0",
-    "ajv-formats": "^2.1.0",
-    "asyncapi-validator": "^3.0.0",
-    "axios": "^0.21.1",
-    "chalk": "^4.1.1",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "express-openapi-validator": "^4.12.11",
-    "kafkajs": "^1.15.0",
-    "lodash": "^4.17.21",
-    "mongodb": "^3.6.9",
-    "url-join": "^4.0.1"
+    "@diva/common": "^1.0.0",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "eslint": "^7.27.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.3",
-    "eslint-plugin-prettier": "^3.4.0",
-    "prettier": "^2.3.0"
+    "@diva/eslint-config": "^0.1.0",
+    "pkg": "^5.3.1"
+  },
+  "pkg": {
+    "assets": ["package.json", "apiDoc"]
   }
 }

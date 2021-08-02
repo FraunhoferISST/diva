@@ -415,7 +415,7 @@ paths:
           $ref: "#/components/responses/UnexpectedError"
 
 servers:
-  - url: http://localhost:5000
+  - url: http://localhost:3007
 components:
   requestBodies:
     UsersCreate:

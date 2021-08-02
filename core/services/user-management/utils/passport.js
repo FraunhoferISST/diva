@@ -6,7 +6,7 @@ const { userNotAuthenticatedError } = require("./errors");
 const { sanitizeUser } = require("./user-helper");
 const { createError } = require("./errors");
 const { isCorrectPassword } = require("./user-helper");
-const { db } = require("./database");
+const { db } = require("./mongoDbConnectors");
 
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;

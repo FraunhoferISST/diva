@@ -4,9 +4,9 @@ This service provides a way of triggering `airflow:1.10` workflows.
 
 ## Requirements
 
-+ `nodejs:14.16.x`
++ Node.js v14.16.x
 
-+ running instance of `airflow:1.10`
++ Running instance of Airflow 2
 
 ## Environment Variables
 

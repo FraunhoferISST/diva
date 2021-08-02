@@ -6,10 +6,11 @@ const pythonTemplate = fs.readFileSync("./templates/publish-python-image.yml", "
 
 const coreServices = fs
     .readdirSync("../../core/services")
-    .filter((dir) => dir !== "adapter-services")
+    .filter((dir) => !["adapter-services", "common", "eslint-config", "node_modules", "package.json", "package-lock.json"].includes(dir))
     .map((dir) => ({
         name: require(path.join("../../core/services", dir, "package.json")).name,
         path: `core/services/${dir}`,
+        dockerfile: `core/services/${dir}/Dockerfile`,
         type: "node",
     }));
 
@@ -22,6 +23,7 @@ const adapterServices = fs
             "package.json"
         )).name,
         path: `core/services/adapter-services/${dir}`,
+        dockerfile: `core/services/adapter-services/${dir}/Dockerfile`,
         type: "node",
     }));
 
@@ -35,6 +37,7 @@ const faasNodeServices = fs
     .map(({ dir }) => ({
         name: require(path.join("../../faas", dir, "package.json")).name,
         path: `faas/${dir}`,
+        dockerfile: `faas/${dir}/Dockerfile`,
         type: "node",
     }));
 
@@ -48,16 +51,19 @@ const faasPythonServices = fs
     .map(({ dir }) => ({
         name: dir,
         path: `faas/${dir}`,
+        dockerfile: `faas/${dir}/Dockerfile`,
         type: "python",
     }));
 
 const services = [
     ...coreServices,
+    ...adapterServices,
     ...faasNodeServices,
     ...faasPythonServices,
     {
         name: "web-client",
         path: "core/web-client",
+        dockerfile: "core/web-client/Dockerfile",
         type: "node",
     },
 ];
@@ -68,6 +74,7 @@ const buildConfig = (template, service) =>
         template
             .replace(/\+name\+/g, service.name)
             .replace(/\+path\+/g, service.path)
+            .replace(/\+dockerfile\+/g, service.dockerfile)
     );
 
 const buildNodeServicePipeline = (service) =>

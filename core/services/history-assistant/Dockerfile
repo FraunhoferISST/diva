@@ -1,22 +1,34 @@
-FROM node:14.16.0-alpine
+# Buld service binary
+FROM node:14.16.0-alpine as builder
 LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
+ARG SERVICE_NAME=history-assistant
 
-ARG proxy
-ARG sproxy
-ARG noproxy
+RUN mkdir -p /usr/src
+WORKDIR /usr/src/
 
-ENV http_proxy="$proxy"
-ENV https_proxy="$sproxy"
-ENV no_proxy="$noproxy"
+ENV NODE_ENV=production
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+COPY services/common ./services/common
+COPY services/eslint-config ./services/eslint-config
+COPY services/$SERVICE_NAME ./services/$SERVICE_NAME
+COPY *.json ./
 
-COPY package*.json ./
-RUN npm install --production
+RUN npm ci --ignore-scripts --production --no-optional
+RUN npx lerna bootstrap --hoist --ignore-scripts -- --production --no-optional
+RUN npm run build:alpine --prefix services/$SERVICE_NAME
 
-COPY . .
+# Execute binary
+FROM alpine:3.14.0
+LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
+ARG SERVICE_NAME=history-assistant
 
-EXPOSE 6060
+RUN mkdir -p /app
+WORKDIR /app
+ENV NODE_ENV=production
 
-CMD npm run start
+COPY --from=builder /usr/src/services/$SERVICE_NAME/index-alpine /app/index-alpine
+
+EXPOSE 3006
+
+CMD ["/app/index-alpine"]
+

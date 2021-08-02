@@ -15,6 +15,8 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: analytics-assistant
+  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKERFILE_PATH: core/services/analytics-assistant/Dockerfile
   SERVICE_PATH: core/services/analytics-assistant
 
 jobs:
@@ -51,7 +53,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: ${{ env.SERVICE_PATH }}
+          context: ${{ env.DIVA_DOCKER_CONTEXT }}
+          file: ${{ env.DIVA_DOCKERFILE_PATH }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

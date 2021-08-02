@@ -1,7 +1,6 @@
 const axios = require("axios");
 const urljoin = require("url-join");
-
-const { mongoDb } = require("../utils/mongoDb");
+const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
 const { getDag, buildAirflowConfig } = require("../utils/airflowHelper");
 const { resourceNotFoundError } = require("../utils/errors");
 
@@ -10,8 +9,9 @@ const AIRFLOW_PATH = "api/v1/dags";
 const AIRFLOW_COMMAND = "dagRuns";
 const AIRFLOW_USERNAME = process.env._AIRFLOW_WWW_USER_USERNAME || "airflow";
 const AIRFLOW_PASSWORD = process.env._AIRFLOW_WWW_USER_PASSWORD || "airflow";
-
-const getResource = (id, collection) => collection.findOne({ id });
+const dbName = process.env.MONGO_RESOURCE_DB_NAME || "resourcesDb";
+const collectionName =
+  process.env.MONGO_RESOURCE_COLLECTION_NAME || "resources";
 
 const authToken = Buffer.from(
   `${AIRFLOW_USERNAME}:${AIRFLOW_PASSWORD}`,
@@ -25,13 +25,18 @@ const axiosAirflow = axios.create({
 });
 
 class ProfilingService {
-  async init(dbName) {
-    await mongoDb.connect(dbName);
-    this.collection = mongoDb.resourcesCollection;
+  async init() {
+    const mongoDbConnector = new MongoDBConnector(dbName, [collectionName]);
+    await mongoDbConnector.connect(dbName);
+    this.collection = mongoDbConnector.collections[collectionName];
+  }
+
+  getResourceById(id) {
+    return this.collection.findOne({ id });
   }
 
   async run(resourceId, actorId) {
-    const resource = await getResource(resourceId, this.collection);
+    const resource = await this.getResourceById(resourceId);
     if (!resource) {
       throw resourceNotFoundError;
     }
@@ -43,7 +48,7 @@ class ProfilingService {
   }
 
   async exists(resourceId) {
-    const resource = await getResource(resourceId, this.collection);
+    const resource = await this.getResourceById(resourceId);
     if (!resource) {
       throw resourceNotFoundError;
     }

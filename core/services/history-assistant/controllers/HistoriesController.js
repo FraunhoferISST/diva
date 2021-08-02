@@ -3,7 +3,7 @@ const historiesService = require("../services/HistoriesService");
 class HistoriesController {
   async getHistories(req, res, next) {
     try {
-      const result = await historiesService.getHistories(req.query);
+      const result = await historiesService.get(req.query);
       res.status(200).send(result);
     } catch (err) {
       return next(err);
@@ -12,10 +12,7 @@ class HistoriesController {
 
   async getHistory(req, res, next) {
     try {
-      const result = await historiesService.getHistoryById(
-        req.params.id,
-        req.query
-      );
+      const result = await historiesService.getById(req.params.id, req.query);
       res.status(200).send(result);
     } catch (err) {
       return next(err);

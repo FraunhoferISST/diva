@@ -1,13 +1,12 @@
 const esb = require("elastic-builder");
+const { decodeCursor, encodeCursor } = require("@diva/common/api/cursor");
 
-const elasticsearch = require("../utils/es-connector");
-
-const encodeCursor = (data) => Buffer.from(data, "utf8").toString("base64");
-const decodeCursor = (data) => Buffer.from(data, "base64").toString();
+const ElasticsearchConnector = require("@diva/common/databases/ElasticsearchConnector");
 
 class SearchService {
-  init() {
-    return elasticsearch.connect();
+  async init() {
+    this.elasticsearchConnector = new ElasticsearchConnector();
+    return this.elasticsearchConnector.connect();
   }
 
   async searchAll(queryData) {
@@ -47,10 +46,21 @@ class SearchService {
     requestBody.from = from;
     requestBody.size = size;
 
-    const { body } = await elasticsearch.client.search({
+    const { body } = await this.elasticsearchConnector.client.search({
       index: "*,-*kibana*",
       body: requestBody,
     });
+
+    const requestCountBody = esb
+      .requestBodySearch()
+      .query(esb.multiMatchQuery(["*"], query).fuzziness("AUTO"));
+
+    const total = (
+      await this.elasticsearchConnector.client.count({
+        index: "*,-*kibana*",
+        body: requestCountBody,
+      })
+    ).body.count;
 
     return {
       collection: body.hits.hits.map((doc) => ({
@@ -58,6 +68,7 @@ class SearchService {
         highlight: doc.highlight,
       })),
       cursor: newCursor,
+      total,
     };
   }
 }

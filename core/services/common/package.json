@@ -1,0 +1,35 @@
+{
+  "name": "@diva/common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "api/expressServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node api/expressServer.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@diva/eslint-config": "^0.1.0",
+    "@elastic/elasticsearch": "^7.13.0",
+    "ajv": "^8.6.2",
+    "ajv-formats": "^2.1.0",
+    "asyncapi-validator": "^3.0.0",
+    "axios": "^0.21.1",
+    "chalk": "^4.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-openapi-validator": "^4.12.14",
+    "hasha": "^5.2.2",
+    "jsondiffpatch": "^0.4.1",
+    "kafkajs": "^1.15.0",
+    "lodash": "^4.17.21",
+    "mongodb": "^4.0.0",
+    "url-join": "^4.0.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@diva/eslint-config": "^0.1.0",
+    "pkg": "^5.3.1"
+  }
+}
