@@ -16,6 +16,7 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: tika-extraction
+  IMAGE_VERSION: 1.0.0
   DIVA_DOCKER_CONTEXT: core
   DIVA_DOCKERFILE_PATH: faas/tika-extraction/Dockerfile
   SERVICE_PATH: faas/tika-extraction
@@ -32,12 +33,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: get-npm-version
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@master
-        with:
-          path: ${{ env.SERVICE_PATH }}
-
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
@@ -50,7 +45,7 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: ${{ steps.package-version.outputs.current-version}}
+          tags: ${{ env.IMAGE_VERSION }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
@@ -60,4 +55,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: ${{ env.SERVICE_RELATIVE_PATH }}
+          build-args: SERVICE_NAME=${{ env.SERVICE_RELATIVE_PATH }}

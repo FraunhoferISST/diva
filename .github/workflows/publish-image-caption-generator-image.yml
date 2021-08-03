@@ -1,25 +1,25 @@
-name: Build and publish urban-pulse-adapter image
+name: Build and publish image-caption-generator image
 
 on:
   workflow_dispatch:
   push:
     branches: ["master", "dev"]
     paths:
-      - "core/services/adapter-services/urban-pulse-adapter/**"
+      - "faas/image-caption-generator/**"
       - "!*.md"
   pull_request:
     branches: ["master", "dev"]
     paths:
-      - "core/services/adapter-services/urban-pulse-adapter/**"
+      - "faas/image-caption-generator/**"
       - "!*.md"
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  IMAGE_NAME: urban-pulse-adapter
+  IMAGE_NAME: image-caption-generator
   DIVA_DOCKER_CONTEXT: core
-  DIVA_DOCKERFILE_PATH: core/services/Dockerfile
-  SERVICE_PATH: core/services/adapter-services/urban-pulse-adapter
-  SERVICE_RELATIVE_PATH: adapter-services/urban-pulse-adapter
+  DIVA_DOCKERFILE_PATH: faas/image-caption-generator/Dockerfile
+  SERVICE_PATH: faas/image-caption-generator
+  SERVICE_RELATIVE_PATH: image-caption-generator
 
 jobs:
   build-and-push-image:

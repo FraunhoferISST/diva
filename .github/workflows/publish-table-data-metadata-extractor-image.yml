@@ -1,25 +1,25 @@
-name: Build and publish diva-faas-resource-management-sink image
+name: Build and publish table-data-metadata-extractor image
 
 on:
   workflow_dispatch:
   push:
     branches: ["master", "dev"]
     paths:
-      - "faas/resource-management-sink/**"
+      - "faas/table-data-metadata-extractor/**"
       - "!*.md"
   pull_request:
     branches: ["master", "dev"]
     paths:
-      - "faas/resource-management-sink/**"
+      - "faas/table-data-metadata-extractor/**"
       - "!*.md"
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  IMAGE_NAME: diva-faas-resource-management-sink
+  IMAGE_NAME: table-data-metadata-extractor
   DIVA_DOCKER_CONTEXT: core
-  DIVA_DOCKERFILE_PATH: faas/resource-management-sink/Dockerfile
-  SERVICE_PATH: faas/resource-management-sink
-  SERVICE_RELATIVE_PATH: resource-management-sink
+  DIVA_DOCKERFILE_PATH: faas/table-data-metadata-extractor/Dockerfile
+  SERVICE_PATH: faas/table-data-metadata-extractor
+  SERVICE_RELATIVE_PATH: table-data-metadata-extractor
 
 jobs:
   build-and-push-image:
@@ -60,4 +60,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: ${{ env.SERVICE_RELATIVE_PATH }}
+          build-args: SERVICE_NAME=${{ env.SERVICE_RELATIVE_PATH }}

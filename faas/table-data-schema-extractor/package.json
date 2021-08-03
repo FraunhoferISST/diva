@@ -1,5 +1,5 @@
 {
-  "name": "diva-faas-table-data-schemaextractor",
+  "name": "table-data-schemaextractor",
   "version": "2.0.0",
   "private": true,
   "scripts": {

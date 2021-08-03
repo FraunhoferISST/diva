@@ -1,25 +1,25 @@
-name: Build and publish diva-faas-table-data-metadata-extractor image
+name: Build and publish image-metadataextractor image
 
 on:
   workflow_dispatch:
   push:
     branches: ["master", "dev"]
     paths:
-      - "faas/table-data-metadata-extractor/**"
+      - "faas/image-metadata-extractor/**"
       - "!*.md"
   pull_request:
     branches: ["master", "dev"]
     paths:
-      - "faas/table-data-metadata-extractor/**"
+      - "faas/image-metadata-extractor/**"
       - "!*.md"
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  IMAGE_NAME: diva-faas-table-data-metadata-extractor
+  IMAGE_NAME: image-metadataextractor
   DIVA_DOCKER_CONTEXT: core
-  DIVA_DOCKERFILE_PATH: faas/table-data-metadata-extractor/Dockerfile
-  SERVICE_PATH: faas/table-data-metadata-extractor
-  SERVICE_RELATIVE_PATH: table-data-metadata-extractor
+  DIVA_DOCKERFILE_PATH: faas/image-metadata-extractor/Dockerfile
+  SERVICE_PATH: faas/image-metadata-extractor
+  SERVICE_RELATIVE_PATH: image-metadata-extractor
 
 jobs:
   build-and-push-image:
@@ -60,4 +60,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: ${{ env.SERVICE_RELATIVE_PATH }}
+          build-args: SERVICE_NAME=${{ env.SERVICE_RELATIVE_PATH }}

@@ -16,6 +16,7 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   DIVA_DOCKER_CONTEXT: core
+  IMAGE_NAME: %%name%%
   DIVA_DOCKERFILE_PATH: %%dockerfile%%
   SERVICE_PATH: %%path%%
   SERVICE_RELATIVE_PATH: %%relativePath%%
@@ -58,4 +59,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: ${{ env.SERVICE_RELATIVE_PATH }}
+          build-args: SERVICE_NAME=${{ env.SERVICE_RELATIVE_PATH }}

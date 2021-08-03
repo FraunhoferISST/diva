@@ -1,5 +1,5 @@
 {
-  "name": "diva-faas-text-language-guesser",
+  "name": "text-language-guesser",
   "version": "2.0.0",
   "private": true,
   "scripts": {

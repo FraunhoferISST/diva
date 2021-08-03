@@ -3,6 +3,7 @@ const path = require("path");
 
 const CORE_SERVICES_DOCKERFILE = "core/services/Dockerfile"
 
+const genericTemplate = fs.readFileSync("./templates/publish-generic-image.yml", "utf8");
 const nodeTemplate = fs.readFileSync("./templates/publish-node-image.yml", "utf8");
 const pythonTemplate = fs.readFileSync("./templates/publish-python-image.yml", "utf8");
 
@@ -77,7 +78,8 @@ const services = [
         path: "faas/tika-extraction",
         relativePath: "tika-extraction",
         dockerfile: "faas/tika-extraction/Dockerfile",
-        type: "node",
+        type: "generic",
+        version: "1.0.0"
     },
 ];
 
@@ -89,7 +91,11 @@ const buildConfig = (template, service) =>
             .replace(/%%path%%/g, service.path)
             .replace(/%%relativePath%%/g, service.relativePath)
             .replace(/%%dockerfile%%/g, service.dockerfile)
+            .replace(/%%version%%/g, service.version)
     );
+
+const buildGenericServicePipeline = (service) =>
+    buildConfig(genericTemplate, service);
 
 const buildNodeServicePipeline = (service) =>
     buildConfig(nodeTemplate, service);
@@ -97,8 +103,12 @@ const buildNodeServicePipeline = (service) =>
 const buildPythonServicePipeline = (service) =>
     buildConfig(pythonTemplate, service);
 
+const templateMap = {
+    "generic": buildGenericServicePipeline,
+    "node": buildNodeServicePipeline,
+    "python": buildPythonServicePipeline,
+}
+
 for (const service of services) {
-    service.type === "node"
-        ? buildNodeServicePipeline(service)
-        : buildPythonServicePipeline(service);
+    templateMap[service.type](service)
 }

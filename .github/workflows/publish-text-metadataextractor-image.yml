@@ -1,25 +1,25 @@
-name: Build and publish diva-faas-image-object-detection image
+name: Build and publish text-metadataextractor image
 
 on:
   workflow_dispatch:
   push:
     branches: ["master", "dev"]
     paths:
-      - "faas/image-object-detection/**"
+      - "faas/text-metadata-extractor/**"
       - "!*.md"
   pull_request:
     branches: ["master", "dev"]
     paths:
-      - "faas/image-object-detection/**"
+      - "faas/text-metadata-extractor/**"
       - "!*.md"
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  IMAGE_NAME: diva-faas-image-object-detection
+  IMAGE_NAME: text-metadataextractor
   DIVA_DOCKER_CONTEXT: core
-  DIVA_DOCKERFILE_PATH: faas/image-object-detection/Dockerfile
-  SERVICE_PATH: faas/image-object-detection
-  SERVICE_RELATIVE_PATH: image-object-detection
+  DIVA_DOCKERFILE_PATH: faas/text-metadata-extractor/Dockerfile
+  SERVICE_PATH: faas/text-metadata-extractor
+  SERVICE_RELATIVE_PATH: text-metadata-extractor
 
 jobs:
   build-and-push-image:
@@ -60,4 +60,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: ${{ env.SERVICE_RELATIVE_PATH }}
+          build-args: SERVICE_NAME=${{ env.SERVICE_RELATIVE_PATH }}

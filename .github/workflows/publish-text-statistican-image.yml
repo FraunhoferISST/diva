@@ -1,4 +1,4 @@
-name: Build and publish diva-faas-text-statistican image
+name: Build and publish text-statistican image
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ on:
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  IMAGE_NAME: diva-faas-text-statistican
+  IMAGE_NAME: text-statistican
   DIVA_DOCKER_CONTEXT: core
   DIVA_DOCKERFILE_PATH: faas/text-statistican/Dockerfile
   SERVICE_PATH: faas/text-statistican
@@ -60,4 +60,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: ${{ env.SERVICE_RELATIVE_PATH }}
+          build-args: SERVICE_NAME=${{ env.SERVICE_RELATIVE_PATH }}
