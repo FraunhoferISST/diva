@@ -1,6 +1,7 @@
 name: Build and publish user-management image
 
 on:
+  workflow_dispatch:
   push:
     branches: ["master", "dev"]
     paths:
@@ -55,6 +56,6 @@ jobs:
         with:
           context: ${{ env.DIVA_DOCKER_CONTEXT }}
           file: ${{ env.DIVA_DOCKERFILE_PATH }}
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
