@@ -7,7 +7,7 @@
 version: '3.9'
 x-airflow-common:
   &airflow-common
-  image: ghcr.io/fraunhoferisst/diva/airflow:5.0.0
+  image: ghcr.io/fraunhoferisst/diva/diva-airflow:5.0.1
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -67,24 +67,6 @@ services:
     networks:
       - core
 
-  airflow:
-    <<: *airflow-common
-
-  airflow-webserver:
-    <<: *airflow-common
-    container_name: airflow-webserver
-    command: webserver
-    ports:
-      - ${AIRFLOW_PORT}:${AIRFLOW_PORT}
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
-      interval: 10s
-      timeout: 10s
-      retries: 5
-    restart: always
-    networks:
-      - core
-
   airflow-scheduler:
     <<: *airflow-common
     container_name: airflow-scheduler
@@ -122,6 +104,25 @@ services:
       - 5555:5555
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:5555/"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
+    networks:
+      - core
+
+  airflow:
+    <<: *airflow-common
+    container_name: diva-airflow
+
+  airflow-webserver:
+    <<: *airflow-common
+    container_name: airflow-webserver
+    command: webserver
+    ports:
+      - ${AIRFLOW_PORT}:${AIRFLOW_PORT}
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
       interval: 10s
       timeout: 10s
       retries: 5
