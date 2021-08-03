@@ -9,4 +9,4 @@ RUN npm install --production
 RUN pip install nltk && python -c "import nltk; nltk.download('punkt')"
 COPY . .
 
-CMD npm run start
+CMD ["npm", "run", "start"]
