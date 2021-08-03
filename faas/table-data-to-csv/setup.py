@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(
-    name="table-to-csv",
+    name="table-data-to-csv",
     version="1.0.0",
     author="Fraunhofer ISST",
     description="Converts .sas7bdat to .csv",
