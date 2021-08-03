@@ -15,7 +15,7 @@ on:
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKER_CONTEXT: %%context%%
   IMAGE_NAME: %%name%%
   DIVA_DOCKERFILE_PATH: %%dockerfile%%
   SERVICE_PATH: %%path%%

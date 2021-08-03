@@ -16,7 +16,7 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: text-language-guesser
-  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKER_CONTEXT: faas/text-language-guesser
   DIVA_DOCKERFILE_PATH: faas/text-language-guesser/Dockerfile
   SERVICE_PATH: faas/text-language-guesser
   SERVICE_RELATIVE_PATH: text-language-guesser

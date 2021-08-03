@@ -16,7 +16,7 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: personal-data-evaluation
-  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKER_CONTEXT: faas/personal-data-evaluation
   DIVA_DOCKERFILE_PATH: faas/personal-data-evaluation/Dockerfile
   SERVICE_PATH: faas/personal-data-evaluation
   SERVICE_RELATIVE_PATH: personal-data-evaluation

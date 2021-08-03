@@ -16,7 +16,7 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: image-caption-generator
-  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKER_CONTEXT: faas/image-caption-generator
   DIVA_DOCKERFILE_PATH: faas/image-caption-generator/Dockerfile
   SERVICE_PATH: faas/image-caption-generator
   SERVICE_RELATIVE_PATH: image-caption-generator

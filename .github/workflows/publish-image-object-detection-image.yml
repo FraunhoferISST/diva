@@ -16,7 +16,7 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: image-object-detection
-  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKER_CONTEXT: faas/image-object-detection
   DIVA_DOCKERFILE_PATH: faas/image-object-detection/Dockerfile
   SERVICE_PATH: faas/image-object-detection
   SERVICE_RELATIVE_PATH: image-object-detection

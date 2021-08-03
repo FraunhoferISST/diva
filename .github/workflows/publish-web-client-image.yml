@@ -16,7 +16,7 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: web-client
-  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKER_CONTEXT: core/webclient
   DIVA_DOCKERFILE_PATH: core/web-client/Dockerfile
   SERVICE_PATH: core/web-client
   SERVICE_RELATIVE_PATH: undefined

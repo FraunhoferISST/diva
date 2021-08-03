@@ -16,7 +16,7 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: text-metadataextractor
-  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKER_CONTEXT: faas/text-metadata-extractor
   DIVA_DOCKERFILE_PATH: faas/text-metadata-extractor/Dockerfile
   SERVICE_PATH: faas/text-metadata-extractor
   SERVICE_RELATIVE_PATH: text-metadata-extractor

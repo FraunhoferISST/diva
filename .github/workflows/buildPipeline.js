@@ -13,6 +13,7 @@ const coreServices = fs
     .map((dir) => ({
         name: require(path.join("../../core/services", dir, "package.json")).name,
         path: `core/services/${dir}`,
+        context: `core`,
         relativePath: dir,
         dockerfile: CORE_SERVICES_DOCKERFILE,
         type: "node",
@@ -26,6 +27,7 @@ const adapterServices = fs
             dir,
             "package.json"
         )).name,
+        context: `core`,
         path: `core/services/adapter-services/${dir}`,
         relativePath: `adapter-services/${dir}`,
         dockerfile: CORE_SERVICES_DOCKERFILE,
@@ -45,6 +47,7 @@ const faasNodeServices = fs
         relativePath: dir,
         dockerfile: `faas/${dir}/Dockerfile`,
         type: "node",
+        context: `faas/${dir}`,
     }));
 
 const faasPythonServices = fs
@@ -60,6 +63,7 @@ const faasPythonServices = fs
         relativePath: dir,
         dockerfile: `faas/${dir}/Dockerfile`,
         type: "python",
+        context: `faas/${dir}`
     }));
 
 const services = [
@@ -72,6 +76,7 @@ const services = [
         path: "core/web-client",
         dockerfile: "core/web-client/Dockerfile",
         type: "node",
+        context: "core/webclient"
     },
     {
         name: "tika-extraction",
@@ -79,7 +84,8 @@ const services = [
         relativePath: "tika-extraction",
         dockerfile: "faas/tika-extraction/Dockerfile",
         type: "generic",
-        version: "1.0.0"
+        version: "1.0.0",
+        context: "faas/tika-extraction"
     },
 ];
 
@@ -92,6 +98,7 @@ const buildConfig = (template, service) =>
             .replace(/%%relativePath%%/g, service.relativePath)
             .replace(/%%dockerfile%%/g, service.dockerfile)
             .replace(/%%version%%/g, service.version)
+            .replace(/%%context%%/g, service.context)
     );
 
 const buildGenericServicePipeline = (service) =>

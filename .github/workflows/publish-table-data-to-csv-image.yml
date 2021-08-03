@@ -15,7 +15,7 @@ on:
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKER_CONTEXT: faas/table-data-to-csv
   IMAGE_NAME: table-data-to-csv
   DIVA_DOCKERFILE_PATH: faas/table-data-to-csv/Dockerfile
   SERVICE_PATH: faas/table-data-to-csv

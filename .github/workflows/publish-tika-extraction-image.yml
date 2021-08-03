@@ -17,7 +17,7 @@ env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: tika-extraction
   IMAGE_VERSION: 1.0.0
-  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKER_CONTEXT: faas/tika-extraction
   DIVA_DOCKERFILE_PATH: faas/tika-extraction/Dockerfile
   SERVICE_PATH: faas/tika-extraction
   SERVICE_RELATIVE_PATH: tika-extraction

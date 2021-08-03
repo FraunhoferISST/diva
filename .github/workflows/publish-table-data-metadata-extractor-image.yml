@@ -16,7 +16,7 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: table-data-metadata-extractor
-  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKER_CONTEXT: faas/table-data-metadata-extractor
   DIVA_DOCKERFILE_PATH: faas/table-data-metadata-extractor/Dockerfile
   SERVICE_PATH: faas/table-data-metadata-extractor
   SERVICE_RELATIVE_PATH: table-data-metadata-extractor

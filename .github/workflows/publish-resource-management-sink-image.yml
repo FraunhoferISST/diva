@@ -16,7 +16,7 @@ on:
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: resource-management-sink
-  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKER_CONTEXT: faas/resource-management-sink
   DIVA_DOCKERFILE_PATH: faas/resource-management-sink/Dockerfile
   SERVICE_PATH: faas/resource-management-sink
   SERVICE_RELATIVE_PATH: resource-management-sink
