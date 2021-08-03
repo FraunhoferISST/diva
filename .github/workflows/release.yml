@@ -67,3 +67,4 @@ jobs:
           default_author: github_actions
           message: "chore: update CHANGELOG.md"
           add: "CHANGELOG.md"
+          branch: master
