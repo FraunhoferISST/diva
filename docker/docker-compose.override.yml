@@ -19,9 +19,9 @@ services:
     restart: unless-stopped
     build:
       context: ../core
-      dockerfile: ../core/services/user-management/Dockerfile
-    environment:
-      - hostname=${DIVAHOSTNAME}
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'user-management'
 
   # ####################################################################################################################
   # Resource Management Microservice
@@ -30,7 +30,9 @@ services:
     restart: unless-stopped
     build:
       context: ../core
-      dockerfile: ../core/services/resource-management/Dockerfile
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'resource-management'
 
   # ####################################################################################################################
   # Resource Management Microservice
@@ -39,7 +41,9 @@ services:
     restart: unless-stopped
     build:
       context: ../core
-      dockerfile: ../core/services/asset-management/Dockerfile
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'asset-management'
 
   # ####################################################################################################################
   # SCHEMA REGISTRY
@@ -49,7 +53,9 @@ services:
     restart: unless-stopped
     build:
       context: ../core
-      dockerfile: ../core/services/schema-registry/Dockerfile
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'schema-registry'
 
   # ####################################################################################################################
   # EVENT EMITTER SERVICE
@@ -59,7 +65,9 @@ services:
     restart: unless-stopped
     build:
       context: ../core
-      dockerfile: ../core/services/event-emitter/Dockerfile
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'event-emitter'
 
   # ####################################################################################################################
   # Reviews Management Microservice
@@ -68,7 +76,9 @@ services:
     restart: unless-stopped
     build:
       context: ../core
-      dockerfile: ../core/services/review-management/Dockerfile
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'review-management'
 
   # ####################################################################################################################
   # Elasticsearch Connector Nanoservice
@@ -77,7 +87,9 @@ services:
   elasticsearch-connector:
     build:
       context: ../core
-      dockerfile: ../core/services/elasticsearch-connector/Dockerfile
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'elasticsearch-connector'
 
   # ####################################################################################################################
   # IDS Adapter Service
@@ -86,7 +98,9 @@ services:
   dsc-adapter:
     build:
       context: ../core
-      dockerfile: ../core/services/adapter-services/dsc-adapter/Dockerfile
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'adapter-services/dsc-adapter'
 
   # ####################################################################################################################
   # Urban Pulse Adapter Service
@@ -95,7 +109,9 @@ services:
   urban-pulse-adapter:
     build:
       context: ../core
-      dockerfile: ../core/services/adapter-services/urban-pulse-adapter/Dockerfile
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'adapter-services/urban-pulse-adapter'
 
   # ####################################################################################################################
   # DIVA Lake Adapter Service
@@ -104,7 +120,9 @@ services:
   diva-lake-adapter:
     build:
       context: ../core
-      dockerfile: ../core/services/adapter-services/diva-lake-adapter/Dockerfile
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'adapter-services/diva-lake-adapter'
 
   # ####################################################################################################################
   # Search Assistant
@@ -113,7 +131,9 @@ services:
   search-assistant:
     build:
       context: ../core
-      dockerfile: ../core/services/search-assistant/Dockerfile
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'search-assistant'
 
   # ####################################################################################################################
   # Analytics Assistant
@@ -122,7 +142,9 @@ services:
   analytics-assistant:
     build:
       context: ../core
-      dockerfile: ../core/services/analytics-assistant/Dockerfile
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'analytics-assistant'
 
   # ####################################################################################################################
   # History Assistant
@@ -131,7 +153,9 @@ services:
   history-assistant:
     build:
       context: ../core
-      dockerfile: ../core/services/history-assistant/Dockerfile
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'history-assistant'
 
   # ####################################################################################################################
   # Profiling Assistant
@@ -140,4 +164,6 @@ services:
   profiling-assistant:
     build:
       context: ../core
-      dockerfile: ../core/services/profiling-assistant/Dockerfile
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'profiling-assistant'
