@@ -1,24 +1,24 @@
-name: Build and publish %%name%% image
+name: Build and publish image-text-extractor image
 
 on:
   workflow_dispatch:
   push:
     branches: ["master", "dev"]
     paths:
-      - "%%path%%/**"
+      - "faas/image-text-extractor/**"
       - "!*.md"
   pull_request:
     branches: ["master", "dev"]
     paths:
-      - "%%path%%/**"
+      - "faas/image-text-extractor/**"
       - "!*.md"
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   DIVA_DOCKER_CONTEXT: core
-  DIVA_DOCKERFILE_PATH: %%dockerfile%%
-  SERVICE_PATH: %%path%%
-  SERVICE_RELATIVE_PATH: %%relativePath%%
+  DIVA_DOCKERFILE_PATH: faas/image-text-extractor/Dockerfile
+  SERVICE_PATH: faas/image-text-extractor
+  SERVICE_RELATIVE_PATH: image-text-extractor
 
 jobs:
   build-and-push-image:

@@ -18,6 +18,7 @@ env:
   DIVA_DOCKER_CONTEXT: core
   DIVA_DOCKERFILE_PATH: faas/table-data-apriori-associations-extractor/Dockerfile
   SERVICE_PATH: faas/table-data-apriori-associations-extractor
+  SERVICE_RELATIVE_PATH: table-data-apriori-associations-extractor
 
 jobs:
   build-and-push-image:
@@ -57,3 +58,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: ${{ env.SERVICE_RELATIVE_PATH }}

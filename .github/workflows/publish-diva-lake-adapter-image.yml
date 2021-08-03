@@ -17,8 +17,9 @@ env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: diva-lake-adapter
   DIVA_DOCKER_CONTEXT: core
-  DIVA_DOCKERFILE_PATH: core/services/adapter-services/diva-lake-adapter/Dockerfile
+  DIVA_DOCKERFILE_PATH: core/services/Dockerfile
   SERVICE_PATH: core/services/adapter-services/diva-lake-adapter
+  SERVICE_RELATIVE_PATH: adapter-services/diva-lake-adapter
 
 jobs:
   build-and-push-image:
@@ -59,3 +60,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: ${{ env.SERVICE_RELATIVE_PATH }}

@@ -1,11 +1,9 @@
 import setuptools
 
 setuptools.setup(
-    name="table-data-apriori-associations-extractor",
-    version="2.0.0",
-    author="Example Author",
-    author_email="author@example.com",
-    description="Extracts apriori associations for CSV and SAS7BDAT",
+    name="text-core-phrase-extractor",
+    version="4.1.0",
+    author="Fraunhofer ISST",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

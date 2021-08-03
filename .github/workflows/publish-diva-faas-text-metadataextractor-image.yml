@@ -19,6 +19,7 @@ env:
   DIVA_DOCKER_CONTEXT: core
   DIVA_DOCKERFILE_PATH: faas/text-metadata-extractor/Dockerfile
   SERVICE_PATH: faas/text-metadata-extractor
+  SERVICE_RELATIVE_PATH: text-metadata-extractor
 
 jobs:
   build-and-push-image:
@@ -59,3 +60,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: ${{ env.SERVICE_RELATIVE_PATH }}

@@ -1,24 +1,25 @@
-name: Build and publish %%name%% image
+name: Build and publish tika-extraction image
 
 on:
   workflow_dispatch:
   push:
     branches: ["master", "dev"]
     paths:
-      - "%%path%%/**"
+      - "faas/tika-extraction/**"
       - "!*.md"
   pull_request:
     branches: ["master", "dev"]
     paths:
-      - "%%path%%/**"
+      - "faas/tika-extraction/**"
       - "!*.md"
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
+  IMAGE_NAME: tika-extraction
   DIVA_DOCKER_CONTEXT: core
-  DIVA_DOCKERFILE_PATH: %%dockerfile%%
-  SERVICE_PATH: %%path%%
-  SERVICE_RELATIVE_PATH: %%relativePath%%
+  DIVA_DOCKERFILE_PATH: faas/tika-extraction/Dockerfile
+  SERVICE_PATH: faas/tika-extraction
+  SERVICE_RELATIVE_PATH: tika-extraction
 
 jobs:
   build-and-push-image:
@@ -31,10 +32,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: get-version
+      - name: get-npm-version
         id: package-version
-        run: echo ::set-output name=VERSION::$(python ${{ env.SERVICE_PATH }}/setup.py --version)
-
+        uses: martinbeentjes/npm-get-version-action@master
+        with:
+          path: ${{ env.SERVICE_PATH }}
 
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
@@ -48,7 +50,7 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: ${{ steps.package-version.outputs.VERSION }}
+          tags: ${{ steps.package-version.outputs.current-version}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
