@@ -51,7 +51,7 @@ class UsersController {
     try {
       const { id } = req.params;
       await usersService.patchById(id, req.body, req.headers["x-actorid"]);
-      res.status(204).send();
+      res.status(200).send();
       messagesProducer.produce(id, req.headers["x-actorid"], "update");
     } catch (err) {
       return next(err);

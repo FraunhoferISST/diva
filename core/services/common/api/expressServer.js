@@ -12,7 +12,7 @@ if (process.pkg?.entrypoint) {
   WORK_DIR = pkgEntryPoint.substring(0, pkgEntryPoint.lastIndexOf("/") + 1);
 }
 
-const SERVICE_NAME =  require(path.join(`${WORK_DIR}`, "/package.json")).name;
+const SERVICE_NAME = require(path.join(`${WORK_DIR}`, "/package.json")).name;
 
 const corsDefaults = {
   origin: process.env.CORS_ALLOW_ORIGIN || "*",
@@ -47,7 +47,9 @@ const errorHandler = (err, req, res, next) => {
 module.exports = (onBoot, { port, openapiPath, corsOptions = {} }) =>
   new Promise(async (resolve) => {
     try {
-      console.info(chalk.blue(`✅ Running ${SERVICE_NAME} in ${NODE_ENV} mode`));
+      console.info(
+        chalk.blue(`✅ Running ${SERVICE_NAME} in ${NODE_ENV} mode`)
+      );
       const app = express();
       app.use(express.json({ limit: "10mb", extended: true }));
       app.use(express.urlencoded({ limit: "10mb", extended: false }));

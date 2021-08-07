@@ -32,7 +32,7 @@ class MongoDBConnector {
       this.collections = Object.fromEntries(collections);
       console.info(
         chalk.blue(
-          `✅ MongoDB ready: Connected to "${this.collectionsNames}" collection in "${this.databaseName}" database 💽`
+          `✅ MongoDB ready: Connected to "${this.collectionsNames}" in "${this.databaseName}" database 💽`
         )
       );
     }
