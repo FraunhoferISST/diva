@@ -1,6 +1,5 @@
 const chai = require("chai");
 const chaiResponseValidator = require("chai-openapi-response-validator");
-const Request = require("../utils/Request");
 const mockData = require("../utils/mockData");
 
 chai.use(require("chai-sorted"));

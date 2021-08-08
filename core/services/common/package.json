@@ -26,6 +26,7 @@
     "kafkajs": "^1.15.0",
     "lodash": "^4.17.21",
     "mongodb": "^4.0.0",
+    "randomstring": "^1.2.1",
     "url-join": "^4.0.1",
     "uuid": "^8.3.2"
   },

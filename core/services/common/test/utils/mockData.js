@@ -1,5 +1,10 @@
 const faker = require("faker");
 
+const randomHash = () =>
+  [..."143baf2d3bdd2ccf5f3dfc5e5ec150ab60e44a7d95e6605d9feb2f5c9e1ab4a0"]
+    .sort((_) => Math.random() - 0.5)
+    .join("");
+
 const mockData = {
   users: {
     createRandom: () => ({
@@ -61,19 +66,52 @@ const mockData = {
     ],
   },
   resources: {
-    createRandom: (resourceType = "generic") => ({
+    createRandom: (resourceType = "file", mimeType = "application/pdf") => ({
       title: faker.lorem.sentence(),
       resourceType,
+      mimeType,
+      filename: faker.system.fileName(),
+      uniqueFingerprint: randomHash(),
     }),
     data: [
       {
-        title: "resource 1",
-        resourceType: "generic",
-      },
-      {
         title: "resource 2",
         resourceType: "file",
-        uniqueFingerprint: "sadasdsad",
+        mimeType: "application/pdf",
+        uniqueFingerprint: randomHash(),
+        filename: faker.system.fileName(),
+      },
+      {
+        title: "resource 3",
+        resourceType: "file",
+        mimeType: "application/pdf",
+        uniqueFingerprint: randomHash(),
+        filename: faker.system.fileName(),
+      },
+      {
+        title: "resource 4",
+        resourceType: "file",
+        mimeType: "text/plain",
+        uniqueFingerprint: randomHash(),
+        filename: faker.system.fileName(),
+      },
+      {
+        title: "resource 5",
+        resourceType: "file",
+        mimeType: "text/plain",
+        uniqueFingerprint: randomHash(),
+        filename: faker.system.fileName(),
+      },
+      {
+        title: "resource 6",
+        resourceType: "file",
+        mimeType: "text/plain",
+        uniqueFingerprint: randomHash(),
+        filename: faker.system.fileName(),
+      },
+      {
+        title: "resource 1",
+        resourceType: "generic",
       },
     ],
   },
