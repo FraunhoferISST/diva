@@ -85,7 +85,7 @@ describe("Resources API", () => {
     describe(`# GET /${MONGO_COLLECTION_NAME}/{id}`, function () {
       runGetByIdTests(MONGO_COLLECTION_NAME);
     });
-    describe(`# POST /${MONGO_COLLECTION_NAME}/{id}`, function () {
+    describe(`# POST /${MONGO_COLLECTION_NAME}`, function () {
       runPostTests(MONGO_COLLECTION_NAME, "uniqueFingerprint");
     });
     describe(`# PATCH /${MONGO_COLLECTION_NAME}/{id}`, function () {

@@ -9,7 +9,7 @@ const usersImagesService = require("./services/UserImagesService");
 const serviceName = require("./package.json").name;
 
 const NODE_ENV = process.env.NODE_ENV || "development";
-const producer = NODE_ENV === "test" ? () => {} : null;
+const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
 
 const port = process.env.PORT || 3001;
 const topic = process.env.KAFKA_EVENT_TOPIC || "user.events";

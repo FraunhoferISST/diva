@@ -10,7 +10,6 @@
     "build:linux": "pkg -t node14-linux-x64 index.js",
     "eslint-fix": "eslint --fix . --ext .js",
     "test:e2e": "NODE_ENV=test mocha --recursive test/e2e/*.spec.js",
-    "test:unit": "NODE_ENV=test mocha --recursive test/unit/*.spec.js"
   },
   "author": "",
   "license": "ISST",

@@ -1,9 +1,17 @@
 const faker = require("faker");
+const casual = require("casual");
+const generateUuid = require("../../generateUuid");
 
 const randomHash = () =>
   [..."143baf2d3bdd2ccf5f3dfc5e5ec150ab60e44a7d95e6605d9feb2f5c9e1ab4a0"]
     .sort((_) => Math.random() - 0.5)
     .join("");
+
+const createRandomReview = () => ({
+  reviewText: faker.lorem.paragraph(),
+  belongsTo: generateUuid("resource"),
+  rating: casual.integer(1, 5),
+});
 
 const mockData = {
   users: {
@@ -114,6 +122,12 @@ const mockData = {
         resourceType: "generic",
       },
     ],
+  },
+  reviews: {
+    createRandom: createRandomReview,
+    data: Array(10)
+      .fill("")
+      .map(() => createRandomReview()),
   },
 };
 
