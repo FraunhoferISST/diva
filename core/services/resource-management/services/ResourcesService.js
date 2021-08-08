@@ -45,8 +45,8 @@ class ResourcesService extends EntityService {
     return super.create(newResource, actorId);
   }
 
-  validate(user) {
-    jsonSchemaValidator.validate(RESOURCES_ROOT_SCHEMA, user);
+  validate(resource) {
+    jsonSchemaValidator.validate(RESOURCES_ROOT_SCHEMA, resource);
   }
 
   sanitizeEntity({ _id, ...rest }) {

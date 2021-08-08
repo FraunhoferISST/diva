@@ -7,12 +7,15 @@ const {
 } = require("../utils/mongoDbConnectors");
 
 const REVIEW_ROOT_SCHEMA = process.env.USER_ROOT_SCHEMA || "review";
+const HISTORY_ROOT_SCHEMA = process.env.HISTORY_ROOT_SCHEMA || "history";
+
 const reviewsCollectionName = process.env.MONGO_COLLECTION_NAME || "reviews";
 const historyCollectionName =
   process.env.HISTORY_COLLECTION_NAME || "histories";
 
 class ReviewsService extends EntityService {
   async init() {
+    await jsonSchemaValidator.init([REVIEW_ROOT_SCHEMA, HISTORY_ROOT_SCHEMA]);
     await historyMongoDbConnector.connect();
     await reviewsMongoDbConnector.connect();
     this.collection =
@@ -37,8 +40,8 @@ class ReviewsService extends EntityService {
     );
   }
 
-  validate(user) {
-    jsonSchemaValidator.validate(REVIEW_ROOT_SCHEMA, user);
+  validate(review) {
+    jsonSchemaValidator.validate(REVIEW_ROOT_SCHEMA, review);
   }
 
   sanitizeEntity({ _id, ...rest }) {
