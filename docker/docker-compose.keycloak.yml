@@ -1,0 +1,45 @@
+# ####################################################################################################################
+# Keycloak instance
+# ####################################################################################################################
+
+version: '3.9'
+
+services:
+
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:latest
+    ports:
+      - ${KEYCLOAK_PORT}:8080
+    restart: always
+    #    depends_on:
+    #      - keycloak-postgres
+    environment:
+      #DB_VENDOR: POSTGRES
+      #DB_ADDR: keycloak-postgres
+      #DB_DATABASE: keycloak
+      #DB_USER: keycloak
+      #DB_PASSWORD: password
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+      #KEYCLOAK_FRONTEND_URL: ${KEYCLOAK_FRONTEND_URL}
+      KEYCLOAK_HTTP_PORT: ${KEYCLOAK_PORT}
+      #KEYCLOAK_DEFAULT_THEME: coming_soon
+      KEYCLOAK_IMPORT: /tmp/default-realm.json
+    volumes:
+      - ../core/keycloak/default-realm.json:/tmp/default-realm.json
+    networks:
+      - core
+      - postgres_storage
+
+volumes:
+  keycloak_postgres_data:
+    driver: local
+  keycloak_data:
+    driver: local
+
+networks:
+  core:
+    name: core
+  postgres_storage:
+    name: postgres_storage
