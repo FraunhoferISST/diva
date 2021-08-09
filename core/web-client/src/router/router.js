@@ -35,7 +35,7 @@ const router = new Router({
     {
       path: "/",
       name: "home",
-      beforeEnter: requireAuth,
+      // beforeEnter: requireAuth,
       component: Home,
       redirect: {
         name: "search",

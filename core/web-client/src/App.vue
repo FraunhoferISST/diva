@@ -1,7 +1,16 @@
 <template>
   <v-app app>
     <v-main>
-      <router-transition>
+      <div
+        v-if="authenticating"
+        class="fill-height d-flex align-center justify-center"
+      >
+        <div style="height: 100px" class="text-center">
+          <loading-state-overlay v-if="loading"> </loading-state-overlay>
+          <p>{{ message }}</p>
+        </div>
+      </div>
+      <router-transition v-else>
         <router-view></router-view>
       </router-transition>
     </v-main>
@@ -9,16 +18,55 @@
 </template>
 <script>
 import RouterTransition from "@/components/Transitions/RouterTransition";
+import keycloak from "@/api/keycloak";
+import LoadingStateOverlay from "@/components/Base/LoadingStateOverlay";
 export default {
   name: "app",
   components: {
+    LoadingStateOverlay,
     RouterTransition,
   },
-  data() {
-    return {};
-  },
-
+  data: () => ({
+    message: "Preparing the journey",
+    loading: true,
+    authenticating: true,
+  }),
   computed: {},
+  methods: {
+    authenticate() {
+      this.loading = true;
+      this.authenticating = true;
+      keycloak
+        .init()
+        .then((authenticated) => {
+          console.log(authenticated);
+          if (authenticated) {
+            console.log(authenticated);
+            const user = keycloak.getUser();
+            this.$store.dispatch("login", user);
+            this.message = `Hello ${user.username}`;
+            setTimeout(() => {
+              this.authenticating = false;
+              this.$router.push({ name: "home" });
+            }, 1000);
+          } else {
+            this.authenticating = false;
+            this.$router.push({ name: "login" });
+          }
+        })
+        .catch((e) => {
+          this.message = "Authentication Error";
+          console.error(e);
+          console.error("Authenticated Failed");
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+  },
+  mounted() {
+    this.authenticate();
+  },
 };
 </script>
 

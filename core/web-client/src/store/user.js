@@ -7,7 +7,7 @@ const user = {
   imageURL: "",
   created: "",
   modified: "",
-  entityType: "",
+  entityType: "user",
   creatorId: "",
   id: "",
   isLoggedIn: !!localStorage.getItem("jwt"),
@@ -47,21 +47,17 @@ const actions = {
   setUser({ commit }, userData) {
     commit(SET_USER, userData);
   },
-  login({ commit }, credentials) {
+  async login({ commit }, { id, email, username, token }) {
+    debugger;
     resetAuthorizationData();
-    return api.users.login(credentials).then(({ data }) => {
-      const { token, email, username, imageId, imageURL, created, id } = data;
-      api.axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-      localStorage.setItem("jwt", token);
-      this._vm.$socket.io.opts.query = `jwt=${token}`;
-      this._vm.$socket.open();
+    api.axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+    localStorage.setItem("jwt", token);
+    this._vm.$socket.io.opts.query = `jwt=${token}`;
+    this._vm.$socket.open();
+    await api.users.update(id, { email, username });
+    return api.users.getById(id).then(({ data }) => {
       commit(SET_USER, {
-        email,
-        username,
-        imageId,
-        imageURL,
-        id,
-        created,
+        ...data,
         isLoggedIn: true,
       });
     });
