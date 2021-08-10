@@ -13,32 +13,11 @@ import user from "./user";
 
 Vue.use(Router);
 
-/*
-const requireAuth = (to, from, next) => {
-  debugger;
-  if (store.state.user.isLoggedIn) {
-    if (!store.state.user.id) {
-      store
-        .dispatch("verify")
-        .then((user) => (user ? next() : next("/login")))
-        .catch(() => {
-          next("/login");
-        });
-    } else {
-      next();
-    }
-    return;
-  }
-  next("/login");
-};
-*/
-
 const router = new Router({
   routes: [
     {
       path: "/",
       name: "home",
-      // beforeEnter: requireAuth,
       component: Home,
       redirect: {
         name: "search",

@@ -1,5 +1,4 @@
 import api from "@/api/index";
-import keycloak from "@/api/keycloak";
 
 const user = {
   email: "",
@@ -76,26 +75,6 @@ const actions = {
     resetAuthorizationData();
     this._vm.$socket.close();
     commit(LOGOUT);
-  },
-  verify({ commit, dispatch }, id) {
-    debugger;
-    return keycloak.verifyToken().then(async (expired) => {
-      debugger;
-      if (expired) {
-        await dispatch("logout");
-        throw Error("Toke is expired");
-      }
-      return api.users.getById(id).then(({ data }) => {
-        if (this._vm.$socket.disconnected) {
-          this._vm.$socket.open();
-        }
-        commit(SET_USER, {
-          ...data,
-          isLoggedIn: true,
-        });
-        return data;
-      });
-    });
   },
 };
 
