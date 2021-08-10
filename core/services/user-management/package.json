@@ -1,6 +1,6 @@
 {
   "name": "user-management",
-  "version": "4.0.0-beta.7",
+  "version": "5.0.0-beta.0",
   "description": "User management service with CRUD operations for users",
   "main": "index.js",
   "scripts": {
@@ -17,13 +17,8 @@
   "dependencies": {
     "@diva/common": "1.0.0",
     "bcryptjs": "^2.4.3",
-    "hasha": "^5.2.2",
-    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
-    "mongodb": "^3.6.4",
-    "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0"
+    "mongodb": "^3.6.4"
   },
   "devDependencies": {
     "@diva/eslint-config": "0.1.0",

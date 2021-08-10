@@ -67,12 +67,10 @@ export default {
       this.authenticating = true;
       keycloak
         .init()
-        .then((authenticated) => {
-          console.log(authenticated);
-          console.log(keycloak.kc);
+        .then(async (authenticated) => {
           if (authenticated) {
             const user = keycloak.getUser();
-            this.$store.dispatch("login", user);
+            await this.$store.dispatch("login", user);
             if (this.$route.name === "login") {
               this.$router.push("/");
             }
@@ -83,8 +81,8 @@ export default {
           }
         })
         .catch((e) => {
-          console.error(e);
-          this.error = e?.error ?? "Failed to initialize authentication";
+          const error = e?.error || e?.response?.data?.message || e.toString();
+          this.error = error ?? "Failed to initialize authentication";
         })
         .finally(() => {
           this.loading = false;

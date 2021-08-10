@@ -50,7 +50,7 @@
                               persistent-hint
                               dense
                               :clearable="attribute.name !== 'email'"
-                              :hint="attribute.name === 'email'"
+                              :hint="attribute.name === 'email' ? 'hint' : ''"
                             >
                               <template #message>
                                 <p>
