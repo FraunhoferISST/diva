@@ -122,9 +122,8 @@ paths:
       tags:
         - users
       summary: Update user
-      description: Use this method, if you want to replace complete user document. New user is created if no user with
-        the provided `id` exists. Note that in this operation **all** fields (except `id`) are replaced. For example, if the request
-        does not contain `imageId` the filed will be removed from existing user object. At least `username`, `e-mail` and `password`
+      description: New user is created if no user with
+        the provided `id` exists. Note that in this operation you can replace **all** fields (except `id`). At least `username` and `e-mail`
         must be provided.
       operationId: updateUser
       parameters:
@@ -448,25 +447,18 @@ components:
         application/json:
           schema:
             type: object
-            additionalProperties: false
+            additionalProperties: true
+            description: Minimal required properties to update the user. To see the comlete set of possible attributes please
+              refer to the corresponsing schema
             required:
               - username
               - email
-              - password
             properties:
               username:
                 type: string
               email:
                 type: string
                 format: email
-              password:
-                type: string
-              imageId:
-                description: Existing image id
-                type: string
-              imageUrl:
-                type: string
-                format: url
     UsersPatch:
       required: true
       content:

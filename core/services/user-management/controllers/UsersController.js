@@ -58,6 +58,17 @@ class UsersController {
     }
   }
 
+  async updateUser(req, res, next) {
+    try {
+      const { id } = req.params;
+      await usersService.updateById(id, req.body, req.headers["x-actorid"]);
+      res.status(204).send();
+      messagesProducer.produce(id, req.headers["x-actorid"], "update");
+    } catch (err) {
+      return next(err);
+    }
+  }
+
   async deleteUser(req, res, next) {
     try {
       const { id } = req.params;
