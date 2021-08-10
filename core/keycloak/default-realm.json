@@ -1,6 +1,6 @@
 {
   "id": "diva",
-  "realm": "diva",
+  "realm": "diva-kc-realm",
   "displayName": "DIVA Realm",
   "displayNameHtml": "DIVA Realm",
   "notBefore": 0,
@@ -317,7 +317,7 @@
           "attributes": {}
         }
       ],
-      "diva": []
+      "diva-kc-client": []
     }
   },
   "groups": [],
@@ -390,13 +390,13 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/diva/account/",
+      "baseUrl": "/realms/diva-kc-realm/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/diva/account/*"
+        "/realms/diva-kc-realm/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -555,7 +555,7 @@
     },
     {
       "id": "8f17c17c-6156-434b-9cc0-3adaa1f28cd6",
-      "clientId": "diva",
+      "clientId": "diva-kc-client",
       "name": "DIVA client",
       "surrogateAuthRequired": false,
       "enabled": true,
@@ -660,13 +660,13 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/diva/console/",
+      "baseUrl": "/admin/diva-kc-realm/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/admin/diva/console/*"
+        "/admin/diva-kc-realm/console/*"
       ],
       "webOrigins": [
         "+"

@@ -51,6 +51,9 @@ services:
     restart: always
     environment:
       VUE_APP_API_GATEWAY_URL: ${VUE_APP_API_GATEWAY_URL}
+      VUE_APP_KEYCLOAK_URL: ${VUE_APP_KEYCLOAK_URL}
+      VUE_APP_KEYCLOAK_REALM: ${VUE_APP_KEYCLOAK_REALM}
+      VUE_APP_KEYCLOAK_CLIENT_ID: ${VUE_APP_KEYCLOAK_CLIENT_ID}
     networks:
       - core
 

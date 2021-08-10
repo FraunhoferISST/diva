@@ -25,7 +25,7 @@ WORKDIR /static_files
 COPY --from=builder /app/dist .
 
 COPY ./entrypoint.sh /entrypoint.sh
-RUN ls
+
 RUN chmod +x /entrypoint.sh
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
