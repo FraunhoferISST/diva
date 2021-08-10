@@ -48,7 +48,6 @@ const actions = {
     commit(SET_USER, userData);
   },
   async login({ commit }, { id, email, username, token }) {
-    debugger;
     resetAuthorizationData();
     api.axios.defaults.headers["Authorization"] = `Bearer ${token}`;
     localStorage.setItem("jwt", token);
