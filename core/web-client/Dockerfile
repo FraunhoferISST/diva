@@ -2,8 +2,6 @@
 FROM node:14.16.0-alpine as builder
 LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
 
-ARG VUE_APP_GATEWAY_ENDPOINT
-
 RUN mkdir -p /app
 WORKDIR /app
 
