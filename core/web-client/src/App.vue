@@ -64,11 +64,8 @@ export default {
       keycloak
         .init()
         .then((authenticated) => {
-          console.log(authenticated);
           if (authenticated) {
-            console.log(authenticated);
             const user = keycloak.getUser();
-            this.$store.dispatch("login", user);
             this.message = `Hello ${user.username}`;
             setTimeout(() => {
               this.authenticating = false;
