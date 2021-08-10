@@ -1,4 +1,5 @@
 import Keycloak from "keycloak-js";
+import store from "@/store";
 
 let initOptions = {
   url: process.env.VUE_APP_KEYCLOAK_URL || "http://172.17.0.1:7000/auth",
@@ -29,7 +30,8 @@ export default {
       setInterval(() => {
         kc.updateToken(0).then((refreshed) => {
           if (refreshed) {
-            console.info("Token refreshed" + refreshed);
+            store.dispatch("refreshToken", kc.token);
+            console.info("Token refreshed " + refreshed, kc.token);
           }
         });
       }, 10 ** 5);

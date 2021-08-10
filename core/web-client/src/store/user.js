@@ -55,6 +55,8 @@ const actions = {
   },
   refreshToken({ commit }, token) {
     setAuthorizationData(token);
+    this._vm.$socket.io.opts.query = `jwt=${token}`;
+    this._vm.$socket.open();
     commit(SET_USER, {});
   },
   async login({ commit }, { id, email, username, token }) {
