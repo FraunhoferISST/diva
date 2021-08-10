@@ -5,9 +5,32 @@
         v-if="authenticating"
         class="fill-height d-flex align-center justify-center"
       >
-        <div style="height: 100px" class="text-center">
-          <loading-state-overlay v-if="loading"> </loading-state-overlay>
-          <p>{{ message }}</p>
+        <div class="text-center">
+          <div v-if="!error" style="height: 100px">
+            <loading-state-overlay v-if="loading"> </loading-state-overlay>
+            <p>{{ message }}</p>
+          </div>
+          <v-alert
+            v-else
+            key="alert"
+            dense
+            text
+            color="error"
+            class="text-center ma-0"
+          >
+            Ups, something went wrong with our authentication server. <br />
+            {{ error }}<br />
+            <v-btn
+              class="mt-2"
+              color="primary"
+              rounded
+              text
+              small
+              @click="authenticate"
+            >
+              Try again
+            </v-btn>
+          </v-alert>
         </div>
       </div>
       <router-transition v-else>
@@ -30,11 +53,13 @@ export default {
     message: "Preparing the journey",
     loading: true,
     authenticating: true,
+    error: "",
   }),
   computed: {},
   methods: {
     authenticate() {
       this.loading = true;
+      this.error = "";
       this.authenticating = true;
       keycloak
         .init()
@@ -55,9 +80,7 @@ export default {
           }
         })
         .catch((e) => {
-          this.message = "Authentication Error";
-          console.error(e);
-          console.error("Authenticated Failed");
+          this.error = e.error ?? "Failed to initialize authentication";
         })
         .finally(() => {
           this.loading = false;
