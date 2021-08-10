@@ -55,7 +55,11 @@ export default {
     authenticating: true,
     error: "",
   }),
-  computed: {},
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+  },
   methods: {
     authenticate() {
       this.loading = true;
@@ -64,20 +68,23 @@ export default {
       keycloak
         .init()
         .then((authenticated) => {
+          console.log(authenticated);
+          console.log(keycloak.kc);
           if (authenticated) {
             const user = keycloak.getUser();
-            this.message = `Hello ${user.username}`;
-            setTimeout(() => {
-              this.authenticating = false;
-              this.$router.push({ name: "home" });
-            }, 1000);
+            this.$store.dispatch("login", user);
+            if (this.$route.name === "login") {
+              this.$router.push("/");
+            }
+            this.authenticating = false;
           } else {
             this.authenticating = false;
             this.$router.push({ name: "login" });
           }
         })
         .catch((e) => {
-          this.error = e.error ?? "Failed to initialize authentication";
+          console.error(e);
+          this.error = e?.error ?? "Failed to initialize authentication";
         })
         .finally(() => {
           this.loading = false;

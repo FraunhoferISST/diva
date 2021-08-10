@@ -164,7 +164,7 @@ class EntityService {
       await this.replace(id, updatedEntity);
       return this.createHistoryEntry(existingEntity, updatedEntity, actorId);
     }
-    await this.insert(entity);
+    await this.insert(updatedEntity);
     return this.createHistoryEntry({}, updatedEntity, actorId);
   }
 

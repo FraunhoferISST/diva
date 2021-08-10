@@ -52,7 +52,6 @@ function JwtClaimsHeadersHandler:access(conf)
   end
 
   local jwt, err = jwt_decoder:new(token)
-
   if err and not continue_on_error then
     return kong.response.exit(500)
   end
@@ -61,11 +60,7 @@ function JwtClaimsHeadersHandler:access(conf)
   for claim_key,claim_value in pairs(claims) do
     for _,claim_pattern in pairs(conf.claims_to_include) do
       if string.match(claim_key, "^"..claim_pattern.."$") then
-        if claim_key == "id" then
-          req_set_header("X-actorid", claim_value)
-        else
-          req_set_header("X-"..claim_key, claim_value)
-        end
+        req_set_header("X-"..claim_key, claim_value)
       end
     end
   end

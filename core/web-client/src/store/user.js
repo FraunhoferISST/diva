@@ -1,4 +1,5 @@
 import api from "@/api/index";
+import keycloak from "@/api/keycloak";
 
 const user = {
   email: "",
@@ -43,14 +44,22 @@ const resetAuthorizationData = () => {
   localStorage.setItem("jwt", "");
 };
 
+const setAuthorizationData = (token) => {
+  api.axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+  localStorage.setItem("jwt", token);
+};
+
 const actions = {
   setUser({ commit }, userData) {
     commit(SET_USER, userData);
   },
+  refreshToken({ commit }, token) {
+    setAuthorizationData(token);
+    commit(SET_USER, {});
+  },
   async login({ commit }, { id, email, username, token }) {
     resetAuthorizationData();
-    api.axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-    localStorage.setItem("jwt", token);
+    setAuthorizationData(token);
     this._vm.$socket.io.opts.query = `jwt=${token}`;
     this._vm.$socket.open();
     await api.users.update(id, { email, username });
@@ -66,22 +75,24 @@ const actions = {
     this._vm.$socket.close();
     commit(LOGOUT);
   },
-  verify({ commit }) {
-    return api.users.verify().then(({ data }) => {
-      const { email, username, imageId, imageURL, created, id } = data;
-      if (this._vm.$socket.disconnected) {
-        this._vm.$socket.open();
+  verify({ commit, dispatch }, id) {
+    debugger;
+    return keycloak.verifyToken().then(async (expired) => {
+      debugger;
+      if (expired) {
+        await dispatch("logout");
+        throw Error("Toke is expired");
       }
-      commit(SET_USER, {
-        email,
-        username,
-        imageURL,
-        created,
-        imageId,
-        id,
-        isLoggedIn: true,
+      return api.users.getById(id).then(({ data }) => {
+        if (this._vm.$socket.disconnected) {
+          this._vm.$socket.open();
+        }
+        commit(SET_USER, {
+          ...data,
+          isLoggedIn: true,
+        });
+        return data;
       });
-      return data;
     });
   },
 };

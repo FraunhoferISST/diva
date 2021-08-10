@@ -20,9 +20,7 @@ const createUser = async (userData, actorId) => {
     ...userData,
     id,
     entityType: "user",
-    password: userData.password
-      ? await hashPassword(userData.password)
-      : undefined,
+    password: userData.password ? await hashPassword(userData.password) : null,
     created: new Date().toISOString(),
     modified: new Date().toISOString(),
     creatorId: actorId || id,

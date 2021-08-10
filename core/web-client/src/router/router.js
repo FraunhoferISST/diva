@@ -13,7 +13,9 @@ import user from "./user";
 
 Vue.use(Router);
 
+/*
 const requireAuth = (to, from, next) => {
+  debugger;
   if (store.state.user.isLoggedIn) {
     if (!store.state.user.id) {
       store
@@ -29,6 +31,7 @@ const requireAuth = (to, from, next) => {
   }
   next("/login");
 };
+*/
 
 const router = new Router({
   routes: [
@@ -58,6 +61,7 @@ const router = new Router({
       component: Login,
     },
   ],
+  mode: "history",
 });
 
 router.beforeResolve((to, from, next) => {
