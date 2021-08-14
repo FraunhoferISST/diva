@@ -58,7 +58,8 @@ class ReviewsController {
     try {
       const { id } = req.params;
       const actorId = req.headers["x-actorid"];
-      const { belongsTo } = await reviewsService.deleteById(id, actorId);
+      const { belongsTo } = await reviewsService.getById(id);
+      await reviewsService.deleteById(id, actorId);
       res.status(200).send();
       messagesProducer.produce(id, actorId, "delete", [belongsTo]);
     } catch (err) {
