@@ -84,10 +84,10 @@ describe("Assets API", () => {
       runGetByIdTests(MONGO_COLLECTION_NAME);
     });
     describe(`# POST /${MONGO_COLLECTION_NAME}`, function () {
-      runPostTests(MONGO_COLLECTION_NAME, ["id"]);
+      runPostTests(MONGO_COLLECTION_NAME);
     });
     describe(`# PATCH /${MONGO_COLLECTION_NAME}/{id}`, function () {
-      runPatchTests(MONGO_COLLECTION_NAME, "title", ["id"]);
+      runPatchTests(MONGO_COLLECTION_NAME, "title");
     });
     describe(`# DELETE /${MONGO_COLLECTION_NAME}/{id}`, function () {
       runDeleteTests(MONGO_COLLECTION_NAME);

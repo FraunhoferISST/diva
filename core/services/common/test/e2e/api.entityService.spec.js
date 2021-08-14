@@ -165,27 +165,35 @@ const runPostTests = (collectionName, uniqueFields) => {
     expect(insertedEvilEntity).to.equal(undefined);
   });
   it("throws error with code 409 for uniqueness violation", async function () {
-    const res = await this.request.runRequest(
-      this.request.makeBodyRequest(endpoint, mockData[collectionName].data[0])
-    );
-    expect(res.statusCode).to.equal(409);
-    expect(res.body).have.a.property("errors");
-    expect(res.body.errors).to.be.an("array");
+    if (uniqueFields) {
+      const res = await this.request.runRequest(
+        this.request.makeBodyRequest(endpoint, mockData[collectionName].data[0])
+      );
+      expect(res.statusCode).to.equal(409);
+      expect(res.body).have.a.property("errors");
+      expect(res.body.errors).to.be.an("array");
+    } else {
+      this.skip();
+    }
   });
   it("does not persist a new entity if uniqueness violated", async function () {
-    const alreadyInsertedEntity = this.testEntities[0];
-    await this.request.runRequest(
-      this.request.makeBodyRequest(endpoint, mockData[collectionName].data[0])
-    );
-    const uniqueFieldsQuery = Object.fromEntries(
-      uniqueFields.map((f) => [f, alreadyInsertedEntity[f]])
-    );
-    const existingEntities = await this.dbCollection
-      .find({
-        ...uniqueFieldsQuery,
-      })
-      .toArray();
-    expect(existingEntities.length).to.equal(1);
+    if (uniqueFields) {
+      const alreadyInsertedEntity = this.testEntities[0];
+      await this.request.runRequest(
+        this.request.makeBodyRequest(endpoint, mockData[collectionName].data[0])
+      );
+      const uniqueFieldsQuery = Object.fromEntries(
+        uniqueFields.map((f) => [f, alreadyInsertedEntity[f]])
+      );
+      const existingEntities = await this.dbCollection
+        .find({
+          ...uniqueFieldsQuery,
+        })
+        .toArray();
+      expect(existingEntities.length).to.equal(1);
+    } else {
+      this.skip();
+    }
   });
   it("returns consistent error object on errors", async function () {
     const res = await this.request.runRequest(
@@ -290,32 +298,40 @@ const runPatchTests = (collectionName, patchField, uniqueFields) => {
     expect(updatedEntity).to.not.have.property(badPatch.someNotAllowedProp);
   });
   it("returns status code 409 if uniqueness violated", async function () {
-    const uniqueFieldsPatch = Object.fromEntries(
-      uniqueFields.map((f) => [f, this.testEntities[1][f]])
-    );
-    const res = await this.request.runRequest(
-      this.request.makeBodyRequest(
-        `${endpoint}/${this.testEntities[0].id}`,
-        uniqueFieldsPatch,
-        "patch"
-      )
-    );
-    expect(res.statusCode).to.equal(409);
+    if (uniqueFields) {
+      const uniqueFieldsPatch = Object.fromEntries(
+        uniqueFields.map((f) => [f, this.testEntities[1][f]])
+      );
+      const res = await this.request.runRequest(
+        this.request.makeBodyRequest(
+          `${endpoint}/${this.testEntities[0].id}`,
+          uniqueFieldsPatch,
+          "patch"
+        )
+      );
+      expect(res.statusCode).to.equal(409);
+    } else {
+      this.skip();
+    }
   });
   it("does not patch entity in the database if uniqueness violated", async function () {
-    const alreadyInsertedEntity = this.testEntities[1];
-    const uniqueFieldsPatch = Object.fromEntries(
-      uniqueFields.map((f) => [f, alreadyInsertedEntity[f]])
-    );
-    await this.request.runRequest(
-      this.request.makeBodyRequest(
-        `${endpoint}/${this.testEntities[0].id}`,
-        uniqueFieldsPatch,
-        "patch"
-      )
-    );
-    const count = await this.dbCollection.countDocuments(uniqueFieldsPatch);
-    expect(count).to.be.equal(1);
+    if (uniqueFields) {
+      const alreadyInsertedEntity = this.testEntities[1];
+      const uniqueFieldsPatch = Object.fromEntries(
+        uniqueFields.map((f) => [f, alreadyInsertedEntity[f]])
+      );
+      await this.request.runRequest(
+        this.request.makeBodyRequest(
+          `${endpoint}/${this.testEntities[0].id}`,
+          uniqueFieldsPatch,
+          "patch"
+        )
+      );
+      const count = await this.dbCollection.countDocuments(uniqueFieldsPatch);
+      expect(count).to.be.equal(1);
+    } else {
+      this.skip();
+    }
   });
   it("returns consistent error object on errors", async function () {
     const res = await this.request.runRequest(
