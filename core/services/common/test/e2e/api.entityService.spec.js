@@ -111,9 +111,9 @@ const runGetByIdTests = (collectionName) => {
  * Executes tests on POST operation on an entity. The tests expect that the mock data for corresponding entity is already
  * loaded in the test DB instance.
  * @param {string} collectionName - collection name, e.g. "users", "assets"
- * @param {string} uniqueField - unique collection property, e.g. "email", "uniqueFingerPrint"
+ * @param {string} uniqueFields - unique collection property, e.g. "email", "uniqueFingerPrint"
  */
-const runPostTests = (collectionName, uniqueField) => {
+const runPostTests = (collectionName, uniqueFields) => {
   const endpoint = `/${collectionName}`;
   const createRandomEntity = mockData[collectionName].createRandom;
   const evilEntity = {
@@ -156,8 +156,11 @@ const runPostTests = (collectionName, uniqueField) => {
     await this.request.runRequest(
       this.request.makeBodyRequest(endpoint, evilEntity)
     );
+    const uniqueFieldsQuery = Object.fromEntries(
+      uniqueFields.map((f) => [f, evilEntity[f]])
+    );
     const insertedEvilEntity = await this.dbCollection.findOne({
-      [uniqueField]: evilEntity[uniqueField],
+      ...uniqueFieldsQuery,
     });
     expect(insertedEvilEntity).to.equal(undefined);
   });
@@ -170,13 +173,16 @@ const runPostTests = (collectionName, uniqueField) => {
     expect(res.body.errors).to.be.an("array");
   });
   it("does not persist a new entity if uniqueness violated", async function () {
-    const alreadyInsertedEntity = mockData[collectionName].data[0];
+    const alreadyInsertedEntity = this.testEntities[0];
     await this.request.runRequest(
       this.request.makeBodyRequest(endpoint, mockData[collectionName].data[0])
     );
+    const uniqueFieldsQuery = Object.fromEntries(
+      uniqueFields.map((f) => [f, alreadyInsertedEntity[f]])
+    );
     const existingEntities = await this.dbCollection
       .find({
-        [uniqueField]: alreadyInsertedEntity[uniqueField],
+        ...uniqueFieldsQuery,
       })
       .toArray();
     expect(existingEntities.length).to.equal(1);
@@ -225,7 +231,7 @@ const runDeleteTests = (collectionName) => {
   });
 };
 
-const runPatchTests = (collectionName, patchField, uniqueField) => {
+const runPatchTests = (collectionName, patchField, uniqueFields) => {
   const patch = {
     [patchField]: mockData[collectionName].createRandom()[patchField],
   };
@@ -284,26 +290,31 @@ const runPatchTests = (collectionName, patchField, uniqueField) => {
     expect(updatedEntity).to.not.have.property(badPatch.someNotAllowedProp);
   });
   it("returns status code 409 if uniqueness violated", async function () {
+    const uniqueFieldsPatch = Object.fromEntries(
+      uniqueFields.map((f) => [f, this.testEntities[1][f]])
+    );
     const res = await this.request.runRequest(
       this.request.makeBodyRequest(
         `${endpoint}/${this.testEntities[0].id}`,
-        { [uniqueField]: this.testEntities[1][uniqueField] },
+        uniqueFieldsPatch,
         "patch"
       )
     );
     expect(res.statusCode).to.equal(409);
   });
   it("does not patch entity in the database if uniqueness violated", async function () {
+    const alreadyInsertedEntity = this.testEntities[1];
+    const uniqueFieldsPatch = Object.fromEntries(
+      uniqueFields.map((f) => [f, alreadyInsertedEntity[f]])
+    );
     await this.request.runRequest(
       this.request.makeBodyRequest(
         `${endpoint}/${this.testEntities[0].id}`,
-        { [uniqueField]: this.testEntities[1][uniqueField] },
+        uniqueFieldsPatch,
         "patch"
       )
     );
-    const count = await this.dbCollection.countDocuments({
-      [uniqueField]: this.testEntities[1][uniqueField],
-    });
+    const count = await this.dbCollection.countDocuments(uniqueFieldsPatch);
     expect(count).to.be.equal(1);
   });
   it("returns consistent error object on errors", async function () {

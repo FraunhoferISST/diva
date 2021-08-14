@@ -13,6 +13,7 @@ const {
 const Request = require("@diva/common/test/utils/Request");
 const mockData = require("@diva/common/test/utils/mockData");
 const insertMockData = require("@diva/common/test/utils/insertMockData");
+const getInsertedData = require("@diva/common/test/utils/getInsertedData");
 const chai = require("chai");
 
 const { MONGO_COLLECTION_NAME = "resources" } = process.env;
@@ -49,14 +50,11 @@ describe("Reviews API", () => {
     await historyMongoDbConnector.database.dropDatabase();
     this.dbCollection =
       reviewsMongoDbConnector.collections[MONGO_COLLECTION_NAME];
-    const insertedEntities = await insertMockData(
+    await insertMockData(MONGO_COLLECTION_NAME, server);
+    this.testEntities = await getInsertedData(
       MONGO_COLLECTION_NAME,
-      server
+      this.request
     );
-    this.testEntities = insertedEntities.map((id, index) => ({
-      id,
-      ...mockData[MONGO_COLLECTION_NAME].data[index],
-    }));
   });
 
   after(async () => {
@@ -89,10 +87,13 @@ describe("Reviews API", () => {
       runGetByIdTests(MONGO_COLLECTION_NAME);
     });
     describe(`# POST /${MONGO_COLLECTION_NAME}`, function () {
-      runPostTests(MONGO_COLLECTION_NAME, "id");
+      runPostTests(MONGO_COLLECTION_NAME, ["belongsTo", "creatorId"]);
     });
     describe(`# PATCH /${MONGO_COLLECTION_NAME}/{id}`, function () {
-      runPatchTests(MONGO_COLLECTION_NAME, "reviewText", "id");
+      runPatchTests(MONGO_COLLECTION_NAME, "reviewText", [
+        "belongsTo",
+        "creatorId",
+      ]);
     });
     describe(`# DELETE /${MONGO_COLLECTION_NAME}/{id}`, function () {
       runDeleteTests(MONGO_COLLECTION_NAME);

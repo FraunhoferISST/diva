@@ -12,8 +12,8 @@ class ReviewsController {
       messagesProducer.produce(
         newReviewId,
         req.headers["x-actorid"],
-        req.body.belongsTo,
-        "create"
+        "create",
+        req.body.belongsTo
       );
     } catch (err) {
       return next(err);
