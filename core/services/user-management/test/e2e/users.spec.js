@@ -25,7 +25,7 @@ const {
 
 const { expect } = chai;
 
-describe("User API", () => {
+describe("Users API", () => {
   /**
    * Global available Requests instance initialized through the "before" hook
    * @type {{Request}} - required for all tests below
