@@ -13,6 +13,12 @@ const createRandomReview = () => ({
   rating: casual.integer(1, 5),
 });
 
+const createRandomAsset = () => ({
+  assetType: "generic",
+  title: faker.lorem.sentence(),
+  entities: [],
+});
+
 const mockData = {
   users: {
     createRandom: () => ({
@@ -128,6 +134,12 @@ const mockData = {
     data: Array(10)
       .fill("")
       .map(() => createRandomReview()),
+  },
+  assets: {
+    createRandom: createRandomAsset,
+    data: Array(10)
+      .fill("")
+      .map(() => createRandomAsset()),
   },
 };
 

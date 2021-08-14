@@ -1,4 +1,4 @@
-const boot = require("@diva/common/api/expressServer");
+const createServer = require("@diva/common/api/expressServer");
 const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const assetsRouter = require("./routes/assets");
@@ -10,7 +10,7 @@ const topic = process.env.KAFKA_EVENT_TOPIC || "asset.events";
 const ASSET_ROOT_SCHEMA = process.env.ASSET_ROOT_SCHEMA || "asset";
 const HISTORY_ROOT_SCHEMA = process.env.HISTORY_ROOT_SCHEMA || "history";
 
-boot(
+module.exports = createServer(
   (app) => {
     app.use("/assets", assetsRouter);
 
