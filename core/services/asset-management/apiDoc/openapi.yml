@@ -86,6 +86,8 @@ paths:
                       $ref: "#/components/schemas/Asset"
                   cursor:
                     type: string
+                  total:
+                    type: number
         "500":
           $ref: "#/components/responses/UnexpectedError"
   "/assets/{id}":
@@ -419,7 +421,7 @@ components:
         - created
         - modified
         - entityType
-      additionalProperties: false
+      additionalProperties: true
       properties:
         id:
           type: string
