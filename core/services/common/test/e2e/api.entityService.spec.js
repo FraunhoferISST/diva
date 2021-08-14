@@ -153,16 +153,24 @@ const runPostTests = (collectionName, uniqueFields) => {
     // expect(res.statusCode).to.equal(400);
   });
   it("does not persist an entity that violates the schema", async function () {
+    const countBefore = await this.dbCollection.countDocuments({});
     await this.request.runRequest(
       this.request.makeBodyRequest(endpoint, evilEntity)
     );
-    const uniqueFieldsQuery = Object.fromEntries(
-      uniqueFields.map((f) => [f, evilEntity[f]])
-    );
-    const insertedEvilEntity = await this.dbCollection.findOne({
-      ...uniqueFieldsQuery,
-    });
-    expect(insertedEvilEntity).to.equal(undefined);
+    if (uniqueFields) {
+      const uniqueFieldsQuery = Object.fromEntries(
+        uniqueFields.map((f) => [f, evilEntity[f]])
+      );
+      const insertedEvilEntity = await this.dbCollection.findOne({
+        ...uniqueFieldsQuery,
+      });
+      expect(insertedEvilEntity).to.equal(undefined);
+    } else {
+      // just check, if number of documents still the same as no other chance to check that the operation did not created
+      // evil entity
+      const countAfter = await this.dbCollection.countDocuments({});
+      expect(countBefore).to.equal(countAfter);
+    }
   });
   it("throws error with code 409 for uniqueness violation", async function () {
     if (uniqueFields) {
