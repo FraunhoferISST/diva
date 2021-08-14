@@ -13,7 +13,7 @@ class ReviewsController {
         newReviewId,
         req.headers["x-actorid"],
         "create",
-        req.body.belongsTo
+        [req.body.belongsTo]
       );
     } catch (err) {
       return next(err);
