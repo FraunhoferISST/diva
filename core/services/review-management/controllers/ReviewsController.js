@@ -31,7 +31,7 @@ class ReviewsController {
 
   async getReview(req, res, next) {
     try {
-      const result = await reviewsService.getById(req.params.id);
+      const result = await reviewsService.getById(req.params.id, req.query);
       res.status(200).send(result);
     } catch (err) {
       return next(err);
