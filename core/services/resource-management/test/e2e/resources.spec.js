@@ -11,7 +11,7 @@ const {
   runDeleteTests,
 } = require("@diva/common/test/e2e/api.entityService.spec");
 const Request = require("@diva/common/test/utils/Request");
-const mockData = require("@diva/common/test/utils/mockData");
+const getInsertedData = require("@diva/common/test/utils/getInsertedData");
 const insertMockData = require("@diva/common/test/utils/insertMockData");
 const chai = require("chai");
 
@@ -49,11 +49,11 @@ describe("Resources API", () => {
     await historyMongoDbConnector.database.dropDatabase();
     this.dbCollection =
       resourcesMongoDbConnector.collections[MONGO_COLLECTION_NAME];
-    const insertedUsers = await insertMockData(MONGO_COLLECTION_NAME, server);
-    this.testEntities = insertedUsers.map((id, index) => ({
-      id,
-      ...mockData[MONGO_COLLECTION_NAME].data[index],
-    }));
+    await insertMockData(MONGO_COLLECTION_NAME, server);
+    this.testEntities = await getInsertedData(
+      MONGO_COLLECTION_NAME,
+      this.request
+    );
   });
 
   after(async () => {
@@ -86,10 +86,10 @@ describe("Resources API", () => {
       runGetByIdTests(MONGO_COLLECTION_NAME);
     });
     describe(`# POST /${MONGO_COLLECTION_NAME}`, function () {
-      runPostTests(MONGO_COLLECTION_NAME, "uniqueFingerprint");
+      runPostTests(MONGO_COLLECTION_NAME, ["uniqueFingerprint"]);
     });
     describe(`# PATCH /${MONGO_COLLECTION_NAME}/{id}`, function () {
-      runPatchTests(MONGO_COLLECTION_NAME, "title", "uniqueFingerprint");
+      runPatchTests(MONGO_COLLECTION_NAME, "title", ["uniqueFingerprint"]);
     });
     describe(`# DELETE /${MONGO_COLLECTION_NAME}/{id}`, function () {
       runDeleteTests(MONGO_COLLECTION_NAME);

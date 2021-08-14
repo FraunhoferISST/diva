@@ -11,7 +11,6 @@ const {
   runDeleteTests,
 } = require("@diva/common/test/e2e/api.entityService.spec");
 const Request = require("@diva/common/test/utils/Request");
-const mockData = require("@diva/common/test/utils/mockData");
 const insertMockData = require("@diva/common/test/utils/insertMockData");
 const getInsertedData = require("@diva/common/test/utils/getInsertedData");
 const chai = require("chai");

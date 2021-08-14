@@ -48,7 +48,7 @@ class ReviewsController {
         actorId
       );
       res.status(200).send();
-      messagesProducer.produce(id, actorId, belongsTo, "update");
+      messagesProducer.produce(id, actorId, "update", [belongsTo]);
     } catch (err) {
       return next(err);
     }
@@ -60,7 +60,7 @@ class ReviewsController {
       const actorId = req.headers["x-actorid"];
       const { belongsTo } = await reviewsService.deleteById(id, actorId);
       res.status(200).send();
-      messagesProducer.produce(id, actorId, belongsTo, "delete");
+      messagesProducer.produce(id, actorId, "delete", [belongsTo]);
     } catch (err) {
       return next(err);
     }
