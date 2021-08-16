@@ -4,7 +4,7 @@
   "description": "User management service with CRUD operations for users",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=test node index.js",
+    "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development node index.js",
     "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
     "build:linux": "pkg -t node14-linux-x64 index.js",
