@@ -49,10 +49,12 @@
             </div>
           </div>
         </div>
-        <div class="search-card-keywords mt-2">
-          <v-chip class="mr-1" x-small v-for="(tag, i) in keywords" :key="i">
-            {{ tag }}
-          </v-chip>
+        <div class="mt-2">
+          <div class="search-card-keywords">
+            <v-chip class="mr-1" x-small v-for="(tag, i) in keywords" :key="i">
+              {{ tag }}
+            </v-chip>
+          </div>
         </div>
       </div>
     </div>
@@ -164,23 +166,6 @@ export default {
   }
 }
 
-.search-card-quality {
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  &:after {
-    content: "";
-    display: block;
-    position: absolute;
-    height: 48%;
-    bottom: 0;
-    width: 100%;
-    z-index: 0;
-    background-color: $bg_card;
-  }
-}
-
 .search-card-meta-header {
   text-transform: uppercase;
   font-size: 0.7rem;
@@ -215,7 +200,7 @@ export default {
   white-space: normal;
   overflow: hidden;
   position: relative;
-  max-height: 25px;
+  max-height: 21px;
 
   &:after {
     content: "";

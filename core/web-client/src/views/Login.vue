@@ -24,7 +24,7 @@
                     rounded
                     @click="redirectToLogin"
                   >
-                    Login
+                    Log in
                   </v-btn>
                 </v-col>
                 <v-col cols="12">
@@ -184,7 +184,7 @@ export default {
     height: 300px;
   }
   .blob-tl {
-    right: 0px;
+    right: 0;
   }
   .actions-container {
     h1.info-header {
