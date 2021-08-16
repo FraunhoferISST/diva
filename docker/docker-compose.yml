@@ -67,7 +67,7 @@ services:
       - KONG_ADMIN_LISTEN=0.0.0.0:8001
       - KONG_LUA_PACKAGE_PATH=/plugins/?.lua
       - KONG_DATABASE=off
-      - KONG_DECLARATIVE_CONFIG=/kong.yml
+      - KONG_DECLARATIVE_CONFIG=/${KONG_DECLARATIVE_CONFIG}
     ports:
       - ${KONG_PORT}:${KONG_PORT}
       - "8443:8443"
@@ -76,7 +76,7 @@ services:
     restart: always
     volumes:
       - ../core/kong-gateway/plugins:/plugins/kong/plugins
-      - ../core/kong-gateway/kong.yml:/kong.yml
+      - ../core/kong-gateway/${KONG_DECLARATIVE_CONFIG}:/${KONG_DECLARATIVE_CONFIG}
       - ../core/kong-gateway/kong.conf:/etc/kong/kong.conf
     networks:
       - core
