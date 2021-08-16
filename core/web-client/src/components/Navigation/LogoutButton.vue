@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import keycloak from "@/api/keycloak";
 export default {
   name: "logout-button",
   components: {},
@@ -25,9 +26,9 @@ export default {
       this.$store
         .dispatch("logout")
         .then(() => {
-          this.loading = false;
-          this.$router.push("/login");
-          return this.$nextTick();
+          keycloak.logout({
+            redirectUri: `${window.location.origin}`,
+          });
         })
         .catch(() => {
           this.loading = false;

@@ -20,7 +20,7 @@ const createUser = async (userData, actorId) => {
     ...userData,
     id,
     entityType: "user",
-    password: await hashPassword(userData.password),
+    password: userData.password ? await hashPassword(userData.password) : null,
     created: new Date().toISOString(),
     modified: new Date().toISOString(),
     creatorId: actorId || id,
@@ -51,6 +51,24 @@ class UsersService extends EntityService {
       }
     }
     return super.deleteById(id);
+  }
+
+  async updateById(id, user, actorId) {
+    if (await this.entityExists(id)) {
+      const existingUser = await this.collection.findOne(
+        { id },
+        { projection: { _id: false } }
+      );
+      return super.updateById(
+        id,
+        {
+          ...existingUser,
+          ...user,
+        },
+        actorId
+      );
+    }
+    return super.updateById(id, await createUser(user), actorId);
   }
 
   async patchById(id, patch, actorId) {

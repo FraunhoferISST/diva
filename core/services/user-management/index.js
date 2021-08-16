@@ -1,7 +1,6 @@
 const createServer = require("@diva/common/api/expressServer");
 const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
-const { passport } = require("./utils/passport");
 const usersRouter = require("./routes/users");
 const userImagesRouter = require("./routes/userImages");
 const usersService = require("./services/UsersService");
@@ -18,8 +17,6 @@ const HISTORY_ROOT_SCHEMA = process.env.HISTORY_ROOT_SCHEMA || "history";
 
 module.exports = createServer(
   async (app) => {
-    app.use(passport.initialize());
-
     // TODO: extract image file, fix until https://github.com/cdimascio/express-openapi-validator/pull/464 resolved
     app.use((req, res, next) => {
       if (req.files) {
