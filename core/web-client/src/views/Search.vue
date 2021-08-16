@@ -77,6 +77,10 @@ export default {
   },
   watch: {
     term() {
+      this.$router.replace({
+        name: "search",
+        query: { term: this.term },
+      });
       this.cursor = null;
       this.debounceSearch();
     },
@@ -133,6 +137,9 @@ export default {
         this.$store.dispatch("setTerm", value);
       },
     },
+  },
+  mounted() {
+    this.term = this.$route.query.term;
   },
 };
 </script>
