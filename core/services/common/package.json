@@ -18,6 +18,7 @@
     "casual": "^1.6.2",
     "chalk": "^4.1.1",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-openapi-validator": "^4.12.14",
     "faker": "^5.5.3",
@@ -25,6 +26,7 @@
     "jsondiffpatch": "^0.4.1",
     "kafkajs": "^1.15.0",
     "lodash": "^4.17.21",
+    "mocha": "^9.0.3",
     "mongodb": "^4.0.0",
     "randomstring": "^1.2.1",
     "url-join": "^4.0.1",
@@ -35,7 +37,7 @@
     "chai": "^4.3.4",
     "chai-openapi-response-validator": "^0.13.0",
     "chai-sorted": "^0.2.0",
-    "mocha": "^9.0.3",
+    "dotenv": "^10.0.0",
     "pkg": "^5.3.1",
     "supertest": "^6.1.4"
   }

@@ -42,11 +42,8 @@ class ReviewsController {
     try {
       const { id } = req.params;
       const actorId = req.headers["x-actorid"];
-      const { belongsTo } = await reviewsService.patchById(
-        id,
-        req.body,
-        actorId
-      );
+      const { belongsTo } = await reviewsService.getById(id);
+      await reviewsService.patchById(id, req.body, actorId);
       res.status(200).send();
       messagesProducer.produce(id, actorId, "update", [belongsTo]);
     } catch (err) {

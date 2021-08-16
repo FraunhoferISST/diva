@@ -21,7 +21,7 @@ module.exports = createServer(
         serviceName,
         "reviewEvents",
         "asyncapi",
-        producer()
+        producer
       ),
     ]);
   },
