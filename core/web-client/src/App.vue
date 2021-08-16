@@ -1,7 +1,39 @@
 <template>
   <v-app app>
     <v-main>
-      <router-transition>
+      <div
+        v-if="authenticating"
+        class="fill-height d-flex align-center justify-center"
+      >
+        <div class="text-center">
+          <div v-if="!error" style="height: 100px">
+            <loading-state-overlay v-if="loading"> </loading-state-overlay>
+            <p>{{ message }}</p>
+          </div>
+          <v-alert
+            v-else
+            key="alert"
+            dense
+            text
+            color="error"
+            class="text-center ma-0"
+          >
+            Ups, something went wrong with our authentication server. <br />
+            {{ error }}<br />
+            <v-btn
+              class="mt-2"
+              color="primary"
+              rounded
+              text
+              small
+              @click="authenticate"
+            >
+              Try again
+            </v-btn>
+          </v-alert>
+        </div>
+      </div>
+      <router-transition v-else>
         <router-view></router-view>
       </router-transition>
     </v-main>
@@ -9,16 +41,57 @@
 </template>
 <script>
 import RouterTransition from "@/components/Transitions/RouterTransition";
+import keycloak from "@/api/keycloak";
+import LoadingStateOverlay from "@/components/Base/LoadingStateOverlay";
 export default {
   name: "app",
   components: {
+    LoadingStateOverlay,
     RouterTransition,
   },
-  data() {
-    return {};
+  data: () => ({
+    message: "Preparing the journey",
+    loading: true,
+    authenticating: true,
+    error: "",
+  }),
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
   },
-
-  computed: {},
+  methods: {
+    authenticate() {
+      this.loading = true;
+      this.error = "";
+      this.authenticating = true;
+      keycloak
+        .init()
+        .then(async (authenticated) => {
+          if (authenticated) {
+            const user = keycloak.getUser();
+            await this.$store.dispatch("login", user);
+            if (this.$route.name === "login") {
+              this.$router.push("/");
+            }
+            this.authenticating = false;
+          } else {
+            this.authenticating = false;
+            this.$router.push({ name: "login" });
+          }
+        })
+        .catch((e) => {
+          const error = e?.error || e?.response?.data?.message || e.toString();
+          this.error = error ?? "Failed to initialize authentication";
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+  },
+  mounted() {
+    this.authenticate();
+  },
 };
 </script>
 

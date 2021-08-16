@@ -71,12 +71,7 @@ class EntityService {
       creatorId: actorId,
     };
     this.validate(newEntity);
-    await this.collection.insertOne(newEntity).catch((err) => {
-      if (err.code && err.code === 11000) {
-        throw entityAlreadyExistsError;
-      }
-      throw err;
-    });
+    await this.insert(entity);
     await this.createHistoryEntry({}, newEntity, actorId);
     return newEntity.id;
   }
@@ -132,7 +127,7 @@ class EntityService {
     throw entityNotFoundError;
   }
 
-  updateById(id, entity) {
+  replace(id, entity) {
     return this.collection
       .replaceOne({ id }, entity, {
         upsert: true,
@@ -143,6 +138,34 @@ class EntityService {
         }
         throw err;
       });
+  }
+
+  insert(entity) {
+    return this.collection.insertOne(entity).catch((err) => {
+      if (err.code && err.code === 11000) {
+        throw entityAlreadyExistsError;
+      }
+      throw err;
+    });
+  }
+
+  async updateById(id, entity, actorId) {
+    const updatedEntity = {
+      ...entity,
+      id,
+      modified: new Date().toISOString(),
+    };
+    this.validate(updatedEntity);
+    if (await this.entityExists(id)) {
+      const existingEntity = await this.collection.findOne(
+        { id },
+        { projection: { _id: false } }
+      );
+      await this.replace(id, updatedEntity);
+      return this.createHistoryEntry(existingEntity, updatedEntity, actorId);
+    }
+    await this.insert(updatedEntity);
+    return this.createHistoryEntry({}, updatedEntity, actorId);
   }
 
   async patchById(id, patch, actorId) {
@@ -161,7 +184,7 @@ class EntityService {
         modified: new Date().toISOString(),
       };
       this.validate(updatedEntity);
-      await this.updateById(id, updatedEntity);
+      await this.replace(id, updatedEntity);
       return this.createHistoryEntry(existingEntity, updatedEntity, actorId);
     }
     throw entityNotFoundError;

@@ -76,7 +76,7 @@ const services = [
         path: "core/web-client",
         dockerfile: "core/web-client/Dockerfile",
         type: "node",
-        context: "core/webclient"
+        context: "core/web-client"
     },
     {
         name: "tika-extraction",

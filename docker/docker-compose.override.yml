@@ -9,8 +9,6 @@ services:
   web-client:
     build:
       context: ../core/web-client
-      args:
-        - VUE_APP_GATEWAY_ENDPOINT=http://localhost:8000
 
   # ####################################################################################################################
   # User Management Microservice

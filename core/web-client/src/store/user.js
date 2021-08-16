@@ -7,7 +7,7 @@ const user = {
   imageURL: "",
   created: "",
   modified: "",
-  entityType: "",
+  entityType: "user",
   creatorId: "",
   id: "",
   isLoggedIn: !!localStorage.getItem("jwt"),
@@ -43,25 +43,30 @@ const resetAuthorizationData = () => {
   localStorage.setItem("jwt", "");
 };
 
+const setAuthorizationData = (token) => {
+  api.axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+  localStorage.setItem("jwt", token);
+};
+
 const actions = {
   setUser({ commit }, userData) {
     commit(SET_USER, userData);
   },
-  login({ commit }, credentials) {
+  refreshToken({ commit }, token) {
+    setAuthorizationData(token);
+    this._vm.$socket.io.opts.query = `jwt=${token}`;
+    this._vm.$socket.open();
+    commit(SET_USER, {});
+  },
+  async login({ commit }, { id, email, username, token }) {
     resetAuthorizationData();
-    return api.users.login(credentials).then(({ data }) => {
-      const { token, email, username, imageId, imageURL, created, id } = data;
-      api.axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-      localStorage.setItem("jwt", token);
-      this._vm.$socket.io.opts.query = `jwt=${token}`;
-      this._vm.$socket.open();
+    setAuthorizationData(token);
+    this._vm.$socket.io.opts.query = `jwt=${token}`;
+    this._vm.$socket.open();
+    await api.users.update(id, { email, username });
+    return api.users.getById(id).then(({ data }) => {
       commit(SET_USER, {
-        email,
-        username,
-        imageId,
-        imageURL,
-        id,
-        created,
+        ...data,
         isLoggedIn: true,
       });
     });
@@ -70,24 +75,6 @@ const actions = {
     resetAuthorizationData();
     this._vm.$socket.close();
     commit(LOGOUT);
-  },
-  verify({ commit }) {
-    return api.users.verify().then(({ data }) => {
-      const { email, username, imageId, imageURL, created, id } = data;
-      if (this._vm.$socket.disconnected) {
-        this._vm.$socket.open();
-      }
-      commit(SET_USER, {
-        email,
-        username,
-        imageURL,
-        created,
-        imageId,
-        id,
-        isLoggedIn: true,
-      });
-      return data;
-    });
   },
 };
 

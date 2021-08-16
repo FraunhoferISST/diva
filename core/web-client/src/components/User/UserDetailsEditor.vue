@@ -45,15 +45,23 @@
                               :type="attribute.type"
                               outlined
                               :hide-details="attribute.name !== 'email'"
+                              :readonly="attribute.name === 'email'"
                               light
+                              persistent-hint
                               dense
-                              clearable
-                              :hint="
-                                attribute.name === 'email'
-                                  ? 'You will be redirected to login page, if you change the email'
-                                  : ''
-                              "
-                            ></v-text-field>
+                              :clearable="attribute.name !== 'email'"
+                              :hint="attribute.name === 'email' ? 'hint' : ''"
+                            >
+                              <template #message>
+                                <p>
+                                  You can edit your login credentials on your
+                                  <a :href="keycloakAccountURL">
+                                    Keycloak profile
+                                  </a>
+                                  page
+                                </p>
+                              </template>
+                            </v-text-field>
                           </v-col>
                         </v-row>
                       </v-container>
@@ -69,6 +77,7 @@
                   <v-col
                     cols="12"
                     :sm="attribute.fullWith ? '12' : '6'"
+                    md="4"
                     v-for="attribute in contactInformation"
                     :key="attribute.name"
                   >
@@ -134,6 +143,8 @@
 import CustomHeader from "@/components/Base/CustomHeader";
 import UserAvatarEditor from "@/components/User/UserAvatarEditor";
 import UserAvatar from "@/components/User/UserAvatar";
+import keycloak from "@/api/keycloak";
+
 export default {
   name: "UserDetailsEditor",
   components: { UserAvatar, UserAvatarEditor, CustomHeader },
@@ -160,6 +171,9 @@ export default {
     },
   },
   computed: {
+    keycloakAccountURL() {
+      return keycloak.kc.createAccountUrl();
+    },
     avatarSize() {
       return this.$vuetify.breakpoint.smAndDown ? "200px" : "200px";
     },
@@ -207,6 +221,18 @@ export default {
           title: "Post office box number",
           fullWith: false,
         },
+        {
+          name: "company",
+          type: "text",
+          title: "Company",
+          fullWith: false,
+        },
+        {
+          name: "jobTitle",
+          type: "text",
+          title: "Job title",
+          fullWith: false,
+        },
       ].map((attr) => ({
         ...attr,
         value: this.userData[attr.name],
@@ -226,18 +252,6 @@ export default {
           title: "Email",
           fullWith: true,
         },
-        {
-          name: "company",
-          type: "text",
-          title: "Company",
-          fullWith: false,
-        },
-        {
-          name: "jobTitle",
-          type: "text",
-          title: "Job title",
-          fullWith: false,
-        },
       ].map((attr) => ({
         ...attr,
         value: this.userData[attr.name],
@@ -245,7 +259,6 @@ export default {
     },
   },
   methods: {
-    goBack() {},
     async updateImage() {
       if (this.image) {
         if (this.userData.imageId) {
