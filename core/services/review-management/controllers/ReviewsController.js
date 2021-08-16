@@ -12,8 +12,8 @@ class ReviewsController {
       messagesProducer.produce(
         newReviewId,
         req.headers["x-actorid"],
-        req.body.belongsTo,
-        "create"
+        "create",
+        [req.body.belongsTo]
       );
     } catch (err) {
       return next(err);
@@ -31,7 +31,7 @@ class ReviewsController {
 
   async getReview(req, res, next) {
     try {
-      const result = await reviewsService.getById(req.params.id);
+      const result = await reviewsService.getById(req.params.id, req.query);
       res.status(200).send(result);
     } catch (err) {
       return next(err);
@@ -42,13 +42,10 @@ class ReviewsController {
     try {
       const { id } = req.params;
       const actorId = req.headers["x-actorid"];
-      const { belongsTo } = await reviewsService.patchById(
-        id,
-        req.body,
-        actorId
-      );
+      const { belongsTo } = await reviewsService.getById(id);
+      await reviewsService.patchById(id, req.body, actorId);
       res.status(200).send();
-      messagesProducer.produce(id, actorId, belongsTo, "update");
+      messagesProducer.produce(id, actorId, "update", [belongsTo]);
     } catch (err) {
       return next(err);
     }
@@ -58,9 +55,10 @@ class ReviewsController {
     try {
       const { id } = req.params;
       const actorId = req.headers["x-actorid"];
-      const { belongsTo } = await reviewsService.deleteById(id, actorId);
+      const { belongsTo } = await reviewsService.getById(id);
+      await reviewsService.deleteById(id, actorId);
       res.status(200).send();
-      messagesProducer.produce(id, actorId, belongsTo, "delete");
+      messagesProducer.produce(id, actorId, "delete", [belongsTo]);
     } catch (err) {
       return next(err);
     }

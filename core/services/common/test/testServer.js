@@ -1,10 +1,4 @@
-const messagesProducerService = require("@diva/common/messaging/MessageProducer");
 const boot = require("@diva/common/api/expressServer");
-const { passport } = require("../utils/passport");
-const { db } = require("../utils/mongoDbConnectors");
-const usersRouter = require("../routes/users");
-const userImagesRouter = require("../routes/userImages");
-const { loadSchemas } = require("../utils/validation/jsonSchemaValidation");
 
 const port = 0;
 

@@ -103,7 +103,7 @@ services:
   
   asset-management:
     <<: *base-core-service
-    image: ${REGISTRY}asset-management:17.0.0-beta.3
+    image: ${REGISTRY}asset-management:17.0.0-beta.4
     container_name: asset-management
     environment:
       <<: *base-core-service-env
@@ -133,7 +133,7 @@ services:
 
   review-management:
     <<: *base-core-service
-    image: ${REGISTRY}review-management:1.0.0-beta.3
+    image: ${REGISTRY}review-management:1.0.0-beta.4
     container_name: reviews-management
     environment:
       <<: *base-core-service-env

@@ -55,6 +55,7 @@ paths:
           required: false
           explode: true
           example: "reviewText,rating"
+          allowReserved: true
           schema:
             type: string
         - name: pageSize
@@ -100,6 +101,8 @@ paths:
                       $ref: "#/components/schemas/Review"
                   cursor:
                     type: string
+                  total:
+                    type: number
         "500":
           $ref: "#/components/responses/UnexpectedError"
 
@@ -116,6 +119,15 @@ paths:
           in: path
           description: The id of the asset to fetch
           required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: Projection fields
+          required: false
+          explode: true
+          example: "reviewText,rating"
+          allowReserved: true
           schema:
             type: string
       responses:
@@ -145,7 +157,7 @@ paths:
         $ref: "#/components/requestBodies/ReviewPatch"
       responses:
         "200":
-          $ref: "#/components/responses/Success"
+          $ref: "#/components/responses/SuccessEmpty"
         "406":
           $ref: "#/components/responses/InvalidDataError"
         "404":
@@ -169,7 +181,7 @@ paths:
             type: string
       responses:
         "200":
-          $ref: "#/components/responses/Success"
+          $ref: "#/components/responses/SuccessEmpty"
         "404":
           $ref: "#/components/responses/NotFoundError"
         "5XX":
@@ -201,7 +213,7 @@ components:
 
     ActorId:
       title: Actor ID
-      description: Unique identifier of an actor
+      description: Unique identifier of an actor that create a review
       type: string
       example: "user:uuid:ef2sad4d1fcb08-b894-4bdf-b662-0f105d597189"
       pattern: "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
@@ -229,7 +241,7 @@ components:
         - created
         - modified
         - entityType
-      additionalProperties: false
+      additionalProperties: true
       properties:
         id:
           $ref:  "#/components/schemas/ReviewId"
@@ -279,10 +291,46 @@ components:
 
     Review:
       title: Review Data
-      allOf:
-        - $ref: "#/components/schemas/Entity"
-        - $ref: "#/components/schemas/ReviewCreate"
-            
+      type: object
+      additionalProperties: false
+      properties:
+        reviewText:
+          type: string
+          title: Review Text
+          description: the review text written by a user
+          minLength: 1
+          pattern: "^(.*)$"
+        rating:
+          type: number
+          title: Rating
+          description: Rating given by a user (value between 1-5)
+          minimum: 1
+          maximum: 5
+        belongsTo:
+          $ref:  "#/components/schemas/EntityId"
+        id:
+          $ref:  "#/components/schemas/ReviewId"
+        created:
+          type: string
+          title: Creation date
+          description: Creation date of the entity
+          example: '2018-11-08T13:55:45Z'
+          format: date-time
+        modified:
+          type: string
+          title: Modification date
+          description: Timestamp of the last change of the data
+          example: '2018-11-08T13:55:45Z'
+          format: date-time
+        creatorId:
+          $ref: "#/components/schemas/ActorId"
+        entityType:
+          type: string
+          title: Entity Type
+          description: The general type of the entity
+          enum:
+            - review
+
     Error:
       type: object
       title: Operation Error
@@ -321,6 +369,8 @@ components:
         text/plain:
           schema:
             type: string
+    SuccessEmpty:
+      description: Succesful operation
 
     ReviewCreateSuccess:
       description: Succesful review creation retruns created review id
@@ -358,7 +408,6 @@ components:
             $ref: "#/components/schemas/Error"
 
   parameters:
-    
     actorIdParam:
       in: header
       description: The id of the origin that produces action/message. Can be a user or service

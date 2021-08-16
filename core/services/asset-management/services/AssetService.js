@@ -21,7 +21,6 @@ class AssetService extends EntityService {
     await historyMongoDbConnector.connect();
     await assetsMongoDbConnector.connect();
     this.collection = assetsMongoDbConnector.collections[assetsCollectionName];
-    await this.collection.createIndex({ email: 1 }, { unique: true });
     this.historyCollection =
       historyMongoDbConnector.collections[historyCollectionName];
     this.jsonSchemaValidator = jsonSchemaValidator;

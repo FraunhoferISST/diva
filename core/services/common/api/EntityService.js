@@ -71,7 +71,7 @@ class EntityService {
       creatorId: actorId,
     };
     this.validate(newEntity);
-    await this.insert(entity);
+    await this.insert(newEntity);
     await this.createHistoryEntry({}, newEntity, actorId);
     return newEntity.id;
   }

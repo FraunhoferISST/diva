@@ -93,7 +93,7 @@ class AssetsController {
   async deleteAsset(req, res, next) {
     try {
       const { id } = req.params;
-      await assetService.deleteAsset(id);
+      await assetService.deleteById(id);
       res.send();
       messageProducer.produce(id, req.headers["x-actorid"], "delete");
     } catch (err) {
