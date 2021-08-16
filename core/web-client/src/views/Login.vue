@@ -1,9 +1,11 @@
 <template>
-  <v-container class="fill-height pa-0 relative" fluid>
+  <v-container id="login-view" class="fill-height pa-0 relative" fluid>
     <div class="login-page-container full-width fill-height">
       <div class="blob blob-tl"></div>
       <div class="blob blob-bl"></div>
-      <div class="login-page-left-container d-flex justify-center align-center">
+      <div
+        class="login-page-left-container d-flex justify-center align-center pa-10 fill-height"
+      >
         <div class="actions-container">
           <div>
             <h1 class="info-header">Setup your Account</h1>
@@ -45,7 +47,7 @@
           </div>
         </div>
       </div>
-      <div class="login-page-right-container relative">
+      <div class="login-page-right-container relative pa-10">
         <div class="login-page-bg fill-height"></div>
         <div class="d-flex justify-center align-center fill-height">
           <div class="info-container">
@@ -79,6 +81,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#login-view {
+  height: 100vh;
+  overflow-y: hidden;
+}
 .login-page-container {
   display: grid;
   grid-template-columns: 1fr 700px;
@@ -156,5 +162,38 @@ export default {
   bottom: -100px;
   left: -100px;
   background-image: url("data:image/svg+xml;utf8, %3Csvg width='100%25' height='100%25' viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg' %3E %3Cdefs%3E %3Cpattern id='pattern' patternUnits='userSpaceOnUse' width='25' height='25' viewBox='0 0 100 100' fill='%230000FF' %3E %3Ccircle cx='50' cy='50' r='12.5' /%3E %3C/pattern%3E %3CclipPath id='shape'%3E %3Cpath fill='currentColor' d='M869,639Q831,778,689,772Q547,766,448.5,763Q350,760,206.5,709.5Q63,659,138,527.5Q213,396,269,296Q325,196,455.5,103.5Q586,11,650.5,165Q715,319,811,409.5Q907,500,869,639Z'%3E%3C/path%3E %3C/clipPath%3E %3C/defs%3E %3Cg clip-path='url(%23shape)'%3E %3Cpath fill='url(%23pattern)' d='M869,639Q831,778,689,772Q547,766,448.5,763Q350,760,206.5,709.5Q63,659,138,527.5Q213,396,269,296Q325,196,455.5,103.5Q586,11,650.5,165Q715,319,811,409.5Q907,500,869,639Z' /%3E %3C/g%3E %3C/svg%3E");
+}
+
+@media (max-width: 1263px) {
+  .login-page-container {
+    display: grid;
+    grid-template-columns: 1fr 500px;
+  }
+}
+
+@media (max-width: 959px) {
+  .login-page-container {
+    display: block;
+  }
+  .login-page-right-container {
+    display: none;
+  }
+  .blob {
+    opacity: 0.5;
+    width: 300px;
+    height: 300px;
+  }
+  .blob-tl {
+    right: 0px;
+  }
+  .actions-container {
+    h1.info-header {
+      font-family: Montserrat;
+      font-size: 2.2rem !important;
+    }
+    p {
+      font-size: 1rem;
+    }
+  }
 }
 </style>
