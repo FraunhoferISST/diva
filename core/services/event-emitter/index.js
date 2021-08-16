@@ -3,12 +3,9 @@ const messageConsumer = require("@diva/common/messaging/MessageConsumer");
 const serviceName = require("./package.json").name;
 const { bootSocket, emitEntityEvent } = require("./utils/socket");
 
-const KAFKA_TOPICS = [
-  "resource.events",
-  "asset.events",
-  "user.events",
-  "review.events",
-];
+const KAFKA_TOPICS = process.env.KAFKA_TOPICS
+  ? JSON.parse(process.env.KAFKA_TOPICS)
+  : ["resource.events", "asset.events", "user.events", "review.events"];
 const ASYNCAPI_SPECIFICATION = process.env.ASYNCAPI_SPECIFICATION || "asyncapi";
 
 const NODE_ENV = process.env.NODE_ENV || "development";
