@@ -1,6 +1,6 @@
 {
   "name": "review-management",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Manages entities reviews",
   "repository": {
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
@@ -12,7 +12,7 @@
     "eslint-fix": "eslint --fix . --ext .js",
     "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
     "build:linux": "pkg -t node14-linux-x64 index.js",
-    "test:e2e": "NODE_ENV=test npx mocha --recursive test/e2e/*.spec.js"
+    "test:e2e": "NODE_ENV=test npx mocha --recursive test/e2e/*.spec.js --colors=true"
   },
   "author": "",
   "license": "ISC",
