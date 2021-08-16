@@ -4,7 +4,7 @@
       :input.sync="term"
       :loading="isLoading"
       :interacted="interacted"
-      @submit="debounceSearch"
+      @submit="submitSearch"
     />
     <fade-in>
       <v-container
@@ -82,6 +82,10 @@ export default {
     },
   },
   methods: {
+    submitSearch() {
+      this.cursor = null;
+      this.debounceSearch();
+    },
     debounceSearch() {
       searchDebouncer.debounce(this.search);
     },
