@@ -20,7 +20,7 @@ module.exports = createServer(
         serviceName,
         "resourceEvents",
         "asyncapi",
-        producer()
+        producer
       ),
     ]);
   },
