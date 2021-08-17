@@ -29,7 +29,8 @@ module.exports = {
     customErrorFactory(type, message, code, errors),
   createOpenAPIValidationError: ({ name, message, status, errors }) =>
     customErrorFactory(name, message, status, errors),
-  isCustomError: (err) => err instanceof CustomError,
+  isCustomError: (err) =>
+    err instanceof CustomError || (err.code && err.message && err.type),
   isOpenAPISpecValidationError: (err) => err.errors && err.status,
   entityAlreadyExistsError: customErrorFactory(
     "EntityAlreadyExists",

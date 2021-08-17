@@ -190,20 +190,6 @@ services:
           - "http"
           - "https"
         strip_path: false
-      - name: usermanagement-route-login
-        paths:
-          - "/users/login/"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: false
-      - name: usermanagement-route-register
-        paths:
-          - "/users/register/"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: false
     plugins:
       - name: cors
 
