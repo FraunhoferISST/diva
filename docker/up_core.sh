@@ -9,4 +9,4 @@ else
   echo "using $ENV_FILE"
 fi
 echo "\n"
-docker-compose -f docker-compose.yml -f docker-compose.dsc.yml -f docker-compose.airflow.yml -f docker-compose.profiling.yml --env-file $ENV_FILE up -d
+docker-compose -f docker-compose.yml -f docker-compose.keycloak.yml -f docker-compose.dsc.yml -f docker-compose.airflow.yml -f docker-compose.profiling.yml --env-file $ENV_FILE up -d
