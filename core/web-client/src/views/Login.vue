@@ -10,8 +10,8 @@
           <div>
             <h1 class="info-header">Setup your Account</h1>
             <p class="mt-8 mb-10">
-              You will be redirected to another trusted site where you can log
-              in with your data or create a new account.
+              You will be redirected to our trusted site where you can log in
+              with your data or create a new account.
             </p>
             <v-container class="pa-0" fluid>
               <v-row>

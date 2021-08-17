@@ -64,6 +64,7 @@ class UsersService extends EntityService {
         {
           ...existingUser,
           ...user,
+          username: existingUser.username ?? user.username,
         },
         actorId
       );

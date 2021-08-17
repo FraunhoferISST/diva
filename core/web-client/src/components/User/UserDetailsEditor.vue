@@ -32,6 +32,26 @@
                       </div>
                       <v-container fluid class="pa-0">
                         <v-row>
+                          <v-col cols="12">
+                            <v-row>
+                              <v-col cols="12" md="6">
+                                <info-block title="Email" :value="user.email">
+                                </info-block>
+                              </v-col>
+                              <v-col cols="12" md="6"
+                                ><info-block title="Password" value="********">
+                                </info-block>
+                              </v-col>
+                              <v-col cols="12">
+                                <v-alert text dense color="info">
+                                  You can edit your log in credentials on
+                                  <a :href="keycloakAccountURL"> Keycloak </a>
+                                  - our trusted and secure service for
+                                  authentication
+                                </v-alert>
+                              </v-col>
+                            </v-row>
+                          </v-col>
                           <v-col
                             cols="12"
                             :md="attribute.fullWith ? '12' : '6'"
@@ -49,6 +69,7 @@
                               light
                               persistent-hint
                               dense
+                              :required="attribute.required"
                               :clearable="attribute.name !== 'email'"
                               :hint="attribute.name === 'email' ? 'hint' : ''"
                             >
@@ -144,10 +165,11 @@ import CustomHeader from "@/components/Base/CustomHeader";
 import UserAvatarEditor from "@/components/User/UserAvatarEditor";
 import UserAvatar from "@/components/User/UserAvatar";
 import keycloak from "@/api/keycloak";
+import InfoBlock from "../Base/InfoBlock/InfoBlock";
 
 export default {
   name: "UserDetailsEditor",
-  components: { UserAvatar, UserAvatarEditor, CustomHeader },
+  components: { InfoBlock, UserAvatar, UserAvatarEditor, CustomHeader },
   props: {
     user: {
       type: Object,
@@ -243,14 +265,9 @@ export default {
         {
           name: "username",
           type: "text",
-          title: "Name",
+          title: "User name",
           fullWith: true,
-        },
-        {
-          name: "email",
-          type: "email",
-          title: "Email",
-          fullWith: true,
+          required: true,
         },
       ].map((attr) => ({
         ...attr,

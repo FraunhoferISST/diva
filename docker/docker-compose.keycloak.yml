@@ -8,6 +8,7 @@ services:
 
   kc-postgres:
     image: postgres:13.4
+    container_name: kc-postgres
     volumes:
       - kc_postgres_data:/var/lib/postgresql/data
     environment:
@@ -40,6 +41,9 @@ services:
       KEYCLOAK_IMPORT: /tmp/default-realm.json
     volumes:
       - ../core/keycloak/default-realm.json:/tmp/default-realm.json
+      - ../core/keycloak/themes/register.ftl:/opt/jboss/keycloak/themes/base/login/register.ftl
+      - ../core/keycloak/themes/login.ftl:/opt/jboss/keycloak/themes/base/login/login.ftl
+      - ../core/keycloak/themes/account.ftl:/opt/jboss/keycloak/themes/base/account/account.ftl
     networks:
       - core
       - kc_postgres

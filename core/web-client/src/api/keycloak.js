@@ -14,7 +14,7 @@ let kc = Keycloak(initOptions);
 
 const getUser = () => ({
   id: `user:uuid:${kc.tokenParsed.sub}`,
-  username: kc.tokenParsed.name,
+  username: kc.tokenParsed.email,
   email: kc.tokenParsed.email,
   token: kc.token,
 });
@@ -31,7 +31,6 @@ export default {
         kc.updateToken(0).then((refreshed) => {
           if (refreshed) {
             store.dispatch("refreshToken", kc.token);
-            console.info("Token refreshed " + refreshed, kc.token);
           }
         });
       }, 10 ** 5);
