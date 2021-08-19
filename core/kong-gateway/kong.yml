@@ -17,7 +17,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
 
   - name: "Resource-Management"
@@ -36,7 +36,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
 
   - name: "Asset-Management"
@@ -55,7 +55,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Reviews-Management"
     protocol: http
@@ -73,7 +73,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Search-Assistant"
     protocol: http
@@ -91,7 +91,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Profiling-Assistant"
     protocol: http
@@ -109,7 +109,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "History-Assistant"
     protocol: http
@@ -127,7 +127,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Analytics-Assistant"
     protocol: http
@@ -145,7 +145,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "User-Management-Service"
     protocol: http
@@ -163,7 +163,7 @@ services:
         plugins:
           - name: jwt-keycloak
             config:
-              allowed_iss: ["http://172.17.0.1:7000/auth/realms/diva"]
+              allowed_iss: ["http://172.17.0.1:7000/auth/realms/diva-kc-realm"]
 
       - name: usermanagement-route-images
         methods:
@@ -179,7 +179,7 @@ services:
         plugins:
           - name: jwt-keycloak
             config:
-              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
       - name: usermanagement-route-get-images
         methods:
@@ -209,7 +209,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Urban-Pulse-Adapter"
     protocol: http
@@ -227,7 +227,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "DSC-Adapter"
     protocol: http
@@ -245,7 +245,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Schema-Registry"
     protocol: http
@@ -264,8 +264,6 @@ services:
 consumers:
   - username: web-client
     id: cbb297c0-14a9-46bc-ad91-1d0ef9b42df9
-    jwt_secrets:
-      - key: "http://keycloak:8080/auth/realms/diva"
     basicauth_credentials:
       - username: "foo"
         password: 23d696aebd2ccacb9e5efb790baa1c72260f2ba7
