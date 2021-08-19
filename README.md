@@ -12,7 +12,7 @@
 
 <br />
 
-[![version](https://img.shields.io/badge/diva-v2.1.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/drm)
+[![version](https://img.shields.io/badge/diva-v2.2.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/drm)
 
 <br />
 
@@ -73,6 +73,7 @@ We also use this tool as a playground for our students, where they can work out 
 |[Kibana](https://www.elastic.co/de/kibana)|our window into `elasticsearch` for debugging|
 |[MinIO](https://min.io/)|our object store to save files uploaded by browser (aka `diva-lake`)|
 |[DataspaceConnector](https://www.dataspace-connector.io/)|our connection to the world of secure and sovereign data exchange|
+|[Keycloak](https://www.keycloak.org/)|Open Source Identity and Access Management|
 
 ## Quick start
 
