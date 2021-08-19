@@ -139,7 +139,9 @@ export default {
     },
   },
   mounted() {
-    this.term = this.$route.query.term;
+    if (this.$route.query.term) {
+      this.term = this.$route.query.term;
+    }
   },
 };
 </script>
