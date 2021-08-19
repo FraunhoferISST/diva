@@ -14,7 +14,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
 
   - name: "Resource-Management"
@@ -30,7 +30,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
 
   - name: "Asset-Management"
@@ -46,7 +46,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Reviews-Management"
     url: "http://review-management:3003/reviews"
@@ -61,7 +61,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Search-Assistant"
     url: "http://search-assistant:3005/search"
@@ -76,7 +76,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Profiling-Assistant"
     url: "http://profiling-assistant:3011/profiling"
@@ -91,7 +91,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "History-Assistant"
     url: "http://history-assistant:3006/histories"
@@ -106,7 +106,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Analytics-Assistant"
     url: "http://analytics-assistant:3007/analytics"
@@ -121,7 +121,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "User-Management-Service"
     url: "http://user-management:3001/"
@@ -136,7 +136,7 @@ services:
         plugins:
           - name: jwt-keycloak
             config:
-              allowed_iss: ["http://172.17.0.1:7000/auth/realms/diva"]
+              allowed_iss: ["http://172.17.0.1:7000/auth/realms/diva-kc-realm"]
 
       - name: usermanagement-images-route
         methods:
@@ -152,7 +152,7 @@ services:
         plugins:
           - name: jwt-keycloak
             config:
-              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
       - name: usermanagement-get-images-route
         methods:
@@ -179,7 +179,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Urban-Pulse-Adapter"
     url: "http://urban-pulse-adapter:4003/"
@@ -194,7 +194,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "DSC-Adapter"
     url: "http://dsc-adapter:4002/"
@@ -209,7 +209,7 @@ services:
     plugins:
       - name: jwt-keycloak
         config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva" ]
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Schema-Registry"
     url: "http://schema-registry:3010/schemata"
