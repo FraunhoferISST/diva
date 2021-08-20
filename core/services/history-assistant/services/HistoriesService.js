@@ -1,82 +1,25 @@
-const { db, ObjectId } = require("../utils/database");
-const { historyNotFoundError } = require("../utils/errors");
-const {
-  sanitizeHistory,
-  deltaToHumanReadable,
-} = require("../utils/history-helper");
+const EntityService = require("@diva/common/api/EntityService");
+const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
+const { deltaToHumanReadable } = require("../utils/deltaToHumanReadable");
 
-const createProjectionObject = (projectionQuery) => {
-  const projectionObject = {};
-  if (!projectionQuery) {
-    return projectionObject;
+const HISTORY_DB_NAME = process.env.HISTORY_DB_NAME || "historiesDb";
+const HISTORY_COLLECTION_NAME =
+  process.env.HISTORY_COLLECTION_NAME || "histories";
+
+class HistoriesService extends EntityService {
+  async init() {
+    const mongoDbConnector = new MongoDBConnector(HISTORY_DB_NAME, [
+      HISTORY_COLLECTION_NAME,
+    ]);
+    await mongoDbConnector.connect();
+    this.collection = mongoDbConnector.collections[HISTORY_COLLECTION_NAME];
   }
-  for (const field of projectionQuery.split(",")) {
-    projectionObject[field] = 1;
-  }
-  return projectionObject;
-};
 
-const encodeCursor = (data) => Buffer.from(data, "utf8").toString("base64");
-const decodeCursor = (data) => Buffer.from(data, "base64").toString();
-const createNextPageQuery = (id) => ({ _id: { $lt: ObjectId(id) } });
-const createNextCursor = async (currentDoc) => {
-  const nextDoc = await db.historiesCollection.findOne({
-    _id: { $lt: ObjectId(currentDoc._id) },
-  });
-  return nextDoc ? encodeCursor(`${currentDoc._id}`) : undefined;
-};
-
-const prepareHistoryLog = (historyLog, humanReadable = false) => ({
-  ...sanitizeHistory(historyLog),
-  human: humanReadable && deltaToHumanReadable(historyLog.delta),
-});
-
-class HistoriesService {
-  async getHistories(query) {
-    const {
-      cursor,
-      pageSize = 30,
-      fields,
-      belongsTo = "",
-      humanReadable,
-    } = query;
-    const parsedPageSize = parseInt(pageSize, 10);
-    let dbQuery = {};
-    if (cursor) {
-      const prevId = decodeCursor(cursor);
-      dbQuery = createNextPageQuery(prevId);
-    }
-    const collection = await db.historiesCollection
-      .find({
-        belongsTo: { $regex: new RegExp(`${belongsTo}`, "i") },
-        ...dbQuery,
-      })
-      .project(createProjectionObject(fields))
-      .sort({ _id: -1 })
-      .limit(parsedPageSize)
-      .toArray();
-    let nextCursor;
-
-    if (collection.length === parsedPageSize) {
-      nextCursor = await createNextCursor(collection[collection.length - 1]);
-    }
+  sanitizeEntity({ _id, ...rest }, { humanReadable }) {
     return {
-      collectionSize: collection.length,
-      collection: collection.map((h) => prepareHistoryLog(h, humanReadable)),
-      cursor: nextCursor,
+      ...rest,
+      human: humanReadable && deltaToHumanReadable(rest.delta),
     };
-  }
-
-  async getHistoryById(id, query) {
-    const { fields, humanReadable } = query;
-    const historyLog = await db.historiesCollection.findOne(
-      { id },
-      { projection: createProjectionObject(fields) }
-    );
-    if (historyLog) {
-      return prepareHistoryLog(historyLog, humanReadable);
-    }
-    throw historyNotFoundError;
   }
 }
 

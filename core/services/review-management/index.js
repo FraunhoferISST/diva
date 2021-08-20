@@ -1,17 +1,29 @@
-const boot = require("./server");
+const messagesProducer = require("@diva/common/messaging/MessageProducer");
+const createServer = require("@diva/common/api/expressServer");
 const reviewsRouter = require("./routes/reviews");
-const messagesProducer = require("./services/MessagesProducerService");
 const reviewsService = require("./services/ReviewsService");
-const { loadAsyncAPISpec } = require("./utils/validation/messagesValidation");
-const { loadSchemas } = require("./utils/validation/jsonSchemaValidation");
+const serviceName = require("./package.json").name;
 
-boot((app) => {
-  app.use("/reviews", reviewsRouter);
+const NODE_ENV = process.env.NODE_ENV || "development";
+const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
 
-  return Promise.all([
-    reviewsService.init(),
-    messagesProducer.init(),
-    loadSchemas(),
-    loadAsyncAPISpec(),
-  ]);
-});
+const port = process.env.PORT || 3003;
+const topic = process.env.KAFKA_EVENT_TOPIC || "review.events";
+
+module.exports = createServer(
+  (app) => {
+    app.use("/reviews", reviewsRouter);
+
+    return Promise.all([
+      reviewsService.init(),
+      messagesProducer.init(
+        topic,
+        serviceName,
+        "reviewEvents",
+        "asyncapi",
+        producer
+      ),
+    ]);
+  },
+  { port }
+);

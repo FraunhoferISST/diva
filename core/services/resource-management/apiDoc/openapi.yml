@@ -83,6 +83,8 @@ paths:
                       $ref: "#/components/schemas/Resource"
                   cursor:
                     type: string
+                  total:
+                    type: number
         "500":
           $ref: "#/components/responses/UnexpectedError"
 
@@ -164,7 +166,7 @@ paths:
         $ref: "#/components/requestBodies/ResourcesPatch"
       responses:
         "200":
-          $ref: "#/components/responses/Success"
+          $ref: "#/components/responses/SuccessEmpty"
         "406":
           $ref: "#/components/responses/InvalidDataError"
         "404":
@@ -189,14 +191,14 @@ paths:
             type: string
       responses:
         "200":
-          $ref: "#/components/responses/Success"
+          $ref: "#/components/responses/SuccessEmpty"
         "404":
           $ref: "#/components/responses/NotFoundError"
         "500":
           $ref: "#/components/responses/UnexpectedError"
 
 servers:
-  - url: http://localhost:3333
+  - url: http://localhost:3000
 components:
   requestBodies:
     ResourceCreate:
@@ -261,7 +263,7 @@ components:
       required:
         - title
         - id
-      additionalProperties: false
+      additionalProperties: true
       properties:
         id:
           type: string
@@ -327,10 +329,6 @@ components:
           title: Version notes
           description: A string describing the version of the entity
           pattern: "^(.*)$"
-        rating:
-          type: number
-          title: Entity rating
-          description: A number rating of the entity
 
     Resource:
       allOf:
@@ -341,7 +339,6 @@ components:
           additionalProperties: true
           required:
             - resourceType
-            - uniqueFingerprint
           properties:
             resourceType:
               type: string
@@ -349,102 +346,8 @@ components:
               description: The general type of the resource
               enum:
                 - file
-                - database
-                - urban-pulse.sensor
-                - stream
-            uniqueFingerprint:
-              type: string
-              title: Unique resource identifier
-              description: Global Unique resource identifier such as file content hash that can point to an unique resource
-              example: g2jh3g4j2g34jh23jh423jh4f2oöklkcghjfajsfklj3294urjk
-            ids:
-              type: object
-              title: IDS
-              description: IDS config
-              additionalProperties: false
-              properties:
-                policies:
-                  type: object
-                  title: Policies
-                  description: IDS policies
-                  additionalProperties: false
-                  properties:
-                    provideAccess:
-                      type: boolean
-                      default: false
-                      title: Is available on connector flag
-                      description: Flag indicating if the resource is available via a connector
-                    prohibitAccess:
-                      type: boolean
-                      default: false
-                      title: Is prohibited on connector flag
-                      description: Flag indicating if the access to the resource is prohibited
-                        on connector
-                    usageLogging:
-                      type: boolean
-                      default: false
-                      title: Is usage logging active flag
-                      description: Flag indicating if the usage logging of the resource is active
-                        on connector
-                    nTimesUsage:
-                      type: number
-                      default: 0
-                      title: nTimesUsage
-                      description: nTimesUsage
-                    durationUsage:
-                      type: string
-                      title: xsd:duration usage duration
-                      description: xsd:duration duration of time expressed as a number of years,
-                        months, days, hours, minutes, and seconds
-                    usageNotification:
-                      type: string
-                      format: uri
-                      title: Usage notification URI
-                      description: Usage notification URI
-                    usageDuringInterval:
-                      type: object
-                      title: Resource usage duration interval
-                      description: Allowed usage duration interval on connector
-                      required:
-                        - from
-                        - to
-                      properties:
-                        from:
-                          type: string
-                          format: date-time
-                        to:
-                          type: string
-                          format: date-time
-                    usageUntilDeletion:
-                      type: object
-                      title: Resource usage duration interval until deletion
-                      description: Allowed usage duration interval on connector until deletion
-                      required:
-                        - from
-                        - to
-                        - delete
-                      properties:
-                        from:
-                          type: string
-                          format: date-time
-                        to:
-                          type: string
-                          format: date-time
-                        delete:
-                          type: string
-                          format: date-time
-                isAvailable:
-                  type: boolean
-                  default: false
-                  title: Is available flag
-                  description: Flag indicating if the resource is available via a connector
-                brokerEndpoints:
-                  type: array
-                  title: Broker URLs
-                  description: Broker URLs
-                  items:
-                    type: string
-
+                - generic
+                - urban-pulse-sensor
     Error:
       type: object
       title: Operation error
@@ -481,6 +384,8 @@ components:
         text/html:
           schema:
             type: string
+    SuccessEmpty:
+      description: Succesful operation
     Multi:
       description: Multi-status response in case of a bulk request
       content:

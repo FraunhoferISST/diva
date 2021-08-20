@@ -8,7 +8,7 @@ tags:
   - name: users
     description: Operations about users
   - name: userImages
-    description: Access to user image. Only PNG and JPEG supported.
+    description: Operations on users image. Only PNG and JPEG supported.
 paths:
   /users:
     parameters:
@@ -39,7 +39,8 @@ paths:
       summary: Get list of users
       description: To get the list of users you can specify projection with `fields` paramter and set the
         page size with `pageSize`. Default page size is **30**. The next page can be fatched by using `cursor`
-        parameter. The cursor to the next page will be included in the response body
+        parameter. The cursor to the next page will be included in the response body. There is nore further pages, if
+        the `cursor` is not included in the response
       operationId: getUsers
       parameters:
         - name: fields
@@ -48,6 +49,7 @@ paths:
           required: false
           explode: true
           allowReserved: true
+          example: "username,email,creationDate"
           schema:
             type: string
         - name: cursor
@@ -74,13 +76,20 @@ paths:
                 type: object
                 properties:
                   collectionSize:
+                    description: Number of users returned in current response
                     type: integer
                   collection:
                     type: array
+                    description: The array of users objects
                     items:
                       $ref: "#/components/schemas/UserResponse"
                   cursor:
                     type: string
+                    description: Cursor to the next page. Set the returned cursor as `cursor` query parameter in the
+                      next request to retrive following page
+                  total:
+                    description: Total number of users that could be returned by current query
+                    type: number
         "400":
           $ref: "#/components/responses/RequestValidationError"
         "500":
@@ -122,9 +131,8 @@ paths:
       tags:
         - users
       summary: Update user
-      description: Use this method, if you want to replace complete user document. New user is created if no user with
-        the provided `id` exists. Note that in this operation **all** fields (except `id`) are replaced. For example, if the request
-        does not contain `imageId` the filed will be removed from existing user object. At least `username`, `e-mail` and `password`
+      description: New user is created if no user with
+        the provided `id` exists. Note that in this operation you can replace **all** fields (except `id`). At least `username` and `e-mail`
         must be provided.
       operationId: updateUser
       parameters:
@@ -152,7 +160,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/UsersPatch"
       responses:
-        "204":
+        "200":
           $ref: "#/components/responses/SuccessEmpty"
         "400":
           $ref: "#/components/responses/RequestValidationError"
@@ -415,7 +423,7 @@ paths:
           $ref: "#/components/responses/UnexpectedError"
 
 servers:
-  - url: http://localhost:5000
+  - url: http://localhost:3007
 components:
   requestBodies:
     UsersCreate:
@@ -448,25 +456,18 @@ components:
         application/json:
           schema:
             type: object
-            additionalProperties: false
+            additionalProperties: true
+            description: Minimal required properties to update the user. To see the comlete set of possible attributes please
+              refer to the corresponsing schema
             required:
               - username
               - email
-              - password
             properties:
               username:
                 type: string
               email:
                 type: string
                 format: email
-              password:
-                type: string
-              imageId:
-                description: Existing image id
-                type: string
-              imageUrl:
-                type: string
-                format: url
     UsersPatch:
       required: true
       content:
@@ -544,10 +545,11 @@ components:
       pattern: "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
 
     UserResponse:
-      title: UserResponse
-      description: User Response schema
+      title: User response
+      description: User response with essential attributes. For full list of possible attributes pleease refer to
+        te corresponsing schema.
       type: object
-      additionalProperties: false
+      additionalProperties: true
       properties:
         username:
           type: string
@@ -562,7 +564,7 @@ components:
         imageUrl:
           type: string
           description: URL to external profile image
-        creationDate:
+        created:
           type: string
           format: date-time
           description: User creation date
@@ -648,7 +650,7 @@ components:
   parameters:
     actoridParam:
       in: header
-      description: The id of the origin that produces action/message. Can be a user or service
+      description: The id of the origin that produces action/message. Can be an user or a service
       name: x-actorid
       schema:
         type: string

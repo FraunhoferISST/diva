@@ -1,6 +1,7 @@
 name: Build and publish table-data-apriori-associations-extractor image
 
 on:
+  workflow_dispatch:
   push:
     branches: ["master", "dev"]
     paths:
@@ -14,8 +15,11 @@ on:
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
+  DIVA_DOCKER_CONTEXT: faas/table-data-apriori-associations-extractor
   IMAGE_NAME: table-data-apriori-associations-extractor
+  DIVA_DOCKERFILE_PATH: faas/table-data-apriori-associations-extractor/Dockerfile
   SERVICE_PATH: faas/table-data-apriori-associations-extractor
+  SERVICE_RELATIVE_PATH: table-data-apriori-associations-extractor
 
 jobs:
   build-and-push-image:
@@ -25,7 +29,6 @@ jobs:
       packages: write
 
     steps:
-      - uses: ./composite/action.yml
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -51,7 +54,9 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: ${{ env.SERVICE_PATH }}
-          push: true
+          context: ${{ env.DIVA_DOCKER_CONTEXT }}
+          file: ${{ env.DIVA_DOCKERFILE_PATH }}
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: SERVICE_NAME=${{ env.SERVICE_RELATIVE_PATH }}

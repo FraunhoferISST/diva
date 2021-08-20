@@ -1,13 +1,14 @@
 {
   "name": "schema-registry",
-  "version": "0.0.2",
+  "version": "0.1.0-beta.0",
   "description": "A Schema Registry for delivering JSON and YML Schemata using HTTP",
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development node index.js",
     "eslint-fix": "eslint --fix . --ext .js",
-    "test:unit": "NODE_ENV=test mocha --recursive test/unit/*.spec.js"
+    "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
+    "build:linux": "pkg -t node14-linux-x64 index.js"
   },
   "keywords": [
     "Schema",
@@ -23,23 +24,20 @@
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
   },
   "dependencies": {
-    "chalk": "^4.1.0",
-    "express": "^4.17.1",
-    "express-openapi-validator": "^4.11.0",
+    "@diva/common": "^1.0.0",
     "glob": "^7.1.6",
     "keyv": "^4.0.3",
     "lowdb": "^1.0.0",
     "mime": "^2.5.2"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "eslint": "^7.18.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^7.2.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.3.1",
-    "mocha": "^8.2.1",
-    "prettier": "^2.2.1",
-    "rewire": "^5.0.0"
+    "@diva/eslint-config": "^0.1.0",
+    "pkg": "^5.3.1"
+  },
+  "pkg": {
+    "assets": [
+      "schemata",
+      "package.json"
+    ]
   }
 }

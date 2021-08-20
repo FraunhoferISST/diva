@@ -1,5 +1,15 @@
 const axios = require("axios");
-const { mongoDb } = require("../utils/mongoDb");
+const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
+
+const resourceDbName = process.env.MONGO_RESOURCE_DB_NAME || "resourcesDb";
+const resourceCollectionName =
+  process.env.MONGO_RESOURCE_COLLECTION_NAME || "resources";
+const dscCollectionName = process.env.MONGO_DSC_COLLECTION_NAME || "dsc";
+const mongoConnector = new MongoDBConnector(resourceDbName, [
+  resourceCollectionName,
+  dscCollectionName,
+]);
+
 const {
   isOffered,
   catalogExists,
@@ -65,14 +75,14 @@ const createDscPatch = (dsc) => ({
 });
 
 class DscAdapterService {
-  async init(dbName) {
-    await mongoDb.connect(dbName);
-    this.collection = mongoDb.resourcesCollection;
-    this.dscInfo = await mongoDb.dscCollection.findOne({});
+  async init() {
+    await mongoConnector.connect();
+    this.dscCollection = mongoConnector.collections[dscCollectionName];
+    this.dscInfo = await this.dscCollection.findOne({});
     if (!this.dscInfo || !(await catalogExists(this.dscInfo?.catalogId))) {
-      await mongoDb.dscCollection.remove({});
+      await this.dscCollection.remove({});
       const { id: catalogId } = await createCatalog("Diva Catalog");
-      mongoDb.dscCollection.insertOne({ catalogId });
+      this.dscCollection.insertOne({ catalogId });
       this.dscInfo = { catalogId };
       console.info(`Created catalog "${catalogId}"`);
     }

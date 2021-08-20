@@ -1,8 +1,8 @@
+const messageProducer = require("@diva/common/messaging/MessageProducer");
 const assetService = require("../services/AssetService");
-const messageProducer = require("../messageProducer/producer");
 
 const createSingleAsset = async (asset, actorId) => {
-  const newAssetId = await assetService.createAsset(asset, actorId);
+  const newAssetId = await assetService.create(asset, actorId);
   messageProducer.produce(newAssetId, actorId, "create");
   return newAssetId;
 };
@@ -48,7 +48,7 @@ const processLinkBulkRequest = async (bulk, assetId, actorid) =>
 class AssetsController {
   async getAssets(req, res, next) {
     try {
-      const result = await assetService.getAssets(req.query);
+      const result = await assetService.get(req.query);
       res.status(200).send(result);
     } catch (err) {
       return next(err);
@@ -57,7 +57,7 @@ class AssetsController {
 
   async getAsset(req, res, next) {
     try {
-      const result = await assetService.getAssetById(req.params.id, req.query);
+      const result = await assetService.getById(req.params.id, req.query);
       res.status(200).send(result);
     } catch (err) {
       return next(err);
@@ -66,7 +66,7 @@ class AssetsController {
 
   async createAsset(req, res, next) {
     try {
-      const { actorid } = req;
+      const actorid = req.headers["x-actorid"];
       if (Array.isArray(req.body)) {
         const result = await processCreateBulkRequest(req.body, actorid);
         res.status(207).send(result);
@@ -79,23 +79,12 @@ class AssetsController {
     }
   }
 
-  async updateAsset(req, res, next) {
-    try {
-      const { id } = req.params;
-      await assetService.updateAsset(id, req.body, req.actorid);
-      res.send();
-      messageProducer.produce(id, req.actorid, "update");
-    } catch (err) {
-      return next(err);
-    }
-  }
-
   async patchAsset(req, res, next) {
     try {
       const { id } = req.params;
-      await assetService.patchAsset(id, req.body, req.actorid);
+      await assetService.patchById(id, req.body, req.headers["x-actorid"]);
       res.send();
-      messageProducer.produce(id, req.actorid, "update");
+      messageProducer.produce(id, req.headers["x-actorid"], "update");
     } catch (err) {
       return next(err);
     }
@@ -104,9 +93,9 @@ class AssetsController {
   async deleteAsset(req, res, next) {
     try {
       const { id } = req.params;
-      await assetService.deleteAsset(id);
+      await assetService.deleteById(id);
       res.send();
-      messageProducer.produce(id, req.actorid, "delete");
+      messageProducer.produce(id, req.headers["x-actorid"], "delete");
     } catch (err) {
       return next(err);
     }
@@ -114,7 +103,7 @@ class AssetsController {
 
   async linkEntity(req, res, next) {
     try {
-      const { actorid } = req;
+      const actorid = req.headers["x-actorid"];
       const { id } = req.params;
       if (Array.isArray(req.body)) {
         const result = await processLinkBulkRequest(req.body, id, actorid);
@@ -143,9 +132,9 @@ class AssetsController {
   async unlinkEntity(req, res, next) {
     try {
       const { id, entityId } = req.params;
-      await assetService.unlinkEntity(id, entityId, req.actorid);
+      await assetService.unlinkEntity(id, entityId, req.headers["x-actorid"]);
       res.send();
-      messageProducer.produce(id, req.actorid, "update");
+      messageProducer.produce(id, req.headers["x-actorid"], "update");
     } catch (err) {
       return next(err);
     }

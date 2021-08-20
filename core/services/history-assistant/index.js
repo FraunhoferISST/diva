@@ -1,10 +1,13 @@
-const boot = require("./server");
+const boot = require("@diva/common/api/expressServer");
 const historiesRouter = require("./routes/histories");
-const { loadSchemas } = require("./utils/validation/jsonSchemaValidation");
-const { db } = require("./utils/database");
+const historiesService = require("./services/HistoriesService");
 
-boot((app) => {
-  app.use("/histories", historiesRouter);
+const port = process.env.PORT || 3006;
 
-  return Promise.all([db.connect(), loadSchemas()]);
-});
+boot(
+  (app) => {
+    app.use("/histories", historiesRouter);
+    return historiesService.init();
+  },
+  { port }
+);

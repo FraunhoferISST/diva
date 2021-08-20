@@ -22,7 +22,7 @@
           "examples": [
             "mustermann"
           ],
-          "minLength": 3
+          "minLength": 1
         },
 
         "email": {
@@ -37,7 +37,7 @@
 
         "password": {
           "$id": "/properties/password",
-          "type": "string",
+          "type": ["string", "null"],
           "title": "The Password Schema ",
           "examples": [
             "foobarpassword123"

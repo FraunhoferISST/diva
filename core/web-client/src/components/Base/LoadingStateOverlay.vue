@@ -23,6 +23,7 @@
           class="logo-block block-0"
           src="@/assets/logo_parts/logo_block.svg"
         />
+        <slot> </slot>
       </div>
     </div>
   </div>

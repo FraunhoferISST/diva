@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   title: Search Assistant API
 servers:
-  - url: http://localhost:9220
+  - url: http://localhost:3005
 tags:
   - name: search
     description: Search requests

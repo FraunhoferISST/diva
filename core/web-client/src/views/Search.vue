@@ -4,7 +4,7 @@
       :input.sync="term"
       :loading="isLoading"
       :interacted="interacted"
-      @submit="debounceSearch"
+      @submit="submitSearch"
     />
     <fade-in>
       <v-container
@@ -77,11 +77,19 @@ export default {
   },
   watch: {
     term() {
+      this.$router.replace({
+        name: "search",
+        query: { term: this.term },
+      });
       this.cursor = null;
       this.debounceSearch();
     },
   },
   methods: {
+    submitSearch() {
+      this.cursor = null;
+      this.debounceSearch();
+    },
     debounceSearch() {
       searchDebouncer.debounce(this.search);
     },
@@ -129,6 +137,11 @@ export default {
         this.$store.dispatch("setTerm", value);
       },
     },
+  },
+  mounted() {
+    if (this.$route.query.term) {
+      this.term = this.$route.query.term;
+    }
   },
 };
 </script>

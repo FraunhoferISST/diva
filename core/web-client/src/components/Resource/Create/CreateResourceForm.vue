@@ -141,7 +141,7 @@ export default {
       {
         title: "UrbanPulse",
         component: UrbanPulseSource,
-        icon: "up.webp",
+        icon: "dksr.jpg",
         isReady: false,
         onCreate: () => {},
       },

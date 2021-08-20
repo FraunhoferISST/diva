@@ -5,7 +5,7 @@ class ProfilingController {
     try {
       const result = await ProfilingService.run(
         req.body.resourceId,
-        req.actorid
+        req.headers["x-actorid"]
       );
       res.status(200).json(result.data);
     } catch (e) {

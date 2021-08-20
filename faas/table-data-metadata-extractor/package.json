@@ -1,5 +1,5 @@
 {
-  "name": "diva-faas-table-data-metadata-extractor",
+  "name": "table-data-metadata-extractor",
   "version": "3.0.0",
   "private": true,
   "scripts": {

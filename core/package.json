@@ -1,0 +1,10 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "test:e2e": "lerna run --parallel test:e2e"
+  },
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}

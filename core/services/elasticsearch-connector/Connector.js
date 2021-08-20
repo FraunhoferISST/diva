@@ -1,16 +1,25 @@
-const es = require("./utils/es");
-const mongoDb = require("./utils/mongodb");
+const ElasticsearchConnector = require("@diva/common/databases/ElasticsearchConnector");
+const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
+
+const esConnector = new ElasticsearchConnector();
+const mongoConnector = new MongoDBConnector();
+
+const getEntity = (dbName, collection, id) =>
+  mongoConnector.client
+    .db(dbName)
+    .collection(collection)
+    .findOne({ id }, { projection: { _id: 0 } });
 
 class Connector {
   async init() {
-    es.connect();
-    await mongoDb.connect();
+    esConnector.connect();
+    await mongoConnector.connect();
   }
 
   async index({ dbName, collection }, id) {
-    const entity = await mongoDb.getEntity(dbName, collection, id);
+    const entity = await getEntity(dbName, collection, id);
     return entity
-      ? es.client.index({
+      ? esConnector.client.index({
           index: collection,
           id: entity.id,
           body: entity,
@@ -20,7 +29,7 @@ class Connector {
 
   async delete({ collection }, id) {
     try {
-      return es.client.delete({
+      return esConnector.client.delete({
         index: collection,
         id,
       });

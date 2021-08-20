@@ -1,5 +1,5 @@
 {
-  "name": "diva-faas-resource-management-sink",
+  "name": "resource-management-sink",
   "version": "1.0.1",
   "private": true,
   "scripts": {

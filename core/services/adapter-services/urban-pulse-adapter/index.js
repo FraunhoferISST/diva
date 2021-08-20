@@ -1,6 +1,11 @@
-const boot = require("./server");
+const boot = require("@diva/common/api/expressServer");
 const adapterRouter = require("./routes/adapter");
 
-boot((app) => {
-  app.use("/", adapterRouter);
-});
+const port = process.env.PORT || 4003;
+
+boot(
+  (app) => {
+    app.use("/", adapterRouter);
+  },
+  { port }
+);

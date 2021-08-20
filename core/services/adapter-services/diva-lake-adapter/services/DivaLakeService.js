@@ -86,7 +86,7 @@ class DivaLakeResourceService {
       generateFileResourceSchema(file, fileHashSha256, mimeType),
       actorId
     ).catch((e) => {
-      const code = e?.response?.data?.code;
+      const code = e?.code ?? e?.response?.data?.code;
       if (code !== 409) {
         removeFromDivaLake(fileHashSha256);
       }

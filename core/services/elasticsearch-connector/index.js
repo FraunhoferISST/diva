@@ -1,15 +1,15 @@
+const messageConsumer = require("@diva/common/messaging/MessageConsumer");
 const Connector = require("./Connector");
-const consume = require("./utils/broker");
-const {
-  loadAsyncAPISpec,
-  validateMessage,
-} = require("./utils/messagesValidation");
+const serviceName = require("./package.json").name;
 const { getDbByEntityId, getOperation } = require("./utils/utils");
 
-const processMessage = async (message) => {
+const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
+  ? JSON.parse(process.env.KAFKA_CONSUMER_TOPICS)
+  : ["resource.events", "asset.events", "user.events", "review.events"];
+
+const onMessage = async (message) => {
   try {
     const parsedMassage = JSON.parse(message.value.toString());
-    validateMessage(parsedMassage);
     const {
       type,
       object: { id },
@@ -23,8 +23,11 @@ const processMessage = async (message) => {
 };
 
 (async () => {
-  await loadAsyncAPISpec();
-  await consume(processMessage);
+  await messageConsumer.init(
+    KAFKA_CONSUMER_TOPICS.map((topic) => ({ topic, spec: "asyncapi" })),
+    serviceName
+  );
+  await messageConsumer.consume(onMessage);
   await Connector.init();
   console.info("✅ Elasticsearch connector is running!");
 })();

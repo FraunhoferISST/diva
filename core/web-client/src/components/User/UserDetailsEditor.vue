@@ -32,6 +32,26 @@
                       </div>
                       <v-container fluid class="pa-0">
                         <v-row>
+                          <v-col cols="12">
+                            <v-row>
+                              <v-col cols="12" md="6">
+                                <info-block title="Email" :value="user.email">
+                                </info-block>
+                              </v-col>
+                              <v-col cols="12" md="6"
+                                ><info-block title="Password" value="********">
+                                </info-block>
+                              </v-col>
+                              <v-col cols="12">
+                                <v-alert text dense color="info">
+                                  You can edit your log in credentials on
+                                  <a :href="keycloakAccountURL"> Keycloak </a>
+                                  - our trusted and secure service for
+                                  authentication
+                                </v-alert>
+                              </v-col>
+                            </v-row>
+                          </v-col>
                           <v-col
                             cols="12"
                             :md="attribute.fullWith ? '12' : '6'"
@@ -45,15 +65,24 @@
                               :type="attribute.type"
                               outlined
                               :hide-details="attribute.name !== 'email'"
+                              :readonly="attribute.name === 'email'"
                               light
+                              persistent-hint
                               dense
-                              clearable
-                              :hint="
-                                attribute.name === 'email'
-                                  ? 'You will be redirected to login page, if you change the email'
-                                  : ''
-                              "
-                            ></v-text-field>
+                              :required="attribute.required"
+                              :clearable="attribute.name !== 'email'"
+                              :hint="attribute.name === 'email' ? 'hint' : ''"
+                            >
+                              <template #message>
+                                <p>
+                                  You can edit your login credentials on your
+                                  <a :href="keycloakAccountURL">
+                                    Keycloak profile
+                                  </a>
+                                  page
+                                </p>
+                              </template>
+                            </v-text-field>
                           </v-col>
                         </v-row>
                       </v-container>
@@ -69,6 +98,7 @@
                   <v-col
                     cols="12"
                     :sm="attribute.fullWith ? '12' : '6'"
+                    md="4"
                     v-for="attribute in contactInformation"
                     :key="attribute.name"
                   >
@@ -134,9 +164,12 @@
 import CustomHeader from "@/components/Base/CustomHeader";
 import UserAvatarEditor from "@/components/User/UserAvatarEditor";
 import UserAvatar from "@/components/User/UserAvatar";
+import keycloak from "@/api/keycloak";
+import InfoBlock from "../Base/InfoBlock/InfoBlock";
+
 export default {
   name: "UserDetailsEditor",
-  components: { UserAvatar, UserAvatarEditor, CustomHeader },
+  components: { InfoBlock, UserAvatar, UserAvatarEditor, CustomHeader },
   props: {
     user: {
       type: Object,
@@ -160,6 +193,9 @@ export default {
     },
   },
   computed: {
+    keycloakAccountURL() {
+      return keycloak.kc.createAccountUrl();
+    },
     avatarSize() {
       return this.$vuetify.breakpoint.smAndDown ? "200px" : "200px";
     },
@@ -207,25 +243,6 @@ export default {
           title: "Post office box number",
           fullWith: false,
         },
-      ].map((attr) => ({
-        ...attr,
-        value: this.userData[attr.name],
-      }));
-    },
-    generalInformation() {
-      return [
-        {
-          name: "username",
-          type: "text",
-          title: "Name",
-          fullWith: true,
-        },
-        {
-          name: "email",
-          type: "email",
-          title: "Email",
-          fullWith: true,
-        },
         {
           name: "company",
           type: "text",
@@ -243,9 +260,22 @@ export default {
         value: this.userData[attr.name],
       }));
     },
+    generalInformation() {
+      return [
+        {
+          name: "username",
+          type: "text",
+          title: "User name",
+          fullWith: true,
+          required: true,
+        },
+      ].map((attr) => ({
+        ...attr,
+        value: this.userData[attr.name],
+      }));
+    },
   },
   methods: {
-    goBack() {},
     async updateImage() {
       if (this.image) {
         if (this.userData.imageId) {

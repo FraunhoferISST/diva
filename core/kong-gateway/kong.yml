@@ -15,13 +15,9 @@ services:
           - "https"
         strip_path: true
     plugins:
-      - name: jwt
+      - name: jwt-keycloak
         config:
-          secret_is_base64: false
-          key_claim_name: "iss"
-          run_on_preflight: true
-          uri_param_names:
-            - jw
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
 
   - name: "Resource-Management"
@@ -38,13 +34,10 @@ services:
           - "https"
         strip_path: true
     plugins:
-      - name: jwt
+      - name: jwt-keycloak
         config:
-          secret_is_base64: false
-          key_claim_name: "iss"
-          run_on_preflight: true
-          uri_param_names:
-            - jw
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
+
 
   - name: "Asset-Management"
     protocol: http
@@ -60,13 +53,9 @@ services:
           - "https"
         strip_path: true
     plugins:
-      - name: jwt
+      - name: jwt-keycloak
         config:
-          secret_is_base64: false
-          key_claim_name: "iss"
-          run_on_preflight: true
-          uri_param_names:
-            - jwt
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Reviews-Management"
     protocol: http
@@ -82,13 +71,9 @@ services:
           - "https"
         strip_path: true
     plugins:
-      - name: jwt
+      - name: jwt-keycloak
         config:
-          secret_is_base64: false
-          key_claim_name: "iss"
-          run_on_preflight: true
-          uri_param_names:
-            - jwt
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Search-Assistant"
     protocol: http
@@ -104,13 +89,9 @@ services:
           - "https"
         strip_path: true
     plugins:
-      - name: jwt
+      - name: jwt-keycloak
         config:
-          secret_is_base64: false
-          key_claim_name: "iss"
-          run_on_preflight: true
-          uri_param_names:
-            - jwt
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Profiling-Assistant"
     protocol: http
@@ -126,13 +107,9 @@ services:
           - "https"
         strip_path: true
     plugins:
-      - name: jwt
+      - name: jwt-keycloak
         config:
-          secret_is_base64: false
-          key_claim_name: "iss"
-          run_on_preflight: true
-          uri_param_names:
-            - jwt
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "History-Assistant"
     protocol: http
@@ -148,13 +125,9 @@ services:
           - "https"
         strip_path: true
     plugins:
-      - name: jwt
+      - name: jwt-keycloak
         config:
-          secret_is_base64: false
-          key_claim_name: "iss"
-          run_on_preflight: true
-          uri_param_names:
-            - jwt
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Analytics-Assistant"
     protocol: http
@@ -170,13 +143,9 @@ services:
           - "https"
         strip_path: true
     plugins:
-      - name: jwt
+      - name: jwt-keycloak
         config:
-          secret_is_base64: false
-          key_claim_name: "iss"
-          run_on_preflight: true
-          uri_param_names:
-            - jwt
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "User-Management-Service"
     protocol: http
@@ -192,13 +161,10 @@ services:
           - "https"
         strip_path: false
         plugins:
-          - name: jwt
+          - name: jwt-keycloak
             config:
-              secret_is_base64: false
-              key_claim_name: "iss"
-              run_on_preflight: true
-              uri_param_names:
-                - jwt
+              allowed_iss: ["http://172.17.0.1:7000/auth/realms/diva-kc-realm"]
+
       - name: usermanagement-route-images
         methods:
           - POST
@@ -211,32 +177,15 @@ services:
           - "https"
         strip_path: false
         plugins:
-          - name: jwt
+          - name: jwt-keycloak
             config:
-              secret_is_base64: false
-              key_claim_name: "iss"
-              run_on_preflight: true
-              uri_param_names:
-                - jwt
+              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
+
       - name: usermanagement-route-get-images
         methods:
           - GET
         paths:
           - "/userImages"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: false
-      - name: usermanagement-route-login
-        paths:
-          - "/users/login/"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: false
-      - name: usermanagement-route-register
-        paths:
-          - "/users/register/"
         protocols:
           - "http"
           - "https"
@@ -258,13 +207,9 @@ services:
           - "https"
         strip_path: true
     plugins:
-      - name: jwt
+      - name: jwt-keycloak
         config:
-          secret_is_base64: false
-          key_claim_name: "iss"
-          run_on_preflight: true
-          uri_param_names:
-            - jwt
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Urban-Pulse-Adapter"
     protocol: http
@@ -280,13 +225,9 @@ services:
           - "https"
         strip_path: true
     plugins:
-      - name: jwt
+      - name: jwt-keycloak
         config:
-          secret_is_base64: false
-          key_claim_name: "iss"
-          run_on_preflight: true
-          uri_param_names:
-            - jwt
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "DSC-Adapter"
     protocol: http
@@ -302,13 +243,9 @@ services:
           - "https"
         strip_path: true
     plugins:
-      - name: jwt
+      - name: jwt-keycloak
         config:
-          secret_is_base64: false
-          key_claim_name: "iss"
-          run_on_preflight: true
-          uri_param_names:
-            - jwt
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
   - name: "Schema-Registry"
     protocol: http
@@ -327,24 +264,11 @@ services:
 consumers:
   - username: web-client
     id: cbb297c0-14a9-46bc-ad91-1d0ef9b42df9
-    jwt_secrets:
-      - key: cef1fe6937e444a6b18a26965d619718
-        algorithm: "HS256"
-        secret: "b9f813fb8753440eabb1b44f9ba4da2f"
     basicauth_credentials:
       - username: "foo"
         password: 23d696aebd2ccacb9e5efb790baa1c72260f2ba7
 
 plugins:
-  - name: jwt-claims-headers
-    config:
-      claims_to_include:
-        - "email"
-        - "username"
-        - "id"
-      continue_on_error: true
-      uri_param_names:
-        - "jwt"
   - name: cors
     config:
       origins:

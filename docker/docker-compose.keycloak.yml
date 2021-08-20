@@ -1,0 +1,58 @@
+# ####################################################################################################################
+# Keycloak instance
+# ####################################################################################################################
+
+version: '3.9'
+
+services:
+
+  kc-postgres:
+    image: postgres:13.4
+    container_name: kc-postgres
+    volumes:
+      - kc_postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: ${KEYCLOAK_DB_USER}
+      POSTGRES_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+    networks:
+      - kc_postgres
+
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:15.0.0
+    ports:
+      - ${KEYCLOAK_PORT}:8080
+    restart: always
+    depends_on:
+      - kc-postgres
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: kc-postgres
+      DB_DATABASE: keycloak
+      DB_USER: ${KEYCLOAK_DB_USER}
+      DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+      DB_SCHEMA: public
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+      KEYCLOAK_FRONTEND_URL: ${KEYCLOAK_FRONTEND_URL}
+      KEYCLOAK_HTTP_PORT: ${KEYCLOAK_PORT}
+      #KEYCLOAK_DEFAULT_THEME: coming_soon
+      KEYCLOAK_IMPORT: /tmp/default-realm.json
+    volumes:
+      - ../core/keycloak/default-realm.json:/tmp/default-realm.json
+      - ../core/keycloak/themes/register.ftl:/opt/jboss/keycloak/themes/base/login/register.ftl
+      - ../core/keycloak/themes/login.ftl:/opt/jboss/keycloak/themes/base/login/login.ftl
+      - ../core/keycloak/themes/account.ftl:/opt/jboss/keycloak/themes/base/account/account.ftl
+    networks:
+      - core
+      - kc_postgres
+volumes:
+  kc_postgres_data:
+    driver: local
+
+networks:
+  core:
+    name: core
+  kc_postgres:
+    name: kc_postgres

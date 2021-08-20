@@ -10,4 +10,4 @@ RUN npm i --production
 
 COPY . .
 
-CMD npm run start
+CMD ["npm", "run", "start"]

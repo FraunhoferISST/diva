@@ -4,7 +4,7 @@
 
 *Any change needs to be discussed before proceeding. Failure to do so may result in the rejection of the pull request.*
 
-Make sure to read the contribution guide lines, especially for [PR'S](https://fraunhoferisst.github.io/diva-docs/dev-docs/contribution/issues-and-prs.html#sending-a-pull-request)
+Make sure to read the contribution guidelines, especially for [PR'S](https://fraunhoferisst.github.io/diva-docs/dev-docs/contribution/issues-and-prs.html#sending-a-pull-request)
 
 
 You can delete the above text 
@@ -17,8 +17,8 @@ Quick checklist for code changes:
 - [ ] All commits correspond to our [convention](https://fraunhoferisst.github.io/diva-docs/dev-docs/contribution/commits.html)
 - [ ] The code linted
 - [ ] All checks passed
-- [ ] README's updated (if configuration, behaivior changed)
-- [ ] OpenaAPI specs updated (if API changed)
+- [ ] README's updated (if configuration, behavior changed)
+- [ ] OpenAPI specs updated (if API changed)
 - [ ] Versions for changed components incremented (in the component specific file and in corresponding `docker-compose.yml`)
-- [ ] Any breacking changes clearly communicated to the core teame and do not imply system dysfunction
-- [ ] [Documentation](https://github.com/FraunhoferISST/diva-docs) update proposed (if configuration, behaivior, structure, processes changed)
+- [ ] Any breaking changes clearly communicated to the core team and do not imply system dysfunction
+- [ ] [Documentation](https://github.com/FraunhoferISST/diva-docs) update proposed (if configuration, behavior, structure, processes changed)
