@@ -51,7 +51,7 @@ class AssetService extends EntityService {
             modified: new Date().toISOString(),
           },
         },
-        { returnOriginal: false }
+        { returnDocument: "after" }
       );
       await this.createHistoryEntry(
         existingAsset,
@@ -74,7 +74,7 @@ class AssetService extends EntityService {
             modified: new Date().toISOString(),
           },
         },
-        { returnOriginal: false }
+        { returnDocument: "after" }
       );
       await this.createHistoryEntry(
         existingAsset,
