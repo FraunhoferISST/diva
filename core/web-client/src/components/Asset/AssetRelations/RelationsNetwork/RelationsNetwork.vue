@@ -104,7 +104,7 @@ export default {
     async fetchLinkedEntities() {
       const rootAsset = (
         await this.$api.assets.getByIdIfExists(this.id, {
-          fields: "id, title, entityType",
+          fields: "id,title,entityType",
         })
       )?.data;
       const linkedEntities = await this.$api.assets
