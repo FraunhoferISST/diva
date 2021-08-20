@@ -9,7 +9,7 @@ const createProjectionObject = (projectionQuery) => {
   const projectionObject = {};
   if (projectionQuery) {
     for (const field of projectionQuery.split(",")) {
-      projectionObject[field] = 1;
+      projectionObject[field.trim()] = 1;
     }
   }
   return projectionObject;
