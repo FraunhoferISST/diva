@@ -2,19 +2,25 @@
 # Keycloak instance
 # ####################################################################################################################
 
-version: '3.9'
+version: '3.8'
 
 services:
 
   kc-postgres:
     image: postgres:13.4
     container_name: kc-postgres
+    user: postgres
     volumes:
       - kc_postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: ${KEYCLOAK_DB_USER}
       POSTGRES_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${KEYCLOAK_DB_USER}" ]
+      interval: 2s
+      timeout: 5s
+      retries: 10
     networks:
       - kc_postgres
 
@@ -25,7 +31,8 @@ services:
       - ${KEYCLOAK_PORT}:8080
     restart: always
     depends_on:
-      - kc-postgres
+      kc-postgres:
+        condition: service_healthy
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: kc-postgres

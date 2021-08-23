@@ -57,7 +57,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: master
+          ref: main
       - uses: actions/setup-node@v2
       - name: Update CHANGELOG-md
         run: |
@@ -67,4 +67,4 @@ jobs:
           default_author: github_actions
           message: "chore: update CHANGELOG.md"
           add: "CHANGELOG.md"
-          branch: master
+          branch: main
