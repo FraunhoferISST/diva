@@ -27,12 +27,12 @@ with a secured reverse proxy server. You will find more detail the Docker deploy
 4. Set Web-Client ENV's and restart container
    > Update the `VUE_APP_API_GATEWAY_URL` and `VUE_APP_KEYCLOAK_URL` in `docker/.env` corresponding to your nginx configuration.
    > Make sure the client can access all API endpoints and communicate with Keycloak. According to provided default configuration
-   > the variables should be set for example as `VUE_APP_API_GATEWAY_URL=https://localhost/api` and `VUE_APP_KEYCLOAK_URL=https://localhost/auth/`
+   > the variables should be set for example as `VUE_APP_API_GATEWAY_URL=https://localhost/api/` and `VUE_APP_KEYCLOAK_URL=https://localhost/auth/`
 
 
 5. Set Keycloak ENV's and restart container (optional)
    > This step is only applicable if you do not have your own managed Keycloak instance running. In that case your have to update 
-   > in your `docker/.env`: `KEYCLOAK_FRONTEND_URL=https://localhost/auth`.
+   > in your `docker/.env`: `KEYCLOAK_FRONTEND_URL=https://localhost/auth/`.
 
 6. Create Kong production config and restart container
    > In `core/kong-gateway` you have to create production config (e.g. kong.prod.yml). Your can copy the contents from 
@@ -50,7 +50,7 @@ with a secured reverse proxy server. You will find more detail the Docker deploy
 8. Run nginx proxy server in `proxy/` with:
 
    ```sh
-   docker-compose up
+   docker-compose up -d
    ```
 
-On your local machine with the default nginx config the Web-Client should be available on `https://localhost`.
+On your local machine with the default nginx config the Web-Client should be available on `https://localhost/`.
