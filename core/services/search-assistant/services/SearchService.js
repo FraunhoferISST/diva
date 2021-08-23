@@ -36,13 +36,19 @@ class SearchService {
 
     const requestBody = esb
       .requestBodySearch()
-      .query(esb.multiMatchQuery(["*"], query).fuzziness("AUTO"))
-      .sort(esb.sort("created", "desc"))
+      .query(
+        esb
+          .queryStringQuery(`${query}*`)
+          .fields(["title^4", "keywords^3", "description^2", "*^1"])
+          .fuzziness("AUTO")
+      )
+      .sort(esb.sort("_score", "desc"))
       .highlight(
         esb.highlight().fields(["*"]).preTags("<b>", "*").postTags("</b>", "*")
       )
       .toJSON();
     // requestBody._source = ["id", "entityType", "title", "keywords"];
+    console.log(JSON.stringify(requestBody));
     requestBody.from = from;
     requestBody.size = size;
 
