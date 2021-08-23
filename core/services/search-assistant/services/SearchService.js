@@ -48,7 +48,6 @@ class SearchService {
       )
       .toJSON();
     // requestBody._source = ["id", "entityType", "title", "keywords"];
-    console.log(JSON.stringify(requestBody));
     requestBody.from = from;
     requestBody.size = size;
 
