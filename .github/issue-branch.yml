@@ -1,0 +1,11 @@
+branchName: '${issue.number}-${issue.title}'
+gitSafeReplacementChar: '-'
+defaultBranch: 'dev'
+silent: false
+autoCloseIssue: true
+openDraftPR: true
+copyIssueAssigneeToPR: true
+commentMessage: 'Branch ${branchName} created for issue: ${issue.title}  and assigned to ${issue.assignee.login}'
+branches:
+  - label: "type: question"
+    skip: true
