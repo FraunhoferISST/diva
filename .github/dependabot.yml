@@ -1,0 +1,20 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "core/services"
+    schedule:
+      interval: weekly
+      time: "04:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "setaman"
+    target-branch: "dev"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    reviewers:
+      - "setaman"
+    target-branch: "dev"
