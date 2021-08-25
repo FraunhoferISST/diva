@@ -364,7 +364,7 @@ services:
       - core
 
   diva-lake-adapter:
-    image: ${REGISTRY}diva-lake-adapter:0.1.0-beta.1
+    image: ${REGISTRY}diva-lake-adapter:0.2.0
     container_name: diva-lake-adapter
     restart: always
     networks:
