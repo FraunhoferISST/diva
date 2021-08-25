@@ -1,6 +1,7 @@
-const { customErrorFactory } = require("@diva/common/Error");
+const { customErrorFactory, catchHandler } = require("@diva/common/Error");
 
 module.exports = {
+  catchHandler,
   assetNotFoundError: customErrorFactory(
     "AssetNotFound",
     "Asset with the given id not found",
