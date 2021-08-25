@@ -17,6 +17,7 @@ module.exports = createServer(
     // TODO: extract image file, fix until https://github.com/cdimascio/express-openapi-validator/pull/464 resolved
     app.use((req, res, next) => {
       if (req.files) {
+        // eslint-disable-next-line prefer-destructuring
         req.file = req.files[0];
         delete req.body.image;
       }
