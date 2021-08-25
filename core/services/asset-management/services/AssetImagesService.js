@@ -90,9 +90,6 @@ class AssetImagesService {
       console.log(doc._id)
       return assetsMongoDbConnector.gfs.delete(doc._id)
     }))
-
-    // return assetsMongoDbConnector.gfs.delete(id)
-
   }
 }
 
