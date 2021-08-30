@@ -89,8 +89,8 @@
               "$ref": "#/definitions/cost"
             },
             {
-              "title": "Distribution Costs",
-              "description": "Distribution cost of a resource",
+              "title": "External Costs",
+              "description": "External cost of a resource",
               "default": "0.00"
             }
           ],

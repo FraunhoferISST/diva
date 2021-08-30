@@ -19,7 +19,11 @@
             "generic",
             "file",
             "urbanPulseSensor"
-          ]
+          ],
+          "_elasticsearch": {
+            "type": "text",
+            "analyzer": "resource_analyzer"
+          }
         }
       }
     },
