@@ -33,7 +33,12 @@
                     },
                     "sentences": {
                         "type": "array",
-                        "minItems": 0
+                        "minItems": 0,
+                        "items":{
+                            "title": "Core phrase sentence",
+                            "description": "The sentence extracted as core phrase by the algorithm",
+                            "type": "string"
+                        }
                     }
                 }
             }
