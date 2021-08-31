@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 index_html="./index.html"
 
