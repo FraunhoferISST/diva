@@ -84,16 +84,7 @@ class AssetImagesService {
     if (!(await imageExists(id))) {
       throw imageNotFoundError;
     }
-    const documents = await assetsMongoDbConnector.gfs
-      .find({ _id: id })
-      .toArray();
-
-    return Promise.all(
-      documents.map((doc) => {
-        console.log(doc._id);
-        return assetsMongoDbConnector.gfs.delete(doc._id);
-      })
-    );
+    return assetsMongoDbConnector.gfs.delete(id);
   }
 }
 
