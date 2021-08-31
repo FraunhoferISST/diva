@@ -19,6 +19,9 @@ do
   echo "VUE_APP_KEYCLOAK_CLIENT_ID: ${VUE_APP_KEYCLOAK_CLIENT_ID}"
   sed -i 's|diva-kc-client|'$VUE_APP_KEYCLOAK_CLIENT_ID'|g' $file
 
+  echo "VUE_APP_REGISTER_AVAILABLE: ${VUE_APP_REGISTER_AVAILABLE}"
+  sed -i 's|register_available|'$VUE_APP_REGISTER_AVAILABLE'|g' $file
+
   echo "Hashing $file"
   hash=$(md5sum "$file" | cut -c1-8)
   echo "$hash"
