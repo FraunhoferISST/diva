@@ -23,7 +23,11 @@ const buildMappingArtifact = (key, type, _elasticsearch) => {
     artifact[key].type = defaultTypeMapper[type];
   }
 
-  if (_.toLower(type) === "string" && artifact[key].type !== "keyword") {
+  if (
+    _.toLower(type) === "string" &&
+    artifact[key].type !== "keyword" &&
+    artifact[key].type !== "date"
+  ) {
     if (
       _.isPlainObject(_elasticsearch) &&
       _elasticsearch.analyzer !== undefined
