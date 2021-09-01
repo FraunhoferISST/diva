@@ -50,7 +50,7 @@ class Connector {
     try {
       const { body } = await indexExists(index);
       if (!body) {
-        return esConnector.client.indices.putMapping({
+        return esConnector.client.indices.create({
           index,
           body: mapping,
         });
