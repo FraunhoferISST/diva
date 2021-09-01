@@ -32,7 +32,11 @@
           "enum": [
             "generic",
             "urbanPulse"
-          ]
+          ],
+          "_elasticsearch": {
+            "type": "keyword",
+            "analyzer": "keyword"
+          }
         },
 
         "entities": {

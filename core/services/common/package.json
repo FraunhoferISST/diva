@@ -1,6 +1,6 @@
 {
   "name": "@diva/common",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "api/expressServer.js",
   "scripts": {
@@ -38,6 +38,7 @@
     "chai-openapi-response-validator": "^0.13.0",
     "chai-sorted": "^0.2.0",
     "dotenv": "^10.0.0",
+    "nodemon": "^2.0.12",
     "pkg": "^5.3.1",
     "supertest": "^6.1.4"
   }

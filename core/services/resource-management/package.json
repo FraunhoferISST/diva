@@ -1,6 +1,6 @@
 {
   "name": "resource-management",
-  "version": "17.0.0-beta.3",
+  "version": "17.0.0",
   "description": "Manages metadata of resources and publishes CRUD events to kafka",
   "repository": {
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.0.0"
+    "@diva/common": "^1.1.0"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",

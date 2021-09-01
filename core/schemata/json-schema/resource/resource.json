@@ -21,8 +21,8 @@
             "urbanPulseSensor"
           ],
           "_elasticsearch": {
-            "type": "text",
-            "analyzer": "resource_analyzer"
+            "type": "keyword",
+            "analyzer": "keyword"
           }
         }
       }
