@@ -1,3 +1,4 @@
+const convertJsonSchema = require("@diva/common/parser/convertJsonSchema");
 const Connector = require("../Connector");
 
 const getDbByEntityId = (id) => {
@@ -16,7 +17,13 @@ const operationsMap = {
 
 const getOperation = (type) => operationsMap[type];
 
+const putEsMapping = async (index) => {
+  console.info(`🗺️  set mapping for index ${index}`);
+  return Connector.putMapping(index, convertJsonSchema.toEsMapping(index));
+};
+
 module.exports = {
   getDbByEntityId,
   getOperation,
+  putEsMapping,
 };
