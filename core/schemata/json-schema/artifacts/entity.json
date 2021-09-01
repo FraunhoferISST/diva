@@ -90,7 +90,10 @@
             "resource:urban-pulse-sensor:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9",
             "resource:file:image::uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
           ],
-          "$comment": "This property is a placeholder for title, description, and examples. Will be overwritten by if/then conditions above."
+          "$comment": "This property is a placeholder for title, description, and examples. Will be overwritten by if/then conditions above.",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         },
     
         "entityType": {
@@ -104,7 +107,10 @@
             "user",
             "review",
             "history"
-          ]
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         },
         
         "created": {
@@ -115,7 +121,10 @@
           "examples": [
             "2018-11-08T13:55:45Z"
           ],
-          "format": "date-time"
+          "format": "date-time",
+          "_elasticsearch": {
+            "type": "date"
+          }
         },
     
         "modified": {
@@ -126,7 +135,10 @@
           "examples": [
             "2018-11-08T13:55:45Z"
           ],
-          "format": "date-time"
+          "format": "date-time",
+          "_elasticsearch": {
+            "type": "date"
+          }
         },
     
         "creatorId": {
@@ -137,7 +149,10 @@
           "examples": [
             "user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
           ],
-          "pattern": "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          "pattern": "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         }
         
       }
