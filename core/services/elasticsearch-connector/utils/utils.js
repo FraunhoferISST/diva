@@ -1,3 +1,4 @@
+const loadJsonSchema = require("@diva/common/loadJsonSchema");
 const convertJsonSchema = require("@diva/common/parser/convertJsonSchema");
 const Connector = require("../Connector");
 
@@ -19,7 +20,12 @@ const getOperation = (type) => operationsMap[type];
 
 const putEsMapping = async (index) => {
   console.info(`🗺️  set mapping for index ${index}`);
-  return Connector.putMapping(index, convertJsonSchema.toEsMapping(index));
+  try {
+    const schema = await loadJsonSchema(index.slice(0, -1));
+    return Connector.putMapping(index, convertJsonSchema.toEsMapping(schema));
+  } catch (e) {
+    throw new Error(e);
+  }
 };
 
 module.exports = {
