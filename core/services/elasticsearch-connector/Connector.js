@@ -46,13 +46,13 @@ class Connector {
     }
   }
 
-  async putMapping(index, mapping) {
+  async createIndex(index, settings, mappings) {
     try {
       const { body } = await indexExists(index);
       if (!body) {
         return esConnector.client.indices.create({
           index,
-          body: mapping,
+          body: { ...settings, ...mappings},
         });
       }
       return true;

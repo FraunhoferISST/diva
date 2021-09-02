@@ -4,7 +4,7 @@ const serviceName = require("./package.json").name;
 const {
   getDbByEntityId,
   getOperation,
-  putEsMapping,
+  createIndex,
 } = require("./utils/utils");
 
 const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
@@ -31,7 +31,7 @@ const onMessage = async (message) => {
     await Connector.init();
 
     const indeciesMappings = KAFKA_CONSUMER_TOPICS.map((t) =>
-      putEsMapping(`${t.split(".")[0]}s`)
+      createIndex(`${t.split(".")[0]}s`)
     );
   
     await Promise.all(indeciesMappings);

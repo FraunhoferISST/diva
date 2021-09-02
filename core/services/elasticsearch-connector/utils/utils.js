@@ -1,6 +1,7 @@
 const loadJsonSchema = require("@diva/common/loadJsonSchema");
 const convertJsonSchema = require("@diva/common/parser/convertJsonSchema");
 const Connector = require("../Connector");
+const esSettings = require("../../../elasticsearch/customSettings.json");
 
 const getDbByEntityId = (id) => {
   const entityType = id.slice(0, id.indexOf(":"));
@@ -18,11 +19,11 @@ const operationsMap = {
 
 const getOperation = (type) => operationsMap[type];
 
-const putEsMapping = async (index) => {
-  console.info(`🗺️  set mapping for index ${index}`);
+const createIndex = async (index) => {
+  console.info(`🗺️  set setting and mapping for index ${index}`);
   try {
     const schema = await loadJsonSchema(index.slice(0, -1));
-    return Connector.putMapping(index, convertJsonSchema.toEsMapping(schema));
+    return Connector.createIndex(index, esSettings, convertJsonSchema.toEsMapping(schema));
   } catch (e) {
     throw new Error(e);
   }
@@ -31,5 +32,5 @@ const putEsMapping = async (index) => {
 module.exports = {
   getDbByEntityId,
   getOperation,
-  putEsMapping,
+  createIndex,
 };
