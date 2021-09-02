@@ -45,7 +45,7 @@ services:
 
   web-client:
     container_name: web-client
-    image: ${REGISTRY}web-client:18.21.0
+    image: ${REGISTRY}web-client:18.21.1
     ports:
       - ${WEB_CLIENT_PORT}:80
     restart: always
@@ -54,6 +54,7 @@ services:
       VUE_APP_KEYCLOAK_URL: ${VUE_APP_KEYCLOAK_URL}
       VUE_APP_KEYCLOAK_REALM: ${VUE_APP_KEYCLOAK_REALM}
       VUE_APP_KEYCLOAK_CLIENT_ID: ${VUE_APP_KEYCLOAK_CLIENT_ID}
+      VUE_APP_REGISTER_AVAILABLE: ${VUE_APP_REGISTER_AVAILABLE}
     networks:
       - core
 
@@ -103,7 +104,7 @@ services:
   
   asset-management:
     <<: *base-core-service
-    image: ${REGISTRY}asset-management:17.0.0
+    image: ${REGISTRY}asset-management:17.1.0
     container_name: asset-management
     environment:
       <<: *base-core-service-env
@@ -364,7 +365,7 @@ services:
       - core
 
   diva-lake-adapter:
-    image: ${REGISTRY}diva-lake-adapter:0.1.0
+    image: ${REGISTRY}diva-lake-adapter:0.2.0
     container_name: diva-lake-adapter
     restart: always
     networks:

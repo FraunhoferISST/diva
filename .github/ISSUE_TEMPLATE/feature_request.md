@@ -1,9 +1,8 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
+name: Feature/enhancement request
+about: Suggest an idea or improvement for this project
 title: ''
-labels: enhancement
-assignees: setaman
+labels: 'type: feature'
 
 ---
 

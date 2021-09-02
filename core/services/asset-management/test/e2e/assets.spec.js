@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+/* eslint-disable no-undef */
 /* eslint-disable prefer-arrow-callback */
 const path = require("path");
 require("dotenv").config({

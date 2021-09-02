@@ -20,6 +20,7 @@ This service handles so called `assets`. An `asset` is a group of existing `enti
 |MONGODB_URI|mongodb://admin:admin@localhost:27017|MongoDB connection URI|
 |MONGO_DB_NAME|assetsDb|MongoDB database name|
 |MONGO_DB_COLLECTION_NAME|assets|MongoDB collection name|
+|MONGO_GFS_ASSET_IMAGE_BUCKET_NAME|assetImages|MongoDB bucket name for asset images|
 |HISTORY_DB_NAME|historiesDb|MongoDB database name for histories|
 |HISTORY_COLLECTION_NAME|histories|MongoDB collection name for histories|
 |HISTORY_ROOT_SCHEMA|history|name of the `history` root schema to be loaded|

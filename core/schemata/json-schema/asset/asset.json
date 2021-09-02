@@ -52,6 +52,15 @@
               "type": "keyword"
             }
           }
+        },
+
+        "imageId": {
+          "$id": "/properties/imageId",
+          "type": "string",
+          "title": "The imageId Schema ",
+          "examples": [
+            "67d4acaa-00e0-4a00-8b61-15abe20e1413"
+          ]
         }
 
       }
