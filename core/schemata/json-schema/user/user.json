@@ -52,7 +52,8 @@
           ],
           "minLength": 4,
           "_elasticsearch": {
-            "index": false
+            "type": "keyword",
+            "enabled": false
           }
         },
 
@@ -64,7 +65,8 @@
             "67d4acaa-00e0-4a00-8b61-15abe20e1413"
           ],
           "_elasticsearch": {
-            "index": false
+            "type": "keyword",
+            "enabled": false
           }
         },
 
@@ -78,7 +80,8 @@
           ],
           "format": "uri",
           "_elasticsearch": {
-            "index": false
+            "type": "keyword",
+            "enabled": false
           }
         },
 
@@ -117,8 +120,7 @@
             "0022 1111 2222 3333"
           ],
           "_elasticsearch": {
-            "type": "keyword",
-            "analyzer": "keyword"
+            "type": "keyword"
           }
         },
 
@@ -130,8 +132,7 @@
             "+49 150 1111 2222"
           ],
           "_elasticsearch": {
-            "type": "keyword",
-            "analyzer": "keyword"
+            "type": "keyword"
           }
         },
 
@@ -143,8 +144,7 @@
             "New York"
           ],
           "_elasticsearch": {
-            "type": "keyword",
-            "analyzer": "keyword"
+            "type": "keyword"
           }
         },
 
@@ -156,8 +156,7 @@
             "TX"
           ],
           "_elasticsearch": {
-            "type": "keyword",
-            "analyzer": "keyword"
+            "type": "keyword"
           }
         },
 
@@ -165,8 +164,7 @@
           "type": "string",
           "title": "Postal Code",
           "_elasticsearch": {
-            "type": "keyword",
-            "analyzer": "keyword"
+            "type": "keyword"
           }
         },
 
@@ -183,8 +181,7 @@
           "type": "string",
           "title": "Post Office Box Number",
           "_elasticsearch": {
-            "type": "keyword",
-            "analyzer": "keyword"
+            "type": "keyword"
           }
         }
         
