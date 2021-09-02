@@ -14,7 +14,10 @@
             "examples": [
                 1,
                 0.4
-            ]
+            ],
+            "_elasticsearch": {
+                "type": "float"
+            }
         }
     }
 }

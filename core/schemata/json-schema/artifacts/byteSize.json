@@ -14,7 +14,10 @@
                 3129,
                 3235235,
                 242
-            ]
+            ],
+            "_elasticsearch": {
+                "type": "unsigned_long"
+            }
         }
     }
 }

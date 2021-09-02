@@ -18,7 +18,10 @@
       "pattern": "^[A-Fa-f0-9]{64}$",
       "examples": [
         "7103cd78f9f78e778f3c2b8d902c8c1e936b10c39aeb6e47d2b9a16b82093e6c"
-      ]
+      ],
+      "_elasticsearch": {
+        "type": "keyword"
+      }
     },
     "urbanPulseSensorId": {
       "$id": "urbanPulseSensorId",
@@ -28,7 +31,10 @@
       "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
       "examples": [
         "d55d64cf-2e80-43d6-82ba-2107c3f96dc6"
-      ]
+      ],
+      "_elasticsearch": {
+        "type": "keyword"
+      }
     },
     "urbanPulseSensorSince": {
       "$id": "urbanPulseSensorSince",
@@ -50,7 +56,10 @@
       "examples": [
         "2018-11-08T13:55:45Z"
       ],
-      "format": "date-time"
+      "format": "date-time",
+      "_elasticsearch": {
+        "type": "date"
+      }
     }
   }
 }

@@ -88,7 +88,7 @@ services:
   
   resource-management:
     <<: *base-core-service
-    image: ${REGISTRY}resource-management:17.0.0-beta.3
+    image: ${REGISTRY}resource-management:17.0.0
     container_name: resource-management
     environment:
       <<: *base-core-service-env
@@ -119,7 +119,7 @@ services:
   
   user-management:
     <<: *base-core-service
-    image: ${REGISTRY}user-management:5.0.0-beta.0
+    image: ${REGISTRY}user-management:5.0.0
     container_name: user-management
     environment:
       <<: *base-core-service-env
@@ -134,7 +134,7 @@ services:
 
   review-management:
     <<: *base-core-service
-    image: ${REGISTRY}review-management:1.0.0-beta.4
+    image: ${REGISTRY}review-management:1.0.0
     container_name: reviews-management
     environment:
       <<: *base-core-service-env
@@ -191,7 +191,7 @@ services:
 
   elasticsearch-connector:
     <<: *base-core-service
-    image: ${REGISTRY}elasticsearch-connector:0.1.0-beta.4
+    image: ${REGISTRY}elasticsearch-connector:0.2.0
     container_name: elasticsearch-connector
     depends_on:
       - broker
@@ -206,7 +206,7 @@ services:
       - ${ELASTICSEARCH_CONNECTOR_PORT}:${ELASTICSEARCH_CONNECTOR_PORT}
 
   search-assistant:
-    image: ${REGISTRY}search-assistant:0.1.0-alpha.4
+    image: ${REGISTRY}search-assistant:0.1.0
     container_name: search-assistant
     environment:
       <<: *elasticsearch-env
@@ -221,7 +221,7 @@ services:
       - core
 
   analytics-assistant:
-    image: ${REGISTRY}analytics-assistant:1.0.0-beta.3
+    image: ${REGISTRY}analytics-assistant:1.0.0
     container_name: analytics-assistant
     environment:
       <<: *elasticsearch-env
@@ -240,7 +240,7 @@ services:
   # ####################################################################################################################
 
   history-assistant:
-    image: ${REGISTRY}history-assistant:0.0.1-beta.3
+    image: ${REGISTRY}history-assistant:0.0.1
     container_name: history-assistant
     environment:
       <<: *base-core-service-env
@@ -259,7 +259,7 @@ services:
   # ####################################################################################################################
 
   profiling-assistant:
-    image: ${REGISTRY}profiling-assistant:1.0.0-beta.4
+    image: ${REGISTRY}profiling-assistant:1.0.0
     container_name: profiling-assistant
     environment:
       <<: *mongodb-env
@@ -330,7 +330,7 @@ services:
   # ####################################################################################################################
 
   schema-registry:
-    image: ${REGISTRY}schema-registry:0.1.0-beta.0
+    image: ${REGISTRY}schema-registry:0.1.0
     hostname: schema-registry
     container_name: schema-registry
     restart: always
@@ -389,7 +389,7 @@ services:
   # ####################################################################################################################
 
   dsc-adapter:
-    image: ${REGISTRY}dsc-adapter:0.1.0-beta.1
+    image: ${REGISTRY}dsc-adapter:0.1.0
     container_name: ids-adapter
     restart: always
     networks:
@@ -414,7 +414,7 @@ services:
   # ####################################################################################################################
 
   urban-pulse-adapter:
-    image: ${REGISTRY}urban-pulse-adapter:0.1.0-beta.0
+    image: ${REGISTRY}urban-pulse-adapter:0.1.0
     container_name: urban-pulse-adapter
     restart: always
     networks:
@@ -434,7 +434,7 @@ services:
 
   event-emitter:
     <<: *base-core-service
-    image: ${REGISTRY}event-emitter:0.1.0-beta.4
+    image: ${REGISTRY}event-emitter:0.1.0
     container_name: event-emitter
     depends_on:
       - broker

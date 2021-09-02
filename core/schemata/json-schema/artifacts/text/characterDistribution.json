@@ -22,11 +22,14 @@
                     "character": {
                         "type": "string",
                         "minLength": 1,
-                        "maxLength": 1
+                        "maxLength": 1,
                     },
                     "count": {
                         "type": "integer",
-                        "minimum": 0
+                        "minimum": 0,
+                        "_elasticsearch": {
+                            "type": "unsigned_long"
+                        }
                     }
                 }
             }

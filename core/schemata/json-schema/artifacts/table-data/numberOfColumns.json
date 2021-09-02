@@ -11,7 +11,10 @@
             "default": 0,
             "examples": [
                 7
-            ]
+            ],
+            "_elasticsearch": {
+                "type": "integer"
+            }
         }
     }
 }

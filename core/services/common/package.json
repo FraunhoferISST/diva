@@ -1,15 +1,15 @@
 {
   "name": "@diva/common",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "api/expressServer.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node api/expressServer.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^9.0.9",
     "@elastic/elasticsearch": "^7.13.0",
     "ajv": "^8.6.2",
     "ajv-formats": "^2.1.0",
@@ -38,6 +38,7 @@
     "chai-openapi-response-validator": "^0.13.0",
     "chai-sorted": "^0.2.0",
     "dotenv": "^10.0.0",
+    "nodemon": "^2.0.12",
     "pkg": "^5.3.1",
     "supertest": "^6.1.4"
   }

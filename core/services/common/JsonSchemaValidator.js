@@ -14,7 +14,7 @@ const loadSchemaResolver = async (uri) =>
     .then((res) => res.data);
 
 const compileValidator = async (schemaName) => {
-  const ajv = new Ajv19({ loadSchema: loadSchemaResolver });
+  const ajv = new Ajv19({ loadSchema: loadSchemaResolver, strict: false });
   addFormats(ajv);
 
   const schema = await axios.get(

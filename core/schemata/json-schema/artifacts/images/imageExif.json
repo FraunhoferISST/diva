@@ -49,24 +49,30 @@
                             ]
                         },
                         "xResolution": {
-                            "type": "number",
+                            "type": "integer",
                             "title": "x Resolution",
                             "description": "The number of pixels per <ResolutionUnit> in the <ImageWidth> direction. When the image resolution is unknown, 72 [dpi] is designated.",
                             "default": 0,
                             "examples": [
                                 240,
                                 2048
-                            ]
+                            ],
+                            "_elasticsearch": {
+                                "type": "integer"
+                            }
                         },
                         "yResolution": {
-                            "type": "number",
+                            "type": "integer",
                             "title": "y Resolution",
                             "description": "The number of pixels per <ResolutionUnit> in the <ImageLength> direction. The same value as <XResolution> is designated.",
                             "default": 0,
                             "examples": [
                                 240,
                                 1080
-                            ]
+                            ],
+                            "_elasticsearch": {
+                                "type": "integer"
+                            }
                         },
                         "resolutionUnit": {
                             "type": "number",
@@ -111,22 +117,28 @@
                             "pattern": "^(.*)$"
                         },
                         "imageWidth": {
-                            "type": "number",
+                            "type": "integer",
                             "title": "Copyright",
                             "description": "The number of columns of image data, equal to the number of pixels per row. In JPEG compressed data a JPEG marker is used instead of this tag.",
                             "minimum": 0,
                             "examples": [
                                 2400
-                            ]
+                            ],
+                            "_elasticsearch": {
+                                "type": "integer"
+                            }
                         },
                         "imageLength": {
-                            "type": "number",
+                            "type": "integer",
                             "title": "Copyright",
                             "description": "The number of rows of image data. In JPEG compressed data a JPEG marker is used instead of this tag.",
                             "minimum": 0,
                             "examples": [
                                 1800
-                            ]
+                            ],
+                            "_elasticsearch": {
+                                "type": "integer"
+                            }
                         }
                     }
                 },
@@ -143,7 +155,10 @@
                             "default": 0,
                             "examples": [
                                 2.8
-                            ]
+                            ],
+                            "_elasticsearch": {
+                                "type": "float"
+                            }
                         },
                         "iso": {
                             "type": "number",
@@ -153,7 +168,10 @@
                             "examples": [
                                 200,
                                 400
-                            ]
+                            ],
+                            "_elasticsearch": {
+                                "type": "float"
+                            }
                         },
                         "shutterSpeedValue": {
                             "type": "number",
@@ -162,7 +180,10 @@
                             "default": 0,
                             "examples": [
                                 5.4
-                            ]
+                            ],
+                            "_elasticsearch": {
+                                "type": "float"
+                            }
                         },
                         "brightnessValue": {
                             "type": "number",
@@ -171,7 +192,10 @@
                             "default": 0,
                             "examples": [
                                 0.26
-                            ]
+                            ],
+                            "_elasticsearch": {
+                                "type": "float"
+                            }
                         },
                         "flash": {
                             "type": "number",
@@ -180,7 +204,10 @@
                             "default": 0,
                             "examples": [
                                 1
-                            ]
+                            ],
+                            "_elasticsearch": {
+                                "type": "float"
+                            }
                         }
                     }
                 }
