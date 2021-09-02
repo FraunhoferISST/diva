@@ -22,7 +22,11 @@
           "examples": [
             "mustermann"
           ],
-          "minLength": 1
+          "minLength": 1,
+          "_elasticsearch": {
+            "type": "text",
+            "analyzer": "simple"
+          }
         },
 
         "email": {
@@ -32,7 +36,11 @@
           "title": "The Email Schema ",
           "examples": [
             "muster@mann.de"
-          ]
+          ],
+          "_elasticsearch": {
+            "type": "keyword",
+            "analyzer": "keyword"
+          }
         },
 
         "password": {
@@ -42,7 +50,10 @@
           "examples": [
             "foobarpassword123"
           ],
-          "minLength": 4
+          "minLength": 4,
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         },
 
         "imageId": {
@@ -51,7 +62,10 @@
           "title": "The imageId Schema ",
           "examples": [
             "67d4acaa-00e0-4a00-8b61-15abe20e1413"
-          ]
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         },
 
         "imageUrl": {
@@ -62,7 +76,10 @@
           "examples": [
             "https://image-host.com"
           ],
-          "format": "uri"
+          "format": "uri",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         },
 
         "company": {
@@ -71,7 +88,11 @@
           "title": "Company Name",
           "examples": [
             "Example Company GmbH"
-          ]
+          ],
+          "_elasticsearch": {
+            "type": "text",
+            "analyzer": "simple"
+          }
         },
 
         "jobTitle": {
@@ -80,7 +101,11 @@
           "title": "Job Title",
           "examples": [
             "Senior Software Developer"
-          ]
+          ],
+          "_elasticsearch": {
+            "type": "text",
+            "analyzer": "simple"
+          }
         },
 
         "phoneNumber": {
@@ -90,7 +115,10 @@
           "examples": [
             "+49 1234 56789",
             "0022 1111 2222 3333"
-          ]
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         },
 
         "mobileNumber": {
@@ -99,28 +127,59 @@
           "title": "Mobile Number",
           "examples": [
             "+49 150 1111 2222"
-          ]
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         },
 
         "addressLocality": {
           "type": "string",
-          "title": "Address Locality"
+          "title": "Address Locality",
+          "examples": [
+            "Dortmund",
+            "New York"
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         },
+
         "addressRegion": {
           "type": "string",
-          "title": "Address Region"
+          "title": "Address Region",
+          "examples": [
+            "NRW",
+            "TX"
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         },
+
         "postalCode": {
           "type": "string",
-          "title": "Postal Code"
+          "title": "Postal Code",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         },
+
         "streetAddress": {
           "type": "string",
-          "title": "Street Address"
+          "title": "Street Address",
+          "_elasticsearch": {
+            "type": "text",
+            "analyzer": "standard"
+          }
         },
+
         "postOfficeBoxNumber": {
           "type": "string",
-          "title": "Post Office Box Number"
+          "title": "Post Office Box Number",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         }
         
       }

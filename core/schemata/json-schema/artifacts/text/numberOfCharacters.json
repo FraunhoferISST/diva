@@ -14,7 +14,10 @@
             "examples": [
                 22856,
                 572557
-            ]
+            ],
+            "_elasticsearch": {
+                "type": "unsigned_long"
+            }
         }
     }
 }

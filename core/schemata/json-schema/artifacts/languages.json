@@ -29,7 +29,10 @@
                             "deu",
                             "nld",
                             "afr"
-                        ]
+                        ],
+                        "_elasticsearch": {
+                            "type": "keyword"
+                        }
                     },
                     "alpha2": {
                         "type": "string",
@@ -41,7 +44,10 @@
                             "de",
                             "nl",
                             "af"
-                        ]
+                        ],
+                        "_elasticsearch": {
+                            "type": "keyword"
+                        }
                     },
                     "language": {
                         "type": "string",
@@ -53,7 +59,10 @@
                             "Dutch",
                             "Afrikaans"
                         ],
-                        "pattern": "^(.*)$"
+                        "pattern": "^(.*)$",
+                        "_elasticsearch": {
+                            "type": "keyword"
+                        }
                     },
                     "score": {
                         "type": "number",
@@ -65,7 +74,10 @@
                             1,
                             0.9724364236,
                             0.90947
-                        ]
+                        ],
+                        "_elasticsearch": {
+                            "type": "half_float"
+                        }
                     }
                 }
             }

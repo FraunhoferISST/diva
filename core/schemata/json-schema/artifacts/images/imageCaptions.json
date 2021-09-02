@@ -20,7 +20,7 @@
                 ],
                 "properties": {
                     "index": {
-                        "type": "number",
+                        "type": "integer",
                         "title": "Index",
                         "description": "Index number of extracted caption",
                         "minimum": 0,
@@ -28,7 +28,10 @@
                             0,
                             4,
                             6
-                        ]
+                        ],
+                        "_elasticsearch": {
+                            "type": "short"
+                        }
                     },
                     "caption": {
                         "type": "string",
@@ -47,7 +50,10 @@
                             1,
                             0.9724364236,
                             0.90947
-                        ]
+                        ],
+                        "_elasticsearch": {
+                            "type": "float"
+                        }
                     }
                 }
             }

@@ -10,6 +10,11 @@ const getEntity = (dbName, collection, id) =>
     .collection(collection)
     .findOne({ id }, { projection: { _id: 0 } });
 
+const indexExists = async (index) =>
+  esConnector.client.indices.exists({
+    index,
+  });
+
 class Connector {
   async init() {
     esConnector.connect();
@@ -38,6 +43,21 @@ class Connector {
         return true;
       }
       throw new Error(e.message);
+    }
+  }
+
+  async createIndex(index, settings, mappings) {
+    try {
+      const { body } = await indexExists(index);
+      if (!body) {
+        return esConnector.client.indices.create({
+          index,
+          body: { ...settings, ...mappings},
+        });
+      }
+      return true;
+    } catch (e) {
+      throw new Error(e);
     }
   }
 }

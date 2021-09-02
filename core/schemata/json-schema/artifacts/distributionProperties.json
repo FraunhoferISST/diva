@@ -27,7 +27,10 @@
                                     "httpGetBasicAuth",
                                     "divaLake",
                                     "ipfs"
-                                ]
+                                ],
+                                "_elasticsearch": {
+                                    "type": "keyword"
+                                }
                             }
                         }
                     },
@@ -53,17 +56,26 @@
                                             "format": "uri",
                                             "title": "Distribution URL",
                                             "description": "URL of the resource source",
-                                            "minLength": 1
+                                            "minLength": 1,
+                                            "_elasticsearch": {
+                                                "type": "keyword"
+                                            }
                                         },
                                         "username": {
                                             "type": "string",
                                             "title": "Login Username",
-                                            "description": "Login credentials username"
+                                            "description": "Login credentials username",
+                                            "_elasticsearch": {
+                                                "type": "keyword"
+                                            }
                                         },
                                         "password": {
                                             "type": "string",
                                             "title": "Login Password",
-                                            "description": "Login credentials password"
+                                            "description": "Login credentials password",
+                                            "_elasticsearch": {
+                                                "type": "keyword"
+                                            }
                                         }
                                     }
                                 }
@@ -92,24 +104,36 @@
                                             "type": "string",
                                             "title": "Distribution URL",
                                             "description": "URL of the resource source",
-                                            "minLength": 1
+                                            "minLength": 1,
+                                            "_elasticsearch": {
+                                                "type": "keyword"
+                                            }
                                         },
                                         "port": {
                                             "type": "integer",
                                             "title": "Distribution Port",
                                             "description": "Port of the resource source",
                                             "minimum": 80,
-                                            "maximum": 65535
+                                            "maximum": 65535,
+                                            "_elasticsearch": {
+                                                "type": "integer"
+                                            }
                                         },
                                         "username": {
                                             "type": "string",
                                             "title": "Login Username",
-                                            "description": "Login credentials username"
+                                            "description": "Login credentials username",
+                                            "_elasticsearch": {
+                                                "type": "keyword"
+                                            }
                                         },
                                         "password": {
                                             "type": "string",
                                             "title": "Login Password",
-                                            "description": "Login credentials password"
+                                            "description": "Login credentials password",
+                                            "_elasticsearch": {
+                                                "type": "keyword"
+                                            }
                                         }
                                     }
                                 }

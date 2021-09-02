@@ -1,6 +1,6 @@
 {
   "name": "user-management",
-  "version": "5.0.0-beta.0",
+  "version": "5.0.0",
   "description": "User management service with CRUD operations for users",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISST",
   "dependencies": {
-    "@diva/common": "1.0.0",
+    "@diva/common": "1.1.0",
     "bcryptjs": "^2.4.3",
     "lodash": "^4.17.21",
     "mongodb": "^3.6.4"

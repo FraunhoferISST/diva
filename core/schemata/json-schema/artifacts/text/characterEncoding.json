@@ -15,7 +15,10 @@
           "utf-8",
           "ISO-8859-1"
         ],
-        "pattern": "^(.*)$"
+        "pattern": "^(.*)$",
+        "_elasticsearch": {
+          "type": "keyword"
+      }
       }
     }
   }
