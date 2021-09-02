@@ -18,7 +18,11 @@
         "Data Destruction Process",
         "Street Sign Training Data Asset"
       ],
-      "pattern": "^(.*)$"
+      "pattern": "^(.*)$",
+      "_elasticsearch": {
+        "type": "text",
+        "analyzer": "letter_analyzer"
+      }
     },
 
     "description": {
@@ -29,7 +33,11 @@
       "default": "",
       "examples": [
         "lorem ipsum dolor sit amet..."
-      ]
+      ],
+      "_elasticsearch": {
+        "type": "text",
+        "analyzer": "standard"
+      }
     },
 
     "keywords": {
@@ -42,7 +50,10 @@
         "$id": "keywords/items/",
         "type": "string",
         "title": "Items",
-        "description": "A keyword"
+        "description": "A keyword",
+        "_elasticsearch": {
+          "type": "keyword"
+        }
       }
     },
 
@@ -55,7 +66,10 @@
       "examples": [
         "user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
       ],
-      "pattern": "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      "pattern": "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "_elasticsearch": {
+        "type": "keyword"
+      }
     },
 
     "versionInfo": {
@@ -69,7 +83,10 @@
         "v2.0",
         "3.0-alpha"
       ],
-      "pattern": "^(.*)$"
+      "pattern": "^(.*)$",
+      "_elasticsearch": {
+        "type": "keyword"
+      }
     },
 
     "versionNotes": {
@@ -81,7 +98,11 @@
       "examples": [
         "This is a new release with awesome features"
       ],
-      "pattern": "^(.*)$"
+      "pattern": "^(.*)$",
+      "_elasticsearch": {
+        "type": "text",
+        "analyzer": "standard"
+      }
     },
 
     "licenses": {
@@ -94,7 +115,10 @@
         "type": "string",
         "title": "Items",
         "description": "A license encoded using an URI",
-        "format": "uri"
+        "format": "uri",
+        "_elasticsearch": {
+          "type": "keyword"
+        }
       }
     }
   }
