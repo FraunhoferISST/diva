@@ -18,7 +18,7 @@
       ],
       "properties": {
         "numberOfFoundEmails": {
-          "type": "number",
+          "type": "integer",
           "title": "Number of found emails",
           "description": "The number of found emails",
           "minimum": 0,
@@ -29,7 +29,7 @@
           ]
         },
         "numberOfFoundPhoneNumbers": {
-          "type": "number",
+          "type": "integer",
           "title": "Number of found phone numbers",
           "description": "The number of found phone numbers",
           "minimum": 0,
@@ -40,7 +40,7 @@
           ]
         },
         "numberOfFoundOrganizations": {
-          "type": "number",
+          "type": "integer",
           "title": "Number of found organizations",
           "description": "The number of found organizations",
           "minimum": 0,
@@ -51,7 +51,7 @@
           ]
         },
         "numberOfFoundPersons": {
-          "type": "number",
+          "type": "integer",
           "title": "Number of found persons",
           "description": "The number of found persons",
           "minimum": 0,
@@ -62,7 +62,7 @@
           ]
         },
         "numberOfFoundLocations": {
-          "type": "number",
+          "type": "integer",
           "title": "Number of found locations",
           "description": "The number of found locations",
           "minimum": 0,
@@ -73,7 +73,7 @@
           ]
         },
         "evaluatedPrivacyMetric": {
-          "type": "number",
+          "type": "integer",
           "title": "Evaluated Privacy Metric",
           "description": "Evaluated Privacy Metric",
           "minimum": 0,

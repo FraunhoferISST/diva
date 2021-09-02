@@ -29,7 +29,10 @@
                             "SumBasic",
                             "KL",
                             "None"
-                        ]
+                        ],
+                        "_elasticsearch": {
+                            "type": "keyword"
+                        }
                     },
                     "sentences": {
                         "type": "array",

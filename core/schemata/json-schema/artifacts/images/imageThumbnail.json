@@ -11,7 +11,10 @@
             "examples": [
               "/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaH..."
             ],
-            "pattern": "^(.*)$"
+            "pattern": "^(.*)$",
+            "_elasticsearch": {
+                "type": "keyword"
+            }
         }
     }
 }

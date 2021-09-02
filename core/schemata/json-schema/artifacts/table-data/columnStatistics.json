@@ -76,7 +76,10 @@
                     "number",
                     "mixed"
                   ],
-                  "pattern": "^(string|number|mixed)$"
+                  "pattern": "^(string|number|mixed)$",
+                  "_elasticsearch": {
+                    "type": "keyword"
+                }
                 },
                 "frequencyNumbers": {
                   "type": "array",
@@ -360,10 +363,13 @@
                   "examples": [
                     "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855#1#col1"
                   ],
-                  "pattern": "^(.*)$"
+                  "pattern": "^(.*)$",
+                  "_elasticsearch": {
+                    "type": "keyword"
+                }
                 },
                 "columnIndex": {
-                  "type": "number",
+                  "type": "integer",
                   "title": "Column Index",
                   "description": "the index of the vector in a matrix",
                   "minimum": 0,
@@ -380,7 +386,10 @@
                   "maximum": 100,
                   "examples": [
                     0.76
-                  ]
+                  ],
+                  "_elasticsearch": {
+                    "type": "float"
+                }
                 }
               }
             }
