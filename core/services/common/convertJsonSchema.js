@@ -104,7 +104,10 @@ const buildMapping = (schema, esMapping = true) => {
         if (hasCombinations(pv)) {
           let mapping = {};
           for (const elem of getCombinationsKeys(pv)) {
-            mapping = { ...mapping, ...buildMapping(elem, esMapping) };
+            mapping = {
+              ...mapping,
+              ...buildMapping({ [elem]: pv[elem] }, esMapping),
+            };
           }
           mappingElements.push({
             [pk]: esMapping ? { properties: mapping } : mapping,
