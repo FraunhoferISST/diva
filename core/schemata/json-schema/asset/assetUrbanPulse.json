@@ -16,7 +16,10 @@
           "pattern": "^[A-Fa-f0-9]{64}$",
           "examples": [
             "7103cd78f9f78e778f3c2b8d902c8c1e936b10c39aeb6e47d2b9a16b82093e6c"
-          ]
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         }
       }
     }
