@@ -221,7 +221,7 @@ services:
       - core
 
   analytics-assistant:
-    image: ${REGISTRY}analytics-assistant:1.0.0
+    image: ${REGISTRY}analytics-assistant:2.0.0
     container_name: analytics-assistant
     environment:
       <<: *elasticsearch-env

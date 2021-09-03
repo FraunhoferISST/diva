@@ -32,7 +32,7 @@ class AnalyticsService {
           query: { match_all: {} },
           aggs: {
             entityDistribution: {
-              terms: { field: "entityType.keyword" },
+              terms: { field: "entityType" },
             },
           },
         },
@@ -62,7 +62,7 @@ class AnalyticsService {
           query: { match_all: {} },
           aggs: {
             resourceTypeDistribution: {
-              terms: { field: "resourceType.keyword" },
+              terms: { field: "resourceType" },
             },
           },
         },
@@ -103,7 +103,7 @@ class AnalyticsService {
           },
           aggs: {
             mimeTypeDistribution: {
-              terms: { field: "mimeType.keyword" },
+              terms: { field: "mimeType" },
             },
           },
         },
@@ -137,7 +137,7 @@ class AnalyticsService {
         body: {
           query: {
             term: {
-              "belongsTo.keyword": {
+              belongsTo: {
                 value: resourceId,
                 boost: 1.0,
               },
