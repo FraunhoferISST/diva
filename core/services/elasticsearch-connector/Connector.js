@@ -52,7 +52,7 @@ class Connector {
       if (!body) {
         return esConnector.client.indices.create({
           index,
-          body: { ...settings, ...mappings},
+          body: { ...settings, ...mappings },
         });
       }
       return true;
