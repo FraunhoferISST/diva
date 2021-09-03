@@ -38,8 +38,7 @@
             "muster@mann.de"
           ],
           "_elasticsearch": {
-            "type": "keyword",
-            "analyzer": "keyword"
+            "type": "keyword"
           }
         },
 
@@ -167,11 +166,7 @@
 
         "streetAddress": {
           "type": "string",
-          "title": "Street Address",
-          "_elasticsearch": {
-            "type": "text",
-            "analyzer": "standard"
-          }
+          "title": "Street Address"
         },
 
         "postOfficeBoxNumber": {
