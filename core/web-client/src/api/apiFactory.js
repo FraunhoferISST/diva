@@ -13,4 +13,5 @@ export default (path) => ({
   update: (id, data) => axios.put(`${path}${id}`, data),
   create: (data) => axios.post(path, data),
   patch: (id, patch) => axios.patch(`${path}${id}`, patch),
+  delete: (id) => axios.delete(`${path}${id}`),
 });

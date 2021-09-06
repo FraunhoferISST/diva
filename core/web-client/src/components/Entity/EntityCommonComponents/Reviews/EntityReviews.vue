@@ -16,7 +16,7 @@
                 <v-row>
                   <v-col cols="12" v-for="review in reviews" :key="review.id">
                     <fade-in>
-                      <review-card :data="review"></review-card>
+                      <review-card :review="review"></review-card>
                     </fade-in>
                   </v-col>
                 </v-row>
@@ -96,7 +96,7 @@ export default {
     async fetchReviews() {
       return this.$api.reviews
         .get({
-          pageSize: 5,
+          pageSize: 30,
           belongsTo: this.id,
           ...(this.cursor ? { cursor: this.cursor } : {}),
         })
