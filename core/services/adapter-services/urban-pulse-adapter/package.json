@@ -24,7 +24,7 @@
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
   },
   "dependencies": {
-    "@diva/common": "^1.1.0",
+    "@diva/common": "^1.1.1",
     "axios": "^0.21.1",
     "url-join": "^4.0.1"
   },
