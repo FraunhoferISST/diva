@@ -201,7 +201,7 @@ services:
       <<: *base-core-service-env
       <<: *elasticsearch-env
       PORT: ${ELASTICSEARCH_CONNECTOR_PORT}
-      KAFKA_CONSUMER_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\"]"
+      KAFKA_CONSUMER_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\", \"service.events\"]"
     ports:
       - ${ELASTICSEARCH_CONNECTOR_PORT}:${ELASTICSEARCH_CONNECTOR_PORT}
 
@@ -323,6 +323,7 @@ services:
         user.events:1:1,
         asset.events:1:1,
         review.events:1:1
+        service.events:1:1
 
 
   # ####################################################################################################################
@@ -446,7 +447,7 @@ services:
       PORT: ${EVENT_EMITTER_PORT}
       ASYNCAPI_SPECIFICATION: asyncapi
       EVENT_EMITTER_SPECIFICATION: event-emitter-api
-      KAFKA_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\"]"
+      KAFKA_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\", \"service.events\"]"
 
 # ####################################################################################################################
 # Docker Volume and Network Settings
