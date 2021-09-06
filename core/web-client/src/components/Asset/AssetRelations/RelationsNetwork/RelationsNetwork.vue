@@ -12,15 +12,25 @@
         :events="['click', 'selectNode', 'deselectNode']"
       >
       </network>
-      <div class="relations-edit">
-        <div>
+      <div class="relations-edit-container d-flex">
+        <div
+          class="relations-edit d-flex"
+          :style="{ width: `${controlsWidth}px` }"
+        >
           <relations-search-menu @addNodes="onNodesAdd" />
-          <div
-            class="remove-btn-container"
-            :class="{ expanded: !!selectedNode }"
-          >
+          <div>
+            <entity-details-link
+              v-if="selectedNode.id"
+              style="white-space: nowrap"
+              target="_blank"
+              ref="entityLink"
+              class="px-3"
+              :id="selectedNode.id || ''"
+            >
+              {{ selectedNode.label }}
+            </entity-details-link>
             <v-btn
-              :disabled="!!!selectedNode"
+              :disabled="!!!selectedNode.id"
               text
               icon
               color="error"
@@ -41,15 +51,25 @@
 
 <script>
 import { Network } from "vue2vis";
-// import vars from "@/styles/vars.scss";
 import RelationsSearchMenu from "@/components/Asset/AssetRelations/RelationsNetwork/RelationsSearchMenu";
-import createNetworkNodeCard from "@/components/Asset/AssetRelations/RelationsNetwork/createNetworkNodeCard";
 import ReactiveDataFetcher from "@/components/DataFetchers/ReactiveDataFetcher";
 import { capFirstCharacter } from "@/utils";
+import EntityDetailsLink from "../../../Entity/EntityDetailsLink";
+
+const bgColorMap = {
+  resource: "#336FFCFF",
+  asset: "#4d4cac",
+  user: "#ff808b",
+};
 
 export default {
   name: "RelationsNetwork",
-  components: { ReactiveDataFetcher, RelationsSearchMenu, Network },
+  components: {
+    EntityDetailsLink,
+    ReactiveDataFetcher,
+    RelationsSearchMenu,
+    Network,
+  },
   props: {
     id: {
       type: String,
@@ -64,13 +84,37 @@ export default {
   data() {
     return {
       entities: [],
-      selectedNode: "",
+      selectedNode: {},
       snackbar: "",
       snackbarMessage: "",
+      controlsWidth: 36,
       menu: false,
       options: {
         autoResize: true,
         height: this.height,
+        nodes: {
+          font: "14px Quicksand white bold",
+          shadow: {
+            enabled: true,
+            size: 10,
+            color: "rgba(0,0,0,0.1)",
+            x: 2,
+            y: 2,
+          },
+          color: {
+            border: "#5ea2ff",
+            highlight: {
+              border: "#4d2de0",
+              background: "#2d87e0",
+            },
+          },
+          heightConstraint: {
+            minimum: 50,
+          },
+          widthConstraint: {
+            minimum: 200,
+          },
+        },
       },
     };
   },
@@ -78,12 +122,12 @@ export default {
     nodes() {
       return this.entities.map((entity) => ({
         ...entity,
-        label: `${entity.isRoot ? "This root " : ""}${capFirstCharacter(
-          entity.entityType ?? "N/A"
-        )}`,
+        label: this.shortenTitle(`${capFirstCharacter(entity.title ?? "N/A")}`),
         ...(entity.isRoot ? { x: 0, y: 0, fixed: true } : { physics: true }),
-        image: createNetworkNodeCard(entity),
-        shape: "image",
+        shape: "box",
+        color: {
+          background: bgColorMap[entity.entityType],
+        },
       }));
     },
     edges() {
@@ -99,7 +143,15 @@ export default {
     },
     onSelectNodes(event) {
       const rootId = this.nodes.find((node) => node.isRoot).id;
-      this.selectedNode = event.nodes.filter((id) => id !== rootId)[0];
+      const selectedId = event.nodes.filter((id) => id !== rootId)[0];
+      this.selectedNode = this.nodes.find(({ id }) => id === selectedId) ?? {};
+      this.$nextTick(() => {
+        if (this.selectedNode.id) {
+          this.controlsWidth = this.$refs.entityLink.$el.offsetWidth + 72;
+        } else {
+          this.controlsWidth = 36;
+        }
+      });
     },
     async fetchLinkedEntities() {
       const rootAsset = (
@@ -165,12 +217,15 @@ export default {
     },
     unlinkEntity() {
       this.$api.assets
-        .deleteEntity(this.id, this.selectedNode)
+        .deleteEntity(this.id, this.selectedNode.id)
         .catch((e) => this.showSnackbar(e?.message || "Some error occurred"));
     },
     showSnackbar(msg) {
       this.snackbarMessage = msg;
       this.snackbar = true;
+    },
+    shortenTitle(title) {
+      return `${title.length > 45 ? title.slice(0, 45) + "..." : title}`;
     },
   },
 };
@@ -211,21 +266,18 @@ div.relations-network {
     box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1);
   }
 }
-.relations-edit {
+.relations-edit-container {
   position: absolute;
   @include border-radius;
+  top: 16px;
+  left: 16px;
+}
+.relations-edit {
+  transition: 0.3s;
+  height: 36px;
+  overflow: hidden;
+  background-color: white;
   border-radius: 20px;
   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1);
-  top: 0;
-  background-color: white;
-  margin: 2%;
-}
-.remove-btn-container {
-  height: 0;
-  transition: 0.3s;
-  overflow: hidden;
-  &.expanded {
-    height: 36px;
-  }
 }
 </style>
