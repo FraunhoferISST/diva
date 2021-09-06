@@ -46,21 +46,22 @@ export default {
     onUpdateEvent(data) {
       this.baseDataFetcher.runFetchMethod();
       const actorId = data?.actor.id;
+      const entityType = this.getEntityTypeById(data?.object?.id) ?? "entity";
       if (actorId.startsWith("service:")) {
         return this.showSnackbar(
-          "Internal service updated this entity just now"
+          `Internal service updated this ${entityType} just now`
         );
       }
       if (actorId === this.currentUser.id) {
-        this.showSnackbar(`You updated this entity`);
+        this.showSnackbar(`You updated this ${entityType}`);
       } else if (actorId) {
         this.fetchUser(actorId).then((user) => {
           this.showSnackbar(
-            `${user?.username || "N/A"} updated this entity just now`
+            `${user?.username || "N/A"} updated this ${entityType} just now`
           );
         });
       } else {
-        this.showSnackbar("Entity updated");
+        this.showSnackbar(`${entityType} updated`);
       }
     },
     showSnackbar(msg) {
@@ -93,6 +94,9 @@ export default {
         owner: data.ownerId && (await this.fetchUser(data.ownerId)),
         profilingExists: await this.checkProfiling({ resourceId: this.id }),
       };
+    },
+    getEntityTypeById(entityId) {
+      return entityId.slice(0, entityId.indexOf(":"));
     },
   },
 };

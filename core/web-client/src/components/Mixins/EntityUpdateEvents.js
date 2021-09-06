@@ -18,7 +18,7 @@ export default {
       // console.log(data);
     },
     [ENTITY_UPDATES_EVENT](data) {
-      if (this.id === this.data?.object?.id) {
+      if (this.id === data?.object?.id) {
         debounce(() => this.onUpdateEvent(data), 2000, {
           leading: true,
         })();
