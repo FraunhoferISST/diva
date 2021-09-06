@@ -15,12 +15,14 @@ export default {
   },
   sockets: {
     [ENTITY_SUBSCRIBE_UPDATES_RESPONSE](data) {
-      console.log(data);
+      // console.log(data);
     },
     [ENTITY_UPDATES_EVENT](data) {
-      debounce(() => this.onUpdateEvent(data), 2000, {
-        leading: true,
-      })();
+      if (this.id === this.data?.object?.id) {
+        debounce(() => this.onUpdateEvent(data), 2000, {
+          leading: true,
+        })();
+      }
     },
   },
   methods: {
