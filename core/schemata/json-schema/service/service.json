@@ -1,0 +1,44 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "service",
+    "type": "object",
+    "title": "General Service Data",
+    "required": [
+      "serviceType"
+    ],
+    "unevaluatedProperties": false,
+    "allOf": [
+      {
+        "properties": {
+          "serviceType": {
+            "$id": "serviceType",
+            "type": "string",
+            "title": "Service Type",
+            "description": "The general type of the service",
+            "enum": [
+              "plugin",
+              "app"
+            ]
+          }
+        }
+      },
+      {
+        "$ref": "/entity"
+      },
+      {
+        "$ref": "/commonProperties"
+      },
+      {
+        "$ref": "/entityRepresentationImage"
+      },
+      {
+        "$ref": "/imageGallery"
+      },
+      {
+        "$ref": "/videoProperties"
+      },
+      {
+        "$ref": "/costs"
+      }
+    ]
+  }

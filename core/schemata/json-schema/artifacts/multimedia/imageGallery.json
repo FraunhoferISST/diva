@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "imageGallery",
+  "type": "object",
+  "title": "Image Gallery",
+  "properties": {
+    "imageGallery": {
+      "type": "array",
+      "minItems": 0,
+      "title": "Image Gallery",
+      "description": "Collection of images",
+      "items": {
+        "type": "object",
+        "unevaluatedProperties": false,
+        "allOf": [
+          {
+            "$ref": "/entityRepresentationImage"
+          }
+        ]
+      }
+    }
+  }
+}
