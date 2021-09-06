@@ -9,7 +9,7 @@ const {
 
 const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
   ? JSON.parse(process.env.KAFKA_CONSUMER_TOPICS)
-  : ["resource.events", "asset.events", "user.events", "review.events"];
+  : ["resource.events", "asset.events", "user.events", "review.events", "service.events"];
 
 const onMessage = async (message) => {
   try {
