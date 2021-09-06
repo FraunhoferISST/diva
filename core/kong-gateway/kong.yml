@@ -75,6 +75,51 @@ services:
         config:
           allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
+  - name: "Service-Management"
+    protocol: http
+    host: "172.17.0.1"
+    port: 3004
+    path: "/services"
+    routes:
+      - name: services-route
+        paths:
+          - "/services"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: true
+        plugins:
+          - name: jwt-keycloak
+            config:
+            allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
+
+          - name: services-route-images
+        methods:
+          - POST
+          - PUT
+          - DELETE
+          - OPTIONS
+        paths:
+          - "/serviceImages"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
+        plugins:
+          - name: jwt-keycloak
+            config:
+              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
+
+      - name: services-route-get-images
+        methods:
+          - GET
+        paths:
+          - "/serviceImages"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false    
+
   - name: "Search-Assistant"
     protocol: http
     host: "172.17.0.1"
