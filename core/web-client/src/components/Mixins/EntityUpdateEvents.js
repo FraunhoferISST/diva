@@ -1,7 +1,7 @@
 import debounce from "lodash.debounce";
 
 const ENTITY_SUBSCRIBE_UPDATES_REQUEST = "entitySubscribeRequest";
-const ENTITY_SUBSCRIBE_UPDATES_RESPONSE = "entitySubscribeResponse";
+// const ENTITY_SUBSCRIBE_UPDATES_RESPONSE = "entitySubscribeResponse";
 const ENTITY_UNSUBSCRIBE_UPDATES_REQUEST = "entityUnsubscribeRequest";
 // const ENTITY_UNSUBSCRIBE_UPDATES_RESPONSE = "entityUnsubscribeResponse";
 const ENTITY_UPDATES_EVENT = "entityEvent";
@@ -14,13 +14,15 @@ export default {
     },
   },
   sockets: {
-    [ENTITY_SUBSCRIBE_UPDATES_RESPONSE](data) {
+    /*[ENTITY_SUBSCRIBE_UPDATES_RESPONSE](data) {
       console.log(data);
-    },
+    },*/
     [ENTITY_UPDATES_EVENT](data) {
-      debounce(() => this.onUpdateEvent(data), 2000, {
-        leading: true,
-      })();
+      if (this.id === data?.object?.id) {
+        debounce(() => this.onUpdateEvent(data), 2000, {
+          leading: true,
+        })();
+      }
     },
   },
   methods: {

@@ -45,7 +45,7 @@ services:
 
   web-client:
     container_name: web-client
-    image: ${REGISTRY}web-client:18.21.1
+    image: ${REGISTRY}web-client:18.22.0
     ports:
       - ${WEB_CLIENT_PORT}:80
     restart: always
