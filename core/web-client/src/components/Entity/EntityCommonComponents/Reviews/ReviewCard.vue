@@ -59,7 +59,7 @@
         </div>
       </div>
     </div>
-    <div class="review-content mt-3 pa-2">
+    <div class="review-content mt-3 px-2 pt-2">
       <div class="comment-text pa-2" v-if="review.reviewText && !isEditMode">
         {{ review.reviewText }}
       </div>
@@ -72,8 +72,9 @@
         <template #default="{ reviewText, rating }">
           <v-btn
             class="gprimary"
-            min-width="200px"
+            min-width="150px"
             rounded
+            small
             color="primary"
             @click="() => patchReview({ reviewText, rating })"
             :disabled="!reviewText || !(rating > 0)"

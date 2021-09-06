@@ -24,11 +24,19 @@
               v-model="ratingModel"
               hover
               color="orange"
+              dense
               background-color="grey lighten-1"
             ></v-rating>
           </v-col>
           <v-col cols="12" sm="12" md="6" class="text-sm-right">
-            <v-btn class="mr-3" rounded color="primary" text @click="onCancel">
+            <v-btn
+              class="mr-3"
+              rounded
+              color="primary"
+              small
+              text
+              @click="onCancel"
+            >
               Cancel
             </v-btn>
             <slot :review-text="reviewTextModel" :rating="ratingModel">
