@@ -45,7 +45,7 @@ services:
 
   web-client:
     container_name: web-client
-    image: ${REGISTRY}web-client:18.22.0
+    image: ${REGISTRY}web-client:18.23.0
     ports:
       - ${WEB_CLIENT_PORT}:80
     restart: always
@@ -134,7 +134,7 @@ services:
 
   review-management:
     <<: *base-core-service
-    image: ${REGISTRY}review-management:1.0.0
+    image: ${REGISTRY}review-management:1.0.1
     container_name: reviews-management
     environment:
       <<: *base-core-service-env
