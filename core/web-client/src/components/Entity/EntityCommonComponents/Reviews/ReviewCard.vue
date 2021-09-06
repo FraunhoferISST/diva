@@ -16,31 +16,26 @@
               {{ userName }}
             </span>
           </h6>
-          <v-menu offset-x offset-y left v-if="userIsAuthor">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn icon color="primary" small v-bind="attrs" v-on="on">
-                <v-icon small> more_vert </v-icon>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item dense @click="enableEditMode">
-                <v-list-item-icon>
-                  <v-icon small color="primary">edit</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Edit</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item dense @click="deleteReview">
-                <v-list-item-icon>
-                  <v-icon small color="error">delete</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Delete</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+          <div v-if="userIsAuthor">
+            <v-btn
+              v-if="!isEditMode"
+              class="mr-2"
+              icon
+              color="primary"
+              small
+              @click="enableEditMode"
+            >
+              <v-icon small> edit </v-icon>
+            </v-btn>
+            <v-btn
+              icon
+              color="error"
+              small
+              @click="showDeleteReviewConfirmationDialog"
+            >
+              <v-icon small> delete </v-icon>
+            </v-btn>
+          </div>
         </div>
         <div class="comment-header-details">
           <v-rating
@@ -88,6 +83,17 @@
     <v-snackbar text color="error" v-model="snackbar" absolute>
       {{ snackbarText }}
     </v-snackbar>
+    <confirmation-dialog :show.sync="showConfirmationDialog">
+      <template>
+        Are you sure you want to delete your review? The changes cannot be
+        rolled back!
+      </template>
+      <template #confirm>
+        <v-btn small rounded color="error" @click="deleteReview">
+          Delete review
+        </v-btn>
+      </template>
+    </confirmation-dialog>
   </div>
 </template>
 
@@ -96,9 +102,16 @@ import DateDisplay from "@/components/Base/DateDisplay";
 import UserAvatar from "@/components/User/UserAvatar";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import ReviewForm from "./ReviewForm";
+import ConfirmationDialog from "../../../Base/ConfirmationDialog";
 export default {
   name: "ReviewCard",
-  components: { ReviewForm, EntityDetailsLink, UserAvatar, DateDisplay },
+  components: {
+    ConfirmationDialog,
+    ReviewForm,
+    EntityDetailsLink,
+    UserAvatar,
+    DateDisplay,
+  },
   props: {
     review: {
       type: Object,
@@ -109,6 +122,7 @@ export default {
     isEditMode: false,
     isLoading: false,
     snackbar: false,
+    showConfirmationDialog: false,
     snackbarText: "",
   }),
   computed: {
@@ -150,6 +164,9 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
+    },
+    showDeleteReviewConfirmationDialog() {
+      this.showConfirmationDialog = true;
     },
     deleteReview() {
       this.isLoading = true;
