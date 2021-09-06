@@ -1,6 +1,6 @@
 {
   "name": "review-management",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Manages entities reviews",
   "repository": {
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"

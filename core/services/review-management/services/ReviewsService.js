@@ -5,6 +5,7 @@ const {
   reviewsMongoDbConnector,
   historyMongoDbConnector,
 } = require("../utils/mongoDbConnectors");
+const { notReviewAuthorError } = require("../utils/errors");
 
 const REVIEW_ROOT_SCHEMA = process.env.USER_ROOT_SCHEMA || "review";
 const HISTORY_ROOT_SCHEMA = process.env.HISTORY_ROOT_SCHEMA || "history";
@@ -38,6 +39,22 @@ class ReviewsService extends EntityService {
       },
       actorId
     );
+  }
+
+  async deleteById(id, actorId) {
+    const existingReview = await this.collection.findOne({ id });
+    if (existingReview && actorId !== existingReview.creatorId) {
+      throw notReviewAuthorError;
+    }
+    return super.deleteById(id, actorId);
+  }
+
+  async patchById(id, patch, actorId) {
+    const existingReview = await this.collection.findOne({ id });
+    if (existingReview && actorId !== existingReview.creatorId) {
+      throw notReviewAuthorError;
+    }
+    return super.patchById(id, patch, actorId);
   }
 
   validate(review) {
