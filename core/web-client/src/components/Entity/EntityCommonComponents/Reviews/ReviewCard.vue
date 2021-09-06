@@ -1,23 +1,50 @@
 <template>
   <div class="comment">
-    <div class="comment-header">
+    <div class="comment-info">
       <user-avatar :image-id="creatorImageId" />
       <div>
-        <h6 class="comment-header-user">
-          <entity-details-link
-            v-if="creatorExists"
-            class="mr-1"
-            :id="data.creator.id"
-          >
-            {{ userName }}
-          </entity-details-link>
-          <span v-else>
-            {{ userName }}
-          </span>
-        </h6>
+        <div class="comment-header">
+          <h6 class="comment-header-user">
+            <entity-details-link
+              v-if="creatorExists"
+              class="mr-1"
+              :id="review.creator.id"
+            >
+              {{ userName }}
+            </entity-details-link>
+            <span v-else>
+              {{ userName }}
+            </span>
+          </h6>
+          <v-menu offset-x offset-y left v-if="userIsAuthor">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon color="primary" small v-bind="attrs" v-on="on">
+                <v-icon small> more_vert </v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item dense @click="enableEditMode">
+                <v-list-item-icon>
+                  <v-icon small color="primary">edit</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Edit</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item dense @click="deleteReview">
+                <v-list-item-icon>
+                  <v-icon small color="error">delete</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Delete</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
         <div class="comment-header-details">
           <v-rating
-            :value="data.rating"
+            :value="review.rating"
             hover
             readonly
             color="orange"
@@ -27,14 +54,39 @@
           ></v-rating>
           <div class="comment-details-divider"></div>
           <div class="d-flex align-center">
-            <date-display :date="data.created" />
+            <date-display :date="review.created" />
           </div>
         </div>
       </div>
     </div>
-    <div class="comment-text mt-3 pa-2" v-if="data.reviewText">
-      {{ data.reviewText }}
+    <div class="review-content mt-3 pa-2">
+      <div class="comment-text pa-2" v-if="review.reviewText && !isEditMode">
+        {{ review.reviewText }}
+      </div>
+      <review-form
+        v-else
+        @cancel="disableEditMode"
+        :review-text="review.reviewText"
+        :rating="review.rating"
+      >
+        <template #default="{ reviewText, rating }">
+          <v-btn
+            class="gprimary"
+            min-width="200px"
+            rounded
+            color="primary"
+            @click="() => patchReview({ reviewText, rating })"
+            :disabled="!reviewText || !(rating > 0)"
+            :loading="isLoading"
+          >
+            Update review
+          </v-btn>
+        </template>
+      </review-form>
     </div>
+    <v-snackbar text color="error" v-model="snackbar" absolute>
+      {{ snackbarText }}
+    </v-snackbar>
   </div>
 </template>
 
@@ -42,27 +94,77 @@
 import DateDisplay from "@/components/Base/DateDisplay";
 import UserAvatar from "@/components/User/UserAvatar";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
+import ReviewForm from "./ReviewForm";
 export default {
   name: "ReviewCard",
-  components: { EntityDetailsLink, UserAvatar, DateDisplay },
+  components: { ReviewForm, EntityDetailsLink, UserAvatar, DateDisplay },
   props: {
-    data: {
+    review: {
       type: Object,
       required: true,
     },
   },
+  data: () => ({
+    isEditMode: false,
+    isLoading: false,
+    snackbar: false,
+    snackbarText: "",
+  }),
   computed: {
     user() {
       return this.$store.state.user;
     },
+    userIsAuthor() {
+      return this.user.id === this.review.creatorId;
+    },
     creatorExists() {
-      return !!this.data?.creator?.username;
+      return !!this.review?.creator?.username;
     },
     userName() {
-      return this.data.creator?.username || "N/A";
+      return this.review.creator?.username || "N/A";
     },
     creatorImageId() {
-      return this.data.creator?.imageId || "";
+      return this.review.creator?.imageId || "";
+    },
+  },
+  methods: {
+    enableEditMode() {
+      this.isEditMode = true;
+    },
+    disableEditMode() {
+      this.isEditMode = false;
+    },
+    patchReview(reviewData) {
+      this.isLoading = true;
+      this.$api.reviews
+        .patch(this.review.id, reviewData)
+        .then(() => (this.isEditMode = false))
+        .catch((e) => {
+          this.snackbarText =
+            e.response?.data?.message ??
+            e?.error ??
+            "Some error occurred. Please try again!";
+          this.snackbar = true;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    deleteReview() {
+      this.isLoading = true;
+      this.$api.reviews
+        .delete(this.review.id)
+        .then(() => (this.isEditMode = false))
+        .catch((e) => {
+          this.snackbarText =
+            e.response?.data?.message ??
+            e?.error ??
+            "Some error occurred. Please try again!";
+          this.snackbar = true;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
   },
 };
@@ -72,14 +174,18 @@ export default {
 .comment {
   background-color: $bg_card;
   padding: 16px;
+  position: relative;
   @include border-radius();
-  //include gradient-primary(0.2, 0.3);
-  //background-color: rgba($c_accent_primary, 0.1);
 }
-.comment-header {
+.comment-info {
   display: grid;
   grid-template-columns: 50px 1fr;
   grid-column-gap: 16px;
+}
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
 }
 .comment-header-details {
   display: grid;
@@ -89,8 +195,10 @@ export default {
 .comment-header-user {
   @include font-style(1rem, $font_body, bold, $font_primary_color);
 }
-.comment-text {
+.review-content {
   margin-left: 64px;
+}
+.comment-text {
   border: 1px #eeeeee solid;
   @include border-radius-half();
   @include font-style(0.9rem, $font_body, bold, $font_secondary_color);
