@@ -23,19 +23,23 @@ const onMessage = async (message) => {
 };
 
 (async () => {
-  await Connector.init();
+  try {
+    await Connector.init();
 
-  const indeciesMappings = KAFKA_CONSUMER_TOPICS.map((t) =>
-    createIndex(`${t.split(".")[0]}s`)
-  );
+    const indeciesMappings = KAFKA_CONSUMER_TOPICS.map((t) =>
+      createIndex(`${t.split(".")[0]}s`)
+    );
 
-  await Promise.all(indeciesMappings);
+    await Promise.all(indeciesMappings);
 
-  await messageConsumer.init(
-    KAFKA_CONSUMER_TOPICS.map((topic) => ({ topic, spec: "asyncapi" })),
-    serviceName
-  );
-  await messageConsumer.consume(onMessage);
+    await messageConsumer.init(
+      KAFKA_CONSUMER_TOPICS.map((topic) => ({ topic, spec: "asyncapi" })),
+      serviceName
+    );
+    await messageConsumer.consume(onMessage);
 
-  console.info("✅ Elasticsearch connector is running!");
+    console.info("✅ Elasticsearch connector is running!");
+  } catch (e) {
+    process.exit(1);
+  }
 })();
