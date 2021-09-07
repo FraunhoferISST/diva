@@ -43,8 +43,8 @@ const patchResource = (resourceId, patch, actorid = microserviceId) =>
     },
   });
 
-const getResource = (id, collection) =>
-  collection.findOne(
+const getResource = (id) =>
+  mongoConnector.collections[resourceCollectionName].findOne(
     { id },
     {
       projection: {
@@ -80,7 +80,7 @@ class DscAdapterService {
     this.dscCollection = mongoConnector.collections[dscCollectionName];
     this.dscInfo = await this.dscCollection.findOne({});
     if (!this.dscInfo || !(await catalogExists(this.dscInfo?.catalogId))) {
-      await this.dscCollection.remove({});
+      await this.dscCollection.deleteMany({});
       const { id: catalogId } = await createCatalog("Diva Catalog");
       this.dscCollection.insertOne({ catalogId });
       this.dscInfo = { catalogId };
@@ -90,7 +90,7 @@ class DscAdapterService {
   }
 
   async createOffer(resourceId, policy, actorId) {
-    const resource = await getResource(resourceId, this.collection);
+    const resource = await getResource(resourceId);
     const offerId = resource?.dsc?.offer?.offerId;
     if (offerId && (await isOffered(offerId))) {
       throw alreadyOfferedError;
