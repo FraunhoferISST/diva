@@ -80,7 +80,7 @@ class DscAdapterService {
     this.dscCollection = mongoConnector.collections[dscCollectionName];
     this.dscInfo = await this.dscCollection.findOne({});
     if (!this.dscInfo || !(await catalogExists(this.dscInfo?.catalogId))) {
-      await this.dscCollection.remove({});
+      await this.dscCollection.deleteMany({});
       const { id: catalogId } = await createCatalog("Diva Catalog");
       this.dscCollection.insertOne({ catalogId });
       this.dscInfo = { catalogId };
