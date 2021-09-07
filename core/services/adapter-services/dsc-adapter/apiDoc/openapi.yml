@@ -1,12 +1,12 @@
 openapi: 3.0.0
 info:
-  description: "IDS Adapter API"
+  description: DSC Adapter adds the possibility to publish DIVA Resource as Offer on DSC. Changes on offered DIVA
+    Resource are automaticaly streamed to the DSC instance
   version: 1.0.0
-  title: IDS Adapter API
+  title: DSC Adapter API
 tags:
   - name: offers
-    description: DSC Adapter adds the possability to publisch DIVA Resource as Offer on DSC. Changes on offered DIVA
-    Resource are automaticaly streamed to the DSC Instance
+    description: Operations ond DSC Offers belonging to a DIVA Resource
 paths:
   /resources/{id}/offers:
     parameters:
