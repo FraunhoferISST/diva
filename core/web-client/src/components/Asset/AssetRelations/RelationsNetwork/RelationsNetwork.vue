@@ -90,10 +90,27 @@ export default {
       controlsWidth: 36,
       menu: false,
       options: {
+        physics: {
+          stabilization: true,
+          barnesHut: {
+            avoidOverlap: 0.5,
+            springLength: 0,
+            centralGravity: 0.8,
+          },
+        },
         autoResize: true,
         height: this.height,
+        edges: {
+          title: "hui",
+          font: {
+            color: "#343434",
+            size: 14,
+            face: "Montserrat",
+          },
+          smooth: false,
+        },
         nodes: {
-          font: "14px Quicksand white bold",
+          font: "14px Quicksand white",
           shadow: {
             enabled: true,
             size: 10,
@@ -123,7 +140,9 @@ export default {
       return this.entities.map((entity) => ({
         ...entity,
         label: this.shortenTitle(`${capFirstCharacter(entity.title ?? "N/A")}`),
-        ...(entity.isRoot ? { x: 0, y: 0, fixed: true } : { physics: true }),
+        ...(entity.isRoot
+          ? { x: 300, y: 300, fixed: true }
+          : { physics: true }),
         shape: "box",
         color: {
           background: bgColorMap[entity.entityType],
@@ -132,8 +151,10 @@ export default {
     },
     edges() {
       return this.nodes.map((node) => ({
+        label: `${capFirstCharacter(node.entityType ?? "N/A")}`,
         from: node.isRoot ? "" : node.id,
         to: this.id,
+        physics: false,
       }));
     },
   },
