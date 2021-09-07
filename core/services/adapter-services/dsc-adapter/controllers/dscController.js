@@ -1,9 +1,9 @@
-const idsService = require("../services/DscAdapterService");
+const dscAdapterService = require("../services/DscAdapterService");
 
 class DscController {
   async createOffer(req, res, next) {
     try {
-      const result = await idsService.createOffer(
+      const result = await dscAdapterService.createOffer(
         req.params.id,
         req.body,
         req.headers["x-actorid"]
@@ -16,7 +16,7 @@ class DscController {
 
   async getOffer(req, res, next) {
     try {
-      const result = await idsService.getOffer(req.params.offerId);
+      const result = await dscAdapterService.getOffer(req.params.offerId);
       res.status(200).json(result);
     } catch (e) {
       next(e?.response?.data || e);
@@ -25,7 +25,7 @@ class DscController {
 
   async updateOffer(req, res, next) {
     try {
-      await idsService.updateOffer(
+      await dscAdapterService.updateOffer(
         req.params.id,
         req.params.offerId,
         req.body,
@@ -39,7 +39,7 @@ class DscController {
 
   async deleteOffer(req, res, next) {
     try {
-      await idsService.deleteOffer(
+      await dscAdapterService.deleteOffer(
         req.params.id,
         req.params.offerId,
         req.headers["x-actorid"]

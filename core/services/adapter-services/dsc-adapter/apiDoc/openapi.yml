@@ -5,7 +5,8 @@ info:
   title: IDS Adapter API
 tags:
   - name: offers
-    description: Operations on DSC offers
+    description: DSC Adapter adds the possability to publisch DIVA Resource as Offer on DSC. Changes on offered DIVA
+    Resource are automaticaly streamed to the DSC Instance
 paths:
   /resources/{id}/offers:
     parameters:
