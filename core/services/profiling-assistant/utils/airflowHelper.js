@@ -13,7 +13,7 @@ const dags = [
     title: "image",
     criteria: {
       resourceTypes: ["file"],
-      mimeTypes: ["image/jpeg", "image/png"],
+      mimeTypes: ["image/jpeg"],
       distributionTypes: ["divaLake"],
     },
   },
