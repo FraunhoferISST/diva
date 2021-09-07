@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.1.0",
+    "@diva/common": "^1.1.1",
     "axios": "^0.21.1",
     "chalk": "^4.1.0",
     "url-join": "^4.0.1"
