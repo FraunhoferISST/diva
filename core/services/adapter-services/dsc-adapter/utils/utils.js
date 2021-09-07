@@ -20,8 +20,7 @@ const createArtifact = ({ title, byteSize, distributions = [] }) =>
     }))[0];
 
 const hasSupportedDistributions = (distributions = []) =>
-  distributions.filter((d) => supportedDistributions.includes(d.type)).length >
-  0;
+  distributions.some(({ type }) => supportedDistributions.includes(type));
 
 module.exports = {
   createArtifact,

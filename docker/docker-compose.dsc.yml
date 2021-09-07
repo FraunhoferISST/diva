@@ -18,7 +18,7 @@ services:
     networks:
       - dsc
     volumes:
-      - connector-data:/var/lib/postgresql/data
+      - dsc-postgres-data:/var/lib/postgresql/data
 
   dsc:
     container_name: 'dsc-connector'
@@ -42,7 +42,7 @@ services:
       - dsc-postgres
 
 volumes:
-  connector-data: {}
+  dsc-postgres-data: {}
 
 networks:
   core:
