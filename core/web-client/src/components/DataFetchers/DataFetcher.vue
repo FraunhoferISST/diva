@@ -18,7 +18,13 @@
               {{ errorMessage || "Some error occurred while loading data" }}
             </p>
           </v-alert>
-          <div key="slot" v-show="!loading && !error">
+          <!-- This is a dirty fix due tu Vue 2 issue with nested slots, props become not reactive!-->
+          <div
+            key="content"
+            :style="{
+              display: `${!loading && !error ? 'block' : 'none'}`,
+            }"
+          >
             <slot :fetch="fetch" :loading="loading"> </slot>
           </div>
         </fade-in-group>

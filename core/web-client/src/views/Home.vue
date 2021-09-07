@@ -4,7 +4,7 @@
       <navigation-main />
     </div>
     <router-transition>
-      <router-view :key="$route.path"></router-view>
+      <router-view></router-view>
     </router-transition>
   </div>
 </template>
