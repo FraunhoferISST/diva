@@ -22,7 +22,7 @@ services:
 
   dsc:
     container_name: 'dsc-connector'
-    image: registry.gitlab.cc-asp.fraunhofer.de:4567/diva/container-image-repo/dataspace-connector:develop-17.05.21
+    image: ghcr.io/international-data-spaces-association/dataspace-connector:5.2.1
     ports:
       - ${DSC_PORT}:${DSC_PORT}
     environment:
