@@ -26,7 +26,6 @@
         "Awesome Data",
         "The data owner should take more care of his data!"
       ],
-      "pattern": "^(.*)$",
       "_elasticsearch": {
         "type": "text",
         "analyzer": "standard"
