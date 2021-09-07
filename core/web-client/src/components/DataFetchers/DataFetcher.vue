@@ -3,7 +3,9 @@
     <template #default="{ loading, error, errorMessage, fetch }">
       <div class="data-fetcher-container full-width">
         <fade-in-group>
-          <loading-state-overlay key="overlay" v-if="loading" />
+          <div style="height: 100px" key="overlay" v-if="loading">
+            <loading-state-overlay />
+          </div>
           <v-alert
             key="alert"
             v-else-if="error"
