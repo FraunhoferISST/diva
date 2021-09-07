@@ -37,12 +37,13 @@ export default {
   },
   methods: {
     async fetchRecentAddedEntities() {
-      return this.$api
-        .search("resource", 5)
-        .then(
-          ({ data: { collection } }) =>
-            (this.recentEntities = collection.map(({ doc }) => doc))
-        );
+      return this.$api.search("resource", 10).then(
+        ({ data: { collection } }) =>
+          (this.recentEntities = collection
+            .map(({ doc }) => doc)
+            .filter(({ entityType }) => entityType === "resource")
+            .slice(0, 5))
+      );
     },
   },
 };

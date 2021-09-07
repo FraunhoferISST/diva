@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12" md="6">
-        <card header="Recent resource">
+        <card header="Recent resources">
           <dashboard-recent-resources slot="body" />
         </card>
       </v-col>
