@@ -19,7 +19,10 @@
             "generic",
             "file",
             "urbanPulseSensor"
-          ]
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         }
       }
     },

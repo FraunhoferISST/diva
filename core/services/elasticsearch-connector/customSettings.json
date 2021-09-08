@@ -1,0 +1,13 @@
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "letter_analyzer": {
+          "type": "custom",
+          "tokenizer": "letter",
+          "filter": ["lowercase", "asciifolding"]
+        }
+      }
+    }
+  }
+}

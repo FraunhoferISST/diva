@@ -1,6 +1,6 @@
 {
   "name": "dsc-adapter",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -13,16 +13,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.0.0",
+    "@diva/common": "^1.1.1",
     "axios": "^0.21.1",
-    "chalk": "^4.1.0",
-    "url-join": "^4.0.1"
+    "url-join": "^4.0.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",
+    "eslint": "^7.32.0",
     "pkg": "^5.3.1"
   },
   "pkg": {
-    "assets": ["package.json", "apiDoc"]
+    "assets": [
+      "package.json",
+      "apiDoc"
+    ]
   }
 }

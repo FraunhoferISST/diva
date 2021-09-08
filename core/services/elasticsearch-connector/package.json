@@ -1,6 +1,6 @@
 {
   "name": "elasticsearch-connector",
-  "version": "0.1.0-beta.4",
+  "version": "0.2.2",
   "description": "This service looks for entity events. Updates are propagated to an elasticsearch instance.",
   "repository": {
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
     "eslint-fix": "eslint --fix . --ext .js",
     "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
     "build:linux": "pkg -t node14-linux-x64 index.js"
@@ -16,7 +16,7 @@
   "author": "Sergej Atamantschuk",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.0.0"
+    "@diva/common": "^1.1.1"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",

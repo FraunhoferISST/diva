@@ -52,6 +52,7 @@ const generateDivaLakeDistribution = () => ({
 const generateFileResourceSchema = (file, uniqueFingerprint, mimeType) => ({
   title: file.originalname,
   filename: file.originalname,
+  byteSize: file.size,
   resourceType: "file",
   uniqueFingerprint,
   distributions: [generateDivaLakeDistribution()],

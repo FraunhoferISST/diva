@@ -24,7 +24,10 @@
           "examples": [
             "foo.txt"
           ],
-          "pattern": "^(.*)$"
+          "pattern": "^(.*)$",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         },
 
         "mimeType": {
@@ -37,7 +40,10 @@
             "application/pdf",
             "image/jpg",
             "text/plain"
-          ]
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         },
 
         "uniqueFingerprint": {
@@ -49,7 +55,10 @@
           "examples": [
             "3a0d32967309cbc44d377c0aa801e95bfbf50f48c103f288ce25cc1f4df30f9a"
           ],
-          "pattern": "^[A-Fa-f0-9]{64}$"
+          "pattern": "^[A-Fa-f0-9]{64}$",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
         },
 
         "fileCreated": {
@@ -62,7 +71,10 @@
           "examples": [
             "2018-11-08T13:55:45Z"
           ],
-          "format": "date-time"
+          "format": "date-time",
+          "_elasticsearch": {
+            "type": "date"
+          }
         },
 
         "fileModified": {
@@ -88,7 +100,10 @@
           "examples": [
             "2018-11-08T13:55:45Z"
           ],
-          "format": "date-time"
+          "format": "date-time",
+          "_elasticsearch": {
+            "type": "date"
+          }
         }
         
       }

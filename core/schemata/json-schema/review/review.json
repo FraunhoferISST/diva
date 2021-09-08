@@ -26,7 +26,10 @@
         "Awesome Data",
         "The data owner should take more care of his data!"
       ],
-      "pattern": "^(.*)$"
+      "_elasticsearch": {
+        "type": "text",
+        "analyzer": "standard"
+      }
     },
 
     "belongsTo": {
@@ -37,21 +40,29 @@
       "examples": [
         "resource:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
       ],
-      "pattern": "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      "pattern": "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "_elasticsearch": {
+        "type": "keyword"
+      }
     },
 
     "rating": {
       "$id": "rating",
-      "type": "number",
+      "type": "integer",
       "title": "Review rating",
       "description": "Rating assigned to an entity within a review (1-5)",
       "minimum": 1,
       "maximum": 5,
       "examples": [
+        1,
         2,
-        3.4,
+        3,
+        4,
         5
-      ]
+      ],
+      "_elasticsearch": {
+        "type": "byte"
+      }
     }
   }
 }

@@ -27,10 +27,10 @@
                     Log in
                   </v-btn>
                 </v-col>
-                <v-col cols="12">
+                <v-col cols="12" v-if="registerAvailable">
                   <v-divider />
                 </v-col>
-                <v-col cols="12">
+                <v-col cols="12" v-if="registerAvailable">
                   <v-btn
                     outlined
                     large
@@ -67,8 +67,17 @@
 
 <script>
 import keycloak from "@/api/keycloak";
+
+const registerAvailable =
+  process.env.VUE_APP_REGISTER_AVAILABLE || "register_available";
+
 export default {
   name: "Login",
+  computed: {
+    registerAvailable() {
+      return registerAvailable && registerAvailable.toLowerCase() !== "false";
+    },
+  },
   methods: {
     redirectToLogin() {
       keycloak.login();

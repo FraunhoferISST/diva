@@ -1,6 +1,6 @@
 {
   "name": "resource-management",
-  "version": "17.0.0-beta.3",
+  "version": "17.0.0",
   "description": "Manages metadata of resources and publishes CRUD events to kafka",
   "repository": {
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
     "eslint-fix": "eslint --fix . --ext .js",
     "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
     "build:linux": "pkg -t node14-linux-x64 index.js",
@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.0.0"
+    "@diva/common": "^1.1.1"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",

@@ -26,7 +26,7 @@
         >
           <template #default="{ checked }">
             <p class="mb-0">
-              Specify one ore more sensors id's that should be imported. This is
+              Specify one or more sensors id's that should be imported. This is
               optional and, if no sensors specified, all available sensors on
               the provided instance will be imported
             </p>

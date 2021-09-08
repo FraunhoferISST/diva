@@ -26,7 +26,10 @@
                     },
                     "count": {
                         "type": "integer",
-                        "minimum": 0
+                        "minimum": 0,
+                        "_elasticsearch": {
+                            "type": "unsigned_long"
+                        }
                     }
                 }
             }

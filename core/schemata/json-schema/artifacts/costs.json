@@ -12,20 +12,29 @@
           "title": "Value",
           "description": "A value representing a the cost numerically",
           "type": ["number", "null"],
-          "examples": [0.93, 1000, 285639572, -3]
+          "examples": [0.93, 1000, 285639572, -3],
+          "_elasticsearch": {
+            "type": "float"
+        }
         },
         "currency": {
           "type": "string",
           "title": "Currency",
           "description": "The currency for the costs",
-          "examples": ["$", "€"]
+          "examples": ["$", "€"],
+          "_elasticsearch": {
+            "type": "keyword"
+        }
         },
         "period": {
           "type": ["string", "null"],
           "title": "Period",
           "description": "The period the costs occur",
           "enum": ["unlimited", "monthly","quarterly", "half-yearly", "yearly", ""],
-          "examples": ["yearly", "daily"]
+          "examples": ["yearly", "daily"],
+          "_elasticsearch": {
+            "type": "keyword"
+        }
         }
       },
       "additionalProperties": false,
@@ -89,8 +98,8 @@
               "$ref": "#/definitions/cost"
             },
             {
-              "title": "Distribution Costs",
-              "description": "Distribution cost of a resource",
+              "title": "External Costs",
+              "description": "External cost of a resource",
               "default": "0.00"
             }
           ],

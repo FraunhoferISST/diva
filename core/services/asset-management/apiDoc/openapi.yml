@@ -10,6 +10,8 @@ tags:
     description: Operations about assets
   - name: entites
     description: Operation about asset linked entites
+  - name: assetImages
+    description: Operations on assets image. Only PNG and JPEG supported.  
 paths:
   /assets:
     parameters:
@@ -308,6 +310,117 @@ paths:
           $ref: "#/components/responses/NotFoundError"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /assetImages:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+    post:
+      tags:
+        - assetImages
+      summary: Add asset image
+      description: Creates uploaded asset image. The operation returns image `id`. Note that you have to set asset `imageId`
+        to the uploaded image `id` manually.
+      operationId: addAssetImage
+      requestBody:
+        $ref: "#/components/requestBodies/Image"
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/RequestValidationError"
+        "406":
+          $ref: "#/components/responses/InvalidDataError"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /assetImages/{id}:
+    get:
+      tags:
+        - assetImages
+      summary: Get asset image
+      description: Get uploaded asset profile image by image ID. You can obtain the image ID from the
+        corresponding asset document
+      operationId: getAssetImage
+      parameters:
+        - name: id
+          in: path
+          description: ID of the asset image
+          required: true
+          explode: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            image/png:
+              schema:
+                description: Asset image as PNG
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                description: Asset image as JPG
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/RequestValidationError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    put:
+      tags:
+        - assetImages
+      summary: Update asset image
+      description: Upload and update asset image by image ID. Please note that in fact the old image will be deleted and a
+        new one will be created. This method acts as an alias for POST and DELETE methods and simplifies this for the API assets.
+        Furthermore, this means that the new image gets **new** ID. The new ID is returned in the response
+      operationId: updateAssetImage
+      parameters:
+        - name: id
+          in: path
+          description: ID of the assets image
+          required: true
+          explode: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/actoridParam"
+      requestBody:
+        $ref: "#/components/requestBodies/Image"
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+        "400":
+          $ref: "#/components/responses/RequestValidationError"
+        "406":
+          $ref: "#/components/responses/InvalidDataError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    delete:
+      tags:
+        - assetImages
+      summary: Delete asset image
+      description: Delete uploaded asset image by image ID
+      operationId: deleteAssetImage
+      parameters:
+        - name: id
+          in: path
+          description: ID of the assets image
+          required: true
+          explode: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/actoridParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/SuccessEmpty"
+        "400":
+          $ref: "#/components/responses/RequestValidationError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"        
 
 components:
   requestBodies:
@@ -343,6 +456,22 @@ components:
               overwrite the existing
             type: object
             minProperties: 1
+    Image:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            additionalProperties: false
+            required:
+              - image
+            properties:
+              image:
+                type: string
+                format: binary
+          encoding:
+            image:
+              contentType: image/png, image/jpeg        
   schemas:
     AssetCreate:
       description: Minimal required attributes for asset creation
@@ -611,6 +740,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Error"
+    RequestValidationError:
+      description: Request violates API Specification
+      content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Error"        
   parameters:
     actoridParam:
       in: header

@@ -35,7 +35,8 @@ class KafkaConnector {
 
   async createConsumer(serviceName, topics, onMessage) {
     const consumer = this.kafka.consumer({
-      groupId: generateUuid("kafka-client"),
+      clientId: generateUuid(serviceName),
+      groupId: serviceName,
       retry: {
         initialRetryTime: 1000,
         retries: 5,
