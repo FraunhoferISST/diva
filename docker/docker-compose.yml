@@ -17,6 +17,8 @@ x-elasticsearch-env: &elasticsearch-env
 
 x-airflow-env: &airflow-env
   AIRFLOW_URL: http://airflow-webserver:${AIRFLOW_PORT}
+  _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME}
+  _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD}
 
 x-kafka-env: &kafka-env
   KAFKA_URL: broker:${KAFKA_PORT}
