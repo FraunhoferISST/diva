@@ -359,8 +359,8 @@ services:
     volumes:
       - divaLake:/data
     environment:
-      MINIO_ACCESS_KEY: minio_access
-      MINIO_SECRET_KEY: minio_secret
+      MINIO_ACCESS_KEY: ${DIVA_LAKE_USERNAME}
+      MINIO_SECRET_KEY: ${DIVA_LAKE_PASSWORD}
     entrypoint: sh
     command: -c 'mkdir -p /data/file-lake && mkdir -p /data/analyze && /usr/bin/minio server /data'
     networks:
