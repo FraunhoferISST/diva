@@ -42,11 +42,40 @@ services:
         protocols:
           - "http"
           - "https"
-        strip_path: true
+        strip_path: false
+        plugins:
+          - name: jwt-keycloak
+            config:
+              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
+      - name: assetmanagement-images-route
+        methods:
+          - POST
+          - PUT
+          - OPTIONS
+          - DELETE
+        paths:
+          - "/assetImages"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
+        plugins:
+          - name: jwt-keycloak
+            config:
+              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
+
+      - name: assetmanagement-get-images-route
+        methods:
+          - GET
+        paths:
+          - "/assetImages"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
     plugins:
-      - name: jwt-keycloak
-        config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
+      - name: cors
+
 
   - name: "Reviews-Management"
     url: "http://review-management:3003/reviews"
