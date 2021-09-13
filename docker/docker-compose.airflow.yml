@@ -20,7 +20,6 @@ x-airflow-common:
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__API__AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'
     AIRFLOW_CONN_MINIO: s3://${DIVA_LAKE_USERNAME}:${DIVA_LAKE_PASSWORD}@diva-lake:${DIVALAKE_PORT}?host=http://diva-lake:${DIVALAKE_PORT}
-    AIRFLOW_CONN_FAAS_DOCKER: http://${FAAS_DEPLOY_TOKEN}@registry.gitlab.cc-asp.fraunhofer.de:4567
     AIRFLOW__WEBSERVER__WEB_SERVER_PORT: ${AIRFLOW_PORT}
   volumes:
     - ${AIRFLOW_DAGS}:/opt/airflow/dags
