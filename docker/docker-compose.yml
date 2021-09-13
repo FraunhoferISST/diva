@@ -17,6 +17,8 @@ x-elasticsearch-env: &elasticsearch-env
 
 x-airflow-env: &airflow-env
   AIRFLOW_URL: http://airflow-webserver:${AIRFLOW_PORT}
+  _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME}
+  _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD}
 
 x-kafka-env: &kafka-env
   KAFKA_URL: broker:${KAFKA_PORT}
@@ -119,7 +121,7 @@ services:
   
   user-management:
     <<: *base-core-service
-    image: ${REGISTRY}user-management:5.0.0
+    image: ${REGISTRY}user-management:5.0.1
     container_name: user-management
     environment:
       <<: *base-core-service-env
@@ -357,8 +359,8 @@ services:
     volumes:
       - divaLake:/data
     environment:
-      MINIO_ACCESS_KEY: minio_access
-      MINIO_SECRET_KEY: minio_secret
+      MINIO_ACCESS_KEY: ${DIVA_LAKE_USERNAME}
+      MINIO_SECRET_KEY: ${DIVA_LAKE_PASSWORD}
     entrypoint: sh
     command: -c 'mkdir -p /data/file-lake && mkdir -p /data/analyze && /usr/bin/minio server /data'
     networks:
@@ -380,8 +382,8 @@ services:
       RESOURCE_MANAGEMENT_URL: http://resource-management:${RESOURCE_MANAGEMENT_PORT}
       DIVA_LAKE_HOST: diva-lake
       DIVA_LAKE_PORT: ${DIVALAKE_PORT}
-      DIVA_LAKE_USERNAME: minio_access
-      DIVA_LAKE_PASSWORD: minio_secret
+      DIVA_LAKE_USERNAME: ${DIVA_LAKE_USERNAME}
+      DIVA_LAKE_PASSWORD: ${DIVA_LAKE_PASSWORD}
       BUCKET_NAME: file-lake
 
   # ####################################################################################################################

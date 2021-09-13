@@ -12,7 +12,7 @@
 
 <br />
 
-[![version](https://img.shields.io/badge/diva-v3.0.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/drm)
+[![version](https://img.shields.io/badge/diva-v3.0.3-green)](https://gitlab.cc-asp.fraunhofer.de/diva/drm)
 
 <br />
 
