@@ -17,7 +17,9 @@
             "description": "The general type of the service",
             "enum": [
               "plugin",
-              "app"
+              "app",
+              "profiling",
+              "management"
             ]
           }
         }
