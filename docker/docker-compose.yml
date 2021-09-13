@@ -146,6 +146,21 @@ services:
       - ${REVIEW_MANAGEMENT_PORT}:${REVIEW_MANAGEMENT_PORT}
 
   # ####################################################################################################################
+  # Service Management Microservice
+  # ####################################################################################################################
+  
+  service-management:
+    <<: *base-core-service
+    image: ${REGISTRY}service-management:0.1.0-alpha.0
+    container_name: service-management
+    environment:
+      <<: *base-core-service-env
+      PORT: ${SERVICE_MANAGEMENT_PORT}
+      KAFKA_EVENT_TOPIC: service.events
+    ports:
+      - ${SERVICE_MANAGEMENT_PORT}:${SERVICE_MANAGEMENT_PORT}    
+
+  # ####################################################################################################################
   # JSON Document Store
   # ####################################################################################################################
 
