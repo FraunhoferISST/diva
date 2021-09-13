@@ -2,14 +2,14 @@ const { customErrorFactory, catchHandler } = require("@diva/common/Error");
 
 module.exports = {
   catchHandler,
-  serviceNotFoundError: customErrorFactory(
-    "ServiceNotFound",
-    "Service with the given id not found",
+  imageNotFoundError: customErrorFactory(
+    "ImageNotFound",
+    "Image with the provided id not found",
     404
   ),
-  linkServiceToItselfError: customErrorFactory(
-    "linkServiceToItselfError",
-    "Can not link service to itself",
-    400
+  wrongImageFormatError: customErrorFactory(
+    "ImageFormat",
+    "Image format not supported. Provide PNG or JPG file",
+    406
   ),
 };
