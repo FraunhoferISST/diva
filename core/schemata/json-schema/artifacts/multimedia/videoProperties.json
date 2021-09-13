@@ -10,23 +10,11 @@
       "title": "Video Schema",
       "description": "Visual representation of an entity",
       "items": {
-        "type": "object",
-        "title": "Items",
-        "description": "Video elements",
-        "required": [
-            "embedURL"
-        ],
-        "properties": {
-            "embedURL": {
-                "type": "string",
-                "title": "Embed Url",
-                "description": "Url to a player for the video",
-                "examples": [
-                  "http://www.example.com/watch?v=5qap5aO4i9A"
-                ],
-                "format": "uri"
-            }
-        }
+        "type": "string",
+        "title": "Embed Url",
+        "description": "Url to a player for the video",
+        "examples": ["http://www.example.com/watch?v=5qap5aO4i9A"],
+        "format": "uri"
       }
     }
   }
