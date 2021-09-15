@@ -87,7 +87,7 @@ services:
         protocols:
           - "http"
           - "https"
-        strip_path: true
+        strip_path: false
         plugins:
           - name: jwt-keycloak
             config:
