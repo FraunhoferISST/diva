@@ -2,22 +2,22 @@
   "$schema": "https://json-schema.org/draft/2019-09/schema",
   "$id": "entityRepresentationImage",
   "type": "object",
-  "title": "Entity Image",
+  "title": "Entity Representation Image",
   "properties": {
-    "imageId": {
-      "$id": "/properties/imageId",
+    "entityRepresentationImageId": {
+      "$id": "entityRepresentationImageId",
       "type": "string",
-      "title": "The imageId Schema",
+      "title": "Entity Representation ImageId",
       "examples": ["67d4acaa-00e0-4a00-8b61-15abe20e1413"],
       "_elasticsearch": {
         "type": "keyword"
       }
     },
 
-    "imageUrl": {
-      "$id": "/properties/imageUrl",
+    "entityRepresentationImageUrl": {
+      "$id": "entityRepresentationImageUrl",
       "type": "string",
-      "title": "The imageURL Schema",
+      "title": "Entity Representation ImageUrl",
       "description": "The URL of externally provided image",
       "examples": ["https://image-host.com"],
       "format": "uri",
