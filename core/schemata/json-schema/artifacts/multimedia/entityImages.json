@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "imageGallery",
+  "$id": "entityImages",
   "type": "object",
-  "title": "Image Gallery",
+  "title": "Entity Images",
   "properties": {
-    "imageGallery": {
+    "entityImages": {
       "type": "array",
       "minItems": 0,
-      "title": "Image Gallery",
+      "title": "Entity Images",
       "description": "Collection of images",
       "items": {
         "type": "object",
