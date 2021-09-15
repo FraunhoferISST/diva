@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "videoProperties",
+  "$id": "entityVideos",
   "type": "object",
-  "title": "Video",
+  "title": "Entity Videos",
   "properties": {
-    "videos": {
+    "entityVideos": {
       "type": "array",
       "minItems": 0,
-      "title": "Video Schema",
+      "title": "Entity Videos",
       "description": "Visual representation of an entity",
       "items": {
         "type": "string",
