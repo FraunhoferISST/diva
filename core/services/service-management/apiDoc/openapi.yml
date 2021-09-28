@@ -29,10 +29,10 @@ paths:
           $ref: "#/components/responses/ServiceCreateSuccess"
         207:
           $ref: "#/components/responses/Multi"
+        "4XX":
+          $ref: "#/components/responses/RequestValidationError"
         406:
           $ref: "#/components/responses/InvalidDataError"
-        409:
-          $ref: "#/components/responses/ServiceAlreadyExistsError"
         500:
           $ref: "#/components/responses/UnexpectedError"
     get:
@@ -115,6 +115,8 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/ServiceResponse"
+        "4XX":
+          $ref: "#/components/responses/RequestValidationError"
         "404":
           $ref: "#/components/responses/NotFoundError"
         "500":
@@ -141,10 +143,10 @@ paths:
           $ref: "#/components/responses/Success"
         "201":
           description: Service created
+        "4XX":
+          $ref: "#/components/responses/RequestValidationError"
         "406":
           $ref: "#/components/responses/InvalidDataError"
-        "409":
-          $ref: "#/components/responses/ServiceAlreadyExistsError"
         "500":
           $ref: "#/components/responses/UnexpectedError"
     patch:
@@ -166,13 +168,13 @@ paths:
         $ref: "#/components/requestBodies/ServicesPatch"
       responses:
         "200":
-          $ref: "#/components/responses/Success"
-        "406":
-          $ref: "#/components/responses/InvalidDataError"
+          $ref: "#/components/responses/SuccessEmpty"
+        "4XX":
+          $ref: "#/components/responses/RequestValidationError"
         "404":
           $ref: "#/components/responses/NotFoundError"
-        "409":
-          $ref: "#/components/responses/ServiceAlreadyExistsError"
+        "406":
+          $ref: "#/components/responses/InvalidDataError"
         "500":
           $ref: "#/components/responses/UnexpectedError"
     delete:
@@ -191,7 +193,9 @@ paths:
             type: string
       responses:
         "200":
-          $ref: "#/components/responses/Success"
+          $ref: "#/components/responses/SuccessEmpty"
+        "4XX":
+          $ref: "#/components/responses/NotFoundError"
         "404":
           $ref: "#/components/responses/NotFoundError"
         "500":
@@ -211,7 +215,7 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/Success"
-        "400":
+        "4XX":
           $ref: "#/components/responses/RequestValidationError"
         "406":
           $ref: "#/components/responses/InvalidDataError"
@@ -397,11 +401,11 @@ components:
       required:
         - title
         - id
-        - creator
+        - creatorId
         - created
         - modified
         - entityType
-      additionalProperties: false
+      additionalProperties: true
       properties:
         id:
           type: string
@@ -565,12 +569,6 @@ components:
             $ref: "#/components/schemas/Error"
     InvalidDataError:
       description: Invalid data supplied
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/Error"
-    ServiceAlreadyExistsError:
-      description: Service with the given `uniqueFingerprint` already exists
       content:
         application/json:
           schema:
