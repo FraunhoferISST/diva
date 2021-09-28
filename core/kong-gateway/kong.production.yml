@@ -76,7 +76,7 @@ services:
         plugins:
           - name: jwt-keycloak
             config:
-            allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
+              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
       - name: services-route-images
         methods:
