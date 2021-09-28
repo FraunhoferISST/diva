@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@diva/common": "^1.1.1",
-    "lodash": "^4.17.21"
+    "mongodb": "^4.1.2"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",
