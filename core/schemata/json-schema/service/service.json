@@ -34,12 +34,6 @@
         "$ref": "/entityRepresentationImage"
       },
       {
-        "$ref": "/imageGallery"
-      },
-      {
-        "$ref": "/videoProperties"
-      },
-      {
         "$ref": "/costs"
       }
     ]
