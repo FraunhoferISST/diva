@@ -79,11 +79,11 @@ services:
     protocol: http
     host: "172.17.0.1"
     port: 3004
-    path: "/services"
+    path: "/"
     routes:
       - name: services-route
         paths:
-          - "/services"
+          - "/services/"
         protocols:
           - "http"
           - "https"
@@ -97,6 +97,7 @@ services:
         methods:
           - POST
           - PUT
+          - GET
           - DELETE
           - OPTIONS
         paths:
@@ -118,7 +119,10 @@ services:
         protocols:
           - "http"
           - "https"
-        strip_path: false    
+        strip_path: false
+
+    plugins:
+      - name: cors
 
   - name: "Search-Assistant"
     protocol: http

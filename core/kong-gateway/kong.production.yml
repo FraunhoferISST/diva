@@ -82,6 +82,7 @@ services:
         methods:
           - POST
           - PUT
+          - GET
           - DELETE
           - OPTIONS
         paths:
@@ -103,7 +104,10 @@ services:
         protocols:
           - "http"
           - "https"
-        strip_path: false        
+        strip_path: false
+
+    plugins:
+      - name: cors
 
   - name: "Search-Assistant"
     url: "http://search-assistant:3005/search"
