@@ -36,7 +36,7 @@ describe("services API", () => {
   /**
    * Global available set of services (entities) inserted through the API. This services can be used to test the CRUD operations
    * on /services collection
-   * @type [{id: string, password: string, email: string, username: string}]
+   * @type [{title: string, serviceType: string}]
    */
   this.testEntities = [];
 
