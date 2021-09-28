@@ -1,6 +1,6 @@
 {
   "name": "review-management",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Manages entities reviews",
   "repository": {
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.1.0",
+    "@diva/common": "^1.1.1",
     "@diva/eslint-config": "^0.1.0"
   },
   "devDependencies": {

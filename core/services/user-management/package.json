@@ -1,6 +1,6 @@
 {
   "name": "user-management",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "User management service with CRUD operations for users",
   "main": "index.js",
   "scripts": {
@@ -14,10 +14,9 @@
   "author": "",
   "license": "ISST",
   "dependencies": {
-    "@diva/common": "1.1.0",
+    "@diva/common": "1.1.1",
     "bcryptjs": "^2.4.3",
-    "lodash": "^4.17.21",
-    "mongodb": "^3.6.4"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@diva/eslint-config": "0.1.0",

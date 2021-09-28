@@ -88,7 +88,11 @@ const emitEntityEvent = (payload) => {
 
     if (payload.attributedTo) {
       payload.attributedTo.forEach((e) => {
-        io.to(`entity.events.${e.object.id}`).emit(ENTITY_EVENT, payload);
+        io.to(`entity.events.${e.object.id}`).emit(ENTITY_EVENT, {
+          actor: payload.actor,
+          type: payload.type,
+          ...e,
+        });
       });
     }
   } catch (e) {
