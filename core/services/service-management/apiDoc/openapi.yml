@@ -379,11 +379,8 @@ components:
           enum:
             - app
             - plugin
-        uniqueFingerprint:
-          type: string
-          title: Unique service identifier
-          description: Global unique service identifier from title hash
-          example: g2jh3g4j2g34jh23jh423jh4f2oöklkcghjfajsfklj3294urjk
+            - profiling
+            - management
 
     ServiceCreateBulk:
       type: array
@@ -460,12 +457,8 @@ components:
               enum:
                 - app
                 - plugin
-            uniqueFingerprint:
-              type: string
-              title: Unique service identifier
-              description: Global unique service identifier from title hash
-              example: g2jh3g4j2g34jh23jh423jh4f2oöklkcghjfajsfklj3294urjk
-
+                - profiling
+                - management
     Error:
       type: object
       title: Operation error
