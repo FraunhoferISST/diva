@@ -1,6 +1,6 @@
 # Service Management Service 🏘️
 
-This service handles so called `services`. It stores created `services` in MongoDb and Elasticsearch instances.
+This service handles so called `services`. It is responsible for CRUD operations on `services` entities.
 
 ## Requirements
 
@@ -44,7 +44,7 @@ npm run dev
 
 ### Docker
 
-Use docker-compose to start the service in a container, build new service image and push the image to the GitLab docker registry.
+Use docker-compose to start the service in a container, build new service image and push the image GitHub registry.
 
 Pull the image:
 
@@ -69,10 +69,6 @@ Push the image:
 ```sh
 docker-compose push service-management
 ```
-
-## Use
-
-Coming soon
 
 ## License
 
