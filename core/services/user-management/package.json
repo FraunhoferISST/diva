@@ -1,6 +1,6 @@
 {
   "name": "user-management",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "User management service with CRUD operations for users",
   "main": "index.js",
   "scripts": {
