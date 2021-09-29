@@ -19,6 +19,13 @@ const getUser = () => ({
   token: kc.token,
 });
 
+const updateToken = () =>
+  kc.updateToken(60).then((refreshed) => {
+    if (refreshed) {
+      store.dispatch("refreshToken", kc.token);
+    }
+  });
+
 export default {
   kc,
   login: kc.login,
@@ -27,14 +34,9 @@ export default {
   verifyToken: kc.isTokenExpired,
   init: () =>
     kc.init({ onLoad: initOptions.onLoad }).then((authenticated) => {
-      setInterval(() => {
-        kc.updateToken(0).then((refreshed) => {
-          if (refreshed) {
-            store.dispatch("refreshToken", kc.token);
-          }
-        });
-      }, 10 ** 5);
+      setInterval(() => updateToken(), 60000);
       return authenticated;
     }),
   getUser,
+  updateToken,
 };
