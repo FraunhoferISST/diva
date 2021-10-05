@@ -89,18 +89,22 @@ export default {
           humanReadable: true,
           ...(this.cursor ? { cursor: this.cursor } : {}),
         })
-        .then(({ data: { collection, cursor } }) => {
-          const promises = collection.map(async (history) => ({
-            ...history,
-            creator: await this.getCreator(history),
+        .then(async ({ data: { collection, cursor } }) => {
+          const creators = await this.$api.users.getManyById(
+            collection.map(({ creatorId }) => creatorId)
+          );
+          const historiesWithCreators = collection.map((entry) => ({
+            ...entry,
+            creator: creators.find(({ id }) => id === entry.creatorId),
           }));
-          return Promise.all(promises).then((history) => ({
-            collection: history,
+          return {
+            collection: historiesWithCreators,
             cursor,
-          }));
+          };
         });
     },
     async getCreator(historyLog) {
+      // TODO: is this case still possible?
       if (historyLog.creatorId.startsWith("service:")) {
         return { username: "Internal service" };
       }

@@ -102,15 +102,17 @@ export default {
         })
         .then(async ({ data: { collection, cursor } }) => {
           this.showForm = !(await this.userAlreadyWroteReview());
-          const promises = collection.map(async (review) => ({
+          const creators = await this.$api.users.getManyById(
+            collection.map(({ creatorId }) => creatorId)
+          );
+          const reviewsWithCreators = collection.map((review) => ({
             ...review,
-            creator: (await this.$api.users.getByIdIfExists(review.creatorId))
-              ?.data,
+            creator: creators.find(({ id }) => id === review.creatorId),
           }));
-          return Promise.all(promises).then((reviews) => ({
-            collection: reviews,
+          return {
+            collection: reviewsWithCreators,
             cursor,
-          }));
+          };
         });
     },
     userAlreadyWroteReview() {
