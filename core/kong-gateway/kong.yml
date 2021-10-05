@@ -43,7 +43,7 @@ services:
     protocol: http
     host: "172.17.0.1"
     port: 3002
-    path: "/assets"
+    path: "/"
     routes:
       - name: assets-route
         paths:

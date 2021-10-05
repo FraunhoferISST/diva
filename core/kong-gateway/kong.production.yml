@@ -34,7 +34,7 @@ services:
 
 
   - name: "Asset-Management"
-    url: "http://asset-management:3002/assets"
+    url: "http://asset-management:3002/"
     routes:
       - name: assets-route
         paths:
