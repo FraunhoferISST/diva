@@ -131,14 +131,6 @@ export default {
         .catch((e) => this.showSnackbar(e?.response?.data?.message))
         .finally(() => (this.isLoading = false));
     },
-    onCreate() {
-      this.isLoading = true;
-      this.selectedSource
-        .onCreate()
-        .then((response) => this.handleCreationResult(response))
-        .catch((e) => this.showSnackbar(e?.response?.data?.message))
-        .finally(() => (this.isLoading = false));
-    },
     showSnackbar(msg) {
       this.snackbarMsg = msg;
       this.snackbar = true;
@@ -148,28 +140,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.create-form-return-btn {
-  position: absolute;
-  z-index: 11;
-}
 .action-container {
   position: relative;
   z-index: 2;
-  transition: 0.5s;
-  // background-color: $bg_dark;
   height: 100%;
   min-height: 50vh;
   width: 100%;
-  top: 0;
-  left: 0;
-
-  &.upload-active {
-    animation: activate-signup 1s ease forwards;
-  }
-
-  &.dbconnect-active {
-    animation: activate-login 1s ease forwards;
-  }
 
   h1 {
     font-weight: 700;
