@@ -2,7 +2,7 @@
   <section id="general">
     <entity-base-data-fetcher :id="id">
       <template #default="{ data, api }">
-        <v-container class="ma-0" fluid>
+        <v-container class="ma-0" fluid v-if="data.id">
           <v-row>
             <v-col cols="12">
               <card>
@@ -10,17 +10,18 @@
                   <edit-view-content
                     class="mb-5"
                     :initialData="{ title: data.title || '' }"
-                    @save="(patch) => api.patch(data.id, patch)"
+                    :on-save="(patch) => api.patch(data.id, patch)"
                   >
-                    <general-title
-                      slot="view"
-                      :title="data.title"
-                      :hash="data.uniqueFingerprint || data.id"
-                    />
-                    <template v-slot:edit="{ update }">
+                    <template #view>
+                      <general-title
+                        :title="data.title"
+                        :hash="data.uniqueFingerprint || data.id"
+                      />
+                    </template>
+                    <template #edit="{ setEditedData }">
                       <general-title-edit
                         :title="data.title"
-                        @update:title="update($event)"
+                        @update:title="setEditedData($event)"
                       />
                     </template>
                   </edit-view-content>
