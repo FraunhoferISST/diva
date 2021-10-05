@@ -37,16 +37,16 @@
                   <edit-view-content
                     class="mb-5"
                     :initialData="{ keywords: data.keywords }"
-                    @save="(patch) => api.patch(data.id, patch)"
+                    :on-save="(patch) => api.patch(data.id, patch)"
                   >
                     <general-keywords
                       slot="view"
                       :keywords="data.keywords || []"
                     />
-                    <template v-slot:edit="{ update }">
+                    <template v-slot:edit="{ setEditedData }">
                       <general-keywords-edit
-                        :keywords="data.keywords || []"
-                        @update:keywords="update($event)"
+                        :keywords="data.keywords"
+                        @update:keywords="setEditedData($event)"
                       />
                     </template>
                   </edit-view-content>
@@ -65,16 +65,17 @@
                         <edit-view-content
                           slot="value"
                           :initialData="{ ownerId: data.ownerId }"
-                          @save="(patch) => api.patch(data.id, patch)"
+                          :on-save="(patch) => api.patch(data.id, patch)"
                         >
                           <general-data-owner
                             slot="view"
                             :owner="data.owner || {}"
                           />
-                          <template v-slot:edit="{ update }">
+                          <template v-slot:edit="{ setEditedData }">
                             <general-data-owner-edit
                               :ownerId="data.ownerId || ''"
-                              @update:owner="update($event)"
+                              :owner="data.owner"
+                              @update:owner="setEditedData($event)"
                             />
                           </template>
                         </edit-view-content>
@@ -85,16 +86,16 @@
                         <edit-view-content
                           slot="value"
                           :initialData="{ versionInfo: data.versionInfo }"
-                          @save="(patch) => api.patch(data.id, patch)"
+                          :on-save="(patch) => api.patch(data.id, patch)"
                         >
                           <general-version-info
                             slot="view"
                             :versionInfo="data.versionInfo || ''"
                           />
-                          <template v-slot:edit="{ update }">
+                          <template v-slot:edit="{ setEditedData }">
                             <general-version-info-edit
                               :versionInfo="data.versionInfo || ''"
-                              @update:versionInfo="update($event)"
+                              @update:versionInfo="setEditedData($event)"
                             />
                           </template>
                         </edit-view-content>
@@ -105,16 +106,16 @@
                         <edit-view-content
                           slot="value"
                           :initialData="{ versionNotes: data.versionNotes }"
-                          @save="(patch) => api.patch(data.id, patch)"
+                          :on-save="(patch) => api.patch(data.id, patch)"
                         >
                           <general-version-notes
                             slot="view"
                             :versionInfo="data.versionNotes || ''"
                           />
-                          <template v-slot:edit="{ update }">
+                          <template v-slot:edit="{ setEditedData }">
                             <general-version-notes-edit
                               :versionNotes="data.versionNotes || ''"
-                              @update:versionNotes="update($event)"
+                              @update:versionNotes="setEditedData($event)"
                             />
                           </template>
                         </edit-view-content>
@@ -177,16 +178,16 @@
                       <edit-view-content
                         slot="body"
                         :initialData="{ description: data.description }"
-                        @save="(patch) => api.patch(data.id, patch)"
+                        :on-save="(patch) => api.patch(data.id, patch)"
                       >
                         <general-description
                           slot="view"
                           :description="data.description || ''"
                         />
-                        <template v-slot:edit="{ update }">
+                        <template v-slot:edit="{ setEditedData }">
                           <general-description-edit
                             :description="data.description || ''"
-                            @update:description="update($event)"
+                            @update:description="setEditedData($event)"
                           />
                         </template>
                       </edit-view-content>
@@ -200,16 +201,16 @@
                       <edit-view-content
                         slot="body"
                         :initialData="{ licenses: data.licenses }"
-                        @save="(patch) => api.patch(data.id, patch)"
+                        :on-save="(patch) => api.patch(data.id, patch)"
                       >
                         <general-license
                           slot="view"
                           :licenses="data.licenses || []"
                         />
-                        <template v-slot:edit="{ update }">
+                        <template v-slot:edit="{ setEditedData }">
                           <general-license-edit
                             :licenses="data.licenses || []"
-                            @update:licenses="update($event)"
+                            @update:licenses="setEditedData($event)"
                           />
                         </template>
                       </edit-view-content>
