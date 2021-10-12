@@ -1,0 +1,5 @@
+spacy==3.1.3
+https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.1.0/en_core_web_md-3.1.0.tar.gz#egg=en_core_web_md
+https://github.com/explosion/spacy-models/releases/download/de_core_news_md-3.1.0/de_core_news_md-3.1.0.tar.gz#egg=de_core_news_md
+langdetect==1.0.9
+progress==1.6
