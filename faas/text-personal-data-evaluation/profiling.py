@@ -59,7 +59,7 @@ def count_entities(entities: dict) -> dict:
 
 with open(INPUT_FILE, 'r') as f:
     file_size = os.path.getsize("test3.txt")
-    chunk_size = 1 * (10 ** 6)  # 1 MB chunks
+    chunk_size = 1 * (10 ** 6)  # 1MB chunks, affects RAM consumption
     chunks = int(math.ceil(file_size / chunk_size)) if file_size > chunk_size else 1
     bar = Bar('Processing chunk', max=chunks)
     entities = {
@@ -78,6 +78,9 @@ with open(INPUT_FILE, 'r') as f:
             # load model depending on language
             try:
                 lang = TEXT_LANG or detect(chunk)
+                if lang not in models_map:
+                    print(f'⚡ Language {lang} not supported! Fall back to "en"')
+                    lang = "en"
             except:
                 print("⛔ Failed to detect language! Fall back to 'en'")
                 lang = "en"
@@ -85,7 +88,7 @@ with open(INPUT_FILE, 'r') as f:
             print("🇩🇪 Loading language model for", lang)
             nlp = spacy.load(models_map[lang])
 
-        sub_chunk_size = int(math.ceil(chunk_size / 8))  # sub_chunk per processor core, assuming 8 cores machine
+        sub_chunk_size = int(math.ceil(chunk_size / 100))  # 10KB sub_chunks on all available processor cores
         sub_chunks = [chunk[i:i + sub_chunk_size] for i in range(0, len(chunk), sub_chunk_size)]
 
         with concurrent.futures.ProcessPoolExecutor() as executor:

@@ -47,12 +47,22 @@ TEXT_LANGUAGE (optional)  |`en` |  A language of the text. Will be extracted aut
 
 ## Development
 
-The service allocates around 2 GB RAM for large files and can process over 6 MB of text each second on powerful machine 
-(higher number of cores => much faster processing).
+The service allocates around 600 MB RAM for large files and can process over 6 MB of text each ~50 seconds on powerful machine 
+(higher number of cores => much faster processing). The RAM consumption can be tweaked by file chunk size read on each
+iteration. Smaller chunks reduce the allocated RAM, but add read overhead and increment execution time.
+The current optimal formula on i7-7800 (6/12) is:
+
+```
+for 1_MB_chunks in file
+  for 10_KB_sub_chunks in 1_MB_chunks
+     process(each sub_chunk)
+```
+
+
 
 **Requirements:**
 + python 3.8+
-+ 3+ GB RAM on runtime
++ 700+ MB RAM on runtime
 
 Install dependencies:
 
