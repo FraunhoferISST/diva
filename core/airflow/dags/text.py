@@ -104,7 +104,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
     )
 
     personal_data = DivaOperator(
-        task_id='text-personal_data',
+        task_id='text-personal-data',
         image='ghcr.io/fraunhoferisst/diva/text-personal-data-evaluation:3.0.0',
         api_version='auto',
         auto_remove=True,
@@ -200,7 +200,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         environment={
             **profiling_args
         },
-        input_task_id='personal_data',
+        input_task_id='text-personal-data',
         bucket='analyze'
     )
 
