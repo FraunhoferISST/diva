@@ -1,5 +1,5 @@
 # nodejs
-node_modules
+__pycache__
 
 # vscode
 .vscode
