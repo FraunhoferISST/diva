@@ -31,14 +31,14 @@ class EventsHandlerService {
         actor: { id: actorId },
       } = parsedMassage.payload;
       if (type === "delete") {
-        const likedAssets = await this.collection
+        const linkedAssets = await this.collection
           .find({
             entities: id,
           })
           .toArray();
-        if (likedAssets?.length > 0) {
+        if (linkedAssets?.length > 0) {
           await Promise.all(
-            likedAssets.map((asset) =>
+            linkedAssets.map((asset) =>
               assetService
                 .unlinkEntity(asset.id, id, actorId)
                 .then(() =>
