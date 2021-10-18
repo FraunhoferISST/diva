@@ -97,7 +97,7 @@
         be removed and can no longer be restored. It's gone!
       </v-alert>
       <template #confirm>
-        <v-btn small rounded color="error" @click="deleteEntity">
+        <v-btn text rounded color="error" @click="deleteEntity">
           Delete entity
         </v-btn>
         <v-snackbar text color="error" v-model="snackbar" absolute>

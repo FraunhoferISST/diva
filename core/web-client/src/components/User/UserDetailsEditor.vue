@@ -1,147 +1,155 @@
 <template>
   <div class="user-data-editor relative d-inline-block">
-    <v-dialog v-model="dialog" max-width="900">
+    <v-dialog class="user-data-editor-dialog" v-model="dialog" max-width="900">
       <template v-slot:activator="{ on }">
         <v-btn text rounded v-on="on" color="primary"> Edit profile </v-btn>
       </template>
       <v-card>
         <v-card-text class="pa-8">
-          <v-window v-model="window">
-            <v-window-item>
-              <v-container fluid>
-                <v-row>
-                  <v-col cols="12">
-                    <custom-header text="General Information" />
-                  </v-col>
-                  <v-col cols="12">
-                    <div class="user-data">
-                      <div class="d-flex justify-center pb-4 pb-sm-4 pb-md-0">
-                        <div
-                          class="user-data-image text-center"
-                          v-if="user.imageId && !image"
-                        >
-                          <user-avatar
-                            :image-id="user.imageId"
-                            :size="avatarSize"
-                          />
-                        </div>
-                        <user-avatar-editor
-                          :image.sync="image"
-                          :size="parseInt(avatarSize.replace('px', ''))"
-                        />
-                      </div>
-                      <v-container fluid class="pa-0">
+          <v-container fluid>
+            <v-row>
+              <v-col cols="12">
+                <custom-header text="General Information" />
+              </v-col>
+              <v-col cols="12">
+                <div class="user-data">
+                  <div class="d-flex justify-center pb-4 pb-sm-4 pb-md-0">
+                    <div
+                      class="user-data-image text-center"
+                      v-if="user.imageId && !image"
+                    >
+                      <user-avatar
+                        :image-id="user.imageId"
+                        :size="avatarSize"
+                      />
+                    </div>
+                    <user-avatar-editor
+                      :image.sync="image"
+                      :size="parseInt(avatarSize.replace('px', ''))"
+                    />
+                  </div>
+                  <v-container fluid class="pa-0">
+                    <v-row>
+                      <v-col cols="12">
                         <v-row>
-                          <v-col cols="12">
-                            <v-row>
-                              <v-col cols="12" md="6">
-                                <info-block title="Email" :value="user.email">
-                                </info-block>
-                              </v-col>
-                              <v-col cols="12" md="6"
-                                ><info-block title="Password" value="********">
-                                </info-block>
-                              </v-col>
-                              <v-col cols="12">
-                                <v-alert text dense color="info">
-                                  You can edit your log in credentials on
-                                  <a :href="keycloakAccountURL"> Keycloak </a>
-                                  - our trusted and secure service for
-                                  authentication
-                                </v-alert>
-                              </v-col>
-                            </v-row>
+                          <v-col cols="12" md="6">
+                            <info-block title="Email" :value="user.email">
+                            </info-block>
                           </v-col>
-                          <v-col
-                            cols="12"
-                            :md="attribute.fullWith ? '12' : '6'"
-                            v-for="attribute in generalInformation"
-                            :key="attribute.name"
-                          >
-                            <v-text-field
-                              rounded
-                              v-model="attribute.value"
-                              :label="attribute.title"
-                              :type="attribute.type"
-                              outlined
-                              :hide-details="attribute.name !== 'email'"
-                              :readonly="attribute.name === 'email'"
-                              light
-                              persistent-hint
-                              dense
-                              :required="attribute.required"
-                              :clearable="attribute.name !== 'email'"
-                              :hint="attribute.name === 'email' ? 'hint' : ''"
-                            >
-                              <template #message>
-                                <p>
-                                  You can edit your login credentials on your
-                                  <a :href="keycloakAccountURL">
-                                    Keycloak profile
-                                  </a>
-                                  page
-                                </p>
-                              </template>
-                            </v-text-field>
+                          <v-col cols="12" md="6"
+                            ><info-block title="Password" value="********">
+                            </info-block>
+                          </v-col>
+                          <v-col cols="12">
+                            <v-alert text dense color="info">
+                              You can edit your log in credentials on
+                              <a :href="keycloakAccountURL"> Keycloak </a>
+                              - our trusted and secure service for
+                              authentication
+                            </v-alert>
                           </v-col>
                         </v-row>
-                      </v-container>
-                    </div>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12">
-                    <custom-header
-                      text="Contact information (visible to everyone)"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    :sm="attribute.fullWith ? '12' : '6'"
-                    md="4"
-                    v-for="attribute in contactInformation"
-                    :key="attribute.name"
-                  >
-                    <v-text-field
-                      rounded
-                      v-model="attribute.value"
-                      :label="attribute.title"
-                      :type="attribute.type"
-                      outlined
-                      hide-details
-                      light
-                      dense
-                      clearable
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12" class="d-flex justify-end">
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        :md="attribute.fullWith ? '12' : '6'"
+                        v-for="attribute in generalInformation"
+                        :key="attribute.name"
+                      >
+                        <v-text-field
+                          rounded
+                          v-model="attribute.value"
+                          :label="attribute.title"
+                          :type="attribute.type"
+                          outlined
+                          :hide-details="attribute.name !== 'email'"
+                          :readonly="attribute.name === 'email'"
+                          light
+                          persistent-hint
+                          dense
+                          :required="attribute.required"
+                          :clearable="attribute.name !== 'email'"
+                          :hint="attribute.name === 'email' ? 'hint' : ''"
+                        >
+                          <template #message>
+                            <p>
+                              You can edit your login credentials on your
+                              <a :href="keycloakAccountURL">
+                                Keycloak profile
+                              </a>
+                              page
+                            </p>
+                          </template>
+                        </v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <custom-header
+                  text="Contact information (visible to everyone)"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                :sm="attribute.fullWith ? '12' : '6'"
+                md="4"
+                v-for="attribute in contactInformation"
+                :key="attribute.name"
+              >
+                <v-text-field
+                  rounded
+                  v-model="attribute.value"
+                  :label="attribute.title"
+                  :type="attribute.type"
+                  outlined
+                  hide-details
+                  light
+                  dense
+                  clearable
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-alert text color="error" class="my-4">
+                  You can delete your DIVA account. Please note that the data
+                  cannot be restored. Your data in Keycloak will not be affected
+                  by deleting your DIVA account.
+                  <div class="d-flex justify-end">
                     <v-btn
-                      class="mr-3"
-                      rounded
                       text
-                      color="primary"
-                      @click="dialog = false"
-                    >
-                      Cancel
-                    </v-btn>
-                    <v-btn
                       rounded
-                      depressed
-                      color="success"
-                      @click="saveChanges"
+                      color="error"
+                      @click="showConfirmationDialog"
                     >
-                      Save changes
+                      Delete account
                     </v-btn>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-window-item>
-            <v-window-item>
-              <div>test</div>
-            </v-window-item>
-          </v-window>
+                  </div>
+                </v-alert>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" class="d-flex justify-end">
+                <v-btn
+                  class="mr-3"
+                  rounded
+                  text
+                  color="primary"
+                  :loading="isLoading"
+                  @click="dialog = false"
+                >
+                  Cancel
+                </v-btn>
+                <v-btn rounded depressed color="success" @click="saveChanges">
+                  Save changes
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
         </v-card-text>
         <v-snackbar
           rounded
@@ -155,6 +163,22 @@
             <b>{{ snackbarMsg }}</b>
           </span>
         </v-snackbar>
+        <confirmation-dialog :show.sync="confirmationDialog">
+          You are sure you want to delete your account?
+          <template #confirm>
+            <div class="d-flex justify-end">
+              <v-btn
+                text
+                rounded
+                color="error"
+                :loading="isLoading"
+                @click="deleteAccount"
+              >
+                Delete account
+              </v-btn>
+            </div>
+          </template>
+        </confirmation-dialog>
       </v-card>
     </v-dialog>
   </div>
@@ -166,10 +190,17 @@ import UserAvatarEditor from "@/components/User/UserAvatarEditor";
 import UserAvatar from "@/components/User/UserAvatar";
 import keycloak from "@/api/keycloak";
 import InfoBlock from "../Base/InfoBlock/InfoBlock";
+import ConfirmationDialog from "../Base/ConfirmationDialog";
 
 export default {
   name: "UserDetailsEditor",
-  components: { InfoBlock, UserAvatar, UserAvatarEditor, CustomHeader },
+  components: {
+    ConfirmationDialog,
+    InfoBlock,
+    UserAvatar,
+    UserAvatarEditor,
+    CustomHeader,
+  },
   props: {
     user: {
       type: Object,
@@ -179,12 +210,14 @@ export default {
   data() {
     return {
       dialog: false,
+      confirmationDialog: false,
       userData: this.user,
       window: 0,
       snackbar: false,
       snackbarMsg: "",
       snackbarColor: "",
       image: "",
+      isLoading: false,
     };
   },
   watch: {
@@ -286,6 +319,7 @@ export default {
       }
     },
     async saveChanges() {
+      this.isLoading = true;
       try {
         const response = await this.updateImage();
         const updatedUser = {};
@@ -300,25 +334,38 @@ export default {
           imageId: response?.data || this.userData.imageId,
         });
         this.showSnackbar("Changes saved");
-        const oldEmail = this.userData.email;
+        this.isLoading = false;
         setTimeout(() => {
           this.dialog = false;
           this.image = null;
-          this.redirectToLoginIfEmailChanged(oldEmail);
         }, 500);
       } catch (e) {
+        this.isLoading = false;
         this.showSnackbar(e?.response?.data?.message || e.message, "error");
       }
     },
-    redirectToLoginIfEmailChanged(oldEmail) {
-      const { value: email } = this.generalInformation.filter(
-        ({ name }) => name === "email"
-      )[0];
-      if (email !== oldEmail) {
-        this.$store.dispatch("logout").then(() => {
-          this.$router.push({ name: "login", query: { email } });
+    deleteAccount() {
+      this.isLoading = true;
+      this.$api.users
+        .delete(this.userData.id)
+        .then(() => {
+          this.logout();
+          this.confirmationDialog = false;
+        })
+        .catch((e) => {
+          this.showSnackbar(e?.response?.data?.message || e.message, "error");
+        })
+        .finally(() => (this.isLoading = false));
+    },
+    logout() {
+      return this.$store.dispatch("logout").then(() => {
+        keycloak.logout({
+          redirectUri: `${window.location.origin}`,
         });
-      }
+      });
+    },
+    showConfirmationDialog() {
+      this.confirmationDialog = true;
     },
     showSnackbar(msg, color = "success") {
       this.snackbar = true;
@@ -329,7 +376,10 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+.v-dialog.v-dialog--active {
+  overflow: auto !important;
+}
 .user-data {
   display: grid;
   grid-template-columns: 250px 1fr;
