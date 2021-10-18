@@ -10,19 +10,49 @@
     >
       <div style="max-width: 100%">
         <div
-          class="white d-flex justify-end"
+          class="white d-flex justify-space-between align-center"
           :class="{ 'pr-3': !isSubNavClosed }"
         >
+          <div
+            :style="{
+              width: `${isSubNavClosed ? 0 : 36}px`,
+              overflow: 'hidden',
+            }"
+          >
+            <v-menu bottom rounded="lg" min-width="200">
+              <template #activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  class="mx-2"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon> more_vert </v-icon>
+                </v-btn>
+              </template>
+
+              <v-list dense>
+                <v-list-item @click="showConfirmationDialog">
+                  <v-list-item-icon>
+                    <v-icon dense color="error">delete</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title>Delete</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </div>
           <div
             class="toggle-button-container pt-3 text-center"
             :class="{ closed: isSubNavClosed }"
           >
             <btn-wrapper round>
               <v-btn class="ma-0" icon @click="toggleSubNav">
-                <custom-icon
-                  size="30px"
-                  :icon="isSubNavClosed ? 'chevron_right' : 'chevron_left'"
-                ></custom-icon>
+                <v-icon color="primary">
+                  {{ isSubNavClosed ? "chevron_right" : "chevron_left" }}
+                </v-icon>
               </v-btn>
             </btn-wrapper>
           </div>
@@ -65,26 +95,45 @@
         </div>
       </div>
     </aside>
+    <confirmation-dialog :show.sync="confirmationDialog">
+      <v-alert text color="error">
+        Are you sure you want to delete this entity? All corresponding data will
+        be removed and can no longer be restored. It's gone!
+      </v-alert>
+      <template #confirm>
+        <v-btn small rounded color="error" @click="deleteEntity">
+          Delete entity
+        </v-btn>
+        <v-snackbar text color="error" v-model="snackbar" absolute>
+          {{ snackbarText }}
+        </v-snackbar>
+      </template>
+    </confirmation-dialog>
   </div>
 </template>
 
 <script>
-import CustomIcon from "@/components/Base/CustomIcon";
 import FadeIn from "@/components/Transitions/FadeIn";
 import BtnWrapper from "@/components/Base/BtnWrapper";
 import EntityDetailsNavigationOverview from "./EntityDetailsNavigationOverview";
+import ConfirmationDialog from "../Base/ConfirmationDialog";
 
 export default {
   name: "EntityDetailsNavigation",
   components: {
+    ConfirmationDialog,
     EntityDetailsNavigationOverview,
     BtnWrapper,
     FadeIn,
-    CustomIcon,
   },
   props: {
     // General Entity data
     data: {
+      type: Object,
+      required: true,
+    },
+    // Entity api object
+    entityApi: {
       type: Object,
       required: true,
     },
@@ -97,6 +146,10 @@ export default {
   data: () => ({
     active: 0,
     menu: false,
+    confirmationDialog: false,
+    isLoading: false,
+    snackbar: false,
+    snackbarText: "",
   }),
   computed: {
     activeRouteName() {
@@ -115,6 +168,25 @@ export default {
     },
     toggleSubNav() {
       this.isSubNavClosed ? this.openSubNav() : this.closeSubNav();
+    },
+    showConfirmationDialog() {
+      this.confirmationDialog = true;
+    },
+    deleteEntity() {
+      this.isLoading = true;
+      this.entityApi
+        .delete(this.data.id)
+        .then(() => (this.confirmationDialog = false))
+        .catch((e) => {
+          this.snackbarText =
+            e.response?.data?.message ??
+            e?.error ??
+            "Some error occurred. Please try again!";
+          this.snackbar = true;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
   },
 };

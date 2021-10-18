@@ -1,8 +1,13 @@
 <template>
   <entity-base-data-fetcher :id="id">
-    <template #default="{ data }">
+    <template #default="{ data, api }">
       <section class="resource-details">
-        <entity-details-navigation :data="data" :links="links" :id="id" />
+        <entity-details-navigation
+          :data="data"
+          :entity-api="api"
+          :links="links"
+          :id="id"
+        />
         <div class="px-md-0 px-lg-8 px-xl-8">
           <router-transition>
             <router-view></router-view>
