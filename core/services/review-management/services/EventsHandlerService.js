@@ -1,25 +1,23 @@
 const messageConsumer = require("@diva/common/messaging/MessageConsumer");
-const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
+const messageProducer = require("@diva/common/messaging/MessageProducer");
+
+const { reviewsMongoDbConnector } = require("../utils/mongoDbConnectors");
 const { name: serviceName } = require("../package.json");
 
-const HISTORY_DB_NAME = process.env.HISTORY_DB_NAME || "historiesDb";
-const HISTORY_COLLECTION_NAME =
-  process.env.HISTORY_COLLECTION_NAME || "histories";
+const reviewsCollectionName = process.env.MONGO_COLLECTION_NAME || "reviews";
 
 const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
   ? JSON.parse(process.env.KAFKA_CONSUMER_TOPICS)
-  : ["resource.events", "asset.events", "user.events"];
+  : ["resource.events", "asset.events"];
 
 class EventsHandlerService {
   async init() {
-    const mongoDbConnector = new MongoDBConnector(HISTORY_DB_NAME, [
-      HISTORY_COLLECTION_NAME,
-    ]);
-    await mongoDbConnector.connect();
-    this.collection = mongoDbConnector.collections[HISTORY_COLLECTION_NAME];
+    await reviewsMongoDbConnector.connect();
+    this.collection =
+      reviewsMongoDbConnector.collections[reviewsCollectionName];
     await messageConsumer.init(
       KAFKA_CONSUMER_TOPICS.map((topic) => ({ topic, spec: "asyncapi" })),
-      serviceName
+      `${serviceName}-consumer`
     );
     await messageConsumer.consume(this.onMessage.bind(this));
   }
@@ -30,11 +28,21 @@ class EventsHandlerService {
       const {
         type,
         object: { id },
+        actor: { id: actorId },
       } = parsedMassage.payload;
       if (type === "delete") {
-        await this.collection.deleteMany({
-          belongsTo: id,
-        });
+        const reviewsToDelete = await this.collection
+          .find({
+            belongsTo: id,
+          })
+          .toArray();
+        await Promise.all(
+          reviewsToDelete.map((review) =>
+            this.collection
+              .deleteOne({ id: review.id })
+              .then(() => messageProducer.produce(review.id, actorId, "delete"))
+          )
+        );
         console.info(`💬 Processed message type "${type}" for entity "${id}"`);
       }
     } catch (err) {

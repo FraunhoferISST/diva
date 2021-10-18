@@ -2,6 +2,7 @@ const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const createServer = require("@diva/common/api/expressServer");
 const reviewsRouter = require("./routes/reviews");
 const reviewsService = require("./services/ReviewsService");
+const eventsHandlerService = require("./services/EventsHandlerService");
 const serviceName = require("./package.json").name;
 
 const NODE_ENV = process.env.NODE_ENV || "development";
@@ -23,6 +24,7 @@ module.exports = createServer(
         "asyncapi",
         producer
       ),
+      eventsHandlerService.init(),
     ]);
   },
   { port }
