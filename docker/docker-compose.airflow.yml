@@ -7,7 +7,7 @@
 version: '3.9'
 x-airflow-common:
   &airflow-common
-  image: ghcr.io/fraunhoferisst/diva/diva-airflow:5.0.1
+  image: ghcr.io/fraunhoferisst/diva/diva-airflow:5.0.2
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor

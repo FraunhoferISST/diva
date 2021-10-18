@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 + placeholder for future releases
 
+## [3.0.0] - 2021-10-12
+
+### Changed 🔄
+
+Service rewritten using python and spaCy
+
 ## [2.0.0] - 2021-04-14
 
 ### Added 🆕
