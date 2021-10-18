@@ -242,7 +242,7 @@ services:
   # ####################################################################################################################
 
   history-assistant:
-    image: ${REGISTRY}history-assistant:0.0.1
+    image: ${REGISTRY}history-assistant:0.1.0
     container_name: history-assistant
     environment:
       <<: *base-core-service-env

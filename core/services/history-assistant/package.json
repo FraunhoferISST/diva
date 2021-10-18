@@ -1,6 +1,6 @@
 {
   "name": "history-assistant",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "History Assistant service provides history data and human readable history",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,9 @@
     "pkg": "^5.3.1"
   },
   "pkg": {
-    "assets": ["package.json", "apiDoc"]
+    "assets": [
+      "package.json",
+      "apiDoc"
+    ]
   }
 }
