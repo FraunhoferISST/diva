@@ -8,7 +8,7 @@ const HISTORY_COLLECTION_NAME =
 
 const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
   ? JSON.parse(process.env.KAFKA_CONSUMER_TOPICS)
-  : ["resource.events", "asset.events", "user.events"];
+  : ["resource.events", "asset.events", "user.events", "review.events"];
 
 class EventsHandlerService {
   async init() {
