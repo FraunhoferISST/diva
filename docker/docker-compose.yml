@@ -136,7 +136,7 @@ services:
 
   review-management:
     <<: *base-core-service
-    image: ${REGISTRY}review-management:1.0.1
+    image: ${REGISTRY}review-management:1.1.0
     container_name: reviews-management
     environment:
       <<: *base-core-service-env
