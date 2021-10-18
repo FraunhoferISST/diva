@@ -16,18 +16,14 @@
           <div
             :style="{
               width: `${isSubNavClosed ? 0 : 36}px`,
+              marginLeft: `${isSubNavClosed ? 0 : 10}px`,
               overflow: 'hidden',
+              transition: '0.3s',
             }"
           >
             <v-menu bottom rounded="lg" min-width="200">
               <template #activator="{ on, attrs }">
-                <v-btn
-                  color="primary"
-                  class="mx-2"
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                >
+                <v-btn color="primary" icon v-bind="attrs" v-on="on">
                   <v-icon> more_vert </v-icon>
                 </v-btn>
               </template>
@@ -116,7 +112,7 @@
 import FadeIn from "@/components/Transitions/FadeIn";
 import BtnWrapper from "@/components/Base/BtnWrapper";
 import EntityDetailsNavigationOverview from "./EntityDetailsNavigationOverview";
-import ConfirmationDialog from "../Base/ConfirmationDialog";
+import ConfirmationDialog from "@/components/Base/ConfirmationDialog";
 
 export default {
   name: "EntityDetailsNavigation",
