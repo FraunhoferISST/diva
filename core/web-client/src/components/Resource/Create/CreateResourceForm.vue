@@ -1,14 +1,15 @@
 <template>
   <v-container class="pa-0" fluid>
-    <create-result-overlay
-      :response="response"
-      :open.sync="showResultOverlay"
+    <create-importing-overlay
+      v-if="selectedSource"
+      :selected-source="selectedSource"
+      :open.sync="showImportingOverlay"
     />
     <v-row no-gutters>
       <fade-in>
         <div
           class="create-form-return-btn"
-          v-if="window === 1 && !showResultOverlay"
+          v-if="window === 1 && !showImportingOverlay"
         >
           <v-btn color="primary" text @click="goBack">
             <v-icon> chevron_left </v-icon>
@@ -19,7 +20,7 @@
         <create-button-section
           :is-ready="isReady"
           :is-loading="isLoading"
-          @create="onCreate"
+          @create="initializeImport"
         />
       </v-col>
       <v-col cols="12" md="6" class="pa-8 relative">
@@ -89,7 +90,7 @@
         <create-button-section
           :is-ready="isReady"
           :is-loading="isLoading"
-          @create="onCreate"
+          @create="initializeImport"
         />
       </v-col>
     </v-row>
@@ -105,9 +106,11 @@ import UrbanPulseSource from "@/components/Resource/Create/SourceSelection/Sourc
 import FadeIn from "@/components/Transitions/FadeIn";
 import ColoredCard from "@/components/Base/ColoredCard";
 import CreateResultOverlay from "@/components/Resource/Create/CreateResultOverlay";
+import CreateImportingOverlay from "./CreateImportingOverlay";
 export default {
   name: "CreationResourceForm",
   components: {
+    CreateImportingOverlay,
     CreateResultOverlay,
     ColoredCard,
     FadeIn,
@@ -129,6 +132,7 @@ export default {
         component: GenericSource,
         icon: "file.svg",
         isReady: false,
+        resources: [],
         onCreate: () => {},
       },
       {
@@ -136,6 +140,7 @@ export default {
         component: FileUploadSource,
         icon: "upload.svg",
         isReady: false,
+        resources: [],
         onCreate: () => {},
       },
       {
@@ -143,12 +148,13 @@ export default {
         component: UrbanPulseSource,
         icon: "dksr.jpg",
         isReady: false,
+        resources: [],
         onCreate: () => {},
       },
     ],
     isLoading: false,
     response: {},
-    showResultOverlay: false,
+    showImportingOverlay: false,
   }),
   computed: {
     isReady() {
@@ -174,17 +180,12 @@ export default {
       this.selectedSource = source;
       this.window = 1;
     },
-    onCreate() {
-      this.isLoading = true;
-      this.selectedSource
-        .onCreate()
-        .then((response) => this.handleCreationResult(response))
-        .catch((e) => this.showSnackbar(e?.response?.data?.message))
-        .finally(() => (this.isLoading = false));
+    initializeImport() {
+      this.showImportingOverlay = true;
     },
     handleCreationResult(response) {
       this.response = response;
-      this.showResultOverlay = true;
+      this.showImportingOverlay = true;
       this.selectedSource = null;
       this.window = 0;
     },

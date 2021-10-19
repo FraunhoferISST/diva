@@ -129,6 +129,24 @@ export default {
   },
   methods: {
     create() {
+      this.computedSource.resources.map((resource) =>
+        this.$api.divaLakeAdapter
+          .import(resource.file)
+          .then(() => {
+            resource.imported = true;
+          })
+          .catch((e) => {
+            if (e?.response?.data?.code === 409) {
+              resource.warning = e?.response?.data?.message;
+              resource.imported = true;
+            } else {
+              resource.error = e?.response?.data?.message;
+            }
+          })
+          .finally(() => {
+            resource.loading = false;
+          })
+      );
       return this.$api.divaLakeAdapter.import(this.selectedFiles);
     },
     removeFile(i) {
@@ -151,6 +169,14 @@ export default {
       }
       this.selectedFiles.unshift(...files);
       this.computedSource.isReady = this.selectedFiles.length > 0;
+      this.computedSource.resources = this.selectedFiles.map((file) => ({
+        title: file.name,
+        error: "",
+        warning: "",
+        imported: false,
+        isLoading: true,
+        file,
+      }));
     },
   },
   mounted() {
