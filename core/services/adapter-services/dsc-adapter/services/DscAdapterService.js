@@ -1,14 +1,8 @@
-const axios = require("axios");
-const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
+const { mongoConnector } = require("../utils/mongoDbConnector");
 
-const resourceDbName = process.env.MONGO_RESOURCE_DB_NAME || "resourcesDb";
 const resourceCollectionName =
   process.env.MONGO_RESOURCE_COLLECTION_NAME || "resources";
 const dscCollectionName = process.env.MONGO_DSC_COLLECTION_NAME || "dsc";
-const mongoConnector = new MongoDBConnector(resourceDbName, [
-  resourceCollectionName,
-  dscCollectionName,
-]);
 
 const {
   isOffered,
@@ -17,31 +11,19 @@ const {
   updateOfferResourceAndRule,
   createOfferFromResource,
   deleteOfferResource,
-  updateOfferEntities,
   getOffer,
 } = require("../utils/dscApi");
 const {
-  createRepresentations,
   hasSupportedDistributions,
-  createArtifact,
+  patchResource,
+  prepareDscData,
+  createDscPatch,
 } = require("../utils/utils");
 const {
   unsupportedDistributionsError,
   alreadyOfferedError,
   notOfferedError,
 } = require("../utils/errors");
-const { microserviceId } = require("../utils/info");
-const buildPolicy = require("../utils/policyBuilder/buildPolicy");
-
-const RESOURCE_MANAGEMENT_URL =
-  process.env.RESOURCE_MANAGEMENT_URL || "http://localhost:3000";
-
-const patchResource = (resourceId, patch, actorid = microserviceId) =>
-  axios.patch(`${RESOURCE_MANAGEMENT_URL}/resources/${resourceId}`, patch, {
-    headers: {
-      "x-actorid": actorid,
-    },
-  });
 
 const getResource = (id) =>
   mongoConnector.collections[resourceCollectionName].findOne(
@@ -59,20 +41,6 @@ const getResource = (id) =>
       },
     }
   );
-
-const prepareDscData = (resource, policy) => {
-  const { dsc, distributions, ...rest } = resource;
-  return {
-    representation: createRepresentations(resource),
-    artifact: createArtifact(resource),
-    policy: buildPolicy(policy),
-    resource: rest,
-  };
-};
-
-const createDscPatch = (dsc) => ({
-  dsc: dsc || null,
-});
 
 class DscAdapterService {
   async init() {
@@ -137,37 +105,12 @@ class DscAdapterService {
     );
   }
 
-  async handleUpdateEvent(resourceId) {
-    const resource = await getResource(resourceId, this.collection);
-    const offerId = resource?.dsc?.offer?.offerId;
-    if (offerId) {
-      if (
-        (await isOffered(offerId)) &&
-        hasSupportedDistributions(resource.distributions)
-      ) {
-        return updateOfferEntities(
-          resource.dsc.offer,
-          prepareDscData(resource, resource.dsc.policy)
-        );
-      }
-      return patchResource(resourceId, createDscPatch());
-    }
-  }
-
   async deleteOffer(resourceId, offerId, actorId) {
     const resource = await getResource(resourceId, this.collection);
     if (await isOffered(offerId)) {
       await deleteOfferResource(resource.dsc.offer);
     }
     return patchResource(resourceId, createDscPatch(), actorId);
-  }
-
-  async handleDeleteEvent(resourceId) {
-    const resource = await getResource(resourceId, this.collection);
-    const offerId = resource?.dsc?.offer?.offerId;
-    if (offerId && (await isOffered(offerId))) {
-      return deleteOfferResource(resource.dsc.offer);
-    }
   }
 }
 
