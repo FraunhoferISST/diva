@@ -22,7 +22,7 @@
         class="d-flex align-center justify-center"
       >
         <vue-ellipse-progress
-          :progress="parseFloat(data.evaluatedPrivacy || 0)"
+          :progress="parseFloat(data.evaluatedPrivacyMetric || 0)"
           :size="200"
           :color="color"
           :thickness="4"
@@ -61,13 +61,13 @@ export default {
     color() {
       if (!this.data) {
         return "gray";
-      } else if (this.data.evaluatedPrivacy >= 75) {
+      } else if (this.data.evaluatedPrivacyMetric >= 75) {
         return "#F08080";
-      } else if (this.data.evaluatedPrivacy >= 50) {
+      } else if (this.data.evaluatedPrivacyMetric >= 50) {
         return "#FF8C00";
-      } else if (this.data.evaluatedPrivacy >= 25) {
+      } else if (this.data.evaluatedPrivacyMetric >= 25) {
         return "#FFD700";
-      } else if (this.data.evaluatedPrivacy >= 10) {
+      } else if (this.data.evaluatedPrivacyMetric >= 10) {
         return "#BDB76B";
       } else {
         return "#20a66f";
