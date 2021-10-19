@@ -1,37 +1,62 @@
 <template>
   <div class="file-upload-container">
     <form
-      class="file-upload-form d-flex py-4"
+      class="file-upload-form d-flex align-center"
       ref="fileform"
       :class="{ dragover: dragOver }"
     >
-      <div class="file-upload-files-container">
-        <div class="text-center mb-2">
-          <v-icon
-            class="d-block mb-5"
-            :style="`opacity: ${selectedFile ? '0' : '1'}`"
-            large
-          >
+      <div class="file-upload-files-container text-center full-width">
+        <div class="mb-2">
+          <v-icon v-if="selectedFiles.length === 0" class="d-block mb-5" large>
             attach_file
           </v-icon>
-          <clearable-tags
-            v-if="selectedFile"
-            :item="selectedFile.name"
-            @remove="clearFiles"
-          />
+          <div v-if="selectedFiles.length > 0">
+            <div class="d-flex justify-space-between align-center pa-2">
+              <p class="ma-0">
+                <span> Files: {{ selectedFilesStats.count }} </span>
+                <span class="ml-2">Size: {{ selectedFilesStats.size }}</span>
+              </p>
+              <v-btn rounded text small color="error" @click="clearFiles">
+                clear all
+              </v-btn>
+            </div>
+            <div class="selected-files-container">
+              <clearable-tags
+                v-for="(file, i) in selectedFiles"
+                :item="file.name"
+                :key="i"
+                @remove="() => removeFile(i)"
+              />
+            </div>
+          </div>
         </div>
         <input
           type="file"
-          @change="processFiles($event.target.files[0])"
-          id="input-file"
+          @change="selectFiles"
+          multiple
+          id="input-files-select"
         />
         <label
           class="v-btn v-size--small v-btn--flat v-btn--depressed v-btn--outlined v-btn--rounded"
-          for="input-file"
+          for="input-files-select"
         >
-          <strong class="primary--text">Choose a file</strong>
+          <strong class="primary--text">Choose files</strong>
         </label>
-        <span v-if="isDragAndDropCapable" class=""> or drag it here!</span>
+        <span class="mx-2">or</span>
+        <input
+          type="file"
+          directory
+          webkitdirectory
+          @change="selectFiles"
+          id="input-folder-select"
+        />
+        <label
+          class="v-btn v-size--small v-btn--flat v-btn--depressed v-btn--outlined v-btn--rounded"
+          for="input-folder-select"
+        >
+          <strong class="primary--text">select a folder</strong>
+        </label>
+        <p v-if="isDragAndDropCapable" class="mt-4 mb-0">or drag it here!</p>
       </div>
     </form>
   </div>
@@ -39,6 +64,8 @@
 
 <script>
 import ClearableTags from "@/components/Base/ClearableTags";
+import formatByteSize from "@/utils/byteSizeFormatter";
+
 const isDragAndDropCapable = () => {
   let div = document.createElement("div");
   return (
@@ -46,6 +73,24 @@ const isDragAndDropCapable = () => {
     "FormData" in window &&
     "FileReader" in window
   );
+};
+
+const entryToFile = async (entry) =>
+  new Promise((resolve) => entry.file(resolve));
+const readEntry = async (reader) =>
+  new Promise((resolve) => reader.readEntries(resolve));
+
+const getFilesFromEntry = async (entry) => {
+  const files = [];
+  if (entry.isFile) {
+    files.push(await entryToFile(entry));
+  } else {
+    const entries = await readEntry(entry.createReader());
+    for (const ent of entries) {
+      files.push(...(await getFilesFromEntry(ent)));
+    }
+  }
+  return files;
 };
 
 export default {
@@ -58,7 +103,7 @@ export default {
     },
   },
   data: () => ({
-    selectedFile: null,
+    selectedFiles: [],
     dragOver: false,
     isDragAndDropCapable: isDragAndDropCapable(),
   }),
@@ -71,21 +116,41 @@ export default {
         this.$emit("update:source", val);
       },
     },
+    selectedFilesStats() {
+      return {
+        count: this.selectedFiles.length,
+        size: formatByteSize(
+          this.selectedFiles
+            .map(({ size }) => size)
+            .reduce((size, acc) => size + acc)
+        ),
+      };
+    },
   },
   methods: {
     create() {
-      return this.$api.divaLakeAdapter.import(this.selectedFile);
+      return this.$api.divaLakeAdapter.import(this.selectedFiles);
     },
-    removeFile() {
-      this.selectedFile = null;
+    removeFile(i) {
+      this.selectedFiles.splice(i, 1);
     },
     clearFiles() {
-      this.selectedFile = null;
+      this.selectedFiles = [];
       this.computedSource.isReady = false;
     },
-    processFiles(file) {
-      this.selectedFile = file;
-      this.computedSource.isReady = true;
+    async selectFiles(event) {
+      let files = [];
+      if (event.dataTransfer) {
+        const items = event.dataTransfer.items;
+
+        for (const item of items) {
+          files.push(...(await getFilesFromEntry(item.webkitGetAsEntry())));
+        }
+      } else {
+        files = event?.target?.files ?? [];
+      }
+      this.selectedFiles.unshift(...files);
+      this.computedSource.isReady = this.selectedFiles.length > 0;
     },
   },
   mounted() {
@@ -111,7 +176,7 @@ export default {
       });
       this.$refs.fileform.addEventListener("drop", (e) => {
         this.dragOver = false;
-        this.processFiles(e.dataTransfer.files[0]);
+        this.selectFiles(e);
       });
       this.$refs.fileform.addEventListener("dragover", () => {
         this.dragOver = true;
@@ -136,14 +201,11 @@ export default {
   box-sizing: border-box;
   border-radius: 10px;
   flex-flow: row wrap;
-  align-items: center;
   height: 100%;
   width: 100%;
   justify-content: center;
   transition: 0.3s;
   outline: 2px dashed rgba(146, 176, 179, 0.2);
-  outline-offset: -10px;
-  outline-radius: 10px;
 
   &.dragover {
     background-color: rgba(0, 144, 255, 0.02);
@@ -162,8 +224,14 @@ export default {
     cursor: pointer;
   }
 
-  #input-file {
+  #input-files-select,
+  #input-folder-select {
     display: none;
   }
+}
+
+.selected-files-container {
+  max-height: 270px;
+  overflow: auto;
 }
 </style>

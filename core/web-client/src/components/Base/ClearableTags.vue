@@ -4,12 +4,9 @@
     :class="{ dark: dark, removed: removed, link: !!href }"
   >
     <div class="d-flex align-center justify-space-between">
-      <span
-        v-if="!href"
-        class="clearable-tag mr-2 text-truncate"
-        :title="item"
-        >{{ item }}</span
-      >
+      <span v-if="!href" class="clearable-tag mr-2 text-truncate" :title="item"
+        >{{ item }}
+      </span>
       <router-link
         class="clearable-tag mr-2 text-truncate"
         v-else
@@ -86,7 +83,7 @@ export default {
   border-radius: 50px;
   padding: 2px 0 2px 10px;
   margin: 5px;
-  max-width: 210px;
+  max-width: 180px;
   background-color: $btn_flat;
 
   &.link {
@@ -123,7 +120,7 @@ export default {
     font-weight: 700;
     width: 80%;
     //padding-top: 10px;
-    max-width: 200px;
+    max-width: 180px;
   }
 }
 </style>
