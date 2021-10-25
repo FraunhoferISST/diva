@@ -129,7 +129,7 @@ export default {
   },
   methods: {
     create() {
-      this.computedSource.resources.map((resource) =>
+      return this.computedSource.resources.map((resource) =>
         this.$api.divaLakeAdapter
           .import(resource.file)
           .then(({ data }) => {
@@ -148,7 +148,6 @@ export default {
             resource.loading = false;
           })
       );
-      return this.$api.divaLakeAdapter.import(this.selectedFiles);
     },
     removeFile(i) {
       this.selectedFiles.splice(i, 1);

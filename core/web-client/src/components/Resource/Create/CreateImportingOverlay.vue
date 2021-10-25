@@ -10,7 +10,7 @@
         <v-col cols="12" class="px-12 pt-12">
           <div>
             <v-chip-group
-              v-model="selectedFilterIndex"
+              v-model="selectedFiltersIndices"
               column
               mandatory
               multiple
@@ -59,16 +59,16 @@
           </div>
         </v-col>
       </v-row>
-      <v-row class="mt-0">
+      <v-row class="mt-2" dense>
         <v-col cols="12" class="px-12">
-          <v-row dense style="max-height: 315px; overflow: auto">
+          <v-row dense style="max-height: 350px; overflow: auto">
             <v-col
               cols="12"
               sm="12"
               md="6"
               lg="6"
               xl="4"
-              v-for="(resource, i) in selectedSource.resources"
+              v-for="(resource, i) in filteredResources"
               :key="i"
             >
               <div class="importing-resource-card">
@@ -77,10 +77,11 @@
                     <span>{{ resource.title }}</span>
                   </p>
                   <div class="pl-4">
+                    <span v-if="resource.loading"> Importing... </span>
                     <v-icon
                       dense
                       color="green"
-                      v-if="resource.imported && !resource.warning"
+                      v-else-if="resource.imported && !resource.warning"
                     >
                       done
                     </v-icon>
@@ -112,19 +113,16 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row class="importing-controls-container">
-        <v-col
-          cols="12"
-          class="d-flex justify-space-between align-center px-12 pb-12"
-        >
+      <div class="importing-controls-container">
+        <div class="d-flex justify-space-between align-center px-12 pb-4">
           <p class="ma-0">
             <span>{{ done }}</span>
             <span>/</span>
             <span>{{ selectedSource.resources.length }}</span>
           </p>
           <v-btn text color="red" rounded> Cancel import </v-btn>
-        </v-col>
-      </v-row>
+        </div>
+      </div>
       <horizontal-progress :loading="!isImportingDone" :progress="progress" />
     </v-container>
   </div>
@@ -147,7 +145,13 @@ export default {
     },
   },
   data: () => ({
-    selectedFilterIndex: 0,
+    selectedFiltersIndices: [0, 1, 2, 3],
+    filtersMap: {
+      0: (resource) => resource.loading,
+      1: (resource) => resource.imported && !resource.warning,
+      2: (resource) => resource.warning,
+      3: (resource) => resource.error,
+    },
   }),
   watch: {
     open(newVal) {
@@ -166,6 +170,13 @@ export default {
       set(value) {
         this.$emit("update:open", value);
       },
+    },
+    filteredResources() {
+      return this.selectedSource.resources.filter((resource) =>
+        this.selectedFiltersIndices.some((filterIndex) =>
+          this.filtersMap[filterIndex](resource)
+        )
+      );
     },
     progress() {
       return (this.done * 100) / this.selectedSource.resources.length;
