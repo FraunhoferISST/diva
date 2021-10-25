@@ -132,7 +132,8 @@ export default {
       this.computedSource.resources.map((resource) =>
         this.$api.divaLakeAdapter
           .import(resource.file)
-          .then(() => {
+          .then(({ data }) => {
+            resource.id = data;
             resource.imported = true;
           })
           .catch((e) => {
@@ -151,6 +152,9 @@ export default {
     },
     removeFile(i) {
       this.selectedFiles.splice(i, 1);
+      if (this.selectedFiles.length === 0) {
+        this.computedSource.isReady = false;
+      }
     },
     clearFiles() {
       this.selectedFiles = [];
@@ -174,7 +178,7 @@ export default {
         error: "",
         warning: "",
         imported: false,
-        isLoading: true,
+        loading: true,
         file,
       }));
     },
