@@ -46,16 +46,18 @@ const getResource = (id) =>
   );
 
 const getLegacyCatalogId = async () => {
-  const { catalogId } = await mongoResourcesConnector.collections[
-    dscLegacyCollectionName
-  ].findOne({});
+  const { catalogId } =
+    (await mongoResourcesConnector.collections[dscLegacyCollectionName].findOne(
+      {}
+    )) ?? {};
   return catalogId;
 };
 
 const getCatalogId = async () => {
-  const { catalogId } = await mongoDscConnector.collections[
-    dscCatalogsCollectionName
-  ].findOne({});
+  const { catalogId } =
+    (await mongoDscConnector.collections[dscCatalogsCollectionName].findOne(
+      {}
+    )) ?? {};
   return catalogId;
 };
 
