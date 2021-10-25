@@ -391,7 +391,7 @@ services:
   # ####################################################################################################################
 
   dsc-adapter:
-    image: ${REGISTRY}dsc-adapter:0.1.1
+    image: ${REGISTRY}dsc-adapter:0.2.0
     container_name: ids-adapter
     restart: always
     networks:
