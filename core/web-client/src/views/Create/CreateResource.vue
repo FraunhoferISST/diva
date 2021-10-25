@@ -29,9 +29,8 @@ export default {
 }
 
 .create-card {
-  min-height: 50vh;
+  min-height: 60vh;
   overflow: hidden;
-  //height: 100%;
   position: relative;
   @include border-radius();
   background: white;

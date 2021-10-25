@@ -1,5 +1,17 @@
 <template>
   <div class="file-upload-container">
+    <div
+      class="d-flex justify-space-between align-center py-2"
+      v-if="selectedFiles.length > 0"
+    >
+      <p class="ma-0">
+        <span> Files: {{ selectedFilesStats.count }} </span>
+        <span class="ml-2">Size: {{ selectedFilesStats.size }}</span>
+      </p>
+      <v-btn rounded text small color="error" @click="clearFiles">
+        clear all
+      </v-btn>
+    </div>
     <form
       class="file-upload-form d-flex align-center"
       ref="fileform"
@@ -11,15 +23,6 @@
             attach_file
           </v-icon>
           <div v-if="selectedFiles.length > 0">
-            <div class="d-flex justify-space-between align-center pa-2">
-              <p class="ma-0">
-                <span> Files: {{ selectedFilesStats.count }} </span>
-                <span class="ml-2">Size: {{ selectedFilesStats.size }}</span>
-              </p>
-              <v-btn rounded text small color="error" @click="clearFiles">
-                clear all
-              </v-btn>
-            </div>
             <div class="selected-files-container">
               <clearable-tags
                 v-for="(file, i) in selectedFiles"
@@ -129,24 +132,30 @@ export default {
   },
   methods: {
     create() {
-      return this.computedSource.resources.map((resource) =>
-        this.$api.divaLakeAdapter
-          .import(resource.file)
-          .then(({ data }) => {
-            resource.id = data;
-            resource.imported = true;
-          })
-          .catch((e) => {
-            if (e?.response?.data?.code === 409) {
-              resource.warning = e?.response?.data?.message;
+      return Promise.all(
+        this.computedSource.resources.map((resource) => {
+          resource.loading = true;
+          resource.imported = false;
+          resource.warning = "";
+          resource.error = "";
+          return this.$api.divaLakeAdapter
+            .import(resource.file)
+            .then(({ data }) => {
+              resource.id = data;
               resource.imported = true;
-            } else {
-              resource.error = e?.response?.data?.message;
-            }
-          })
-          .finally(() => {
-            resource.loading = false;
-          })
+            })
+            .catch((e) => {
+              if (e?.response?.data?.code === 409) {
+                resource.warning = e?.response?.data?.message;
+                resource.imported = true;
+              } else {
+                resource.error = e?.response?.data?.message;
+              }
+            })
+            .finally(() => {
+              resource.loading = false;
+            });
+        })
       );
     },
     removeFile(i) {
@@ -224,20 +233,22 @@ export default {
   transition: 0.3s;
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-flow: column wrap;
 }
 
 .file-upload-form {
   box-sizing: border-box;
   border-radius: 10px;
   flex-flow: row wrap;
-  height: 100%;
+  flex-grow: 1;
   width: 100%;
   justify-content: center;
   transition: 0.3s;
   outline: 2px dashed rgba(146, 176, 179, 0.2);
 
   &.dragover {
-    background-color: rgba(0, 144, 255, 0.02);
+    outline: 2px dashed $btn_flat_text;
   }
 }
 .file-upload-files-container {
@@ -260,7 +271,7 @@ export default {
 }
 
 .selected-files-container {
-  max-height: 270px;
+  max-height: 430px;
   overflow: auto;
 }
 </style>

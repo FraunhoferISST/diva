@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-0" fluid>
+  <v-container class="pa-0 fill-height" fluid>
     <create-importing-overlay
       v-if="selectedSource"
       :selected-source="selectedSource"

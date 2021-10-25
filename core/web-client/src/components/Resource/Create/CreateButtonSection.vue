@@ -74,7 +74,7 @@ export default {
   transition: 0.5s;
   // background-color: $bg_dark;
   height: 100%;
-  min-height: 50vh;
+  min-height: 60vh;
   width: 100%;
   top: 0;
   left: 0;

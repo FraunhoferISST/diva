@@ -17,6 +17,9 @@
         </v-alert>
       </slot>
     </div>
+    <div v-if="state.completed && !state.error">
+      <slot name="completed"> </slot>
+    </div>
   </div>
 </template>
 
