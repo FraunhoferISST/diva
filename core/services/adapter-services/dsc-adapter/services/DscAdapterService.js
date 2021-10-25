@@ -1,8 +1,11 @@
-const { mongoConnector } = require("../utils/mongoDbConnector");
-
-const resourceCollectionName =
-  process.env.MONGO_RESOURCE_COLLECTION_NAME || "resources";
-const dscCollectionName = process.env.MONGO_DSC_COLLECTION_NAME || "dsc";
+const {
+  mongoResourcesConnector,
+  mongoDscConnector,
+  resourceCollectionName,
+  dscLegacyCollectionName,
+  dscOffersCollectionName,
+  dscCatalogsCollectionName,
+} = require("../utils/mongoDbConnectors");
 
 const {
   isOffered,
@@ -26,7 +29,7 @@ const {
 } = require("../utils/errors");
 
 const getResource = (id) =>
-  mongoConnector.collections[resourceCollectionName].findOne(
+  mongoResourcesConnector.collections[resourceCollectionName].findOne(
     { id },
     {
       projection: {
@@ -42,18 +45,66 @@ const getResource = (id) =>
     }
   );
 
+const getLegacyCatalogId = async () => {
+  const { catalogId } = await mongoResourcesConnector.collections[
+    dscLegacyCollectionName
+  ].findOne({});
+  return catalogId;
+};
+
+const getCatalogId = async () => {
+  const { catalogId } = await mongoDscConnector.collections[
+    dscCatalogsCollectionName
+  ].findOne({});
+  return catalogId;
+};
+
+const hasLegacyDscCollection = async () => {
+  const collections = await mongoResourcesConnector.database
+    .listCollections({
+      name: dscLegacyCollectionName,
+    })
+    .toArray();
+  return collections.length > 0;
+};
+
+const initDscCatalog = async () => {
+  let catalogId = "";
+  if (await hasLegacyDscCollection()) {
+    catalogId = await getLegacyCatalogId();
+    await mongoResourcesConnector.database.dropCollection(
+      dscLegacyCollectionName
+    );
+  } else {
+    catalogId = await getCatalogId();
+  }
+  if (!catalogId || !(await catalogExists(catalogId))) {
+    await mongoDscConnector.collections[dscCatalogsCollectionName].deleteOne({
+      catalogId,
+    });
+    catalogId = (await createCatalog("Diva Catalog")).id;
+    await mongoDscConnector.collections[dscCatalogsCollectionName].insertOne({
+      catalogId,
+    });
+  }
+  return catalogId;
+};
+
+const persistOfferMetadata = (offerMetadata) =>
+  mongoDscConnector.collections[dscOffersCollectionName].insertOne(
+    offerMetadata
+  );
+
+const deleteOfferMetadata = (resourceId) =>
+  mongoDscConnector.collections[dscOffersCollectionName].deleteMany({
+    resourceId,
+  });
 class DscAdapterService {
   async init() {
-    await mongoConnector.connect();
-    this.dscCollection = mongoConnector.collections[dscCollectionName];
-    this.dscInfo = await this.dscCollection.findOne({});
-    if (!this.dscInfo || !(await catalogExists(this.dscInfo?.catalogId))) {
-      await this.dscCollection.deleteMany({});
-      const { id: catalogId } = await createCatalog("Diva Catalog");
-      this.dscCollection.insertOne({ catalogId });
-      this.dscInfo = { catalogId };
-      console.info(`Created catalog "${catalogId}"`);
-    }
+    await mongoDscConnector.connect();
+    await mongoResourcesConnector.connect();
+    const catalogId = await initDscCatalog();
+    this.dscInfo = { catalogId };
     console.info(`Using catalog "${this.dscInfo.catalogId}" `);
   }
 
@@ -78,6 +129,11 @@ class DscAdapterService {
       deleteOfferResource(offer);
       throw e;
     });
+    await persistOfferMetadata({
+      resourceId,
+      ...offer,
+      catalogId: this.dscInfo.catalogId,
+    });
     return offer;
   }
 
@@ -86,7 +142,7 @@ class DscAdapterService {
   }
 
   async updateOffer(resourceId, offerId, policy, actorId) {
-    const resource = await getResource(resourceId, this.collection);
+    const resource = await getResource(resourceId);
     if (!(await isOffered(offerId))) {
       throw notOfferedError;
     }
@@ -106,9 +162,10 @@ class DscAdapterService {
   }
 
   async deleteOffer(resourceId, offerId, actorId) {
-    const resource = await getResource(resourceId, this.collection);
+    const resource = await getResource(resourceId);
     if (await isOffered(offerId)) {
       await deleteOfferResource(resource.dsc.offer);
+      await deleteOfferMetadata(resource.id);
     }
     return patchResource(resourceId, createDscPatch(), actorId);
   }

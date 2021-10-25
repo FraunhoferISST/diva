@@ -1,7 +1,16 @@
 const messageConsumer = require("@diva/common/messaging/MessageConsumer");
-const { mongoConnector } = require("../utils/mongoDbConnector");
+const {
+  mongoResourcesConnector,
+  mongoDscConnector,
+  dscOffersCollectionName,
+  resourceCollectionName,
+} = require("../utils/mongoDbConnectors");
 const { name: serviceName } = require("../package.json");
-const { isOffered, updateOfferEntities } = require("../utils/dscApi");
+const {
+  isOffered,
+  updateOfferEntities,
+  deleteOfferResource,
+} = require("../utils/dscApi");
 const {
   hasSupportedDistributions,
   patchResource,
@@ -9,9 +18,6 @@ const {
   createDscPatch,
 } = require("../utils/utils");
 
-const dscCollectionName = process.env.MONGO_DSC_COLLECTION_NAME || "dsc";
-const resourceCollectionName =
-  process.env.MONGO_RESOURCE_COLLECTION_NAME || "resources";
 const ASYNCAPI_SPECIFICATION = process.env.ASYNCAPI_SPECIFICATION || "asyncapi";
 
 const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
@@ -19,7 +25,7 @@ const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
   : ["resource.events"];
 
 const getResource = (id) =>
-  mongoConnector.collections[resourceCollectionName].findOne(
+  mongoResourcesConnector.collections[resourceCollectionName].findOne(
     { id },
     {
       projection: {
@@ -37,9 +43,12 @@ const getResource = (id) =>
 
 class EventsHandlerService {
   async init() {
-    await mongoConnector.connect();
-    this.dscCollection = mongoConnector.collections[dscCollectionName];
-    this.dscInfo = await this.dscCollection.findOne({});
+    await mongoResourcesConnector.connect();
+    await mongoDscConnector.connect();
+    this.dscOffersCollection =
+      mongoDscConnector.collections[dscOffersCollectionName];
+    this.resourcesCollection =
+      mongoResourcesConnector.collections[resourceCollectionName];
     await messageConsumer.init(
       KAFKA_CONSUMER_TOPICS.map((topic) => ({
         topic,
@@ -61,6 +70,9 @@ class EventsHandlerService {
       if (type === "update") {
         await this.onUpdateEvent(id, actorId);
       }
+      if (type === "delete") {
+        await this.onDeleteEvent(id);
+      }
       console.info(`💬 Processed message type "${type}" for entity "${id}"`);
     } catch (err) {
       console.error(err);
@@ -68,7 +80,7 @@ class EventsHandlerService {
   }
 
   async onUpdateEvent(resourceId, actorId) {
-    const resource = await getResource(resourceId, this.collection);
+    const resource = await getResource(resourceId);
     const offerId = resource?.dsc?.offer?.offerId;
     if (offerId) {
       if (
@@ -80,7 +92,20 @@ class EventsHandlerService {
           prepareDscData(resource, resource.dsc.policy)
         );
       }
+      // resources don't have required distributions or is no more offered, patch to remove dsc property
       return patchResource(resourceId, createDscPatch(), actorId);
+    }
+  }
+
+  async onDeleteEvent(resourceId) {
+    const offerMetadata = await this.dscOffersCollection.findOne({
+      resourceId,
+    });
+    if (offerMetadata) {
+      if (await isOffered(offerMetadata.offerId)) {
+        await deleteOfferResource(offerMetadata);
+      }
+      await this.dscOffersCollection.deleteMany({ resourceId });
     }
   }
 }
