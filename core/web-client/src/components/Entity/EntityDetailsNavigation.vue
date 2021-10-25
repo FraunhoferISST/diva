@@ -94,7 +94,7 @@
     <confirmation-dialog :show.sync="confirmationDialog">
       <v-alert text color="error">
         Are you sure you want to delete this entity? All corresponding data will
-        be removed and can no longer be restored. It's gone!
+        be removed and can no longer be restored!
       </v-alert>
       <template #confirm>
         <v-btn text rounded color="error" @click="deleteEntity">
@@ -172,7 +172,10 @@ export default {
       this.isLoading = true;
       this.entityApi
         .delete(this.data.id)
-        .then(() => (this.confirmationDialog = false))
+        .then(() => {
+          this.confirmationDialog = false;
+          setTimeout(() => this.$router.push({ name: "search" }), 1000);
+        })
         .catch((e) => {
           this.snackbarText =
             e.response?.data?.message ??
