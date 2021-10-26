@@ -28,6 +28,15 @@ paths:
             type: boolean
             default: false
             example: true
+        - name: streamResponse
+          in: query
+          description: Indicates whether response should be a stream
+          required: false
+          explode: true
+          schema:
+            type: boolean
+            default: false
+            example: true
         - name: assetId
           in: query
           description: The id of the existing asset under wich the sensors should be grouped. If provided, `createAsset`

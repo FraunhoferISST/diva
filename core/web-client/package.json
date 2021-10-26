@@ -20,6 +20,7 @@
     "keycloak-js": "^15.0.1",
     "lodash.debounce": "^4.0.8",
     "material-design-icons-iconfont": "^3.0.3",
+    "ndjson": "^2.0.0",
     "randomcolor": "^0.6.2",
     "socket.io-client": "^4.0.1",
     "vue": "^2.6.12",

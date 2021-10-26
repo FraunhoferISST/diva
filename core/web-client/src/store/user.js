@@ -40,11 +40,13 @@ const mutations = {
 
 const resetAuthorizationData = () => {
   api.axios.defaults.headers["Authorization"] = "";
+  api.fetchWrapper.setHeaders("");
   localStorage.setItem("jwt", "");
 };
 
 const setAuthorizationData = (token) => {
   api.axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+  api.fetchWrapper.setHeaders(token);
   localStorage.setItem("jwt", token);
 };
 

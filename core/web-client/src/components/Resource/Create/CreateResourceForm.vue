@@ -1,6 +1,6 @@
 <template>
   <v-container class="pa-0 fill-height" fluid>
-    <create-importing-overlay
+    <entity-creation-importing-overlay
       v-if="selectedSource"
       :selected-source="selectedSource"
       :open.sync="showImportingOverlay"
@@ -106,11 +106,11 @@ import UrbanPulseSource from "@/components/Resource/Create/SourceSelection/Sourc
 import FadeIn from "@/components/Transitions/FadeIn";
 import ColoredCard from "@/components/Base/ColoredCard";
 import CreateResultOverlay from "@/components/Resource/Create/CreateResultOverlay";
-import CreateImportingOverlay from "./CreateImportingOverlay";
+import EntityCreationImportingOverlay from "@/components/Entity/EntityCreation/EntityCreationImportingOverlay";
 export default {
   name: "CreationResourceForm",
   components: {
-    CreateImportingOverlay,
+    EntityCreationImportingOverlay,
     CreateResultOverlay,
     ColoredCard,
     FadeIn,
@@ -149,6 +149,8 @@ export default {
         component: UrbanPulseSource,
         icon: "dksr.jpg",
         isReady: false,
+        totalCount: null,
+        processedCount: null,
         onCreate: () => {},
       },
     ],

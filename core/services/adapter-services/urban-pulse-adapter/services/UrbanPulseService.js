@@ -16,8 +16,7 @@ const ASSET_MANAGEMENT_URL = urljoin(
 const sha256 = (x) =>
   crypto.createHash("sha256").update(x, "utf8").digest("hex");
 
-const chunkArray = (array) => {
-  const chunkSize = 500;
+const chunkArray = (array, chunkSize = 500) => {
   const tempArray = [];
 
   if (array.length <= chunkSize) {
@@ -41,14 +40,27 @@ const generateHttpGetBasicAuthDistribution = (url, username, password) => ({
   },
 });
 
-const createResources = async (sensorResources, actorid) => {
-  const chunks = chunkArray(sensorResources);
+const writeResponse = (res, data) =>
+  new Promise((resolve) =>
+    res.write(`${JSON.stringify(data)} \n`, () => {
+      resolve();
+    })
+  );
+
+const createResources = async (sensorResources, actorId, res) => {
+  const chunks = chunkArray(sensorResources, 300);
   const results = [];
   for (const chunk of chunks) {
     const { data } = await axios.post(RESOURCE_MANAGEMENT_URL, chunk, {
-      headers: { "x-actorid": actorid },
+      headers: { "x-actorid": actorId },
     });
     results.push(...data);
+    if (res) {
+      await writeResponse(res, {
+        totalCount: sensorResources.length,
+        processedCount: results.length,
+      });
+    }
   }
   return results;
 };
@@ -111,9 +123,25 @@ const createSensorsObjects = async (importData, actorid) => {
 };
 
 class UrbanPulseResourceService {
-  async import(importData, actorid, createAsset = false, assetId = null) {
+  async import(
+    importData,
+    actorid,
+    res = null,
+    createAsset = false,
+    assetId = null
+  ) {
     const sensorsObjects = await createSensorsObjects(importData, actorid);
-    return createResources(sensorsObjects, actorid);
+    if (res) {
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+        "Transfer-Encoding": "chunked",
+      });
+      await writeResponse(res, {
+        totalCount: sensorsObjects.length,
+        processedCount: 0,
+      });
+    }
+    return createResources(sensorsObjects, actorid, res);
   }
 
   async createAsset(asset, actorid) {

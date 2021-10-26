@@ -49,6 +49,8 @@ import SourceCredentials from "@/components/Resource/Create/SourceSelection/Sour
 import SourceDatePicker from "@/components/Resource/Create/SourceSelection/SourceCreationFields/SourceDatePicker";
 import CheckBoxCard from "@/components/Base/CheckBoxCard";
 import SourceArrayInput from "@/components/Resource/Create/SourceSelection/SourceCreationFields/SourceArrayInput";
+import { endpoint, customFetch } from "@/api/axios";
+
 export default {
   name: "UrbanPulseSource",
   components: {
@@ -97,7 +99,10 @@ export default {
     },
   },
   methods: {
-    create() {
+    async create() {
+      this.computedSource.resources = [];
+      this.computedSource.totalCount = null;
+      this.computedSource.processedCount = null;
       const data = { ...this.credentials };
       if (
         this.onlySpecificSensors &&
@@ -105,7 +110,46 @@ export default {
       ) {
         data.sensors = this.sensors;
       }
-      return this.$api.urbanPulseAdapter.import(data);
+      const decoder = new TextDecoder("utf-8");
+      const response = await customFetch(
+        `${endpoint}/urbanPulseAdapter/import?streamResponse=true`,
+        data
+      );
+      if (response.ok) {
+        this.computedSource.resources = [
+          {
+            title: "Importing your UrbanPulse data",
+            loading: true,
+            imported: false,
+          },
+        ];
+        const reader = response.body.getReader();
+        let isReaderDone = false;
+        while (!isReaderDone) {
+          const { value, done } = await reader.read();
+          isReaderDone = done;
+          if (value) {
+            let parsedValue = {};
+            try {
+              const { totalCount, processedCount } = JSON.parse(
+                decoder.decode(value)
+              );
+              this.computedSource.totalCount = totalCount;
+              this.computedSource.processedCount = processedCount;
+              this.computedSource.resources[0].title = `Found ${totalCount} sensors to import`;
+            } catch {
+              parsedValue = {};
+            }
+          }
+        }
+        this.computedSource.resources[0].loading = false;
+        this.computedSource.resources[0].imported = true;
+      } else {
+        const error = `${response.status}: ${response.statusText}`;
+        this.computedSource.resources[0].loading = false;
+        this.computedSource.resources[0].error = error;
+        throw error;
+      }
     },
     onCheckBoxCardChange(isChecked) {
       this.onlySpecificSensors = isChecked;

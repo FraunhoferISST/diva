@@ -17,7 +17,7 @@ const SERVICE_NAME = require(path.join(`${WORK_DIR}`, "/package.json")).name;
 const corsDefaults = {
   origin: process.env.CORS_ALLOW_ORIGIN || "*",
   methods: ["GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type"],
+  allowedHeaders: ["Content-Type", "x-actorid", "Authorization"],
 };
 
 const {

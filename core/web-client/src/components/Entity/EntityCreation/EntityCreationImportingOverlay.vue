@@ -58,7 +58,33 @@
           </div>
         </v-col>
       </v-row>
-      <v-row class="mt-2" dense>
+      <v-row v-if="selectedSource.resources.length === 0">
+        <v-col
+          cols="12"
+          class="d-flex justify-center align-center"
+          v-if="!fatalError"
+        >
+          <vue-ellipse-progress
+            color="#2d68fc"
+            :prgress="0"
+            loading
+            :size="150"
+            :thickness="1"
+            :empty-thickness="0"
+          >
+            <template #legend-caption>
+              <p>Waiting for data</p>
+            </template>
+          </vue-ellipse-progress>
+        </v-col>
+        <v-col cols="12" class="d-flex justify-center align-center" v-else>
+          <v-alert text color="error">
+            Couldn't proceed with the importing due to some error. Please check
+            supplied data and try again.
+          </v-alert>
+        </v-col>
+      </v-row>
+      <v-row class="mt-2" dense v-else>
         <v-col cols="12" class="px-12">
           <v-row
             ref="resourcesContainer"
@@ -69,58 +95,10 @@
               <v-row dense>
                 <v-col
                   cols="12"
-                  v-for="(resource, i) in resourcesListsColumns[0]"
+                  v-for="(entity, i) in resourcesListsColumns[0]"
                   :key="i"
                 >
-                  <div class="importing-resource-card">
-                    <div class="d-flex justify-space-between align-center py-0">
-                      <p class="ellipsis ma-0">
-                        <entity-details-link
-                          target="_blank"
-                          v-if="resource.id"
-                          :id="resource.id"
-                        >
-                          {{ resource.title }}
-                        </entity-details-link>
-                        <span v-else>
-                          {{ resource.title }}
-                        </span>
-                      </p>
-                      <div class="pl-4">
-                        <span v-if="resource.loading"> Importing... </span>
-                        <v-icon
-                          dense
-                          color="green"
-                          v-else-if="resource.imported && !resource.warning"
-                        >
-                          done
-                        </v-icon>
-                      </div>
-                    </div>
-                    <v-alert
-                      dense
-                      text
-                      color="error"
-                      class="ma-0 mt-2"
-                      v-if="resource.error"
-                    >
-                      {{ resource.error }}
-                      <div class="d-flex justify-end">
-                        <v-btn text rounded small color="primary">
-                          retry
-                        </v-btn>
-                      </div>
-                    </v-alert>
-                    <v-alert
-                      dense
-                      text
-                      color="warning"
-                      class="ma-0 mt-2"
-                      v-if="resource.warning"
-                    >
-                      {{ resource.warning }}
-                    </v-alert>
-                  </div>
+                  <entity-importing-card :entity="entity" />
                 </v-col>
               </v-row>
             </v-col>
@@ -128,58 +106,10 @@
               <v-row dense>
                 <v-col
                   cols="12"
-                  v-for="(resource, i) in resourcesListsColumns[1]"
+                  v-for="(entity, i) in resourcesListsColumns[1]"
                   :key="i"
                 >
-                  <div class="importing-resource-card">
-                    <div class="d-flex justify-space-between align-center py-0">
-                      <p class="ma-0">
-                        <entity-details-link
-                          target="_blank"
-                          v-if="resource.id"
-                          :id="resource.id"
-                        >
-                          {{ resource.title }}
-                        </entity-details-link>
-                        <span v-else>
-                          {{ resource.title }}
-                        </span>
-                      </p>
-                      <div class="pl-4">
-                        <span v-if="resource.loading"> Importing... </span>
-                        <v-icon
-                          dense
-                          color="green"
-                          v-else-if="resource.imported && !resource.warning"
-                        >
-                          done
-                        </v-icon>
-                      </div>
-                    </div>
-                    <v-alert
-                      dense
-                      text
-                      color="error"
-                      class="ma-0 mt-2"
-                      v-if="resource.error"
-                    >
-                      {{ resource.error }}
-                      <div class="d-flex justify-end">
-                        <v-btn text rounded small color="primary">
-                          retry
-                        </v-btn>
-                      </div>
-                    </v-alert>
-                    <v-alert
-                      dense
-                      text
-                      color="warning"
-                      class="ma-0 mt-2"
-                      v-if="resource.warning"
-                    >
-                      {{ resource.warning }}
-                    </v-alert>
-                  </div>
+                  <entity-importing-card :entity="entity" />
                 </v-col>
               </v-row>
             </v-col>
@@ -194,11 +124,11 @@
           <p class="ma-0">
             <span>{{ done }}</span>
             <span>/</span>
-            <span>{{ selectedSource.resources.length }}</span>
+            <span>{{ resourcesCount }}</span>
           </p>
-          <v-btn text color="red" rounded :disabled="isImportingDone">
+          <!--          <v-btn text color="red" rounded :disabled="isImportingDone">
             Cancel import
-          </v-btn>
+          </v-btn>-->
         </div>
       </div>
       <horizontal-progress :loading="!isImportingDone" :progress="progress" />
@@ -217,14 +147,18 @@
 </template>
 
 <script>
-import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import HorizontalProgress from "@/components/Base/HorizontalProgress";
 import InfiniteScroll from "@/components/Mixins/infiniteScroll";
 import Observer from "@/components/Base/Observer";
+import EntityImportingCard from "@/components/Entity/EntityCreation/EntityImportingCard";
 export default {
-  name: "CreateImportingOverlay",
+  name: "EntityCreationImportingOverlay",
   mixins: [InfiniteScroll],
-  components: { HorizontalProgress, EntityDetailsLink, Observer },
+  components: {
+    EntityImportingCard,
+    HorizontalProgress,
+    Observer,
+  },
   props: {
     selectedSource: {
       type: Object,
@@ -249,6 +183,8 @@ export default {
     page: 0,
     pageSize: 30,
     loadedResources: [],
+    fatalError: false,
+    isDone: false,
   }),
   watch: {
     open(newVal) {
@@ -258,21 +194,33 @@ export default {
           this.pageSize
         );
         setTimeout(() => {
-          this.selectedSource.onCreate().then(() => {
-            if (this.success === this.selectedSource.resources.length) {
-              this.showSnackbar("All data successfully imported!");
-            } else if (this.errors > 0) {
+          this.selectedSource
+            .onCreate()
+            .then(() => {
+              this.isDone = true;
+              if (this.errors > 0) {
+                this.showSnackbar(
+                  "The import has been completed with errors",
+                  "error"
+                );
+              } else if (this.warnings > 0) {
+                this.showSnackbar(
+                  "The import has been completed with warnings",
+                  "warning"
+                );
+              } else {
+                this.showSnackbar("All data successfully imported!");
+              }
+            })
+            .catch((e) => {
+              this.fatalError = true;
               this.showSnackbar(
-                "The import has been completed with errors",
+                `Error occurred while importing resources! ${
+                  e?.response?.data?.message ?? e.toString()
+                }`,
                 "error"
               );
-            } else {
-              this.showSnackbar(
-                "The import has been completed with warnings",
-                "warning"
-              );
-            }
-          });
+            });
         }, 500);
       }
     },
@@ -297,17 +245,17 @@ export default {
       );
     },
     resourcesListsColumns() {
-      const middle = Math.ceil(this.loadedResources.length / 2);
+      const middle = Math.ceil(this.paginatedResources.length / 2);
       return [
-        this.loadedResources.slice(0, middle),
-        this.loadedResources.slice(middle),
+        this.paginatedResources.slice(0, middle),
+        this.paginatedResources.slice(middle),
       ];
     },
     progress() {
-      return (this.done * 100) / this.selectedSource.resources.length;
+      return (this.done * 100) / this.resourcesCount;
     },
     isImportingDone() {
-      return this.selectedSource.resources.every(({ loading }) => !loading);
+      return this.isDone || this.fatalError || this.progress === 100;
     },
     errors() {
       return this.selectedSource.resources.filter(({ error }) => error).length;
@@ -322,29 +270,42 @@ export default {
       ).length;
     },
     done() {
-      return this.warnings + this.success + this.errors;
+      return (
+        this.selectedSource.processedCount ??
+        this.warnings + this.success + this.errors
+      );
     },
     importing() {
-      return (
-        this.selectedSource.resources.length -
-        this.done -
-        this.errors -
-        this.warnings
-      );
+      return this.resourcesCount - this.done - this.errors - this.warnings;
     },
     pages() {
       return Math.ceil(this.filteredResources.length / this.pageSize);
+    },
+    paginatedResources() {
+      return this.filteredResources.slice(
+        0,
+        this.page * this.pageSize + this.pageSize
+      );
+    },
+    resourcesCount() {
+      return (
+        this.selectedSource.totalCount ?? this.selectedSource.resources.length
+      );
     },
   },
   methods: {
     reset() {
       this.selectedFilters = ["loading", "success", "warning", "error"];
       this.resetPagination();
+      this.fatalError = false;
+      this.isDone = false;
     },
     resetPagination() {
       this.page = 0;
       this.loadedResources = this.filteredResources.slice(0, this.pageSize);
-      this.$refs.resourcesContainer.scrollTop = 0;
+      if (this.$refs.resourcesContainer) {
+        this.$refs.resourcesContainer.scrollTop = 0;
+      }
     },
     close() {
       this.computedOpen = false;
@@ -355,15 +316,9 @@ export default {
       this.snackbarColor = color;
       this.snackbar = true;
     },
-    loadFilteredResourcesPage(observerState) {
+    loadFilteredResourcesPage() {
       if (this.page < this.pages) {
-        this.loadPageSync(observerState, () => {
-          this.page += 1;
-          this.loadedResources = this.filteredResources.slice(
-            0,
-            this.page * this.pageSize + this.pageSize
-          );
-        });
+        this.page += 1;
       }
     },
   },

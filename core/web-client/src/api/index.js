@@ -10,6 +10,7 @@ import divaLakeAdapter from "@/api/adapters/divaLake";
 import urbanPulseAdapter from "@/api/adapters/urbanPulse";
 import dscAdapter from "@/api/adapters/dsc";
 import axios from "@/api/axios";
+import fetchWrapper from "@/api/fetchWrapper";
 import "@/api/socket";
 
 // injected as "Vue.prototype.$api = api" in main.js
@@ -26,4 +27,5 @@ export default {
   divaLakeAdapter,
   urbanPulseAdapter,
   dscAdapter,
+  fetchWrapper,
 };
