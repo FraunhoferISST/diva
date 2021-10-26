@@ -102,7 +102,7 @@ export default {
 // Custom styles
 @import "styles/table", "styles/inputs", "styles/buttons", "styles/snackbar",
   "styles/custom", "styles/expansionpanel", "styles/modal", "styles/alert",
-  "styles/tabs";
+  "styles/tabs", "styles/date-picker";
 html {
   font-size: 14px !important;
   overflow-y: auto;

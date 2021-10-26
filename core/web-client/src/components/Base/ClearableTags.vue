@@ -25,17 +25,15 @@
         class="ma-0"
         @click="removeItem()"
       >
-        <custom-icon icon="close" small color="gred" />
+        <v-icon small color="error">close</v-icon>
       </v-btn>
     </div>
   </div>
 </template>
 
 <script>
-import CustomIcon from "@/components/Base/CustomIcon";
 export default {
   name: "ClearableTags",
-  components: { CustomIcon },
   data: () => ({
     removed: false,
   }),
@@ -84,7 +82,7 @@ export default {
   padding: 2px 0 2px 10px;
   margin: 5px;
   max-width: 180px;
-  background-color: $btn_flat;
+  background-color: $bg_card_secondary;
 
   &.link {
     .clearable-tag {
@@ -100,9 +98,6 @@ export default {
 
     .clearable-tag {
       color: white;
-    }
-
-    &.link {
     }
   }
 

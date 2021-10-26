@@ -196,7 +196,9 @@
             <span>/</span>
             <span>{{ selectedSource.resources.length }}</span>
           </p>
-          <v-btn text color="red" rounded> Cancel import </v-btn>
+          <v-btn text color="red" rounded :disabled="isImportingDone">
+            Cancel import
+          </v-btn>
         </div>
       </div>
       <horizontal-progress :loading="!isImportingDone" :progress="progress" />

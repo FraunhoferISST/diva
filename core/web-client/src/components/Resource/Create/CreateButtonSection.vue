@@ -9,7 +9,7 @@
         <div
           class="text-center action-container d-flex column wrap justify-center align-center"
         >
-          <div class="action-content pa-2">
+          <div class="action-content pa-2 pa-md-10 flex-grow-1">
             <custom-header
               class="mb-3 hidden-sm-and-down"
               text="Import new data"

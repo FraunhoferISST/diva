@@ -16,14 +16,14 @@
           </v-btn>
         </div>
       </fade-in>
-      <v-col cols="12" md="6" v-if="isSmAndDown">
+      <v-col cols="12" v-if="isSmAndDown">
         <create-button-section
           :is-ready="isReady"
           :is-loading="isLoading"
           @create="initializeImport"
         />
       </v-col>
-      <v-col cols="12" md="6" class="pa-8 relative">
+      <v-col cols="12" md="8" class="pa-8 relative">
         <v-window v-model="window" class="fill-height">
           <v-window-item>
             <v-col cols="12">
@@ -86,7 +86,7 @@
           </span>
         </v-snackbar>
       </v-col>
-      <v-col cols="12" md="6" v-if="!isSmAndDown">
+      <v-col cols="12" md="4" v-if="!isSmAndDown">
         <create-button-section
           :is-ready="isReady"
           :is-loading="isLoading"
