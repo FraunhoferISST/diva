@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuetify from "vuetify/lib";
 import IdsIcon from "@/components/Base/IdsIcon.vue";
-import HadoopIcon from "@/components/Base/HadoopIcon.vue";
 
 Vue.use(Vuetify);
 
@@ -17,12 +16,6 @@ export default new Vuetify({
         component: IdsIcon,
         props: {
           name: "ids",
-        },
-      },
-      hadoop: {
-        component: HadoopIcon,
-        props: {
-          name: "hadoop",
         },
       },
     },
