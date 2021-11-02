@@ -1,7 +1,11 @@
 <template>
   <div
     class="card"
-    :class="{ 'with-padding': padding, rounded: rounded, hoverable: hover }"
+    :class="{
+      'with-padding': padding,
+      'card-rounded': rounded,
+      hoverable: hover,
+    }"
   >
     <div v-if="header || hasHeaderSlot">
       <h2 class="card-header" :class="{ 'mb-3': header }">
@@ -68,7 +72,7 @@ export default {
   &.with-padding {
     padding: 16px;
   }
-  &.rounded {
+  &.card-rounded {
     @include border-radius;
   }
   &.hoverable:hover {

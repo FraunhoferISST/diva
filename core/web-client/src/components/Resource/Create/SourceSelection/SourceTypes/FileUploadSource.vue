@@ -1,7 +1,7 @@
 <template>
-  <div class="file-upload-container">
+  <div class="file-upload-container pa-1">
     <div
-      class="d-flex justify-space-between align-center py-2"
+      class="d-flex justify-space-between align-center pb-2"
       v-if="selectedFiles.length > 0"
     >
       <p class="ma-0">
@@ -12,7 +12,7 @@
         clear all
       </v-btn>
     </div>
-    <form
+    <div
       class="file-upload-form d-flex align-center"
       ref="fileform"
       :class="{ dragover: dragOver }"
@@ -61,7 +61,7 @@
         </label>
         <p v-if="isDragAndDropCapable" class="mt-4 mb-0">or drag it here!</p>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -270,7 +270,7 @@ export default {
 }
 
 .selected-files-container {
-  max-height: 430px;
+  max-height: 390px;
   overflow: auto;
 }
 </style>

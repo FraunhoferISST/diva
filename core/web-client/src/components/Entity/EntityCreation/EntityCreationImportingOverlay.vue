@@ -298,6 +298,7 @@ export default {
       this.resetPagination();
       this.fatalError = false;
       this.isDone = false;
+      this.snackbar = false;
     },
     resetPagination() {
       this.page = 0;

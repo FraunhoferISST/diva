@@ -23,14 +23,14 @@
               :to="{ name: item.routeName }"
               class="full-width fill-height"
             >
-              <div class="select-card pa-8 fill-height">
+              <div class="select-card pa-10 fill-height">
                 <h2 class="select-card-title">{{ item.title }}</h2>
                 <div class="select-card-description mt-2">
                   {{ item.description }}
                 </div>
                 <div class="select-card-image">
                   <div>
-                    <v-img
+                    <img
                       width="90px"
                       :src="require('@/assets/create/' + item.icon)"
                     />
@@ -53,7 +53,7 @@ export default {
     items: [
       {
         title: "Import new resources",
-        description: "Connect DIVA with you data sources or just a files",
+        description: "Connect DIVA with you data sources or upload files",
         icon: "resource.svg",
         color: "primary",
         routeName: "create_resource",

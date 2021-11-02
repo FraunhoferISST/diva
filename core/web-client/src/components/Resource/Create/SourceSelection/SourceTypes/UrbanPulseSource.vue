@@ -149,8 +149,9 @@ export default {
         this.computedSource.totalCount = totalCount;
         this.computedSource.processedCount = processedCount;
         this.computedSource.resources[0].title = `Found ${totalCount} sensors to import`;
-      } finally {
-        console.log("Mee");
+      } catch {
+        // just need some code here
+        this.computedSource.resources[0].title = `Still importing sensors`;
       }
     },
     processStreamResponseError(response, data) {
