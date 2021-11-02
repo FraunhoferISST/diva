@@ -105,13 +105,11 @@ import GenericSource from "@/components/Resource/Create/SourceSelection/SourceTy
 import UrbanPulseSource from "@/components/Resource/Create/SourceSelection/SourceTypes/UrbanPulseSource";
 import FadeIn from "@/components/Transitions/FadeIn";
 import ColoredCard from "@/components/Base/ColoredCard";
-import CreateResultOverlay from "@/components/Resource/Create/CreateResultOverlay";
 import EntityCreationImportingOverlay from "@/components/Entity/EntityCreation/EntityCreationImportingOverlay";
 export default {
   name: "CreationResourceForm",
   components: {
     EntityCreationImportingOverlay,
-    CreateResultOverlay,
     ColoredCard,
     FadeIn,
     SourceTypeCard,
@@ -152,6 +150,7 @@ export default {
         totalCount: null,
         processedCount: null,
         onCreate: () => {},
+        onCancel: () => {},
       },
     ],
     isLoading: false,

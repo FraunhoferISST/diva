@@ -1,95 +1,93 @@
 <template>
-  <div class="create-importing-overlay-container" :class="{ open: open }">
-    <div class="create-importing-overlay-btn" v-if="isImportingDone">
-      <v-btn color="error" text @click="close">
-        <v-icon small> close </v-icon>
-      </v-btn>
-    </div>
-    <v-container fluid class="pa-0">
-      <v-row dense>
-        <v-col cols="12" class="px-12 pt-12">
-          <div>
-            <v-chip-group v-model="selectedFilters" column mandatory multiple>
-              <v-chip
-                small
-                color="info"
-                active
-                filter
-                outlined
-                value="loading"
-                v-if="importing > 0"
-              >
-                In progress {{ importing }}
-              </v-chip>
-              <v-chip
-                small
-                color="success"
-                active
-                filter
-                outlined
-                value="success"
-                v-if="success > 0"
-              >
-                Success {{ success }}
-              </v-chip>
-              <v-chip
-                small
-                color="warning"
-                active
-                filter
-                outlined
-                value="warning"
-                v-if="warnings > 0"
-              >
-                Warning {{ warnings }}
-              </v-chip>
-              <v-chip
-                small
-                color="error"
-                active
-                filter
-                outlined
-                value="error"
-                v-if="errors > 0"
-              >
-                Error {{ errors }}
-              </v-chip>
-            </v-chip-group>
-          </div>
-        </v-col>
-      </v-row>
-      <v-row v-if="selectedSource.resources.length === 0">
-        <v-col
-          cols="12"
-          class="d-flex justify-center align-center"
-          v-if="!fatalError"
-        >
-          <vue-ellipse-progress
-            color="#2d68fc"
-            :prgress="0"
-            loading
-            :size="150"
-            :thickness="1"
-            :empty-thickness="0"
+  <div class="importing-overlay px-12 pt-10" :class="{ open: open }">
+    <div v-if="open" class="importing-overlay-container">
+      <div class="importing-overlay-btn" v-if="isImportingDone">
+        <v-btn color="error" text @click="close">
+          <v-icon small> close </v-icon>
+        </v-btn>
+      </div>
+      <div class="pb-2">
+        <v-chip-group v-model="selectedFilters" column mandatory multiple>
+          <v-chip
+            small
+            color="info"
+            active
+            filter
+            outlined
+            value="loading"
+            v-if="importing > 0"
           >
-            <template #legend-caption>
-              <p>Waiting for data</p>
-            </template>
-          </vue-ellipse-progress>
-        </v-col>
-        <v-col cols="12" class="d-flex justify-center align-center" v-else>
-          <v-alert text color="error">
-            Couldn't proceed with the importing due to some error. Please check
-            supplied data and try again.
-          </v-alert>
-        </v-col>
-      </v-row>
-      <v-row class="mt-2" dense v-else>
-        <v-col cols="12" class="px-12">
+            In progress {{ importing }}
+          </v-chip>
+          <v-chip
+            small
+            color="success"
+            active
+            filter
+            outlined
+            value="success"
+            v-if="success > 0"
+          >
+            Success {{ success }}
+          </v-chip>
+          <v-chip
+            small
+            color="warning"
+            active
+            filter
+            outlined
+            value="warning"
+            v-if="warnings > 0"
+          >
+            Warning {{ warnings }}
+          </v-chip>
+          <v-chip
+            small
+            color="error"
+            active
+            filter
+            outlined
+            value="error"
+            v-if="errors > 0"
+          >
+            Error {{ errors }}
+          </v-chip>
+        </v-chip-group>
+        <v-container class="pa-0" fluid>
+          <v-row v-if="selectedSource.resources.length === 0">
+            <v-col
+              cols="12"
+              class="d-flex justify-center align-center"
+              v-if="!fatalError"
+            >
+              <vue-ellipse-progress
+                color="#2d68fc"
+                :prgress="0"
+                loading
+                :size="150"
+                :thickness="1"
+                :empty-thickness="0"
+              >
+                <template #legend-caption>
+                  <p>Waiting for data</p>
+                </template>
+              </vue-ellipse-progress>
+            </v-col>
+            <v-col cols="12" class="d-flex justify-center align-center" v-else>
+              <v-alert text color="error">
+                Couldn't proceed with the importing due to some error. Please
+                check supplied data and try again.
+              </v-alert>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
+      <div class="importing-overlay-resources">
+        <v-container class="pa-0" fluid>
           <v-row
+            class="importing-resources-container"
             ref="resourcesContainer"
             dense
-            style="max-height: 485px; overflow: auto"
           >
             <v-col cols="12" md="6">
               <v-row dense>
@@ -113,36 +111,42 @@
                 </v-col>
               </v-row>
             </v-col>
-            <v-col cols="12" class="pa-0 py-4">
+            <v-col cols="12" class="pa-0 py-2">
               <observer @intersect="loadFilteredResourcesPage" />
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-      <div class="importing-controls-container">
-        <div class="d-flex justify-space-between align-center px-10 pb-4">
+            </v-col> </v-row
+        ></v-container>
+      </div>
+      <div>
+        <div class="d-flex justify-space-between align-center py-4">
           <p class="ma-0">
             <span>{{ done }}</span>
             <span>/</span>
             <span>{{ resourcesCount }}</span>
           </p>
-          <!--          <v-btn text color="red" rounded :disabled="isImportingDone">
+          <v-btn
+            text
+            color="red"
+            rounded
+            :disabled="isImportingDone"
+            v-if="selectedSource.onCancel"
+            @click="cancel"
+          >
             Cancel import
-          </v-btn>-->
+          </v-btn>
         </div>
       </div>
-      <horizontal-progress :loading="!isImportingDone" :progress="progress" />
-      <v-snackbar
-        rounded
-        text
-        v-model="snackbar"
-        :timeout="10000"
-        absolute
-        :color="snackbarColor"
-      >
-        <b>{{ snackbarText }}</b>
-      </v-snackbar>
-    </v-container>
+    </div>
+    <horizontal-progress :loading="!isImportingDone" :progress="progress" />
+    <v-snackbar
+      rounded
+      text
+      v-model="snackbar"
+      :timeout="10000"
+      absolute
+      :color="snackbarColor"
+    >
+      <b>{{ snackbarText }}</b>
+    </v-snackbar>
   </div>
 </template>
 
@@ -182,17 +186,12 @@ export default {
     snackbarColor: "success",
     page: 0,
     pageSize: 30,
-    loadedResources: [],
     fatalError: false,
     isDone: false,
   }),
   watch: {
     open(newVal) {
       if (newVal) {
-        this.loadedResources = this.selectedSource.resources.slice(
-          0,
-          this.pageSize
-        );
         setTimeout(() => {
           this.selectedSource
             .onCreate()
@@ -302,7 +301,6 @@ export default {
     },
     resetPagination() {
       this.page = 0;
-      this.loadedResources = this.filteredResources.slice(0, this.pageSize);
       if (this.$refs.resourcesContainer) {
         this.$refs.resourcesContainer.scrollTop = 0;
       }
@@ -316,6 +314,9 @@ export default {
       this.snackbarColor = color;
       this.snackbar = true;
     },
+    cancel() {
+      this.selectedSource.onCancel();
+    },
     loadFilteredResourcesPage() {
       if (this.page < this.pages) {
         this.page += 1;
@@ -326,12 +327,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.create-importing-overlay-container {
+.importing-overlay {
   transition: 0.3s;
   position: absolute;
   left: 0;
   top: 100%;
   width: 100%;
+  max-height: 100%;
   height: 100%;
   background-color: white;
   z-index: 10;
@@ -339,20 +341,24 @@ export default {
     top: 0;
   }
 }
-.create-importing-overlay-btn {
+.importing-overlay-container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+.importing-overlay-btn {
   position: absolute;
   right: 0;
   top: 0;
 }
-.importing-resource-card {
-  padding: 10px;
-  border-radius: $border_radius;
-  background: $bg_card_secondary;
+.importing-overlay-resources {
+  flex-grow: 1;
+  position: relative;
 }
-.importing-controls-container {
-  position: absolute;
+.importing-resources-container {
+  max-height: 100%;
   width: 100%;
-  left: 0;
-  bottom: 0;
+  overflow: auto;
+  position: absolute;
 }
 </style>

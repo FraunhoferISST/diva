@@ -1,7 +1,11 @@
 const axios = require("axios");
 const crypto = require("crypto");
 const urljoin = require("url-join");
-const { noSensorsFoundError, createError } = require("../util/errors");
+const {
+  noSensorsFoundError,
+  createError,
+  requestCanceledError,
+} = require("../util/errors");
 
 const RESOURCE_MANAGEMENT_URL = urljoin(
   process.env.RESOURCE_MANAGEMENT_URL || "http://localhost:3000",
@@ -47,10 +51,20 @@ const writeResponse = (res, data) =>
     })
   );
 
-const createResources = async (sensorResources, actorId, res) => {
+const createResources = async (sensorResources, actorId, { req, res }) => {
+  let requestCanceled = false;
+  if (req) {
+    req.on("close", () => {
+      requestCanceled = true;
+    });
+  }
   const chunks = chunkArray(sensorResources, 300);
   const results = [];
   for (const chunk of chunks) {
+    if (requestCanceled) {
+      throw requestCanceled;
+    }
+    console.log("Processing...");
     const { data } = await axios.post(RESOURCE_MANAGEMENT_URL, chunk, {
       headers: { "x-actorid": actorId },
     });
@@ -126,7 +140,7 @@ class UrbanPulseResourceService {
   async import(
     importData,
     actorid,
-    res = null,
+    { req, res } = null,
     createAsset = false,
     assetId = null
   ) {
@@ -141,7 +155,7 @@ class UrbanPulseResourceService {
         processedCount: 0,
       });
     }
-    return createResources(sensorsObjects, actorid, res);
+    return createResources(sensorsObjects, actorid, { req, res });
   }
 
   async createAsset(asset, actorid) {

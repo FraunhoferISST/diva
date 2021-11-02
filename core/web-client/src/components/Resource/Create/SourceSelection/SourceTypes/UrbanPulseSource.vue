@@ -110,11 +110,6 @@ export default {
       ) {
         data.sensors = this.sensors;
       }
-      const decoder = new TextDecoder("utf-8");
-      const response = await fetchWrapper.fetch(
-        "/urbanPulseAdapter/import?streamResponse=true",
-        data
-      );
       this.computedSource.resources = [
         {
           title: "Importing your UrbanPulse data",
@@ -122,34 +117,53 @@ export default {
           imported: false,
         },
       ];
+      const decoder = new TextDecoder("utf-8");
+      const controller = new AbortController();
+      const signal = controller.signal;
+      this.computedSource.onCancel = () => controller.abort();
+      const response = await fetchWrapper.fetch(
+        "/urbanPulseAdapter/import?streamResponse=true",
+        data,
+        signal
+      );
+      const reader = response.body.getReader();
       if (response.ok) {
-        const reader = response.body.getReader();
         let isReaderDone = false;
         while (!isReaderDone) {
           const { value, done } = await reader.read();
           isReaderDone = done;
           if (value) {
-            let parsedValue = {};
-            try {
-              const { totalCount, processedCount } = JSON.parse(
-                decoder.decode(value)
-              );
-              this.computedSource.totalCount = totalCount;
-              this.computedSource.processedCount = processedCount;
-              this.computedSource.resources[0].title = `Found ${totalCount} sensors to import`;
-            } catch {
-              parsedValue = {};
-            }
+            this.processStreamResponse(decoder.decode(value));
           }
         }
         this.computedSource.resources[0].loading = false;
         this.computedSource.resources[0].imported = true;
       } else {
-        const error = `${response.status}: ${response.statusText}`;
-        this.computedSource.resources[0].loading = false;
-        this.computedSource.resources[0].error = error;
-        throw error;
+        const { value } = await reader.read();
+        this.processStreamResponseError(response, decoder.decode(value));
       }
+    },
+    processStreamResponse(data) {
+      try {
+        const { totalCount, processedCount } = JSON.parse(data);
+        this.computedSource.totalCount = totalCount;
+        this.computedSource.processedCount = processedCount;
+        this.computedSource.resources[0].title = `Found ${totalCount} sensors to import`;
+      } finally {
+        console.log("Mee");
+      }
+    },
+    processStreamResponseError(response, data) {
+      let errorMessage = "";
+      try {
+        const error = JSON.parse(data);
+        errorMessage = error.message;
+      } catch {
+        errorMessage = `${response.status}: ${response.statusText}`;
+      }
+      this.computedSource.resources[0].loading = false;
+      this.computedSource.resources[0].error = errorMessage;
+      throw errorMessage;
     },
     onCheckBoxCardChange(isChecked) {
       this.onlySpecificSensors = isChecked;

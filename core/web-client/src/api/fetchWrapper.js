@@ -8,11 +8,12 @@ export default {
     Authorization: JWTToken ? `Bearer ${JWTToken}` : "",
     Accept: "application/json",
   },
-  fetch(path, data = {}) {
+  fetch(path, data = {}, signal = null) {
     return fetch(`${this.baseURL}/${path}`, {
       method: "POST",
       headers: this.headers,
       mode: "cors",
+      signal: signal,
       body: JSON.stringify(data),
     });
   },

@@ -43,6 +43,7 @@ export default {
 @media screen and (max-width: 959px) {
   .create-card {
     min-height: unset;
+    //overflow-y: auto;
   }
 }
 </style>

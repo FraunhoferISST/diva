@@ -134,6 +134,11 @@ export default {
     create() {
       return Promise.all(
         this.computedSource.resources.map((resource) => {
+          if (this.computedSource.isCanceled) {
+            resource.loading = false;
+            resource.error = "Import canceled by user";
+            return Promise.reject("Import canceled by user");
+          }
           resource.loading = true;
           resource.imported = false;
           resource.warning = "";

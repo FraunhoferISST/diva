@@ -8,6 +8,7 @@
         rounded
         v-model="computedCredentials.baseUrl"
         type="url"
+        validate-on-blur
         label="Base URL"
         placeholder="https://my.source.com"
         required

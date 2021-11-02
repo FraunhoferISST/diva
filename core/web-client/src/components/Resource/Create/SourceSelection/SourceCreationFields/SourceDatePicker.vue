@@ -5,7 +5,7 @@
     transition="scale-transition"
     max-width="290"
   >
-    <template v-slot:activator="{ on, attrs }">
+    <template #activator="{ on, attrs }">
       <v-text-field
         v-model="computedDate"
         :label="label"
@@ -15,7 +15,6 @@
         dense
         v-bind="attrs"
         v-on="on"
-        clearable
         hide-details
       ></v-text-field>
     </template>
