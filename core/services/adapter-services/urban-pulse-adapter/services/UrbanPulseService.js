@@ -62,7 +62,7 @@ const createResources = async (sensorResources, actorId, { req, res }) => {
   const results = [];
   for (const chunk of chunks) {
     if (requestCanceled) {
-      throw requestCanceled;
+      throw requestCanceledError;
     }
     console.log("Processing...");
     const { data } = await axios.post(RESOURCE_MANAGEMENT_URL, chunk, {
