@@ -49,7 +49,7 @@ import SourceCredentials from "@/components/Resource/Create/SourceSelection/Sour
 import SourceDatePicker from "@/components/Resource/Create/SourceSelection/SourceCreationFields/SourceDatePicker";
 import CheckBoxCard from "@/components/Base/CheckBoxCard";
 import SourceArrayInput from "@/components/Resource/Create/SourceSelection/SourceCreationFields/SourceArrayInput";
-import { endpoint, customFetch } from "@/api/axios";
+import fetchWrapper from "@/api/fetchWrapper";
 
 export default {
   name: "UrbanPulseSource",
@@ -111,18 +111,18 @@ export default {
         data.sensors = this.sensors;
       }
       const decoder = new TextDecoder("utf-8");
-      const response = await customFetch(
-        `${endpoint}/urbanPulseAdapter/import?streamResponse=true`,
+      const response = await fetchWrapper.fetch(
+        "/urbanPulseAdapter/import?streamResponse=true",
         data
       );
+      this.computedSource.resources = [
+        {
+          title: "Importing your UrbanPulse data",
+          loading: true,
+          imported: false,
+        },
+      ];
       if (response.ok) {
-        this.computedSource.resources = [
-          {
-            title: "Importing your UrbanPulse data",
-            loading: true,
-            imported: false,
-          },
-        ];
         const reader = response.body.getReader();
         let isReaderDone = false;
         while (!isReaderDone) {

@@ -1,16 +1,15 @@
 let endpoint = process.env.VUE_APP_API_GATEWAY_URL || "http://localhost:8000";
 const JWTToken = localStorage.getItem("jwt");
 
-const fetchHeaders = new Headers();
-fetchHeaders.append("Content-Type", "application/json");
-fetchHeaders.append("Authorization", JWTToken ? `Bearer ${JWTToken}` : "");
-fetchHeaders.append("Accept", "application/json");
-
 export default {
   baseURL: endpoint,
-  headers: fetchHeaders,
-  fetch(url, data = {}) {
-    return fetch(`${this.baseURL}/${this.path}`, {
+  headers: {
+    "Content-type": "application/json",
+    Authorization: JWTToken ? `Bearer ${JWTToken}` : "",
+    Accept: "application/json",
+  },
+  fetch(path, data = {}) {
+    return fetch(`${this.baseURL}/${path}`, {
       method: "POST",
       headers: this.headers,
       mode: "cors",
