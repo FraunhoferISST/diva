@@ -134,11 +134,6 @@ export default {
     create() {
       return Promise.all(
         this.computedSource.resources.map((resource) => {
-          if (this.computedSource.isCanceled) {
-            resource.loading = false;
-            resource.error = "Import canceled by user";
-            return Promise.reject("Import canceled by user");
-          }
           resource.loading = true;
           resource.imported = false;
           resource.warning = "";
@@ -177,7 +172,6 @@ export default {
       let files = [];
       if (event.dataTransfer) {
         const items = event.dataTransfer.items;
-
         for (const item of items) {
           files.push(...(await getFilesFromEntry(item.webkitGetAsEntry())));
         }

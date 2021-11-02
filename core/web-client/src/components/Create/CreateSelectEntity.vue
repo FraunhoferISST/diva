@@ -22,7 +22,7 @@
           >
             <router-link :to="{ name: item.routeName }">
               <div class="create-entity flex">
-                <colored-card :color="item.color">
+                <div>
                   <template slot="body">
                     <h2 class="create-entity-title mb-4">
                       {{ item.title }}
@@ -38,7 +38,7 @@
                       {{ item.description }}
                     </p>
                   </template>
-                </colored-card>
+                </div>
               </div>
             </router-link>
           </v-col>

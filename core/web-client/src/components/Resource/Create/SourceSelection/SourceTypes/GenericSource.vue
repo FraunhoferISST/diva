@@ -28,7 +28,7 @@
       </v-col>
       <v-col cols="12">
         <v-btn icon color="primary">
-          <v-icon dense color="primary" @click="onAddTab"> add </v-icon>
+          <v-icon dense color="primary" @click="onAdd"> add </v-icon>
         </v-btn>
       </v-col>
       <v-col cols="12">
@@ -115,7 +115,7 @@ export default {
         })
       );
     },
-    onAddTab() {
+    onAdd() {
       this.computedSource.resources.push({ ...this.genericResource });
     },
     onRemoveTab(i) {

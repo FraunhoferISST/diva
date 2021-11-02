@@ -10,7 +10,9 @@
         </span>
       </p>
       <div class="pl-4">
-        <span v-if="entity.loading"> Importing... </span>
+        <span class="entity-importing-card-status" v-if="entity.loading">
+          Importing...
+        </span>
         <v-icon
           dense
           color="green"
@@ -51,5 +53,8 @@ export default {
   padding: 10px;
   border-radius: $border_radius;
   background: $bg_card_secondary;
+}
+.entity-importing-card-status {
+  font-size: 0.8rem;
 }
 </style>
