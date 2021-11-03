@@ -8,11 +8,9 @@ const dscOffersCollectionName =
   process.env.MONGO_DSC_COLLECTION_NAME || "uuidToOfferMappings";
 const dscCatalogsCollectionName =
   process.env.MONGO_DSC_COLLECTION_NAME || "catalogs";
-const dscLegacyCollectionName = process.env.MONGO_DSC_COLLECTION_NAME || "dsc";
 
 const mongoResourcesConnector = new MongoDBConnector(resourceDbName, [
   resourceCollectionName,
-  dscLegacyCollectionName,
 ]);
 
 const mongoDscConnector = new MongoDBConnector(dscDbName, [
@@ -23,7 +21,6 @@ const mongoDscConnector = new MongoDBConnector(dscDbName, [
 module.exports = {
   mongoResourcesConnector,
   mongoDscConnector,
-  dscLegacyCollectionName,
   dscCatalogsCollectionName,
   dscOffersCollectionName,
   resourceCollectionName,

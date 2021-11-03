@@ -2,7 +2,6 @@ const {
   mongoResourcesConnector,
   mongoDscConnector,
   resourceCollectionName,
-  dscLegacyCollectionName,
   dscOffersCollectionName,
   dscCatalogsCollectionName,
 } = require("../utils/mongoDbConnectors");
@@ -45,14 +44,6 @@ const getResource = (id) =>
     }
   );
 
-const getLegacyCatalogId = async () => {
-  const { catalogId } =
-    (await mongoResourcesConnector.collections[dscLegacyCollectionName].findOne(
-      {}
-    )) ?? {};
-  return catalogId;
-};
-
 const getCatalogId = async () => {
   const { catalogId } =
     (await mongoDscConnector.collections[dscCatalogsCollectionName].findOne(
@@ -61,25 +52,8 @@ const getCatalogId = async () => {
   return catalogId;
 };
 
-const hasLegacyDscCollection = async () => {
-  const collections = await mongoResourcesConnector.database
-    .listCollections({
-      name: dscLegacyCollectionName,
-    })
-    .toArray();
-  return collections.length > 0;
-};
-
 const initDscCatalog = async () => {
-  let catalogId = "";
-  if (await hasLegacyDscCollection()) {
-    catalogId = await getLegacyCatalogId();
-    await mongoResourcesConnector.database.dropCollection(
-      dscLegacyCollectionName
-    );
-  } else {
-    catalogId = await getCatalogId();
-  }
+  let catalogId = await getCatalogId();
   if (!catalogId || !(await catalogExists(catalogId))) {
     await mongoDscConnector.collections[dscCatalogsCollectionName].deleteOne({
       catalogId,
