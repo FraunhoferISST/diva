@@ -1,21 +1,21 @@
-const MongoDbConnectors = require("@diva/common/databases/MongoDBConnector");
+const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
 
 const resourceDbName = process.env.MONGO_RESOURCE_DB_NAME || "resourcesDb";
 const resourceCollectionName =
   process.env.MONGO_RESOURCE_COLLECTION_NAME || "resources";
 const dscDbName = process.env.MONGO_RESOURCE_DB_NAME || "dscAdapterDb";
 const dscOffersCollectionName =
-  process.env.MONGO_DSC_COLLECTION_NAME || "offers";
+  process.env.MONGO_DSC_COLLECTION_NAME || "uuidToOfferMappings";
 const dscCatalogsCollectionName =
   process.env.MONGO_DSC_COLLECTION_NAME || "catalogs";
 const dscLegacyCollectionName = process.env.MONGO_DSC_COLLECTION_NAME || "dsc";
 
-const mongoResourcesConnector = new MongoDbConnectors(resourceDbName, [
+const mongoResourcesConnector = new MongoDBConnector(resourceDbName, [
   resourceCollectionName,
   dscLegacyCollectionName,
 ]);
 
-const mongoDscConnector = new MongoDbConnectors(dscDbName, [
+const mongoDscConnector = new MongoDBConnector(dscDbName, [
   dscOffersCollectionName,
   dscCatalogsCollectionName,
 ]);
