@@ -377,6 +377,9 @@ services:
     depends_on:
       - resource-management
     environment:
+      <<: *mongodb-env
+      <<: *kafka-env
+      <<: *schema-registry-env
       NODE_ENV: development
       PORT: ${DIVALAKE_ADAPTER_PORT}
       RESOURCE_MANAGEMENT_URL: http://resource-management:${RESOURCE_MANAGEMENT_PORT}
