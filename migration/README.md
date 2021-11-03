@@ -53,27 +53,3 @@ Navigate to `migration/`, install dependencies and run the migration script:
 npm i
 npm run migrate
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Container and images management
-
-This chapter is interesting for those who want to actively participate in the development of the system or manage 
-containers and images in a more granular way. We will take a brief look at how to build, push, and pull images in general.
-
-First of all, it is important to create the `.env` file with necessary configuration:
-
-```sh
-cp .env.default .env
-```
-In `.env` you can flexibly adjust the environment to your needs.
