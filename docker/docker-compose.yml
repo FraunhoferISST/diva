@@ -395,7 +395,7 @@ services:
 
   dsc-adapter:
     image: ${REGISTRY}dsc-adapter:0.2.0
-    container_name: ids-adapter
+    container_name: dsc-adapter
     restart: always
     networks:
       - core
