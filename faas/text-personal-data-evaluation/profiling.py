@@ -58,7 +58,7 @@ def count_entities(entities: dict) -> dict:
 
 
 with open(INPUT_FILE, 'r') as f:
-    file_size = os.path.getsize("test3.txt")
+    file_size = os.path.getsize(INPUT_FILE)
     chunk_size = 1 * (10 ** 6)  # 1MB chunks, affects RAM consumption
     chunks = int(math.ceil(file_size / chunk_size)) if file_size > chunk_size else 1
     bar = Bar('Processing chunk', max=chunks)

@@ -25,6 +25,9 @@ services:
   text-language-guesser:
     container_name: text-language-guesser
     image: ${REGISTRY}text-language-guesser:2.0.0
+  text-personal-data-evaluation:
+    container_name: personal-data-evaluation
+    image: ${REGISTRY}text-personal-data-evaluation:3.0.0
 
   table-data-apriori-associations-extractor:
     container_name: table-data-apriori-associations-extractor
@@ -44,9 +47,6 @@ services:
   table-data-to-csv:
     container_name: table-data-to-csv
     image: ${REGISTRY}table-data-to-csv:1.0.0
-  text-personal-data-evaluation:
-    container_name: personal-data-evaluation
-    image: ${REGISTRY}text-personal-data-evaluation:3.0.0
 
   image-caption-generator:
     container_name: image-caption-generator
