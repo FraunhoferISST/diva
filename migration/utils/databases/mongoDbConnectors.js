@@ -1,6 +1,6 @@
 const MongoDBConnector = require("./MongoDBConnector");
 
-const dscDbName = process.env.MONGO_RESOURCE_DB_NAME || "dscAdapterDb";
+const dscDbName = process.env.MONGO_DSC_DB_NAME || "dscAdapterDb";
 const dscOffersCollectionName =
   process.env.MONGO_DSC_COLLECTION_NAME || "uuidToOfferMappings";
 const dscCatalogsCollectionName =
