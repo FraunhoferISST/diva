@@ -4,26 +4,23 @@ const urljoin = require("url-join");
 const hasha = require("hasha");
 const { lookup } = require("mime-types");
 const FileType = require("file-type");
-const Minio = require("minio");
-
-const DIVA_LAKE_HOST = process.env.DIVA_LAKE_HOST || "localhost";
-const DIVA_LAKE_PORT = parseInt(process.env.DIVA_LAKE_PORT, 10) || 9000;
-const DIVA_LAKE_USERNAME = process.env.DIVA_LAKE_USERNAME || "minio_access";
-const DIVA_LAKE_PASSWORD = process.env.DIVA_LAKE_PASSWORD || "minio_secret";
-const BUCKET_NAME = process.env.DIVA_LAKE_BUCKET_NAME || "file-lake";
+const {
+  objectsMongoDbConnector,
+  collectionName,
+} = require("../utils/mongoDbConnectors");
+const {
+  DIVA_LAKE_USERNAME,
+  DIVA_LAKE_PASSWORD,
+  DIVA_LAKE_PORT,
+  DIVA_LAKE_HOST,
+  uploadObject,
+  removeObject,
+} = require("../utils/minio");
 
 const RESOURCE_MANAGEMENT_URL = urljoin(
   process.env.RESOURCE_MANAGEMENT_URL || "http://localhost:3000",
   "resources"
 );
-
-const minioClient = new Minio.Client({
-  endPoint: DIVA_LAKE_HOST,
-  port: DIVA_LAKE_PORT,
-  useSSL: false,
-  accessKey: DIVA_LAKE_USERNAME,
-  secretKey: DIVA_LAKE_PASSWORD,
-});
 
 const sha256 = (buffer) => hasha.async(buffer, { algorithm: "sha256" });
 
@@ -69,30 +66,47 @@ const createResource = async (resourceSchema, actorid) =>
       throw e?.response?.data || e;
     });
 
-const uploadToDivaLake = async (hash, fileBuffer) => {
-  await minioClient.putObject(BUCKET_NAME, hash, fileBuffer);
-};
-
-const removeFromDivaLake = async (hash) => {
-  await minioClient.removeObject(BUCKET_NAME, hash);
-};
+const deleteResource = async (resourceId, actorid) =>
+  axios
+    .delete(`${RESOURCE_MANAGEMENT_URL}/${resourceId}`, {
+      headers: { "x-actorid": actorid },
+    })
+    .catch((e) => {
+      throw e?.response?.data || e;
+    });
 
 class DivaLakeResourceService {
+  async init() {
+    await objectsMongoDbConnector.connect();
+    this.collection = objectsMongoDbConnector.collections[collectionName];
+  }
+
   async import(file, actorId) {
     const fileHashSha256 = await sha256(file.buffer);
     const mimeType = await detectMimeType(file.buffer, file.originalname);
 
-    await uploadToDivaLake(fileHashSha256, file.buffer);
-    return createResource(
+    await uploadObject(fileHashSha256, file.buffer);
+    const resourceId = await createResource(
       generateFileResourceSchema(file, fileHashSha256, mimeType),
       actorId
     ).catch((e) => {
       const code = e?.code ?? e?.response?.data?.code;
       if (code !== 409) {
-        removeFromDivaLake(fileHashSha256);
+        removeObject(fileHashSha256);
       }
       throw e;
     });
+    await this.collection
+      .insertOne({
+        fileHashSha256,
+        resourceId,
+      })
+      .catch((e) => {
+        removeObject(fileHashSha256);
+        deleteResource(resourceId);
+        throw e;
+      });
+    return resourceId;
   }
 }
 

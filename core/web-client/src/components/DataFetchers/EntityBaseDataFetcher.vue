@@ -44,24 +44,31 @@ export default {
   },
   methods: {
     onUpdateEvent(data) {
+      this.handleEvent(data);
+    },
+    onDeleteEvent(data) {
+      this.handleEvent(data);
+    },
+    handleEvent(data) {
       this.baseDataFetcher.runFetchMethod();
       const actorId = data?.actor.id;
       const entityType = this.getEntityTypeById(data?.object?.id) ?? "entity";
+      const action = `${data.type ?? "update"}d`;
       if (actorId.startsWith("service:")) {
         return this.showSnackbar(
-          `Internal service updated this ${entityType} just now`
+          `Internal service ${action} this ${entityType} just now`
         );
       }
       if (actorId === this.currentUser.id) {
-        this.showSnackbar(`You updated this ${entityType}`);
+        this.showSnackbar(`You ${action} this ${entityType}`);
       } else if (actorId) {
         this.fetchUser(actorId).then((user) => {
           this.showSnackbar(
-            `${user?.username || "N/A"} updated this ${entityType} just now`
+            `${user?.username || "N/A"} ${action} this ${entityType} just now`
           );
         });
       } else {
-        this.showSnackbar(`${entityType} updated`);
+        this.showSnackbar(`${entityType} ${action}`);
       }
     },
     showSnackbar(msg) {

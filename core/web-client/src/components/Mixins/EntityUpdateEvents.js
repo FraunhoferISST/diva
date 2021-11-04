@@ -5,6 +5,11 @@ const ENTITY_SUBSCRIBE_UPDATES_REQUEST = "entitySubscribeRequest";
 const ENTITY_UNSUBSCRIBE_UPDATES_REQUEST = "entityUnsubscribeRequest";
 // const ENTITY_UNSUBSCRIBE_UPDATES_RESPONSE = "entityUnsubscribeResponse";
 const ENTITY_UPDATES_EVENT = "entityEvent";
+const eventToHandlerMap = {
+  update: "onUpdateEvent",
+  delete: "onDeleteEvent",
+};
+
 export default {
   name: "EntityUpdateEvents",
   props: {
@@ -19,7 +24,8 @@ export default {
     },*/
     [ENTITY_UPDATES_EVENT](data) {
       if (this.id === data?.object?.id) {
-        debounce(() => this.onUpdateEvent(data), 2000, {
+        const handler = eventToHandlerMap[data.type ?? "update"];
+        debounce(() => this[handler](data), 2000, {
           leading: true,
         })();
       }
@@ -27,6 +33,9 @@ export default {
   },
   methods: {
     onUpdateEvent() {
+      // override this method in the component
+    },
+    onDeleteEvent() {
       // override this method in the component
     },
   },
