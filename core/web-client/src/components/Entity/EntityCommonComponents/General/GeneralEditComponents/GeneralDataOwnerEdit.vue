@@ -23,9 +23,11 @@
           @update:search-input="searchUsers"
         >
           <template v-slot:selection="data">
-            <v-chip :input-value="data.selected">
-              <user-avatar :image-id="data.item.imageId" />
-              {{ data.item.username }}
+            <v-chip :input-value="data.selected" class="ma-0 pa-1">
+              <user-avatar :image-id="data.item.imageId" class="mr-2" />
+              <span class="pr-2">
+                {{ data.item.username }}
+              </span>
             </v-chip>
           </template>
           <template v-slot:item="data">
@@ -35,9 +37,9 @@
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title>{{ data.item.username }}</v-list-item-title>
-                <v-list-item-subtitle>{{
-                  data.item.group
-                }}</v-list-item-subtitle>
+                <v-list-item-subtitle>
+                  {{ data.item.email }}
+                </v-list-item-subtitle>
               </v-list-item-content>
             </template>
           </template>
@@ -57,14 +59,20 @@ export default {
   props: {
     ownerId: {
       type: String,
+      required: true,
+    },
+    owner: {
+      type: [Object, null],
       required: false,
     },
   },
-  data: () => ({
-    isLoading: false,
-    search: "",
-    users: [],
-  }),
+  data() {
+    return {
+      isLoading: false,
+      search: "",
+      users: this.owner ? [this.owner] : [],
+    };
+  },
   computed: {
     computedOwnerId: {
       get() {
