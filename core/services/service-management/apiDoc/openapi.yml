@@ -377,10 +377,7 @@ components:
           description: The general type of the service
           minLength: 1
           enum:
-            - app
-            - plugin
-            - profiling
-            - management
+            - generic
 
     ServiceCreateBulk:
       type: array
