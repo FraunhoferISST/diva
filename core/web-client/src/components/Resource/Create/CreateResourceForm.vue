@@ -6,6 +6,7 @@
           v-if="selectedSource"
           :selected-source="selectedSource"
           :open.sync="showImportingOverlay"
+          @close="onCreationOverlayClose"
         />
         <fade-in>
           <div
@@ -207,6 +208,9 @@ export default {
     showSnackbar(msg) {
       this.snackbarMsg = msg;
       this.snackbar = true;
+    },
+    onCreationOverlayClose() {
+      this.goBack();
     },
   },
 };

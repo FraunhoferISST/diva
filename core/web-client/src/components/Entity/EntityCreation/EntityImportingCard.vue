@@ -1,5 +1,8 @@
 <template>
-  <div class="entity-importing-card">
+  <div
+    class="entity-importing-card"
+    :class="{ warning: entity.warning, error: entity.error }"
+  >
     <div class="d-flex justify-space-between align-center py-0">
       <p class="ellipsis ma-0">
         <entity-details-link target="_blank" v-if="entity.id" :id="entity.id">
@@ -20,17 +23,30 @@
         >
           done
         </v-icon>
+        <v-tooltip top v-else>
+          <template #activator="{ on, attrs }">
+            <v-icon
+              dense
+              :color="entity.warning ? 'warning' : 'error'"
+              v-bind="attrs"
+              v-on="on"
+            >
+              info
+            </v-icon>
+          </template>
+          <span>{{ entity.warning || entity.error }}</span>
+        </v-tooltip>
       </div>
     </div>
-    <v-alert dense text color="error" class="ma-0 mt-2" v-if="entity.error">
+    <!--    <v-alert dense text color="error" class="ma-0 mt-2" v-if="entity.error">
       {{ entity.error }}
-      <!--      <div class="d-flex justify-end">
+      &lt;!&ndash;      <div class="d-flex justify-end">
         <v-btn text rounded small color="primary"> retry </v-btn>
-      </div>-->
+      </div>&ndash;&gt;
     </v-alert>
     <v-alert dense text color="warning" class="ma-0 mt-2" v-if="entity.warning">
       {{ entity.warning }}
-    </v-alert>
+    </v-alert>-->
   </div>
 </template>
 
@@ -53,6 +69,12 @@ export default {
   padding: 10px;
   border-radius: $border_radius;
   background: $bg_card_secondary;
+  &.error {
+    background-color: #fff1f1 !important;
+  }
+  &.warning {
+    background-color: #fff6eb !important;
+  }
 }
 .entity-importing-card-status {
   font-size: 0.8rem;

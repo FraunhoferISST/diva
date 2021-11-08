@@ -89,27 +89,13 @@
             ref="resourcesContainer"
             dense
           >
-            <v-col cols="12" md="6">
-              <v-row dense>
-                <v-col
-                  cols="12"
-                  v-for="(entity, i) in resourcesListsColumns[0]"
-                  :key="i"
-                >
-                  <entity-importing-card :entity="entity" />
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-row dense>
-                <v-col
-                  cols="12"
-                  v-for="(entity, i) in resourcesListsColumns[1]"
-                  :key="i"
-                >
-                  <entity-importing-card :entity="entity" />
-                </v-col>
-              </v-row>
+            <v-col
+              cols="12"
+              md="6"
+              v-for="(entity, i) in resourcesListsColumns[0]"
+              :key="i"
+            >
+              <entity-importing-card :entity="entity" />
             </v-col>
             <v-col cols="12" class="pa-0 py-2">
               <observer @intersect="loadFilteredResourcesPage" />
@@ -309,6 +295,7 @@ export default {
     close() {
       this.computedOpen = false;
       this.reset();
+      setTimeout(() => this.$emit("close"), 300);
     },
     showSnackbar(text, color = "success") {
       this.snackbarText = text;
