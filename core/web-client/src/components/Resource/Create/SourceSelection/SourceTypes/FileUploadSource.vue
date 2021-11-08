@@ -96,6 +96,19 @@ const getFilesFromEntry = async (entry) => {
   return files;
 };
 
+const extractFilesFromFataTransferItems = async (items) => {
+  const promises = [];
+  const files = [];
+  items.forEach((item) => {
+    promises.push(getFilesFromEntry(item.webkitGetAsEntry()));
+  });
+  const data = await Promise.all(promises);
+  for (const extractedFiles of data) {
+    files.push(...extractedFiles);
+  }
+  return files;
+};
+
 export default {
   name: "FileUploadSource",
   components: { ClearableTags },
@@ -174,10 +187,9 @@ export default {
     async selectFiles(event) {
       let files = [];
       if (event.dataTransfer) {
-        const items = event.dataTransfer.items;
-        for (const item of items) {
-          files.push(...(await getFilesFromEntry(item.webkitGetAsEntry())));
-        }
+        files = await extractFilesFromFataTransferItems(
+          event.dataTransfer?.items ?? []
+        );
       } else {
         files = event?.target?.files ?? [];
       }
