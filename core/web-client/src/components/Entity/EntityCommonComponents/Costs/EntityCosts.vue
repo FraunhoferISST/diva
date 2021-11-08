@@ -21,17 +21,19 @@
                       :initialData="{
                         [costType]: costs.internalCosts[costType],
                       }"
-                      @save="(patch) => patchCosts(patch)"
+                      :on-save="(patch) => patchCosts(patch)"
                     >
                       <cost-card
                         slot="view"
                         :title="costs.internalCosts[costType].title"
                         :costs-data="costs.internalCosts[costType]"
                       />
-                      <template v-slot:edit="{ update }">
+                      <template v-slot:edit="{ setEditedData }">
                         <cost-edit
                           :costs-data="costs.internalCosts[costType]"
-                          @update:costsData="update({ [costType]: $event })"
+                          @update:costsData="
+                            setEditedData({ [costType]: $event })
+                          "
                         />
                       </template>
                     </edit-view-content>
@@ -46,17 +48,19 @@
                       :initialData="{
                         externalCost: costs.externalCost,
                       }"
-                      @save="(patch) => patchCosts(patch)"
+                      :on-save="(patch) => patchCosts(patch)"
                     >
                       <cost-card
                         slot="view"
                         :title="costs.externalCost.title"
                         :costs-data="costs.externalCost"
                       />
-                      <template v-slot:edit="{ update }">
+                      <template v-slot:edit="{ setEditedData }">
                         <cost-edit
                           :costs-data="costs.externalCost"
-                          @update:costsData="update({ externalCost: $event })"
+                          @update:costsData="
+                            setEditedData({ externalCost: $event })
+                          "
                         />
                       </template>
                     </edit-view-content>

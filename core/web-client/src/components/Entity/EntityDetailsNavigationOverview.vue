@@ -79,7 +79,7 @@
                 </template>
               </info-block>
             </v-col>
-            <v-col cols="12" class="mt-4">
+            <v-col cols="12" class="mt-4" v-if="data.ownerId">
               <info-block title="Owner">
                 <template #value>
                   <user-link :user="owner" />

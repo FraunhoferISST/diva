@@ -14,7 +14,6 @@
               <v-btn
                 class="mr-2"
                 rounded
-                small
                 text
                 color="primary"
                 @click="onCancel"

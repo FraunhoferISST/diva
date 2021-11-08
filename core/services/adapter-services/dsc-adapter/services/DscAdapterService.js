@@ -1,14 +1,10 @@
-const axios = require("axios");
-const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
-
-const resourceDbName = process.env.MONGO_RESOURCE_DB_NAME || "resourcesDb";
-const resourceCollectionName =
-  process.env.MONGO_RESOURCE_COLLECTION_NAME || "resources";
-const dscCollectionName = process.env.MONGO_DSC_COLLECTION_NAME || "dsc";
-const mongoConnector = new MongoDBConnector(resourceDbName, [
+const {
+  mongoResourcesConnector,
+  mongoDscConnector,
   resourceCollectionName,
-  dscCollectionName,
-]);
+  dscOffersCollectionName,
+  dscCatalogsCollectionName,
+} = require("../utils/mongoDbConnectors");
 
 const {
   isOffered,
@@ -17,34 +13,22 @@ const {
   updateOfferResourceAndRule,
   createOfferFromResource,
   deleteOfferResource,
-  updateOfferEntities,
   getOffer,
 } = require("../utils/dscApi");
 const {
-  createRepresentations,
   hasSupportedDistributions,
-  createArtifact,
+  patchResource,
+  prepareDscData,
+  createDscPatch,
 } = require("../utils/utils");
 const {
   unsupportedDistributionsError,
   alreadyOfferedError,
   notOfferedError,
 } = require("../utils/errors");
-const { microserviceId } = require("../utils/info");
-const buildPolicy = require("../utils/policyBuilder/buildPolicy");
-
-const RESOURCE_MANAGEMENT_URL =
-  process.env.RESOURCE_MANAGEMENT_URL || "http://localhost:3000";
-
-const patchResource = (resourceId, patch, actorid = microserviceId) =>
-  axios.patch(`${RESOURCE_MANAGEMENT_URL}/resources/${resourceId}`, patch, {
-    headers: {
-      "x-actorid": actorid,
-    },
-  });
 
 const getResource = (id) =>
-  mongoConnector.collections[resourceCollectionName].findOne(
+  mongoResourcesConnector.collections[resourceCollectionName].findOne(
     { id },
     {
       projection: {
@@ -60,32 +44,43 @@ const getResource = (id) =>
     }
   );
 
-const prepareDscData = (resource, policy) => {
-  const { dsc, distributions, ...rest } = resource;
-  return {
-    representation: createRepresentations(resource),
-    artifact: createArtifact(resource),
-    policy: buildPolicy(policy),
-    resource: rest,
-  };
+const getCatalogId = async () => {
+  const { catalogId } =
+    (await mongoDscConnector.collections[dscCatalogsCollectionName].findOne(
+      {}
+    )) ?? {};
+  return catalogId;
 };
 
-const createDscPatch = (dsc) => ({
-  dsc: dsc || null,
-});
+const initDscCatalog = async () => {
+  let catalogId = await getCatalogId();
+  if (!catalogId || !(await catalogExists(catalogId))) {
+    await mongoDscConnector.collections[dscCatalogsCollectionName].deleteOne({
+      catalogId,
+    });
+    catalogId = (await createCatalog("Diva Catalog")).id;
+    await mongoDscConnector.collections[dscCatalogsCollectionName].insertOne({
+      catalogId,
+    });
+  }
+  return catalogId;
+};
 
+const persistOfferMetadata = (offerMetadata) =>
+  mongoDscConnector.collections[dscOffersCollectionName].insertOne(
+    offerMetadata
+  );
+
+const deleteOfferMetadata = (resourceId) =>
+  mongoDscConnector.collections[dscOffersCollectionName].deleteMany({
+    resourceId,
+  });
 class DscAdapterService {
   async init() {
-    await mongoConnector.connect();
-    this.dscCollection = mongoConnector.collections[dscCollectionName];
-    this.dscInfo = await this.dscCollection.findOne({});
-    if (!this.dscInfo || !(await catalogExists(this.dscInfo?.catalogId))) {
-      await this.dscCollection.deleteMany({});
-      const { id: catalogId } = await createCatalog("Diva Catalog");
-      this.dscCollection.insertOne({ catalogId });
-      this.dscInfo = { catalogId };
-      console.info(`Created catalog "${catalogId}"`);
-    }
+    await mongoDscConnector.connect();
+    await mongoResourcesConnector.connect();
+    const catalogId = await initDscCatalog();
+    this.dscInfo = { catalogId };
     console.info(`Using catalog "${this.dscInfo.catalogId}" `);
   }
 
@@ -110,6 +105,11 @@ class DscAdapterService {
       deleteOfferResource(offer);
       throw e;
     });
+    await persistOfferMetadata({
+      resourceId,
+      ...offer,
+      catalogId: this.dscInfo.catalogId,
+    });
     return offer;
   }
 
@@ -118,7 +118,7 @@ class DscAdapterService {
   }
 
   async updateOffer(resourceId, offerId, policy, actorId) {
-    const resource = await getResource(resourceId, this.collection);
+    const resource = await getResource(resourceId);
     if (!(await isOffered(offerId))) {
       throw notOfferedError;
     }
@@ -137,37 +137,13 @@ class DscAdapterService {
     );
   }
 
-  async handleUpdateEvent(resourceId) {
-    const resource = await getResource(resourceId, this.collection);
-    const offerId = resource?.dsc?.offer?.offerId;
-    if (offerId) {
-      if (
-        (await isOffered(offerId)) &&
-        hasSupportedDistributions(resource.distributions)
-      ) {
-        return updateOfferEntities(
-          resource.dsc.offer,
-          prepareDscData(resource, resource.dsc.policy)
-        );
-      }
-      return patchResource(resourceId, createDscPatch());
-    }
-  }
-
   async deleteOffer(resourceId, offerId, actorId) {
-    const resource = await getResource(resourceId, this.collection);
+    const resource = await getResource(resourceId);
     if (await isOffered(offerId)) {
       await deleteOfferResource(resource.dsc.offer);
+      await deleteOfferMetadata(resource.id);
     }
     return patchResource(resourceId, createDscPatch(), actorId);
-  }
-
-  async handleDeleteEvent(resourceId) {
-    const resource = await getResource(resourceId, this.collection);
-    const offerId = resource?.dsc?.offer?.offerId;
-    if (offerId && (await isOffered(offerId))) {
-      return deleteOfferResource(resource.dsc.offer);
-    }
   }
 }
 

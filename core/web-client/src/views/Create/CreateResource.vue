@@ -9,17 +9,17 @@
         xl="7"
         class="elevation-0 create-card pa-0"
       >
-        <create-form />
+        <create-resource-form />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import CreateForm from "@/components/Resource/Create/CreateResourceForm";
+import CreateResourceForm from "@/components/Resource/Create/CreateResourceForm";
 export default {
   name: "CreateResource",
-  components: { CreateForm },
+  components: { CreateResourceForm },
 };
 </script>
 

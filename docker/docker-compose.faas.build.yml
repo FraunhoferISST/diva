@@ -19,7 +19,9 @@ services:
   text-language-guesser:
     build:
       context: ../faas/text-language-guesser
-
+  text-personal-data-evaluation:
+    build:
+      context: ../faas/text-personal-data-evaluation
 
   table-data-apriori-associations-extractor:
     build:
@@ -61,6 +63,3 @@ services:
   resource-management-sink:
     build:
       context: ../faas/resource-management-sink
-  personal-data-evaluation:
-    build:
-      context: ../faas/personal-data-evaluation

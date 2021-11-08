@@ -1,8 +1,8 @@
 <template>
   <div class="editable-content" :class="{ 'edit-active': editMode }">
     <div class="fill-height" @click="activateEdit" ref="editor">
-      <slot name="edit" v-if="editMode" :update="updateState"></slot>
-      <slot name="view" v-if="!editMode"></slot>
+      <slot name="edit" v-if="editMode" :set-edited-data="setEditedData"></slot>
+      <slot name="view" v-else></slot>
     </div>
 
     <div class="edit-toggle-btn-container">
@@ -22,13 +22,25 @@
           icon
           color="success"
           @click="save"
+          :disabled="!hasChanges"
           class="control ma-0"
+          :loading="isLoading"
           v-if="editMode"
         >
           <v-icon dense color="success">done</v-icon>
         </v-btn>
       </div>
     </div>
+    <v-snackbar
+      absolute
+      top
+      text
+      v-model="snackbar"
+      color="error"
+      :timeout="7000"
+    >
+      {{ snackbarText }}
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -39,16 +51,30 @@ export default {
     initialData: {
       required: true,
     },
+    onSave: {
+      type: Function,
+      required: true,
+    },
   },
   data() {
     return {
+      snackbar: false,
+      snackbarText: "Some error occurred!",
+      isLoading: false,
       editMode: false,
-      state: this.initialData,
+      editedData: this.initialData,
     };
+  },
+  computed: {
+    hasChanges() {
+      const initialState = JSON.stringify(this.initialData);
+      const editedState = JSON.stringify(this.editedData);
+      return initialState !== editedState;
+    },
   },
   methods: {
     toggleEdit() {
-      this.editMode = !this.editMode;
+      this.editMode ? this.disableEdit() : this.activateEdit();
     },
     activateEdit() {
       if (this.editMode) return;
@@ -56,13 +82,27 @@ export default {
     },
     disableEdit() {
       this.editMode = false;
+      this.isLoading = false;
+      this.snackbar = false;
+      this.snackbarText = "";
     },
-    updateState(newValue) {
-      this.state = newValue;
+    setEditedData(newValue) {
+      this.editedData = newValue;
     },
-    async save() {
-      this.$emit("save", this.state);
-      this.disableEdit();
+    save() {
+      this.isLoading = true;
+      this.onSave(this.editedData)
+        .then(() => {
+          this.$emit("saved", this.editedData);
+          this.disableEdit();
+        })
+        .catch((e) => {
+          this.snackbarText = e.toString();
+          this.snackbar = true;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
   },
 };

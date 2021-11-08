@@ -43,7 +43,7 @@ services:
     protocol: http
     host: "172.17.0.1"
     port: 3002
-    path: "/assets"
+    path: "/"
     routes:
       - name: assets-route
         paths:
@@ -51,11 +51,40 @@ services:
         protocols:
           - "http"
           - "https"
-        strip_path: true
+        strip_path: false
+        plugins:
+          - name: jwt-keycloak
+            config:
+              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
+      
+      - name: assetmanagement-route-images
+        methods:
+          - POST
+          - PUT
+          - OPTIONS
+          - DELETE
+        paths:
+          - "/assetImages"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
+        plugins:
+          - name: jwt-keycloak
+            config:
+              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
+
+      - name: assetmanagement-route-get-images
+        methods:
+          - GET
+        paths:
+          - "/assetImages"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
     plugins:
-      - name: jwt-keycloak
-        config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
+      - name: cors
 
   - name: "Reviews-Management"
     protocol: http

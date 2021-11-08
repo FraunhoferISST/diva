@@ -90,7 +90,7 @@ const emitEntityEvent = (payload) => {
       payload.attributedTo.forEach((e) => {
         io.to(`entity.events.${e.object.id}`).emit(ENTITY_EVENT, {
           actor: payload.actor,
-          type: payload.type,
+          type: "update", // it's always the update for the attributed entity
           ...e,
         });
       });
