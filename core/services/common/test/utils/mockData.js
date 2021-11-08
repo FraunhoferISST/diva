@@ -22,9 +22,7 @@ const createRandomAsset = () => ({
 });
 
 const createRandomService = () => ({
-  serviceType: ["profiling", "app", "management", "plugin"][
-    getRandomIntegerInRange(0, 3)
-  ],
+  serviceType: ["generic"][getRandomIntegerInRange(0, 0)],
   title: faker.lorem.sentence(),
 });
 

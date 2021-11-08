@@ -24,7 +24,7 @@ const processCreateBulkRequest = async (bulk, actorid) =>
     bulk.map((service) =>
       appendBulkRequestPromiseHandler(
         createSingleService(service, actorid),
-        service.uniqueFingerprint
+        service.title
       )
     )
   );

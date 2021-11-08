@@ -452,10 +452,7 @@ components:
               title: Service Type
               description: The general type of the service
               enum:
-                - app
-                - plugin
-                - profiling
-                - management
+                - generic
     Error:
       type: object
       title: Operation error
@@ -506,7 +503,7 @@ components:
               type: object
               required:
                 - statusCode
-                - uniqueFingerprint
+                - data
               properties:
                 statusCode:
                   title: Status Code
@@ -514,10 +511,6 @@ components:
                     opeartion on a single service
                   type: integer
                   example: 201
-                uniqueFingerprint:
-                  type: string
-                  title: Unique indentifier
-                  description: Global Unique indentifier as described in service schema
                 data:
                   title: Operation data
                   description: Data as a result of a single service operation
