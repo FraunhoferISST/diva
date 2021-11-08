@@ -22,7 +22,7 @@
     "pkg": "^5.3.1"
   },
   "pkg": {
-    "services": [
+    "assets": [
       "package.json",
       "apiDoc"
     ]
