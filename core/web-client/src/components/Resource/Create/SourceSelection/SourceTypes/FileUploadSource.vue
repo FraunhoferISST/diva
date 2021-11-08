@@ -149,7 +149,10 @@ export default {
                 resource.warning = "This file has already been uploaded";
                 resource.imported = true;
               } else {
-                resource.error = e?.response?.data?.message;
+                resource.error =
+                  e?.response?.data?.message ??
+                  e?.message ??
+                  "Some error occurred";
               }
             })
             .finally(() => {

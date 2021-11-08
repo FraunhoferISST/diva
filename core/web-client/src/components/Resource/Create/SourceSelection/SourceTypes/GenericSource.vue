@@ -102,12 +102,10 @@ export default {
               resource.imported = true;
             })
             .catch((e) => {
-              if (e?.response?.data?.code === 409) {
-                resource.warning = e?.response?.data?.message;
-                resource.imported = true;
-              } else {
-                resource.error = e?.response?.data?.message;
-              }
+              resource.error =
+                e?.response?.data?.message ??
+                e?.message ??
+                "Some error occurred";
             })
             .finally(() => {
               resource.loading = false;

@@ -121,11 +121,9 @@ export default {
       const controller = new AbortController();
       const signal = controller.signal;
       this.computedSource.onCancel = () => controller.abort();
-      const response = await fetchWrapper.fetch(
-        "/urbanPulseAdapter/import?streamResponse=true",
-        data,
-        signal
-      );
+      const response = await fetchWrapper
+        .fetch("/urbanPulseAdapter/import?streamResponse=true", data, signal)
+        .catch(() => this.processStreamResponseError(response, "{}"));
       const reader = response.body.getReader();
       if (response.ok) {
         let isReaderDone = false;
@@ -155,7 +153,7 @@ export default {
       }
     },
     processStreamResponseError(response, data) {
-      let errorMessage = "";
+      let errorMessage = "Some error occurred";
       try {
         const error = JSON.parse(data);
         errorMessage = error.message;

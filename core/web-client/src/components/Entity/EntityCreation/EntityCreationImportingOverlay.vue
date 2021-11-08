@@ -92,7 +92,7 @@
             <v-col
               cols="12"
               md="6"
-              v-for="(entity, i) in resourcesListsColumns[0]"
+              v-for="(entity, i) in paginatedResources"
               :key="i"
             >
               <entity-importing-card :entity="entity" />
@@ -229,13 +229,6 @@ export default {
         )
       );
     },
-    resourcesListsColumns() {
-      const middle = Math.ceil(this.paginatedResources.length / 2);
-      return [
-        this.paginatedResources.slice(0, middle),
-        this.paginatedResources.slice(middle),
-      ];
-    },
     progress() {
       return (this.done * 100) / this.resourcesCount;
     },
@@ -294,8 +287,10 @@ export default {
     },
     close() {
       this.computedOpen = false;
+      if (!this.fatalError && this.errors !== this.resourcesCount) {
+        setTimeout(() => this.$emit("close"), 300);
+      }
       this.reset();
-      setTimeout(() => this.$emit("close"), 300);
     },
     showSnackbar(text, color = "success") {
       this.snackbarText = text;
