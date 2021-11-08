@@ -96,7 +96,7 @@ const getFilesFromEntry = async (entry) => {
   return files;
 };
 
-const extractFilesFromFataTransferItems = async (items) => {
+const extractFilesFromDataTransferItems = async (items) => {
   const promises = [];
   const files = [];
   items.forEach((item) => {
@@ -187,7 +187,7 @@ export default {
     async selectFiles(event) {
       let files = [];
       if (event.dataTransfer) {
-        files = await extractFilesFromFataTransferItems(
+        files = await extractFilesFromDataTransferItems(
           event.dataTransfer?.items ?? []
         );
       } else {
