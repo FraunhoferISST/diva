@@ -44,8 +44,8 @@
                       class="d-flex justify-end"
                       v-if="user.id === currentUser.id"
                     >
+                      <logout-button class="mr-3" />
                       <user-details-editor :user="user" />
-                      <logout-button class="ml-2" />
                     </v-col>
                   </v-row>
                 </v-container>

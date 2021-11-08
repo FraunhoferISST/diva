@@ -106,7 +106,7 @@ services:
   
   asset-management:
     <<: *base-core-service
-    image: ${REGISTRY}asset-management:17.1.0
+    image: ${REGISTRY}asset-management:17.2.0
     container_name: asset-management
     environment:
       <<: *base-core-service-env
@@ -136,7 +136,7 @@ services:
 
   review-management:
     <<: *base-core-service
-    image: ${REGISTRY}review-management:1.0.1
+    image: ${REGISTRY}review-management:1.1.0
     container_name: reviews-management
     environment:
       <<: *base-core-service-env
@@ -242,7 +242,7 @@ services:
   # ####################################################################################################################
 
   history-assistant:
-    image: ${REGISTRY}history-assistant:0.0.1
+    image: ${REGISTRY}history-assistant:0.1.0
     container_name: history-assistant
     environment:
       <<: *base-core-service-env
@@ -367,7 +367,7 @@ services:
       - core
 
   diva-lake-adapter:
-    image: ${REGISTRY}diva-lake-adapter:0.2.1
+    image: ${REGISTRY}diva-lake-adapter:0.3.0
     container_name: diva-lake-adapter
     restart: always
     networks:
@@ -377,6 +377,9 @@ services:
     depends_on:
       - resource-management
     environment:
+      <<: *mongodb-env
+      <<: *kafka-env
+      <<: *schema-registry-env
       NODE_ENV: development
       PORT: ${DIVALAKE_ADAPTER_PORT}
       RESOURCE_MANAGEMENT_URL: http://resource-management:${RESOURCE_MANAGEMENT_PORT}
@@ -391,8 +394,8 @@ services:
   # ####################################################################################################################
 
   dsc-adapter:
-    image: ${REGISTRY}dsc-adapter:0.1.1
-    container_name: ids-adapter
+    image: ${REGISTRY}dsc-adapter:0.2.0
+    container_name: dsc-adapter
     restart: always
     networks:
       - core
@@ -436,7 +439,7 @@ services:
 
   event-emitter:
     <<: *base-core-service
-    image: ${REGISTRY}event-emitter:0.1.0
+    image: ${REGISTRY}event-emitter:0.1.1
     container_name: event-emitter
     depends_on:
       - broker
