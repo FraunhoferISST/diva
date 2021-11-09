@@ -83,13 +83,16 @@
     <v-snackbar text color="error" v-model="snackbar" absolute>
       {{ snackbarText }}
     </v-snackbar>
-    <confirmation-dialog :show.sync="showConfirmationDialog">
+    <confirmation-dialog
+      v-if="userIsAuthor"
+      :show.sync="showConfirmationDialog"
+    >
       <template>
         Are you sure you want to delete your review? The changes cannot be
         rolled back!
       </template>
       <template #confirm>
-        <v-btn small rounded color="error" @click="deleteReview">
+        <v-btn text rounded color="error" @click="deleteReview">
           Delete review
         </v-btn>
       </template>

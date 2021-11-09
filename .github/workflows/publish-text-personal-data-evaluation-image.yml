@@ -1,0 +1,62 @@
+name: Build and publish text-personal-data-evaluation image
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["master", "dev"]
+    paths:
+      - "faas/text-personal-data-evaluation/**"
+      - "!*.md"
+  pull_request:
+    branches: ["master", "dev"]
+    paths:
+      - "faas/text-personal-data-evaluation/**"
+      - "!*.md"
+
+env:
+  REGISTRY: ghcr.io/fraunhoferisst/diva
+  DIVA_DOCKER_CONTEXT: faas/text-personal-data-evaluation
+  IMAGE_NAME: text-personal-data-evaluation
+  DIVA_DOCKERFILE_PATH: faas/text-personal-data-evaluation/Dockerfile
+  SERVICE_PATH: faas/text-personal-data-evaluation
+  SERVICE_RELATIVE_PATH: text-personal-data-evaluation
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: get-version
+        id: package-version
+        run: echo ::set-output name=VERSION::$(python ${{ env.SERVICE_PATH }}/setup.py --version)
+
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@548e2346a9987b56d8a4104fe776321ff8e23440
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: ${{ steps.package-version.outputs.VERSION }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@a66e35b9cbcf4ad0ea91ffcaf7bbad63ad9e0229
+        with:
+          context: ${{ env.DIVA_DOCKER_CONTEXT }}
+          file: ${{ env.DIVA_DOCKERFILE_PATH }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: SERVICE_NAME=${{ env.SERVICE_RELATIVE_PATH }}

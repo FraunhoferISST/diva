@@ -1,0 +1,8 @@
+# nodejs
+__pycache__
+
+# vscode
+.vscode
+
+# intellij
+.idea

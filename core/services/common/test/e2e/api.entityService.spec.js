@@ -240,7 +240,7 @@ const runDeleteTests = (collectionName) => {
     const deletedEntity = await this.dbCollection.findOne({
       id: this.testEntities[1].id,
     });
-    expect(deletedEntity).to.be.undefined;
+    expect(deletedEntity).to.be.null;
   });
   it("returns consistent error object on errors", async function () {
     const res = await this.request.runRequest(

@@ -1,0 +1,31 @@
+# ####################################################################################################################
+# DIVA migration service
+# ####################################################################################################################
+x-mongodb-env: &mongodb-env
+  MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@documentstore:${MONGODB_PORT}
+
+x-schema-registry-env: &schema-registry-env
+  SCHEMA_REGISTRY_URL: http://schema-registry:${SCHEMA_REGISTRY_PORT}/
+
+x-elasticsearch-env: &elasticsearch-env
+  ELASTICSEARCH_URL: http://elasticsearch:${ELASTICSEARCH_PORT}
+
+x-base-core-service-env: &base-core-service-env
+  <<: *mongodb-env
+  <<: *schema-registry-env
+  <<: *elasticsearch-env
+
+version: '3.9'
+
+services:
+  migration:
+    image: ${REGISTRY}migration:0.1.0-diva-3.0.3-3.1.0
+    container_name: 'diva-migration'
+    environment:
+      <<: *base-core-service-env
+    networks:
+      - core
+
+networks:
+  core:
+    name: core

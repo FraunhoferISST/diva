@@ -1,12 +1,12 @@
 <template>
-  <asset-create></asset-create>
+  <create-asset-form />
 </template>
 
 <script>
-import AssetCreate from "@/components/Asset/AssetCreate/AssetCreate";
+import CreateAssetForm from "@/components/Asset/AssetCreate/CreateAssetForm";
 export default {
   name: "CreateAsset",
-  components: { AssetCreate },
+  components: { CreateAssetForm },
 };
 </script>
 

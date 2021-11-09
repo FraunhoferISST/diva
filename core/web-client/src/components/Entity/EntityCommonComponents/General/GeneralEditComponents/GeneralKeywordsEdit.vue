@@ -19,12 +19,11 @@
         autofocus
       >
         <template slot="no-data">
-          <v-list-item>
+          <v-list-item dense>
             <v-list-item-content>
               <v-list-item-title>
-                <p class="ma-0 pa-3">
-                  No results matching "<strong>{{ keyword }}</strong
-                  >". Press <kbd>enter</kbd> to create a keyword
+                <p class="ma-0">
+                  Press <kbd>enter</kbd> or <kbd>tab</kbd> to add a new keyword
                 </p>
               </v-list-item-title>
             </v-list-item-content>
@@ -42,7 +41,6 @@ export default {
   components: { EditActivateTransition },
   props: {
     keywords: {
-      type: Array,
       required: true,
     },
   },
@@ -52,7 +50,7 @@ export default {
   computed: {
     computedKeywords: {
       get() {
-        return this.keywords;
+        return this.keywords ?? [];
       },
       set(value) {
         this.$emit("update:keywords", { keywords: value });
