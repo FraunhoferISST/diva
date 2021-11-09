@@ -1,6 +1,11 @@
 <template>
-  <v-menu :close-on-content-click="true" transition="scale-transition">
-    <template v-slot:activator="{ on, attrs }">
+  <v-menu
+    content-class="custom-date-picker"
+    :close-on-content-click="true"
+    transition="scale-transition"
+    max-width="290"
+  >
+    <template #activator="{ on, attrs }">
       <v-text-field
         v-model="computedDate"
         :label="label"
@@ -10,7 +15,6 @@
         dense
         v-bind="attrs"
         v-on="on"
-        clearable
         hide-details
       ></v-text-field>
     </template>

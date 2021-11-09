@@ -7,4 +7,9 @@ module.exports = {
     "The provided sensors couldn't be found",
     404
   ),
+  requestCanceledError: customErrorFactory(
+    "requestCanceledError",
+    "The request was canceled by client",
+    400
+  ),
 };

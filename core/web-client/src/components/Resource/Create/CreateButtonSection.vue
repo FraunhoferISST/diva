@@ -9,7 +9,7 @@
         <div
           class="text-center action-container d-flex column wrap justify-center align-center"
         >
-          <div class="action-content pa-2">
+          <div class="action-content pa-2 pa-md-10 flex-grow-1">
             <custom-header
               class="mb-3 hidden-sm-and-down"
               text="Import new data"
@@ -74,7 +74,7 @@ export default {
   transition: 0.5s;
   // background-color: $bg_dark;
   height: 100%;
-  min-height: 50vh;
+  min-height: 60vh;
   width: 100%;
   top: 0;
   left: 0;

@@ -1,4 +1,5 @@
 import axios from "@/api/axios";
 export default {
-  import: (data) => axios.post("/urbanPulseAdapter/import", data),
+  import: (data, query) =>
+    axios.post("/urbanPulseAdapter/import", data, { params: query }),
 };

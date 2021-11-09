@@ -49,6 +49,8 @@ import SourceCredentials from "@/components/Resource/Create/SourceSelection/Sour
 import SourceDatePicker from "@/components/Resource/Create/SourceSelection/SourceCreationFields/SourceDatePicker";
 import CheckBoxCard from "@/components/Base/CheckBoxCard";
 import SourceArrayInput from "@/components/Resource/Create/SourceSelection/SourceCreationFields/SourceArrayInput";
+import fetchWrapper from "@/api/fetchWrapper";
+
 export default {
   name: "UrbanPulseSource",
   components: {
@@ -97,7 +99,10 @@ export default {
     },
   },
   methods: {
-    create() {
+    async create() {
+      this.computedSource.resources = [];
+      this.computedSource.totalCount = null;
+      this.computedSource.processedCount = null;
       const data = { ...this.credentials };
       if (
         this.onlySpecificSensors &&
@@ -105,7 +110,59 @@ export default {
       ) {
         data.sensors = this.sensors;
       }
-      return this.$api.urbanPulseAdapter.import(data);
+      this.computedSource.resources = [
+        {
+          title: "Importing your UrbanPulse data",
+          loading: true,
+          imported: false,
+        },
+      ];
+      const decoder = new TextDecoder("utf-8");
+      const controller = new AbortController();
+      const signal = controller.signal;
+      this.computedSource.onCancel = () => controller.abort();
+      const response = await fetchWrapper
+        .fetch("/urbanPulseAdapter/import?streamResponse=true", data, signal)
+        .catch(() => this.processStreamResponseError(response, "{}"));
+      const reader = response.body.getReader();
+      if (response.ok) {
+        let isReaderDone = false;
+        while (!isReaderDone) {
+          const { value, done } = await reader.read();
+          isReaderDone = done;
+          if (value) {
+            this.processStreamResponse(decoder.decode(value));
+          }
+        }
+        this.computedSource.resources[0].loading = false;
+        this.computedSource.resources[0].imported = true;
+      } else {
+        const { value } = await reader.read();
+        this.processStreamResponseError(response, decoder.decode(value));
+      }
+    },
+    processStreamResponse(data) {
+      try {
+        const { totalCount, processedCount } = JSON.parse(data);
+        this.computedSource.totalCount = totalCount;
+        this.computedSource.processedCount = processedCount;
+        this.computedSource.resources[0].title = `Found ${totalCount} sensors to import`;
+      } catch {
+        // just need some code here
+        this.computedSource.resources[0].title = `Still importing sensors`;
+      }
+    },
+    processStreamResponseError(response, data) {
+      let errorMessage = "Some error occurred";
+      try {
+        const error = JSON.parse(data);
+        errorMessage = error.message;
+      } catch {
+        errorMessage = `${response.status}: ${response.statusText}`;
+      }
+      this.computedSource.resources[0].loading = false;
+      this.computedSource.resources[0].error = errorMessage;
+      throw errorMessage;
     },
     onCheckBoxCardChange(isChecked) {
       this.onlySpecificSensors = isChecked;
