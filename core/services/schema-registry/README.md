@@ -1,6 +1,11 @@
 # Schema Registry 📔
 
-This service provides a HTTP API to distribute file-based schemata. 
+This service provides an HTTP API to distribute file-based schemata. It serves JSON and AsyncAPI schemas 
+used by the most of the core services.
+
+The versioning on the service must indicate both the changes on the service source code as well the changes at the **schemata**!
+For example, extending a schema with new properties can be treated as feature. Removal of some properties or changes in type
+definitions must increment major version and indicate breaking changes.
 
 ## Requirements
 
@@ -12,7 +17,6 @@ This service provides a HTTP API to distribute file-based schemata.
 |---|---|---|
 |NODE_ENV|development|sets the mode in which the service runs|
 |PORT|3010|sets the port allocated by the service|
-|SCHEMA_DIR|schemata|the folder, where all the schemata are located|
 
 ## Setting up for Development
 
