@@ -5,6 +5,15 @@ const mime = require("mime");
 const fs = require("fs");
 const { schemaNotFoundError } = require("./errors");
 
+let WORK_DIR = process.cwd();
+let schemataRootDir = "/schemata";
+
+if (process.pkg?.entrypoint) {
+  const pkgEntryPoint = process.pkg?.entrypoint ?? "";
+  WORK_DIR = pkgEntryPoint.substring(0, pkgEntryPoint.lastIndexOf("/") + 1);
+  schemataRootDir = path.join(WORK_DIR, schemataRootDir);
+}
+
 const keyv = new Keyv();
 keyv.on("error", (err) => console.log("Connection Error", err));
 
@@ -16,17 +25,13 @@ const loadSchema = async (p) => {
 
 const buildInMemoryDb = async () => {
   console.log(`👀 Read Schemata`);
-  const schemaFolder = process.env.SCHEMA_DIR || "../../schemata";
-
-  try {
-    const schemataPaths = glob.sync(`${schemaFolder}/**/*.*`);
-    const promises = schemataPaths.map(loadSchema);
-    await Promise.all(promises);
-    console.log("✅ All schemata read into memory");
-  } catch (e) {
-    console.error(`🛑 Error: ${e}`);
-    process.exit(1);
+  const schemataPaths = glob.sync(`${schemataRootDir}/**/*.*`);
+  if (schemataPaths.length === 0) {
+    throw Error(`Couldn't find eny schema on "${schemataRootDir}"`);
   }
+  const promises = schemataPaths.map(loadSchema);
+  await Promise.all(promises);
+  console.log("✅ All schemata read into memory");
 };
 
 const getSchemaByName = async (name) =>
