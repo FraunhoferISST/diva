@@ -358,9 +358,6 @@ services:
       - ${SCHEMA_REGISTRY_PORT}:${SCHEMA_REGISTRY_PORT}
     environment:
       PORT: ${SCHEMA_REGISTRY_PORT}
-      SCHEMA_DIR: schemata
-    volumes:
-      - ../core/schemata:/app/schemata
 
   # ####################################################################################################################
   # DIVA Lake Services
