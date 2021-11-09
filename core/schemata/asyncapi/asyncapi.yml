@@ -67,6 +67,19 @@ channels:
       message:
         $ref: '#/components/messages/ReviewEvents'
 
+  service.events:
+    description: The topic on which events related to services operations may be produced and consumed.
+    subscribe:
+      description: Receive services operations events.
+      operationId: subscribeServiceEvents
+      message:
+        $ref: '#/components/messages/ServiceEvents'
+    publish:
+      description: Publish information about services data changes.
+      operationId: publishServiceEvents
+      message:
+        $ref: '#/components/messages/ServiceEvents'
+
 components:
   messages:
     UserEvents:
@@ -94,6 +107,14 @@ components:
       name: reviewEvents
       title: Review events
       summary: Inform about review operations events.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/GenericMessageSchema'
+
+    ServiceEvents:
+      name: serviceEvents
+      title: Service events
+      summary: Inform about services operations events.
       contentType: application/json
       payload:
         $ref: '#/components/schemas/GenericMessageSchema'

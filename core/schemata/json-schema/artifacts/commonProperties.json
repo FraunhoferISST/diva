@@ -25,6 +25,19 @@
       }
     },
 
+    "summary": {
+      "$id": "summary",
+      "type": "string",
+      "title": "Summary",
+      "description": "A brief explanation what the entity is. In contrary to the description, the summary is limited in length for a quick insight e.g. on a search page.",
+      "default": "",
+      "examples": [
+        "lorem ipsum dolor sit amet..."
+      ],
+      "minLength": 0,
+      "maxLength": 255
+    },
+
     "description": {
       "$id": "description",
       "type": "string",

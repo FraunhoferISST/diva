@@ -2,6 +2,8 @@ const faker = require("faker");
 const casual = require("casual");
 const generateUuid = require("../../generateUuid");
 
+const getRandomIntegerInRange = (from, to) => casual.integer(from, to);
+
 const randomHash = () =>
   [..."143baf2d3bdd2ccf5f3dfc5e5ec150ab60e44a7d95e6605d9feb2f5c9e1ab4a0"]
     .sort((_) => Math.random() - 0.5)
@@ -17,6 +19,11 @@ const createRandomAsset = () => ({
   assetType: "generic",
   title: faker.lorem.sentence(),
   entities: [],
+});
+
+const createRandomService = () => ({
+  serviceType: ["generic"][getRandomIntegerInRange(0, 0)],
+  title: faker.lorem.sentence(),
 });
 
 const mockData = {
@@ -140,6 +147,10 @@ const mockData = {
     data: Array(10)
       .fill("")
       .map(() => createRandomAsset()),
+  },
+  services: {
+    createRandom: createRandomService,
+    data: Array(10).fill("").map(createRandomService),
   },
 };
 

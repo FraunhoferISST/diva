@@ -10,6 +10,32 @@
     "modified",
     "creatorId"
   ],
+  "definitions": {
+    "imageSource": {
+      "anyOf": [
+        {
+          "type": "string",
+          "title": "Image URL",
+          "description": "The host URL of the image",
+          "format": "uri",
+          "examples": ["https://image-host.com/my-image"],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+        {
+          "type": "string",
+          "title": "Image id",
+          "description": "The id of the uploaded image",
+          "examples": ["image:uuid:67d4acaa-00e0-4a00-8b61-15abe20e1413"],
+          "pattern": "^image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        }
+      ]
+    }
+  },
   "allOf": [
     {
       "if": { 
@@ -77,6 +103,19 @@
       }
     },
     {
+      "if": {
+        "properties": { "entityType": { "const": "service" } }
+      },
+      "then": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^service:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          }
+        }
+      }
+    },
+    {
       "properties": {
 
         "id": {
@@ -106,7 +145,8 @@
             "asset",
             "user",
             "review",
-            "history"
+            "history",
+            "service"
           ],
           "_elasticsearch": {
             "type": "keyword"
@@ -140,7 +180,6 @@
             "type": "date"
           }
         },
-    
         "creatorId": {
           "$id": "creatorId",
           "type": "string",
@@ -153,8 +192,50 @@
           "_elasticsearch": {
             "type": "keyword"
           }
+        },
+        "entityIcon": {
+          "title": "Entity icon",
+          "description": "The source of the entity icon image",
+          "$ref": "#/definitions/imageSource"
+        },
+        "entityBanner": {
+          "title": "Entity banner",
+          "description": "The source of the entity banner image",
+          "$ref": "#/definitions/imageSource"
+        },
+        "entityImages": {
+          "type": "array",
+          "title": "Entity Images id's or URL's",
+          "items": {
+            "$ref": "#/definitions/imageSource"
+          }
+        },
+        "entityVideos": {
+          "type": "array",
+          "minItems": 0,
+          "title": "Entity Videos",
+          "description": "Visual representation of an entity",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri",
+                "examples": ["https://image-host.com"],
+                "_elasticsearch": {
+                  "type": "keyword"
+                }
+              },
+              {
+                "type": "string",
+                "examples": ["video:uui:67d4acaa-00e0-4a00-8b61-15abe20e1413"],
+                "pattern": "^video:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+                "_elasticsearch": {
+                  "type": "keyword"
+                }
+              }
+            ]
+          }
         }
-        
       }
     }
   ]
