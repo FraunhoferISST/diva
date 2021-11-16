@@ -13,23 +13,15 @@ class SearchService {
     const { cursor, pageSize = 30, q = "" } = queryData;
     let query = q;
     let from = 0;
-    let size = parseInt(pageSize, 10);
+    const size = parseInt(pageSize, 10);
 
     if (cursor) {
       try {
-        ({ query, from, size } = JSON.parse(decodeCursor(cursor)));
+        ({ query, from } = JSON.parse(decodeCursor(cursor)));
       } catch (e) {
         throw new Error(`🛑 Invalid cursor "${cursor}" provided`);
       }
     }
-
-    const newCursor = encodeCursor(
-      JSON.stringify({
-        query,
-        from: from + size,
-        size,
-      })
-    );
 
     const requestBody = esb
       .requestBodySearch()
@@ -76,7 +68,15 @@ class SearchService {
 
     return {
       collection: result,
-      cursor: result.length > 0 ? newCursor : null,
+      cursor:
+        total - from > pageSize
+          ? encodeCursor(
+              JSON.stringify({
+                query,
+                from: from + size,
+              })
+            )
+          : null,
       total,
     };
   }
