@@ -23,9 +23,8 @@
                   label
                   color="info"
                   x-small
-                  bold
                 >
-                  {{ doc.mimeType || doc.assetType }}
+                  {{ mimeType }}
                 </v-chip>
                 <v-chip
                   v-if="doc.resourceType || doc.assetType"
@@ -78,6 +77,10 @@ export default {
     },
   },
   computed: {
+    mimeType() {
+      const mimeType = this.doc.mimeType || this.doc.assetType;
+      return mimeType.length > 30 ? `${mimeType.slice(0, 30)}...` : mimeType;
+    },
     highlightedTitle() {
       return this.data?.highlight?.["title"]?.[0];
     },
