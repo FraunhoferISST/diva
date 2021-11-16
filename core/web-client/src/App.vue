@@ -105,7 +105,7 @@ export default {
   "styles/tabs", "styles/date-picker";
 html {
   font-size: 14px !important;
-  overflow-y: auto;
+  overflow-y: auto !important;
 }
 
 #app {
