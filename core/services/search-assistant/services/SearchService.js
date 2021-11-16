@@ -71,7 +71,7 @@ class SearchService {
 
     return {
       collection: result,
-      cursor: newCursor,
+      cursor: result.length > 0 ? newCursor : null,
       total,
     };
   }
