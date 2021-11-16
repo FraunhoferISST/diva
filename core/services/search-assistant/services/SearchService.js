@@ -55,7 +55,12 @@ class SearchService {
 
     const requestCountBody = esb
       .requestBodySearch()
-      .query(esb.multiMatchQuery(["*"], query).fuzziness("AUTO"));
+      .query(
+        esb
+          .queryStringQuery(`${query}*`)
+          .fields(["title^4", "keywords^3", "description^2", "*^1"])
+          .fuzziness("AUTO")
+      );
 
     const total = (
       await this.elasticsearchConnector.client.count({
