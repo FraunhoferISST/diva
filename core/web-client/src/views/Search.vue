@@ -157,7 +157,6 @@ export default {
         observerState.loading = true;
         this.makeSearchRequest().then(({ items, cursor, total }) => {
           this.searchResults.push(...items);
-          console.log(cursor);
           this.cursor = cursor;
           this.totalSearchResults = total;
           observerState.loading = false;
