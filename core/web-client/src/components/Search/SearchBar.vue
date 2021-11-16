@@ -81,13 +81,14 @@ export default {
 <style scoped lang="scss">
 .search-bar-container {
   position: absolute;
-  left: 70px;
   right: 0;
   top: 140px;
   z-index: 100;
+  width: 100%;
   &.interacted {
     position: fixed;
     top: 0;
+    left: 70px;
     background-color: white;
   }
 }

@@ -187,17 +187,18 @@ export default {
     },
   },
   mounted() {
-    const term = this.$route.query.term || this.$store.state.search.term;
-    if (term) {
-      this.$router.replace({
-        name: "search",
-        query: { term },
-      });
-      this.term = term;
+    if (this.$route.query.term) {
       this.interacted = true;
-    } else {
-      this.search();
+      if (this.$route.query.term !== this.$store.state.search.term) {
+        this.term = this.$route.query.term;
+      } else {
+        return this.search();
+      }
     }
+    if (this.$store.state.search.term) {
+      this.interacted = true;
+    }
+    this.search();
   },
 };
 </script>
