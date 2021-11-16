@@ -55,6 +55,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    totalSearchResults: {
+      type: Number,
+      default: 0,
+    },
   },
   computed: {
     computedInput: {
@@ -76,12 +80,13 @@ export default {
 
 <style scoped lang="scss">
 .search-bar-container {
-  position: fixed;
+  position: absolute;
   left: 70px;
   right: 0;
-  top: 35vh;
+  top: 140px;
   z-index: 100;
   &.interacted {
+    position: fixed;
     top: 0;
     background-color: white;
   }
