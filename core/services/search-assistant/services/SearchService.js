@@ -10,17 +10,14 @@ class SearchService {
   }
 
   async searchAll(queryData) {
-    const { cursor, pageSize = 30, q } = queryData;
+    const { cursor, pageSize = 30, q = "" } = queryData;
     let query = q;
     let from = 0;
     let size = parseInt(pageSize, 10);
 
     if (cursor) {
       try {
-        const oldCursor = JSON.parse(decodeCursor(cursor));
-        query = oldCursor.query;
-        from = oldCursor.from;
-        size = oldCursor.size;
+        ({ query, from, size } = JSON.parse(decodeCursor(cursor)));
       } catch (e) {
         throw new Error(`🛑 Invalid cursor "${cursor}" provided`);
       }
@@ -67,11 +64,13 @@ class SearchService {
       })
     ).body.count;
 
+    const result = body.hits.hits.map((doc) => ({
+      doc: doc._source,
+      highlight: doc.highlight,
+    }));
+
     return {
-      collection: body.hits.hits.map((doc) => ({
-        doc: doc._source,
-        highlight: doc.highlight,
-      })),
+      collection: result,
       cursor: newCursor,
       total,
     };
