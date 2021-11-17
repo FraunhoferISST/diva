@@ -101,8 +101,8 @@ export default {
         );
     },
     description() {
-      return this.doc.description.length > 100
-        ? `${this.doc.description.slice(0, 400)}... `
+      return this.doc.description.length > 300
+        ? `${this.doc.description.slice(0, 300)}... `
         : this.doc.description;
     },
     keywords() {
