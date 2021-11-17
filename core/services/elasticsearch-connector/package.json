@@ -16,7 +16,7 @@
   "author": "Sergej Atamantschuk",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.1.1"
+    "@diva/common": "^1.1.2"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",

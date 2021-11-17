@@ -15,6 +15,11 @@ x-schema-registry-env: &schema-registry-env
 x-elasticsearch-env: &elasticsearch-env
   ELASTICSEARCH_URL: http://elasticsearch:${ELASTICSEARCH_PORT}
 
+x-neo4j-env: &neo4j-env
+  NEO4J_URL: http://neo4j:${NEO4J_PORT}
+  NEO4J_ROOT_USERNAME: ${NEO4J_ROOT_USERNAME}
+  NEO4J_ROOT_PASSWORD: ${NEO4J_ROOT_USERNAME}
+
 x-airflow-env: &airflow-env
   AIRFLOW_URL: http://airflow-webserver:${AIRFLOW_PORT}
   _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME}
@@ -466,6 +471,40 @@ services:
       EVENT_EMITTER_SPECIFICATION: event-emitter-api
       KAFKA_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\", \"service.events\"]"
 
+  # ####################################################################################################################
+  # DIVA Data Network Graph DB
+  # ####################################################################################################################
+
+  neo4j:
+    image: neo4j:4.3.7-community
+    hostname: neo4j
+    container_name: neo4j
+    ports:
+      - "${NEO4J_PORT}:7474"
+      - "${NEO4J_BOLT_PORT}:7687"
+    volumes:
+      - neo4j:/data
+    environment:
+      NEO4J_AUTH: ${NEO4J_ROOT_USERNAME}/${NEO4J_ROOT_PASSWORD}
+      NEO4J_dbms_active__database: ${NEO4J_DATABASE_NAME}
+      NEO4J_dbms_logs_debug_level: DEBUG
+
+  neo4j-connector:
+    <<: *base-core-service
+    image: ${REGISTRY}neo4j-connector:0.0.1
+    container_name: neo4j-connector
+    depends_on:
+      - broker
+      - neo4j
+      - documentstore
+    environment:
+      <<: *base-core-service-env
+      <<: *neo4j-env
+      PORT: ${NEO4J_CONNECTOR_PORT}
+      KAFKA_CONSUMER_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\", \"service.events\"]"
+    ports:
+      - ${NEO4J_CONNECTOR_PORT}:${NEO4J_CONNECTOR_PORT}    
+
 # ####################################################################################################################
 # Docker Volume and Network Settings
 # ####################################################################################################################
@@ -475,6 +514,8 @@ volumes:
     driver: local
   elasticsearch:
     driver: local
+  neo4j:
+    driver: local 
   divaLake:
     driver: local
   brokerData:
