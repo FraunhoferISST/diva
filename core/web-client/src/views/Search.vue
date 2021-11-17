@@ -1,7 +1,7 @@
 <template>
   <section
     id="search"
-    class="relative"
+    class="relative pb-12"
     :class="{ interacted: interacted }"
     v-scroll.self="onScroll"
   >
@@ -13,21 +13,12 @@
       @submit="submitSearch"
     />
     <fade-in>
-      <v-container
-        class="ma-0"
-        fluid
-        v-if="searchResults.length > 0 && !isLoading"
-      >
+      <v-container v-if="searchResults.length > 0 && !isLoading">
         <v-row>
           <search-result class="mt-5" :search_result="searchResults" />
         </v-row>
       </v-container>
-      <v-container
-        class="ma-0"
-        fluid
-        v-else
-        :class="{ 'fill-height': interacted }"
-      >
+      <v-container fluid v-else :class="{ 'fill-height': interacted }">
         <v-row>
           <v-col cols="12">
             <fade-in>

@@ -2,15 +2,7 @@
   <v-col cols="12">
     <fade-in>
       <v-row v-if="!list">
-        <v-col
-          cols="12"
-          sm="6"
-          md="4"
-          lg="4"
-          xl="4"
-          v-for="(item, i) in search_result"
-          :key="i"
-        >
+        <v-col cols="12" v-for="(item, i) in search_result" :key="i">
           <fade-in>
             <search-result-card class="fill-height" :key="i" :data="item" />
           </fade-in>

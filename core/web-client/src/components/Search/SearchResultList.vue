@@ -2,7 +2,7 @@
   <entity-details-link :id="data.id">
     <div class="search-card-container">
       <div class="search-card">
-        <div class="search-card-content">
+        <div class="search-card-header">
           <div class="search-card-icon">
             <identicon
               class="card-icon"
@@ -107,7 +107,7 @@ export default {
   width: 100%;
 }
 
-.search-card-content {
+.search-card-header {
   display: grid;
   grid-template-columns: auto 1fr;
   grid-gap: 10px;
