@@ -17,15 +17,15 @@ class Connector {
     return Promise.all(constraints);
   }
 
-  async create({ dbName, collection }, id) {
+  async create(entityType, id) {
     const session = neo4jConnector.client.session();
-    return session.run(`CREATE (n:${collection.slice(0, -1)} {id: '${id}'})`);
+    return session.run(`CREATE (n:${entityType} {id: '${id}'})`);
   }
 
-  async update({ dbName, collection }, id) {
+  async update(entityType, id) {
     try {
       const session = neo4jConnector.client.session();
-      await session.run(`CREATE (n:${collection.slice(0, -1)} {id: '${id}'})`);
+      await session.run(`CREATE (n:${entityType} {id: '${id}'})`);
       return true;
     } catch (e) {
       if (e.code === "Neo.ClientError.Schema.ConstraintValidationFailed") {
@@ -35,11 +35,9 @@ class Connector {
     }
   }
 
-  async delete({ dbName, collection }, id) {
+  async delete(entityType, id) {
     const session = neo4jConnector.client.session();
-    return session.run(
-      `MATCH (n:${collection.slice(0, -1)} {id: '${id}'}) DELETE n`
-    );
+    return session.run(`MATCH (n:${entityType} {id: '${id}'}) DELETE n`);
   }
 }
 

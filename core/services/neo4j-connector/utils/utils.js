@@ -1,12 +1,6 @@
 const Connector = require("../Connector");
 
-const getDbByEntityId = (id) => {
-  const entityType = id.slice(0, id.indexOf(":"));
-  return {
-    dbName: `${entityType}sDb`,
-    collection: `${entityType}s`,
-  };
-};
+const getDbByEntityId = (id) => id.slice(0, id.indexOf(":"));
 
 const operationsMap = {
   create: Connector.create,
@@ -16,7 +10,8 @@ const operationsMap = {
 
 const getOperation = (type) => operationsMap[type];
 
-const createConstraints = (neo4jLabels) => Connector.createConstraints(neo4jLabels);
+const createConstraints = (neo4jLabels) =>
+  Connector.createConstraints(neo4jLabels);
 
 module.exports = {
   createConstraints,

@@ -24,8 +24,8 @@ const onMessage = async (message) => {
       type,
       object: { id },
     } = parsedMassage.payload;
-    const mongoDbData = getDbByEntityId(id);
-    await getOperation(type)(mongoDbData, id);
+    const entityType = getDbByEntityId(id);
+    await getOperation(type)(entityType, id);
     console.info(`💬 Processed message type "${type}" for entity "${id}"`);
   } catch (err) {
     console.error(err);
