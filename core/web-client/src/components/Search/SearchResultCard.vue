@@ -1,11 +1,11 @@
 <template>
   <entity-details-link :id="doc.id" target="_blank">
-    <div class="search-card-container fill-height d-flex">
+    <div class="search-card-container fill-height d-flex pa-10">
       <div class="search-card">
-        <div class="search-card-content">
+        <div class="search-card-header">
           <div class="search-card-icon d-flex">
             <identicon
-              class="card-icon mt-2"
+              class="card-icon"
               :hash="doc.uniqueFingerprint || doc.id"
               :options="{ size: 40 }"
             />
@@ -13,46 +13,42 @@
           <div class="search-card-info-container">
             <h1 class="search-card-title">
               <span v-if="highlightedTitle" v-html="highlightedTitle"></span>
-              <span v-else>{{ doc.title }}</span>
+              <span v-else>{{ doc.title || doc.username }}</span>
             </h1>
             <div class="search-card-meta-container mt-1">
               <div>
                 <v-chip
-                  v-if="doc.mimeType"
                   class="my-0 mr-2 font-weight-bold"
                   label
-                  color="info"
+                  color="#eff3f7"
                   x-small
+                  v-for="label in labels"
+                  :key="label"
                 >
-                  {{ mimeType }}
-                </v-chip>
-                <v-chip
-                  v-if="doc.resourceType || doc.assetType"
-                  class="my-0 mr-2 font-weight-bold"
-                  label
-                  color="info"
-                  x-small
-                  bold
-                >
-                  {{ doc.resourceType || doc.assetType }}
-                </v-chip>
-                <v-chip
-                  class="my-0 font-weight-bold"
-                  label
-                  color="info"
-                  x-small
-                >
-                  {{ doc.entityType }}
+                  {{ label }}
                 </v-chip>
               </div>
             </div>
           </div>
         </div>
-        <div class="mt-2">
-          <div class="search-card-keywords">
+        <div class="search-card-content mt-4">
+          <div class="search-card-keywords" v-if="keywords.length > 0">
             <v-chip class="mr-1" x-small v-for="(tag, i) in keywords" :key="i">
               {{ tag }}
             </v-chip>
+          </div>
+          <p class="search-card-description ma-0 mt-2" v-if="doc.description">
+            {{ description }}
+          </p>
+          <div class="search-card-timestamps d-flex mt-3">
+            <info-block-title>Created</info-block-title>
+            <info-block-value>
+              <date-display :date="doc.created" />
+            </info-block-value>
+            <info-block-title class="ml-2">Modified</info-block-title>
+            <info-block-value>
+              <date-display :date="doc.modified" />
+            </info-block-value>
           </div>
         </div>
       </div>
@@ -63,10 +59,16 @@
 <script>
 import Identicon from "@/components/Base/Identicon";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
+import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
+import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
+import DateDisplay from "@/components/Base/DateDisplay";
 
 export default {
   name: "SearchResultCard",
   components: {
+    DateDisplay,
+    InfoBlockValue,
+    InfoBlockTitle,
     EntityDetailsLink,
     Identicon,
   },
@@ -77,15 +79,31 @@ export default {
     },
   },
   computed: {
-    mimeType() {
-      const mimeType = this.doc.mimeType || this.doc.assetType;
-      return mimeType.length > 30 ? `${mimeType.slice(0, 30)}...` : mimeType;
-    },
     highlightedTitle() {
-      return this.data?.highlight?.["title"]?.[0];
+      return (
+        this.data?.highlight?.["title"]?.[0] ||
+        this.data?.highlight?.["username"]?.[0]
+      );
     },
     doc() {
       return this.data.doc;
+    },
+    labels() {
+      return [
+        this.doc.entityType,
+        this.doc.resourceType,
+        this.doc.assetType,
+        this.doc.mimeType,
+      ]
+        .filter((label) => label)
+        .map((label) =>
+          label.length > 30 ? `${label.slice(0, 30)}...` : label
+        );
+    },
+    description() {
+      return this.doc.description.length > 300
+        ? `${this.doc.description.slice(0, 300)}... `
+        : this.doc.description;
     },
     keywords() {
       return (this.doc.keywords ?? []).slice(0, 25);
@@ -95,15 +113,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.status-tooltip {
-  background-color: $bg_hover !important;
-  opacity: 1;
-  @include gradient-success;
-  @include font-style(1.1rem, $font_body, bold, $bg_primary);
-}
 .search-card-container {
   width: 100%;
-  // min-height: 117px;
   position: relative;
   transition: 0.5s;
   cursor: pointer;
@@ -111,25 +122,20 @@ export default {
   background-color: $bg_card;
   border-radius: 8px;
   &:hover {
-    box-shadow: 0 0px 15px 10px rgba(black, 0.05);
+    box-shadow: 0 0 15px 10px rgba(black, 0.05);
   }
 }
 
 .search-card {
   transition: 0.3s;
   position: relative;
-  padding: 10px;
   width: 100%;
-  em {
-    color: red;
-  }
 }
 
-.search-card-content {
+.search-card-header {
   display: grid;
   grid-template-columns: 45px 1fr;
   grid-gap: 10px;
-  //max-height: 55px;
 }
 
 .search-card-info-container {
@@ -139,19 +145,16 @@ export default {
   padding-left: 4px;
 }
 
-.search-card-meta-container {
-  display: grid;
-  grid-template-columns: minmax(150px, auto) 1fr;
-  grid-gap: 10px;
-}
-
 .search-card-title {
-  // padding-right: 30px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  letter-spacing: 0.05rem;
-  @include font-style(1.1rem, $font_body, normal, $font_primary_color);
+  letter-spacing: 0.02rem;
+  @include font-style(1.2rem, $font_header, normal, $font_primary_color);
+}
+
+.search-card-description {
+  @include font-style(1rem, $font_body, normal, $font_secondary_color);
 }
 
 .search-card-icon {
@@ -169,34 +172,8 @@ export default {
   }
 }
 
-.search-card-meta-header {
-  text-transform: uppercase;
-  font-size: 0.7rem;
-  letter-spacing: 0.2rem;
-  @include font-style(0.7rem, $font_body, normal, $font_secondary_color);
-}
-
-.search-card-meta {
-  color: $c_accent_primary;
-  letter-spacing: 0.2rem;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 0.8rem;
-
-  &.type-label {
-    display: inline-block;
-    padding: 1px 3px;
-    border-radius: 4px;
-    @include font-style(0.8rem, $font_body, bold, $c_accent_success);
-  }
-}
-
-.search-card-controls {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 36px;
-  z-index: 2;
+.search-card-content {
+  padding-left: 60px;
 }
 
 .search-card-keywords {
@@ -216,6 +193,10 @@ export default {
     z-index: 2;
     background-image: linear-gradient(to right, transparent, $bg_card);
   }
+}
+
+.search-card-timestamps {
+  gap: 10px;
 }
 
 @media screen and (max-width: 599px) {

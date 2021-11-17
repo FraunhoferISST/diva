@@ -83,13 +83,15 @@ export default {
   position: absolute;
   right: 0;
   top: 140px;
-  z-index: 100;
   width: 100%;
   &.interacted {
     position: fixed;
     top: 0;
-    left: 70px;
+    left: 0;
+    z-index: 1;
+    padding-left: 70px !important;
     background-color: white;
+    border-bottom: 2px solid $bg_card_secondary;
   }
 }
 .search-bar-image {
