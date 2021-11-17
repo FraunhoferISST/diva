@@ -47,7 +47,7 @@ services:
 
   web-client:
     container_name: web-client
-    image: ${REGISTRY}web-client:18.28.0
+    image: ${REGISTRY}web-client:18.29.1
     ports:
       - ${WEB_CLIENT_PORT}:80
     restart: always
@@ -223,7 +223,7 @@ services:
       - ${ELASTICSEARCH_CONNECTOR_PORT}:${ELASTICSEARCH_CONNECTOR_PORT}
 
   search-assistant:
-    image: ${REGISTRY}search-assistant:0.1.0
+    image: ${REGISTRY}search-assistant:0.1.1
     container_name: search-assistant
     environment:
       <<: *elasticsearch-env
@@ -348,7 +348,7 @@ services:
   # ####################################################################################################################
 
   schema-registry:
-    image: ${REGISTRY}schema-registry:0.1.0
+    image: ${REGISTRY}schema-registry:0.2.0
     hostname: schema-registry
     container_name: schema-registry
     restart: always
@@ -358,9 +358,6 @@ services:
       - ${SCHEMA_REGISTRY_PORT}:${SCHEMA_REGISTRY_PORT}
     environment:
       PORT: ${SCHEMA_REGISTRY_PORT}
-      SCHEMA_DIR: schemata
-    volumes:
-      - ../core/schemata:/app/schemata
 
   # ####################################################################################################################
   # DIVA Lake Services

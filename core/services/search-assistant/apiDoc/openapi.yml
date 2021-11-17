@@ -17,7 +17,7 @@ paths:
       tags:
         - search
       summary: Global search over all Elasticsearch Indecies
-      description: Send a query term in URL parameter `q` and get a result set in return. The search response containse
+      description: Send a query term in URL parameter `q` and get a result set in return. The search response contains
         a `collection` array that can contain any known entity like resource, asset or user. To fetch the next page you can use a `cursor`
         that is included in the response if there is a next page.
       operationId: searchAll
@@ -26,11 +26,12 @@ paths:
           in: query
           description: Search term
           example: "Cancer Data"
-          required: true
+          required: false
           explode: false
           allowReserved: true
           schema:
             type: string
+            minLength: 0
         - name: pageSize
           in: query
           description: Number of results to be returned
@@ -64,6 +65,17 @@ paths:
                     type: array
                     items:
                       type: object
+                      required:
+                        - doc
+                      properties:
+                        doc:
+                          title: Matching Document
+                          description: A matching document that represents found entity
+                          type: object
+                        highlight:
+                          title: Highlight
+                          description: Highlight properties that qualifies the resources for the search query
+                          type: object
                   cursor:
                     description: Cursor for the next page
                     type: string
