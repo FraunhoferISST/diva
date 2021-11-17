@@ -68,14 +68,12 @@ import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import DateDisplay from "@/components/Base/DateDisplay";
-import User from "@/views/User";
 import UserAvatar from "@/components/User/UserAvatar";
 
 export default {
   name: "SearchResultCard",
   components: {
     UserAvatar,
-    User,
     DateDisplay,
     InfoBlockValue,
     InfoBlockTitle,
@@ -200,7 +198,7 @@ export default {
     right: -2px;
     width: 80%;
     height: 100%;
-    z-index: 2;
+    z-index: 1;
     background-image: linear-gradient(to right, transparent, $bg_card);
   }
 }
