@@ -59,6 +59,15 @@ paths:
           explode: true
           schema:
             type: string
+        - name: email
+          in: query
+          description: Filter by email
+          required: false
+          explode: true
+          allowReserved: true
+          schema:
+            type: string
+            format: email
         - name: pageSize
           in: query
           description: Page size
