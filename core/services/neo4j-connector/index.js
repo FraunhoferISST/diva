@@ -1,7 +1,11 @@
 const messageConsumer = require("@diva/common/messaging/MessageConsumer");
 const Connector = require("./Connector");
 const serviceName = require("./package.json").name;
-const { getDbByEntityId, getOperation } = require("./utils/utils");
+const {
+  getDbByEntityId,
+  getOperation,
+  createConstraints,
+} = require("./utils/utils");
 
 const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
   ? JSON.parse(process.env.KAFKA_CONSUMER_TOPICS)
@@ -31,6 +35,8 @@ const onMessage = async (message) => {
 (async () => {
   try {
     await Connector.init();
+
+    await createConstraints(KAFKA_CONSUMER_TOPICS.map((t) => t.split(".")[0]));
 
     await messageConsumer.init(
       KAFKA_CONSUMER_TOPICS.map((topic) => ({ topic, spec: "asyncapi" })),

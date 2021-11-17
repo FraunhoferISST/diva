@@ -16,7 +16,10 @@ const operationsMap = {
 
 const getOperation = (type) => operationsMap[type];
 
+const createConstraints = (neo4jLabels) => Connector.createConstraints(neo4jLabels);
+
 module.exports = {
+  createConstraints,
   getDbByEntityId,
   getOperation,
 };
