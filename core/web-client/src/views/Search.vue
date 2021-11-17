@@ -162,7 +162,7 @@ export default {
         .search(this.term.trim(), this.pageSize, this.cursor)
         .then(({ data }) => ({
           items: data.collection.filter(({ doc }) =>
-            ["resource", "asset", "user"].includes(doc.entityType)
+            ["resource", "asset"].includes(doc.entityType)
           ),
           cursor: data.cursor,
           total: data.total,
