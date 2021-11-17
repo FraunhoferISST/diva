@@ -212,7 +212,8 @@ $aside_width: 80px;
   width: 300px;
   @include gradient-toolbar-secondary();
   height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #aside-items-container {
