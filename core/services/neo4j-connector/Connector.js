@@ -22,9 +22,17 @@ class Connector {
     return session.run(`CREATE (n:${collection.slice(0, -1)} {id: '${id}'})`);
   }
 
-  async update() {
-    // Currently, we don't need to update nodes in neo4j, as we only store a node type and uuid, which can not change
-    return true;
+  async update({ dbName, collection }, id) {
+    try {
+      const session = neo4jConnector.client.session();
+      await session.run(`CREATE (n:${collection.slice(0, -1)} {id: '${id}'})`);
+      return true;
+    } catch (e) {
+      if (e.code === "Neo.ClientError.Schema.ConstraintValidationFailed") {
+        return true;
+      }
+      throw new Error(e);
+    }
   }
 
   async delete({ dbName, collection }, id) {
