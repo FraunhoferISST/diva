@@ -15,7 +15,7 @@
     <fade-in>
       <v-container v-if="searchResults.length > 0 && !isLoading">
         <v-row>
-          <search-result class="mt-5" :search_result="searchResults" />
+          <search-result class="mt-5" :search-result="searchResults" />
         </v-row>
       </v-container>
       <v-container fluid v-else :class="{ 'fill-height': interacted }">
@@ -162,7 +162,7 @@ export default {
         .search(this.term.trim(), this.pageSize, this.cursor)
         .then(({ data }) => ({
           items: data.collection.filter(({ doc }) =>
-            ["resource", "asset"].includes(doc.entityType)
+            ["resource", "asset", "user"].includes(doc.entityType)
           ),
           cursor: data.cursor,
           total: data.total,

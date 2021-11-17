@@ -1,6 +1,6 @@
 <template>
   <entity-details-link :id="doc.id" target="_blank">
-    <div class="search-card-container fill-height d-flex pa-8">
+    <div class="search-card-container fill-height d-flex pa-10">
       <div class="search-card">
         <div class="search-card-header">
           <div class="search-card-icon d-flex">
@@ -13,7 +13,7 @@
           <div class="search-card-info-container">
             <h1 class="search-card-title">
               <span v-if="highlightedTitle" v-html="highlightedTitle"></span>
-              <span v-else>{{ doc.title }}</span>
+              <span v-else>{{ doc.title || doc.username }}</span>
             </h1>
             <div class="search-card-meta-container mt-1">
               <div>
@@ -45,7 +45,7 @@
             <info-block-value>
               <date-display :date="doc.created" />
             </info-block-value>
-            <info-block-title>Modified</info-block-title>
+            <info-block-title class="ml-2">Modified</info-block-title>
             <info-block-value>
               <date-display :date="doc.modified" />
             </info-block-value>
@@ -80,7 +80,10 @@ export default {
   },
   computed: {
     highlightedTitle() {
-      return this.data?.highlight?.["title"]?.[0];
+      return (
+        this.data?.highlight?.["title"]?.[0] ||
+        this.data?.highlight?.["username"]?.[0]
+      );
     },
     doc() {
       return this.data.doc;
@@ -110,15 +113,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.status-tooltip {
-  background-color: $bg_hover !important;
-  opacity: 1;
-  @include gradient-success;
-  @include font-style(1.1rem, $font_body, bold, $bg_primary);
-}
 .search-card-container {
   width: 100%;
-  // min-height: 117px;
   position: relative;
   transition: 0.5s;
   cursor: pointer;
@@ -126,7 +122,7 @@ export default {
   background-color: $bg_card;
   border-radius: 8px;
   &:hover {
-    box-shadow: 0 0px 15px 10px rgba(black, 0.05);
+    box-shadow: 0 0 15px 10px rgba(black, 0.05);
   }
 }
 
@@ -140,7 +136,6 @@ export default {
   display: grid;
   grid-template-columns: 45px 1fr;
   grid-gap: 10px;
-  //max-height: 55px;
 }
 
 .search-card-info-container {
@@ -151,7 +146,6 @@ export default {
 }
 
 .search-card-title {
-  // padding-right: 30px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
