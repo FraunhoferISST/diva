@@ -1,11 +1,5 @@
 export default {
   name: "InfiniteScroll",
-  props: {
-    id: {
-      type: String,
-      required: true,
-    },
-  },
   methods: {
     loadPage(observerState, promise) {
       observerState.loading = true;
@@ -24,6 +18,18 @@ export default {
         .finally(() => {
           observerState.loading = false;
         });
+    },
+    loadPageSync(observerState, getPageHandler) {
+      observerState.loading = true;
+      observerState.error = false;
+      observerState.completed = false;
+      try {
+        getPageHandler();
+      } catch {
+        observerState.error = true;
+      } finally {
+        observerState.loading = false;
+      }
     },
   },
 };

@@ -55,6 +55,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    totalSearchResults: {
+      type: Number,
+      default: 0,
+    },
   },
   computed: {
     computedInput: {
@@ -76,14 +80,18 @@ export default {
 
 <style scoped lang="scss">
 .search-bar-container {
-  position: fixed;
-  left: 70px;
+  position: absolute;
   right: 0;
-  top: 35vh;
-  z-index: 100;
+  top: 140px;
+  width: 100%;
   &.interacted {
+    position: fixed;
     top: 0;
+    left: 0;
+    z-index: 3;
+    padding-left: 70px !important;
     background-color: white;
+    border-bottom: 2px solid $bg_card_secondary;
   }
 }
 .search-bar-image {

@@ -1,6 +1,6 @@
 {
   "name": "profiling-assistant",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A service helping in triggering profilings using airflow 1.10",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   "author": "dtebernum",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.1.1"
+    "@diva/common": "^1.1.2"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",

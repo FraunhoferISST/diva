@@ -103,7 +103,7 @@ export default {
   width: 70px;
   height: 100vh;
   background-color: $bg_toolbar;
-  //@include gradient-toolbar();
+  z-index: 10;
 }
 
 .navigation-item {

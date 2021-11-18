@@ -10,29 +10,18 @@ class SearchService {
   }
 
   async searchAll(queryData) {
-    const { cursor, pageSize = 30, q } = queryData;
+    const { cursor, pageSize = 30, q = "" } = queryData;
     let query = q;
     let from = 0;
-    let size = parseInt(pageSize, 10);
+    const size = parseInt(pageSize, 10);
 
     if (cursor) {
       try {
-        const oldCursor = JSON.parse(decodeCursor(cursor));
-        query = oldCursor.query;
-        from = oldCursor.from;
-        size = oldCursor.size;
+        ({ query, from } = JSON.parse(decodeCursor(cursor)));
       } catch (e) {
         throw new Error(`🛑 Invalid cursor "${cursor}" provided`);
       }
     }
-
-    const newCursor = encodeCursor(
-      JSON.stringify({
-        query,
-        from: from + size,
-        size,
-      })
-    );
 
     const requestBody = esb
       .requestBodySearch()
@@ -58,7 +47,12 @@ class SearchService {
 
     const requestCountBody = esb
       .requestBodySearch()
-      .query(esb.multiMatchQuery(["*"], query).fuzziness("AUTO"));
+      .query(
+        esb
+          .queryStringQuery(`${query}*`)
+          .fields(["title^4", "keywords^3", "description^2", "*^1"])
+          .fuzziness("AUTO")
+      );
 
     const total = (
       await this.elasticsearchConnector.client.count({
@@ -67,12 +61,22 @@ class SearchService {
       })
     ).body.count;
 
+    const result = body.hits.hits.map((doc) => ({
+      doc: doc._source,
+      highlight: doc.highlight,
+    }));
+
     return {
-      collection: body.hits.hits.map((doc) => ({
-        doc: doc._source,
-        highlight: doc.highlight,
-      })),
-      cursor: newCursor,
+      collection: result,
+      cursor:
+        total - from > pageSize
+          ? encodeCursor(
+              JSON.stringify({
+                query,
+                from: from + size,
+              })
+            )
+          : null,
       total,
     };
   }

@@ -1,12 +1,13 @@
 # DIVA Migration Tool
 
 This tool helps you to make the DIVA migration to a higher version smoother. 
-You can check the [release notes](https://github.com/FraunhoferISST/diva/releases) or the [Changelog](https://github.com/FraunhoferISST/diva/blob/main/CHANGELOG.md) to know if the 
+You can check the [documentation](https://fraunhoferisst.github.io/diva-docs/deployment/releases.html) or the 
+[Changelog](https://github.com/FraunhoferISST/diva/blob/main/CHANGELOG.md) to know if the 
 migration is necessary.
 
 In most cases you can safely use the newer patch or minor version of DIVA. However, it is possible that we may change the 
 internal infrastructure or add new features. Then the existing data should also be brought up to date. This migration 
-is **optional** and the update does not break the backwards compatibility.
+is **recommend** and the update does not break the backwards compatibility.
 
 The update of the major version indicates a breaking change and the migration is necessary to guarantee the operability 
 of the system.

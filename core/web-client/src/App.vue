@@ -70,7 +70,19 @@ export default {
         .then(async (authenticated) => {
           if (authenticated) {
             const user = keycloak.getUser();
-            await this.$store.dispatch("login", user);
+            await this.$store.dispatch("login", user).catch(async (e) => {
+              if (e?.response?.data?.code === 409) {
+                const {
+                  data: { collection },
+                } = await this.$api.users.get({
+                  email: user.email,
+                });
+                const conflictingUser = collection[0];
+                await this.$api.users.delete(conflictingUser.id);
+                return this.$store.dispatch("login", user);
+              }
+              throw e;
+            });
             if (this.$route.name === "login") {
               this.$router.push("/");
             }
@@ -102,10 +114,10 @@ export default {
 // Custom styles
 @import "styles/table", "styles/inputs", "styles/buttons", "styles/snackbar",
   "styles/custom", "styles/expansionpanel", "styles/modal", "styles/alert",
-  "styles/tabs";
+  "styles/tabs", "styles/date-picker";
 html {
   font-size: 14px !important;
-  overflow-y: auto;
+  overflow-y: auto !important;
 }
 
 #app {

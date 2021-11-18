@@ -1,19 +1,41 @@
 <template>
-  <v-container class="pa-0 fluid fill-height">
+  <v-container class="pa-0 fluid">
     <v-row>
       <v-col cols="12">
-        <custom-header text="Specify a title for the new generic resource" />
+        <custom-header text="Specify titles for new generic resources" />
       </v-col>
       <v-col cols="12">
-        <source-text-input
-          label="Resource title"
-          :value.sync="genericResource.title"
-        />
+        <v-row dense>
+          <v-col
+            cols="12"
+            :md="computedSource.resources.length > 1 ? '6' : '12'"
+            v-for="(resource, i) in computedSource.resources"
+            :key="i"
+          >
+            <div class="d-flex align-center">
+              <source-text-input
+                label="Resource title"
+                :value.sync="resource.title"
+              />
+              <div class="pl-2" v-if="computedSource.resources.length > 1">
+                <v-btn icon color="error" @click="() => onRemoveTab(i)">
+                  <v-icon small color="error"> close </v-icon>
+                </v-btn>
+              </div>
+            </div>
+          </v-col>
+        </v-row>
       </v-col>
       <v-col cols="12">
-        <v-alert text dense type="info">
-          Later you can assign a specific type to this resource and add more
-          data to it
+        <v-btn icon color="primary">
+          <v-icon dense color="primary" @click="onAdd"> add </v-icon>
+        </v-btn>
+      </v-col>
+      <v-col cols="12">
+        <v-alert text dense type="info" class="ma-0">
+          Your can add multiple resources at once. We require only a title to
+          create new generic resource. Later you can enrich it with more useful
+          metadata.
         </v-alert>
       </v-col>
     </v-row>
@@ -24,7 +46,7 @@
 import CustomHeader from "@/components/Base/CustomHeader";
 import SourceTextInput from "@/components/Resource/Create/SourceSelection/SourceCreationFields/SourceTextInput";
 export default {
-  name: "UrbanPulseSource",
+  name: "GenericSource",
   components: {
     SourceTextInput,
     CustomHeader,
@@ -40,6 +62,10 @@ export default {
       title: "",
       resourceType: "generic",
       entityType: "resource",
+      error: "",
+      warning: "",
+      imported: false,
+      loading: true,
     },
   }),
   watch: {
@@ -49,7 +75,7 @@ export default {
   },
   computed: {
     isReady() {
-      return !!this.genericResource.title;
+      return this.computedSource.resources.every(({ title }) => title);
     },
     computedSource: {
       get() {
@@ -62,11 +88,41 @@ export default {
   },
   methods: {
     create() {
-      return this.$api.resources.create(this.genericResource);
+      return Promise.all(
+        this.computedSource.resources.map((resource) => {
+          resource.loading = true;
+          resource.imported = false;
+          resource.warning = "";
+          resource.error = "";
+          const { title, resourceType, entityType } = resource;
+          return this.$api.resources
+            .create({ title, resourceType, entityType })
+            .then(({ data }) => {
+              resource.id = data;
+              resource.imported = true;
+            })
+            .catch((e) => {
+              resource.error =
+                e?.response?.data?.message ??
+                e?.message ??
+                "Some error occurred";
+            })
+            .finally(() => {
+              resource.loading = false;
+            });
+        })
+      );
+    },
+    onAdd() {
+      this.computedSource.resources.push({ ...this.genericResource });
+    },
+    onRemoveTab(i) {
+      this.computedSource.resources.splice(i, 1);
     },
   },
   mounted() {
     this.computedSource.onCreate = this.create;
+    this.computedSource.resources = [{ ...this.genericResource }];
   },
 };
 </script>
