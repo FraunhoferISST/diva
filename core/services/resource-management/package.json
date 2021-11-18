@@ -1,6 +1,6 @@
 {
   "name": "resource-management",
-  "version": "17.0.0",
+  "version": "17.0.1",
   "description": "Manages metadata of resources and publishes CRUD events to kafka",
   "repository": {
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"

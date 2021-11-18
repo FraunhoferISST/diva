@@ -1,6 +1,6 @@
 {
   "name": "history-assistant",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "History Assistant service provides history data and human readable history",
   "main": "index.js",
   "scripts": {

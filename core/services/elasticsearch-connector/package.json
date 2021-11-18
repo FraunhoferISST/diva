@@ -1,6 +1,6 @@
 {
   "name": "elasticsearch-connector",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "This service looks for entity events. Updates are propagated to an elasticsearch instance.",
   "repository": {
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"

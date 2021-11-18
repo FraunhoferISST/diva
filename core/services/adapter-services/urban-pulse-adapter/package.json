@@ -1,6 +1,6 @@
 {
   "name": "urban-pulse-adapter",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "keywords": [
     "Urban Pulse",
@@ -33,6 +33,9 @@
     "pkg": "^5.3.1"
   },
   "pkg": {
-    "assets": ["package.json", "apiDoc"]
+    "assets": [
+      "package.json",
+      "apiDoc"
+    ]
   }
 }
