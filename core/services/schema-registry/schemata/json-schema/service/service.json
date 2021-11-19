@@ -32,6 +32,9 @@
       },
       {
         "$ref": "/costs"
+      },
+      {
+        "$ref": "/serviceVendor"
       }
     ]
   }
