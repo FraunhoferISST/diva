@@ -6,12 +6,13 @@ const fs = require("fs");
 const { schemaNotFoundError } = require("./errors");
 
 let WORK_DIR = process.cwd();
-let schemataRootDir = "/schemata";
+const schemataDir = "schemata";
+let schemataRootPath = path.join(WORK_DIR, schemataDir);
 
 if (process.pkg?.entrypoint) {
   const pkgEntryPoint = process.pkg?.entrypoint ?? "";
   WORK_DIR = pkgEntryPoint.substring(0, pkgEntryPoint.lastIndexOf("/") + 1);
-  schemataRootDir = path.join(WORK_DIR, schemataRootDir);
+  schemataRootPath = path.join(WORK_DIR, schemataDir);
 }
 
 const keyv = new Keyv();
@@ -25,9 +26,9 @@ const loadSchema = async (p) => {
 
 const buildInMemoryDb = async () => {
   console.log(`👀 Read Schemata`);
-  const schemataPaths = glob.sync(`${schemataRootDir}/**/*.*`);
+  const schemataPaths = glob.sync(`${schemataRootPath}/**/*.*`);
   if (schemataPaths.length === 0) {
-    throw Error(`Couldn't find eny schema on "${schemataRootDir}"`);
+    throw Error(`Couldn't find eny schema on "${schemataRootPath}"`);
   }
   const promises = schemataPaths.map(loadSchema);
   await Promise.all(promises);
