@@ -378,6 +378,9 @@ components:
           minLength: 1
           enum:
             - generic
+            - app
+            - plugin
+            - api
 
     ServiceCreateBulk:
       type: array
@@ -453,6 +456,9 @@ components:
               description: The general type of the service
               enum:
                 - generic
+                - app
+                - plugin
+                - api
     Error:
       type: object
       title: Operation error
