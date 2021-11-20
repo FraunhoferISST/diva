@@ -109,15 +109,15 @@
           "type": "string",
           "description": "The type of GeoJSON object.",
           "enum": [
-            "Point",
-            "MultiPoint",
-            "LineString",
-            "MultiLineString",
-            "Polygon",
-            "MultiPolygon",
-            "GeometryCollection",
-            "Feature",
-            "FeatureCollection"
+            "point",
+            "multiPoint",
+            "lineString",
+            "multiLineString",
+            "polygon",
+            "multiPolygon",
+            "geometryCollection",
+            "feature",
+            "featureCollection"
           ]
         },
 
