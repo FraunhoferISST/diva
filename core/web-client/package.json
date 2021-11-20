@@ -18,6 +18,7 @@
     "hashicon": "^0.2.0",
     "identicon.js": "^2.3.3",
     "keycloak-js": "^15.0.1",
+    "leaflet": "^1.7.1",
     "lodash.debounce": "^4.0.8",
     "material-design-icons-iconfont": "^3.0.3",
     "randomcolor": "^0.6.2",
@@ -34,6 +35,7 @@
     "vue-json-pretty": "^1.7.1",
     "vue-router": "^3.5.1",
     "vue-socket.io": "^3.0.10",
+    "vue2-leaflet": "^2.7.1",
     "vue2vis": "0.0.16",
     "vuetify": "^2.5.1",
     "vuex": "^3.6.2"
