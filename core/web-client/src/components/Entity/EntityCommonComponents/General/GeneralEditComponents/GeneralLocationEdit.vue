@@ -1,7 +1,7 @@
 <template>
   <v-col cols="12">
     <edit-activate-transition>
-      <div>DEMO</div>
+      <v-textarea v-model="computedLocation"></v-textarea>
     </edit-activate-transition>
   </v-col>
 </template>
@@ -21,10 +21,10 @@ export default {
   computed: {
     computedLocation: {
       get() {
-        return this.location;
+        return JSON.stringify(this.location);
       },
       set(value) {
-        this.$emit("update:location", { location: value });
+        this.$emit("update:location", { location: JSON.parse(value) });
       },
     },
   },

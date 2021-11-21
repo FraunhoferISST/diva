@@ -216,27 +216,15 @@
                       </edit-view-content>
                     </v-col>
                   </v-row>
-                  <v-row dense>
+                  <v-row dense class="mt-5">
                     <v-col cols="12">
                       <custom-header text="Location" />
                     </v-col>
                     <v-col cols="12">
-                      <edit-view-content
-                        slot="body"
-                        :initialData="{ location: data.location }"
-                        :on-save="(patch) => api.patch(data.id, patch)"
-                      >
-                        <general-location
-                          slot="view"
-                          :location="data.location || {}"
-                        />
-                        <template v-slot:edit="{ setEditedData }">
-                          <general-location-edit
-                            :location="data.location || {}"
-                            @update:location="setEditedData($event)"
-                          />
-                        </template>
-                      </edit-view-content>
+                      <general-location
+                        slot="view"
+                        :location="data.location || null"
+                      />
                     </v-col>
                   </v-row>
                 </template>

@@ -10,6 +10,7 @@ import vuetify from "./plugins/vuetify";
 import api from "@/api/index";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet-draw/dist/leaflet.draw.css";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
