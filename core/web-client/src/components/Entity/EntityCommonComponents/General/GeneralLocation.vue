@@ -8,7 +8,7 @@
 <script>
 import NoDataState from "@/components/Base/NoDataState";
 import L from "leaflet";
-import { LMap, LTileLayer, LGeoJson } from "vue2-leaflet";
+import { LMap, LTileLayer } from "vue2-leaflet";
 import "leaflet-draw";
 
 export default {
@@ -17,7 +17,6 @@ export default {
     NoDataState,
     LMap,
     LTileLayer,
-    LGeoJson,
   },
   props: {
     location: {
