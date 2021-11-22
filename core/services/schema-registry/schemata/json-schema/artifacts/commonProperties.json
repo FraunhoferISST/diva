@@ -64,10 +64,8 @@
         "$id": "themes/items/",
         "type": "string",
         "enum": [
-
           "Agriculture",
           "Culture",
-
           "Economy",
           "Education",
           "Energy",
