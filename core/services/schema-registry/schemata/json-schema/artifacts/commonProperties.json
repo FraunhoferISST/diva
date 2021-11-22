@@ -53,6 +53,48 @@
       }
     },
 
+    "themes": {
+      "$id": "themes",
+      "type": "array",
+      "title": "Themes",
+      "description": "Predefined themes of the entity",
+      "default": [],
+      "minItem": 0,
+      "items": {
+        "$id": "themes/items/",
+        "type": "string",
+        "enum": [
+
+          "Agriculture",
+          "Culture",
+
+          "Economy",
+          "Education",
+          "Energy",
+          "Environment",
+          "Finance",
+          "Fisheries",
+          "Health",
+          "Infrastructure",
+          "International",
+          "Justice",
+          "Population",
+          "Public Sector",
+          "Regional",
+          "Science",
+          "Society",
+          "Sports",
+          "Technology",
+          "Transport"
+        ],
+        "title": "Theme Items",
+        "description": "A theme",
+        "_elasticsearch": {
+          "type": "keyword"
+        }
+      }
+    },
+
     "keywords": {
       "$id": "keywords",
       "type": "array",
@@ -62,7 +104,7 @@
       "items": {
         "$id": "keywords/items/",
         "type": "string",
-        "title": "Items",
+        "title": "Keyword Items",
         "description": "A keyword",
         "_elasticsearch": {
           "type": "keyword"
