@@ -1,6 +1,6 @@
 {
   "name": "asset-management",
-  "version": "17.2.1",
+  "version": "17.2.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@diva/eslint-config": "^0.1.0",
+    "@diva/eslint-config": "^0.2.0",
     "pkg": "^5.3.1"
   },
   "pkg": {
