@@ -115,7 +115,10 @@ export default {
         });
         setTimeout(() => {
           this.map.invalidateSize();
-        }, 100);
+          if (Object.keys(this.location ?? {}).length > 0) {
+            this.map.fitBounds(this.editableLayers.getBounds());
+          }
+        }, 200);
       });
     },
     updateMap() {
