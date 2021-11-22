@@ -81,7 +81,7 @@ export default {
                 polyline: false,
                 polygon: true,
                 rectangle: true,
-                circle: true,
+                circle: false,
                 circlemarker: false,
               }
             : false,
