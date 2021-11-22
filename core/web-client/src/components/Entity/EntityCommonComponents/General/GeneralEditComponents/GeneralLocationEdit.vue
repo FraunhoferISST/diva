@@ -17,7 +17,7 @@ import EditActivateTransition from "@/components/Transitions/EditActivateTransit
 import LocationMap from "@/components/Charts/LocationMap";
 
 export default {
-  name: "GeneralDescriptionEdit",
+  name: "GeneralLocationEdit",
   components: { LocationMap, EditActivateTransition },
   props: {
     location: {
@@ -37,7 +37,11 @@ export default {
   },
   methods: {
     onChange(data) {
-      this.computedLocation = data;
+      if (data.features.length === 0) {
+        this.computedLocation = null;
+      } else {
+        this.computedLocation = data;
+      }
     },
   },
 };

@@ -1,25 +1,20 @@
 <template>
-  <l-map
+  <div
+    id="location-map"
     ref="map"
-    :zoom="zoom"
     class="location-map"
     :style="{ height: `${height}px` }"
-  >
-    <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-  </l-map>
+  ></div>
 </template>
 
 <script>
 import L from "leaflet";
-import { LMap, LTileLayer } from "vue2-leaflet";
 import "leaflet-draw";
+import "leaflet/dist/leaflet.css";
+import "leaflet-draw/dist/leaflet.draw.css";
 
 export default {
   name: "LocationMap",
-  components: {
-    LMap,
-    LTileLayer,
-  },
   props: {
     location: {
       type: Object,
@@ -27,11 +22,11 @@ export default {
     },
     height: {
       type: Number,
-      default: 400,
+      default: 450,
     },
     zoom: {
       type: Number,
-      default: 4,
+      default: 7,
     },
     editable: {
       type: Boolean,
@@ -47,14 +42,26 @@ export default {
   }),
   watch: {
     location() {
-      // this.removeMap();
-      this.updateMap();
+      if (!this.editable) {
+        // do not update if in edit mode
+        this.updateMap();
+      }
     },
   },
   methods: {
     renderMap() {
-      this.map = this.$refs.map.mapObject;
-      this.map._onResize(); // important to render map correctly
+      this.map = L.map("location-map", {
+        center: L.GeoJSON.coordsToLatLng([
+          7.400397062301635,
+          51.49351838098325,
+        ]),
+        edit: this.editable,
+        zoom: this.zoom,
+      });
+
+      L.tileLayer(this.url, {
+        attribution: this.attribution,
+      }).addTo(this.map);
 
       this.$nextTick(() => {
         this.editableLayers = new L.FeatureGroup(this.location).addTo(this.map);
@@ -63,6 +70,7 @@ export default {
           geojsonLayer.eachLayer((l) => {
             this.editableLayers.addLayer(l);
           });
+          this.map.fitBounds(this.editableLayers.getBounds());
         }
 
         this.drawControl = new L.Control.Draw({
@@ -88,6 +96,7 @@ export default {
         this.map.addControl(this.drawControl);
         this.map.on(L.Draw.Event.CREATED, (e) => {
           this.editableLayers.addLayer(e.layer);
+          this.editableLayers.addTo(this.map);
           this.$emit("change", this.editableLayers.toGeoJSON());
         });
         this.map.on(L.Draw.Event.EDITED, (e) => {
@@ -105,6 +114,9 @@ export default {
           });
           this.$emit("change", this.editableLayers.toGeoJSON());
         });
+        setTimeout(() => {
+          this.map.invalidateSize();
+        }, 100);
       });
     },
     updateMap() {
@@ -114,6 +126,7 @@ export default {
         geojsonLayer.eachLayer((l) => {
           this.editableLayers.addLayer(l);
         });
+        this.map.fitBounds(this.editableLayers.getBounds());
       }
     },
   },
