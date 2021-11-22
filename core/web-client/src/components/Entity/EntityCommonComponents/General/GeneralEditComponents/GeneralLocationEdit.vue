@@ -1,17 +1,24 @@
 <template>
   <v-col cols="12">
     <edit-activate-transition>
-      <v-textarea v-model="computedLocation"></v-textarea>
+      <div class="relative">
+        <location-map
+          :location="computedLocation"
+          :editable="true"
+          @change="onChange"
+        />
+      </div>
     </edit-activate-transition>
   </v-col>
 </template>
 
 <script>
 import EditActivateTransition from "@/components/Transitions/EditActivateTransition";
+import LocationMap from "@/components/Charts/LocationMap";
 
 export default {
   name: "GeneralDescriptionEdit",
-  components: { EditActivateTransition },
+  components: { LocationMap, EditActivateTransition },
   props: {
     location: {
       type: Object,
@@ -21,11 +28,16 @@ export default {
   computed: {
     computedLocation: {
       get() {
-        return JSON.stringify(this.location);
+        return this.location;
       },
       set(value) {
-        this.$emit("update:location", { location: JSON.parse(value) });
+        this.$emit("update:location", { location: value });
       },
+    },
+  },
+  methods: {
+    onChange(data) {
+      this.computedLocation = data;
     },
   },
 };

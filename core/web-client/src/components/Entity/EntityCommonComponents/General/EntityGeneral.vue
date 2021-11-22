@@ -221,10 +221,23 @@
                       <custom-header text="Location" />
                     </v-col>
                     <v-col cols="12">
-                      <general-location
-                        slot="view"
-                        :location="data.location || null"
-                      />
+                      <edit-view-content
+                        :clickable-content="!!!data.location"
+                        slot="body"
+                        :initialData="{ location: data.location }"
+                        :on-save="(patch) => api.patch(data.id, patch)"
+                      >
+                        <general-location
+                          slot="view"
+                          :location="data.location || {}"
+                        />
+                        <template #edit="{ setEditedData }">
+                          <general-location-edit
+                            :location="data.location || {}"
+                            @update:location="setEditedData($event)"
+                          />
+                        </template>
+                      </edit-view-content>
                     </v-col>
                   </v-row>
                 </template>
