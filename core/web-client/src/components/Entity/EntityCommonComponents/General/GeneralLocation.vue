@@ -1,9 +1,6 @@
 <template>
-  <div>
-    {{ hasLocation }}
-    <no-data-state v-if="!hasLocation" text="You can provide a location here" />
-    <location-map v-else :location="location" :editable="false" />
-  </div>
+  <no-data-state v-if="!hasLocation" text="You can provide a location here" />
+  <location-map v-else :location="location" :editable="false" />
 </template>
 
 <script>
