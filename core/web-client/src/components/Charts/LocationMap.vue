@@ -96,7 +96,6 @@ export default {
         this.map.addControl(this.drawControl);
         this.map.on(L.Draw.Event.CREATED, (e) => {
           this.editableLayers.addLayer(e.layer);
-          this.editableLayers.addTo(this.map);
           this.$emit("change", this.editableLayers.toGeoJSON());
         });
         this.map.on(L.Draw.Event.EDITED, (e) => {
