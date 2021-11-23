@@ -1,7 +1,12 @@
 <template>
   <div class="editable-content" :class="{ 'edit-active': editMode }">
     <div class="fill-height" @click="onContentClick" ref="editor">
-      <slot name="edit" v-if="editMode" :set-edited-data="setEditedData"></slot>
+      <slot
+        name="edit"
+        v-if="editMode"
+        :set-edited-data="setEditedData"
+        :state="editedData"
+      ></slot>
       <slot name="view" v-else></slot>
     </div>
 
