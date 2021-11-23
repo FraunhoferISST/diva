@@ -29,7 +29,7 @@ const createUuidToHashMappings = async () => {
   )) {
     const migrationData = pageData.map(({ id, uniqueFingerprint }) => ({
       resourceId: id,
-      uniqueFingerprint,
+      fileHashSha256: uniqueFingerprint,
     }));
     await divaLakeMongoDbConnector.collections[
       divaLakeCollectionName
