@@ -16,7 +16,10 @@
             "title": "Service Type",
             "description": "The general type of the service",
             "enum": [
-              "generic"
+              "generic",
+              "app",
+              "plugin",
+              "api"
             ]
           }
         }
@@ -29,6 +32,9 @@
       },
       {
         "$ref": "/costs"
+      },
+      {
+        "$ref": "/serviceVendor"
       }
     ]
   }
