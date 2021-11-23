@@ -380,7 +380,7 @@ services:
       - core
 
   diva-lake-adapter:
-    image: ${REGISTRY}diva-lake-adapter:0.3.2
+    image: ${REGISTRY}diva-lake-adapter:0.4.0
     container_name: diva-lake-adapter
     restart: always
     networks:
