@@ -385,7 +385,6 @@ import EntityBaseDataFetcher from "@/components/DataFetchers/EntityBaseDataFetch
 import GeneralLicenseEdit from "@/components/Entity/EntityCommonComponents/General/GeneralLicense/GeneralLicenseEdit";
 import GeneralDataOwner from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwner";
 import GeneralDataOwnerEdit from "@/components/Entity/EntityCommonComponents/General/GeneralEditComponents/GeneralDataOwnerEdit";
-import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import GeneralVersionNotesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralEditComponents/GeneralVersionNotesEdit";
 import GeneralVersionNotes from "@/components/Entity/EntityCommonComponents/General/GeneralVersionNotes";
 import GeneralLocation from "@/components/Entity/EntityCommonComponents/General/GeneralLocation";
@@ -416,7 +415,6 @@ export default {
     InfoBlock,
     GeneralVersionNotes,
     GeneralVersionNotesEdit,
-    InfoBlockValue,
     GeneralDataOwnerEdit,
     GeneralDataOwner,
     GeneralLicenseEdit,
