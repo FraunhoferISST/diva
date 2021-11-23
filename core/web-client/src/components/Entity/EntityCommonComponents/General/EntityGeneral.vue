@@ -197,6 +197,27 @@
                         </edit-view-content>
                       </info-block>
                     </v-col>
+                    <v-col cols="12" sm="6" md="3" lg="3">
+                      <info-block title="Themes">
+                        <edit-view-content
+                          slot="value"
+                          :initialData="{ themes: data.themes }"
+                          :on-save="(patch) => api.patch(data.id, patch)"
+                          @saved="({ themes }) => (data.themes = themes)"
+                        >
+                          <general-themes
+                            slot="view"
+                            :themes="data.themes || []"
+                          />
+                          <template v-slot:edit="{ setEditedData, state }">
+                            <general-themes-edit
+                              :themes="state.themes || []"
+                              @update:themes="setEditedData($event)"
+                            />
+                          </template>
+                        </edit-view-content>
+                      </info-block>
+                    </v-col>
                   </v-row>
                   <v-row class="mb-2" v-if="data.urbanPulseSensorId">
                     <v-col
@@ -243,30 +264,6 @@
               <card>
                 <template slot="body">
                   <v-row dense>
-                    <v-col cols="12">
-                      <custom-header text="Themes" />
-                    </v-col>
-                    <v-col cols="12">
-                      <edit-view-content
-                        slot="body"
-                        :initialData="{ themes: data.themes }"
-                        :on-save="(patch) => api.patch(data.id, patch)"
-                        @saved="({ themes }) => (data.themes = themes)"
-                      >
-                        <general-themes
-                          slot="view"
-                          :themes="data.themes || []"
-                        />
-                        <template v-slot:edit="{ setEditedData, state }">
-                          <general-themes-edit
-                            :themes="state.themes || []"
-                            @update:themes="setEditedData($event)"
-                          />
-                        </template>
-                      </edit-view-content>
-                    </v-col>
-                  </v-row>
-                  <v-row dense class="mt-5">
                     <v-col cols="12">
                       <custom-header text="Description" />
                     </v-col>
