@@ -82,5 +82,6 @@ export default {
   grid-template-columns: minmax(80px, max-content) minmax(50px, 1fr);
   grid-column-gap: 0;
   height: 100%;
+  padding-bottom: 100px;
 }
 </style>

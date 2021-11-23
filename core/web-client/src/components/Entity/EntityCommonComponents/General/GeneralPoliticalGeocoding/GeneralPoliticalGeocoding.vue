@@ -1,12 +1,15 @@
 <template>
-  <no-data-state v-if="!hasThemes" text="You can provide themes here">
+  <no-data-state
+    v-if="!hasPoliticalGeocoding"
+    text="You can provide a political geocoding here"
+  >
   </no-data-state>
   <div v-else>
     <v-chip
       class="ml-1 mt-1"
       small
       label
-      v-for="(theme, i) in themes"
+      v-for="(theme, i) in politicalGeocoding"
       :key="theme + '_' + i"
     >
       {{ theme }}</v-chip
@@ -17,17 +20,17 @@
 <script>
 import NoDataState from "@/components/Base/NoDataState";
 export default {
-  name: "GeneralThemes",
+  name: "GeneralPoliticalGeocoding",
   components: { NoDataState },
   props: {
-    themes: {
+    politicalGeocoding: {
       type: Array,
       required: true,
     },
   },
   computed: {
-    hasThemes() {
-      return this.themes && this.themes.length > 0;
+    hasPoliticalGeocoding() {
+      return this.politicalGeocoding && this.politicalGeocoding.length > 0;
     },
   },
 };

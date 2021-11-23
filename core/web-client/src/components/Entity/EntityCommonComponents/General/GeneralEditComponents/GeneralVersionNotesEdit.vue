@@ -3,6 +3,7 @@
     <v-col cols="12">
       <edit-activate-transition>
         <v-text-field
+          dense
           color="info"
           clearable
           autofocus
