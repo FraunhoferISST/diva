@@ -5,6 +5,31 @@ const { entityAlreadyExistsError, entityNotFoundError } = require("../Error");
 
 const HISTORY_ROOT_SCHEMA = process.env.HISTORY_ROOT_SCHEMA || "history";
 
+const cleanUpEntity = (entity) => {
+  let cleanEntity = {};
+  for (const [k, v] of Object.entries(entity)) {
+    if (v !== null && v !== undefined)
+      if (!Array.isArray(v) && typeof v === "object") {
+        if (Object.keys(v).length > 0) {
+          cleanEntity = {
+            ...cleanEntity,
+            ...(Object.keys(cleanUpEntity(v)).length > 0
+              ? { [k]: cleanUpEntity(v) }
+              : {}),
+          };
+        }
+      } else if (Array.isArray(v)) {
+        const cleanArray = v.filter((elem) => elem);
+        if (cleanArray.length > 0) {
+          cleanEntity[k] = cleanArray;
+        }
+      } else {
+        cleanEntity[k] = v;
+      }
+  }
+  return cleanEntity;
+};
+
 const createProjectionObject = (projectionQuery) => {
   const projectionObject = {};
   if (projectionQuery) {
@@ -150,11 +175,11 @@ class EntityService {
   }
 
   async updateById(id, entity, actorId) {
-    const updatedEntity = {
+    const updatedEntity = cleanUpEntity({
       ...entity,
       id,
       modified: new Date().toISOString(),
-    };
+    });
     this.validate(updatedEntity);
     if (await this.entityExists(id)) {
       const existingEntity = await this.collection.findOne(
@@ -174,7 +199,7 @@ class EntityService {
         { id },
         { projection: { _id: false } }
       );
-      const updatedEntity = {
+      const updatedEntity = cleanUpEntity({
         ...existingEntity,
         ...patch,
         id,
@@ -182,7 +207,7 @@ class EntityService {
         creatorId: existingEntity.creatorId,
         created: existingEntity.created,
         modified: new Date().toISOString(),
-      };
+      });
       this.validate(updatedEntity);
       await this.replace(id, updatedEntity);
       return this.createHistoryEntry(existingEntity, updatedEntity, actorId);

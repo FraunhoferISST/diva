@@ -1,6 +1,6 @@
 {
   "name": "asset-management",
-  "version": "17.2.1",
+  "version": "17.2.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.1.2",
+    "@diva/common": "^1.2.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
