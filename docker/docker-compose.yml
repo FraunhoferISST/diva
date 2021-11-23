@@ -348,7 +348,7 @@ services:
   # ####################################################################################################################
 
   schema-registry:
-    image: ${REGISTRY}schema-registry:0.2.0
+    image: ${REGISTRY}schema-registry:0.2.1
     hostname: schema-registry
     container_name: schema-registry
     restart: always
