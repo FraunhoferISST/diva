@@ -9,6 +9,8 @@ tags:
     description: Imports a local File into the DIVA Lake
 paths:
   /import:
+    parameters:
+      - $ref: "#/components/parameters/actorId"
     post:
       tags:
         - import
@@ -16,12 +18,8 @@ paths:
       description: Users can have files stored locally on their machine. 
         As we do not have access to these machines (at least no direct access) a user can upload files to a so called DIVA Lake.
       operationId: import
-      parameters:
-        - $ref: "#/components/parameters/actorId"
-
       requestBody:
         $ref: "#/components/requestBodies/File"
-
       responses:
         201:
           $ref: "#/components/responses/Success"
@@ -29,6 +27,38 @@ paths:
           $ref: "#/components/responses/RequestValidationError"
         406:
           $ref: "#/components/responses/InvalidDataError"
+        500:
+          $ref: "#/components/responses/UnexpectedError"
+  /download/{fileName}:
+    parameters:
+      - $ref: "#/components/parameters/actorId"
+    get:
+      tags:
+        - download
+      summary: Download a file from the DIVA Lake by name
+      description: Donwloads a file from the DIVA lake by `fileName` wich is a file hash. Files are always associated with a
+        resource, you can obtain the `fileName` from a corresponding resource as `uniqueFingerprint`.
+      operationId: download
+      parameters:
+        - name: fileName
+          in: path
+          description: Name of the file wich is a file hash
+          required: true
+          schema:
+            type: string
+            example: 3a0d32967309cbc44d377c0aa801e95bfbf50f48c103f288ce25cc1f4df30f9a
+            pattern: "^[A-Fa-f0-9]{64}$"
+      responses:
+        "200":
+          description: Success
+          content:
+            "*/*":
+              schema:
+                description: File binary
+                type: string
+                format: binary
+        4XX:
+          $ref: "#/components/responses/RequestValidationError"
         500:
           $ref: "#/components/responses/UnexpectedError"
 
@@ -100,7 +130,8 @@ components:
         text/html:
           schema:
             $ref: "#/components/schemas/ResourceId"
-
+    SuccessEmpty:
+      description: Succesful operation
     RequestValidationError:
       description: Request violates API Specification
       content:
