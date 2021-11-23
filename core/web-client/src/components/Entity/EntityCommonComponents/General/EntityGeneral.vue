@@ -112,7 +112,7 @@
                             slot="view"
                             :versionInfo="data.versionNotes || ''"
                           />
-                          <template v-slot:edit="{ setEditedData }">
+                          <template #edit="{ setEditedData }">
                             <general-version-notes-edit
                               :versionNotes="data.versionNotes || ''"
                               @update:versionNotes="setEditedData($event)"
@@ -170,6 +170,29 @@
             <v-col cols="12">
               <card>
                 <template slot="body">
+                  <v-row dense>
+                    <v-col cols="12">
+                      <custom-header text="Themes" />
+                    </v-col>
+                    <v-col cols="12">
+                      <edit-view-content
+                        slot="body"
+                        :initialData="{ themes: data.themes }"
+                        :on-save="(patch) => api.patch(data.id, patch)"
+                      >
+                        <general-themes
+                          slot="view"
+                          :themes="data.themes || []"
+                        />
+                        <template v-slot:edit="{ setEditedData, state }">
+                          <general-themes-edit
+                            :themes="state.themes || []"
+                            @update:themes="setEditedData($event)"
+                          />
+                        </template>
+                      </edit-view-content>
+                    </v-col>
+                  </v-row>
                   <v-row dense>
                     <v-col cols="12">
                       <custom-header text="Description" />
@@ -273,10 +296,14 @@ import GeneralLocation from "@/components/Entity/EntityCommonComponents/General/
 import GeneralLocationEdit from "@/components/Entity/EntityCommonComponents/General/GeneralEditComponents/GeneralLocationEdit";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import CustomHeader from "@/components/Base/CustomHeader";
+import GeneralThemes from "@/components/Entity/EntityCommonComponents/General/GeneralThemes/GeneralThemes";
+import GeneralThemesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralThemes/GeneralThemesEdit";
 
 export default {
   name: "EntityGeneral",
   components: {
+    GeneralThemesEdit,
+    GeneralThemes,
     CustomHeader,
     InfoBlock,
     GeneralVersionNotes,
