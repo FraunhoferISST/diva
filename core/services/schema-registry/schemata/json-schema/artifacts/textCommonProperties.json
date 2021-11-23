@@ -14,9 +14,6 @@
             "$ref": "/corePhrases"
         },
         {
-            "$ref": "/languages"
-        },
-        {
             "$ref": "/numberOfCharacters"
         },
         {

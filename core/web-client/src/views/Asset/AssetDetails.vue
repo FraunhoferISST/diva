@@ -1,7 +1,7 @@
 <template>
   <entity-base-data-fetcher :id="id">
     <template #default="{ data, api }">
-      <section class="resource-details">
+      <section class="asset-details">
         <entity-details-navigation
           :data="data"
           :entity-api="api"
@@ -65,12 +65,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.resource-details {
+.asset-details {
   position: relative;
   background-color: transparent;
   display: grid;
   grid-template-columns: minmax(80px, max-content) minmax(50px, 1fr);
   grid-column-gap: 0;
   height: 100%;
+  padding-bottom: 100px;
 }
 </style>

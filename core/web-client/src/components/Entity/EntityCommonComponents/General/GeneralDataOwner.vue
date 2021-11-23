@@ -1,5 +1,5 @@
 <template>
-  <no-data-state v-if="!owner.id" text="Select Resource Data Owner" />
+  <no-data-state v-if="!ownerId" text="Select Resource Data Owner" />
   <user-link v-else :user="owner" />
 </template>
 
@@ -12,6 +12,10 @@ export default {
   props: {
     owner: {
       type: Object,
+      required: true,
+    },
+    ownerId: {
+      type: String,
       required: true,
     },
   },
