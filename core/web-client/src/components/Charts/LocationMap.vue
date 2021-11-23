@@ -141,5 +141,6 @@ export default {
 <style scoped lang="scss">
 .location-map {
   width: 100%;
+  z-index: 0;
 }
 </style>

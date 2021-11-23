@@ -3,6 +3,7 @@
     <v-col cols="12">
       <edit-activate-transition>
         <v-autocomplete
+          dense
           class="custom-autocomplete"
           v-model="computedOwnerId"
           :disabled="isLoading"
@@ -17,14 +18,19 @@
           label="Select Owner"
           hide-selected
           hide-details
+          small-chips
           item-text="username"
           item-value="id"
           clearable
           @update:search-input="searchUsers"
         >
           <template v-slot:selection="data">
-            <v-chip :input-value="data.selected" class="ma-0 pa-1">
-              <user-avatar :image-id="data.item.imageId" class="mr-2" />
+            <v-chip small :input-value="data.selected" class="ma-0 pa-0">
+              <user-avatar
+                :size="5"
+                :image-id="data.item.imageId"
+                class="mr-2"
+              />
               <span class="pr-2">
                 {{ data.item.username }}
               </span>
@@ -85,9 +91,8 @@ export default {
   },
   methods: {
     searchUsers() {
-      if (!this.search) return;
       this.$api
-        .search(this.search)
+        .search(this.search, 100)
         .then(({ data: { collection } }) => {
           this.users = collection
             .filter(({ doc }) => doc.entityType === "user")
@@ -95,6 +100,9 @@ export default {
         })
         .finally(() => (this.isLoading = false));
     },
+  },
+  mounted() {
+    this.searchUsers();
   },
 };
 </script>

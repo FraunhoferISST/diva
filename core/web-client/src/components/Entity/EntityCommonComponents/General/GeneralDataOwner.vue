@@ -1,8 +1,5 @@
 <template>
-  <no-data-state
-    v-if="!ownerId || !owner.id"
-    text="Select Resource Data Owner"
-  />
+  <no-data-state v-if="!ownerId" text="Select Resource Data Owner" />
   <user-link v-else :user="owner" />
 </template>
 
