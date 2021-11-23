@@ -27,14 +27,6 @@
                     </template>
                   </edit-view-content>
 
-                  <v-row class="mb-2" v-if="data.uniqueFingerprint">
-                    <v-col cols="12">
-                      <info-block-value>
-                        {{ data.uniqueFingerprint }}
-                      </info-block-value>
-                    </v-col>
-                  </v-row>
-
                   <edit-view-content
                     class="mb-5"
                     :initialData="{ keywords: data.keywords }"
@@ -218,6 +210,29 @@
                         </edit-view-content>
                       </info-block>
                     </v-col>
+                    <v-col cols="12" sm="6" md="3" lg="3">
+                      <info-block title="Languages">
+                        <edit-view-content
+                          slot="value"
+                          :initialData="{ languages: data.languages }"
+                          :on-save="(patch) => api.patch(data.id, patch)"
+                          @saved="
+                            ({ languages }) => (data.languages = languages)
+                          "
+                        >
+                          <general-languages
+                            slot="view"
+                            :languages="data.languages || []"
+                          />
+                          <template #edit="{ setEditedData, state }">
+                            <general-languages-edit
+                              :languages="state.languages || []"
+                              @update:languages="setEditedData($event)"
+                            />
+                          </template>
+                        </edit-view-content>
+                      </info-block>
+                    </v-col>
                   </v-row>
                   <v-row class="mb-2" v-if="data.urbanPulseSensorId">
                     <v-col
@@ -383,10 +398,14 @@ import GeneralPoliticalGeocoding from "@/components/Entity/EntityCommonComponent
 import GeneralPoliticalGeocodingEdit from "@/components/Entity/EntityCommonComponents/General/GeneralPoliticalGeocoding/GeneralPoliticalGeocodingEdit";
 import GeneralPlannedAvailability from "@/components/Entity/EntityCommonComponents/General/GeneralPlannedAvailability/GeneralPlannedAvailability";
 import GeneralPlannedAvailabilityEdit from "@/components/Entity/EntityCommonComponents/General/GeneralPlannedAvailability/GeneralPlannedAvailabilityEdit";
+import GeneralLanguages from "@/components/Entity/EntityCommonComponents/General/GeneralLanguages/GeneralLanguages";
+import GeneralLanguagesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralLanguages/GeneralLanguagesEdit";
 
 export default {
   name: "EntityGeneral",
   components: {
+    GeneralLanguagesEdit,
+    GeneralLanguages,
     GeneralPlannedAvailabilityEdit,
     GeneralPlannedAvailability,
     GeneralPoliticalGeocodingEdit,
