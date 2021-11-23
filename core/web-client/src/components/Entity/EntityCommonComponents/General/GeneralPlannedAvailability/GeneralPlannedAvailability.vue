@@ -1,5 +1,8 @@
 <template>
-  <no-data-state v-if="!plannedAvailability" text="You can provide themes here">
+  <no-data-state
+    v-if="!plannedAvailability"
+    text="You can specify an availability level here"
+  >
   </no-data-state>
   <info-block-value v-else>
     <v-chip class="ml-1 mt-1" small label>
