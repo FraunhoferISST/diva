@@ -8,6 +8,7 @@ const {
   objectsMongoDbConnector,
   collectionName,
 } = require("../utils/mongoDbConnectors");
+const { fileNotFoundError } = require("../utils/errors");
 const {
   DIVA_LAKE_USERNAME,
   DIVA_LAKE_PASSWORD,
@@ -15,6 +16,7 @@ const {
   DIVA_LAKE_HOST,
   uploadObject,
   removeObject,
+  downloadObject,
 } = require("../utils/minio");
 
 const RESOURCE_MANAGEMENT_URL = urljoin(
@@ -107,6 +109,15 @@ class DivaLakeResourceService {
         throw e;
       });
     return resourceId;
+  }
+
+  async download(fileName) {
+    return downloadObject(fileName).catch((e) => {
+      if (e?.code === "NoSuchKey") {
+        throw fileNotFoundError;
+      }
+      throw e;
+    });
   }
 }
 
