@@ -1,6 +1,6 @@
 <template>
   <div class="editable-content" :class="{ 'edit-active': editMode }">
-    <div class="fill-height" @click="activateEdit" ref="editor">
+    <div class="fill-height" @click="onContentClick" ref="editor">
       <slot name="edit" v-if="editMode" :set-edited-data="setEditedData"></slot>
       <slot name="view" v-else></slot>
     </div>
@@ -55,6 +55,10 @@ export default {
       type: Function,
       required: true,
     },
+    clickableContent: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -75,6 +79,11 @@ export default {
   methods: {
     toggleEdit() {
       this.editMode ? this.disableEdit() : this.activateEdit();
+    },
+    onContentClick() {
+      if (this.clickableContent) {
+        this.activateEdit();
+      }
     },
     activateEdit() {
       if (this.editMode) return;
