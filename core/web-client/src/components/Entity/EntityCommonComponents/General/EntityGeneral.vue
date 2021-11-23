@@ -216,6 +216,30 @@
                       </edit-view-content>
                     </v-col>
                   </v-row>
+                  <v-row dense class="mt-5">
+                    <v-col cols="12">
+                      <custom-header text="Location" />
+                    </v-col>
+                    <v-col cols="12">
+                      <edit-view-content
+                        :clickable-content="!!!data.location"
+                        slot="body"
+                        :initialData="{ location: data.location }"
+                        :on-save="(patch) => api.patch(data.id, patch)"
+                      >
+                        <general-location
+                          slot="view"
+                          :location="data.location || {}"
+                        />
+                        <template #edit="{ setEditedData }">
+                          <general-location-edit
+                            :location="data.location || {}"
+                            @update:location="setEditedData($event)"
+                          />
+                        </template>
+                      </edit-view-content>
+                    </v-col>
+                  </v-row>
                 </template>
               </card>
             </v-col>
@@ -245,6 +269,8 @@ import GeneralDataOwnerEdit from "@/components/Entity/EntityCommonComponents/Gen
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import GeneralVersionNotesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralEditComponents/GeneralVersionNotesEdit";
 import GeneralVersionNotes from "@/components/Entity/EntityCommonComponents/General/GeneralVersionNotes";
+import GeneralLocation from "@/components/Entity/EntityCommonComponents/General/GeneralLocation";
+import GeneralLocationEdit from "@/components/Entity/EntityCommonComponents/General/GeneralEditComponents/GeneralLocationEdit";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import CustomHeader from "@/components/Base/CustomHeader";
 
@@ -271,6 +297,8 @@ export default {
     GeneralTitleEdit,
     EditViewContent,
     GeneralKeywordsEdit,
+    GeneralLocation,
+    GeneralLocationEdit,
   },
   props: {
     id: {
