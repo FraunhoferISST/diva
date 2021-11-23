@@ -4,8 +4,7 @@
   "type": "object",
   "title": "General Asset Data",
   "required": [
-    "assetType",
-    "entities"
+    "assetType"
   ],
   "unevaluatedProperties": false,
   "allOf": [
