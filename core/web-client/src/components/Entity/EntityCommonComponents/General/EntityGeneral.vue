@@ -125,8 +125,60 @@
                       <info-block title="Rating" :value="data.rating || 'N/A'">
                       </info-block>
                     </v-col>
+                    <v-col cols="12" sm="6" md="3" lg="3">
+                      <info-block title="Planned availability level">
+                        <edit-view-content
+                          slot="value"
+                          :initialData="{
+                            plannedAvailability: data.plannedAvailability,
+                          }"
+                          :on-save="(patch) => api.patch(data.id, patch)"
+                        >
+                          <general-planned-availability
+                            slot="view"
+                            :planned-availability="
+                              data.plannedAvailability || ''
+                            "
+                          />
+                          <template #edit="{ setEditedData, state }">
+                            <general-planned-availability-edit
+                              :planned-availability="
+                                state.plannedAvailability || ''
+                              "
+                              @update:plannedAvailability="
+                                setEditedData($event)
+                              "
+                            />
+                          </template>
+                        </edit-view-content>
+                      </info-block>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3" lg="3">
+                      <info-block title="Political geocoding">
+                        <edit-view-content
+                          slot="value"
+                          :initialData="{
+                            politicalGeocoding: data.politicalGeocoding,
+                          }"
+                          :on-save="(patch) => api.patch(data.id, patch)"
+                        >
+                          <general-political-geocoding
+                            slot="view"
+                            :political-geocoding="data.politicalGeocoding || []"
+                          />
+                          <template #edit="{ setEditedData, state }">
+                            <general-political-geocoding-edit
+                              :political-geocoding="
+                                state.politicalGeocoding || []
+                              "
+                              @update:politicalGeocoding="setEditedData($event)"
+                            />
+                          </template>
+                        </edit-view-content>
+                      </info-block>
+                    </v-col>
                   </v-row>
-                  <v-row class="mb-2">
+                  <v-row class="mb-2" v-if="data.urbanPulseSensorId">
                     <v-col
                       cols="12"
                       sm="6"
@@ -193,7 +245,7 @@
                       </edit-view-content>
                     </v-col>
                   </v-row>
-                  <v-row dense>
+                  <v-row dense class="mt-5">
                     <v-col cols="12">
                       <custom-header text="Description" />
                     </v-col>
@@ -239,7 +291,13 @@
                       </edit-view-content>
                     </v-col>
                   </v-row>
-                  <v-row dense class="mt-5">
+                </template>
+              </card>
+            </v-col>
+            <v-col cols="12">
+              <card>
+                <template slot="body">
+                  <v-row dense>
                     <v-col cols="12">
                       <custom-header text="Location" />
                     </v-col>
@@ -298,10 +356,18 @@ import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import CustomHeader from "@/components/Base/CustomHeader";
 import GeneralThemes from "@/components/Entity/EntityCommonComponents/General/GeneralThemes/GeneralThemes";
 import GeneralThemesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralThemes/GeneralThemesEdit";
+import GeneralPoliticalGeocoding from "@/components/Entity/EntityCommonComponents/General/GeneralPoliticalGeocoding/GeneralPoliticalGeocoding";
+import GeneralPoliticalGeocodingEdit from "@/components/Entity/EntityCommonComponents/General/GeneralPoliticalGeocoding/GeneralPoliticalGeocodingEdit";
+import GeneralPlannedAvailability from "@/components/Entity/EntityCommonComponents/General/GeneralPlannedAvailability/GeneralPlannedAvailability";
+import GeneralPlannedAvailabilityEdit from "@/components/Entity/EntityCommonComponents/General/GeneralPlannedAvailability/GeneralPlannedAvailabilityEdit";
 
 export default {
   name: "EntityGeneral",
   components: {
+    GeneralPlannedAvailabilityEdit,
+    GeneralPlannedAvailability,
+    GeneralPoliticalGeocodingEdit,
+    GeneralPoliticalGeocoding,
     GeneralThemesEdit,
     GeneralThemes,
     CustomHeader,

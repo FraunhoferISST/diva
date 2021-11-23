@@ -9,7 +9,6 @@
   "allOf": [
     {
       "properties": {
-
         "title": {
           "$id": "title",
           "type": "string",
@@ -26,7 +25,6 @@
             "analyzer": "letter_analyzer"
           }
         },
-    
         "summary": {
           "$id": "summary",
           "type": "string",
@@ -39,7 +37,6 @@
           "minLength": 0,
           "maxLength": 255
         },
-    
         "description": {
           "$id": "description",
           "type": "string",
@@ -54,7 +51,6 @@
             "analyzer": "standard"
           }
         },
-    
         "keywords": {
           "$id": "keywords",
           "type": "array",
@@ -71,7 +67,6 @@
             }
           }
         },
-    
         "ownerId": {
           "$id": "ownerId",
           "type": "string",
@@ -86,7 +81,6 @@
             "type": "keyword"
           }
         },
-    
         "versionInfo": {
           "$id": "versionInfo",
           "type": "string",
@@ -103,7 +97,6 @@
             "type": "keyword"
           }
         },
-    
         "versionNotes": {
           "$id": "versionNotes",
           "type": "string",
@@ -119,7 +112,6 @@
             "analyzer": "standard"
           }
         },
-    
         "licenses": {
           "$id": "licenses",
           "type": "array",
@@ -136,7 +128,6 @@
             }
           }
         },
-
         "themes": {
           "$id": "themes",
           "type": "array",
@@ -171,6 +162,43 @@
             ],
             "title": "Theme Items",
             "description": "A theme",
+            "_elasticsearch": {
+              "type": "keyword"
+            }
+          }
+        },
+        "plannedAvailability": {
+          "$id": "plannedAvailability",
+          "type": "string",
+          "title": "Planned Availability",
+          "description": "These availability levels indicate how long the document is planned to be available",
+          "minLength": 1,
+          "enum": [
+            "Temporary",
+            "Experimental",
+            "Available",
+            "Stable"
+          ]
+        },
+        "politicalGeocoding": {
+          "$id": "politicalGeocoding",
+          "type": "array",
+          "title": "Political Geocoding",
+          "description": "For the coded specification of the respective principle management level from which the data structure was collected and set, the following six options with multiple selection are possible",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "International",
+              "European",
+              "Federal",
+              "State",
+              "Administrative District",
+              "Municipality"
+            ],
+            "title": "Political Geocoding levels",
+            "description": "A list of geopolitical management coding",
             "_elasticsearch": {
               "type": "keyword"
             }
