@@ -11,6 +11,7 @@
                     class="mb-5"
                     :initialData="{ title: data.title || '' }"
                     :on-save="(patch) => api.patch(data.id, patch)"
+                    @saved="({ title }) => (data.title = title)"
                   >
                     <template #view>
                       <general-title
@@ -38,6 +39,7 @@
                     class="mb-5"
                     :initialData="{ keywords: data.keywords }"
                     :on-save="(patch) => api.patch(data.id, patch)"
+                    @saved="({ keywords }) => (data.keywords = keywords)"
                   >
                     <general-keywords
                       slot="view"
@@ -66,10 +68,12 @@
                           slot="value"
                           :initialData="{ ownerId: data.ownerId }"
                           :on-save="(patch) => api.patch(data.id, patch)"
+                          @saved="({ ownerId }) => (data.ownerId = ownerId)"
                         >
                           <general-data-owner
                             slot="view"
                             :owner="data.owner || {}"
+                            :owner-id="data.ownerId || ''"
                           />
                           <template v-slot:edit="{ setEditedData }">
                             <general-data-owner-edit
@@ -87,6 +91,10 @@
                           slot="value"
                           :initialData="{ versionInfo: data.versionInfo }"
                           :on-save="(patch) => api.patch(data.id, patch)"
+                          @saved="
+                            ({ versionInfo }) =>
+                              (data.versionInfo = versionInfo)
+                          "
                         >
                           <general-version-info
                             slot="view"
@@ -107,6 +115,10 @@
                           slot="value"
                           :initialData="{ versionNotes: data.versionNotes }"
                           :on-save="(patch) => api.patch(data.id, patch)"
+                          @saved="
+                            ({ versionNotes }) =>
+                              (data.versionNotes = versionNotes)
+                          "
                         >
                           <general-version-notes
                             slot="view"
@@ -133,6 +145,10 @@
                             plannedAvailability: data.plannedAvailability,
                           }"
                           :on-save="(patch) => api.patch(data.id, patch)"
+                          @saved="
+                            ({ plannedAvailability }) =>
+                              (data.plannedAvailability = plannedAvailability)
+                          "
                         >
                           <general-planned-availability
                             slot="view"
@@ -161,6 +177,10 @@
                             politicalGeocoding: data.politicalGeocoding,
                           }"
                           :on-save="(patch) => api.patch(data.id, patch)"
+                          @saved="
+                            ({ politicalGeocoding }) =>
+                              (data.politicalGeocoding = politicalGeocoding)
+                          "
                         >
                           <general-political-geocoding
                             slot="view"
@@ -231,6 +251,7 @@
                         slot="body"
                         :initialData="{ themes: data.themes }"
                         :on-save="(patch) => api.patch(data.id, patch)"
+                        @saved="({ themes }) => (data.themes = themes)"
                       >
                         <general-themes
                           slot="view"
@@ -254,6 +275,9 @@
                         slot="body"
                         :initialData="{ description: data.description }"
                         :on-save="(patch) => api.patch(data.id, patch)"
+                        @saved="
+                          ({ description }) => (data.description = description)
+                        "
                       >
                         <general-description
                           slot="view"
@@ -277,6 +301,7 @@
                         slot="body"
                         :initialData="{ licenses: data.licenses }"
                         :on-save="(patch) => api.patch(data.id, patch)"
+                        @saved="({ licenses }) => (data.licenses = licenses)"
                       >
                         <general-license
                           slot="view"
@@ -307,6 +332,7 @@
                         slot="body"
                         :initialData="{ location: data.location }"
                         :on-save="(patch) => api.patch(data.id, patch)"
+                        @saved="({ location }) => (data.location = location)"
                       >
                         <general-location
                           slot="view"

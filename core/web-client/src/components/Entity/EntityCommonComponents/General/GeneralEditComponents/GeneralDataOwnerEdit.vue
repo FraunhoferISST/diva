@@ -79,7 +79,7 @@ export default {
         return this.ownerId;
       },
       set(value) {
-        this.$emit("update:owner", { ownerId: value || "" });
+        this.$emit("update:owner", { ownerId: value });
       },
     },
   },
