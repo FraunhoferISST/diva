@@ -107,7 +107,6 @@ export default {
       this.isLoading = true;
       this.onSave(this.editedData)
         .then(() => {
-          console.log(this.editedData);
           this.$emit("saved", this.editedData);
           this.disableEdit();
         })
