@@ -201,7 +201,7 @@
                             slot="view"
                             :themes="data.themes || []"
                           />
-                          <template v-slot:edit="{ setEditedData, state }">
+                          <template #edit="{ setEditedData, state }">
                             <general-themes-edit
                               :themes="state.themes || []"
                               @update:themes="setEditedData($event)"
@@ -304,28 +304,21 @@
                       </edit-view-content>
                     </v-col>
                   </v-row>
-                  <v-row dense class="mt-5">
+                </template>
+              </card>
+            </v-col>
+            <v-col cols="12">
+              <card>
+                <template slot="body">
+                  <v-row dense>
                     <v-col cols="12">
                       <custom-header text="Licenses" />
                     </v-col>
                     <v-col cols="12">
-                      <edit-view-content
-                        slot="body"
-                        :initialData="{ licenses: data.licenses }"
-                        :on-save="(patch) => api.patch(data.id, patch)"
-                        @saved="({ licenses }) => (data.licenses = licenses)"
-                      >
-                        <general-license
-                          slot="view"
-                          :licenses="data.licenses || []"
-                        />
-                        <template v-slot:edit="{ setEditedData }">
-                          <general-license-edit
-                            :licenses="data.licenses || []"
-                            @update:licenses="setEditedData($event)"
-                          />
-                        </template>
-                      </edit-view-content>
+                      <general-licenses
+                        :licenses="data.licenses || []"
+                        :save-method="(patch) => api.patch(data.id, patch)"
+                      />
                     </v-col>
                   </v-row>
                 </template>
@@ -380,9 +373,8 @@ import EditViewContent from "@/components/Containers/EditViewContent";
 import GeneralTitleEdit from "@/components/Entity/EntityCommonComponents/General/GeneralEditComponents/GeneralTitleEdit";
 import GeneralKeywordsEdit from "@/components/Entity/EntityCommonComponents/General/GeneralEditComponents/GeneralKeywordsEdit";
 import GeneralKeywords from "@/components/Entity/EntityCommonComponents/General/GeneralKeywords";
-import GeneralLicense from "@/components/Entity/EntityCommonComponents/General/GeneralLicense/GeneralLicense";
+import GeneralLicenses from "@/components/Entity/EntityCommonComponents/General/GeneralLicenses/GeneralLicenses";
 import EntityBaseDataFetcher from "@/components/DataFetchers/EntityBaseDataFetcher";
-import GeneralLicenseEdit from "@/components/Entity/EntityCommonComponents/General/GeneralLicense/GeneralLicenseEdit";
 import GeneralDataOwner from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwner";
 import GeneralDataOwnerEdit from "@/components/Entity/EntityCommonComponents/General/GeneralEditComponents/GeneralDataOwnerEdit";
 import GeneralVersionNotesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralEditComponents/GeneralVersionNotesEdit";
@@ -417,9 +409,8 @@ export default {
     GeneralVersionNotesEdit,
     GeneralDataOwnerEdit,
     GeneralDataOwner,
-    GeneralLicenseEdit,
     EntityBaseDataFetcher,
-    GeneralLicense,
+    GeneralLicenses,
     GeneralKeywords,
     GeneralDescription,
     GeneralDescriptionEdit,

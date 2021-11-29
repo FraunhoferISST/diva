@@ -6,6 +6,7 @@
         v-if="editMode"
         :set-edited-data="setEditedData"
         :state="editedData"
+        :disableEdit="disableEdit"
       ></slot>
       <slot name="view" v-else></slot>
     </div>
@@ -54,6 +55,7 @@ export default {
   components: {},
   props: {
     initialData: {
+      type: Object,
       required: true,
     },
     onSave: {
