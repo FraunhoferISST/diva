@@ -121,7 +121,7 @@ services:
   
   user-management:
     <<: *base-core-service
-    image: ${REGISTRY}user-management:5.0.1
+    image: ${REGISTRY}user-management:5.0.2
     container_name: user-management
     environment:
       <<: *base-core-service-env
