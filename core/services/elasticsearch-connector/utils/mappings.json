@@ -1,0 +1,1255 @@
+{
+  "reviews": {
+    "mappings": {
+      "properties": {
+        "id": {
+          "type": "keyword"
+        },
+        "entityType": {
+          "type": "keyword"
+        },
+        "created": {
+          "type": "date"
+        },
+        "modified": {
+          "type": "date"
+        },
+        "creatorId": {
+          "type": "keyword"
+        },
+        "entityIcon": {
+          "type": "keyword"
+        },
+        "entityBanner": {
+          "type": "keyword"
+        },
+        "entityImages": {
+          "type": "keyword"
+        },
+        "entityVideos": {
+          "type": "keyword"
+        },
+        "reviewText": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "belongsTo": {
+          "type": "keyword"
+        },
+        "rating": {
+          "type": "byte"
+        }
+      }
+    }
+  },
+  "users": {
+    "mappings": {
+      "properties": {
+        "id": {
+          "type": "keyword"
+        },
+        "entityType": {
+          "type": "keyword"
+        },
+        "created": {
+          "type": "date"
+        },
+        "modified": {
+          "type": "date"
+        },
+        "creatorId": {
+          "type": "keyword"
+        },
+        "entityIcon": {
+          "type": "keyword"
+        },
+        "entityBanner": {
+          "type": "keyword"
+        },
+        "entityImages": {
+          "type": "keyword"
+        },
+        "entityVideos": {
+          "type": "keyword"
+        },
+        "username": {
+          "type": "text",
+          "analyzer": "simple"
+        },
+        "email": {
+          "type": "keyword"
+        },
+        "password": {
+          "type": "keyword"
+        },
+        "imageId": {
+          "type": "keyword"
+        },
+        "imageUrl": {
+          "type": "keyword"
+        },
+        "company": {
+          "type": "text",
+          "analyzer": "simple"
+        },
+        "jobTitle": {
+          "type": "text",
+          "analyzer": "simple"
+        },
+        "phoneNumber": {
+          "type": "keyword"
+        },
+        "mobileNumber": {
+          "type": "keyword"
+        },
+        "addressLocality": {
+          "type": "keyword"
+        },
+        "addressRegion": {
+          "type": "keyword"
+        },
+        "postalCode": {
+          "type": "keyword"
+        },
+        "streetAddress": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "postOfficeBoxNumber": {
+          "type": "keyword"
+        }
+      }
+    }
+  },
+  "assets": {
+    "mappings": {
+      "properties": {
+        "id": {
+          "type": "keyword"
+        },
+        "entityType": {
+          "type": "keyword"
+        },
+        "created": {
+          "type": "date"
+        },
+        "modified": {
+          "type": "date"
+        },
+        "creatorId": {
+          "type": "keyword"
+        },
+        "entityIcon": {
+          "type": "keyword"
+        },
+        "entityBanner": {
+          "type": "keyword"
+        },
+        "entityImages": {
+          "type": "keyword"
+        },
+        "entityVideos": {
+          "type": "keyword"
+        },
+        "title": {
+          "type": "text",
+          "analyzer": "letter_analyzer"
+        },
+        "summary": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "description": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "keywords": {
+          "type": "keyword"
+        },
+        "ownerId": {
+          "type": "keyword"
+        },
+        "versionInfo": {
+          "type": "keyword"
+        },
+        "versionNotes": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "licenses": {
+          "properties": {
+            "url": {
+              "type": "text",
+              "analyzer": "standard"
+            },
+            "code": {
+              "type": "keyword"
+            },
+            "name": {
+              "type": "text",
+              "analyzer": "standard"
+            },
+            "attributedByText": {
+              "type": "text",
+              "analyzer": "standard"
+            }
+          }
+        },
+        "themes": {
+          "type": "keyword"
+        },
+        "plannedAvailability": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "politicalGeocoding": {
+          "type": "keyword"
+        },
+        "location": {
+          "properties": {
+            "type": {
+              "type": "text",
+              "analyzer": "standard"
+            },
+            "crs": {
+              "properties": {
+                "type": {
+                  "type": "text",
+                  "analyzer": "standard"
+                },
+                "properties": {
+                  "properties": {}
+                }
+              }
+            },
+            "bbox": {
+              "type": "double"
+            },
+            "coordinates": {
+              "properties": {}
+            },
+            "geometry": {
+              "properties": {}
+            },
+            "properties": {
+              "properties": {}
+            }
+          }
+        },
+        "languages": {
+          "properties": {
+            "alpha3": {
+              "type": "keyword"
+            },
+            "alpha2": {
+              "type": "keyword"
+            },
+            "language": {
+              "type": "keyword"
+            },
+            "score": {
+              "type": "half_float"
+            }
+          }
+        },
+        "distributions": {
+          "properties": {
+            "type": {
+              "type": "keyword"
+            },
+            "httpGetBasicAuth": {
+              "properties": {
+                "url": {
+                  "type": "keyword"
+                },
+                "username": {
+                  "type": "keyword"
+                },
+                "password": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "divaLake": {
+              "properties": {
+                "url": {
+                  "type": "keyword"
+                },
+                "port": {
+                  "type": "integer"
+                },
+                "username": {
+                  "type": "keyword"
+                },
+                "password": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "ipfs": {
+              "properties": {
+                "hash": {
+                  "type": "text",
+                  "analyzer": "standard"
+                }
+              }
+            }
+          }
+        },
+        "costs": {
+          "properties": {
+            "internalCosts": {
+              "properties": {
+                "maintenanceCost": {
+                  "properties": {
+                    "value": {
+                      "type": "float"
+                    },
+                    "currency": {
+                      "type": "keyword"
+                    },
+                    "period": {
+                      "type": "keyword"
+                    }
+                  }
+                },
+                "storageCost": {
+                  "properties": {
+                    "value": {
+                      "type": "float"
+                    },
+                    "currency": {
+                      "type": "keyword"
+                    },
+                    "period": {
+                      "type": "keyword"
+                    }
+                  }
+                },
+                "distributionCost": {
+                  "properties": {
+                    "value": {
+                      "type": "float"
+                    },
+                    "currency": {
+                      "type": "keyword"
+                    },
+                    "period": {
+                      "type": "keyword"
+                    }
+                  }
+                }
+              }
+            },
+            "externalCost": {
+              "properties": {
+                "value": {
+                  "type": "float"
+                },
+                "currency": {
+                  "type": "keyword"
+                },
+                "period": {
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "assetType": {
+          "type": "keyword"
+        },
+        "entities": {
+          "type": "keyword"
+        },
+        "uniqueFingerprint": {
+          "type": "keyword"
+        }
+      }
+    }
+  },
+  "services": {
+    "mappings": {
+      "properties": {
+        "serviceType": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "id": {
+          "type": "keyword"
+        },
+        "entityType": {
+          "type": "keyword"
+        },
+        "created": {
+          "type": "date"
+        },
+        "modified": {
+          "type": "date"
+        },
+        "creatorId": {
+          "type": "keyword"
+        },
+        "entityIcon": {
+          "type": "keyword"
+        },
+        "entityBanner": {
+          "type": "keyword"
+        },
+        "entityImages": {
+          "type": "keyword"
+        },
+        "entityVideos": {
+          "type": "keyword"
+        },
+        "title": {
+          "type": "text",
+          "analyzer": "letter_analyzer"
+        },
+        "summary": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "description": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "keywords": {
+          "type": "keyword"
+        },
+        "ownerId": {
+          "type": "keyword"
+        },
+        "versionInfo": {
+          "type": "keyword"
+        },
+        "versionNotes": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "licenses": {
+          "properties": {
+            "url": {
+              "type": "text",
+              "analyzer": "standard"
+            },
+            "code": {
+              "type": "keyword"
+            },
+            "name": {
+              "type": "text",
+              "analyzer": "standard"
+            },
+            "attributedByText": {
+              "type": "text",
+              "analyzer": "standard"
+            }
+          }
+        },
+        "themes": {
+          "type": "keyword"
+        },
+        "plannedAvailability": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "politicalGeocoding": {
+          "type": "keyword"
+        },
+        "location": {
+          "properties": {
+            "type": {
+              "type": "text",
+              "analyzer": "standard"
+            },
+            "crs": {
+              "properties": {
+                "type": {
+                  "type": "text",
+                  "analyzer": "standard"
+                },
+                "properties": {
+                  "properties": {}
+                }
+              }
+            },
+            "bbox": {
+              "type": "double"
+            },
+            "coordinates": {
+              "properties": {}
+            },
+            "geometry": {
+              "properties": {}
+            },
+            "properties": {
+              "properties": {}
+            }
+          }
+        },
+        "languages": {
+          "properties": {
+            "alpha3": {
+              "type": "keyword"
+            },
+            "alpha2": {
+              "type": "keyword"
+            },
+            "language": {
+              "type": "keyword"
+            },
+            "score": {
+              "type": "half_float"
+            }
+          }
+        },
+        "costs": {
+          "properties": {
+            "internalCosts": {
+              "properties": {
+                "maintenanceCost": {
+                  "properties": {
+                    "value": {
+                      "type": "float"
+                    },
+                    "currency": {
+                      "type": "keyword"
+                    },
+                    "period": {
+                      "type": "keyword"
+                    }
+                  }
+                },
+                "storageCost": {
+                  "properties": {
+                    "value": {
+                      "type": "float"
+                    },
+                    "currency": {
+                      "type": "keyword"
+                    },
+                    "period": {
+                      "type": "keyword"
+                    }
+                  }
+                },
+                "distributionCost": {
+                  "properties": {
+                    "value": {
+                      "type": "float"
+                    },
+                    "currency": {
+                      "type": "keyword"
+                    },
+                    "period": {
+                      "type": "keyword"
+                    }
+                  }
+                }
+              }
+            },
+            "externalCost": {
+              "properties": {
+                "value": {
+                  "type": "float"
+                },
+                "currency": {
+                  "type": "keyword"
+                },
+                "period": {
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "serviceVendor": {
+          "properties": {
+            "name": {
+              "type": "keyword"
+            },
+            "homepage": {
+              "type": "keyword"
+            }
+          }
+        }
+      }
+    }
+  },
+  "resources": {
+    "mappings": {
+      "properties": {
+        "resourceType": {
+          "type": "keyword"
+        },
+        "id": {
+          "type": "keyword"
+        },
+        "entityType": {
+          "type": "keyword"
+        },
+        "created": {
+          "type": "date"
+        },
+        "modified": {
+          "type": "date"
+        },
+        "creatorId": {
+          "type": "keyword"
+        },
+        "entityIcon": {
+          "type": "keyword"
+        },
+        "entityBanner": {
+          "type": "keyword"
+        },
+        "entityImages": {
+          "type": "keyword"
+        },
+        "entityVideos": {
+          "type": "keyword"
+        },
+        "title": {
+          "type": "text",
+          "analyzer": "letter_analyzer"
+        },
+        "summary": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "description": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "keywords": {
+          "type": "keyword"
+        },
+        "ownerId": {
+          "type": "keyword"
+        },
+        "versionInfo": {
+          "type": "keyword"
+        },
+        "versionNotes": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "licenses": {
+          "properties": {
+            "url": {
+              "type": "text",
+              "analyzer": "standard"
+            },
+            "code": {
+              "type": "keyword"
+            },
+            "name": {
+              "type": "text",
+              "analyzer": "standard"
+            },
+            "attributedByText": {
+              "type": "text",
+              "analyzer": "standard"
+            }
+          }
+        },
+        "themes": {
+          "type": "keyword"
+        },
+        "plannedAvailability": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "politicalGeocoding": {
+          "type": "keyword"
+        },
+        "location": {
+          "properties": {
+            "type": {
+              "type": "text",
+              "analyzer": "standard"
+            },
+            "crs": {
+              "properties": {
+                "type": {
+                  "type": "text",
+                  "analyzer": "standard"
+                },
+                "properties": {
+                  "properties": {}
+                }
+              }
+            },
+            "bbox": {
+              "type": "double"
+            },
+            "coordinates": {
+              "properties": {}
+            },
+            "geometry": {
+              "properties": {}
+            },
+            "properties": {
+              "properties": {}
+            }
+          }
+        },
+        "languages": {
+          "properties": {
+            "alpha3": {
+              "type": "keyword"
+            },
+            "alpha2": {
+              "type": "keyword"
+            },
+            "language": {
+              "type": "keyword"
+            },
+            "score": {
+              "type": "half_float"
+            }
+          }
+        },
+        "distributions": {
+          "properties": {
+            "type": {
+              "type": "keyword"
+            },
+            "httpGetBasicAuth": {
+              "properties": {
+                "url": {
+                  "type": "keyword"
+                },
+                "username": {
+                  "type": "keyword"
+                },
+                "password": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "divaLake": {
+              "properties": {
+                "url": {
+                  "type": "keyword"
+                },
+                "port": {
+                  "type": "integer"
+                },
+                "username": {
+                  "type": "keyword"
+                },
+                "password": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "ipfs": {
+              "properties": {
+                "hash": {
+                  "type": "text",
+                  "analyzer": "standard"
+                }
+              }
+            }
+          }
+        },
+        "dsc": {
+          "properties": {
+            "offer": {
+              "properties": {
+                "offerId": {
+                  "type": "keyword"
+                },
+                "ruleId": {
+                  "type": "keyword"
+                },
+                "representationId": {
+                  "type": "keyword"
+                },
+                "artifactId": {
+                  "type": "keyword"
+                },
+                "contractId": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "policy": {
+              "properties": {
+                "provideAccess": {
+                  "type": "boolean"
+                },
+                "usageLogging": {
+                  "type": "boolean"
+                },
+                "nTimesUsage": {
+                  "type": "long"
+                },
+                "durationUsage": {
+                  "type": "keyword"
+                },
+                "usageNotification": {
+                  "type": "keyword"
+                },
+                "usageUntilDeletion": {
+                  "properties": {
+                    "from": {
+                      "type": "date"
+                    },
+                    "to": {
+                      "type": "date"
+                    },
+                    "delete": {
+                      "type": "date"
+                    }
+                  }
+                },
+                "usageDuringInterval": {
+                  "properties": {
+                    "from": {
+                      "type": "date"
+                    },
+                    "to": {
+                      "type": "date"
+                    }
+                  }
+                },
+                "connectorRestrictedUsage": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "brokerEndpoints": {
+              "type": "keyword"
+            }
+          }
+        },
+        "costs": {
+          "properties": {
+            "internalCosts": {
+              "properties": {
+                "maintenanceCost": {
+                  "properties": {
+                    "value": {
+                      "type": "float"
+                    },
+                    "currency": {
+                      "type": "keyword"
+                    },
+                    "period": {
+                      "type": "keyword"
+                    }
+                  }
+                },
+                "storageCost": {
+                  "properties": {
+                    "value": {
+                      "type": "float"
+                    },
+                    "currency": {
+                      "type": "keyword"
+                    },
+                    "period": {
+                      "type": "keyword"
+                    }
+                  }
+                },
+                "distributionCost": {
+                  "properties": {
+                    "value": {
+                      "type": "float"
+                    },
+                    "currency": {
+                      "type": "keyword"
+                    },
+                    "period": {
+                      "type": "keyword"
+                    }
+                  }
+                }
+              }
+            },
+            "externalCost": {
+              "properties": {
+                "value": {
+                  "type": "float"
+                },
+                "currency": {
+                  "type": "keyword"
+                },
+                "period": {
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "uniqueFingerprint": {
+          "type": "keyword"
+        },
+        "urbanPulseSensorId": {
+          "type": "keyword"
+        },
+        "urbanPulseSensorSince": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "urbanPulseSensorUntil": {
+          "type": "date"
+        },
+        "byteSize": {
+          "type": "unsigned_long"
+        },
+        "filename": {
+          "type": "keyword"
+        },
+        "mimeType": {
+          "type": "keyword"
+        },
+        "fileCreated": {
+          "type": "date"
+        },
+        "fileModified": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "fileLastSaveDate": {
+          "type": "date"
+        },
+        "characterDistribution": {
+          "properties": {
+            "character": {
+              "type": "text",
+              "analyzer": "standard"
+            },
+            "count": {
+              "type": "unsigned_long"
+            }
+          }
+        },
+        "characterEncoding": {
+          "type": "keyword"
+        },
+        "corePhrases": {
+          "properties": {
+            "algorithm": {
+              "type": "keyword"
+            },
+            "sentences": {
+              "type": "text",
+              "analyzer": "standard"
+            }
+          }
+        },
+        "numberOfCharacters": {
+          "type": "unsigned_long"
+        },
+        "numberOfSentences": {
+          "type": "unsigned_long"
+        },
+        "numberOfWords": {
+          "type": "unsigned_long"
+        },
+        "personalData": {
+          "properties": {
+            "numberOfFoundEmails": {
+              "type": "long"
+            },
+            "numberOfFoundPhoneNumbers": {
+              "type": "long"
+            },
+            "numberOfFoundOrganizations": {
+              "type": "long"
+            },
+            "numberOfFoundPersons": {
+              "type": "long"
+            },
+            "numberOfFoundLocations": {
+              "type": "long"
+            },
+            "evaluatedPrivacyMetric": {
+              "type": "long"
+            }
+          }
+        },
+        "documentNumberOfPages": {
+          "type": "long"
+        },
+        "pdfDocinfoCreatorTool": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "pdfDocinfoProducer": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "pdfEncrypted": {
+          "type": "boolean"
+        },
+        "pdfVersion": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "tableSchema": {
+          "properties": {
+            "id": {
+              "type": "keyword"
+            },
+            "name": {
+              "type": "text",
+              "analyzer": "standard"
+            }
+          }
+        },
+        "tableSample": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "columnStatistics": {
+          "properties": {
+            "numberOfNumbers": {
+              "type": "long"
+            },
+            "numberOfStrings": {
+              "type": "long"
+            },
+            "numberOfNullElements": {
+              "type": "long"
+            },
+            "numberOfRows": {
+              "type": "long"
+            },
+            "maxNumberOfRows": {
+              "type": "long"
+            },
+            "dataType": {
+              "type": "keyword"
+            },
+            "frequencyNumbers": {
+              "properties": {
+                "token": {
+                  "type": "double"
+                },
+                "count": {
+                  "type": "long"
+                }
+              }
+            },
+            "frequencyStrings": {
+              "properties": {
+                "token": {
+                  "type": "text",
+                  "analyzer": "standard"
+                },
+                "count": {
+                  "type": "long"
+                }
+              }
+            },
+            "minCharLength": {
+              "type": "long"
+            },
+            "maxCharLength": {
+              "type": "long"
+            },
+            "sum": {
+              "type": "double"
+            },
+            "sumSquared": {
+              "type": "double"
+            },
+            "sumSquaredError": {
+              "type": "double"
+            },
+            "minValue": {
+              "type": "double"
+            },
+            "maxValue": {
+              "type": "double"
+            },
+            "mean": {
+              "type": "double"
+            },
+            "meanSquaredError": {
+              "type": "double"
+            },
+            "median": {
+              "type": "double"
+            },
+            "variancePopulation": {
+              "type": "double"
+            },
+            "varianceSample": {
+              "type": "double"
+            },
+            "standardDeviationPopulation": {
+              "type": "double"
+            },
+            "standardDeviationSample": {
+              "type": "double"
+            },
+            "meanDeviation": {
+              "type": "double"
+            },
+            "medianDeviation": {
+              "type": "double"
+            },
+            "skewness": {
+              "type": "double"
+            },
+            "excessKurtosis": {
+              "type": "double"
+            },
+            "coefficientVariation": {
+              "type": "double"
+            },
+            "quantileQ1": {
+              "type": "double"
+            },
+            "quantileQ2": {
+              "type": "double"
+            },
+            "quantileQ3": {
+              "type": "double"
+            },
+            "title": {
+              "type": "text",
+              "analyzer": "standard"
+            },
+            "id": {
+              "type": "keyword"
+            },
+            "columnIndex": {
+              "type": "long"
+            },
+            "completeness": {
+              "type": "float"
+            }
+          }
+        },
+        "maxNumberOfRows": {
+          "type": "long"
+        },
+        "numberOfColumns": {
+          "type": "integer"
+        },
+        "tableCompleteness": {
+          "type": "float"
+        },
+        "sas7bdatServerType": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "sas7bdatSasRelease": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "sas7bdatDatabaseName": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "sas7bdatPlatform": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "imageOcr": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "imageThumbnail": {
+          "type": "keyword"
+        },
+        "exif": {
+          "properties": {
+            "image": {
+              "properties": {
+                "make": {
+                  "type": "text",
+                  "analyzer": "standard"
+                },
+                "model": {
+                  "type": "text",
+                  "analyzer": "standard"
+                },
+                "orientation": {
+                  "type": "double"
+                },
+                "xResolution": {
+                  "type": "integer"
+                },
+                "yResolution": {
+                  "type": "integer"
+                },
+                "resolutionUnit": {
+                  "type": "double"
+                },
+                "software": {
+                  "type": "text",
+                  "analyzer": "standard"
+                },
+                "ycbcrPositioning": {
+                  "type": "double"
+                },
+                "copyright": {
+                  "type": "text",
+                  "analyzer": "standard"
+                },
+                "imageWidth": {
+                  "type": "integer"
+                },
+                "imageLength": {
+                  "type": "integer"
+                }
+              }
+            },
+            "photo": {
+              "properties": {
+                "fNumber": {
+                  "type": "float"
+                },
+                "iso": {
+                  "type": "float"
+                },
+                "shutterSpeedValue": {
+                  "type": "float"
+                },
+                "brightnessValue": {
+                  "type": "float"
+                },
+                "flash": {
+                  "type": "float"
+                }
+              }
+            }
+          }
+        },
+        "imageCaptions": {
+          "properties": {
+            "index": {
+              "type": "short"
+            },
+            "caption": {
+              "type": "text",
+              "analyzer": "standard"
+            },
+            "probability": {
+              "type": "float"
+            }
+          }
+        },
+        "imageObjects": {
+          "properties": {
+            "label": {
+              "type": "text",
+              "analyzer": "standard"
+            },
+            "probability": {
+              "type": "float"
+            }
+          }
+        }
+      }
+    }
+  }
+}
