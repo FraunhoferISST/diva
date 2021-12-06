@@ -19,13 +19,10 @@
   </no-data-state>
   <v-row v-else>
     <v-col cols="12" class="pb-0">
-      <v-row v-if="addMode" class="mb-1">
+      <v-row v-if="addMode" class="mb-1 relative">
         <v-col cols="12" sm="12" md="6" lg="4" xl="4">
           <div class="license-add-form">
-            <general-license-edit
-              :license.sync="newLicense"
-              @update:license="test"
-            >
+            <general-license-edit :license.sync="newLicense">
               <template>
                 <v-btn
                   rounded
@@ -53,6 +50,16 @@
             </general-license-edit>
           </div>
         </v-col>
+        <v-snackbar
+          absolute
+          top
+          text
+          v-model="snackbar"
+          color="error"
+          :timeout="6000"
+        >
+          {{ snackbarText }}
+        </v-snackbar>
       </v-row>
       <v-btn
         v-else
@@ -128,6 +135,16 @@
             @update:license="setEditedData({ license: $event })"
             @remove="() => removeLicense(i, disableEdit)"
           />
+          <v-snackbar
+            absolute
+            top
+            text
+            v-model="snackbar"
+            color="error"
+            :timeout="6000"
+          >
+            {{ snackbarText }}
+          </v-snackbar>
         </template>
       </edit-view-content>
     </v-col>
@@ -159,6 +176,8 @@ export default {
   },
   data() {
     return {
+      snackbar: false,
+      snackbarText: "Some error occurred!",
       loading: false,
       localLicenses: this.licenses,
       newLicense: {
@@ -171,9 +190,6 @@ export default {
     };
   },
   methods: {
-    test(d) {
-      console.log(d);
-    },
     updateNewLicense({ license }) {
       this.newLicense = license;
     },
@@ -187,10 +203,16 @@ export default {
     removeLicense(index, disableEdit) {
       const updatedTemporalLicenses = [...this.localLicenses];
       updatedTemporalLicenses.splice(index, 1);
-      return this.saveMethod({ licenses: updatedTemporalLicenses }).then(() => {
-        disableEdit();
-        this.localLicenses = updatedTemporalLicenses;
-      });
+      return this.saveMethod({ licenses: updatedTemporalLicenses })
+        .then(() => {
+          disableEdit();
+          this.localLicenses = updatedTemporalLicenses;
+        })
+        .catch((e) => {
+          console.error(e);
+          this.snackbarText = e.toString();
+          this.snackbar = true;
+        });
     },
     addLicense() {
       this.loading = true;
@@ -208,7 +230,8 @@ export default {
           };
         })
         .catch((e) => {
-          console.error(e);
+          this.snackbarText = e.toString();
+          this.snackbar = true;
         })
         .finally(() => {
           this.loading = false;

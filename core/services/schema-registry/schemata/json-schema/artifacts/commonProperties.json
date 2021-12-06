@@ -122,6 +122,7 @@
             "description": "Detailed information about each license",
             "$id": "licenses/items/",
             "type": "object",
+            "required": ["url"],
             "properties": {
               "url": {
                 "title": "License URL",

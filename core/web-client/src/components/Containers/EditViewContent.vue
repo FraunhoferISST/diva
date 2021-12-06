@@ -101,6 +101,7 @@ export default {
       this.isLoading = false;
       this.snackbar = false;
       this.snackbarText = "";
+      this.editedData = this.initialData;
     },
     setEditedData(newValue) {
       this.editedData = newValue;
