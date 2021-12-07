@@ -1,5 +1,4 @@
 const chalk = require("chalk");
-const Console = require("console");
 const {
   resourcesMongoDbConnector,
   resourcesCollectionName,

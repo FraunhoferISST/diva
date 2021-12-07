@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "migrate": "migrate up"
+    "migrate": "migrate up",
+    "lint:fix": "eslint --fix . --ext .js"
   },
   "author": "",
   "license": "ISC",
