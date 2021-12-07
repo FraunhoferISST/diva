@@ -176,12 +176,12 @@
                         >
                           <general-political-geocoding
                             slot="view"
-                            :political-geocoding="data.politicalGeocoding || []"
+                            :political-geocoding="data.politicalGeocoding || ''"
                           />
                           <template #edit="{ setEditedData, state }">
                             <general-political-geocoding-edit
                               :political-geocoding="
-                                state.politicalGeocoding || []
+                                state.politicalGeocoding || ''
                               "
                               @update:politicalGeocoding="setEditedData($event)"
                             />
