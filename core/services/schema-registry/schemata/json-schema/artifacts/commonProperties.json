@@ -118,13 +118,47 @@
           "title": "Licenses",
           "description": "Licenses which are applied to the entity",
           "items": {
+            "title": "Licenses information",
+            "description": "Detailed information about each license",
             "$id": "licenses/items/",
-            "type": "string",
-            "title": "Items",
-            "description": "A license encoded using an URI",
-            "format": "uri",
-            "_elasticsearch": {
-              "type": "keyword"
+            "type": "object",
+            "required": ["url"],
+            "properties": {
+              "url": {
+                "title": "License URL",
+                "description": "A license encoded using an URI",
+                "format": "uri",
+                "type": "string",
+                "_elasticsearch": {
+                  "type": "text"
+                }
+              },
+              "code": {
+                "title": "License code",
+                "description": "A unique license code",
+                "examples": ["dl-zero-de/2.0"],
+                "type": "string",
+                "_elasticsearch": {
+                  "type": "keyword"
+                }
+              },
+              "name": {
+                "title": "License name",
+                "description": "Descriptive license name",
+                "examples": ["Datenlizenz Deutschland – Zero – Version 2.0"],
+                "type": "string",
+                "_elasticsearch": {
+                  "type": "text"
+                }
+              },
+              "attributedByText": {
+                "title": "License attribution by",
+                "description": "License attribution authority",
+                "type": "string",
+                "_elasticsearch": {
+                  "type": "text"
+                }
+              }
             }
           }
         },
