@@ -203,7 +203,10 @@
           "analyzer": "standard"
         },
         "politicalGeocoding": {
-          "type": "keyword"
+          "type": "text"
+        },
+        "dataClassification": {
+          "type": "text"
         },
         "location": {
           "properties": {
@@ -454,7 +457,7 @@
           "analyzer": "standard"
         },
         "politicalGeocoding": {
-          "type": "keyword"
+          "type": "text"
         },
         "location": {
           "properties": {
@@ -597,6 +600,9 @@
         "creatorId": {
           "type": "keyword"
         },
+        "dataClassification": {
+          "type": "text"
+        },
         "entityIcon": {
           "type": "keyword"
         },
@@ -661,7 +667,7 @@
           "analyzer": "standard"
         },
         "politicalGeocoding": {
-          "type": "keyword"
+          "type": "text"
         },
         "location": {
           "properties": {
