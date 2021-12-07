@@ -209,35 +209,7 @@
           "type": "text"
         },
         "location": {
-          "properties": {
-            "type": {
-              "type": "text",
-              "analyzer": "standard"
-            },
-            "crs": {
-              "properties": {
-                "type": {
-                  "type": "text",
-                  "analyzer": "standard"
-                },
-                "properties": {
-                  "properties": {}
-                }
-              }
-            },
-            "bbox": {
-              "type": "double"
-            },
-            "coordinates": {
-              "properties": {}
-            },
-            "geometry": {
-              "properties": {}
-            },
-            "properties": {
-              "properties": {}
-            }
-          }
+          "type": "geo_shape"
         },
         "languages": {
           "properties": {
@@ -460,35 +432,7 @@
           "type": "text"
         },
         "location": {
-          "properties": {
-            "type": {
-              "type": "text",
-              "analyzer": "standard"
-            },
-            "crs": {
-              "properties": {
-                "type": {
-                  "type": "text",
-                  "analyzer": "standard"
-                },
-                "properties": {
-                  "properties": {}
-                }
-              }
-            },
-            "bbox": {
-              "type": "double"
-            },
-            "coordinates": {
-              "properties": {}
-            },
-            "geometry": {
-              "properties": {}
-            },
-            "properties": {
-              "properties": {}
-            }
-          }
+          "type": "geo_shape"
         },
         "languages": {
           "properties": {
@@ -670,35 +614,7 @@
           "type": "text"
         },
         "location": {
-          "properties": {
-            "type": {
-              "type": "text",
-              "analyzer": "standard"
-            },
-            "crs": {
-              "properties": {
-                "type": {
-                  "type": "text",
-                  "analyzer": "standard"
-                },
-                "properties": {
-                  "properties": {}
-                }
-              }
-            },
-            "bbox": {
-              "type": "double"
-            },
-            "coordinates": {
-              "properties": {}
-            },
-            "geometry": {
-              "properties": {}
-            },
-            "properties": {
-              "properties": {}
-            }
-          }
+          "type": "geo_shape"
         },
         "languages": {
           "properties": {

@@ -41,6 +41,24 @@ const divaLakeMongoDbConnector = new MongoDBConnector(divaLakeDbName, [
   divaLakeCollectionName,
 ]);
 
+const usersDbName = process.env.MONGO_DB_NAME || "usersDb";
+const usersCollectionName = process.env.MONGO_COLLECTION_NAME || "users";
+const usersMongoDbConnector = new MongoDBConnector(usersDbName, [
+  usersCollectionName,
+]);
+
+const reviewsDbName = process.env.MONGO_DB_NAME || "reviewsDb";
+const reviewsCollectionName = process.env.MONGO_COLLECTION_NAME || "reviews";
+const reviewsMongoDbConnector = new MongoDBConnector(reviewsDbName, [
+  reviewsCollectionName,
+]);
+
+const servicesDbName = process.env.MONGO_DB_NAME || "servicesDb";
+const servicesCollectionName = process.env.MONGO_COLLECTION_NAME || "services";
+const servicesMongoDbConnector = new MongoDBConnector(servicesDbName, [
+  servicesCollectionName,
+]);
+
 module.exports = {
   assetsMongoDbConnector,
   resourcesMongoDbConnector,
@@ -53,4 +71,10 @@ module.exports = {
   dscLegacyCollectionName,
   dscOffersCollectionName,
   dscCatalogsCollectionName,
+  usersMongoDbConnector,
+  usersCollectionName,
+  reviewsMongoDbConnector,
+  reviewsCollectionName,
+  servicesMongoDbConnector,
+  servicesCollectionName,
 };

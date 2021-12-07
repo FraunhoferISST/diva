@@ -4,6 +4,10 @@ const {
   resourcesCollectionName,
   assetsMongoDbConnector,
   assetsCollectionName,
+  usersMongoDbConnector,
+  usersCollectionName,
+  reviewsMongoDbConnector,
+  reviewsCollectionName,
 } = require("../utils/databases/mongoDbConnectors");
 const paginator = require("../utils/paginateMongoDBEntities");
 
@@ -32,12 +36,16 @@ const reindexEntity = async (entityType, mongoDbConnector, collection) => {
 };
 const init = async () => {
   await resourcesMongoDbConnector.connect();
+  await usersMongoDbConnector.connect();
+  await reviewsMongoDbConnector.connect();
   await assetsMongoDbConnector.connect();
   await esConnector.connect();
 };
 
 const close = async () => {
   await resourcesMongoDbConnector.disconnect();
+  await usersMongoDbConnector.disconnect();
+  await reviewsMongoDbConnector.disconnect();
   await assetsMongoDbConnector.disconnect();
   await esConnector.client.close();
 };
@@ -53,6 +61,14 @@ module.exports.up = async () => {
     );
     console.log("Reindexing assets...");
     await reindexEntity("asset", assetsMongoDbConnector, assetsCollectionName);
+    console.log("Reindexing users...");
+    await reindexEntity("user", usersMongoDbConnector, usersCollectionName);
+    console.log("Reindexing reviews...");
+    await reindexEntity(
+      "review",
+      reviewsMongoDbConnector,
+      reviewsCollectionName
+    );
     console.log("Great job!");
   } finally {
     await close();
