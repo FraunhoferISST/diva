@@ -94,6 +94,7 @@ export default {
     },
     activateEdit() {
       if (this.editMode) return;
+      this.editedData = { ...this.initialData };
       this.editMode = !this.editMode;
     },
     disableEdit() {
@@ -101,7 +102,7 @@ export default {
       this.isLoading = false;
       this.snackbar = false;
       this.snackbarText = "";
-      this.editedData = this.initialData;
+      this.editedData = { ...this.initialData };
     },
     setEditedData(newValue) {
       this.editedData = newValue;

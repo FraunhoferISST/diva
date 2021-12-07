@@ -197,7 +197,7 @@
             "title": "Theme Items",
             "description": "A theme",
             "_elasticsearch": {
-              "type": "keyword"
+              "type": "text"
             }
           }
         },
@@ -212,30 +212,26 @@
             "Experimental",
             "Available",
             "Stable"
-          ]
+          ],
+          "_elasticsearch": {
+            "type": "text"
+          }
         },
         "politicalGeocoding": {
           "$id": "politicalGeocoding",
-          "type": "array",
-          "title": "Political Geocoding",
+          "type": "string",
+          "title": "Political geocoding levels",
           "description": "For the coded specification of the respective principle management level from which the data structure was collected and set, the following six options with multiple selection are possible",
-          "minItems": 1,
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "enum": [
-              "International",
-              "European",
-              "Federal",
-              "State",
-              "Administrative District",
-              "Municipality"
-            ],
-            "title": "Political Geocoding levels",
-            "description": "A list of geopolitical management coding",
-            "_elasticsearch": {
-              "type": "keyword"
-            }
+          "enum": [
+            "International",
+            "European",
+            "Federal",
+            "State",
+            "Administrative District",
+            "Municipality"
+          ],
+          "_elasticsearch": {
+            "type": "text"
           }
         }
       }

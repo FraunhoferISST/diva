@@ -5,15 +5,7 @@
   >
   </no-data-state>
   <div v-else>
-    <v-chip
-      class="ml-1 mt-1"
-      small
-      label
-      v-for="(theme, i) in politicalGeocoding"
-      :key="theme + '_' + i"
-    >
-      {{ theme }}</v-chip
-    >
+    <v-chip class="ml-1 mt-1" small label> {{ politicalGeocoding }}</v-chip>
   </div>
 </template>
 
@@ -24,13 +16,13 @@ export default {
   components: { NoDataState },
   props: {
     politicalGeocoding: {
-      type: Array,
+      type: String,
       required: true,
     },
   },
   computed: {
     hasPoliticalGeocoding() {
-      return this.politicalGeocoding && this.politicalGeocoding.length > 0;
+      return this.politicalGeocoding;
     },
   },
 };

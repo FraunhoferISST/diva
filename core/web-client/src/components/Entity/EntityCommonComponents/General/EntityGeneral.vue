@@ -233,6 +233,76 @@
                         </edit-view-content>
                       </info-block>
                     </v-col>
+                    <v-col cols="12" sm="6" md="3" lg="3">
+                      <info-block title="Data classification">
+                        <template #info>
+                          <v-tooltip bottom max-width="300px">
+                            <template #activator="{ on, attrs }">
+                              <v-icon
+                                class="ml-2"
+                                small
+                                v-bind="attrs"
+                                v-on="on"
+                                color="primary"
+                              >
+                                info_outlined
+                              </v-icon>
+                            </template>
+                            <div>
+                              <p>
+                                <b>Public data</b>: This type of data is freely
+                                accessible to the public (i.e. all
+                                employees/company personnel). It can be freely
+                                used, reused, and redistributed without
+                                repercussions.
+                              </p>
+                              <p>
+                                Internal-only data: This type of data is
+                                strictly accessible to internal company
+                                personnel or internal employees.
+                              </p>
+                              <p>
+                                Confidential data: Access to confidential data
+                                requires specific authorization and/or
+                                clearance. Usually, confidential data is
+                                protected by laws like HIPAA and the PCI DSS.
+                              </p>
+                              <p>
+                                Restricted data includes data that, if
+                                compromised or accessed without authorization,
+                                which could lead to criminal charges and massive
+                                legal fines or cause irreparable damage to the
+                                company.
+                              </p>
+                            </div>
+                          </v-tooltip>
+                        </template>
+                        <edit-view-content
+                          slot="value"
+                          :initialData="{
+                            dataClassification: data.dataClassification,
+                          }"
+                          :on-save="(patch) => api.patch(data.id, patch)"
+                          @saved="
+                            ({ dataClassification }) =>
+                              (data.dataClassification = dataClassification)
+                          "
+                        >
+                          <general-data-classification
+                            slot="view"
+                            :dataClassification="data.dataClassification || ''"
+                          />
+                          <template #edit="{ setEditedData, state }">
+                            <general-data-classification-edit
+                              :dataClassification="
+                                state.dataClassification || ''
+                              "
+                              @update:dataClassification="setEditedData($event)"
+                            />
+                          </template>
+                        </edit-view-content>
+                      </info-block>
+                    </v-col>
                   </v-row>
                   <v-row class="mb-2" v-if="data.urbanPulseSensorId">
                     <v-col
@@ -391,10 +461,14 @@ import GeneralPlannedAvailability from "@/components/Entity/EntityCommonComponen
 import GeneralPlannedAvailabilityEdit from "@/components/Entity/EntityCommonComponents/General/GeneralPlannedAvailability/GeneralPlannedAvailabilityEdit";
 import GeneralLanguages from "@/components/Entity/EntityCommonComponents/General/GeneralLanguages/GeneralLanguages";
 import GeneralLanguagesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralLanguages/GeneralLanguagesEdit";
+import GeneralDataClassification from "@/components/Entity/EntityCommonComponents/General/GeneralDataClassification/GeneralDataClassification";
+import GeneralDataClassificationEdit from "@/components/Entity/EntityCommonComponents/General/GeneralDataClassification/GeneralDataClassificationEdit";
 
 export default {
   name: "EntityGeneral",
   components: {
+    GeneralDataClassificationEdit,
+    GeneralDataClassification,
     GeneralLanguagesEdit,
     GeneralLanguages,
     GeneralPlannedAvailabilityEdit,

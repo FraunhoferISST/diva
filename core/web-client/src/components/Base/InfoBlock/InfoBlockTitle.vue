@@ -1,6 +1,7 @@
 <template>
   <h5 class="info-block-title">
-    <slot></slot>
+    <slot> </slot>
+    <slot name="info"></slot>
   </h5>
 </template>
 

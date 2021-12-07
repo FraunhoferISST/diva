@@ -13,7 +13,7 @@
         outlined
         dense
         item-text="language"
-        item-value="language"
+        item-value="alpha2"
         return-object
       >
         <template #item="data">

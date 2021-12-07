@@ -2,17 +2,17 @@
   <v-col cols="12">
     <edit-activate-transition>
       <v-autocomplete
-        v-model="computedPoliticalGeocoding"
-        :items="politicalGeocodingList"
+        v-model="computedDataClassification"
+        :items="dataClassificationList"
         hide-details
         chips
-        autofocus
-        auto-select-first
         deletable-chips
         small-chips
+        open-on-clear
         clearable
         outlined
         dense
+        autofocus
       >
       </v-autocomplete>
     </edit-activate-transition>
@@ -22,32 +22,30 @@
 <script>
 import EditActivateTransition from "@/components/Transitions/EditActivateTransition";
 export default {
-  name: "GeneralPoliticalGeocodingEdit",
+  name: "GeneralDataClassificationEdit",
   components: { EditActivateTransition },
   props: {
-    politicalGeocoding: {
+    dataClassification: {
       type: String,
       required: true,
     },
   },
   data: () => ({
-    politicalGeocodingList: [
-      "International",
-      "European",
-      "Federal",
-      "State",
-      "Administrative District",
-      "Municipality",
+    dataClassificationList: [
+      "Public",
+      "Internal",
+      "Confidential",
+      "Restricted",
     ],
   }),
   computed: {
-    computedPoliticalGeocoding: {
+    computedDataClassification: {
       get() {
-        return this.politicalGeocoding;
+        return this.dataClassification;
       },
       set(value) {
-        this.$emit("update:politicalGeocoding", {
-          politicalGeocoding: value ?? null,
+        this.$emit("update:dataClassification", {
+          dataClassification: value ?? null,
         });
       },
     },
