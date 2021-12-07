@@ -233,6 +233,34 @@
                         </edit-view-content>
                       </info-block>
                     </v-col>
+                    <v-col cols="12" sm="6" md="3" lg="3">
+                      <info-block title="Data classification">
+                        <edit-view-content
+                          slot="value"
+                          :initialData="{
+                            dataClassification: data.dataClassification,
+                          }"
+                          :on-save="(patch) => api.patch(data.id, patch)"
+                          @saved="
+                            ({ dataClassification }) =>
+                              (data.dataClassification = dataClassification)
+                          "
+                        >
+                          <general-data-classification
+                            slot="view"
+                            :dataClassification="data.dataClassification || ''"
+                          />
+                          <template #edit="{ setEditedData, state }">
+                            <general-data-classification-edit
+                              :dataClassification="
+                                state.dataClassification || ''
+                              "
+                              @update:dataClassification="setEditedData($event)"
+                            />
+                          </template>
+                        </edit-view-content>
+                      </info-block>
+                    </v-col>
                   </v-row>
                   <v-row class="mb-2" v-if="data.urbanPulseSensorId">
                     <v-col
@@ -391,10 +419,14 @@ import GeneralPlannedAvailability from "@/components/Entity/EntityCommonComponen
 import GeneralPlannedAvailabilityEdit from "@/components/Entity/EntityCommonComponents/General/GeneralPlannedAvailability/GeneralPlannedAvailabilityEdit";
 import GeneralLanguages from "@/components/Entity/EntityCommonComponents/General/GeneralLanguages/GeneralLanguages";
 import GeneralLanguagesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralLanguages/GeneralLanguagesEdit";
+import GeneralDataClassification from "@/components/Entity/EntityCommonComponents/General/GeneralDataClassification/GeneralDataClassification";
+import GeneralDataClassificationEdit from "@/components/Entity/EntityCommonComponents/General/GeneralDataClassification/GeneralDataClassificationEdit";
 
 export default {
   name: "EntityGeneral",
   components: {
+    GeneralDataClassificationEdit,
+    GeneralDataClassification,
     GeneralLanguagesEdit,
     GeneralLanguages,
     GeneralPlannedAvailabilityEdit,

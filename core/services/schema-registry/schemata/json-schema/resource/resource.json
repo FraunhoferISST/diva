@@ -42,6 +42,9 @@
       "$ref": "/costs"
     },
     {
+      "$ref": "/dataClassification"
+    },
+    {
       "if": {
         "properties": {
           "resourceType": {
