@@ -1,4 +1,9 @@
-module.exports = async function* (collection, query, pageSize = 1000) {
+module.exports = async function* (
+  collection,
+  query,
+  pageSize = 1000,
+  projection = {}
+) {
   const documentsCount = await collection.countDocuments(query);
   let lastId = "";
   let processed = 0;
@@ -6,6 +11,7 @@ module.exports = async function* (collection, query, pageSize = 1000) {
   for (let i = 1; i <= pages; i++) {
     const pageData = await collection
       .find({ ...query, ...(lastId ? { _id: { $gt: lastId } } : {}) })
+      .project(projection)
       .limit(pageSize)
       .toArray();
     lastId = pageData[pageData.length - 1]._id;

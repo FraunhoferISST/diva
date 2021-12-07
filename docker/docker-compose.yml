@@ -208,7 +208,7 @@ services:
 
   elasticsearch-connector:
     <<: *base-core-service
-    image: ${REGISTRY}elasticsearch-connector:0.2.4
+    image: ${REGISTRY}elasticsearch-connector:0.2.5
     container_name: elasticsearch-connector
     depends_on:
       - broker

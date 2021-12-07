@@ -1,14 +1,16 @@
 {
   "name": "diva-migration",
-  "version": "0.1.0-diva-3.0.3-3.1.0",
+  "version": "0.1.0-diva-3.2.0-3.3.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "migrate": "migrate up"
+    "migrate": "migrate up",
+    "lint:fix": "eslint --fix . --ext .js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@elastic/elasticsearch": "^7.15.0",
     "chalk": "^4.1.2",
     "cli-progress": "^3.9.1",
     "eslint": "^8.1.0",
