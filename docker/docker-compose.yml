@@ -47,7 +47,7 @@ services:
 
   web-client:
     container_name: web-client
-    image: ${REGISTRY}web-client:18.31.0
+    image: ${REGISTRY}web-client:18.32.0
     ports:
       - ${WEB_CLIENT_PORT}:80
     restart: always
@@ -348,7 +348,7 @@ services:
   # ####################################################################################################################
 
   schema-registry:
-    image: ${REGISTRY}schema-registry:0.5.0
+    image: ${REGISTRY}schema-registry:0.6.0
     hostname: schema-registry
     container_name: schema-registry
     restart: always
