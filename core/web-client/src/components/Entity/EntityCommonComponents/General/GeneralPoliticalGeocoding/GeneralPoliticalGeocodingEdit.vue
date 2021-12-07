@@ -6,7 +6,8 @@
         :items="politicalGeocodingList"
         hide-details
         chips
-        multiple
+        autofocus
+        auto-select-first
         deletable-chips
         small-chips
         clearable
@@ -25,7 +26,7 @@ export default {
   components: { EditActivateTransition },
   props: {
     politicalGeocoding: {
-      type: Array,
+      type: String,
       required: true,
     },
   },
@@ -46,7 +47,7 @@ export default {
       },
       set(value) {
         this.$emit("update:politicalGeocoding", {
-          politicalGeocoding: value.length > 0 ? value : null,
+          politicalGeocoding: value ?? null,
         });
       },
     },

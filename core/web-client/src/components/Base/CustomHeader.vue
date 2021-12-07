@@ -1,5 +1,16 @@
 <template>
-  <h2 v-if="text" class="header" :class="{ inverse: inverse }">{{ text }}</h2>
+  <h2
+    v-if="text"
+    class="custom-header d-flex justify-space-between"
+    :class="{ inverse: inverse }"
+  >
+    <span>
+      {{ text }}
+    </span>
+    <span>
+      <slot name="info"></slot>
+    </span>
+  </h2>
 </template>
 
 <script>
@@ -20,7 +31,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.header {
+.custom-header {
   @include font-style(1.15rem, $font_body, bold, $font_primary_color);
   margin-bottom: 0;
   // letter-spacing: 0.1rem;
