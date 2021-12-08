@@ -1,6 +1,6 @@
 # Docker Compose up and running
 
-All system components are containerized and in this guide we will learn how to get DIVA running with `docker-compose`. 
+All system components are containerized and in this guide we will learn how to get DIVA running with `docker-compose`.
 You will find more details in the official documentation.
 
 ## Requirements
