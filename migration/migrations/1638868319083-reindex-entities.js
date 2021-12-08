@@ -26,6 +26,12 @@ const reindexEntity = async (entityType, mongoDbConnector, collection) => {
     { _id: 0 }
   )) {
     for (const entity of pageData) {
+      if (typeof entity.location !== "undefined") {
+        entity.location = {
+          type : "geometrycollection",
+          geometries: entity.location.features.map((f) => f.geometry),
+        };
+      }
       await esConnector.client.index({
         index: collection,
         id: entity.id,
