@@ -12,7 +12,7 @@ services:
   #######################################
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.10.1
+    image: docker.elastic.co/kibana/kibana:7.14.2
     container_name: diva_kibana
     ports:
       - 5601:5601
