@@ -1,7 +1,13 @@
 <template>
   <div class="editable-content" :class="{ 'edit-active': editMode }">
-    <div class="fill-height" @click="activateEdit" ref="editor">
-      <slot name="edit" v-if="editMode" :set-edited-data="setEditedData"></slot>
+    <div class="fill-height" @click="onContentClick" ref="editor">
+      <slot
+        name="edit"
+        v-if="editMode"
+        :set-edited-data="setEditedData"
+        :state="editedData"
+        :disableEdit="disableEdit"
+      ></slot>
       <slot name="view" v-else></slot>
     </div>
 
@@ -49,11 +55,16 @@ export default {
   components: {},
   props: {
     initialData: {
+      type: Object,
       required: true,
     },
     onSave: {
       type: Function,
       required: true,
+    },
+    clickableContent: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -76,8 +87,14 @@ export default {
     toggleEdit() {
       this.editMode ? this.disableEdit() : this.activateEdit();
     },
+    onContentClick() {
+      if (this.clickableContent) {
+        this.activateEdit();
+      }
+    },
     activateEdit() {
       if (this.editMode) return;
+      this.editedData = { ...this.initialData };
       this.editMode = !this.editMode;
     },
     disableEdit() {
@@ -85,6 +102,7 @@ export default {
       this.isLoading = false;
       this.snackbar = false;
       this.snackbarText = "";
+      this.editedData = { ...this.initialData };
     },
     setEditedData(newValue) {
       this.editedData = newValue;

@@ -2,7 +2,10 @@
   <v-row v-bind="$attrs">
     <v-col cols="12" class="pb-1">
       <slot name="title">
-        <info-block-title>{{ title }}</info-block-title>
+        <info-block-title>
+          {{ title }}
+          <slot name="info"></slot>
+        </info-block-title>
       </slot>
     </v-col>
     <v-col cols="12" class="pt-1 info-block-value">

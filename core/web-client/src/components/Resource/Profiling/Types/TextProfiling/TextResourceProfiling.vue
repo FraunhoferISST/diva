@@ -106,12 +106,15 @@ export default {
   computed: {
     specificMetaData() {
       return [
-        {
+        /*{
           title: "Languages",
           value: this.data.languages
-            ?.map(({ language, score }) => `${language} (${score.toFixed(2)})`)
+            ?.map(
+              ({ language, score }) =>
+                `${language} ${score ? `(${score.toFixed(2)})` : ""}`
+            )
             .join(" "),
-        },
+        },*/
       ];
     },
     corePhrases() {

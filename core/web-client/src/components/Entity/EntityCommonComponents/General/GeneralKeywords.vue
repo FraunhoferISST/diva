@@ -1,7 +1,7 @@
 <template>
   <no-data-state v-if="!hasKeywords" text="You can provide keywords here">
   </no-data-state>
-  <v-col cols="12" v-else>
+  <div v-else>
     <v-chip
       class="ml-1 mt-1"
       small
@@ -9,7 +9,7 @@
       :key="word + '_' + i"
       >{{ word }}</v-chip
     >
-  </v-col>
+  </div>
 </template>
 
 <script>

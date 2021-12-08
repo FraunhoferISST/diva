@@ -96,7 +96,7 @@ class AssetService extends EntityService {
       { entities: true, _id: false }
     );
     if (asset) {
-      const { entities } = asset;
+      const { entities = [] } = asset;
       const page = entities.slice(startIndex, endIndex + 1);
       return {
         collectionSize: page.length,
