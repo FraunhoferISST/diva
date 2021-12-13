@@ -11,7 +11,7 @@ This service handles so called `assets`. An `asset` is a group of existing `enti
 |Name|default|description|
 |---|---|---|
 |NODE_ENV|development|sets the mode in which the service runs|
-|PORT|3003|sets the port allocated by the service|
+|PORT|3002|sets the port allocated by the service|
 |SCHEMA_REGISTRY_URL|<http://localhost:3010/>|URL of the schema registry where the `asset` JSON schema and `asyncapi` schema is located|
 |ASSET_ROOT_SCHEMA|asset|name of the `asset` root schema to be loaded|
 |ASYNCAPI_SPECIFICATION|asyncapi|name of the `asyncapi` schema to be loaded|

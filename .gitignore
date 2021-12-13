@@ -285,3 +285,5 @@ cython_debug/
 .idea
 .migrate
 # End of https://www.toptal.com/developers/gitignore/api/node,python,vue,java
+
+charts/tmp_manifests

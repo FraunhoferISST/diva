@@ -1,0 +1,8 @@
+apiVersion: v2
+name: asset-management
+description: An Asset Management Helm Chart for Kubernetes
+type: application
+# This is the chart version.
+version: 0.1.0
+# This is the version number of the application being deployed.
+appVersion: "17.2.3"

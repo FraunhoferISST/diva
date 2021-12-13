@@ -1,0 +1,35 @@
+apiVersion: v2
+name: diva
+description: A DIVA Helm chart for Kubernetes
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 0.1.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+# It is recommended to use it with quotes.
+appVersion: "3.3.0"
+
+dependencies:
+  - name: schema-registry
+    version: "0.1.0"
+  - name: resource-management
+    version: "0.1.0"  
+  - name: asset-management
+    version: "0.1.0"
+  - name: user-management
+    version: "0.1.0"
+  - name: review-management
+    version: "0.1.0"
+  - name: mongodb
+    version: "10.30.6"
+    repository: https://charts.bitnami.com/bitnami
+    alias: "documentstore"
+  - name: kafka
+    version: "14.5.0"
+    repository: https://charts.bitnami.com/bitnami
+    alias: "broker"

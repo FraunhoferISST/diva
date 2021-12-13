@@ -16,6 +16,7 @@ to reviews.
 |SCHEMA_REGISTRY_URL|<http://localhost:3010/>|URL of the schema registry where the `asyncapi` schema is located|
 |KAFKA_URL|<broker:9092>|where the Kafka broker is located to read events from|
 |KAFKA_EVENT_TOPIC|`review.events`|topic to which reviews events should be published|
+|KAFKA_CONSUMER_TOPICS|`["resource.events", "asset.events"]`|topics to listen on (e.g. for receiving DELETE events)|
 |MONGODB_URI|mongodb://admin:admin@localhost:27017|MongoDB connection URI|
 |MONGO_DB_NAME|reviewsDb|MongoDB database name|
 |MONGO_DB_COLLECTION_NAME|reviews|MongoDB collection name|

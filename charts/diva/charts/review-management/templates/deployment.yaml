@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: {{ .Chart.Name }}
+  name: {{ .Chart.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: {{ .Chart.Name }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.network/core: "true"
+        io.kompose.service: {{ .Chart.Name }}
+    spec:
+      containers:
+        - env:
+            - name: KAFKA_EVENT_TOPIC
+              value: "{{ .Values.kafkaEventTopic }}"
+            - name: KAFKA_CONSUMER_TOPICS
+              value: {{ .Values.kafkaConsumerTopics | toJson | quote }}
+            - name: KAFKA_URL
+              value: "{{ .Values.kafkaUrl }}"
+            - name: MONGODB_URI
+              value: "{{ .Values.mongodbUri }}"
+            - name: PORT
+              value: "{{ .Values.port }}"
+            - name: SCHEMA_REGISTRY_URL
+              value: "{{ .Values.schemaRegistryUrl }}"
+          image: "ghcr.io/fraunhoferisst/diva/{{ .Chart.Name }}:{{ .Chart.AppVersion}}"
+          name: "{{ .Chart.Name }}"
+          ports:
+            - containerPort: {{ .Values.port }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      restartPolicy: Always
+status: {}
