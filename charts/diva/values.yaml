@@ -83,6 +83,7 @@ affinity: {}
 
 # DIVA Core
 global:
+  mongodbUri: "mongodb://admin:admin@diva-documentstore:27017"  
   initContainerDocumentstore:
     - name: wait-for-documentstore
       image: curlimages/curl:latest

@@ -25,7 +25,7 @@ spec:
             - name: KAFKA_URL
               value: "{{ .Values.kafkaUrl }}"
             - name: MONGODB_URI
-              value: "{{ .Values.mongodbUri }}"
+              value: "{{ .Values.global.mongodbUri }}"
             - name: PORT
               value: "{{ .Values.port }}"
             - name: SCHEMA_REGISTRY_URL
