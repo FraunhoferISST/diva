@@ -82,6 +82,12 @@ tolerations: []
 affinity: {}
 
 # DIVA Core
+global:
+  initContainerDocumentstore:
+    - name: wait-for-documentstore
+      image: curlimages/curl:latest
+      command: ["/bin/sh","-c"]
+      args: ["while [ $(curl -sw '%{http_code}' http://diva-documentstore:27017 -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for our documentstore...'; done"]
 
 documentstore:
   auth:

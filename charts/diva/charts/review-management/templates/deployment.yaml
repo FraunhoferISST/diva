@@ -16,6 +16,8 @@ spec:
         io.kompose.network/core: "true"
         io.kompose.service: {{ .Chart.Name }}
     spec:
+      initContainers:
+        {{- toYaml .Values.global.initContainerDocumentstore | nindent 8 }}
       containers:
         - env:
             - name: KAFKA_EVENT_TOPIC

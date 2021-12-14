@@ -14,6 +14,8 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+initContainers: {}
+
 # Environment Variables for container
 port: 3000
 kafkaEventTopic: "resource.events"
