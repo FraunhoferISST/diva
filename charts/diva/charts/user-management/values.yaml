@@ -19,6 +19,5 @@ initContainers: {}
 # Environment Variables for container
 port: 3001
 kafkaEventTopic: "user.events"
-mongodbUri: "mongodb://admin:admin@diva-documentstore:27017"
 schemaRegistryUrl: "http://schema-registry:3010/"
 kafkaUrl: "diva-broker-0.diva-broker-headless:9092"

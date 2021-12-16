@@ -1,4 +1,4 @@
-# Default values for resource-management.
+# Default values for service-management.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -17,7 +17,7 @@ resources: {}
 initContainers: {}
 
 # Environment Variables for container
-port: 3000
-kafkaEventTopic: "resource.events"
+port: 3004
+kafkaEventTopic: "service.events"
 schemaRegistryUrl: "http://schema-registry:3010/"
 kafkaUrl: "diva-broker-0.diva-broker-headless:9092"

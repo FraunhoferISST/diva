@@ -1,8 +1,8 @@
-apiVersion: v2
-name: review-management
-description: An Review Management Helm Chart for Kubernetes
-type: application
+apiVersion: "v2"
+name: "review-management"
+description: "An Review Management Helm Chart for Kubernetes"
+type: "application"
 # This is the chart version.
-version: 0.1.0
+version: "0.1.0"
 # This is the version number of the application being deployed.
 appVersion: "1.1.2"

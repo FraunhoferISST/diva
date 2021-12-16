@@ -20,6 +20,5 @@ initContainers: {}
 port: 3003
 kafkaEventTopic: "review.events"
 kafkaConsumerTopics: ["resource.events", "asset.events", "service.events"] 
-mongodbUri: "mongodb://admin:admin@diva-documentstore:27017"
 schemaRegistryUrl: "http://schema-registry:3010/"
 kafkaUrl: "diva-broker-0.diva-broker-headless:9092"
