@@ -20,16 +20,28 @@ spec:
         {{- toYaml .Values.global.initContainerDocumentstore | nindent 8 }}
       containers:
         - env:
+            - name: PORT
+              value: "{{ .Values.port }}"
             - name: KAFKA_EVENT_TOPIC
               value: "{{ .Values.kafkaEventTopic }}"
             - name: KAFKA_URL
-              value: "{{ .Values.kafkaUrl }}"
+              {{- if .Values.global.kafkaUrl }}
+              value: {{ .Values.global.kafkaUrl }}
+              {{- else }}
+              value: {{ required "please provide a kafkaUrl" .Values.kafkaUrl }}
+              {{- end }}
             - name: MONGODB_URI
-              value: "{{ .Values.global.mongodbUri }}"
-            - name: PORT
-              value: "{{ .Values.port }}"
+              {{- if .Values.global.mongodbUrl }}
+              value: {{ .Values.global.mongodbUrl }}
+              {{- else }}
+              value: {{ required "please provide a mongodbUrl" .Values.mongodbUrl }}
+              {{- end }}
             - name: SCHEMA_REGISTRY_URL
-              value: "{{ .Values.schemaRegistryUrl }}"
+              {{- if .Values.global.schemaRegistryUrl }}
+              value: {{ .Values.global.schemaRegistryUrl }}
+              {{- else }}
+              value: {{ required "please provide a schemaRegistryUrl" .Values.schemaRegistryUrl }}
+              {{- end }}
           image: "ghcr.io/fraunhoferisst/diva/{{ .Chart.Name }}:{{ .Chart.AppVersion}}"
           name: "{{ .Chart.Name }}"
           ports:

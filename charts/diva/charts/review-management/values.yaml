@@ -16,9 +16,23 @@ resources: {}
 
 initContainers: {}
 
-# Environment Variables for container
+## @section Review Management Parameters
+
+## @param port This will set the port where service and deployment will be available
+##
 port: 3003
+## @param kafkaEventTopic This is the kafka topic where the service is emitting event messages
+##
 kafkaEventTopic: "review.events"
+## @param kafkaConsumerTopics This is a List of topics the service should listen for events.
+##
 kafkaConsumerTopics: ["resource.events", "asset.events", "service.events"] 
-schemaRegistryUrl: "http://schema-registry:3010/"
-kafkaUrl: "diva-broker-0.diva-broker-headless:9092"
+## @param mongodbUrl This is the full URL where the mongodb is available. It should include username and password and port (e.g. http://mongodb.diva:3010). Can also be set using `global.mongodbUrl`.
+##
+mongodbUrl: ""
+## @param schemaRegistryUrl This is the full URL where the schema registry is available (e.g. http://schema-registry.diva:3010). Can also be set using `global.schemaRegistryUrl`.
+##
+schemaRegistryUrl: ""
+## @param kafkaUrl This is the full URL where the kafka broker is available (e.g. diva-broker-0.diva-broker-headless:9092). Can also be set using `global.kafkaUrl`.
+##
+kafkaUrl: ""

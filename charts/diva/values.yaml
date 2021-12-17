@@ -83,7 +83,9 @@ affinity: {}
 
 # DIVA Core
 global:
-  mongodbUri: "mongodb://admin:admin@diva-documentstore:27017"  
+  mongodbUrl: "mongodb://admin:admin@diva-documentstore:27017"
+  schemaRegistryUrl: "http://schema-registry:3010/"
+  kafkaUrl: "diva-broker-0.diva-broker-headless:9092"
   initContainerDocumentstore:
     - name: wait-for-documentstore
       image: curlimages/curl:latest
