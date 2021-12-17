@@ -1,4 +1,4 @@
-# Default values for history-assistant.
+# Default values for event-emitter.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -16,7 +16,7 @@ resources: {}
 
 initContainers: {}
 
-## @section History Assistant Parameters
+## @section Event Emitter Parameters
 
 ## @param port This will set the port where service and deployment will be available
 ##
