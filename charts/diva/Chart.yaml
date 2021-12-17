@@ -19,6 +19,8 @@ dependencies:
     version: "0.1.0"
   - name: "service-management"
     version: "0.1.0"
+  - name: "history-assistant"
+    version: "0.1.0"  
   - name: "mongodb"
     version: "10.30.6"
     repository: "https://charts.bitnami.com/bitnami"

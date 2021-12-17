@@ -264,7 +264,7 @@ services:
       NODE_ENV: production
       PORT: ${HISTORY_ASSISTANT_PORT}
       IGNORE_FIELDS: "[\"modified\"]"
-      REVIEW_ROOT_SCHEMA: history
+      HISTORY_ROOT_SCHEMA: history
     restart: always
     ports:
       - ${HISTORY_ASSISTANT_PORT}:${HISTORY_ASSISTANT_PORT}

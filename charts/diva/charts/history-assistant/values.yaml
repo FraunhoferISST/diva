@@ -1,0 +1,32 @@
+# Default values for history-assistant.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+initContainers: {}
+
+## @section History Assistant Parameters
+
+## @param port This will set the port where service and deployment will be available
+##
+port: 3006
+## @param mongodbUrl This is the full URL where the mongodb is available. It should include username and password and port (e.g. http://mongodb.diva:3010). Can also be set using `global.mongodbUrl`.
+##
+mongodbUrl: ""
+## @param schemaRegistryUrl This is the full URL where the schema registry is available (e.g. http://schema-registry.diva:3010). Can also be set using `global.schemaRegistryUrl`.
+##
+schemaRegistryUrl: ""
+## @param kafkaUrl This is the full URL where the kafka broker is available (e.g. diva-broker-0.diva-broker-headless:9092). Can also be set using `global.kafkaUrl`.
+##
+kafkaUrl: ""
