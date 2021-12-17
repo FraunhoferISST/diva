@@ -87,10 +87,10 @@ global:
   schemaRegistryUrl: "http://schema-registry:3010/"
   kafkaUrl: "diva-broker-0.diva-broker-headless:9092"
   initContainerDocumentstore:
-    - name: wait-for-documentstore
+    - name: wait-for-mongodb
       image: curlimages/curl:latest
       command: ["/bin/sh","-c"]
-      args: ["while [ $(curl -sw '%{http_code}' http://diva-documentstore:27017 -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for our documentstore...'; done"]
+      args: ["while [ $(curl -sw '%{http_code}' http://diva-documentstore:27017 -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for our mongodb...'; done"]
 
 documentstore:
   auth:

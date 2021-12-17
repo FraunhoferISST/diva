@@ -20,27 +20,27 @@ spec:
         {{- toYaml .Values.global.initContainerDocumentstore | nindent 8 }}
       containers:
         - env:
-            - name: PORT
+            - name: "PORT"
               value: "{{ .Values.port }}"
-            - name: KAFKA_URL
+            - name: "KAFKA_URL"
               {{- if .Values.global.kafkaUrl }}
               value: {{ .Values.global.kafkaUrl | quote }}
               {{- else }}
               value: {{ required "please provide a kafkaUrl" .Values.kafkaUrl | quote }}
               {{- end }}
-            - name: MONGODB_URI
-              {{- if .Values.global.mongodbUrl }}
-              value: {{ .Values.global.mongodbUrl | quote }}
-              {{- else }}
-              value: {{ required "please provide a mongodbUrl" .Values.mongodbUrl | quote }}
-              {{- end }}
-            - name: SCHEMA_REGISTRY_URL
+            - name: "SCHEMA_REGISTRY_URL"
               {{- if .Values.global.schemaRegistryUrl }}
               value: {{ .Values.global.schemaRegistryUrl | quote }}
               {{- else }}
               value: {{ required "please provide a schemaRegistryUrl" .Values.schemaRegistryUrl | quote }}
               {{- end }}
-          image: "ghcr.io/fraunhoferisst/diva/{{ .Chart.Name }}:{{ .Chart.AppVersion }}"
+            - name: "ASYNCAPI_SPECIFICATION"
+              value: {{ .Values.asyncApiSpecification | quote}}
+            - name: "EVENT_EMITTER_SPECIFICATION"
+              value: {{ .Values.eventEmitterSpecification | quote}}
+            - name: "KAFKA_TOPICS" 
+              value: {{ .Values.kafkaTopics | toJson | quote }}
+          image: "ghcr.io/fraunhoferisst/diva/{{ .Chart.Name }}:{{ .Chart.AppVersion}}"
           name: "{{ .Chart.Name }}"
           ports:
             - containerPort: {{ .Values.port }}
