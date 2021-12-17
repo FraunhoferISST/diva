@@ -1,0 +1,97 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  labels:
+    io.kompose.service: {{ .Chart.Name | quote }}
+  name: {{ .Chart.Name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: {{ .Chart.Name | quote }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.network/core: "true"
+        io.kompose.service: {{ .Chart.Name | quote }}
+    spec:
+      initContainers:
+        - name: wait-for-resource-management
+          image: curlimages/curl:latest
+          command: ["/bin/sh","-c"]
+          {{- if .Values.global.resourceManagementUrl }}
+          args: ["while [ $(curl -sw '%{http_code}' {{ .Values.global.resourceManagementUrl }}/health -o /dev/null) -ne 404 ]; do sleep 5; echo 'Waiting for resource-management...'; done"]
+          {{- else }}
+          args: ["while [ $(curl -sw '%{http_code}' {{ .Values.resourceManagementUrl }}/health -o /dev/null) -ne 404 ]; do sleep 5; echo 'Waiting for resource-management...'; done"]
+          {{- end }}
+        - name: wait-for-diva-lake
+          image: curlimages/curl:latest
+          command: ["/bin/sh","-c"]
+          {{- if and .Values.global.divaLakeHost .Values.global.divaLakePort }}
+          args: ["while [ $(curl -sw '%{http_code}' http://{{ .Values.global.divaLakeHost }}:{{ .Values.global.divaLakePort }}/minio/health/live -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for diva-lake...'; done"]
+          {{- else }}
+          args: ["while [ $(curl -sw '%{http_code}' http://{{ .Values.divaLakeHost }}:{{ .Values.divaLakePort }}/minio/health/live -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for diva-lake...'; done"]
+          {{- end }}  
+      containers:
+        - env:
+            - name: "PORT"
+              value: {{ .Values.port | quote }}
+            - name: "RESOURCE_MANAGEMENT_URL"
+              {{- if .Values.global.resourceManagementUrl }}
+              value: {{ .Values.global.resourceManagementUrl | quote }}
+              {{- else }}
+              value: {{ required "please provide resourceManagementUrl" .Values.resourceManagementUrl | quote }}
+              {{- end }}
+            - name: MONGODB_URI
+              {{- if .Values.global.mongodbUrl }}
+              value: {{ .Values.global.mongodbUrl | quote }}
+              {{- else }}
+              value: {{ required "please provide a mongodbUrl" .Values.mongodbUrl | quote }}
+              {{- end }}  
+            - name: KAFKA_URL
+              {{- if .Values.global.kafkaUrl }}
+              value: {{ .Values.global.kafkaUrl | quote }}
+              {{- else }}
+              value: {{ required "please provide a kafkaUrl" .Values.kafkaUrl | quote }}
+              {{- end }}
+            - name: SCHEMA_REGISTRY_URL
+              {{- if .Values.global.schemaRegistryUrl }}
+              value: {{ .Values.global.schemaRegistryUrl | quote }}
+              {{- else }}
+              value: {{ required "please provide a schemaRegistryUrl" .Values.schemaRegistryUrl | quote }}
+              {{- end }}
+            - name: "DIVA_LAKE_HOST"
+              {{- if .Values.global.divaLakeHost }}
+              value: {{ .Values.global.divaLakeHost | quote }}
+              {{- else }}
+              value: {{ required "please provide a divaLakeHost" .Values.divaLakeHost | quote }}
+              {{- end }}  
+            - name: "DIVA_LAKE_PORT"
+              {{- if .Values.global.divaLakePort }}
+              value: {{ .Values.global.divaLakePort | quote }}
+              {{- else }}
+              value: {{ required "please provide a divaLakePort" .Values.divaLakePort | quote }}
+              {{- end }} 
+            - name: "DIVA_LAKE_USERNAME"
+              {{- if .Values.global.divaLakeUsername }}
+              value: {{ .Values.global.divaLakeUsername | quote }}
+              {{- else }}
+              value: {{ required "please provide a divaLakeUsername" .Values.divaLakeUsername | quote }}
+              {{- end }} 
+            - name: "DIVA_LAKE_PASSWORD"
+              {{- if .Values.global.divaLakePassword }}
+              value: {{ .Values.global.divaLakePassword | quote }}
+              {{- else }}
+              value: {{ required "please provide a divaLakePassword" .Values.divaLakePassword | quote }}
+              {{- end }} 
+            - name: "BUCKET_NAME"   
+              value: {{ required "please provide bucketname" .Values.bucketName | quote }}
+          image: "ghcr.io/fraunhoferisst/diva/{{ .Chart.Name }}:{{ .Chart.AppVersion}}"
+          name: {{ .Chart.Name | quote }}
+          ports:
+            - containerPort: {{ .Values.port }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      restartPolicy: "Always"
+status: {}

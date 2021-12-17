@@ -88,6 +88,10 @@ global:
   kafkaUrl: "diva-broker-0.diva-broker-headless:9092"
   resourceManagementUrl: "http://resource-management:3000"
   assetManagementUrl: "http://asset-management:3002"
+  divaLakeHost: "diva-lake"
+  divaLakePort: "9000"
+  divaLakeUsername: "minio_access"
+  divaLakePassword: "minio_secret"
   initContainerDocumentstore:
     - name: wait-for-mongodb
       image: curlimages/curl:latest
