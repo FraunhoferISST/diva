@@ -102,3 +102,10 @@ documentstore:
 broker:
   provisioning:
     topics: ["resource.events","asset.events","user.events","user.events","review.events"]
+
+diva-lake:
+  auth:
+    rootUser: "minio_access"
+    rootPassword: "minio_secret"
+  provisioning:
+    buckets: ["file-lake", "analyze"]

@@ -17,11 +17,23 @@ dependencies:
 - name: service-management
   repository: ""
   version: 0.1.0
+- name: history-assistant
+  repository: ""
+  version: 0.1.0
+- name: event-emitter
+  repository: ""
+  version: 0.1.0
+- name: urban-pulse-adapter
+  repository: ""
+  version: 0.1.0
 - name: mongodb
   repository: https://charts.bitnami.com/bitnami
   version: 10.30.6
 - name: kafka
   repository: https://charts.bitnami.com/bitnami
   version: 14.5.0
-digest: sha256:1967da048b47ea20f77d7434dfa66a0bc6ed0bd85449e85386305110a4ba4932
-generated: "2021-12-16T13:05:29.283976227+01:00"
+- name: minio
+  repository: https://charts.bitnami.com/bitnami
+  version: 9.2.5
+digest: sha256:8d1dcb6852c260ee70dfb69da92c9e6566bf2a877af3d6b4d394da63c7019d5c
+generated: "2021-12-17T12:01:54.400586958+01:00"
