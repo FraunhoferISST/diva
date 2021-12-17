@@ -26,6 +26,9 @@ dependencies:
 - name: urban-pulse-adapter
   repository: ""
   version: 0.1.0
+- name: elasticsearch-connector
+  repository: ""
+  version: 0.1.0
 - name: mongodb
   repository: https://charts.bitnami.com/bitnami
   version: 10.30.6
@@ -35,5 +38,8 @@ dependencies:
 - name: minio
   repository: https://charts.bitnami.com/bitnami
   version: 9.2.5
-digest: sha256:8d1dcb6852c260ee70dfb69da92c9e6566bf2a877af3d6b4d394da63c7019d5c
-generated: "2021-12-17T12:01:54.400586958+01:00"
+- name: elasticsearch
+  repository: https://charts.bitnami.com/bitnami
+  version: 17.5.2
+digest: sha256:0b3d3009d64296df4870c538bb0781c9e0ea7852627c82c38001db38bdfd4435
+generated: "2021-12-17T15:00:08.487675364+01:00"

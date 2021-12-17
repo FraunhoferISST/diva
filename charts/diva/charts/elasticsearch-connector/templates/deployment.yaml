@@ -1,0 +1,66 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  labels:
+    io.kompose.service: {{ .Chart.Name | quote }}
+  name: {{ .Chart.Name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: {{ .Chart.Name | quote }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.network/core: "true"
+        io.kompose.service: {{ .Chart.Name | quote }}
+    spec:
+      initContainers:
+        {{- toYaml .Values.global.initContainerDocumentstore | nindent 8 }}
+        - name: wait-for-elasticsearch
+          image: curlimages/curl:latest
+          command: ["/bin/sh","-c"]
+          {{- if .Values.global.elasticsearchUrl }}
+          args: ["while [ $(curl -sw '%{http_code}' {{ .Values.global.elasticsearchUrl }} -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for elasticsearch...'; done; echo 'Found elasticsearch' "]
+          {{- else }}
+          args: ["while [ $(curl -sw '%{http_code}' {{ .Values.elasticsearchUrl }} -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for elasticsearch...'; done; echo 'Found elasticsearch' "]
+          {{- end }}
+      containers:
+        - env:
+            - name: "PORT"
+              value: {{ .Values.port | quote }}
+            - name: MONGODB_URI
+              {{- if .Values.global.mongodbUrl }}
+              value: {{ .Values.global.mongodbUrl | quote }}
+              {{- else }}
+              value: {{ required "please provide a mongodbUrl" .Values.mongodbUrl | quote }}
+              {{- end }}  
+            - name: KAFKA_URL
+              {{- if .Values.global.kafkaUrl }}
+              value: {{ .Values.global.kafkaUrl | quote }}
+              {{- else }}
+              value: {{ required "please provide a kafkaUrl" .Values.kafkaUrl | quote }}
+              {{- end }}
+            - name: SCHEMA_REGISTRY_URL
+              {{- if .Values.global.schemaRegistryUrl }}
+              value: {{ .Values.global.schemaRegistryUrl | quote }}
+              {{- else }}
+              value: {{ required "please provide a schemaRegistryUrl" .Values.schemaRegistryUrl | quote }}
+              {{- end }}
+            - name: ELASTICSEARCH_URL
+              {{- if .Values.global.elasticsearchUrl }}
+              value: {{ .Values.global.elasticsearchUrl | quote }}
+              {{- else }}
+              value: {{ required "please provide a elasticsearchUrl" .Values.elasticsearchUrl | quote }}
+              {{- end }}  
+            - name: "KAFKA_CONSUMER_TOPICS"
+              value: {{ .Values.kafkaConsumerTopics | toJson | quote }}
+          image: "ghcr.io/fraunhoferisst/diva/{{ .Chart.Name }}:{{ .Chart.AppVersion}}"
+          name: {{ .Chart.Name | quote }}
+          ports:
+            - containerPort: {{ .Values.port }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      restartPolicy: "Always"
+status: {}

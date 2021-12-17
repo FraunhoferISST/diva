@@ -85,7 +85,8 @@ affinity: {}
 global:
   mongodbUrl: "mongodb://admin:admin@diva-documentstore:27017"
   schemaRegistryUrl: "http://schema-registry:3010"
-  kafkaUrl: "diva-broker-0.diva-broker-headless:9092"
+  kafkaUrl: "diva-broker-headless:9092"
+  elasticsearchUrl: "http://diva-elasticsearch-data:9200"
   resourceManagementUrl: "http://resource-management:3000"
   assetManagementUrl: "http://asset-management:3002"
   divaLakeHost: "diva-lake"

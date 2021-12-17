@@ -1,0 +1,15 @@
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  labels:
+    io.kompose.service: {{ .Chart.Name | quote }}
+  name: {{ .Chart.Name | quote }}
+spec:
+  ports:
+    - name: {{ .Values.port | quote }}
+      port: {{ .Values.port }}
+      targetPort: {{ .Values.port }}
+  selector:
+    io.kompose.service: {{ .Chart.Name | quote }}
+status:
+  loadBalancer: {}
