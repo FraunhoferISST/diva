@@ -97,7 +97,27 @@ global:
     - name: wait-for-mongodb
       image: curlimages/curl:latest
       command: ["/bin/sh","-c"]
-      args: ["while [ $(curl -sw '%{http_code}' http://diva-documentstore:27017 -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for our mongodb...'; done"]
+      args: ["while [ $(curl -sw '%{http_code}' http://diva-documentstore:27017 -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for our mongodb...'; done; echo 'Found mongodb' "]
+  initContainerElasticsearch:    
+    - name: wait-for-elasticsearch
+      image: curlimages/curl:latest
+      command: ["/bin/sh","-c"]
+      args: ["while [ $(curl -sw '%{http_code}' http://diva-elasticsearch-data:9200/_cluster/health?wait_for_status=green&timeout=50s -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for elasticsearch...'; done; echo 'Found elasticsearch' "]
+  initContainerDivaLake:
+    - name: wait-for-diva-lake
+      image: curlimages/curl:latest
+      command: ["/bin/sh","-c"]
+      args: ["while [ $(curl -sw '%{http_code}' http://diva-lake:9000/minio/health/live -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for diva-lake...'; done; echo 'Found diva-lake' "]
+  initContainerResourceManagement:
+    - name: wait-for-resource-management
+      image: curlimages/curl:latest
+      command: ["/bin/sh","-c"]
+      args: ["while [ $(curl -sw '%{http_code}' http://resource-management:3000/health -o /dev/null) -ne 404 ]; do sleep 5; echo 'Waiting for resource-management...'; done; echo 'Found resource-management' "]
+  initContainerAssetManagement:  
+    - name: wait-for-asset-management
+      image: curlimages/curl:latest
+      command: ["/bin/sh","-c"]
+      args: ["while [ $(curl -sw '%{http_code}' http://asset-management:3002/health -o /dev/null) -ne 404 ]; do sleep 5; echo 'Waiting for asset-management...'; done; echo 'Found asset-management' "]
 
 documentstore:
   auth:

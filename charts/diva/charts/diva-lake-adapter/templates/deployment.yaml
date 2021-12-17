@@ -17,22 +17,8 @@ spec:
         io.kompose.service: {{ .Chart.Name | quote }}
     spec:
       initContainers:
-        - name: wait-for-resource-management
-          image: curlimages/curl:latest
-          command: ["/bin/sh","-c"]
-          {{- if .Values.global.resourceManagementUrl }}
-          args: ["while [ $(curl -sw '%{http_code}' {{ .Values.global.resourceManagementUrl }}/health -o /dev/null) -ne 404 ]; do sleep 5; echo 'Waiting for resource-management...'; done"]
-          {{- else }}
-          args: ["while [ $(curl -sw '%{http_code}' {{ .Values.resourceManagementUrl }}/health -o /dev/null) -ne 404 ]; do sleep 5; echo 'Waiting for resource-management...'; done"]
-          {{- end }}
-        - name: wait-for-diva-lake
-          image: curlimages/curl:latest
-          command: ["/bin/sh","-c"]
-          {{- if and .Values.global.divaLakeHost .Values.global.divaLakePort }}
-          args: ["while [ $(curl -sw '%{http_code}' http://{{ .Values.global.divaLakeHost }}:{{ .Values.global.divaLakePort }}/minio/health/live -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for diva-lake...'; done"]
-          {{- else }}
-          args: ["while [ $(curl -sw '%{http_code}' http://{{ .Values.divaLakeHost }}:{{ .Values.divaLakePort }}/minio/health/live -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for diva-lake...'; done"]
-          {{- end }}  
+        {{- toYaml .Values.global.initContainerDivaLake | nindent 8 }}
+        {{- toYaml .Values.global.initContainerResourceManagement | nindent 8 }}
       containers:
         - env:
             - name: "PORT"

@@ -17,22 +17,8 @@ spec:
         io.kompose.service: {{ .Chart.Name | quote }}
     spec:
       initContainers:
-        - name: wait-for-resource-management
-          image: curlimages/curl:latest
-          command: ["/bin/sh","-c"]
-          {{- if .Values.global.resourceManagementUrl }}
-          args: ["while [ $(curl -sw '%{http_code}' {{ .Values.global.resourceManagementUrl }}/health -o /dev/null) -ne 404 ]; do sleep 5; echo 'Waiting for resource-management...'; done"]
-          {{- else }}
-          args: ["while [ $(curl -sw '%{http_code}' {{ .Values.resourceManagementUrl }}/health -o /dev/null) -ne 404 ]; do sleep 5; echo 'Waiting for resource-management...'; done"]
-          {{- end }}
-        - name: wait-for-asset-management
-          image: curlimages/curl:latest
-          command: ["/bin/sh","-c"]
-          {{- if .Values.global.assetManagementUrl }}
-          args: ["while [ $(curl -sw '%{http_code}' {{ .Values.global.assetManagementUrl }}/health -o /dev/null) -ne 404 ]; do sleep 5; echo 'Waiting for asset-management...'; done"]
-          {{- else }}
-          args: ["while [ $(curl -sw '%{http_code}' {{ .Values.assetManagementUrl }}/health -o /dev/null) -ne 404 ]; do sleep 5; echo 'Waiting for asset-management...'; done"]
-          {{- end }}  
+        {{- toYaml .Values.global.initContainerResourceManagement | nindent 8 }}
+        {{- toYaml .Values.global.initContainerAssetManagement | nindent 8 }}
       containers:
         - env:
             - name: "PORT"
