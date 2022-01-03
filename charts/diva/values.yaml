@@ -93,6 +93,9 @@ global:
   divaLakePort: "9000"
   divaLakeUsername: "minio_access"
   divaLakePassword: "minio_secret"
+  apiGatewayUrl: "http://localhost:8000"
+  keycloakUrl: "http://172.17.0.1:7000/auth"
+  keycloakRealm: "diva-kc-realm"
   initContainerDocumentstore:
     - name: wait-for-mongodb
       image: curlimages/curl:latest

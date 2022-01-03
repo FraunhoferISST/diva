@@ -21,10 +21,10 @@ initContainers: {}
 ## @param port This will set the port where service and deployment will be available
 ##
 port: 80
-## @param kafkaEventTopic This is the kafka topic where the service is emitting event messages
+## @param apiGatewayUrl This is where the API Gateway is hosted
 ##
-apiGatewayUrl: "http://localhost:8000"
-keycloakUrl: "http://172.17.0.1:7000/auth"
-keycloakRealm: "diva-kc-realm"
+apiGatewayUrl: ""
+keycloakUrl: ""
+keycloakRealm: ""
 keycloakClientId: "diva-kc-client"
 vueAppRegisterAvailable: "true"
