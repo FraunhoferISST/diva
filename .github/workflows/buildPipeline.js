@@ -73,10 +73,10 @@ const services = [
     ...faasPythonServices,
     {
         name: "web-client",
-        path: "core/web-client",
-        dockerfile: "core/web-client/Dockerfile",
+        path: "web-client",
+        dockerfile: "web-client/Dockerfile",
         type: "node",
-        context: "core/web-client"
+        context: "web-client"
     },
     {
         name: "tika-extraction",
