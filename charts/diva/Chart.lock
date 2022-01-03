@@ -29,6 +29,12 @@ dependencies:
 - name: elasticsearch-connector
   repository: ""
   version: 0.1.0
+- name: search-assistant
+  repository: ""
+  version: 0.1.0
+- name: analytics-assistant
+  repository: ""
+  version: 0.1.0
 - name: mongodb
   repository: https://charts.bitnami.com/bitnami
   version: 10.30.6
@@ -41,5 +47,8 @@ dependencies:
 - name: elasticsearch
   repository: https://charts.bitnami.com/bitnami
   version: 17.5.2
-digest: sha256:0b3d3009d64296df4870c538bb0781c9e0ea7852627c82c38001db38bdfd4435
-generated: "2021-12-17T15:00:08.487675364+01:00"
+- name: keycloak
+  repository: https://charts.bitnami.com/bitnami
+  version: 6.0.0
+digest: sha256:cdb0c1ef6095949d8df9c31cfc158f95c3d2180297f00a1ff5d2befc587285d4
+generated: "2022-01-03T13:16:03.187025847+01:00"
