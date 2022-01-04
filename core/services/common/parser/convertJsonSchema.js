@@ -135,7 +135,9 @@ const buildMapping = (schema, esMapping = true) => {
 
   if (isScalarSchema(schema)) {
     return {
-      type: schema.type,
+      ...(schema._elasticsearch ? schema._elasticsearch : {}),
+      type:
+        schema?._elasticsearchschema?.type ?? defaultTypeMapper[schema.type],
     };
   }
 
