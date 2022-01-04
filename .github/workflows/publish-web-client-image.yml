@@ -5,20 +5,20 @@ on:
   push:
     branches: ["master", "dev"]
     paths:
-      - "core/web-client/**"
+      - "web-client/**"
       - "!*.md"
   pull_request:
     branches: ["master", "dev"]
     paths:
-      - "core/web-client/**"
+      - "web-client/**"
       - "!*.md"
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: web-client
-  DIVA_DOCKER_CONTEXT: core/web-client
-  DIVA_DOCKERFILE_PATH: core/web-client/Dockerfile
-  SERVICE_PATH: core/web-client
+  DIVA_DOCKER_CONTEXT: web-client
+  DIVA_DOCKERFILE_PATH: web-client/Dockerfile
+  SERVICE_PATH: web-client
   SERVICE_RELATIVE_PATH: undefined
 
 jobs:
