@@ -94,7 +94,7 @@ global:
   divaLakeUsername: "minio_access"
   divaLakePassword: "minio_secret"
   apiGatewayUrl: "http://localhost:8000"
-  keycloakUrl: "http://172.17.0.1:7000/auth"
+  keycloakUrl: "http://localhost:7000/auth"
   keycloakRealm: "diva-kc-realm"
   initContainerDocumentstore:
     - name: wait-for-mongodb
@@ -131,9 +131,14 @@ broker:
   provisioning:
     topics: ["resource.events","asset.events","user.events","user.events","review.events"]
 
-diva-lake:
+lake:
   auth:
     rootUser: "minio_access"
     rootPassword: "minio_secret"
   provisioning:
     buckets: ["file-lake", "analyze"]
+
+keycloak:
+  ingress:
+    enabled: true
+    
