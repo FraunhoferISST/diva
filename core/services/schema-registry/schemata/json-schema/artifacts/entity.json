@@ -38,7 +38,7 @@
   },
   "allOf": [
     {
-      "if": { 
+      "if": {
         "properties": { "entityType": { "const": "resource" } }
       },
       "then": {
