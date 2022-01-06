@@ -137,8 +137,9 @@ lake:
     rootPassword: "minio_secret"
   provisioning:
     buckets: ["file-lake", "analyze"]
+  ingress:
+    enabled: true  
 
 keycloak:
   ingress:
     enabled: true
-    
