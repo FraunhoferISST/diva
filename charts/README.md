@@ -52,6 +52,15 @@ For example:
 
 You can change these configurations using the `charts/diva/values.yaml`.
 
+## Install DIVA Helm Chart Dependencies
+
+Inside the `charts/diva` folder:
+
+```sh
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm dependency update
+```
+
 ## Install DIVA Helm Chart
 
 Just do (inside the `charts/diva` folder):
