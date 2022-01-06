@@ -94,14 +94,14 @@ global:
   divaLakeUsername: "minio_access"
   divaLakePassword: "minio_secret"
   apiGatewayUrl: "http://localhost:8000"
-  keycloakUrl: "http://localhost:7000/auth"
+  keycloakUrl: "http://keycloak.local/auth"
   keycloakRealm: "diva-kc-realm"
   initContainerDocumentstore:
     - name: wait-for-mongodb
       image: curlimages/curl:latest
       command: ["/bin/sh","-c"]
       args: ["while [ $(curl -sw '%{http_code}' http://diva-documentstore:27017 -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for our mongodb...'; done; echo 'Found mongodb' "]
-  initContainerElasticsearch:    
+  initContainerElasticsearch: 
     - name: wait-for-elasticsearch
       image: curlimages/curl:latest
       command: ["/bin/sh","-c"]
@@ -141,5 +141,8 @@ lake:
     enabled: true  
 
 keycloak:
+  auth:
+    adminUser: "admin"
+    adminPassword: "admin"
   ingress:
     enabled: true
