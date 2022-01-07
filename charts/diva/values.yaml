@@ -93,7 +93,7 @@ global:
   divaLakePort: "9000"
   divaLakeUsername: "minio_access"
   divaLakePassword: "minio_secret"
-  apiGatewayUrl: "http://localhost:8000"
+  apiGatewayUrl: "http://kong.local"
   keycloakUrl: "http://keycloak.local/auth"
   keycloakRealm: "diva-kc-realm"
   initContainerDocumentstore:
@@ -146,3 +146,42 @@ keycloak:
     adminPassword: "admin"
   ingress:
     enabled: true
+  extraEnvVars:
+   - name: "KEYCLOAK_FRONTEND_URL"
+     value: "http://keycloak.local/auth"  
+
+kong:
+  image:
+    repository: "docker.io/library/diva-kong"
+    tag: "0.0.1"
+  env:
+    plugins: "cors, jwt-keycloak"
+    lua_package_path: "/plugins/?.lua"
+  ingressController:
+    enabled: false  
+  proxy:
+    tls:
+      enabled: false
+    ingress:
+      enabled: true
+      hostname: "kong.local"        
+  dblessConfig:
+    config: |
+      _format_version: "1.1"
+      services:
+      - name: "User-Management-Service"
+        url: "http://user-management:3001"
+        routes:
+          - name: usermanagement-route
+            paths:
+            - "/users/"
+            protocols:
+            - "http"
+            - "https"
+            strip_path: false
+            plugins:
+            - name: jwt-keycloak
+              config:
+                allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+        plugins:
+          - name: cors

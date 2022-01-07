@@ -41,14 +41,11 @@ dependencies:
 - name: kafka
   repository: https://charts.bitnami.com/bitnami
   version: 14.5.0
-- name: minio
-  repository: https://charts.bitnami.com/bitnami
-  version: 9.2.5
-- name: elasticsearch
-  repository: https://charts.bitnami.com/bitnami
-  version: 17.5.2
 - name: keycloak
   repository: https://charts.bitnami.com/bitnami
   version: 6.0.0
-digest: sha256:cdb0c1ef6095949d8df9c31cfc158f95c3d2180297f00a1ff5d2befc587285d4
-generated: "2022-01-03T13:16:03.187025847+01:00"
+- name: kong
+  repository: https://charts.konghq.com
+  version: 2.6.3
+digest: sha256:8ca00ccc2fcf96946a6e3f4e81004f1ec077c45d03b96b4db7360db228c40d69
+generated: "2022-01-07T09:27:16.915633504+01:00"

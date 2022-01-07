@@ -68,3 +68,25 @@ Just do (inside the `charts/diva` folder):
 ```sh
 helm install diva .
 ```
+
+## HELP
+
+### Load Images into kind Cluster
+
+Custom images that should overwrite third party charts images like keycloak and kong seems not to work out of the box.
+You need to load the images by hand into the kind cluster.
+A solution is still to be found.
+
+```sh
+kind load docker-image <image:tag>
+```
+
+## TODOs
+
+### Keycloak not running after Helm uninstall
+
+> needs to be investigated
+
+### 502 Bad Gateway after Register new User
+
+> needs to be investigated
