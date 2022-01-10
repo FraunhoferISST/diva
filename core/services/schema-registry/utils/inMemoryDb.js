@@ -35,7 +35,7 @@ const buildInMemoryDb = async () => {
   console.log("✅ All schemata read into memory");
 };
 
-const getSchemaByName = async (name) =>
+const getSchemaByName = (name) =>
   keyv.get(name).then((schema) => {
     if (!schema) {
       throw schemaNotFoundError;
@@ -44,6 +44,7 @@ const getSchemaByName = async (name) =>
   });
 
 module.exports = {
+  db: keyv,
   buildInMemoryDb,
   getSchemaByName,
 };

@@ -10,7 +10,7 @@
       "properties": {
         "value": {
           "title": "Value",
-          "description": "A value representing a the cost numerically",
+          "description": "A value representing the cost numerically",
           "type": ["number", "null"],
           "examples": [0.93, 1000, 285639572, -3],
           "_elasticsearch": {
