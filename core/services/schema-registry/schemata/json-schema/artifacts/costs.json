@@ -42,19 +42,7 @@
     }
   },
   "properties": {
-    "internalCosts": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/cost"
-        },
-        {
-          "title": "Internal Costs",
-          "description": "Costs that are incurred internally",
-          "default": "0.00"
-        }
-      ]
-    },
-    "maintenanceCost": {
+    "internalMaintenanceCost": {
       "allOf": [
         {
           "$ref": "#/definitions/cost"
@@ -66,7 +54,7 @@
         }
       ]
     },
-    "storageCost": {
+    "internalStorageCost": {
       "allOf": [
         {
           "$ref": "#/definitions/cost"
@@ -78,7 +66,7 @@
         }
       ]
     },
-    "distributionCost": {
+    "internalDistributionCost": {
       "allOf": [
         {
           "$ref": "#/definitions/cost"
