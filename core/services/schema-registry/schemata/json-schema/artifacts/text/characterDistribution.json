@@ -3,7 +3,6 @@
     "$id": "characterDistribution",
     "type": "object",
     "title": "Character Distribution",
-    "additionalProperties": true,
     "properties": {
         "characterDistribution": {
             "type": "array",
