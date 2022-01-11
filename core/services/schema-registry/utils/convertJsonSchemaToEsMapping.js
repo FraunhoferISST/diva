@@ -165,10 +165,9 @@ const buildMapping = (schema, esMapping = true) => {
                 ...buildMapping({ [elem]: pv[elem] }, esMapping),
               };
             }
-            const needWrapper = !getCombinationsKeys(pv).every((combKey) => {
-              propertyIsScalar(pv[combKey].type);
-              return pv[combKey].every((def) => propertyIsScalar(def.type));
-            });
+            const needWrapper = !getCombinationsKeys(pv).every((combKey) =>
+              pv[combKey].every((def) => propertyIsScalar(def.type))
+            );
             mappingElements.push({
               [pk]:
                 esMapping && needWrapper ? { properties: mapping } : mapping,
