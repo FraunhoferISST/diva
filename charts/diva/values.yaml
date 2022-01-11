@@ -152,7 +152,7 @@ keycloak:
 
 kong:
   image:
-    repository: "docker.io/library/diva-kong"
+    repository: "ghcr.io/fraunhoferisst/diva/diva-kong"
     tag: "0.0.1"
   env:
     plugins: "cors, jwt-keycloak"
@@ -166,22 +166,5 @@ kong:
       enabled: true
       hostname: "kong.local"        
   dblessConfig:
-    config: |
-      _format_version: "1.1"
-      services:
-      - name: "User-Management-Service"
-        url: "http://user-management:3001"
-        routes:
-          - name: usermanagement-route
-            paths:
-            - "/users/"
-            protocols:
-            - "http"
-            - "https"
-            strip_path: false
-            plugins:
-            - name: jwt-keycloak
-              config:
-                allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
-        plugins:
-          - name: cors
+    configMap: "kong-config"
+

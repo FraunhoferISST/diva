@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kong-config
+data:
+  kong.yml: |
+    _format_version: "1.1"
+    services:
+    - name: "User-Management-Service"
+      url: "http://user-management:3001"
+      routes:
+      - name: usermanagement-route
+        paths:
+        - "/users/"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+        plugins:
+        - name: jwt-keycloak
+          config:
+            allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+      - name: usermanagement-route-images
+        methods:
+        - POST
+        - PUT
+        - OPTIONS
+        paths:
+        - "/userImages"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+        plugins:
+        - name: jwt-keycloak
+          config:
+            allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+      - name: usermanagement-route-get-images
+        methods:
+        - GET
+        paths:
+        - "/userImages"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false      
+      plugins:
+      - name: cors
