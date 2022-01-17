@@ -135,20 +135,26 @@ lake:
   auth:
     rootUser: "minio_access"
     rootPassword: "minio_secret"
-  provisioning:
-    buckets: ["file-lake", "analyze"]
+  defaultBuckets: "file-lake;analyze"  
   ingress:
-    enabled: true  
+    enabled: true
 
 keycloak:
-  auth:
-    adminUser: "admin"
-    adminPassword: "admin"
+  image:
+    registry: "ghcr.io"
+    repository: "fraunhoferisst/diva/diva-keycloak"
+    tag: "0.0.1"
   ingress:
     enabled: true
   extraEnvVars:
-   - name: "KEYCLOAK_FRONTEND_URL"
-     value: "http://keycloak.local/auth"  
+    - name: "KEYCLOAK_USER"
+      value: "admin"
+    - name: "KEYCLOAK_PASSWORD"
+      value: "admin"
+    - name: "KEYCLOAK_IMPORT"
+      value: "/tmp/default-realm.json"
+    - name: "KEYCLOAK_FRONTEND_URL"
+      value: "http://keycloak.local/auth"  
 
 kong:
   image:
@@ -164,7 +170,10 @@ kong:
       enabled: false
     ingress:
       enabled: true
-      hostname: "kong.local"        
+      hostname: "kong.local"
+      path: "/"
+      annotations:
+        konghq.com/strip-path: "true"
   dblessConfig:
     configMap: "kong-config"
 
