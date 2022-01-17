@@ -83,7 +83,7 @@ affinity: {}
 
 # DIVA Core
 global:
-  mongodbUrl: "mongodb://admin:admin@diva-documentstore:27017"
+  mongodbUrl: "mongodb://admin:admin@diva-documentstore-headless:27017"
   schemaRegistryUrl: "http://schema-registry:3010"
   kafkaUrl: "diva-broker-headless:9092"
   elasticsearchUrl: "http://diva-elasticsearch-data:9200"
@@ -100,7 +100,7 @@ global:
     - name: wait-for-mongodb
       image: curlimages/curl:latest
       command: ["/bin/sh","-c"]
-      args: ["while [ $(curl -sw '%{http_code}' http://diva-documentstore:27017 -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for our mongodb...'; done; echo 'Found mongodb' "]
+      args: ["while [ $(curl -sw '%{http_code}' http://diva-documentstore-headless:27017 -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for our mongodb...'; done; echo 'Found mongodb' "]
   initContainerElasticsearch: 
     - name: wait-for-elasticsearch
       image: curlimages/curl:latest
@@ -123,6 +123,7 @@ global:
       args: ["while [ $(curl -sw '%{http_code}' http://asset-management:3002/health -o /dev/null) -ne 404 ]; do sleep 5; echo 'Waiting for asset-management...'; done; echo 'Found asset-management' "]
 
 documentstore:
+  architecture: "replicaset"
   auth:
     rootUser: "admin"
     rootPassword: "admin"
@@ -146,6 +147,8 @@ keycloak:
     tag: "0.0.1"
   ingress:
     enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
   extraEnvVars:
     - name: "KEYCLOAK_USER"
       value: "admin"
