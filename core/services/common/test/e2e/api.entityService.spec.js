@@ -167,9 +167,9 @@ const runPostTests = (collectionName, uniquenessFields) => {
       const insertedEvilEntity = await this.dbCollection.findOne({
         ...uniquenessFieldsQuery,
       });
-      expect(insertedEvilEntity).to.equal(undefined);
+      expect(insertedEvilEntity).to.equal(null);
     } else {
-      // just check, if number of documents still the same as no other chance to check that the operation did not created
+      // just check, if number of documents still the same as no other chance to check that the operation did not create
       // evil entity
       const countAfter = await this.dbCollection.countDocuments({});
       expect(countBefore).to.equal(countAfter);

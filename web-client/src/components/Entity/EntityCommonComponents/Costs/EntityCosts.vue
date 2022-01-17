@@ -1,7 +1,7 @@
 <template>
   <section id="costs">
     <reactive-data-fetcher :id="id" :fetch-method="fetchCosts">
-      <v-container fluid v-if="costs">
+      <v-container fluid v-if="internalCosts || externalCost">
         <v-row>
           <v-col cols="12">
             <card header="Internal costs">
@@ -13,24 +13,24 @@
                     md="12"
                     lg="4"
                     xl="4"
-                    v-for="costType in Object.keys(costs.internalCosts)"
+                    v-for="costType in Object.keys(internalCosts)"
                     :key="costType"
                   >
                     <edit-view-content
                       class="fill-height"
                       :initialData="{
-                        [costType]: costs.internalCosts[costType],
+                        [costType]: internalCosts[costType],
                       }"
-                      :on-save="(patch) => patchCosts(patch)"
+                      :on-save="(patch) => patchCosts(patch, costType)"
                     >
                       <cost-card
                         slot="view"
-                        :title="costs.internalCosts[costType].title"
-                        :costs-data="costs.internalCosts[costType]"
+                        :title="internalCosts[costType].title"
+                        :costs-data="internalCosts[costType]"
                       />
                       <template v-slot:edit="{ setEditedData }">
                         <cost-edit
-                          :costs-data="costs.internalCosts[costType]"
+                          :costs-data="internalCosts[costType]"
                           @update:costsData="
                             setEditedData({ [costType]: $event })
                           "
@@ -46,18 +46,18 @@
                   <v-col cols="12">
                     <edit-view-content
                       :initialData="{
-                        externalCost: costs.externalCost,
+                        externalCost: externalCost,
                       }"
-                      :on-save="(patch) => patchCosts(patch)"
+                      :on-save="(patch) => patchCosts(patch, 'externalCost')"
                     >
                       <cost-card
                         slot="view"
-                        :title="costs.externalCost.title"
-                        :costs-data="costs.externalCost"
+                        :title="externalCost.title"
+                        :costs-data="externalCost"
                       />
                       <template v-slot:edit="{ setEditedData }">
                         <cost-edit
-                          :costs-data="costs.externalCost"
+                          :costs-data="externalCost"
                           @update:costsData="
                             setEditedData({ externalCost: $event })
                           "
@@ -106,17 +106,22 @@ export default {
     },
   },
   data: () => ({
-    costs: {
-      internalCosts: {
-        distributionCost: {
-          title: "Distribution cost",
-          ...emptyCostData,
-        },
-        storageCost: { title: "Storage cost", ...emptyCostData },
-        maintenanceCost: { title: "Maintenance cost", ...emptyCostData },
+    internalCosts: {
+      internalMaintenanceCost: {
+        title: "Maintenance cost",
+        ...emptyCostData,
+      },
+      internalStorageCost: {
+        title: "Storage cost",
+        ...emptyCostData,
+      },
+      internalDistributionCost: {
+        title: "Distribution cost",
+        ...emptyCostData,
       },
       externalCost: { title: "External cost", ...emptyCostData },
     },
+    externalCost: { title: "External cost", ...emptyCostData },
   }),
   computed: {
     api() {
@@ -125,67 +130,51 @@ export default {
     },
   },
   methods: {
-    prepareCostsPatch(patch) {
-      const currentCosts = { ...this.costs };
-      if (patch.externalCost) {
-        currentCosts.externalCost = patch.externalCost;
-      } else {
-        currentCosts.internalCosts = {
-          ...currentCosts.internalCosts,
-          ...patch,
-        };
+    prepareCostsPatch(patch, costType) {
+      if (this.isValidPriceValue(patch[costType].value)) {
+        return patch;
       }
-      let costs = {};
-      for (const costsType in currentCosts.internalCosts) {
-        if (
-          this.isValidPriceValue(currentCosts.internalCosts[costsType].value)
-        ) {
-          costs.internalCosts = costs.internalCosts ?? {};
-          costs.internalCosts[costsType] =
-            currentCosts.internalCosts[costsType];
-          delete currentCosts.internalCosts[costsType].title;
-        }
-      }
-      if (this.isValidPriceValue(currentCosts.externalCost.value)) {
-        costs.externalCost = currentCosts.externalCost;
-        delete currentCosts.externalCost.title;
-      }
-      return costs;
+      return { [costType]: null };
     },
 
-    isValidPriceValue: (price) =>
-      price !== undefined && price !== null && price !== "",
-    patchCosts(patch) {
-      return this.api.patch(this.id, {
-        costs: this.prepareCostsPatch(patch),
-      });
+    isValidPriceValue: (price) => {
+      return (
+        !Number.isNaN(price) &&
+        price !== undefined &&
+        price !== null &&
+        price !== ""
+      );
+    },
+
+    patchCosts(patch, costType) {
+      return this.api.patch(this.id, this.prepareCostsPatch(patch, costType));
     },
     fetchCosts() {
-      return this.api.getById(this.id, { fields: "costs" }).then(
-        ({ data }) =>
-          (this.costs = {
-            internalCosts: {
-              distributionCost: {
-                title: "Distribution cost",
-                ...(data?.costs?.internalCosts?.distributionCost ??
-                  emptyCostData),
-              },
-              storageCost: {
-                title: "Storage cost",
-                ...(data?.costs?.internalCosts?.storageCost ?? emptyCostData),
-              },
-              maintenanceCost: {
-                title: "Maintenance cost",
-                ...(data?.costs?.internalCosts?.maintenanceCost ??
-                  emptyCostData),
-              },
+      return this.api
+        .getById(this.id, {
+          fields:
+            "internalDistributionCost, internalStorageCost, internalMaintenanceCost, externalCost",
+        })
+        .then(({ data }) => {
+          this.internalCosts = {
+            internalDistributionCost: {
+              title: "Distribution cost",
+              ...(data?.internalDistributionCost ?? emptyCostData),
             },
-            externalCost: {
-              title: "External cost",
-              ...(data?.costs?.externalCost ?? emptyCostData),
+            internalStorageCost: {
+              title: "Storage cost",
+              ...(data?.internalStorageCost ?? emptyCostData),
             },
-          })
-      );
+            internalMaintenanceCost: {
+              title: "Maintenance cost",
+              ...(data?.internalMaintenanceCost ?? emptyCostData),
+            },
+          };
+          this.externalCost = {
+            title: "External cost",
+            ...(data?.externalCost ?? emptyCostData),
+          };
+        });
     },
   },
 };

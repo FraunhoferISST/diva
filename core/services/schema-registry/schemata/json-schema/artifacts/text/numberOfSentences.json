@@ -3,7 +3,6 @@
     "$id": "numberOfSentences",
     "type": "object",
     "title": "Number of Sentences",
-    "additionalProperties": true,
     "properties": {
         "numberOfSentences": {
             "type": "integer",

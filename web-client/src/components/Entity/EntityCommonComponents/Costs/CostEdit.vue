@@ -16,6 +16,8 @@
               placeholder="Amount"
               clearable
               dense
+              required
+              :rules="[(value) => !!value]"
             >
             </v-text-field>
           </v-col>
@@ -29,6 +31,9 @@
               v-model="data.currency"
               label="Currency"
               dense
+              validate-on-blur
+              required
+              :rules="[(value) => !!value]"
             ></v-select>
           </v-col>
           <v-col class="pt-2" cols="12">
