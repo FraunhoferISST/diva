@@ -9,7 +9,6 @@
   "allOf": [
     {
       "properties": {
-
         "title": {
           "$id": "title",
           "type": "string",
@@ -26,7 +25,6 @@
             "analyzer": "letter_analyzer"
           }
         },
-    
         "summary": {
           "$id": "summary",
           "type": "string",
@@ -39,7 +37,6 @@
           "minLength": 0,
           "maxLength": 255
         },
-    
         "description": {
           "$id": "description",
           "type": "string",
@@ -54,7 +51,6 @@
             "analyzer": "standard"
           }
         },
-    
         "keywords": {
           "$id": "keywords",
           "type": "array",
@@ -71,7 +67,6 @@
             }
           }
         },
-    
         "ownerId": {
           "$id": "ownerId",
           "type": "string",
@@ -86,7 +81,6 @@
             "type": "keyword"
           }
         },
-    
         "versionInfo": {
           "$id": "versionInfo",
           "type": "string",
@@ -103,7 +97,6 @@
             "type": "keyword"
           }
         },
-    
         "versionNotes": {
           "$id": "versionNotes",
           "type": "string",
@@ -119,27 +112,135 @@
             "analyzer": "standard"
           }
         },
-    
         "licenses": {
           "$id": "licenses",
           "type": "array",
           "title": "Licenses",
           "description": "Licenses which are applied to the entity",
           "items": {
+            "title": "Licenses information",
+            "description": "Detailed information about each license",
             "$id": "licenses/items/",
-            "type": "string",
-            "title": "Items",
-            "description": "A license encoded using an URI",
-            "format": "uri",
-            "_elasticsearch": {
-              "type": "keyword"
+            "type": "object",
+            "required": ["url"],
+            "properties": {
+              "url": {
+                "title": "License URL",
+                "description": "A license encoded using an URI",
+                "format": "uri",
+                "type": "string",
+                "_elasticsearch": {
+                  "type": "text"
+                }
+              },
+              "code": {
+                "title": "License code",
+                "description": "A unique license code",
+                "examples": ["dl-zero-de/2.0"],
+                "type": "string",
+                "_elasticsearch": {
+                  "type": "keyword"
+                }
+              },
+              "name": {
+                "title": "License name",
+                "description": "Descriptive license name",
+                "examples": ["Datenlizenz Deutschland – Zero – Version 2.0"],
+                "type": "string",
+                "_elasticsearch": {
+                  "type": "text"
+                }
+              },
+              "attributedByText": {
+                "title": "License attribution by",
+                "description": "License attribution authority",
+                "type": "string",
+                "_elasticsearch": {
+                  "type": "text"
+                }
+              }
             }
+          }
+        },
+        "themes": {
+          "$id": "themes",
+          "type": "array",
+          "title": "Themes",
+          "description": "Predefined themes of the entity",
+          "default": [],
+          "minItem": 0,
+          "items": {
+            "$id": "themes/items/",
+            "type": "string",
+            "enum": [
+              "Agriculture",
+              "Culture",
+              "Economy",
+              "Education",
+              "Energy",
+              "Environment",
+              "Finance",
+              "Fisheries",
+              "Health",
+              "Infrastructure",
+              "International",
+              "Justice",
+              "Population",
+              "Public Sector",
+              "Regional",
+              "Science",
+              "Society",
+              "Sports",
+              "Technology",
+              "Transport"
+            ],
+            "title": "Theme Items",
+            "description": "A theme",
+            "_elasticsearch": {
+              "type": "text"
+            }
+          }
+        },
+        "plannedAvailability": {
+          "$id": "plannedAvailability",
+          "type": "string",
+          "title": "Planned Availability",
+          "description": "These availability levels indicate how long the document is planned to be available",
+          "minLength": 1,
+          "enum": [
+            "Temporary",
+            "Experimental",
+            "Available",
+            "Stable"
+          ],
+          "_elasticsearch": {
+            "type": "text"
+          }
+        },
+        "politicalGeocoding": {
+          "$id": "politicalGeocoding",
+          "type": "string",
+          "title": "Political geocoding levels",
+          "description": "For the coded specification of the respective principle management level from which the data structure was collected and set, the following six options with multiple selection are possible",
+          "enum": [
+            "International",
+            "European",
+            "Federal",
+            "State",
+            "Administrative District",
+            "Municipality"
+          ],
+          "_elasticsearch": {
+            "type": "text"
           }
         }
       }
     },
     {
       "$ref": "/geo"
+    },
+    {
+      "$ref": "/languages"
     }
   ]
 }

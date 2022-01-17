@@ -14,6 +14,8 @@ const minioClient = new Minio.Client({
   secretKey: DIVA_LAKE_PASSWORD,
 });
 
+const downloadObject = (hash) => minioClient.getObject(BUCKET_NAME, hash);
+
 const uploadObject = async (hash, fileBuffer) =>
   minioClient.putObject(BUCKET_NAME, hash, fileBuffer);
 
@@ -28,6 +30,7 @@ module.exports = {
   uploadObject,
   removeObject,
   removeObjects,
+  downloadObject,
   DIVA_LAKE_HOST,
   DIVA_LAKE_USERNAME,
   DIVA_LAKE_PORT,

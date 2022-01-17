@@ -15,4 +15,13 @@ router.post("/import", async (req, res, next) => {
   }
 });
 
+router.get("/download/:fileName", async (req, res, next) => {
+  try {
+    const downloadStream = await DivaLakeService.download(req.params.fileName);
+    downloadStream.pipe(res);
+  } catch (e) {
+    return next(e);
+  }
+});
+
 module.exports = router;

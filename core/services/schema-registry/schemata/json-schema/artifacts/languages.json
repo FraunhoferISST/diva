@@ -13,10 +13,8 @@
                 "title": "Items",
                 "description": "Guessed languages",
                 "required": [
-                    "alpha3",
                     "alpha2",
-                    "language",
-                    "score"
+                    "language"
                 ],
                 "properties": {
                     "alpha3": {

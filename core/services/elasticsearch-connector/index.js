@@ -5,7 +5,13 @@ const { getDbByEntityId, getOperation, createIndex } = require("./utils/utils");
 
 const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
   ? JSON.parse(process.env.KAFKA_CONSUMER_TOPICS)
-  : ["resource.events", "asset.events", "user.events", "review.events", "service.events"];
+  : [
+      "resource.events",
+      "asset.events",
+      "user.events",
+      "review.events",
+      "service.events",
+    ];
 
 const onMessage = async (message) => {
   try {
@@ -26,11 +32,11 @@ const onMessage = async (message) => {
   try {
     await Connector.init();
 
-    const indeciesMappings = KAFKA_CONSUMER_TOPICS.map((t) =>
+    const indicesMappings = KAFKA_CONSUMER_TOPICS.map((t) =>
       createIndex(`${t.split(".")[0]}s`)
     );
 
-    await Promise.all(indeciesMappings);
+    await Promise.all(indicesMappings);
 
     await messageConsumer.init(
       KAFKA_CONSUMER_TOPICS.map((topic) => ({ topic, spec: "asyncapi" })),

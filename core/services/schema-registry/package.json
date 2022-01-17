@@ -1,6 +1,6 @@
 {
   "name": "schema-registry",
-  "version": "0.3.0",
+  "version": "0.6.0",
   "description": "A Schema Registry for delivering JSON and YML Schemata using HTTP",
   "main": "index.js",
   "scripts": {

@@ -1,5 +1,6 @@
 const ElasticsearchConnector = require("@diva/common/databases/ElasticsearchConnector");
 const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
+const { sanitizeIndexBody } = require("./utils/sanitize");
 
 const esConnector = new ElasticsearchConnector();
 const mongoConnector = new MongoDBConnector();
@@ -22,7 +23,8 @@ class Connector {
   }
 
   async index({ dbName, collection }, id) {
-    const entity = await getEntity(dbName, collection, id);
+    const entity = sanitizeIndexBody(await getEntity(dbName, collection, id));
+
     return entity
       ? esConnector.client.index({
           index: collection,
