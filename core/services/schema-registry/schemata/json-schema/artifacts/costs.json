@@ -10,7 +10,7 @@
       "properties": {
         "value": {
           "title": "Value",
-          "description": "A value representing a the cost numerically",
+          "description": "A value representing the cost numerically",
           "type": ["number", "null"],
           "examples": [0.93, 1000, 285639572, -3],
           "_elasticsearch": {
@@ -42,70 +42,53 @@
     }
   },
   "properties": {
-    "costs": {
-      "type": "object",
-      "title": "Costs",
-      "description": "Costs information for a resource",
-      "additionalProperties": false,
-      "properties": {
-        "internalCosts": {
-          "type": "object",
-          "title": "Internal Costs",
-          "description": "Costs that are incurred internally",
-          "additionalProperties": false,
-          "properties": {
-            "maintenanceCost": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/cost"
-                },
-                {
-                  "title": "Maintenance Costs",
-                  "description": "Maintenance cost of a resource",
-                  "default": "0.00"
-                }
-              ]
-            },
-            "storageCost": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/cost"
-                },
-                {
-                  "title": "Storage Costs",
-                  "description": "Storage cost of a resource",
-                  "default": "0.00"
-                }
-              ]
-            },
-            "distributionCost": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/cost"
-                },
-                {
-                  "title": "Distribution Costs",
-                  "description": "Distribution cost of a resource",
-                  "default": "0.00"
-                }
-              ]
-            }
-          }
+    "internalMaintenanceCost": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/cost"
         },
-        "externalCost": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/cost"
-            },
-            {
-              "title": "External Costs",
-              "description": "External cost of a resource",
-              "default": "0.00"
-            }
-          ],
-          "description": "Costs that are incurred externally"
+        {
+          "title": "Maintenance Costs",
+          "description": "Maintenance cost of a resource",
+          "default": "0.00"
         }
-      }
+      ]
+    },
+    "internalStorageCost": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/cost"
+        },
+        {
+          "title": "Storage Costs",
+          "description": "Storage cost of a resource",
+          "default": "0.00"
+        }
+      ]
+    },
+    "internalDistributionCost": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/cost"
+        },
+        {
+          "title": "Distribution Costs",
+          "description": "Distribution cost of a resource",
+          "default": "0.00"
+        }
+      ]
+    },
+    "externalCost": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/cost"
+        },
+        {
+          "title": "External Costs",
+          "description": "External cost of a resource",
+          "default": "0.00"
+        }
+      ]
     }
   }
 }

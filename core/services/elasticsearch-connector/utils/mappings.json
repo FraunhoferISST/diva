@@ -1,47 +1,4 @@
 {
-  "reviews": {
-    "mappings": {
-      "properties": {
-        "id": {
-          "type": "keyword"
-        },
-        "entityType": {
-          "type": "keyword"
-        },
-        "created": {
-          "type": "date"
-        },
-        "modified": {
-          "type": "date"
-        },
-        "creatorId": {
-          "type": "keyword"
-        },
-        "entityIcon": {
-          "type": "keyword"
-        },
-        "entityBanner": {
-          "type": "keyword"
-        },
-        "entityImages": {
-          "type": "keyword"
-        },
-        "entityVideos": {
-          "type": "keyword"
-        },
-        "reviewText": {
-          "type": "text",
-          "analyzer": "standard"
-        },
-        "belongsTo": {
-          "type": "keyword"
-        },
-        "rating": {
-          "type": "byte"
-        }
-      }
-    }
-  },
   "users": {
     "mappings": {
       "properties": {
@@ -61,16 +18,16 @@
           "type": "keyword"
         },
         "entityIcon": {
-          "type": "keyword"
+          "type": "string"
         },
         "entityBanner": {
-          "type": "keyword"
+          "type": "string"
         },
         "entityImages": {
-          "type": "keyword"
+          "type": "string"
         },
         "entityVideos": {
-          "type": "keyword"
+          "type": "string"
         },
         "username": {
           "type": "text",
@@ -121,6 +78,49 @@
       }
     }
   },
+  "reviews": {
+    "mappings": {
+      "properties": {
+        "id": {
+          "type": "keyword"
+        },
+        "entityType": {
+          "type": "keyword"
+        },
+        "created": {
+          "type": "date"
+        },
+        "modified": {
+          "type": "date"
+        },
+        "creatorId": {
+          "type": "keyword"
+        },
+        "entityIcon": {
+          "type": "string"
+        },
+        "entityBanner": {
+          "type": "string"
+        },
+        "entityImages": {
+          "type": "string"
+        },
+        "entityVideos": {
+          "type": "string"
+        },
+        "reviewText": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "belongsTo": {
+          "type": "keyword"
+        },
+        "rating": {
+          "type": "byte"
+        }
+      }
+    }
+  },
   "assets": {
     "mappings": {
       "properties": {
@@ -140,16 +140,16 @@
           "type": "keyword"
         },
         "entityIcon": {
-          "type": "keyword"
+          "type": "string"
         },
         "entityBanner": {
-          "type": "keyword"
+          "type": "string"
         },
         "entityImages": {
-          "type": "keyword"
+          "type": "string"
         },
         "entityVideos": {
-          "type": "keyword"
+          "type": "string"
         },
         "title": {
           "type": "text",
@@ -196,17 +196,16 @@
           }
         },
         "themes": {
-          "type": "keyword"
+          "type": "text",
+          "analyzer": "standard"
         },
         "plannedAvailability": {
           "type": "text",
           "analyzer": "standard"
         },
         "politicalGeocoding": {
-          "type": "text"
-        },
-        "dataClassification": {
-          "type": "text"
+          "type": "text",
+          "analyzer": "standard"
         },
         "location": {
           "type": "geo_shape"
@@ -271,65 +270,73 @@
             }
           }
         },
-        "costs": {
+        "internalCosts": {
           "properties": {
-            "internalCosts": {
-              "properties": {
-                "maintenanceCost": {
-                  "properties": {
-                    "value": {
-                      "type": "float"
-                    },
-                    "currency": {
-                      "type": "keyword"
-                    },
-                    "period": {
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "storageCost": {
-                  "properties": {
-                    "value": {
-                      "type": "float"
-                    },
-                    "currency": {
-                      "type": "keyword"
-                    },
-                    "period": {
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "distributionCost": {
-                  "properties": {
-                    "value": {
-                      "type": "float"
-                    },
-                    "currency": {
-                      "type": "keyword"
-                    },
-                    "period": {
-                      "type": "keyword"
-                    }
-                  }
-                }
-              }
+            "value": {
+              "type": "float"
             },
-            "externalCost": {
-              "properties": {
-                "value": {
-                  "type": "float"
-                },
-                "currency": {
-                  "type": "keyword"
-                },
-                "period": {
-                  "type": "keyword"
-                }
-              }
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
             }
           }
+        },
+        "maintenanceCost": {
+          "properties": {
+            "value": {
+              "type": "float"
+            },
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
+            }
+          }
+        },
+        "storageCost": {
+          "properties": {
+            "value": {
+              "type": "float"
+            },
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
+            }
+          }
+        },
+        "distributionCost": {
+          "properties": {
+            "value": {
+              "type": "float"
+            },
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
+            }
+          }
+        },
+        "externalCost": {
+          "properties": {
+            "value": {
+              "type": "float"
+            },
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
+            }
+          }
+        },
+        "dataClassification": {
+          "type": "keyword"
         },
         "assetType": {
           "type": "keyword"
@@ -366,16 +373,16 @@
           "type": "keyword"
         },
         "entityIcon": {
-          "type": "keyword"
+          "type": "string"
         },
         "entityBanner": {
-          "type": "keyword"
+          "type": "string"
         },
         "entityImages": {
-          "type": "keyword"
+          "type": "string"
         },
         "entityVideos": {
-          "type": "keyword"
+          "type": "string"
         },
         "title": {
           "type": "text",
@@ -422,14 +429,16 @@
           }
         },
         "themes": {
-          "type": "keyword"
+          "type": "text",
+          "analyzer": "standard"
         },
         "plannedAvailability": {
           "type": "text",
           "analyzer": "standard"
         },
         "politicalGeocoding": {
-          "type": "text"
+          "type": "text",
+          "analyzer": "standard"
         },
         "location": {
           "type": "geo_shape"
@@ -450,63 +459,68 @@
             }
           }
         },
-        "costs": {
+        "internalCosts": {
           "properties": {
-            "internalCosts": {
-              "properties": {
-                "maintenanceCost": {
-                  "properties": {
-                    "value": {
-                      "type": "float"
-                    },
-                    "currency": {
-                      "type": "keyword"
-                    },
-                    "period": {
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "storageCost": {
-                  "properties": {
-                    "value": {
-                      "type": "float"
-                    },
-                    "currency": {
-                      "type": "keyword"
-                    },
-                    "period": {
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "distributionCost": {
-                  "properties": {
-                    "value": {
-                      "type": "float"
-                    },
-                    "currency": {
-                      "type": "keyword"
-                    },
-                    "period": {
-                      "type": "keyword"
-                    }
-                  }
-                }
-              }
+            "value": {
+              "type": "float"
             },
-            "externalCost": {
-              "properties": {
-                "value": {
-                  "type": "float"
-                },
-                "currency": {
-                  "type": "keyword"
-                },
-                "period": {
-                  "type": "keyword"
-                }
-              }
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
+            }
+          }
+        },
+        "maintenanceCost": {
+          "properties": {
+            "value": {
+              "type": "float"
+            },
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
+            }
+          }
+        },
+        "storageCost": {
+          "properties": {
+            "value": {
+              "type": "float"
+            },
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
+            }
+          }
+        },
+        "distributionCost": {
+          "properties": {
+            "value": {
+              "type": "float"
+            },
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
+            }
+          }
+        },
+        "externalCost": {
+          "properties": {
+            "value": {
+              "type": "float"
+            },
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
             }
           }
         },
@@ -544,20 +558,17 @@
         "creatorId": {
           "type": "keyword"
         },
-        "dataClassification": {
-          "type": "text"
-        },
         "entityIcon": {
-          "type": "keyword"
+          "type": "string"
         },
         "entityBanner": {
-          "type": "keyword"
+          "type": "string"
         },
         "entityImages": {
-          "type": "keyword"
+          "type": "string"
         },
         "entityVideos": {
-          "type": "keyword"
+          "type": "string"
         },
         "title": {
           "type": "text",
@@ -604,14 +615,16 @@
           }
         },
         "themes": {
-          "type": "keyword"
+          "type": "text",
+          "analyzer": "standard"
         },
         "plannedAvailability": {
           "type": "text",
           "analyzer": "standard"
         },
         "politicalGeocoding": {
-          "type": "text"
+          "type": "text",
+          "analyzer": "standard"
         },
         "location": {
           "type": "geo_shape"
@@ -747,65 +760,73 @@
             }
           }
         },
-        "costs": {
+        "internalCosts": {
           "properties": {
-            "internalCosts": {
-              "properties": {
-                "maintenanceCost": {
-                  "properties": {
-                    "value": {
-                      "type": "float"
-                    },
-                    "currency": {
-                      "type": "keyword"
-                    },
-                    "period": {
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "storageCost": {
-                  "properties": {
-                    "value": {
-                      "type": "float"
-                    },
-                    "currency": {
-                      "type": "keyword"
-                    },
-                    "period": {
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "distributionCost": {
-                  "properties": {
-                    "value": {
-                      "type": "float"
-                    },
-                    "currency": {
-                      "type": "keyword"
-                    },
-                    "period": {
-                      "type": "keyword"
-                    }
-                  }
-                }
-              }
+            "value": {
+              "type": "float"
             },
-            "externalCost": {
-              "properties": {
-                "value": {
-                  "type": "float"
-                },
-                "currency": {
-                  "type": "keyword"
-                },
-                "period": {
-                  "type": "keyword"
-                }
-              }
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
             }
           }
+        },
+        "maintenanceCost": {
+          "properties": {
+            "value": {
+              "type": "float"
+            },
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
+            }
+          }
+        },
+        "storageCost": {
+          "properties": {
+            "value": {
+              "type": "float"
+            },
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
+            }
+          }
+        },
+        "distributionCost": {
+          "properties": {
+            "value": {
+              "type": "float"
+            },
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
+            }
+          }
+        },
+        "externalCost": {
+          "properties": {
+            "value": {
+              "type": "float"
+            },
+            "currency": {
+              "type": "keyword"
+            },
+            "period": {
+              "type": "keyword"
+            }
+          }
+        },
+        "dataClassification": {
+          "type": "keyword"
         },
         "uniqueFingerprint": {
           "type": "keyword"

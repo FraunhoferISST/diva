@@ -28,6 +28,47 @@ paths:
           $ref: "#/components/responses/NotFoundError"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  "/resolvedSchemata/{name}":
+    get:
+      tags:
+        - resolvedSchemata
+      summary: Get resolved schema by name
+      description: Returns a specific resolved schema insance
+      operationId: getResolvedSchemaByName
+      parameters:
+        - name: name
+          in: path
+          description: The name of the schema to fetch
+          required: true
+          schema:
+            type: string
+            enum:
+              - resource
+              - user
+              - asset
+              - service
+              - review
+      responses:
+        "200":
+          $ref: "#/components/responses/SchemaResponse"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  "/esmappings":
+    get:
+      tags:
+        - esmappings
+      summary: Get ES mappings
+      description: Returns ES mappings automatically generated from JSON schemas instancies
+      operationId: getESmappings
+      responses:
+        "200":
+          $ref: "#/components/responses/SchemaResponse"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
 
 servers:
   - url: http://localhost:3010
@@ -79,7 +120,7 @@ components:
           schema:
             $ref: "#/components/schemas/Error"
     NotFoundError:
-      description: Entity not found
+      description: Schema not found
       content:
         application/json:
           schema:

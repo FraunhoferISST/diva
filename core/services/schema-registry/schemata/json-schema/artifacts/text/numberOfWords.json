@@ -3,7 +3,6 @@
     "$id": "numberOfWords",
     "type": "object",
     "title": "Number of Words",
-    "additionalProperties": true,
     "properties": {
         "numberOfWords": {
             "type": "integer",
