@@ -87,6 +87,6 @@ kind load docker-image <image:tag>
 
 > needs to be investigated
 
-### 502 Bad Gateway after Register new User
+### Event Emitter not working in K8s
 
-> needs to be investigated
+see [https://socket.io/docs/v4/using-multiple-nodes/](https://socket.io/docs/v4/using-multiple-nodes/)
