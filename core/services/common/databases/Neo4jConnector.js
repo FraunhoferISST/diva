@@ -16,12 +16,11 @@ class Neo4JConnector {
     this.Password = Password;
   }
 
-  connect() {
+  async connect() {
     this.client = neo4j.driver(
       neo4jURI,
       neo4j.auth.basic(neo4jUsername, neo4jPassword)
     );
-
     console.info(chalk.blue(`✅ Connected to Neo4J instance "${this.URI}"`));
   }
 }

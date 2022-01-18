@@ -4,38 +4,40 @@ const neo4jConnector = new Neo4jConnector();
 
 class DatanetworkService {
   async init() {
-    neo4jConnector.connect();
+    await neo4jConnector.connect();
+    this.neo4jClient = neo4jConnector.client;
   }
 
-  async getEdges(entityId, actorId) {
+  async getEdges({ from, types }, bidirectional = false) {
     const session = neo4jConnector.client.session();
-    try {
-      return session.run(`MATCH (a {id: '${entityId}'})-[r]-(b) RETURN a,r,b`);
-    } catch (e) {
-      throw new Error(e);
-    }
+    const relationshipTypes = types ? `r:${types.join("|")}` : "r";
+    const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
+    return session
+      .run(`MATCH (from {id: '${from}'})${relationship}(to) RETURN to, r`)
+      .then(
+        ({ records }) =>
+          records?.map(({ _fields }) => ({
+            ..._fields[0].properties,
+            relationType: _fields[1].type,
+          })) ?? []
+      )
+      .finally(() => session.close());
   }
 
-  async putEdge({ from, to, type }, actorId) {
+  async putEdge({ from, to, type }) {
     const session = neo4jConnector.client.session();
-    try {
-      return session.run(
-        `MATCH (a {id: '${from}'}) MATCH (b {id: '${to}'}) MERGE(a)-[:${type}]->(b)`
-      );
-    } catch (e) {
-      throw new Error(e);
-    }
+    return session
+      .run(
+        `MATCH (a {id: '${from}'}) MATCH (b {id: '${to}'}) MERGE(a)-[:${type}]-(b)`
+      )
+      .finally(() => session.close());
   }
 
-  async deleteEdge({ from, to, type }, actorId) {
+  async deleteEdge({ from, to, type }) {
     const session = neo4jConnector.client.session();
-    try {
-      return session.run(
-        `MATCH (a {id: '${from}'})-[r:${type}]->(b {id: '${to}'}) DELETE r`
-      );
-    } catch (e) {
-      throw new Error(e);
-    }
+    return session
+      .run(`MATCH (a {id: '${from}'})-[r:${type}]->(b {id: '${to}'}) DELETE r`)
+      .finally(() => session.close());
   }
 }
 

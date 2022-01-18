@@ -126,7 +126,7 @@ services:
   
   user-management:
     <<: *base-core-service
-    image: ${REGISTRY}user-management:5.0.3
+    image: ${REGISTRY}user-management:5.1.0
     container_name: user-management
     environment:
       <<: *base-core-service-env
@@ -346,6 +346,7 @@ services:
         asset.events:1:1,
         review.events:1:1
         service.events:1:1
+        datanetwork.events:1:1
 
 
   # ####################################################################################################################
@@ -353,7 +354,7 @@ services:
   # ####################################################################################################################
 
   schema-registry:
-    image: ${REGISTRY}schema-registry:0.7.0
+    image: ${REGISTRY}schema-registry:0.8.0
     hostname: schema-registry
     container_name: schema-registry
     restart: always

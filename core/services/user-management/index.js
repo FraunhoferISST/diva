@@ -5,6 +5,7 @@ const usersRouter = require("./routes/users");
 const userImagesRouter = require("./routes/userImages");
 const usersService = require("./services/UsersService");
 const usersImagesService = require("./services/UserImagesService");
+const eventsHandlerService = require("./services/EventsHandlerService");
 const serviceName = require("./package.json").name;
 
 const NODE_ENV = process.env.NODE_ENV || "development";
@@ -38,6 +39,7 @@ module.exports = createServer(
         producer
       ),
       jsonSchemaValidator.init([USER_ROOT_SCHEMA, HISTORY_ROOT_SCHEMA]),
+      eventsHandlerService.init(),
       usersService.init(),
     ]);
     return usersImagesService.init();

@@ -10,30 +10,57 @@ tags:
     description: Datanetwork requests
 
 paths:
-  /datanetwork/edges/{id}:
+  /datanetwork/edges:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
     get:
       tags:
         - datanetwork
       summary: Get edges connected to an entity
       operationId: getEdges
       parameters:
-        - name: id
-          in: path
-          description: The id of the resource to fetch
+        - name: from
+          in: query
+          description: The `id` of the entity for wich the relationships will be fetched
           required: true
+          allowReserved: true
           schema:
             type: string
+        - name: types
+          in: query
+          description: The types of the relations to be fetched. Is a coma separeted list of known types. If not specified,
+            all types will be fetched
+          required: false
+          schema:
+            type: string
+            example: "isPartOf,likes"
+        - name: bidirectional
+          in: query
+          description: If true, the directions of the edges will be ignored. By default the direction of the
+            edge is asumed to be directed from them `from` entity
+          required: false
+          schema:
+            type: boolean
+            default: false
       responses:
         "200":
-          description: Get edges succesfully             
+          description: Get edges succesfully
+          content:
+            application/json:
+              schema:
+                title: Edges
+                description: The list of the entities `id`'s in the relationship
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      $ref: "#/components/schemas/EntityId"
         "4XX":
           $ref: "#/components/responses/UnexpectedError"
         "5XX":
           $ref: "#/components/responses/UnexpectedError"
 
-  /datanetwork/edges:
-    parameters:
-      - $ref: "#/components/parameters/actoridParam"  
     put:
       tags:
         - datanetwork
@@ -89,7 +116,7 @@ components:
       description: Unique identifier of an entity
       type: string
       example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
-      # pattern: "^+*:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      pattern: (user|resource|asset|review|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
 
     Edge:
       title: Edge
@@ -145,7 +172,7 @@ components:
           type: array
           items:
             type: object
-                  
+
 
   responses:
     Success:
