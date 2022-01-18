@@ -11,6 +11,7 @@ import urbanPulseAdapter from "@/api/adapters/urbanPulse";
 import dscAdapter from "@/api/adapters/dsc";
 import axios from "@/api/axios";
 import fetchWrapper from "@/api/fetchWrapper";
+import datanetwork from "@/api/datanetwork";
 import "@/api/socket";
 
 // injected as "Vue.prototype.$api = api" in main.js
@@ -28,4 +29,5 @@ export default {
   urbanPulseAdapter,
   dscAdapter,
   fetchWrapper,
+  datanetwork,
 };

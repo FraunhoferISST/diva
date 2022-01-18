@@ -1,5 +1,6 @@
 const messageConsumer = require("@diva/common/messaging/MessageConsumer");
 const messageProducer = require("@diva/common/messaging/MessageProducer");
+const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const usersService = require("./UsersService");
 
 const {
@@ -12,10 +13,21 @@ const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
   ? JSON.parse(process.env.KAFKA_CONSUMER_TOPICS)
   : ["datanetwork.events", "asset.events"];
 
+const NODE_ENV = process.env.NODE_ENV || "development";
+const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
+const producerTopic = process.env.KAFKA_EVENT_TOPIC || "user.events";
+
 class EventsHandlerService {
   async init() {
     await usersMongoDbConnector.connect();
     this.collection = usersMongoDbConnector.collections[usersCollectionName];
+    await messagesProducer.init(
+      producerTopic,
+      serviceName,
+      "userEvents",
+      "asyncapi",
+      producer
+    );
     await messageConsumer.init(
       KAFKA_CONSUMER_TOPICS.map((topic) => ({ topic, spec: "asyncapi" })),
       `${serviceName}-consumer`

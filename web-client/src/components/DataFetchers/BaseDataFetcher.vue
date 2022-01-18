@@ -18,6 +18,7 @@ export default {
       this.updating = true;
       this.fetchMethod(...arguments)
         .catch((e) => {
+          console.error(e);
           this.errorMessage = e?.response?.data?.message;
           this.error = true;
         })

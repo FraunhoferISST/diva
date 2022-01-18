@@ -37,7 +37,7 @@ class Connector {
 
   async delete(entityType, id) {
     const session = neo4jConnector.client.session();
-    return session.run(`MATCH (n:${entityType} {id: '${id}'}) DELETE n`);
+    return session.run(`MATCH (n:${entityType} {id: '${id}'}) DETACH DELETE n`);
   }
 }
 

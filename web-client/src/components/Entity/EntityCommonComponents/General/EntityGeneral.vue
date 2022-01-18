@@ -56,25 +56,7 @@
                   <v-row>
                     <v-col cols="12" sm="6" md="3" lg="3">
                       <info-block title="Data owner">
-                        <edit-view-content
-                          slot="value"
-                          :initialData="{ ownerId: data.ownerId }"
-                          :on-save="(patch) => api.patch(data.id, patch)"
-                          @saved="({ ownerId }) => (data.ownerId = ownerId)"
-                        >
-                          <general-data-owner
-                            slot="view"
-                            :owner="data.owner || {}"
-                            :owner-id="data.ownerId || ''"
-                          />
-                          <template v-slot:edit="{ setEditedData }">
-                            <general-data-owner-edit
-                              :ownerId="data.ownerId || ''"
-                              :owner="data.owner"
-                              @update:owner="setEditedData($event)"
-                            />
-                          </template>
-                        </edit-view-content>
+                        <data-owner slot="value" :id="id" />
                       </info-block>
                     </v-col>
                     <v-col cols="12" sm="6" md="3" lg="3">
@@ -463,10 +445,12 @@ import GeneralLanguages from "@/components/Entity/EntityCommonComponents/General
 import GeneralLanguagesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralLanguages/GeneralLanguagesEdit";
 import GeneralDataClassification from "@/components/Entity/EntityCommonComponents/General/GeneralDataClassification/GeneralDataClassification";
 import GeneralDataClassificationEdit from "@/components/Entity/EntityCommonComponents/General/GeneralDataClassification/GeneralDataClassificationEdit";
+import DataOwner from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwner/DataOwner";
 
 export default {
   name: "EntityGeneral",
   components: {
+    DataOwner,
     GeneralDataClassificationEdit,
     GeneralDataClassification,
     GeneralLanguagesEdit,

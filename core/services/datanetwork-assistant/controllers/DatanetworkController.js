@@ -20,7 +20,7 @@ class DatanetworkController {
 
   async putEdge(req, res, next) {
     try {
-      await DatanetworkService.putEdge(req.body);
+      await DatanetworkService.createEdge(req.body);
       messageProducer.produce(
         req.body.from,
         req.headers["x-actorid"],

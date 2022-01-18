@@ -297,6 +297,22 @@ services:
           - "https"
         strip_path: true
 
+  - name: "Datanetwork-Assistant"
+    url: "http://datanetwork-assistant:3013"
+    routes:
+      - name: datanetwork-assistant-route
+        methods:
+          - GET
+          - PUT
+          - DELETE
+          - OPTIONS
+        paths:
+          - "/edges"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
+
 consumers:
   - username: web-client
     id: cbb297c0-14a9-46bc-ad91-1d0ef9b42df9

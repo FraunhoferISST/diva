@@ -10,13 +10,17 @@ tags:
     description: Datanetwork requests
 
 paths:
-  /datanetwork/edges:
+  /edges:
     parameters:
       - $ref: "#/components/parameters/actoridParam"
     get:
       tags:
         - datanetwork
       summary: Get edges connected to an entity
+      description: The method returns a list of nodes that has relationships to the `from` entity. Note that same 
+        node may apper multiple times in the result list, if it has multiple relationships to the `from` entity and 
+        `types` query param is not spezified. If you want to return all nodes regardless of the edge direction, set `bidirectional`
+        query parameter.
       operationId: getEdges
       parameters:
         - name: from
@@ -37,7 +41,7 @@ paths:
         - name: bidirectional
           in: query
           description: If true, the directions of the edges will be ignored. By default the direction of the
-            edge is asumed to be directed from them `from` entity
+            edge is asumed to be directed from the `from` entity
           required: false
           schema:
             type: boolean
@@ -50,12 +54,28 @@ paths:
               schema:
                 title: Edges
                 description: The list of the entities `id`'s in the relationship
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      $ref: "#/components/schemas/EntityId"
+                type: object
+                properties:
+                  collection:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          $ref: "#/components/schemas/EntityId"
+                        relationType:
+                          title: Relation type
+                          description: The type of the Relation
+                          type: string
+                          enum:
+                            - "isPartOf"
+                  cursor:
+                    type: string
+                    description: Cursor to the next page. Set the returned cursor as `cursor` query parameter in the
+                      next request to retrive following page
+                  total:
+                    description: Total number of users that could be returned by current query
+                    type: number
         "4XX":
           $ref: "#/components/responses/UnexpectedError"
         "5XX":

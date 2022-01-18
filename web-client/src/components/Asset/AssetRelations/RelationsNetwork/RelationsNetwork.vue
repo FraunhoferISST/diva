@@ -180,22 +180,24 @@ export default {
           fields: "id,title,entityType",
         })
       )?.data;
-      const linkedEntities = await this.$api.assets
-        .getEntities(this.id, {
-          pageSize: 100,
+      const linkedEntities = await this.$api.datanetwork
+        .getEdges({
+          from: this.id,
+          types: "isPartOf",
+          bidirectional: true,
         })
         .then(({ data: { collection } }) => {
           const promises = collection
-            .filter((entityId) => entityId !== this.id)
-            .map((entityId) => {
-              const entityType = entityId.slice(0, entityId.indexOf(":"));
+            .filter(({ id }) => id !== this.id)
+            .map(({ id }) => {
+              const entityType = id.slice(0, id.indexOf(":"));
               const api = this.$api[`${entityType}s`];
               return api
-                .getByIdIfExists(entityId, {
+                .getByIdIfExists(id, {
                   fields: "id,title,entityType,username",
                 })
                 .then((response) => ({
-                  id: response?.data?.id ?? entityId,
+                  id: response?.data?.id ?? id,
                   title: response?.data?.title ?? response?.data?.username,
                   entityType: response?.data?.entityType,
                 }));
