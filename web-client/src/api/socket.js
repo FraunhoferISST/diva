@@ -13,6 +13,7 @@ Vue.use(
     connection: SocketIO(gatewayUrl.origin, {
       path: urlJoin(`${gatewayUrl.pathname}`, "events"),
       autoConnect: false,
+      transports: ["websocket"],
       transportOptions: {
         polling: {
           extraHeaders: {
