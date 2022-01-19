@@ -1,6 +1,6 @@
 {
   "name": "web-client",
-  "version": "18.32.2",
+  "version": "18.32.3",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -24,6 +24,7 @@
     "material-design-icons-iconfont": "^3.0.3",
     "randomcolor": "^0.6.2",
     "socket.io-client": "^4.0.1",
+    "url-join": "^4.0.1",
     "vue": "^2.6.12",
     "vue-avatar-editor-improved": "^1.0.5",
     "vue-chartjs": "^3.5.0",
