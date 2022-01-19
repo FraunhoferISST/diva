@@ -90,3 +90,7 @@ kind load docker-image <image:tag>
 ### Event Emitter not working in K8s
 
 see [https://socket.io/docs/v4/using-multiple-nodes/](https://socket.io/docs/v4/using-multiple-nodes/)
+
+### MinIO no persistancy
+
+> needs to be investigated

@@ -20,7 +20,7 @@ initContainers: {}
 
 ## @param port This will set the port where service and deployment will be available
 ##
-port: 3009
+port: 80
 ## @param schemaRegistryUrl This is the full URL where the schema registry is available (e.g. http://schema-registry.diva:3010). Can also be set using `global.schemaRegistryUrl`.
 ##
 schemaRegistryUrl: ""

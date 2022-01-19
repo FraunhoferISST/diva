@@ -17,7 +17,7 @@ data:
         protocols:
         - "http"
         - "https"
-        strip_path: false
+        strip_path: true
       plugins:
       - name: "jwt-keycloak"
         config:

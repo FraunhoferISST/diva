@@ -177,6 +177,7 @@ kong:
       path: "/"
       annotations:
         konghq.com/strip-path: "true"
+      ingressClassName: "nginx"  
   dblessConfig:
     configMap: "kong-config"
 

@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    io.kompose.service: {{ .Chart.Name }}
+  name: {{ .Chart.Name }}
+  annotations:
+    nginx.ingress.kubernetes.io/websocket-services: {{ .Chart.Name }}
+spec:
+  rules:
+  - host: "events.local"
+    http:
+      paths:
+      - pathType: "Prefix"
+        path: "/"
+        backend:
+          service:
+            name: {{ .Chart.Name }}
+            port:
+              number: 80
