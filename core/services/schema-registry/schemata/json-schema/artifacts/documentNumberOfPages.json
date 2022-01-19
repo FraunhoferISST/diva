@@ -3,7 +3,6 @@
     "$id": "documentNumberOfPages",
     "type": "object",
     "title": "Number of Pages",
-    "additionalProperties": true,
     "properties": {
         "documentNumberOfPages": {
             "type": "integer",

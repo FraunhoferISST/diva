@@ -91,65 +91,95 @@ const hasCombinations = (obj) =>
 const getCombinationsKeys = (obj) =>
   Object.keys(obj).filter((k) => combinationKeys.includes(k));
 
+const isScalarSchema = (schema) =>
+  Object.keys(schema).filter((prop) =>
+    [...combinationKeys, "properties", "if", "then"].includes(prop)
+  ).length === 0;
+
 const buildMapping = (schema, esMapping = true) => {
   let tmp = {};
 
+  const handleDirectProp = (pk, pv) => {
+    const directMappingElements = [];
+    if (propertyIsScalar(pv.type)) {
+      directMappingElements.push(
+        buildMappingArtifact(pk, getTypeHelper(pv.type), pv._elasticsearch)
+      );
+    }
+
+    if (propertyIsArray(pv.type)) {
+      let item = pv.items;
+      // go through nested arrays
+      while (propertyIsArray(item.type)) {
+        item = item.items;
+      }
+      // create mapping from last level definitions
+      directMappingElements.push(
+        buildMapping(
+          {
+            properties: { [pk]: item },
+          },
+          esMapping
+        )
+      );
+    }
+
+    if (propertyIsObject(pv.type)) {
+      const objMapping = buildMapping(pv, esMapping);
+      directMappingElements.push({
+        [pk]: esMapping ? { properties: objMapping } : objMapping,
+      });
+    }
+    return directMappingElements;
+  };
+
+  if (isScalarSchema(schema)) {
+    return {
+      ...(schema._elasticsearch ? schema._elasticsearch : {}),
+      type:
+        schema?._elasticsearchschema?.type ?? defaultTypeMapper[schema.type],
+    };
+  }
+
   for (const [key, value] of Object.entries(schema)) {
     if (combinationKeys.includes(key)) {
-      schema[key].forEach((elem) => {
+      for (const elem of schema[key]) {
         tmp = { ...tmp, ...buildMapping(elem, esMapping) };
-      });
+      }
     }
     if (key === "properties") {
       const mappingElements = [];
       for (const [pk, pv] of Object.entries(value)) {
-        if (hasCombinations(pv)) {
-          let mapping = {};
-          for (const elem of getCombinationsKeys(pv)) {
-            mapping = {
-              ...mapping,
-              ...buildMapping({ [elem]: pv[elem] }, esMapping),
-            };
-          }
+        if (pk === "location") {
           mappingElements.push({
-            [pk]: esMapping ? { properties: mapping } : mapping,
+            [pk]: {
+              type: "geo_shape",
+            },
           });
-        }
-
-        if (propertyIsScalar(pv.type)) {
-          mappingElements.push(
-            buildMappingArtifact(pk, getTypeHelper(pv.type), pv._elasticsearch)
-          );
-        }
-
-        if (propertyIsArray(pv.type)) {
-          let item = pv.items;
-          // go through nested arrays
-          while (propertyIsArray(item.type)) {
-            item = item.items;
+        } else {
+          if (hasCombinations(pv)) {
+            let mapping = {};
+            for (const elem of getCombinationsKeys(pv)) {
+              mapping = {
+                ...mapping,
+                ...buildMapping({ [elem]: pv[elem] }, esMapping),
+              };
+            }
+            const needWrapper = !getCombinationsKeys(pv).every((combKey) => {
+              propertyIsScalar(pv[combKey].type);
+              return pv[combKey].every((def) => propertyIsScalar(def.type));
+            });
+            mappingElements.push({
+              [pk]:
+                esMapping && needWrapper ? { properties: mapping } : mapping,
+            });
           }
-          // create mapping from last level definitions
-          mappingElements.push(
-            buildMapping(
-              {
-                properties: { [pk]: item },
-              },
-              esMapping
-            )
-          );
-        }
-
-        if (propertyIsObject(pv.type)) {
-          const objMapping = buildMapping(pv, esMapping);
-          mappingElements.push({
-            [pk]: esMapping ? { properties: objMapping } : objMapping,
-          });
+          mappingElements.push(...handleDirectProp(pk, pv));
         }
       }
-
-      mappingElements.forEach((e) => {
-        tmp = { ...tmp, ...e };
-      });
+      for (const elem of mappingElements) {
+        tmp = { ...tmp, ...elem };
+      }
     }
     if (key === "then") {
       tmp = { ...tmp, ...buildMapping(schema.then, esMapping) };

@@ -3,7 +3,6 @@
     "$id": "characterEncoding",
     "type": "object",
     "title": "Text Character Encoding",
-    "additionalProperties": true,
     "properties": {
       "characterEncoding": {
         "type": "string",

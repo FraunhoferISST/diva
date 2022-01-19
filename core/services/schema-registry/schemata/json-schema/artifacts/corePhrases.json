@@ -3,7 +3,6 @@
     "$id": "corePhrases",
     "type": "object",
     "title": "Core Phrases",
-    "additionalProperties": true,
     "properties": {
         "corePhrases": {
             "type": "array",

@@ -3,7 +3,6 @@
     "$id": "numberOfCharacters",
     "type": "object",
     "title": "Number of Characters",
-    "additionalProperties": true,
     "properties": {
         "numberOfCharacters": {
             "type": "integer",
