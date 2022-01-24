@@ -178,6 +178,33 @@ paths:
           $ref: "#/components/responses/AssetAlreadyExistsError"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+    post:
+      tags:
+        - assets
+      summary: Patch asset (alias for PATCH)
+      description: Use this method to do a partial update of the asset. In the request provided fields
+        will be merged with the existing asset object.
+      operationId: patchAsset
+      parameters:
+        - name: id
+          in: path
+          description: id of the asset
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/AssetsPatch"
+      responses:
+        "200":
+          $ref: "#/components/responses/SuccessEmpty"
+        "406":
+          $ref: "#/components/responses/InvalidDataError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "409":
+          $ref: "#/components/responses/AssetAlreadyExistsError"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
     delete:
       tags:
         - assets

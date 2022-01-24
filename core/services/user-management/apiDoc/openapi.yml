@@ -181,6 +181,28 @@ paths:
           $ref: "#/components/responses/UserAlreadyExistsError"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+    post:
+      tags:
+        - users
+      summary: Post user (alias for PATCH)
+      description: Use this method to do a partial updated of the user document. In the request provided fields
+        will be merged with the existing user object.
+      operationId: patchUser
+      requestBody:
+        $ref: "#/components/requestBodies/UsersPatch"
+      responses:
+        "200":
+          $ref: "#/components/responses/SuccessEmpty"
+        "400":
+          $ref: "#/components/responses/RequestValidationError"
+        "406":
+          $ref: "#/components/responses/InvalidDataError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "409":
+          $ref: "#/components/responses/UserAlreadyExistsError"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
     delete:
       tags:
         - users

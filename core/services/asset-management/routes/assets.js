@@ -7,6 +7,7 @@ router.get("/", AssetsController.getAssets);
 router.get("/:id", AssetsController.getAsset);
 router.post("/", AssetsController.createAsset);
 router.patch("/:id", AssetsController.patchAsset);
+router.post("/:id", AssetsController.patchAsset);
 router.delete("/:id", AssetsController.deleteAsset);
 router.put("/:id/entities", AssetsController.linkEntity);
 router.get("/:id/entities", AssetsController.getLinkedEntities);

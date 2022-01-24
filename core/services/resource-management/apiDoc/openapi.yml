@@ -175,6 +175,35 @@ paths:
           $ref: "#/components/responses/ResourceAlreadyExistsError"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+    post:
+      tags:
+        - resources
+      summary: Post resource (alias for patch)
+      description: Use this method to do a partial update of the resource. In the request provided fields
+        will be merged with the existing resource object. Merge is always performed at the root level. Empty patches are
+        not accepted
+      operationId: patchResource
+      parameters:
+        - $ref: "#/components/parameters/useridParam"
+        - name: id
+          in: path
+          description: id of the resource
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/ResourcesPatch"
+      responses:
+        "200":
+          $ref: "#/components/responses/SuccessEmpty"
+        "406":
+          $ref: "#/components/responses/InvalidDataError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "409":
+          $ref: "#/components/responses/ResourceAlreadyExistsError"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
     delete:
       tags:
         - resources

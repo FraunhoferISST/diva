@@ -164,6 +164,32 @@ paths:
           $ref: "#/components/responses/NotFoundError"
         "5XX":
           $ref: "#/components/responses/UnexpectedError"
+    post:
+      tags:
+        - reviews
+      summary: Post review (alias for patch)
+      description: Use this method to do a partial update of the review. In the request provided fields
+        will be merged with the existing review object.
+      operationId: patchReview
+      parameters:
+        - $ref: "#/components/parameters/actorIdParam"
+        - name: id
+          in: path
+          description: id of the asset
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/ReviewPatch"
+      responses:
+        "200":
+          $ref: "#/components/responses/SuccessEmpty"
+        "406":
+          $ref: "#/components/responses/InvalidDataError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "5XX":
+          $ref: "#/components/responses/UnexpectedError"
 
     delete:
       tags:

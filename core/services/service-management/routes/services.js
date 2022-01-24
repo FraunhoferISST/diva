@@ -7,6 +7,7 @@ router.get("/", ServicesController.getServices);
 router.get("/:id", ServicesController.getService);
 router.post("/", ServicesController.createService);
 router.patch("/:id", ServicesController.patchService);
+router.post("/:id", ServicesController.patchService);
 router.delete("/:id", ServicesController.deleteService);
 
 module.exports = router;
