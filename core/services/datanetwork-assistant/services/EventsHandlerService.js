@@ -21,7 +21,7 @@ const getEntity = (dbName, collection, id) =>
 
 const NODE_ENV = process.env.NODE_ENV || "development";
 const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
-const producerTopic = process.env.KAFKA_EVENT_TOPIC || "user.events";
+const producerTopic = process.env.KAFKA_EVENT_TOPIC || "datanetwork.events";
 
 class EventsHandlerService {
   async init() {
@@ -29,7 +29,7 @@ class EventsHandlerService {
     await messagesProducer.init(
       producerTopic,
       serviceName,
-      "userEvents",
+      "datanetworkEvents",
       "asyncapi",
       producer
     );
@@ -76,19 +76,21 @@ class EventsHandlerService {
   async handleCreateEvent(entityId, entityType, actorId) {
     const { dbName, collection } = getDbByEntityType(entityType);
     const entity = await getEntity(dbName, collection, entityId);
+    let newEdgeId = "";
     await datanetworkService.createNode(entityId, entityType);
-    await datanetworkService.createEdge({
+    newEdgeId = await datanetworkService.createEdge({
       from: actorId,
       to: entityId,
       type: IS_CREATOR_OF_RELATION,
     });
     if (entityType === "review") {
-      await datanetworkService.createEdge({
+      newEdgeId = await datanetworkService.createEdge({
         from: entityId,
         to: entity.belongsTo,
         type: IS_REVIEW_OF_RELATION,
       });
     }
+    messageProducer.produce(newEdgeId, actorId, "create", [entityId, actorId]);
   }
 
   async handleUpdateEvent(entityId, entityType, actorId) {

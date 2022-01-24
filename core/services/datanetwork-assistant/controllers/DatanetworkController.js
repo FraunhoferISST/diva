@@ -18,21 +18,23 @@ class DatanetworkController {
     }
   }
 
+  async getEdge(req, res, next) {
+    try {
+      const result = await DatanetworkService.getEdge(req.params.id);
+      res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async putEdge(req, res, next) {
     try {
       await DatanetworkService.createEdge(req.body);
       messageProducer.produce(
         req.body.from,
         req.headers["x-actorid"],
-        "update",
-        [req.body.to],
-        {
-          from: req.body.from,
-          to: req.body.to,
-          type: "update",
-          relationType: req.body.type,
-          actorId: req.headers["x-actorid"],
-        }
+        "create",
+        [req.body.from, req.body.to]
       );
       res.status(204).send();
     } catch (e) {
