@@ -1,5 +1,6 @@
 import axios from "@/api/axios";
-let patchDisabled = process.env.VUE_APP_DISABLE_PATCH || false;
+let patchDisabledEnv = process.env.VUE_APP_DISABLE_PATCH || "patch_available";
+let patchDisabled = patchDisabledEnv.toString().toLowerCase() === "true";
 
 const getByIdIfExists = (id, query, path) =>
   axios.get(`${path}${id}`, { params: query }).catch((e) => {
