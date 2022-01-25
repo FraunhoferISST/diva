@@ -24,9 +24,8 @@
     </template>
     <template #edit="{ setEditedData }">
       <general-data-owner-edit
-        :ownerId="dataOwners || ''"
-        :owner="dataOwners"
-        @update:owner="setEditedData($event)"
+        :owners="dataOwners"
+        @update:owners="setEditedData($event)"
       />
     </template>
   </edit-view-content>
@@ -34,7 +33,7 @@
 
 <script>
 import EditViewContent from "@/components/Containers/EditViewContent";
-import GeneralDataOwnerEdit from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwner/GeneralDataOwnerEdit";
+import GeneralDataOwnerEdit from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwners/GeneralDataOwnersEdit";
 import DataFetcher from "@/components/DataFetchers/DataFetcher";
 import NoDataState from "@/components/Base/NoDataState";
 import UserAvatar from "@/components/User/UserAvatar";
@@ -63,29 +62,48 @@ export default {
       return this.$api.datanetwork
         .getEdges({
           from: this.id,
-          types: "isDataOwnerOf",
+          edgeTypes: "isDataOwnerOf",
           bidirectional: true,
         })
         .then(async ({ data: { collection } }) => {
           this.dataOwners = (
             await Promise.all(
-              collection.map(({ id }) =>
+              collection.map(({ to: { id: userId }, id }) =>
                 this.$api.users
-                  .getByIdIfExists(id, {
+                  .getByIdIfExists(userId, {
                     fields: "id, email, username, imageId, imageUrl",
                   })
-                  .then(({ data }) => data)
+                  .then(({ data }) => ({ ...data, edgeId: id }))
               )
             )
           ).filter((dataOwner) => dataOwner);
         });
     },
-    connectDataOwner(userId) {
-      return this.$api.datanetwork.putEdge({
-        from: userId,
-        to: this.id,
-        type: "isDataOwnerOf",
-      });
+    connectDataOwner({ owners }) {
+      const removedDataOwners = this.dataOwners.filter(
+        ({ id }) => !owners.includes(id)
+      );
+
+      const removePromises = removedDataOwners.map(({ edgeId }) =>
+        this.$api.datanetwork.deleteEdgeById(edgeId)
+      );
+      return Promise.all([
+        ...owners.map((id) =>
+          this.$api.datanetwork
+            .putEdge({
+              from: id,
+              to: this.id,
+              edgeType: "isDataOwnerOf",
+            })
+            .catch((e) => {
+              if (e?.response?.data?.code === 409) {
+                return true;
+              }
+              throw e;
+            })
+        ),
+        ...removePromises,
+      ]);
     },
   },
 };

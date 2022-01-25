@@ -62,10 +62,8 @@ class DatanetworkService {
     );
   }
 
-  async deleteNode(id, entityType) {
-    return executeSession(
-      `MATCH (n:${entityType} {id: '${id}'}) DETACH DELETE n`
-    );
+  async deleteNode(id) {
+    return executeSession(`MATCH (n {id: "${id}"}) DETACH DELETE n`);
   }
 
   async getEdgeById(id) {

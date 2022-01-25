@@ -10,6 +10,7 @@ const {
   IS_CREATOR_OF_RELATION,
   KAFKA_CONSUMER_TOPICS,
 } = require("../utils/constants");
+const DatanetworkService = require("./DatanetworkService");
 
 const mongoConnector = new MongoDBConnector();
 
@@ -99,7 +100,18 @@ class EventsHandlerService {
     }
   }
 
-  async handleDeleteEvent(entityId, entityType, actorId) {}
+  async handleDeleteEvent(entityId, entityType, actorId) {
+    const { collection } = await DatanetworkService.getEdges(
+      { from: entityId },
+      true
+    );
+    await DatanetworkService.deleteNode(entityId);
+    for (const edge of collection) {
+      messageProducer.produce(edge.id, actorId, "delete", [edge.to.id], {
+        edgeType: edge.edgeType,
+      });
+    }
+  }
 }
 
 module.exports = new EventsHandlerService();

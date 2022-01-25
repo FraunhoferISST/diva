@@ -5,7 +5,7 @@
         <v-autocomplete
           dense
           class="custom-autocomplete"
-          v-model="computedOwnerId"
+          v-model="computedOwners"
           :disabled="isLoading"
           :loading="isLoading"
           :search-input.sync="search"
@@ -22,6 +22,7 @@
           item-text="username"
           item-value="id"
           clearable
+          multiple
           @update:search-input="searchUsers"
         >
           <template #selection="data">
@@ -63,29 +64,25 @@ export default {
   name: "GeneralDataOwnerEdit",
   components: { UserAvatar, EditActivateTransition },
   props: {
-    ownerId: {
-      type: String,
+    owners: {
+      type: Array,
       required: true,
-    },
-    owner: {
-      type: [Object, null],
-      required: false,
     },
   },
   data() {
     return {
       isLoading: false,
       search: "",
-      users: this.owner ? [this.owner] : [],
+      users: [],
     };
   },
   computed: {
-    computedOwnerId: {
+    computedOwners: {
       get() {
-        return this.ownerId;
+        return this.owners;
       },
       set(value) {
-        this.$emit("update:owner", { ownerId: value });
+        this.$emit("update:owners", { owners: value });
       },
     },
   },

@@ -427,8 +427,8 @@ import GeneralKeywordsEdit from "@/components/Entity/EntityCommonComponents/Gene
 import GeneralKeywords from "@/components/Entity/EntityCommonComponents/General/GeneralKeywords/GeneralKeywords";
 import GeneralLicenses from "@/components/Entity/EntityCommonComponents/General/GeneralLicenses/GeneralLicenses";
 import EntityBaseDataFetcher from "@/components/DataFetchers/EntityBaseDataFetcher";
-import GeneralDataOwner from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwner/GeneralDataOwner";
-import GeneralDataOwnerEdit from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwner/GeneralDataOwnerEdit";
+import GeneralDataOwner from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwners/GeneralDataOwners";
+import GeneralDataOwnerEdit from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwners/GeneralDataOwnersEdit";
 import GeneralVersionNotesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralVersionNotes/GeneralVersionNotesEdit";
 import GeneralVersionNotes from "@/components/Entity/EntityCommonComponents/General/GeneralVersionNotes/GeneralVersionNotes";
 import GeneralLocation from "@/components/Entity/EntityCommonComponents/General/GeneralLocation/GeneralLocation";
@@ -445,7 +445,7 @@ import GeneralLanguages from "@/components/Entity/EntityCommonComponents/General
 import GeneralLanguagesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralLanguages/GeneralLanguagesEdit";
 import GeneralDataClassification from "@/components/Entity/EntityCommonComponents/General/GeneralDataClassification/GeneralDataClassification";
 import GeneralDataClassificationEdit from "@/components/Entity/EntityCommonComponents/General/GeneralDataClassification/GeneralDataClassificationEdit";
-import DataOwner from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwner/DataOwner";
+import DataOwner from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwners/DataOwners";
 
 export default {
   name: "EntityGeneral",
