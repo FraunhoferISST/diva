@@ -5,7 +5,6 @@ const assetsRouter = require("./routes/assets");
 const assetService = require("./services/AssetService");
 const assetImagesRouter = require("./routes/assetImages");
 const assetImagesService = require("./services/AssetImagesService");
-const eventsHandlerService = require("./services/EventsHandlerService");
 const serviceName = require("./package.json").name;
 
 const port = process.env.PORT || 3002;
@@ -32,7 +31,6 @@ module.exports = createServer(
       messagesProducer.init(topic, serviceName, "assetEvents"),
       jsonSchemaValidator.init([ASSET_ROOT_SCHEMA, HISTORY_ROOT_SCHEMA]),
       assetService.init(),
-      eventsHandlerService.init(),
     ]);
     return assetImagesService.init();
   },

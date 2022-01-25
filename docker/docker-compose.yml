@@ -111,7 +111,7 @@ services:
   
   asset-management:
     <<: *base-core-service
-    image: ${REGISTRY}asset-management:17.2.3
+    image: ${REGISTRY}asset-management:18.0.0
     container_name: asset-management
     environment:
       <<: *base-core-service-env
