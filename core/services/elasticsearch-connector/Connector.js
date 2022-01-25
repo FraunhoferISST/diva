@@ -7,6 +7,8 @@ const esConnector = new ElasticsearchConnector();
 const mongoConnector = new MongoDBConnector();
 const neo4jConnector = new Neo4jConnector();
 
+const edgesTypes = ["isCreatorOf", "isDataOwnerOf", "isPartOf"];
+
 const getEntity = (dbName, collection, id) =>
   mongoConnector.client
     .db(dbName)
@@ -18,19 +20,18 @@ const executeSession = (query) => {
   return session.run(query).finally(() => session.close());
 };
 
-const getEdge = async (id) => {
-  const { records } = await executeSession(
-    `MATCH (a)-[r {id: "${id}"}]-(b) RETURN a,r,b`
+const getEdges = async ({ from, types = edgesTypes }, bidirectional = true) => {
+  const relationshipTypes = types ? `r:${types.join("|")}` : "r";
+  const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
+  return executeSession(
+    `MATCH (from {id: '${from}'})${relationship}(to) RETURN to, r`
+  ).then(
+    ({ records }) =>
+      records?.map(({ _fields }) => ({
+        ..._fields[0].properties,
+        type: _fields[1].type,
+      })) ?? []
   );
-  if (records.length > 0) {
-    const record = records[0];
-    return Object.fromEntries(
-      Object.entries(records[0]._fieldLookup).map(([k, v]) => [
-        k,
-        { ...record._fields[v].properties, type: record._fields[v].type },
-      ])
-    );
-  }
 };
 
 const indexExists = async (index) =>
@@ -47,14 +48,22 @@ class Connector {
 
   async index({ dbName, collection }, id) {
     const entity = sanitizeIndexBody(await getEntity(dbName, collection, id));
-
-    return entity
-      ? esConnector.client.index({
-          index: collection,
-          id: entity.id,
-          body: entity,
-        })
-      : true;
+    if (entity) {
+      // TODO: on each event we currently just reindex the entity with all edges to ged rid of the possible race conditions. This however doesn't scale and may have performance issues!
+      for (const type of edgesTypes) {
+        entity[type] = [];
+      }
+      const edges = await getEdges({ from: id }, true);
+      for (const edge of edges) {
+        entity[edge.type].push(edge.id);
+      }
+      await esConnector.client.index({
+        index: collection,
+        id: entity.id,
+        body: entity,
+      });
+    }
+    return true;
   }
 
   async delete({ collection }, id) {
@@ -80,40 +89,6 @@ class Connector {
       });
     }
     return true;
-  }
-
-  async indexEdge(edgeId) {
-    const edgeData = await getEdge(edgeId);
-    if (edgeData) {
-      const response = await esConnector.client.search({
-        body: {
-          query: {
-            terms: {
-              _id: [edgeData.a.id, edgeData.b.id],
-            },
-          },
-        },
-      });
-      const connectedEntities = (response?.body?.hits.hits ?? []).map(
-        ({ _source }) => _source
-      );
-      for (const entity of connectedEntities) {
-        await esConnector.client.index({
-          index: `${entity.entityType}s`,
-          id: entity.id,
-          body: {
-            ...entity,
-            [edgeData.r.type]: [
-              ...new Set([
-                ...(entity[edgeData.r.type] ?? []),
-                edgeData.a.id,
-                edgeData.b.id,
-              ]),
-            ],
-          },
-        });
-      }
-    }
   }
 }
 

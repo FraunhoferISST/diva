@@ -89,7 +89,7 @@ class DatanetworkService {
       collection:
         records?.map(({ _fields }) => ({
           ..._fields[0].properties,
-          relationType: _fields[1].type,
+          type: _fields[1].type,
         })) ?? [],
       total: 0,
       cursor: "",

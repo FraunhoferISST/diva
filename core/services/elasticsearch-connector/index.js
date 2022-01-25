@@ -20,9 +20,19 @@ const onMessage = async (message) => {
     const {
       type,
       object: { id },
+      attributedTo,
     } = parsedMassage.payload;
     if (parsedMassage.channel === "datanetwork.events") {
-      await Connector.indexEdge(id);
+      // TODO as a quick prototype, we just reindex connected entities on edge event
+      const connectedEntities = attributedTo.map(
+        ({ object: { id: entityId } }) => ({
+          id: entityId,
+          ...getDbByEntityId(entityId),
+        })
+      );
+      for (const entityData of connectedEntities) {
+        await Connector.index(entityData, entityData.id);
+      }
     } else {
       const mongoDbData = getDbByEntityId(id);
       await getOperation(type)(mongoDbData, id);
