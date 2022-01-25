@@ -177,9 +177,7 @@ components:
           format: date-time
           description: Message publish date
         payload:
-          oneOf:
-            - $ref: '#/components/schemas/GenericMessagePayload'
-            - $ref: '#/components/schemas/DatanetworkMessagePayload'
+          $ref: '#/components/schemas/GenericMessagePayload'
 
     GenericMessagePayload:
       type: object
@@ -225,6 +223,16 @@ components:
               title: Object id
               description: The id of the affected entity object
               type: string
+            edgeType:
+              title: Edge type
+              description: The type of the relation that the edge represents
+              type: string
+              enum:
+                - isCreatorOf
+                - isPartOf
+                - isDataOwnerOf
+                - isReviewOf
+                - likes
         attributedTo:
           title: Related entites
           description: The Array contains the id's of the entities that are related or referenced by the original event. For
@@ -253,45 +261,6 @@ components:
           title: Payload id
           description: The payload id that can be used to fetch futher payload data from the messages cache
           type: string
-
-    DatanetworkMessagePayload:
-      type: object
-      title: Data network message paylod
-      description: Payload generated from the Datanetwork Assistant service
-      additionalProperties: false
-      required:
-        - type
-        - from
-        - to
-        - relationType
-        - actorId
-      properties:
-        type:
-          title: Operation type
-          type: string
-          description: The type of the perfomed operation that indicates specific event like resource creation or deletion
-          enum:
-            - create
-            - update
-            - delete
-            - read
-          example: update
-        from:
-          title: From Entity id
-          description: Entity id with that the relations starts
-          $ref: '#/components/schemas/EntityId'
-        to:
-          title: To entity id
-          description: Entity id with that the relations ends
-          $ref: '#/components/schemas/EntityId'
-        relationType:
-          title: Relation type
-          description: The type of the relation between entites
-          type: string
-          enum:
-            - isPartOf
-        actorId:
-          $ref: '#/components/schemas/ActorId'
 
     EntityId:
       title: Entity id

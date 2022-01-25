@@ -81,13 +81,13 @@ class EventsHandlerService {
     newEdgeId = await datanetworkService.createEdge({
       from: actorId,
       to: entityId,
-      type: IS_CREATOR_OF_RELATION,
+      edgeType: IS_CREATOR_OF_RELATION,
     });
     if (entityType === "review") {
       newEdgeId = await datanetworkService.createEdge({
         from: entityId,
         to: entity.belongsTo,
-        type: IS_REVIEW_OF_RELATION,
+        edgeType: IS_REVIEW_OF_RELATION,
       });
     }
     messageProducer.produce(newEdgeId, actorId, "create", [entityId, actorId]);

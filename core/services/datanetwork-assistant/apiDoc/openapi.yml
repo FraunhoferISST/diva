@@ -19,7 +19,7 @@ paths:
       summary: Get edges connected to an entity
       description: The method returns a list of nodes that has relationships to the `from` entity. Note that same 
         node may apper multiple times in the result list, if it has multiple relationships to the `from` entity and 
-        `types` query param is not spezified. If you want to return all nodes regardless of the edge direction, set `bidirectional`
+        `edgeType` query param is not spezified. If you want to return all nodes regardless of the edge direction, set `bidirectional`
         query parameter.
       operationId: getEdges
       parameters:
@@ -30,7 +30,7 @@ paths:
           allowReserved: true
           schema:
             type: string
-        - name: types
+        - name: edgeTypes
           in: query
           description: The types of the relations to be fetched. Is a coma separeted list of known types. If not specified,
             all types will be fetched
@@ -80,7 +80,11 @@ paths:
         $ref: "#/components/requestBodies/PutEdge"
       responses:
         "204":
-          description: Put edge succesfully             
+          description: Put edge succesfull. Returns the `id` of the new edge
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/EdgeId"
         "4XX":
           $ref: "#/components/responses/UnexpectedError"
         "5XX":
@@ -151,13 +155,13 @@ components:
             required:
               - from
               - to
-              - type
+              - edgeType
             properties:
               from:
                 $ref: "#/components/schemas/EntityId"
               to:
                 $ref: "#/components/schemas/EntityId"
-              type:
+              edgeType:
                 $ref: "#/components/schemas/EdgeType"
 
   schemas:
@@ -182,7 +186,7 @@ components:
       required:
         - from
         - to
-        - type
+        - edgeType
       properties:
         from:
           title: From entity
@@ -198,7 +202,7 @@ components:
           properties:
             id:
               $ref: "#/components/schemas/EntityId"
-        type:
+        edgeType:
           $ref: "#/components/schemas/EdgeType"
         id:
           $ref: "#/components/schemas/EdgeId"

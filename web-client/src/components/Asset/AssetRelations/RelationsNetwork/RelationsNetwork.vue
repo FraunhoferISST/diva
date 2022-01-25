@@ -183,25 +183,26 @@ export default {
       const linkedEntities = await this.$api.datanetwork
         .getEdges({
           from: this.id,
-          types: "isPartOf",
+          edgeTypes: "isPartOf",
           bidirectional: true,
         })
         .then(({ data: { collection } }) => {
-          const promises = collection
-            .filter(({ id }) => id !== this.id)
-            .map(({ id }) => {
-              const entityType = id.slice(0, id.indexOf(":"));
+          const promises = collection.map(
+            ({ id: edgeId, to: { id: entityId } }) => {
+              const entityType = entityId.slice(0, entityId.indexOf(":"));
               const api = this.$api[`${entityType}s`];
               return api
-                .getByIdIfExists(id, {
+                .getByIdIfExists(entityId, {
                   fields: "id,title,entityType,username",
                 })
                 .then((response) => ({
-                  id: response?.data?.id ?? id,
+                  id: response?.data?.id ?? entityId,
                   title: response?.data?.title ?? response?.data?.username,
                   entityType: response?.data?.entityType,
+                  edgeId,
                 }));
-            });
+            }
+          );
           return Promise.all(promises);
         });
       this.entities = [
@@ -214,33 +215,25 @@ export default {
       ];
     },
     linkEntities(entities) {
-      this.$api.assets
-        .addEntities(this.id, entities)
-        .then(({ data }) => {
-          const errors = data
-            .filter(({ statusCode }) => statusCode !== 201)
-            .map((response) => ({
-              ...response,
-              entity: this.entities.find(({ id }) => id === response.data),
-            }));
-          if (errors.length > 0) {
-            this.showSnackbar(
-              errors
-                .map(
-                  ({ entity, error }) =>
-                    `Can not link "${entity.title}": ${error.message}`
-                )
-                .join("\n")
+      for (const entity of entities) {
+        if (entity.entityId !== this.id) {
+          this.$api.datanetwork
+            .putEdge({
+              from: entity.entityId,
+              to: this.id,
+              edgeType: "isPartOf",
+            })
+            .catch((e) =>
+              this.showSnackbar(
+                e?.response?.data?.message || "Some error occurred"
+              )
             );
-          }
-        })
-        .catch((e) =>
-          this.showSnackbar(e?.response?.data?.message || "Some error occurred")
-        );
+        }
+      }
     },
     unlinkEntity() {
-      this.$api.assets
-        .deleteEntity(this.id, this.selectedNode.id)
+      this.$api.datanetwork
+        .deleteEdgeById(this.selectedNode.edgeId)
         .catch((e) => this.showSnackbar(e?.message || "Some error occurred"));
     },
     showSnackbar(msg) {

@@ -81,15 +81,15 @@ class DatanetworkService {
       );
       return {
         ...fromAndToEntities,
-        type: record._fields[records[0]._fieldLookup.r].type,
+        edgeType: record._fields[records[0]._fieldLookup.r].type,
         id: record._fields[records[0]._fieldLookup.r].properties.id,
       };
     }
     throw edgeNotFoundError;
   }
 
-  async getEdges({ from, types }, bidirectional = false) {
-    const relationshipTypes = types ? `r:${types.join("|")}` : "r";
+  async getEdges({ from, edgeTypes }, bidirectional = false) {
+    const relationshipTypes = edgeTypes ? `r:${edgeTypes.join("|")}` : "r";
     const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
     return executeSession(
       `MATCH (from {id: '${from}'})${relationship}(to) RETURN to, r`
@@ -98,7 +98,7 @@ class DatanetworkService {
         records?.map(({ _fields }) => ({
           from: { id: from },
           to: _fields[0].properties,
-          type: _fields[1].type,
+          edgeType: _fields[1].type,
           id: _fields[1].properties.id,
         })) ?? [],
       total: 0,
@@ -106,20 +106,20 @@ class DatanetworkService {
     }));
   }
 
-  async edgeExists(from, to, type) {
+  async edgeExists(from, to, edgeType) {
     const { records } = await executeSession(
-      `MATCH (from {id: "${from}"}) -[r: ${type}]- (to {id: "${to}"}) RETURN r`
+      `MATCH (from {id: "${from}"}) -[r: ${edgeType}]- (to {id: "${to}"}) RETURN r`
     );
     return records.length > 0;
   }
 
-  async createEdge({ from, to, type }) {
-    if (await this.edgeExists(from, to, type)) {
+  async createEdge({ from, to, edgeType }) {
+    if (await this.edgeExists(from, to, edgeType)) {
       throw edgeAlreadyExistsError;
     }
     const newEdgeId = generateUuid("edge");
     await executeSession(
-      `MATCH (a {id: '${from}'}) MATCH (b {id: '${to}'}) MERGE(a)-[:${type} {id: "${newEdgeId}"}]-(b)`
+      `MATCH (a {id: '${from}'}) MATCH (b {id: '${to}'}) MERGE(a)-[:${edgeType} {id: "${newEdgeId}"}]-(b)`
     );
     return newEdgeId;
   }

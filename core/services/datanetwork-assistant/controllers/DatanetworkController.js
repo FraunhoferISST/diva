@@ -4,11 +4,11 @@ const DatanetworkService = require("../services/DatanetworkService");
 class DatanetworkController {
   async getEdges(req, res, next) {
     try {
-      const { from, types } = req.query;
+      const { from, edgeTypes } = req.query;
       const result = await DatanetworkService.getEdges(
         {
           from,
-          types: types ? types.split(",") : null,
+          edgeTypes: edgeTypes ? edgeTypes.split(",") : null,
         },
         req.query.bidirectional
       );
@@ -34,7 +34,8 @@ class DatanetworkController {
         req.body.from,
         req.headers["x-actorid"],
         "create",
-        [req.body.from, req.body.to]
+        [req.body.from, req.body.to],
+        { edgeType: req.body.edgeType }
       );
       res.status(204).send();
     } catch (e) {
@@ -50,7 +51,8 @@ class DatanetworkController {
         req.params.id,
         req.headers["x-actorid"],
         "delete",
-        [edge.from.id, edge.to.id]
+        [edge.from.id, edge.to.id],
+        { edgeType: edge.edgeType }
       );
       res.status(204).send();
     } catch (e) {
