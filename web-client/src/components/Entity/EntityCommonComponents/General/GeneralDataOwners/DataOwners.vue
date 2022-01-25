@@ -9,17 +9,25 @@
           <template v-if="dataOwners.length > 1">
             <div
               class="data-owner-avatar d-inline-block"
-              :class="{ test: i > 0 }"
-              :style="{ left: i > 0 ? `-${i * 10}px` : '0px' }"
-              v-for="(dataOwner, i) in dataOwners"
+              v-for="dataOwner in dataOwners"
               :key="dataOwner.id"
             >
-              <user-avatar :image-id="dataOwner.imageId" />
+              <div
+                style="
+                  border-radius: 50%;
+                  padding: 2px;
+                  background-color: white;
+                  width: 36px;
+                  position: relative;
+                "
+              >
+                <user-avatar :image-id="dataOwner.imageId" />
+              </div>
             </div>
           </template>
           <user-link v-else :user="dataOwners[0]" />
         </div>
-        <no-data-state v-else text="Assign a data owner" />
+        <no-data-state v-else text="Assign data owners" />
       </data-fetcher>
     </template>
     <template #edit="{ setEditedData }">
@@ -111,12 +119,6 @@ export default {
 
 <style scoped lang="scss">
 .data-owner-avatar {
-  padding: 2px;
-  background-color: white;
-  border-radius: 50%;
-  &.test {
-    position: relative;
-    left: -10px;
-  }
+  width: 22px;
 }
 </style>

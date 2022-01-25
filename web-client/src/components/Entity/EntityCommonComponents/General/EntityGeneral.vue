@@ -55,8 +55,8 @@
 
                   <v-row>
                     <v-col cols="12" sm="6" md="3" lg="3">
-                      <info-block title="Data owner">
-                        <data-owner slot="value" :id="id" />
+                      <info-block title="Data owners">
+                        <data-owners slot="value" :id="id" />
                       </info-block>
                     </v-col>
                     <v-col cols="12" sm="6" md="3" lg="3">
@@ -427,8 +427,6 @@ import GeneralKeywordsEdit from "@/components/Entity/EntityCommonComponents/Gene
 import GeneralKeywords from "@/components/Entity/EntityCommonComponents/General/GeneralKeywords/GeneralKeywords";
 import GeneralLicenses from "@/components/Entity/EntityCommonComponents/General/GeneralLicenses/GeneralLicenses";
 import EntityBaseDataFetcher from "@/components/DataFetchers/EntityBaseDataFetcher";
-import GeneralDataOwner from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwners/GeneralDataOwners";
-import GeneralDataOwnerEdit from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwners/GeneralDataOwnersEdit";
 import GeneralVersionNotesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralVersionNotes/GeneralVersionNotesEdit";
 import GeneralVersionNotes from "@/components/Entity/EntityCommonComponents/General/GeneralVersionNotes/GeneralVersionNotes";
 import GeneralLocation from "@/components/Entity/EntityCommonComponents/General/GeneralLocation/GeneralLocation";
@@ -445,12 +443,12 @@ import GeneralLanguages from "@/components/Entity/EntityCommonComponents/General
 import GeneralLanguagesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralLanguages/GeneralLanguagesEdit";
 import GeneralDataClassification from "@/components/Entity/EntityCommonComponents/General/GeneralDataClassification/GeneralDataClassification";
 import GeneralDataClassificationEdit from "@/components/Entity/EntityCommonComponents/General/GeneralDataClassification/GeneralDataClassificationEdit";
-import DataOwner from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwners/DataOwners";
+import DataOwners from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwners/DataOwners";
 
 export default {
   name: "EntityGeneral",
   components: {
-    DataOwner,
+    DataOwners,
     GeneralDataClassificationEdit,
     GeneralDataClassification,
     GeneralLanguagesEdit,
@@ -465,8 +463,6 @@ export default {
     InfoBlock,
     GeneralVersionNotes,
     GeneralVersionNotesEdit,
-    GeneralDataOwnerEdit,
-    GeneralDataOwner,
     EntityBaseDataFetcher,
     GeneralLicenses,
     GeneralKeywords,
