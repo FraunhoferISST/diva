@@ -458,7 +458,7 @@ services:
 
   event-emitter:
     <<: *base-core-service
-    image: ${REGISTRY}event-emitter:0.1.3
+    image: ${REGISTRY}event-emitter:0.2.0
     container_name: event-emitter
     depends_on:
       - broker
