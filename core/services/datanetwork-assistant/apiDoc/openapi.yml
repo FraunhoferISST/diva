@@ -58,12 +58,7 @@ paths:
                   collection:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        id:
-                          $ref: "#/components/schemas/EntityId"
-                        type:
-                          $ref: "#/components/schemas/EdgeType"
+                      $ref: "#/components/schemas/Edge"
                   cursor:
                     type: string
                     description: Cursor to the next page. Set the returned cursor as `cursor` query parameter in the
@@ -91,20 +86,6 @@ paths:
         "5XX":
           $ref: "#/components/responses/UnexpectedError"
     
-    delete:
-      tags:
-        - datanetwork
-      summary: Delete a single edge from the datanetwork.
-      operationId: deleteEdge
-      requestBody:
-        $ref: "#/components/requestBodies/DeleteEdge"
-      responses:
-        "204":
-          description: Deleted edge succesfully           
-        "4XX":
-          $ref: "#/components/responses/UnexpectedError"
-        "5XX":
-          $ref: "#/components/responses/UnexpectedError"
   /edges/{id}:
     parameters:
       - $ref: "#/components/parameters/actoridParam"
@@ -148,8 +129,6 @@ paths:
           allowReserved: true
           schema:
             $ref: "#/components/schemas/EdgeId"
-      requestBody:
-        $ref: "#/components/requestBodies/DeleteEdge"
       responses:
         "204":
           description: Deleted edge succesfully
@@ -166,16 +145,22 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Edge"
-    DeleteEdge:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/Edge"
+            title: Edge
+            description: Definition of an Edge as application/json.
+            type: object
+            required:
+              - from
+              - to
+              - type
+            properties:
+              from:
+                $ref: "#/components/schemas/EntityId"
+              to:
+                $ref: "#/components/schemas/EntityId"
+              type:
+                $ref: "#/components/schemas/EdgeType"
 
   schemas:
-
     EntityId:
       title: Entity ID
       description: Unique identifier of an entity
@@ -200,17 +185,23 @@ components:
         - type
       properties:
         from:
-          title: From
-          description: From which node the edge is comming.
-          type: string
-          example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
+          title: From entity
+          description: The entity from wich the relation is outgoing
+          type: object
+          properties:
+            id:
+              $ref: "#/components/schemas/EntityId"
         to:
-          title: To
-          description: To which node the edge is going.
-          type: string
-          example: "resource:uuid:dedsad4d1fcb08-b994-4fff-b662-0f105d597142"
+          title: To entity
+          description: The entity to wich the relation is going
+          type: object
+          properties:
+            id:
+              $ref: "#/components/schemas/EntityId"
         type:
           $ref: "#/components/schemas/EdgeType"
+        id:
+          $ref: "#/components/schemas/EdgeId"
 
     EdgeType:
       title: Edge type

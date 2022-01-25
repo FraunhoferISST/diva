@@ -64,18 +64,22 @@ class DatanetworkService {
     );
   }
 
-  async getEdge(id) {
+  async getEdgeById(id) {
     const { records } = await executeSession(
-      `MATCH (a)-[r {id: "${id}"}]-(b) RETURN a,r,b`
+      `MATCH (from)-[r {id: "${id}"}]-(to) RETURN from,r,to`
     );
     if (records.length > 0) {
       const record = records[0];
-      return Object.fromEntries(
-        Object.entries(records[0]._fieldLookup).map(([k, v]) => [
-          k,
-          { ...record._fields[v].properties, type: record._fields[v].type },
-        ])
+      const fromAndToEntities = Object.fromEntries(
+        Object.entries(records[0]._fieldLookup)
+          .filter(([k]) => k !== "r")
+          .map(([k, v]) => [k, { ...record._fields[v].properties }])
       );
+      return {
+        ...fromAndToEntities,
+        type: record._fields[records[0]._fieldLookup.r].type,
+        id: record._fields[records[0]._fieldLookup.r].properties.id,
+      };
     }
     throw edgeNotFoundError;
   }
@@ -88,8 +92,10 @@ class DatanetworkService {
     ).then(({ records }) => ({
       collection:
         records?.map(({ _fields }) => ({
-          ..._fields[0].properties,
+          from: { id: from },
+          to: _fields[0].properties,
           type: _fields[1].type,
+          id: _fields[1].properties.id,
         })) ?? [],
       total: 0,
       cursor: "",
@@ -104,10 +110,8 @@ class DatanetworkService {
     return newEdgeId;
   }
 
-  async deleteEdge({ from, to, type }) {
-    return executeSession(
-      `MATCH (a {id: '${from}'})-[r:${type}]->(b {id: '${to}'}) DELETE r`
-    );
+  async deleteEdgeById(id) {
+    return executeSession(`MATCH ()-[r {id: "${id}"}]-() DELETE r`);
   }
 }
 
