@@ -50,25 +50,16 @@ class EventsHandlerService {
         actor: { id: actorId },
       } = parsedMassage.payload;
       const { messageName } = parsedMassage;
-      if (
-        [
-          "assetEvents",
-          "resourceEvents",
-          "serviceEvents",
-          "userEvents",
-        ].includes(messageName)
-      ) {
-        const entityType = id.slice(0, id.indexOf(":"));
+      const entityType = id.slice(0, id.indexOf(":"));
 
-        if (type === "create") {
-          await this.handleCreateEvent(id, entityType, actorId);
-        } else if (type === "update") {
-          await this.handleUpdateEvent(id, entityType, actorId);
-        } else if (type === "delete") {
-          await this.handleDeleteEvent(id, entityType, actorId);
-        }
-        console.info(`💬 Processed message type "${messageName}"`);
+      if (type === "create") {
+        await this.handleCreateEvent(id, entityType, actorId);
+      } else if (type === "update") {
+        await this.handleUpdateEvent(id, entityType, actorId);
+      } else if (type === "delete") {
+        await this.handleDeleteEvent(id, entityType, actorId);
       }
+      console.info(`💬 Processed message type "${messageName}"`);
     } catch (err) {
       console.error(err);
     }
