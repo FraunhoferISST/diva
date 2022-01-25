@@ -1,7 +1,11 @@
 const Neo4jConnector = require("@diva/common/databases/Neo4jConnector");
 const generateUuid = require("@diva/common/generateUuid");
 const { KAFKA_CONSUMER_TOPICS } = require("../utils/constants");
-const { nodeNotFoundError, edgeNotFoundError } = require("../utils/errors");
+const {
+  nodeNotFoundError,
+  edgeNotFoundError,
+  edgeAlreadyExistsError,
+} = require("../utils/errors");
 
 const neo4jConnector = new Neo4jConnector();
 
@@ -102,7 +106,17 @@ class DatanetworkService {
     }));
   }
 
+  async edgeExists(from, to, type) {
+    const { records } = await executeSession(
+      `MATCH (from {id: "${from}"}) -[r: ${type}]- (to {id: "${to}"}) RETURN r`
+    );
+    return records.length > 0;
+  }
+
   async createEdge({ from, to, type }) {
+    if (await this.edgeExists(from, to, type)) {
+      throw edgeAlreadyExistsError;
+    }
     const newEdgeId = generateUuid("edge");
     await executeSession(
       `MATCH (a {id: '${from}'}) MATCH (b {id: '${to}'}) MERGE(a)-[:${type} {id: "${newEdgeId}"}]-(b)`
