@@ -50,7 +50,7 @@ class DatanetworkController {
         req.params.id,
         req.headers["x-actorid"],
         "delete",
-        [edge.from, edge.to]
+        [edge.from.id, edge.to.id]
       );
       res.status(204).send();
     } catch (e) {
