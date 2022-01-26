@@ -96,6 +96,7 @@ global:
   apiGatewayUrl: "http://kong.local"
   keycloakUrl: "http://keycloak.local/auth"
   keycloakRealm: "diva-kc-realm"
+  airflowUrl: "http://airflow" # TODO
   initContainerDocumentstore:
     - name: wait-for-mongodb
       image: curlimages/curl:latest
@@ -136,7 +137,8 @@ lake:
   auth:
     rootUser: "minio_access"
     rootPassword: "minio_secret"
-  defaultBuckets: "file-lake;analyze"  
+  defaultBuckets: "file-lake;analyze"
+  mode: "distributed" 
   ingress:
     enabled: true
 

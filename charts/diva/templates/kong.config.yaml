@@ -8,7 +8,7 @@ data:
     services:
 
     - name: "Event-Service"
-      url: "http://event-emitter:3009"
+      url: "http://event-emitter"
       path: "/socket.io"
       routes:
       - name: "event-route"
@@ -172,7 +172,7 @@ data:
         protocols:
         - "http"
         - "https"
-        strip_path: false
+        strip_path: true
       plugins:
       - name: "jwt-keycloak"
         config:

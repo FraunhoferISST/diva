@@ -31,6 +31,8 @@ dependencies:
     version: "0.1.0"
   - name: "analytics-assistant"
     version: "0.1.0"
+  - name: "profiling-assistant"
+    version: "0.1.0"
   - name: "mongodb"
     version: "10.30.6"
     repository: "https://charts.bitnami.com/bitnami"

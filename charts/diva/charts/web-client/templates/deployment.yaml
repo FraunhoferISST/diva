@@ -43,6 +43,7 @@ spec:
             - name: VUE_APP_REGISTER_AVAILABLE
               value: {{ required "please provide a vueAppRegisterAvailable" .Values.vueAppRegisterAvailable | quote}}
           image: "ghcr.io/fraunhoferisst/diva/{{ .Chart.Name }}:{{ .Chart.AppVersion}}"
+          imagePullPolicy: "Always"
           name: "{{ .Chart.Name }}"
           ports:
             - containerPort: {{ .Values.port }}

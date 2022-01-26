@@ -6,6 +6,8 @@ metadata:
   name: {{ .Chart.Name }}
   annotations:
     nginx.ingress.kubernetes.io/websocket-services: {{ .Chart.Name }}
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
 spec:
   rules:
   - host: "events.local"

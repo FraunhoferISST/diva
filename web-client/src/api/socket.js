@@ -1,19 +1,19 @@
 import Vue from "vue";
 import VueSocketIO from "vue-socket.io";
 import SocketIO from "socket.io-client";
-import { endpoint } from "@/api/axios";
+//import { endpoint } from "@/api/axios";
 
-const urlJoin = require("url-join");
+//const urlJoin = require("url-join");
 
-const gatewayUrl = new URL(endpoint);
+//const gatewayUrl = new URL(endpoint);
 
 Vue.use(
   new VueSocketIO({
     debug: process.env.NODE_ENV !== "production",
-    connection: SocketIO(gatewayUrl.origin, {
-      path: urlJoin(`${gatewayUrl.pathname}`, "events"),
+    connection: SocketIO(`events.local`, {
+      path: "/socket.io",
       autoConnect: false,
-      transports: ["websocket"],
+      transports: ["polling", "websocket"],
       transportOptions: {
         polling: {
           extraHeaders: {
