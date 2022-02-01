@@ -490,22 +490,6 @@ services:
       NEO4J_dbms_active__database: ${NEO4J_DATABASE_NAME}
       NEO4J_dbms_logs_debug_level: DEBUG
 
-  neo4j-connector:
-    <<: *base-core-service
-    image: ${REGISTRY}neo4j-connector:0.0.1
-    container_name: neo4j-connector
-    depends_on:
-      - broker
-      - neo4j
-      - documentstore
-    environment:
-      <<: *base-core-service-env
-      <<: *neo4j-env
-      PORT: ${NEO4J_CONNECTOR_PORT}
-      KAFKA_CONSUMER_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\", \"service.events\"]"
-    ports:
-      - ${NEO4J_CONNECTOR_PORT}:${NEO4J_CONNECTOR_PORT}    
-
 # ####################################################################################################################
 # Docker Volume and Network Settings
 # ####################################################################################################################

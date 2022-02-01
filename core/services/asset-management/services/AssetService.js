@@ -1,15 +1,10 @@
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const EntityService = require("@diva/common/api/EntityService");
-const { encodeCursor, decodeCursor } = require("@diva/common/api/cursor");
 const generateUuid = require("@diva/common/generateUuid");
 const {
   assetsMongoDbConnector,
   historyMongoDbConnector,
 } = require("../utils/mongoDbConnectors");
-const {
-  linkAssetToItselfError,
-  assetNotFoundError,
-} = require("../utils/errors");
 
 const ASSET_ROOT_SCHEMA = process.env.ASSET_ROOT_SCHEMA || "asset";
 const assetsCollectionName = process.env.MONGO_COLLECTION_NAME || "assets";
