@@ -210,12 +210,6 @@
             "$ref": "#/definitions/imageSource"
           }
         },
-        "isPartOfAssets": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "entityVideos": {
           "type": "array",
           "minItems": 0,
