@@ -3,12 +3,12 @@ name: Build and publish table-data-metadata-extractor image
 on:
   workflow_dispatch:
   push:
-    branches: ["master", "dev"]
+    branches: ["main", "dev"]
     paths:
       - "faas/table-data-metadata-extractor/**"
       - "!*.md"
   pull_request:
-    branches: ["master", "dev"]
+    branches: ["main", "dev"]
     paths:
       - "faas/table-data-metadata-extractor/**"
       - "!*.md"

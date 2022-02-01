@@ -3,12 +3,12 @@ name: Build and publish table-data-column-statistican image
 on:
   workflow_dispatch:
   push:
-    branches: ["master", "dev"]
+    branches: ["main", "dev"]
     paths:
       - "faas/table-data-column-statistican/**"
       - "!*.md"
   pull_request:
-    branches: ["master", "dev"]
+    branches: ["main", "dev"]
     paths:
       - "faas/table-data-column-statistican/**"
       - "!*.md"

@@ -1,25 +1,25 @@
-name: Build and publish text-metadataextractor image
+name: Build and publish datanetwork-assistant image
 
 on:
   workflow_dispatch:
   push:
     branches: ["main", "dev"]
     paths:
-      - "faas/text-metadata-extractor/**"
+      - "core/services/datanetwork-assistant/**"
       - "!*.md"
   pull_request:
     branches: ["main", "dev"]
     paths:
-      - "faas/text-metadata-extractor/**"
+      - "core/services/datanetwork-assistant/**"
       - "!*.md"
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  IMAGE_NAME: text-metadataextractor
-  DIVA_DOCKER_CONTEXT: faas/text-metadata-extractor
-  DIVA_DOCKERFILE_PATH: faas/text-metadata-extractor/Dockerfile
-  SERVICE_PATH: faas/text-metadata-extractor
-  SERVICE_RELATIVE_PATH: text-metadata-extractor
+  IMAGE_NAME: datanetwork-assistant
+  DIVA_DOCKER_CONTEXT: core
+  DIVA_DOCKERFILE_PATH: core/services/Dockerfile
+  SERVICE_PATH: core/services/datanetwork-assistant
+  SERVICE_RELATIVE_PATH: datanetwork-assistant
 
 jobs:
   build-and-push-image:

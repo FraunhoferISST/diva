@@ -2,13 +2,13 @@ name: Build and publish airflow image
 
 on:
   push:
-    branches: ["master", "dev"]
+    branches: ["main", "dev"]
     paths:
       - "core/airflow/dags"
       - "core/airflow/plugins"
       - "!*.md"
   pull_request:
-    branches: ["master", "dev"]
+    branches: ["main", "dev"]
     paths:
       - "core/airflow/dags"
       - "core/airflow/plugins"
