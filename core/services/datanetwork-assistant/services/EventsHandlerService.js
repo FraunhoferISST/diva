@@ -1,24 +1,12 @@
 const messageConsumer = require("@diva/common/messaging/MessageConsumer");
 const messageProducer = require("@diva/common/messaging/MessageProducer");
-const messagesProducer = require("@diva/common/messaging/MessageProducer");
-const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
 const datanetworkService = require("./DatanetworkService");
 const { name: serviceName } = require("../package.json");
-const { getDbByEntityType } = require("../utils/utils");
 const {
   IS_REVIEW_OF_RELATION,
   IS_CREATOR_OF_RELATION,
   KAFKA_CONSUMER_TOPICS,
 } = require("../utils/constants");
-const DatanetworkService = require("./DatanetworkService");
-
-const mongoConnector = new MongoDBConnector();
-
-const getEntity = (dbName, collection, id) =>
-  mongoConnector.client
-    .db(dbName)
-    .collection(collection)
-    .findOne({ id }, { projection: { _id: 0 } });
 
 const NODE_ENV = process.env.NODE_ENV || "development";
 const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
@@ -26,8 +14,7 @@ const producerTopic = process.env.KAFKA_EVENT_TOPIC || "datanetwork.events";
 
 class EventsHandlerService {
   async init() {
-    await mongoConnector.connect();
-    await messagesProducer.init(
+    await messageProducer.init(
       producerTopic,
       serviceName,
       "datanetworkEvents",
@@ -49,25 +36,22 @@ class EventsHandlerService {
         object: { id },
         actor: { id: actorId },
       } = parsedMassage.payload;
-      const { messageName } = parsedMassage;
       const entityType = id.slice(0, id.indexOf(":"));
 
       if (type === "create") {
-        await this.handleCreateEvent(id, entityType, actorId);
+        await this.handleCreateEvent(id, entityType, actorId, parsedMassage);
       } else if (type === "update") {
-        await this.handleUpdateEvent(id, entityType, actorId);
+        await this.handleUpdateEvent(id, entityType, actorId, parsedMassage);
       } else if (type === "delete") {
-        await this.handleDeleteEvent(id, entityType, actorId);
+        await this.handleDeleteEvent(id, entityType, actorId, parsedMassage);
       }
-      console.info(`💬 Processed message type "${messageName}"`);
+      console.info(`💬 Processed message type "${type}"`);
     } catch (err) {
       console.error(err);
     }
   }
 
-  async handleCreateEvent(entityId, entityType, actorId) {
-    const { dbName, collection } = getDbByEntityType(entityType);
-    const entity = await getEntity(dbName, collection, entityId);
+  async handleCreateEvent(entityId, entityType, actorId, parsedMassage = {}) {
     let newEdgeId = "";
     await datanetworkService.createNode(entityId, entityType);
     newEdgeId = await datanetworkService.createEdge({
@@ -76,27 +60,39 @@ class EventsHandlerService {
       edgeType: IS_CREATOR_OF_RELATION,
     });
     if (entityType === "review") {
+      const {
+        attributedTo: [
+          {
+            object: { id: belongsToEntityId },
+          },
+        ],
+      } = parsedMassage.payload;
       newEdgeId = await datanetworkService.createEdge({
         from: entityId,
-        to: entity.belongsTo,
+        to: belongsToEntityId,
         edgeType: IS_REVIEW_OF_RELATION,
       });
     }
     messageProducer.produce(newEdgeId, actorId, "create", [entityId, actorId]);
   }
 
-  async handleUpdateEvent(entityId, entityType, actorId) {
+  async handleUpdateEvent(entityId, entityType, actorId, parsedMassage = {}) {
     if (!(await datanetworkService.nodeExists(entityId))) {
-      return this.handleCreateEvent(entityId, entityType, actorId);
+      return this.handleCreateEvent(
+        entityId,
+        entityType,
+        actorId,
+        parsedMassage
+      );
     }
   }
 
   async handleDeleteEvent(entityId, entityType, actorId) {
-    const { collection } = await DatanetworkService.getEdges(
+    const { collection } = await datanetworkService.getEdges(
       { from: entityId },
       true
     );
-    await DatanetworkService.deleteNode(entityId);
+    await datanetworkService.deleteNode(entityId);
     for (const edge of collection) {
       messageProducer.produce(edge.id, actorId, "delete", [edge.to.id], {
         edgeType: edge.edgeType,
