@@ -18,4 +18,5 @@ const historyMongoDbConnector = new MongoDBConnector(historyDbName, [
 module.exports = {
   usersMongoDbConnector,
   historyMongoDbConnector,
+  usersCollectionName,
 };

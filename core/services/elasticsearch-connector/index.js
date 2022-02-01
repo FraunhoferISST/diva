@@ -11,6 +11,7 @@ const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
       "user.events",
       "review.events",
       "service.events",
+      "datanetwork.events",
     ];
 
 const onMessage = async (message) => {
@@ -19,9 +20,23 @@ const onMessage = async (message) => {
     const {
       type,
       object: { id },
+      attributedTo,
     } = parsedMassage.payload;
-    const mongoDbData = getDbByEntityId(id);
-    await getOperation(type)(mongoDbData, id);
+    if (parsedMassage.channel === "datanetwork.events") {
+      // TODO as a quick prototype, we just reindex connected entities on edge event
+      const connectedEntities = attributedTo.map(
+        ({ object: { id: entityId } }) => ({
+          id: entityId,
+          ...getDbByEntityId(entityId),
+        })
+      );
+      for (const entityData of connectedEntities) {
+        await Connector.index(entityData, entityData.id);
+      }
+    } else {
+      const mongoDbData = getDbByEntityId(id);
+      await getOperation(type)(mongoDbData, id);
+    }
     console.info(`💬 Processed message type "${type}" for entity "${id}"`);
   } catch (err) {
     console.error(err);
@@ -32,9 +47,9 @@ const onMessage = async (message) => {
   try {
     await Connector.init();
 
-    const indicesMappings = KAFKA_CONSUMER_TOPICS.map((t) =>
-      createIndex(`${t.split(".")[0]}s`)
-    );
+    const indicesMappings = KAFKA_CONSUMER_TOPICS.filter(
+      (t) => t !== "datanetwork.events"
+    ).map((t) => createIndex(`${t.split(".")[0]}s`));
 
     await Promise.all(indicesMappings);
 
@@ -46,6 +61,7 @@ const onMessage = async (message) => {
 
     console.info("✅ Elasticsearch connector is running!");
   } catch (e) {
+    console.error(e);
     process.exit(1);
   }
 })();

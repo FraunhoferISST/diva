@@ -339,6 +339,29 @@ services:
           - "https"
         strip_path: true
 
+  - name: "Datanetwork-Assistant"
+    protocol: http
+    host: "172.17.0.1"
+    port: 3012
+    routes:
+      - name: datanetwork-assistant-route
+        methods:
+          - GET
+          - PUT
+          - DELETE
+          - OPTIONS
+        paths:
+          - "/edges"
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
+    plugins:
+      - name: jwt-keycloak
+        config:
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
+
+
 consumers:
   - username: web-client
     id: cbb297c0-14a9-46bc-ad91-1d0ef9b42df9

@@ -8,7 +8,7 @@ const messagesValidator = new MessagesValidator();
 const ASYNCAPI_SPECIFICATION = process.env.ASYNCAPI_SPECIFICATION || "asyncapi";
 
 const creatMessage = (
-  { entityId, actorid, type, attributedTo },
+  { entityId, actorid, type, attributedTo, additionalObjectData },
   topic,
   serviceName,
   messageName,
@@ -26,6 +26,7 @@ const creatMessage = (
     },
     object: {
       id: entityId,
+      ...additionalObjectData,
     },
     attributedTo: attributedTo.map((id) => ({
       object: {
@@ -54,7 +55,13 @@ class MessageProducer {
     return messagesValidator.init([this.spec]);
   }
 
-  produce(entityId, actorid, type = "update", attributedTo = []) {
+  produce(
+    entityId,
+    actorid,
+    type = "update",
+    attributedTo = [],
+    additionalObjectData = {}
+  ) {
     try {
       const msg = creatMessage(
         {
@@ -62,6 +69,7 @@ class MessageProducer {
           actorid,
           type,
           attributedTo,
+          additionalObjectData,
         },
         this.topic,
         this.serviceName,

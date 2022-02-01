@@ -66,7 +66,6 @@ channels:
       operationId: publishReviewEvents
       message:
         $ref: '#/components/messages/ReviewEvents'
-
   service.events:
     description: The topic on which events related to services operations may be produced and consumed.
     subscribe:
@@ -79,6 +78,18 @@ channels:
       operationId: publishServiceEvents
       message:
         $ref: '#/components/messages/ServiceEvents'
+  datanetwork.events:
+    description: The topic on which events related to data network may be produced and consumed.
+    subscribe:
+      description: Receive data network operations events.
+      operationId: subscribeDatanetworkEvents
+      message:
+        $ref: '#/components/messages/DatanetworkEvents'
+    publish:
+      description: Publish information about Data network changes.
+      operationId: publishDatanetworkEvents
+      message:
+        $ref: '#/components/messages/DatanetworkEvents'
 
 components:
   messages:
@@ -110,11 +121,17 @@ components:
       contentType: application/json
       payload:
         $ref: '#/components/schemas/GenericMessageSchema'
-
     ServiceEvents:
       name: serviceEvents
       title: Service events
       summary: Inform about services operations events.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/GenericMessageSchema'
+    DatanetworkEvents:
+      name: datanetworkEvents
+      title: Data network events
+      summary: Inform about data network operations events.
       contentType: application/json
       payload:
         $ref: '#/components/schemas/GenericMessageSchema'
@@ -161,6 +178,7 @@ components:
           description: Message publish date
         payload:
           $ref: '#/components/schemas/GenericMessagePayload'
+
     GenericMessagePayload:
       type: object
       title: Generic message paylod
@@ -205,6 +223,16 @@ components:
               title: Object id
               description: The id of the affected entity object
               type: string
+            edgeType:
+              title: Edge type
+              description: The type of the relation that the edge represents
+              type: string
+              enum:
+                - isCreatorOf
+                - isPartOf
+                - isDataOwnerOf
+                - isReviewOf
+                - likes
         attributedTo:
           title: Related entites
           description: The Array contains the id's of the entities that are related or referenced by the original event. For
@@ -233,3 +261,14 @@ components:
           title: Payload id
           description: The payload id that can be used to fetch futher payload data from the messages cache
           type: string
+
+    EntityId:
+      title: Entity id
+      description: Unique entity uuid v4 identifier
+      type: string
+      pattern: (edge|user|resource|asset|review|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      example: resource:uuid:1fbfb29b-2905-40c5-a8a4-48a5e5684180
+    ActorId:
+      type: string
+      pattern: ^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      example: user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9

@@ -3,12 +3,12 @@ name: Build and publish text-metadataextractor image
 on:
   workflow_dispatch:
   push:
-    branches: ["master", "dev"]
+    branches: ["main", "dev"]
     paths:
       - "faas/text-metadata-extractor/**"
       - "!*.md"
   pull_request:
-    branches: ["master", "dev"]
+    branches: ["main", "dev"]
     paths:
       - "faas/text-metadata-extractor/**"
       - "!*.md"

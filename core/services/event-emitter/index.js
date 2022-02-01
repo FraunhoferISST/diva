@@ -5,7 +5,13 @@ const { bootSocket, emitEntityEvent } = require("./utils/socket");
 
 const KAFKA_TOPICS = process.env.KAFKA_TOPICS
   ? JSON.parse(process.env.KAFKA_TOPICS)
-  : ["resource.events", "asset.events", "user.events", "review.events"];
+  : [
+      "resource.events",
+      "asset.events",
+      "user.events",
+      "review.events",
+      "datanetwork.events",
+    ];
 const ASYNCAPI_SPECIFICATION = process.env.ASYNCAPI_SPECIFICATION || "asyncapi";
 
 const NODE_ENV = process.env.NODE_ENV || "development";

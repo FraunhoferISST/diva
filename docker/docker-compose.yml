@@ -15,6 +15,11 @@ x-schema-registry-env: &schema-registry-env
 x-elasticsearch-env: &elasticsearch-env
   ELASTICSEARCH_URL: http://elasticsearch:${ELASTICSEARCH_PORT}
 
+x-neo4j-env: &neo4j-env
+  NEO4J_URL: bolt://neo4j:${NEO4J_BOLT_PORT}
+  NEO4J_ROOT_USERNAME: ${NEO4J_ROOT_USERNAME}
+  NEO4J_ROOT_PASSWORD: ${NEO4J_ROOT_USERNAME}
+
 x-airflow-env: &airflow-env
   AIRFLOW_URL: http://airflow-webserver:${AIRFLOW_PORT}
   _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME}
@@ -106,7 +111,7 @@ services:
   
   asset-management:
     <<: *base-core-service
-    image: ${REGISTRY}asset-management:17.2.3
+    image: ${REGISTRY}asset-management:18.0.0
     container_name: asset-management
     environment:
       <<: *base-core-service-env
@@ -250,7 +255,23 @@ services:
     ports:
       - ${ANALYTIC_ASSISTANT_PORT}:${ANALYTIC_ASSISTANT_PORT}
     networks:
-      - core      
+      - core
+
+  datanetwork-assistant:
+    image: ${REGISTRY}datanetwork-assistant:0.1.0
+    container_name: datanetwork-assistant
+    environment:
+      <<: *neo4j-env
+      NODE_ENV: production
+      PORT: ${DATANETWORK_ASSISTANT}
+    restart: always
+    depends_on:
+      - neo4j
+      - broker
+    ports:
+      - ${DATANETWORK_ASSISTANT}:${DATANETWORK_ASSISTANT}
+    networks:
+      - core
 
   # ####################################################################################################################
   # History Assistant
@@ -341,6 +362,7 @@ services:
         asset.events:1:1,
         review.events:1:1
         service.events:1:1
+        datanetwork.events:1:1
 
 
   # ####################################################################################################################
@@ -348,7 +370,7 @@ services:
   # ####################################################################################################################
 
   schema-registry:
-    image: ${REGISTRY}schema-registry:0.7.0
+    image: ${REGISTRY}schema-registry:0.8.0
     hostname: schema-registry
     container_name: schema-registry
     restart: always
@@ -452,7 +474,7 @@ services:
 
   event-emitter:
     <<: *base-core-service
-    image: ${REGISTRY}event-emitter:0.1.3
+    image: ${REGISTRY}event-emitter:0.2.0
     container_name: event-emitter
     depends_on:
       - broker
@@ -466,6 +488,24 @@ services:
       EVENT_EMITTER_SPECIFICATION: event-emitter-api
       KAFKA_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\", \"service.events\"]"
 
+  # ####################################################################################################################
+  # DIVA Data Network Graph DB
+  # ####################################################################################################################
+
+  neo4j:
+    image: neo4j:4.3.7-community
+    hostname: neo4j
+    container_name: neo4j
+    ports:
+      - "${NEO4J_PORT}:7474"
+      - "${NEO4J_BOLT_PORT}:7687"
+    volumes:
+      - neo4j:/data
+    environment:
+      NEO4J_AUTH: ${NEO4J_ROOT_USERNAME}/${NEO4J_ROOT_PASSWORD}
+      NEO4J_dbms_active__database: ${NEO4J_DATABASE_NAME}
+      NEO4J_dbms_logs_debug_level: DEBUG
+
 # ####################################################################################################################
 # Docker Volume and Network Settings
 # ####################################################################################################################
@@ -475,6 +515,8 @@ volumes:
     driver: local
   elasticsearch:
     driver: local
+  neo4j:
+    driver: local 
   divaLake:
     driver: local
   brokerData:

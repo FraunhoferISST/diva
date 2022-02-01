@@ -1,0 +1,288 @@
+openapi: 3.0.0
+info:
+  description: "Datanetwork Assistant is responsible for communication with the neo4j database."
+  version: 1.0.0
+  title: Datanetwork Assistant API
+servers:
+  - url: http://localhost:3013
+tags:
+  - name: datanetwork
+    description: Datanetwork requests
+
+paths:
+  /edges:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+    get:
+      tags:
+        - datanetwork
+      summary: Get edges connected to an entity
+      description: The method returns a list of nodes that has relationships to the `from` entity. Note that same 
+        node may apper multiple times in the result list, if it has multiple relationships to the `from` entity and 
+        `edgeType` query param is not spezified. If you want to return all nodes regardless of the edge direction, set `bidirectional`
+        query parameter.
+      operationId: getEdges
+      parameters:
+        - name: from
+          in: query
+          description: The `id` of the entity for wich the relationships will be fetched
+          required: true
+          allowReserved: true
+          schema:
+            type: string
+        - name: edgeTypes
+          in: query
+          description: The types of the relations to be fetched. Is a coma separeted list of known types. If not specified,
+            all types will be fetched
+          required: false
+          schema:
+            $ref: "#/components/schemas/EdgeType"
+        - name: bidirectional
+          in: query
+          description: If true, the directions of the edges will be ignored. By default the direction of the
+            edge is asumed to be directed from the `from` entity
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: Get edges succesfully
+          content:
+            application/json:
+              schema:
+                title: Edges
+                description: The list of the entities `id`'s in the relationship
+                type: object
+                properties:
+                  collection:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Edge"
+                  cursor:
+                    type: string
+                    description: Cursor to the next page. Set the returned cursor as `cursor` query parameter in the
+                      next request to retrive following page
+                  total:
+                    description: Total number of users that could be returned by current query
+                    type: number
+        "4XX":
+          $ref: "#/components/responses/UnexpectedError"
+        "5XX":
+          $ref: "#/components/responses/UnexpectedError"
+
+    put:
+      tags:
+        - datanetwork
+      summary: Put a single edge into the datanetwork.
+      operationId: putEdge
+      requestBody:
+        $ref: "#/components/requestBodies/PutEdge"
+      responses:
+        "204":
+          description: Put edge succesfull. Returns the `id` of the new edge
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/EdgeId"
+        "4XX":
+          $ref: "#/components/responses/UnexpectedError"
+        "5XX":
+          $ref: "#/components/responses/UnexpectedError"
+    
+  /edges/{id}:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+    get:
+      tags:
+        - datanetwork
+      summary: Get edge data by id
+      description: Returns edge data and the `id`'s of by the edge connected entities
+      operationId: getEdge
+      parameters:
+        - name: id
+          in: path
+          description: The `id` of the edge
+          required: true
+          allowReserved: true
+          schema:
+            $ref: "#/components/schemas/EdgeId"
+      responses:
+        "200":
+          description: Get edge succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Edge"
+        "4XX":
+          $ref: "#/components/responses/UnexpectedError"
+        "5XX":
+          $ref: "#/components/responses/UnexpectedError"
+
+    delete:
+      tags:
+        - datanetwork
+      summary: Delete a edge by id.
+      operationId: deleteEdgeById
+      description: Delete a edge from the data network by edge `id`
+      parameters:
+        - name: id
+          in: path
+          description: The `id` of the edge
+          required: true
+          allowReserved: true
+          schema:
+            $ref: "#/components/schemas/EdgeId"
+      responses:
+        "204":
+          description: Deleted edge succesfully
+        "4XX":
+          $ref: "#/components/responses/UnexpectedError"
+        "5XX":
+          $ref: "#/components/responses/UnexpectedError"
+
+components:
+
+  requestBodies:
+    PutEdge:
+      required: true
+      content:
+        application/json:
+          schema:
+            title: Edge
+            description: Definition of an Edge as application/json.
+            type: object
+            required:
+              - from
+              - to
+              - edgeType
+            properties:
+              from:
+                $ref: "#/components/schemas/EntityId"
+              to:
+                $ref: "#/components/schemas/EntityId"
+              edgeType:
+                $ref: "#/components/schemas/EdgeType"
+
+  schemas:
+    EntityId:
+      title: Entity ID
+      description: Unique identifier of an entity
+      type: string
+      example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
+      pattern: (user|resource|asset|review|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+
+    EdgeId:
+      title: Edge ID
+      description: Unique identifier of an edge
+      type: string
+      example: "edge:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
+      pattern: edge:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+
+    Edge:
+      title: Edge
+      description: Definition of an Edge as application/json.
+      type: object
+      required:
+        - from
+        - to
+        - edgeType
+      properties:
+        from:
+          title: From entity
+          description: The entity from wich the relation is outgoing
+          type: object
+          properties:
+            id:
+              $ref: "#/components/schemas/EntityId"
+        to:
+          title: To entity
+          description: The entity to wich the relation is going
+          type: object
+          properties:
+            id:
+              $ref: "#/components/schemas/EntityId"
+        edgeType:
+          $ref: "#/components/schemas/EdgeType"
+        id:
+          $ref: "#/components/schemas/EdgeId"
+
+    EdgeType:
+      title: Edge type
+      description: The type of the relation that the edge represents
+      type: string
+      enum:
+        - isCreatorOf
+        - isPartOf
+        - isDataOwnerOf
+        - isReviewOf
+        - likes
+
+    Error:
+      type: object
+      title: Operation error
+      description: Error that can occure on request processing
+      required:
+        - type
+        - message
+        - code
+      properties:
+        type:
+          title: Error type
+          description: Futher error type information
+          type: string
+        message:
+          title: Error message
+          description: Details about error
+          type: string
+        code:
+          title: Error code
+          description: HTTP error code
+          type: number
+          format: int32
+          example: 409
+        errors:
+          title: Errors
+          description: More error details that are reference in most case specification or schema validation errors
+          type: array
+          items:
+            type: object
+
+  responses:
+    Success:
+      description: Succesful
+    DAGNotFoundError:
+      description: DAG for Resource does not exist
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    ResourceNotFoundError:
+      description: Resource does not exist
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"          
+    UnexpectedError:
+      description: Internal error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    InvalidDataError:
+      description: Invalid data supplied
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    
+  parameters:
+    actoridParam:
+      in: header
+      description: The id of the origin that requests the API. Can be a user or service.
+      name: x-actorid
+      schema:
+        type: string
+        minLength: 1
+        pattern: "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      required: true
