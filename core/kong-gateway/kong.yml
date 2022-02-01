@@ -342,7 +342,7 @@ services:
   - name: "Datanetwork-Assistant"
     protocol: http
     host: "172.17.0.1"
-    port: 3013
+    port: 3012
     routes:
       - name: datanetwork-assistant-route
         methods:

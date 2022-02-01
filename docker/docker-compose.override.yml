@@ -178,15 +178,8 @@ services:
         SERVICE_NAME: 'profiling-assistant'
 
   # ####################################################################################################################
-  # Datanetwork
+  # Datanetwork Assistant
   # ####################################################################################################################
-      
-  neo4j-connector:
-    build:
-      context: ../core
-      dockerfile: ../core/services/Dockerfile
-      args:
-        SERVICE_NAME: 'neo4j-connector'
 
   datanetwork-assistant:
     build:

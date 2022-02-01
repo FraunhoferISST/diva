@@ -298,7 +298,7 @@ services:
         strip_path: true
 
   - name: "Datanetwork-Assistant"
-    url: "http://datanetwork-assistant:3013"
+    url: "http://datanetwork-assistant:3012"
     routes:
       - name: datanetwork-assistant-route
         methods:
@@ -312,6 +312,10 @@ services:
           - "http"
           - "https"
         strip_path: false
+    plugins:
+      - name: jwt-keycloak
+        config:
+          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
 consumers:
   - username: web-client

@@ -255,7 +255,23 @@ services:
     ports:
       - ${ANALYTIC_ASSISTANT_PORT}:${ANALYTIC_ASSISTANT_PORT}
     networks:
-      - core      
+      - core
+
+  datanetwork-assistant:
+    image: ${REGISTRY}datanetwork-assistant:0.1.0
+    container_name: datanetwork-assistant
+    environment:
+      <<: *neo4j-env
+      NODE_ENV: production
+      PORT: ${DATANETWORK_ASSISTANT}
+    restart: always
+    depends_on:
+      - neo4j
+      - broker
+    ports:
+      - ${DATANETWORK_ASSISTANT}:${DATANETWORK_ASSISTANT}
+    networks:
+      - core
 
   # ####################################################################################################################
   # History Assistant
