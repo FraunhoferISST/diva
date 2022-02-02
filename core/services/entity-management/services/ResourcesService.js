@@ -1,10 +1,7 @@
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const EntityService = require("@diva/common/api/EntityService");
 const generateUuid = require("@diva/common/generateUuid");
-const {
-  resourcesMongoDbConnector,
-  historyMongoDbConnector,
-} = require("../utils/mongoDbConnectors");
+const { mongoDBConnector } = require("../utils/mongoDbConnectors");
 
 const RESOURCES_ROOT_SCHEMA = process.env.USER_ROOT_SCHEMA || "resource";
 const HISTORY_ROOT_SCHEMA = process.env.HISTORY_ROOT_SCHEMA || "history";
@@ -20,12 +17,10 @@ class ResourcesService extends EntityService {
       RESOURCES_ROOT_SCHEMA,
       HISTORY_ROOT_SCHEMA,
     ]);
-    await historyMongoDbConnector.connect();
-    await resourcesMongoDbConnector.connect();
-    this.collection =
-      resourcesMongoDbConnector.collections[resourcesCollectionName];
+    await mongoDBConnector.connect();
+    this.collection = mongoDBConnector.collections[resourcesCollectionName];
     this.historyCollection =
-      historyMongoDbConnector.collections[historyCollectionName];
+      mongoDBConnector.collections[historyCollectionName];
     this.jsonSchemaValidator = jsonSchemaValidator;
     this.collection.createIndex(
       { uniqueFingerprint: 1 },

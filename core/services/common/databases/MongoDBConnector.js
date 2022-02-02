@@ -5,7 +5,7 @@ const mongoURI =
   process.env.MONGODB_URI || "mongodb://admin:admin@localhost:27017";
 
 class MongoDBConnector {
-  constructor(databaseName = "", collectionsNames = [], URI = mongoURI) {
+  constructor(databaseName = "divaDb", collectionsNames = [], URI = mongoURI) {
     this.URI = URI;
     this.databaseName = databaseName;
     this.collectionsNames = collectionsNames;

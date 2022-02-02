@@ -1,5 +1,6 @@
 const messageProducerService = require("@diva/common/messaging/MessageProducer");
 const resourcesService = require("../services/ResourcesService");
+const EntityController = require("./EntityController");
 
 const createSingleResource = async (resource, actorid) => {
   const newResourceId = await resourcesService.create(resource, actorid);
@@ -23,26 +24,8 @@ const processCreateBulkRequest = async (bulk, actorid) =>
     )
   );
 
-class ResourcesController {
-  async getResources(req, res, next) {
-    try {
-      const result = await resourcesService.get(req.query);
-      res.status(200).send(result);
-    } catch (err) {
-      return next(err);
-    }
-  }
-
-  async getResource(req, res, next) {
-    try {
-      const result = await resourcesService.getById(req.params.id, req.query);
-      res.status(200).send(result);
-    } catch (err) {
-      return next(err);
-    }
-  }
-
-  async createResource(req, res, next) {
+class ResourcesController extends EntityController {
+  async create(req, res, next) {
     try {
       const actorId = req.headers["x-actorid"];
       if (Array.isArray(req.body)) {
@@ -56,30 +39,6 @@ class ResourcesController {
       return next(err);
     }
   }
-
-  async deleteResource(req, res, next) {
-    try {
-      const { id } = req.params;
-      const actorId = req.headers["x-actorid"];
-      await resourcesService.deleteById(id);
-      res.send();
-      messageProducerService.produce(id, actorId, "delete");
-    } catch (err) {
-      return next(err);
-    }
-  }
-
-  async patchResource(req, res, next) {
-    try {
-      const { id } = req.params;
-      const actorId = req.headers["x-actorid"];
-      await resourcesService.patchById(id, req.body, actorId);
-      res.send();
-      messageProducerService.produce(id, actorId, "update");
-    } catch (err) {
-      return next(err);
-    }
-  }
 }
 
-module.exports = new ResourcesController();
+module.exports = new ResourcesController(resourcesService);
