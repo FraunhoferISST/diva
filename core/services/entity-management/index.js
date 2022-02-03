@@ -1,6 +1,5 @@
-const createServer = require("@diva/common/api/expressServer");
+const Server = require("@diva/common/api/expressServer");
 const messagesProducer = require("@diva/common/messaging/MessageProducer");
-const resourcesService = require("./services/ResourcesService");
 const buildAppAPI = require("./buildAppAPI");
 const serviceName = require("./package.json").name;
 
@@ -10,19 +9,20 @@ const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
 const port = process.env.PORT || 3000;
 const topic = process.env.KAFKA_EVENT_TOPIC || "resource.events";
 
-module.exports = createServer(
-  async (app) => {
-    await buildAppAPI(app);
-    return Promise.all([
-      resourcesService.init(),
-      messagesProducer.init(
-        topic,
-        serviceName,
-        "resourceEvents",
-        "asyncapi",
-        producer
-      ),
-    ]);
-  },
-  { port }
-);
+const server = new Server(port, serviceName);
+
+buildAppAPI(server)
+  .then(async () => {
+    await messagesProducer.init(
+      topic,
+      serviceName,
+      "entityEvents",
+      "asyncapi",
+      producer
+    );
+    console.info(`✅ All components booted successfully 🚀`);
+  })
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });

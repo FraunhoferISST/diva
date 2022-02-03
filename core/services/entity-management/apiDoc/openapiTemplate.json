@@ -1,0 +1,293 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Entity Management Service is responsible for all CRUD operations on entities",
+    "version": "1.0.0",
+    "title": "Entity Management API"
+  },
+  "tags": [],
+  "paths": {
+    "/api": {
+      "get": {
+        "tags": [
+          "api"
+        ],
+        "summary": "API documentation",
+        "description": "In development mode this documentations is served on this route",
+        "responses": {
+          "200": {
+            "content": {
+              "text/html": {
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "requestBodies": {
+      "EntityCreate": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/EntityCreate"
+                },
+                {
+                  "$ref": "#/components/schemas/EntityCreateBulk"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "EntityUpdate": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EntityCreate"
+            }
+          }
+        }
+      },
+      "EntityPatch": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "Patch body",
+              "description": "The body can be any attribute defined in the corresponding entity JSON schema. The supplied attributes overwrite the existing",
+              "type": "object",
+              "minProperties": 1
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "EntityCreate": {
+        "description": "Minimal required attributes for entity creation",
+        "type": "object",
+        "required": [
+          "entityType"
+        ],
+        "properties": {
+          "entityType": {
+            "type": "string",
+            "title": "Entity Type",
+            "description": "The general type of the entity",
+            "minLength": 1,
+            "enum": [
+              "resource",
+              "user",
+              "asset",
+              "service",
+              "review"
+            ]
+          }
+        }
+      },
+      "EntityCreateBulk": {
+        "type": "array",
+        "title": "Entity create bulk request",
+        "description": "Array of entities to create multiple entities in one bulk request",
+        "items": {
+          "$ref": "#/components/schemas/EntityCreate"
+        }
+      },
+      "Entity": {
+        "title": "General Entity Data",
+        "type": "object",
+        "description": "The representation of an entity. For more details please refer to the corresponding JSON schema",
+        "required": [
+          "entityType",
+          "id"
+        ],
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/EntityId"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "title": "Operation error",
+        "description": "Error that can occur on request processing",
+        "required": [
+          "type",
+          "message",
+          "code"
+        ],
+        "properties": {
+          "type": {
+            "title": "Error type",
+            "description": "Futher error type information",
+            "type": "string"
+          },
+          "message": {
+            "title": "Error message",
+            "description": "Details about error",
+            "type": "string"
+          },
+          "code": {
+            "title": "Error code",
+            "description": "HTTP error code",
+            "type": "number",
+            "format": "int32",
+            "example": 409
+          },
+          "errors": {
+            "title": "Errors",
+            "description": "More error details that are reference in most case specification or schema validation errors",
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "UserId": {
+        "title": "User id",
+        "description": "Unique user identifier",
+        "type": "string",
+        "example": "user:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189",
+        "pattern": "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      },
+      "EntityId": {
+        "title": "Entity id",
+        "description": "Unique entity identifier",
+        "type": "string",
+        "example": "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189",
+        "pattern": "(resource|user|asset|service|review):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      }
+    },
+    "responses": {
+      "Success": {
+        "description": "Successful",
+        "content": {
+          "text/html": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SuccessEmpty": {
+        "description": "Successful operation"
+      },
+      "Multi": {
+        "description": "Multi-status response in case of a bulk request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "Multi-status response",
+              "description": "Indicates the status for operation for each entity in a bulk request",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "statusCode",
+                  "uniqueFingerprint"
+                ],
+                "properties": {
+                  "statusCode": {
+                    "title": "Status Code",
+                    "description": "Status Code for single entity operation. Can be one of the codes that is returned for opeartion on a single entity",
+                    "type": "integer",
+                    "example": 201
+                  },
+                  "data": {
+                    "title": "Operation data",
+                    "description": "Data as a result of a single entity operation",
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "error": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "EntityCreateSuccess": {
+        "description": "Succesful entity creation retruns created entity id",
+        "content": {
+          "text/html": {
+            "schema": {
+              "$ref": "#/components/schemas/EntityId"
+            }
+          }
+        }
+      },
+      "EntityResponse": {
+        "description": "ENńtity data response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Entity"
+            }
+          }
+        }
+      },
+      "UnexpectedError": {
+        "description": "Internal service error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "BadRequestError": {
+        "description": "Error with status code 4XX indicating a wrong supplied parameters or violation of the JSOn schema",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "actoridParam": {
+        "in": "header",
+        "description": "The id of the origin that produces action/message. Can be an user or a service",
+        "name": "x-actorid",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/UserId"
+        }
+      },
+      "useridParam": {
+        "in": "path",
+        "description": "The id of the origin that produces action/message. Can be a user or service",
+        "name": "id",
+        "schema": {
+          "$ref": "#/components/schemas/UserId"
+        },
+        "required": true
+      }
+    }
+  }
+}

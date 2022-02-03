@@ -1,4 +1,5 @@
 const express = require("express");
+const buildOpenApiSpec = require("./utils/buildOpenApiSpec");
 const resourcesController = require("./controllers/ResourcesController");
 const resourcesService = require("./services/ResourcesService");
 const usersController = require("./controllers/UsersController");
@@ -34,7 +35,7 @@ const predefinedEntities = {
   },
   services: {
     name: collectionsNames.SERVICES_COLLECTION_NAME,
-    controller: null,
+    controller: serv,
     service: null,
   },
   reviews: {
@@ -48,7 +49,7 @@ const createEntityService = (entity) => new CustomService(entity);
 
 const createEntityController = (service) => new EntityController(service);
 
-module.exports = async (app) => {
+module.exports = async (server) => {
   const router = express.Router();
 
   for (const entity of Object.values(predefinedEntities)) {
@@ -56,13 +57,18 @@ module.exports = async (app) => {
     await service.init();
     const controller = entity?.controller ?? createEntityController(service);
 
-    router.get(`/${entity}`, controller.get);
-    router.get(`/${entity}/:id`, controller.getById);
-    router.post(`/${entity}`, controller.create);
-    router.patch(`/${entity}/:id`, controller.patchById);
-    router.post(`/${entity}/:id`, controller.patchById);
-    router.put(`/${entity}/:id`, controller.updateById);
-    router.delete(`/${entity}/:id`, controller.deleteById);
+    router.get(`/${entity.name}`, controller.get.bind(controller));
+    router.get(`/${entity.name}/:id`, controller.getById.bind(controller));
+    router.post(`/${entity.name}`, controller.create.bind(controller));
+    router.patch(`/${entity.name}/:id`, controller.patchById.bind(controller));
+    router.post(`/${entity.name}/:id`, controller.patchById.bind(controller));
+    router.put(`/${entity.name}/:id`, controller.updateById.bind(controller));
+    router.delete(
+      `/${entity.name}/:id`,
+      controller.deleteById.bind(controller)
+    );
   }
-  app.use("/resources", router);
+  const openApiSpec = buildOpenApiSpec(Object.keys(predefinedEntities));
+  server.addMiddleware("/", router);
+  return server.boot({ openApiSpec });
 };

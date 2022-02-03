@@ -17,7 +17,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.2.0"
+    "@diva/common": "^2.0.0",
+    "swagger-ui-dist": "^4.4.1"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",

@@ -1,8 +1,9 @@
 const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const reviewsService = require("../services/ReviewsService");
+const EntityController = require("./EntityController");
 
-class ReviewsController {
-  async createReview(req, res, next) {
+class ReviewsController extends EntityController {
+  async create(req, res, next) {
     try {
       const newReviewId = await reviewsService.create(
         req.body,
@@ -20,25 +21,7 @@ class ReviewsController {
     }
   }
 
-  async getReviews(req, res, next) {
-    try {
-      const result = await reviewsService.get(req.query);
-      res.status(200).send(result);
-    } catch (err) {
-      return next(err);
-    }
-  }
-
-  async getReview(req, res, next) {
-    try {
-      const result = await reviewsService.getById(req.params.id, req.query);
-      res.status(200).send(result);
-    } catch (err) {
-      return next(err);
-    }
-  }
-
-  async patchReview(req, res, next) {
+  async patchById(req, res, next) {
     try {
       const { id } = req.params;
       const actorId = req.headers["x-actorid"];
@@ -51,7 +34,19 @@ class ReviewsController {
     }
   }
 
-  async deleteReview(req, res, next) {
+  async updateById(req, res, next) {
+    try {
+      const { id } = req.params;
+      const actorId = req.headers["x-actorid"];
+      await reviewsService.updateById(id, req.body, actorId);
+      res.status(200).send();
+      messagesProducer.produce(id, actorId, "update", [req.body.belongsTo]);
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  async deleteById(req, res, next) {
     try {
       const { id } = req.params;
       const actorId = req.headers["x-actorid"];
@@ -65,4 +60,4 @@ class ReviewsController {
   }
 }
 
-module.exports = new ReviewsController();
+module.exports = new ReviewsController(reviewsService);
