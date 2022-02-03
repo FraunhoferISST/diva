@@ -44,35 +44,49 @@ const errorHandler = (err, req, res, next) => {
   }
 };
 
-module.exports = (onBoot, { port, openapiPath, corsOptions = {} }) =>
-  new Promise(async (resolve) => {
-    try {
-      console.info(
-        chalk.blue(`✅ Running ${SERVICE_NAME} in ${NODE_ENV} mode`)
-      );
-      const app = express();
-      app.use(express.json({ limit: "10mb", extended: true }));
-      app.use(express.urlencoded({ limit: "10mb", extended: false }));
-      app.use(cors({ ...corsDefaults, ...corsOptions }));
-      app.use(
-        OpenApiValidator.middleware({
-          apiSpec:
-            openapiPath || path.join(`${WORK_DIR}`, "/apiDoc/openapi.yml"),
-        })
-      );
+class Server {
+  constructor(port, serviceName = SERVICE_NAME) {
+    this.port = port;
+    this.serviceName = serviceName;
+    this.app = express();
+  }
 
-      await onBoot(app);
-      app.use(errorHandler);
+  initBasicMiddleware({ corsOptions = {} }) {
+    this.app.use(express.json({ limit: "10mb", extended: true }));
+    this.app.use(express.urlencoded({ limit: "10mb", extended: false }));
+    this.app.use(cors({ ...corsDefaults, ...corsOptions }));
+  }
 
-      const server = app.listen(port, () => {
-        console.info(
-          chalk.blue(`✅ REST API ready at port ${server.address().port} 🌐`)
+  addMiddleware(...args) {
+    this.app.use(...args);
+  }
+
+  async boot({ openApiSpec, corsOptions = {} }) {
+    return new Promise((resolve, reject) => {
+      try {
+        this.initBasicMiddleware({ corsOptions });
+        const apiSpec =
+          openApiSpec || path.join(`${WORK_DIR}`, "/apiDoc/openapi.yml");
+        this.addMiddleware(
+          OpenApiValidator.middleware({
+            apiSpec,
+          })
         );
-        console.info(chalk.blue(`✅ All components booted successfully 🚀`));
-        resolve(server);
-      });
-    } catch (e) {
-      console.error(e);
-      process.exit(1);
-    }
-  });
+        if (NODE_ENV === "development") {
+          this.addMiddleware("/api", (req, res) => res.json(apiSpec));
+        }
+        this.addMiddleware(errorHandler);
+        const server = this.app.listen(this.port, () => {
+          console.info(
+            chalk.blue(`✅ REST API ready at port ${server.address().port} 🌐`)
+          );
+          resolve(server);
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+}
+
+module.exports = Server;

@@ -16,6 +16,9 @@ class MongoDBConnector {
   }
 
   async connect() {
+    if (this.client?.topology.isConnected()) {
+      return true;
+    }
     this.client = new MongoClient(this.URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
