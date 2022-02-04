@@ -10,6 +10,7 @@
     "modified",
     "creatorId"
   ],
+  "unevaluatedProperties": false,
   "definitions": {
     "imageSource": {
       "anyOf": [
@@ -42,12 +43,7 @@
         "properties": { "entityType": { "const": "resource" } }
       },
       "then": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-          }
-        }
+        "$ref": "/resource"
       }
     },
     {
@@ -55,12 +51,7 @@
         "properties": { "entityType": { "const": "asset" } }
       },
       "then": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^asset:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-          }
-        }
+        "$ref": "/asset"
       }
     },
     {
@@ -68,12 +59,7 @@
         "properties": { "entityType": { "const": "review" } }
       },
       "then": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^review:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-          }
-        }
+        "$ref": "/review"
       }
     },
     {
@@ -81,12 +67,7 @@
         "properties": { "entityType": { "const": "user" } }
       },
       "then": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-          }
-        }
+        "$ref": "/user"
       }
     },
     {
@@ -94,12 +75,7 @@
         "properties": { "entityType": { "const": "history" } }
       },
       "then": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^history:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-          }
-        }
+        "$ref": "/history"
       }
     },
     {
@@ -107,12 +83,7 @@
         "properties": { "entityType": { "const": "service" } }
       },
       "then": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^service:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-          }
-        }
+        "$ref": "/service"
       }
     },
     {

@@ -43,11 +43,7 @@ paths:
           schema:
             type: string
             enum:
-              - resource
-              - user
-              - asset
-              - service
-              - review
+              - entity
       responses:
         "200":
           $ref: "#/components/responses/SchemaResponse"

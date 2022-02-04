@@ -1,6 +1,6 @@
 {
   "name": "schema-registry",
-  "version": "0.7.0",
+  "version": "1.0.0",
   "description": "A Schema Registry for delivering JSON and YML Schemata using HTTP",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
   },
   "dependencies": {
-    "@diva/common": "^1.2.0",
+    "@diva/common": "2.0.0",
     "glob": "^7.1.6",
     "keyv": "^4.0.3",
     "mime": "^2.5.2"

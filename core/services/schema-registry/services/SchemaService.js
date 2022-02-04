@@ -3,7 +3,7 @@ const dereferenceSchema = require("../utils/dereferenceSchema");
 const { toEsMapping } = require("../utils/convertJsonSchemaToEsMapping");
 const { schemaNotFoundError } = require("../utils/errors");
 
-const jsonSchemaInstances = ["resource", "asset", "user", "review", "service"];
+const jsonSchemaInstances = ["entity"];
 
 class SchemaService {
   async init() {
