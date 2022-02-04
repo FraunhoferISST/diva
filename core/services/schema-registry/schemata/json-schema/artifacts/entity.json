@@ -90,7 +90,7 @@
       "properties": {
 
         "id": {
-          "$id": "id",
+
           "type": "string",
           "title": "Unique Identifier",
           "description": "An unique ID of the processed entity. shortCut for -> dctermsIdentifier",
@@ -107,7 +107,7 @@
         },
     
         "entityType": {
-          "$id": "entityType",
+
           "type": "string",
           "title": "Entity Type",
           "description": "The general type of the entity",
@@ -125,7 +125,7 @@
         },
         
         "created": {
-          "$id": "created",
+
           "type": "string",
           "title": "Creation date",
           "description": "Date of creation of the entity",
@@ -139,7 +139,7 @@
         },
     
         "modified": {
-          "$id": "modified",
+
           "type": "string",
           "title": "Modification date",
           "description": "Date on which the entity was changed.",
@@ -152,7 +152,7 @@
           }
         },
         "creatorId": {
-          "$id": "creatorId",
+
           "type": "string",
           "title": "Publisher",
           "description": "The person who created this entity",

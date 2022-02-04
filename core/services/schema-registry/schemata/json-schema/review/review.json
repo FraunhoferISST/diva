@@ -16,7 +16,7 @@
     },
 
     "reviewText": {
-      "$id": "reviewText",
+
       "type": "string",
       "title": "Review text",
       "description": "Creators comment to the review",
@@ -32,7 +32,7 @@
     },
 
     "belongsTo": {
-      "$id": "belongsTo",
+
       "type": "string",
       "title": "Belongs To",
       "description": "The uuid of the entity id to which the review belongs to. Can be any possible entity like resource, asset, user or even an review itself.",
@@ -46,7 +46,7 @@
     },
 
     "rating": {
-      "$id": "rating",
+
       "type": "integer",
       "title": "Review rating",
       "description": "Rating assigned to an entity within a review (1-5)",

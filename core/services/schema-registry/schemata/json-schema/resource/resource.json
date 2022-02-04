@@ -11,7 +11,7 @@
     {
       "properties": {
         "resourceType": {
-          "$id": "resourceType",
+
           "type": "string",
           "title": "Resource Type",
           "description": "The general type of the resource",

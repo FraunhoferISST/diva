@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "resourceUrbanPulseSensor",
+
   "type": "object",
   "title": "General Urban Pulse sensor resource Data",
   "required": [
@@ -11,7 +11,7 @@
   ],
   "properties": {
     "uniqueFingerprint": {
-      "$id": "uniqueFingerprint",
+
       "type": "string",
       "title": "Unique sensor identifier",
       "description": "Unique sensor identifier is a SHA256 hash from 'sensorId', 'since' and 'until' fields",
@@ -24,7 +24,7 @@
       }
     },
     "urbanPulseSensorId": {
-      "$id": "urbanPulseSensorId",
+
       "type": "string",
       "title": "UrbanPulse sensor id",
       "description": "UrbanPulse sensor unique identifier",
@@ -37,7 +37,7 @@
       }
     },
     "urbanPulseSensorSince": {
-      "$id": "urbanPulseSensorSince",
+
       "type": "string",
       "title": "Since date",
       "description": "The start of the date range of the retrieved sensor data",
@@ -48,7 +48,7 @@
       "format": "date-time"
     },
     "urbanPulseSensorUntil": {
-      "$id": "urbanPulseSensorUntil",
+
       "type": "string",
       "title": "Until date",
       "description": "The end of the date range of the retrieved sensor data",

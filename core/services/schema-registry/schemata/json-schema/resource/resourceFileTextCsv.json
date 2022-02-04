@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
-    "$id": "resourceFileTextCsv",
+
     "type": "object",
     "title": "CSV Resource Data",
     "allOf": [

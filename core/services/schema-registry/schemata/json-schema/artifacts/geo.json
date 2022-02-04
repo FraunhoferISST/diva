@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "geo",
+
   "title": "Geometry",
   "description": "One geometry as defined by GeoJSON",
   "type": "object",

@@ -51,7 +51,7 @@ class Server {
     this.app = express();
   }
 
-  initBasicMiddleware({ corsOptions = {} }) {
+  initBasicMiddleware({ corsOptions = {} } = {}) {
     this.app.use(express.json({ limit: "10mb", extended: true }));
     this.app.use(express.urlencoded({ limit: "10mb", extended: false }));
     this.app.use(cors({ ...corsDefaults, ...corsOptions }));
@@ -61,10 +61,9 @@ class Server {
     this.app.use(...args);
   }
 
-  async boot({ openApiSpec, corsOptions = {} }) {
+  async boot({ openApiSpec } = {}) {
     return new Promise((resolve, reject) => {
       try {
-        this.initBasicMiddleware({ corsOptions });
         const apiSpec =
           openApiSpec || path.join(`${WORK_DIR}`, "/apiDoc/openapi.yml");
         this.addMiddleware(

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "assetUrbanPulse",
+
   "type": "object",
   "title": "General Urban Pulse Asset Data",
   "required": [
@@ -9,7 +9,7 @@
     {
       "properties": {
         "uniqueFingerprint": {
-          "$id": "uniqueFingerprint",
+
           "type": "string",
           "title": "Unique Urban Pulse Identifier",
           "description": "Unique urban pulse identifier using the hashedbaseUrl where the UP can be accessed",

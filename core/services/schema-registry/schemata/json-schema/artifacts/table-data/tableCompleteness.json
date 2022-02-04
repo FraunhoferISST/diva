@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
-    "$id": "tableCompleteness",
+
     "type": "object",
     "title": "Number of Columns of a Table",
     "properties": {

@@ -33,7 +33,7 @@ paths:
       tags:
         - resolvedSchemata
       summary: Get resolved schema by name
-      description: Returns a specific resolved schema insance
+      description: Returns a specific resolved JSON schema insance.
       operationId: getResolvedSchemaByName
       parameters:
         - name: name
@@ -108,7 +108,9 @@ components:
             type: string
         application/json:
           schema:
-            type: string
+            title: JSON schema
+            description: By name requested JSON schema
+            type: object
     UnexpectedError:
       description: Internal Error
       content:

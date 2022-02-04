@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
-    "$id": "imageExif",
+
     "type": "object",
     "title": "EXIF data of an Image",
     "properties": {

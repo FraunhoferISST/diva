@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "commonProperties",
+
   "type": "object",
   "title": "Common Properties of most Entities",
   "required": [
@@ -10,7 +10,7 @@
     {
       "properties": {
         "title": {
-          "$id": "title",
+
           "type": "string",
           "title": "Title",
           "description": "The title of the entity",
@@ -26,7 +26,7 @@
           }
         },
         "summary": {
-          "$id": "summary",
+
           "type": "string",
           "title": "Summary",
           "description": "A brief explanation what the entity is. In contrary to the description, the summary is limited in length for a quick insight e.g. on a search page.",
@@ -38,7 +38,7 @@
           "maxLength": 255
         },
         "description": {
-          "$id": "description",
+
           "type": "string",
           "title": "Description",
           "description": "The description of the entity",
@@ -52,13 +52,13 @@
           }
         },
         "keywords": {
-          "$id": "keywords",
+
           "type": "array",
           "title": "Keywords",
           "description": "Keywords which tag the entity",
           "default": [],
           "items": {
-            "$id": "keywords/items/",
+
             "type": "string",
             "title": "Items",
             "description": "A keyword",
@@ -68,7 +68,7 @@
           }
         },
         "ownerId": {
-          "$id": "ownerId",
+
           "type": "string",
           "title": "Owner",
           "description": "Owner of this entity",
@@ -82,7 +82,7 @@
           }
         },
         "versionInfo": {
-          "$id": "versionInfo",
+
           "type": "string",
           "title": "Version Info",
           "description": "A string describing the version of the entity",
@@ -98,7 +98,7 @@
           }
         },
         "versionNotes": {
-          "$id": "versionNotes",
+
           "type": "string",
           "title": "Version notes",
           "description": "A string describing the version of the entity",
@@ -113,14 +113,14 @@
           }
         },
         "licenses": {
-          "$id": "licenses",
+
           "type": "array",
           "title": "Licenses",
           "description": "Licenses which are applied to the entity",
           "items": {
             "title": "Licenses information",
             "description": "Detailed information about each license",
-            "$id": "licenses/items/",
+
             "type": "object",
             "required": ["url"],
             "properties": {
@@ -163,14 +163,14 @@
           }
         },
         "themes": {
-          "$id": "themes",
+
           "type": "array",
           "title": "Themes",
           "description": "Predefined themes of the entity",
           "default": [],
           "minItem": 0,
           "items": {
-            "$id": "themes/items/",
+
             "type": "string",
             "enum": [
               "Agriculture",
@@ -202,7 +202,7 @@
           }
         },
         "plannedAvailability": {
-          "$id": "plannedAvailability",
+
           "type": "string",
           "title": "Planned Availability",
           "description": "These availability levels indicate how long the document is planned to be available",
@@ -218,7 +218,7 @@
           }
         },
         "politicalGeocoding": {
-          "$id": "politicalGeocoding",
+
           "type": "string",
           "title": "Political geocoding levels",
           "description": "For the coded specification of the respective principle management level from which the data structure was collected and set, the following six options with multiple selection are possible",

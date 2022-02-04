@@ -28,7 +28,7 @@
         },
 
         "assetType": {
-          "$id": "assetType",
+
           "type": "string",
           "title": "Asset Type",
           "description": "The type of the asset",
@@ -42,7 +42,7 @@
         },
 
         "entities": {
-          "$id": "entities",
+
           "type": "array",
           "title": "Asset linked entities",
           "description": "The array of entites id's linked with the asset",

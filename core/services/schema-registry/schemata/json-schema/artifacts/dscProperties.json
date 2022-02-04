@@ -1,11 +1,11 @@
 {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
-    "$id": "dscProperties",
+
     "type": "object",
     "title": "Industrial Data Space",
     "properties": {
         "dsc": {
-            "$id": "/dscProperties/properties/dsc",
+
             "type": ["object", "null"],
             "title": "DSC",
             "description": "DSC configuration attributes",
@@ -16,7 +16,7 @@
             "properties": {
                 "additionalProperties": false,
                 "offer": {
-                    "$id": "/dscProperties/properties/dsc/properties/offer",
+
                     "type": [
                         "object"
                     ],
@@ -84,7 +84,7 @@
                     }
                 },
                 "policy": {
-                    "$id": "/dscProperties/properties/dsc/properties/policy",
+
                     "type": [
                         "object",
                         "null"
@@ -281,7 +281,7 @@
                     ]
                 },
                 "brokerEndpoints": {
-                    "$id": "/idsProperties/properties/brokerEndpoints",
+
                     "type": "array",
                     "title": "Broker URLs",
                     "description": "Broker URLs",

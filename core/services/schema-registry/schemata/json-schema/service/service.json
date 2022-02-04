@@ -15,7 +15,7 @@
           },
 
           "serviceType": {
-            "$id": "serviceType",
+
             "type": "string",
             "title": "Service Type",
             "description": "The general type of the service",

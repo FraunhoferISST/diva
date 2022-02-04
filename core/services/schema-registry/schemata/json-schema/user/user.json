@@ -17,7 +17,7 @@
         },
 
         "username": {
-          "$id": "/properties/username",
+
           "type": "string",
           "title": "The Username Schema",
           "examples": [
@@ -31,7 +31,7 @@
         },
 
         "email": {
-          "$id": "/properties/email",
+
           "type": "string",
           "format": "email",
           "title": "The Email Schema ",
@@ -44,7 +44,7 @@
         },
 
         "password": {
-          "$id": "/properties/password",
+
           "type": ["string", "null"],
           "title": "The Password Schema ",
           "examples": [
@@ -57,7 +57,7 @@
         },
 
         "imageId": {
-          "$id": "/properties/imageId",
+
           "type": "string",
           "title": "The imageId Schema ",
           "examples": [
@@ -69,7 +69,7 @@
         },
 
         "imageUrl": {
-          "$id": "/properties/imageUrl",
+
           "type": "string",
           "title": "The imageURL Schema",
           "description": "The URL of externally provided user profile image",
@@ -83,7 +83,7 @@
         },
 
         "company": {
-          "$id": "/properties/company",
+
           "type": "string",
           "title": "Company Name",
           "examples": [
@@ -96,7 +96,7 @@
         },
 
         "jobTitle": {
-          "$id": "/properties/jobTitle",
+
           "type": "string",
           "title": "Job Title",
           "examples": [
@@ -109,7 +109,7 @@
         },
 
         "phoneNumber": {
-          "$id": "/properties/phoneNumber",
+
           "type": "string",
           "title": "Phone Number",
           "examples": [
@@ -122,7 +122,7 @@
         },
 
         "mobileNumber": {
-          "$id": "/properties/mobileNumber",
+
           "type": "string",
           "title": "Mobile Number",
           "examples": [

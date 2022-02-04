@@ -29,7 +29,7 @@ class SchemaService {
       ({ name }) => name === schemaName
     );
     if (resolvedSchema) {
-      return resolvedSchema;
+      return resolvedSchema.schema;
     }
     throw schemaNotFoundError;
   }

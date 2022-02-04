@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
-    "$id": "history",
+
     "type": "object",
     "title": "History schema",
     "required": [
@@ -15,7 +15,7 @@
       },
   
       "belongsTo": {
-        "$id": "belongsTo",
+
         "type": "string",
         "title": "Belongs To",
         "description": "The uuid of the entity id to which this history entry belongs to. Can be any possible entity like resource, asset, user or review. Could also be history entity itself, but seems not recommended",
@@ -26,7 +26,7 @@
       },
   
       "delta": {
-        "$id": "delta",
+
         "type": "object",
         "title": "Delta of metadata",
         "description": "Delta of metadata of the entity this belongs to"
