@@ -21,7 +21,7 @@ const serverCreationPromise = require("../../index");
 const {
   resourcesMongoDbConnector,
   historyMongoDbConnector,
-} = require("../../utils/mongoDbConnectors");
+} = require("../../utils/mongoDbConnector");
 
 const { expect } = chai;
 

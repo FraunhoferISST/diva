@@ -61,19 +61,22 @@ class Server {
     this.app.use(...args);
   }
 
-  async boot({ openApiSpec } = {}) {
+  addOpenApiValidatorMiddleware(
+    apiSpec = path.join(`${WORK_DIR}`, "/apiDoc/openapi.yml")
+  ) {
+    this.addMiddleware(
+      OpenApiValidator.middleware({
+        apiSpec,
+      })
+    );
+    if (NODE_ENV === "development") {
+      this.addMiddleware("/api", (req, res) => res.json(apiSpec));
+    }
+  }
+
+  async boot() {
     return new Promise((resolve, reject) => {
       try {
-        const apiSpec =
-          openApiSpec || path.join(`${WORK_DIR}`, "/apiDoc/openapi.yml");
-        this.addMiddleware(
-          OpenApiValidator.middleware({
-            apiSpec,
-          })
-        );
-        if (NODE_ENV === "development") {
-          this.addMiddleware("/api", (req, res) => res.json(apiSpec));
-        }
         this.addMiddleware(errorHandler);
         const server = this.app.listen(this.port, () => {
           console.info(

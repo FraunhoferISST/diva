@@ -265,6 +265,149 @@
           }
         }
       }
+    },
+    "/{collection}/{id}/images": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/actoridParam"
+        }
+      ],
+      "post": {
+        "tags": [
+          "{collection}"
+        ],
+        "summary": "Upload entity image",
+        "description": "An entity can have several images that you can use as the entity icon or banner. The operation returns an image `id` that represents the uploaded image. The image `id` can be set as `entityIcon` or `entityBanner` to be displayed as banner or icon. One entity can have up to 15 images",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Entity id",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/EntityId"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Image"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    },
+    "/{collection}/{id}/images/{imageId}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/actoridParam"
+        }
+      ],
+      "get": {
+        "tags": [
+          "{collection}"
+        ],
+        "summary": "Get entity image",
+        "description": "Get uploaded entity image by image `id`. You can obtain the image ID from the corresponding user document",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the entity image",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/EntityId"
+            }
+          },
+          {
+            "name": "imageId",
+            "in": "path",
+            "description": "Unique identifier of the image",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/ImageId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "image/png": {
+                "schema": {
+                  "description": "User image as PNG",
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/jpeg": {
+                "schema": {
+                  "description": "User image as JPG",
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "{collection}"
+        ],
+        "summary": "Delete entity image",
+        "description": "Delete the uploaded entity image",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the entity",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/EntityId"
+            }
+          },
+          {
+            "name": "imageId",
+            "in": "path",
+            "description": "Unique identifier of the image",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/ImageId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SuccessEmpty"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
     }
   }
 }

@@ -6,7 +6,6 @@
   "required": [
     "resourceType"
   ],
-  "unevaluatedProperties": false,
   "allOf": [
     {
       "properties": {
@@ -47,6 +46,7 @@
     },
     {
       "if": {
+        "required": ["resourceType"],
         "properties": {
           "resourceType": {
             "const": "urbanPulseSensor"
@@ -59,6 +59,7 @@
     },
     {
       "if": {
+        "required": ["resourceType"],
         "properties": {
           "resourceType": {
             "const": "file"

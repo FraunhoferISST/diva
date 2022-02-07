@@ -1,15 +1,6 @@
-const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
-const EntityService = require("@diva/common/api/EntityService");
 const generateUuid = require("@diva/common/generateUuid");
-const UserImagesService = require("./UserImagesService");
-const { mongoDBConnector } = require("../utils/mongoDbConnectors");
-
-const { sanitizeUser, hashPassword } = require("../utils/user-helper");
-
-const USER_ROOT_SCHEMA = process.env.USER_ROOT_SCHEMA || "user";
-const usersCollectionName = process.env.MONGO_COLLECTION_NAME || "users";
-const historyCollectionName =
-  process.env.HISTORY_COLLECTION_NAME || "histories";
+const EntityService = require("./EntityService");
+const UserImagesService = require("./EntityImagesService");
 
 const createUser = async (userData, actorId) => {
   const id = generateUuid("user");
@@ -17,21 +8,14 @@ const createUser = async (userData, actorId) => {
     ...userData,
     id,
     entityType: "user",
-    password: userData.password ? await hashPassword(userData.password) : null,
-    created: new Date().toISOString(),
-    modified: new Date().toISOString(),
     creatorId: actorId || id,
   };
 };
 
 class UsersService extends EntityService {
   async init() {
-    await mongoDBConnector.connect();
-    this.collection = mongoDBConnector.collections[usersCollectionName];
-    await this.collection.createIndex({ email: 1 }, { unique: true });
-    this.historyCollection =
-      mongoDBConnector.collections[historyCollectionName];
-    this.jsonSchemaValidator = jsonSchemaValidator;
+    await super.init();
+    // await this.collection.createIndex({ email: 1 }, { unique: true });
   }
 
   async create(user, actorId) {
@@ -67,24 +51,6 @@ class UsersService extends EntityService {
     }
     return super.updateById(id, await createUser(user), actorId);
   }
-
-  async patchById(id, patch, actorId) {
-    const userPatch = {
-      ...patch,
-      ...(patch.password
-        ? { password: await hashPassword(patch.password) }
-        : {}),
-    };
-    return super.patchById(id, userPatch, actorId);
-  }
-
-  validate(user) {
-    jsonSchemaValidator.validate(USER_ROOT_SCHEMA, user);
-  }
-
-  sanitizeEntity(user) {
-    return sanitizeUser(user);
-  }
 }
 
-module.exports = new UsersService();
+module.exports = new UsersService("users");

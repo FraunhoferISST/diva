@@ -1,4 +1,37 @@
-const messagesProducer = require("@diva/common/messaging/MessageProducer");
+const messageProducer = require("@diva/common/messaging/MessageProducer");
+
+const createSingleEntity = async (service, entity, actorId) => {
+  const newEntityId = await service.create(entity, actorId);
+  messageProducer.produce(
+    newEntityId,
+    actorId,
+    "create",
+    entity.attributedTo ? [entity.attributedTo] : []
+  );
+  return newEntityId;
+};
+
+const appendBulkRequestPromiseHandler = (promise, additionalData = {}) =>
+  promise
+    .then((id) => ({
+      statusCode: 201,
+      data: { id },
+    }))
+    .catch((err) => ({
+      statusCode: err.code || 500,
+      data: additionalData,
+      error: err,
+    }));
+
+const processCreateBulkRequest = async (service, bulk, actorid) =>
+  Promise.all(
+    bulk.map((entity) =>
+      appendBulkRequestPromiseHandler(
+        createSingleEntity(service, entity, actorid),
+        ...(entity ?? {})
+      )
+    )
+  );
 
 module.exports = class EntityController {
   constructor(service) {
@@ -7,16 +40,22 @@ module.exports = class EntityController {
 
   async create(req, res, next) {
     try {
-      const newEntityId = await this.service.create(
-        req.body,
-        req.headers["x-actorid"]
-      );
-      res.status(201).send(newEntityId);
-      messagesProducer.produce(
-        newEntityId,
-        req.headers["x-actorid"] || newEntityId,
-        "create"
-      );
+      const actorid = req.headers["x-actorid"];
+      if (Array.isArray(req.body)) {
+        const result = await processCreateBulkRequest(
+          this.service,
+          req.body,
+          actorid
+        );
+        res.status(207).send(result);
+      } else {
+        const result = await createSingleEntity(
+          this.service,
+          req.body,
+          actorid
+        );
+        res.status(201).send(result);
+      }
     } catch (err) {
       return next(err);
     }
@@ -44,8 +83,14 @@ module.exports = class EntityController {
     try {
       const { id } = req.params;
       await this.service.patchById(id, req.body, req.headers["x-actorid"]);
+      const { attributedTo } = await this.service.getById(id);
       res.status(200).send();
-      messagesProducer.produce(id, req.headers["x-actorid"], "update");
+      messageProducer.produce(
+        id,
+        req.headers["x-actorid"],
+        "update",
+        attributedTo ? [attributedTo] : []
+      );
     } catch (err) {
       return next(err);
     }
@@ -56,7 +101,12 @@ module.exports = class EntityController {
       const { id } = req.params;
       await this.service.updateById(id, req.body, req.headers["x-actorid"]);
       res.status(204).send();
-      messagesProducer.produce(id, req.headers["x-actorid"], "update");
+      messageProducer.produce(
+        id,
+        req.headers["x-actorid"],
+        "update",
+        req.body.attributedTo ? [req.body.attributedTo] : []
+      );
     } catch (err) {
       return next(err);
     }
@@ -65,9 +115,67 @@ module.exports = class EntityController {
   async deleteById(req, res, next) {
     try {
       const { id } = req.params;
+      const { attributedTo } = await this.service.getById(id);
       await this.service.deleteById(id, req.headers["x-actorid"]);
       res.status(200).send();
-      messagesProducer.produce(id, req.headers["x-actorid"], "delete");
+      messageProducer.produce(
+        id,
+        req.headers["x-actorid"],
+        "delete",
+        attributedTo ? [attributedTo] : []
+      );
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  async addImage(req, res, next) {
+    try {
+      const newImageId = await this.service.addImage(
+        req.params.id,
+        req.file,
+        req.headers["x-actorid"]
+      );
+      const { attributedTo } = await this.service.getById(req.params.id);
+      res.status(201).send(newImageId);
+      messageProducer.produce(
+        req.params.id,
+        req.headers["x-actorid"],
+        "update",
+        attributedTo ? [attributedTo] : []
+      );
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  async getImageById(req, res, next) {
+    try {
+      const { stream, contentType } = await this.service.getImageById(
+        req.params.imageId
+      );
+      res.header("Content-Type", contentType);
+      stream.pipe(res);
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  async deleteImageById(req, res, next) {
+    try {
+      await this.service.deleteImageById(
+        req.params.id,
+        req.params.imageId,
+        req.headers["x-actorid"]
+      );
+      const { attributedTo } = await this.service.getById(req.params.id);
+      res.status(200).send();
+      messageProducer.produce(
+        req.params.id,
+        req.headers["x-actorid"],
+        "update",
+        attributedTo ? [attributedTo] : []
+      );
     } catch (err) {
       return next(err);
     }

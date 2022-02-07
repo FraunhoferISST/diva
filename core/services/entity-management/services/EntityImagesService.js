@@ -1,20 +1,19 @@
 const { Readable } = require("stream");
 const { GridFSBucket } = require("mongodb");
 const generateUuid = require("@diva/common/generateUuid");
-const { assetsMongoDbConnector } = require("../utils/mongoDbConnectors");
+const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const {
   imageNotFoundError,
   wrongImageFormatError,
 } = require("../utils/errors");
 
-const MONGO_GFS_ASSET_IMAGE_BUCKET_NAME =
-  process.env.MONGO_GFS_ASSET_IMAGE_BUCKET_NAME || "assetImages";
+const MONGO_GFS_BUCKET_NAME = "entitiesMedia";
 
 const isSupportedMimeType = (mimeType) =>
   ["image/png", "image/jpeg"].includes(mimeType);
 
 const getImageObject = async (id) => {
-  const images = await assetsMongoDbConnector.gfs
+  const images = await mongoDbConnector.gfs
     .find({ _id: id }, { limit: 1 })
     .toArray();
   return images[0];
@@ -26,13 +25,10 @@ const writeImage = async (file, id = generateUuid("image")) => {
   const { mimetype, buffer, originalname } = file;
   return new Promise((resolve, reject) => {
     const readable = Readable.from(buffer);
-    const writeStream = assetsMongoDbConnector.gfs.openUploadStream(
-      originalname,
-      {
-        id,
-        contentType: mimetype,
-      }
-    );
+    const writeStream = mongoDbConnector.gfs.openUploadStream(originalname, {
+      id,
+      contentType: mimetype,
+    });
     const imageId = writeStream.id.toString();
     readable
       .pipe(writeStream)
@@ -41,51 +37,42 @@ const writeImage = async (file, id = generateUuid("image")) => {
   });
 };
 
-class AssetImagesService {
+class EntityImagesService {
   async init() {
-    assetsMongoDbConnector.gfs = new GridFSBucket(
-      assetsMongoDbConnector.database,
-      {
-        bucketName: MONGO_GFS_ASSET_IMAGE_BUCKET_NAME,
-      }
-    );
+    mongoDbConnector.gfs = new GridFSBucket(mongoDbConnector.database, {
+      bucketName: MONGO_GFS_BUCKET_NAME,
+    });
+  }
+
+  async getImageById(id) {
+    const existingImage = await getImageObject(id);
+    if (!existingImage) {
+      throw imageNotFoundError;
+    }
+    return {
+      stream: mongoDbConnector.gfs.openDownloadStream(id),
+      contentType: existingImage.contentType,
+    };
   }
 
   async addImage(file) {
     if (!isSupportedMimeType(file.mimetype)) {
       throw wrongImageFormatError;
     }
+    // Always generate new id for the image to avoid caching inconsistencies
     return writeImage(file);
   }
 
-  async getImage(id) {
-    const existingImage = await getImageObject(id);
-    if (!existingImage) {
-      throw imageNotFoundError;
-    }
-    return {
-      stream: assetsMongoDbConnector.gfs.openDownloadStream(id),
-      contentType: existingImage.contentType,
-    };
-  }
-
-  async putImage(id, file) {
+  async deleteImageById(id) {
     if (!(await imageExists(id))) {
       throw imageNotFoundError;
     }
-    if (!isSupportedMimeType(file.mimetype)) {
-      throw wrongImageFormatError;
-    }
-    await assetsMongoDbConnector.gfs.delete(id);
-    return writeImage(file);
+    return mongoDbConnector.gfs.delete(id);
   }
 
-  async deleteImage(id) {
-    if (!(await imageExists(id))) {
-      throw imageNotFoundError;
-    }
-    return assetsMongoDbConnector.gfs.delete(id);
+  async deleteImages(ids) {
+    return Promise.all(ids.map((id) => mongoDbConnector.gfs.delete(id)));
   }
 }
 
-module.exports = new AssetImagesService();
+module.exports = new EntityImagesService();

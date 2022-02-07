@@ -1,9 +1,20 @@
 const { ObjectId } = require("mongodb");
-const createHistoryEntry = require("../createHistoryEntry");
-const { decodeCursor, encodeCursor } = require("./cursor");
-const { entityAlreadyExistsError, entityNotFoundError } = require("../Error");
+const createHistoryEntry = require("@diva/common/createHistoryEntry");
+const { decodeCursor, encodeCursor } = require("@diva/common/api/cursor");
+const {
+  entityAlreadyExistsError,
+  entityNotFoundError,
+  imagesLimitError,
+} = require("@diva/common/Error");
+const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
+const generateUuid = require("@diva/common/generateUuid");
+const { mongoDbConnector } = require("../utils/mongoDbConnector");
+const entityImagesService = require("./EntityImagesService");
+const {
+  collectionsNames: { ENTITY_COLLECTION_NAME, HISTORIES_COLLECTION_NAME },
+} = require("../utils/constants");
 
-const HISTORY_ROOT_SCHEMA = process.env.HISTORY_ROOT_SCHEMA || "history";
+const ENTITY_ROOT_SCHEMA = process.env.ENTITY_ROOT_SCHEMA || "entity";
 
 const cleanUpEntity = (entity) => {
   let cleanEntity = {};
@@ -62,26 +73,41 @@ const createSearchQuery = (searchParams) =>
   );
 
 class EntityService {
-  constructor() {
+  /**
+   * @param entityType - the type of the entity, (e.g. resource, user, etc.)
+   */
+  constructor(entityType) {
+    this.entityType = entityType;
+    /**
+     * @type {{}} - primary MongoDb entity collection (users, resources...)
+     */
     this.collection = {}; // primary entity collection (users, resources...)
     this.historyCollection = {}; // collection for history entries
-    this.jsonSchemaValidator = {}; // initialized JsonSchemaValidator instance
     /**
-     * query parameters that can be used for filtering by default, the list can be extended with filterParams in child class
+     * query parameters that can be used for filtering by default
      */
-    this.defaultFilterParams = ["belongsTo", "creatorId", "email", "username"];
+    this.filterParams = [
+      "belongsTo",
+      "title",
+      "entityType",
+      "creatorId",
+      "email",
+      "username",
+    ];
   }
 
-  init() {
-    // Override to initialize collections in constructor
-    throw Error(`Method "init" must be overwritten`);
+  /**
+   * @returns {Promise<void>}
+   */
+  async init() {
+    await entityImagesService.init();
+    this.collection = mongoDbConnector.collections[ENTITY_COLLECTION_NAME];
+    this.historyCollection =
+      mongoDbConnector.collections[HISTORIES_COLLECTION_NAME];
   }
 
-  validate(_entity) {
-    // Override how to validate entity
-    throw Error(
-      `Method "validate" must be overwritten with "entity" parameter`
-    );
+  validate(entity) {
+    jsonSchemaValidator.validate(ENTITY_ROOT_SCHEMA, entity);
   }
 
   sanitizeEntity({ _id, ...rest }) {
@@ -91,6 +117,8 @@ class EntityService {
   async create(entity, actorId) {
     const newEntity = {
       ...entity,
+      id: generateUuid(this.entityType),
+      entityType: this.entityType,
       created: new Date().toISOString(),
       modified: new Date().toISOString(),
       creatorId: actorId,
@@ -104,7 +132,7 @@ class EntityService {
   async get(query) {
     const { cursor, pageSize = 30, fields } = query;
     const searchQueryParams = extractFilterQueryParams(
-      [...this.defaultFilterParams, ...(this.filterParams ?? [])],
+      this.filterParams,
       query
     );
     const parsedPageSize = parseInt(pageSize, 10);
@@ -145,8 +173,7 @@ class EntityService {
         await this.collection.findOne(
           { id },
           { projection: createProjectionObject(fields) }
-        ),
-        query
+        )
       );
     }
     throw entityNotFoundError;
@@ -218,7 +245,11 @@ class EntityService {
   async deleteById(id) {
     if (await this.entityExists(id)) {
       // TODO: delete history? --> HA listens to delete Events and does clean up
-      return this.collection.deleteOne({ id });
+      const { entityImages } = await this.getById(id, {
+        fields: "entityImages",
+      });
+      await this.collection.deleteOne({ id });
+      return entityImagesService.deleteImages(entityImages ?? []);
     }
     throw entityNotFoundError;
   }
@@ -229,12 +260,49 @@ class EntityService {
 
   createHistoryEntry(oldObj, newObj, actorId) {
     const history = createHistoryEntry(oldObj, newObj, actorId);
-    this.jsonSchemaValidator.validate(HISTORY_ROOT_SCHEMA, history);
+    jsonSchemaValidator.validate(ENTITY_ROOT_SCHEMA, history);
     return this.historyCollection.insertOne(history);
   }
 
   count() {
     return this.collection.countDocuments({});
+  }
+
+  async addImage(id, imageFile, actorId) {
+    const { entityImages } = await this.getById(id, { fields: "entityImages" });
+    if (entityImages?.length >= 15) {
+      throw imagesLimitError;
+    }
+    const newImageId = await entityImagesService.addImage(imageFile);
+    return this.patchById(
+      id,
+      {
+        entityImages: [...(entityImages ?? []), newImageId],
+      },
+      actorId
+    )
+      .then(() => newImageId)
+      .catch(async (e) => {
+        await entityImagesService.deleteImageById(newImageId);
+        throw e;
+      });
+  }
+
+  async getImageById(imageId) {
+    return entityImagesService.getImageById(imageId);
+  }
+
+  async deleteImageById(id, imageId, actorId) {
+    console.log(id);
+    const { entityImages } = await this.getById(id, { fields: "entityImages" });
+    await entityImagesService.deleteImageById(imageId);
+    return this.patchById(
+      id,
+      {
+        entityImages: entityImages.filter((imgId) => imgId !== imageId),
+      },
+      actorId
+    );
   }
 }
 
