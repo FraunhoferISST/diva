@@ -358,10 +358,6 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
       KAFKA_CREATE_TOPICS: >-
         resource.events:1:1,
-        user.events:1:1,
-        asset.events:1:1,
-        review.events:1:1
-        service.events:1:1
         datanetwork.events:1:1
 
 
