@@ -151,6 +151,7 @@ module.exports = class EntityController {
 
   async getImageById(req, res, next) {
     try {
+      await this.service.getById(req.params.id); // make sure corresponding entity exists
       const { stream, contentType } = await this.service.getImageById(
         req.params.imageId
       );
