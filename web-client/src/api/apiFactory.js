@@ -25,4 +25,16 @@ export default (path) => ({
   create: (data) => axios.post(path, data),
   patch: (id, patch) => axios.patch(`${path}${id}`, patch),
   delete: (id) => axios.delete(`${path}${id}`),
+
+  uploadImage: (id, image) => {
+    const formData = new FormData();
+    formData.append("image", image);
+    return axios.post(`${path}/${id}/images`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
+  getImageById: (id, imageId) => axios.get(`${path}/${id}/images/${imageId}`),
+  deleteImage: (id, imageId) => axios.delete(`${path}/${id}/images/${imageId}`),
 });
