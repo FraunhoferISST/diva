@@ -1,0 +1,70 @@
+[{
+    "title": "Creator of resource can perform GET",
+    "priority": 0,
+    "method": ["GET"],
+    "scope": [
+      "resource-management::resources/*"
+    ],
+    "condition": {
+      "mongo": {
+        "query": "{ \"id\": \"[[entityid]]\", \"title\": \"Resource2_Asset\" }",
+        "collection": "resources"
+      }
+    },
+    "constraints": [
+      "!*",
+      "A"
+    ]
+  },
+  {
+    "title": "Creator of resource can perform GET",
+    "priority": 0,
+    "method": ["GET"],
+    "scope": [
+      "resource-management::resources/*"
+    ],
+    "condition": {
+      "cypher": "MATCH (r:resource {id:'[[entityid]]'})<-[e:isCreatorOf]-(:user {id:'[[actorid]]'}) RETURN (count(e)>0) as true"
+    },
+    "constraints": [
+      "!*",
+      "A"
+    ]
+  },
+  {
+    "title": "Owner of resource can perform GET",
+    "priority": 0,
+    "method": ["GET"],
+    "scope": [
+      "resource-management::resources/*"
+    ],
+    "condition": {
+      "cypher": "MATCH (r:resource {id:'[[entityid]]'})<-[e:isOwnerOf]-(:user {id:'[[actorid]]'}) RETURN (count(e)>0) as true"
+    },
+    "constraints": [
+      "!*",
+      "A"
+    ]
+  },
+  {
+    "title": "User can GET resource if both entities are part of asset and resource is not archived",
+    "priority": 0,
+    "method": ["GET"],
+    "scope": [
+      "resource-management::resources/*"
+    ],
+    "condition": {
+      "and": [{
+          "cypher": "MATCH (r:resource {id:'[[entityid]]'})-[:isPartOf]->(a:asset)<-[:isPartOf]-(:user {id:'[[actorid]]'}) RETURN (count(a)>0) as true"
+        },
+        {
+          "cypher": "MATCH (r:resource {id:'[[entityid]]'})-[:isPartOf]->(a:asset)<-[:isPartOf]-(:user {id:'[[actorid]]'}) RETURN (count(a)>0) as true"
+        }
+      ]
+    },
+    "constraints": [
+      "!*",
+      "B"
+    ]
+  }
+]
