@@ -298,11 +298,6 @@
       }
     },
     "/{collection}/{id}/images/{imageId}": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/actoridParam"
-        }
-      ],
       "get": {
         "tags": [
           "{collection}"
@@ -366,6 +361,9 @@
         "summary": "Delete entity image",
         "description": "Delete the uploaded entity image",
         "parameters": [
+          {
+            "$ref": "#/components/parameters/actoridParam"
+          },
           {
             "name": "id",
             "in": "path",

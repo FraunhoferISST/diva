@@ -66,7 +66,7 @@ services:
       - core
 
   kong:
-    image: kong:2.3.3
+    image: kong:2.7.1
     environment:
       - KONG_PROXY_ACCESS_LOG=/dev/stdout
       - KONG_ADMIN_ACCESS_LOG=/dev/stdout
