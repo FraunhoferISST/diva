@@ -102,9 +102,6 @@
       "EntityCreate": {
         "description": "Minimal required attributes for entity creation",
         "type": "object",
-        "required": [
-          "entityType"
-        ],
         "properties": {
           "entityType": {
             "type": "string",
@@ -316,6 +313,15 @@
         "name": "id",
         "schema": {
           "$ref": "#/components/schemas/UserId"
+        },
+        "required": true
+      },
+      "entityIdParam": {
+        "in": "path",
+        "description": "The id of the entity",
+        "name": "id",
+        "schema": {
+          "$ref": "#/components/schemas/EntityId"
         },
         "required": true
       }

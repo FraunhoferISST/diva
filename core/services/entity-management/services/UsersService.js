@@ -15,7 +15,10 @@ const createUser = async (userData, actorId) => {
 class UsersService extends EntityService {
   async init() {
     await super.init();
-    // await this.collection.createIndex({ email: 1 }, { unique: true });
+    await this.collection.createIndex(
+      { email: 1 },
+      { unique: true, partialFilterExpression: { entityType: this.entityType } }
+    );
   }
 
   async create(user, actorId) {
@@ -53,4 +56,4 @@ class UsersService extends EntityService {
   }
 }
 
-module.exports = new UsersService("users");
+module.exports = new UsersService("user");

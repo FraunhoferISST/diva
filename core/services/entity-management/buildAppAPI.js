@@ -81,8 +81,6 @@ module.exports = async (server) => {
 
   const openApiSpec = buildOpenApiSpec(Object.keys(predefinedEntities));
   server.initBasicMiddleware();
-  server.addOpenApiValidatorMiddleware(openApiSpec);
-
   server.addMiddleware((req, res, next) => {
     if (req.files) {
       req.file = req.files[0];
@@ -90,7 +88,8 @@ module.exports = async (server) => {
     }
     next();
   });
+  server.addOpenApiValidatorMiddleware(openApiSpec);
 
   server.addMiddleware("/", router);
-  return server.boot({ openApiSpec });
+  return server.boot();
 };

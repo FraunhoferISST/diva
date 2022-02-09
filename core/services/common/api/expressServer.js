@@ -78,11 +78,11 @@ class Server {
     return new Promise((resolve, reject) => {
       try {
         this.addMiddleware(errorHandler);
-        const server = this.app.listen(this.port, () => {
+        const expressServer = this.app.listen(this.port, () => {
           console.info(
-            chalk.blue(`✅ REST API ready at port ${server.address().port} 🌐`)
+            chalk.blue(`✅ REST API ready at port ${expressServer.address().port} 🌐`)
           );
-          resolve(server);
+          resolve(expressServer);
         });
       } catch (e) {
         reject(e);

@@ -113,7 +113,7 @@
     "/{collection}/{id}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/useridParam"
+          "$ref": "#/components/parameters/entityIdParam"
         },
         {
           "$ref": "#/components/parameters/actoridParam"
@@ -126,15 +126,6 @@
         "summary": "Get entity by id",
         "description": "Projection can be specified with `fields` parameter",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The id of the entity to fetch",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "fields",
             "in": "query",

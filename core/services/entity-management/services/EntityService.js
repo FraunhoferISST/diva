@@ -143,6 +143,7 @@ class EntityService {
     }
     const collection = await this.collection
       .find({
+        entityType: this.entityType,
         ...createSearchQuery(searchQueryParams),
         ...dbQuery,
       })
@@ -249,7 +250,12 @@ class EntityService {
         fields: "entityImages",
       });
       await this.collection.deleteOne({ id });
-      return entityImagesService.deleteImages(entityImages ?? []);
+      return (
+        entityImagesService
+          .deleteImages(entityImages ?? [])
+          // TODO: difficult case, for now we just log the error
+          .catch((e) => console.warn(e))
+      );
     }
     throw entityNotFoundError;
   }

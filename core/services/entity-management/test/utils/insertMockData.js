@@ -5,14 +5,14 @@ const Request = require("./Request");
  * Inserts entity mock data in to the data base using the service api. Mostly this is needed once on tests initialization
  * Please note that common CRUD operations tests expect the mock data to be loaded.
  * @param {object} server - running expressServer instance
- * @param {string} collectionName - collection name, e.g. "users", "assets"
+ * @param {string} entityType - collection name, e.g. "users", "assets"
  */
-module.exports = (collectionName = "resources", server) => {
+module.exports = (entityType = "resource", server) => {
   const request = new Request(server);
-  const testData = mockData[collectionName].data;
+  const testData = mockData[`${entityType}s`].data;
   return Promise.all(
     testData.map((entity) =>
-      request.runRequest(request.makeBodyRequest(`/${collectionName}`, entity))
+      request.runRequest(request.makeBodyRequest(`/${entityType}s`, entity))
     )
   )
     .then((responses) => responses.map(({ text }) => text))

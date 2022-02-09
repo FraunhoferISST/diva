@@ -11,8 +11,8 @@ const topic = process.env.KAFKA_EVENT_TOPIC || "entity.events";
 
 const server = new Server(port, serviceName);
 
-buildAppAPI(server)
-  .then(async () => {
+module.exports = buildAppAPI(server)
+  .then(async (runningServer) => {
     await messagesProducer.init(
       topic,
       serviceName,
@@ -21,6 +21,7 @@ buildAppAPI(server)
       producer
     );
     console.info(`✅ All components booted successfully 🚀`);
+    return runningServer;
   })
   .catch((e) => {
     console.error(e);
