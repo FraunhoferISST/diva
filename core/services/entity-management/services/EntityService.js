@@ -115,14 +115,15 @@ class EntityService {
   }
 
   async create(entity, actorId) {
-    const newEntity = {
+    const newEntity = cleanUpEntity({
       ...entity,
       id: generateUuid(this.entityType),
       entityType: this.entityType,
       created: new Date().toISOString(),
       modified: new Date().toISOString(),
       creatorId: actorId,
-    };
+      entityImages: null,
+    });
     this.validate(newEntity);
     await this.insert(newEntity);
     await this.createHistoryEntry({}, newEntity, actorId);
@@ -235,6 +236,7 @@ class EntityService {
         creatorId: existingEntity.creatorId,
         created: existingEntity.created,
         modified: new Date().toISOString(),
+        entityImages: existingEntity.entityImages,
       });
       this.validate(updatedEntity);
       await this.replace(id, updatedEntity);
@@ -299,7 +301,6 @@ class EntityService {
   }
 
   async deleteImageById(id, imageId, actorId) {
-    console.log(id);
     const { entityImages } = await this.getById(id, { fields: "entityImages" });
     await entityImagesService.deleteImageById(imageId);
     return this.patchById(
