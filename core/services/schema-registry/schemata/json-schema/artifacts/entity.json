@@ -176,9 +176,24 @@
         },
         "entityImages": {
           "type": "array",
-          "title": "Entity Images id's or URL's",
-          "description": "The collection of images associated with an entity that ca also can be used as banner or icon",
+          "title": "Entity Images id's",
+          "description": "The collection of images id's that represents uploaded images associated with an entity. This images can also be used as icon, banner or imag gallery",
           "maxItems": 15,
+          "items": {
+            "type": "string",
+            "title": "Image id",
+            "description": "The id of the uploaded image",
+            "examples": ["image:uuid:67d4acaa-00e0-4a00-8b61-15abe20e1413"],
+            "pattern": "^image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "_elasticsearch": {
+              "type": "keyword"
+            }
+          }
+        },
+        "entityGallery": {
+          "type": "array",
+          "title": "Entity gallery",
+          "description": "The collection of images sources as entity gallery",
           "items": {
             "$ref": "#/definitions/imageSource"
           }
@@ -190,24 +205,12 @@
           "description": "Visual representation of an entity",
           "maxItems": 15,
           "items": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uri",
-                "examples": ["https://image-host.com"],
-                "_elasticsearch": {
-                  "type": "keyword"
-                }
-              },
-              {
-                "type": "string",
-                "examples": ["video:uui:67d4acaa-00e0-4a00-8b61-15abe20e1413"],
-                "pattern": "^video:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
-                "_elasticsearch": {
-                  "type": "keyword"
-                }
-              }
-            ]
+            "type": "string",
+            "format": "uri",
+            "examples": ["https://image-host.com"],
+            "_elasticsearch": {
+              "type": "keyword"
+            }
           }
         }
       }
