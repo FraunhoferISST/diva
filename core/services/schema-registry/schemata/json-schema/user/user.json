@@ -56,32 +56,6 @@
           }
         },
 
-        "imageId": {
-
-          "type": "string",
-          "title": "The imageId Schema ",
-          "examples": [
-            "67d4acaa-00e0-4a00-8b61-15abe20e1413"
-          ],
-          "_elasticsearch": {
-            "type": "keyword"
-          }
-        },
-
-        "imageUrl": {
-
-          "type": "string",
-          "title": "The imageURL Schema",
-          "description": "The URL of externally provided user profile image",
-          "examples": [
-            "https://image-host.com"
-          ],
-          "format": "uri",
-          "_elasticsearch": {
-            "type": "keyword"
-          }
-        },
-
         "company": {
 
           "type": "string",
