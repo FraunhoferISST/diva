@@ -98,7 +98,7 @@
             "user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9",
             "asset:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9",
             "resource:urban-pulse-sensor:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9",
-            "resource:file:image::uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
+            "resource:image::uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
           ],
           "$comment": "This property is a placeholder for title, description, and examples. Will be overwritten by if/then conditions above.",
           "_elasticsearch": {
@@ -177,6 +177,8 @@
         "entityImages": {
           "type": "array",
           "title": "Entity Images id's or URL's",
+          "description": "The collection of images associated with an entity that ca also can be used as banner or icon",
+          "maxItems": 15,
           "items": {
             "$ref": "#/definitions/imageSource"
           }
@@ -186,6 +188,7 @@
           "minItems": 0,
           "title": "Entity Videos",
           "description": "Visual representation of an entity",
+          "maxItems": 15,
           "items": {
             "anyOf": [
               {
