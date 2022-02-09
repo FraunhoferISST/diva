@@ -43,6 +43,7 @@ x-base-core-service: &base-core-service
   restart: always
   environment:
     <<: *base-core-service-env
+    KAFKA_EVENT_TOPIC: entity.events
 
 services:
 
@@ -90,85 +91,21 @@ services:
       - core
 
   # ####################################################################################################################
-  # Resource Management Microservice
+  # Entity Management Microservice
   # ####################################################################################################################
   
-  resource-management:
+  entity-management:
     <<: *base-core-service
-    image: ${REGISTRY}resource-management:17.0.2
-    container_name: resource-management
+    image: ${REGISTRY}entity-management:1.0.0
+    container_name: entity-management
     environment:
       <<: *base-core-service-env
-      PORT: ${RESOURCE_MANAGEMENT_PORT}
-      KAFKA_EVENT_TOPIC: resource.events
+      PORT: ${ENTITY_MANAGEMENT_PORT}
     ports:
-      - ${RESOURCE_MANAGEMENT_PORT}:${RESOURCE_MANAGEMENT_PORT}
-
-
-  # ####################################################################################################################
-  # Asset Management Microservice
-  # ####################################################################################################################
-  
-  asset-management:
-    <<: *base-core-service
-    image: ${REGISTRY}asset-management:18.0.0
-    container_name: asset-management
-    environment:
-      <<: *base-core-service-env
-      PORT: ${ASSET_MANAGEMENT_PORT}
-      KAFKA_EVENT_TOPIC: asset.events
-    ports:
-      - ${ASSET_MANAGEMENT_PORT}:${ASSET_MANAGEMENT_PORT}
-
-  # ####################################################################################################################
-  # User Management Microservice
-  # ####################################################################################################################
-  
-  user-management:
-    <<: *base-core-service
-    image: ${REGISTRY}user-management:5.0.3
-    container_name: user-management
-    environment:
-      <<: *base-core-service-env
-      PORT: ${USER_MANAGEMENT_PORT}
-      KAFKA_EVENT_TOPIC: user.events
-    ports:
-      - ${USER_MANAGEMENT_PORT}:${USER_MANAGEMENT_PORT}
+      - ${ENTITY_MANAGEMENT_PORT}:${ENTITY_MANAGEMENT_PORT}
 
   # ####################################################################################################################
   # Reviews Management Service
-  # ####################################################################################################################
-
-  review-management:
-    <<: *base-core-service
-    image: ${REGISTRY}review-management:1.1.2
-    container_name: reviews-management
-    environment:
-      <<: *base-core-service-env
-      PORT: ${REVIEW_MANAGEMENT_PORT}
-      KAFKA_EVENT_TOPIC: review.events
-      MONGO_DB_NAME: reviewsDb
-      MONGO_DB_COLLECTION_NAME: reviews
-    ports:
-      - ${REVIEW_MANAGEMENT_PORT}:${REVIEW_MANAGEMENT_PORT}
-
-  # ####################################################################################################################
-  # Service Management Microservice
-  # ####################################################################################################################
-  
-  service-management:
-    <<: *base-core-service
-    image: ${REGISTRY}service-management:0.1.0
-    container_name: service-management
-    environment:
-      <<: *base-core-service-env
-      PORT: ${SERVICE_MANAGEMENT_PORT}
-      KAFKA_EVENT_TOPIC: service.events
-    ports:
-      - ${SERVICE_MANAGEMENT_PORT}:${SERVICE_MANAGEMENT_PORT}    
-
-  # ####################################################################################################################
-  # JSON Document Store
   # ####################################################################################################################
 
   documentstore:

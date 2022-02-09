@@ -11,37 +11,15 @@ services:
       context: ../web-client
 
   # ####################################################################################################################
-  # User Management Microservice
+  # Entity Management Microservice
   # ####################################################################################################################
-  user-management:
+  entity-management:
     restart: unless-stopped
     build:
       context: ../core
       dockerfile: ../core/services/Dockerfile
       args:
-        SERVICE_NAME: 'user-management'
-
-  # ####################################################################################################################
-  # Resource Management Microservice
-  # ####################################################################################################################
-  resource-management:
-    restart: unless-stopped
-    build:
-      context: ../core
-      dockerfile: ../core/services/Dockerfile
-      args:
-        SERVICE_NAME: 'resource-management'
-
-  # ####################################################################################################################
-  # Resource Management Microservice
-  # ####################################################################################################################
-  asset-management:
-    restart: unless-stopped
-    build:
-      context: ../core
-      dockerfile: ../core/services/Dockerfile
-      args:
-        SERVICE_NAME: 'asset-management'
+        SERVICE_NAME: 'entity-management'
 
   # ####################################################################################################################
   # SCHEMA REGISTRY
@@ -67,27 +45,6 @@ services:
       args:
         SERVICE_NAME: 'event-emitter'
 
-  # ####################################################################################################################
-  # Reviews Management Microservice
-  # ####################################################################################################################
-  review-management:
-    restart: unless-stopped
-    build:
-      context: ../core
-      dockerfile: ../core/services/Dockerfile
-      args:
-        SERVICE_NAME: 'review-management'
-
-  # ####################################################################################################################
-  # Reviews Management Microservice
-  # ####################################################################################################################
-  service-management:
-    restart: unless-stopped
-    build:
-      context: ../core
-      dockerfile: ../core/services/Dockerfile
-      args:
-        SERVICE_NAME: 'service-management'
 
   # ####################################################################################################################
   # Elasticsearch Connector Nanoservice
