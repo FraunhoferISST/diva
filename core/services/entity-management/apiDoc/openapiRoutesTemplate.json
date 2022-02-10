@@ -55,6 +55,7 @@
             "description": "Pagination cursor",
             "required": false,
             "explode": true,
+            "allowReserved": true,
             "example": "aHVpXzYwMTkzZmJlZTM0NmZhODVkNTE4YzJlYg==",
             "schema": {
               "type": "string"
@@ -70,6 +71,44 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email of the user to filter by",
+            "required": false,
+            "explode": true,
+            "example": "example@email.con",
+            "allowReserved": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "attributedTo",
+            "in": "query",
+            "description": "Filter by attributedTo attribute",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "example": "resource:uuid:ad0016df-6b85-0465-0e85-9e3784d342e8",
+            "schema": {
+              "$ref": "#/components/schemas/EntityId"
+            }
+          },
+          {
+            "name": "creatorId",
+            "in": "query",
+            "description": "Filter by creatorId attribute",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "example": "user:uuid:ad0016df-6b85-0465-0e85-9e3784d342e8",
+            "schema": {
+              "type": "string",
+              "pattern": "user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
             }
           }
         ],

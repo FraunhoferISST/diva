@@ -20,7 +20,7 @@ const createRandomEntity = () => ({
 const createRandomReview = () => ({
   ...createRandomEntity(),
   reviewText: faker.lorem.paragraph(),
-  belongsTo: generateUuid("resource"),
+  attributedTo: generateUuid("resource"),
   rating: casual.integer(1, 5),
 });
 

@@ -87,7 +87,7 @@ class EntityService {
      * query parameters that can be used for filtering by default
      */
     this.filterParams = [
-      "belongsTo",
+      "attributedTo",
       "title",
       "entityType",
       "creatorId",

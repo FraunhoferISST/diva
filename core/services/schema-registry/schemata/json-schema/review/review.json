@@ -5,7 +5,7 @@
   "title": "Review schema",
   "required": [
     "reviewText",
-    "belongsTo",
+    "attributedTo",
     "rating"
   ],
   "properties": {
@@ -31,7 +31,7 @@
       }
     },
 
-    "belongsTo": {
+    "attributedTo": {
 
       "type": "string",
       "title": "Belongs To",

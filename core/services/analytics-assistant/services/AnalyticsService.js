@@ -141,7 +141,7 @@ class AnalyticsService {
         body: {
           query: {
             term: {
-              belongsTo: {
+              attributedTo: {
                 value: resourceId,
                 boost: 1.0,
               },

@@ -26,7 +26,7 @@ class EventsHandlerService {
       } = parsedMassage.payload;
       if (type === "delete") {
         await this.collection.deleteMany({
-          belongsTo: id,
+          attributedTo: id,
         });
         console.info(`💬 Processed message type "${type}" for entity "${id}"`);
       }

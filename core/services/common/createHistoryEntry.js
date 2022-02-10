@@ -27,7 +27,7 @@ const generateHistoryEntity = (oldObj, newObj, actorId) => ({
   modified: new Date().toISOString(),
   creatorId: actorId,
   entityType: "history",
-  belongsTo: newObj.id,
+  attributedTo: newObj.id,
   delta: jdp.diff(oldObj, newObj) || {},
 });
 

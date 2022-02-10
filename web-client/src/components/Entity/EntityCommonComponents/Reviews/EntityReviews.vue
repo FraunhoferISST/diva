@@ -97,7 +97,7 @@ export default {
       return this.$api.reviews
         .get({
           pageSize: 30,
-          belongsTo: this.id,
+          attributedTo: this.id,
           ...(this.cursor ? { cursor: this.cursor } : {}),
         })
         .then(async ({ data: { collection, cursor } }) => {
@@ -119,7 +119,7 @@ export default {
       return this.$api.reviews
         .get({
           creatorId: this.user.id,
-          belongsTo: this.id,
+          attributedTo: this.id,
           pageSize: 1,
         })
         .then(({ data: { collectionSize } }) => collectionSize > 0)

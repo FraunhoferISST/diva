@@ -69,7 +69,12 @@ class EntityService {
     /**
      * query parameters that can be use for filtering by default, the list can be extended with filterParams in child class
      */
-    this.defaultFilterParams = ["belongsTo", "creatorId", "email", "username"];
+    this.defaultFilterParams = [
+      "attributedTo",
+      "creatorId",
+      "email",
+      "username",
+    ];
   }
 
   init() {
