@@ -1,10 +1,6 @@
-import users from "@/api/users";
 import analytics from "@/api/analytics";
 import profiling from "@/api/profiling";
 import history from "@/api/history";
-import resources from "@/api/resources";
-import assets from "@/api/assets";
-import reviews from "@/api/reviews";
 import search from "@/api/search";
 import divaLakeAdapter from "@/api/adapters/divaLake";
 import urbanPulseAdapter from "@/api/adapters/urbanPulse";
@@ -12,15 +8,12 @@ import dscAdapter from "@/api/adapters/dsc";
 import axios from "@/api/axios";
 import fetchWrapper from "@/api/fetchWrapper";
 import datanetwork from "@/api/datanetwork";
+import entities from "@/api/entities";
 import "@/api/socket";
 
 // injected as "Vue.prototype.$api = api" in main.js
 export default {
   axios,
-  resources,
-  users,
-  reviews,
-  assets,
   analytics,
   profiling,
   history,
@@ -30,4 +23,5 @@ export default {
   dscAdapter,
   fetchWrapper,
   datanetwork,
+  ...entities,
 };
