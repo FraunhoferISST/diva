@@ -12,6 +12,9 @@ x-mongodb-env: &mongodb-env
 x-schema-registry-env: &schema-registry-env
   SCHEMA_REGISTRY_URL: http://schema-registry:${SCHEMA_REGISTRY_PORT}/
 
+x-cors-env: &cors-env
+  CORS_ALLOW_ORIGIN: "*"
+
 x-elasticsearch-env: &elasticsearch-env
   ELASTICSEARCH_URL: http://elasticsearch:${ELASTICSEARCH_PORT}
 
@@ -32,6 +35,7 @@ x-base-core-service-env: &base-core-service-env
   <<: *mongodb-env
   <<: *schema-registry-env
   <<: *kafka-env
+  <<: *cors-env
 
 x-base-core-service: &base-core-service
   depends_on:
@@ -402,7 +406,7 @@ services:
 
   event-emitter:
     <<: *base-core-service
-    image: ${REGISTRY}event-emitter:0.2.0
+    image: ${REGISTRY}event-emitter:0.2.1
     container_name: event-emitter
     depends_on:
       - broker
@@ -411,6 +415,7 @@ services:
     environment:
       <<: *schema-registry-env
       <<: *kafka-env
+      <<: *cors-env
       PORT: ${EVENT_EMITTER_PORT}
       ASYNCAPI_SPECIFICATION: asyncapi
       EVENT_EMITTER_SPECIFICATION: event-emitter-api
