@@ -26,10 +26,12 @@
       },
   
       "delta": {
-
         "type": "object",
         "title": "Delta of metadata",
-        "description": "Delta of metadata of the entity this belongs to"
+        "description": "Delta of metadata of the entity this belongs to",
+        "_elasticsearch": {
+          "enabled": false
+        }
       }
     }
   }
