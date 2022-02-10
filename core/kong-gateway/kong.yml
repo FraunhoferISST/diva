@@ -106,6 +106,7 @@ services:
           - GET
           - DELETE
           - PUT
+          - PATCH
           - OPTIONS
         protocols:
           - "http"
