@@ -63,11 +63,6 @@ export default {
           icon: "question_answer",
           name: "resource_details_reviews",
         },
-        {
-          title: "IDS",
-          icon: "$vuetify.icons.ids",
-          name: "resource_details_ids",
-        },
       ],
     };
   },

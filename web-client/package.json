@@ -1,6 +1,6 @@
 {
   "name": "web-client",
-  "version": "18.32.3",
+  "version": "18.32.4",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
