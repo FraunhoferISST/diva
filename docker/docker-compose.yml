@@ -187,10 +187,11 @@ services:
       - core
 
   analytics-assistant:
-    image: ${REGISTRY}analytics-assistant:2.0.2
+    image: ${REGISTRY}analytics-assistant:2.0.3
     container_name: analytics-assistant
     environment:
       <<: *elasticsearch-env
+      <<: *cors-env
       NODE_ENV: production
       PORT: ${ANALYTIC_ASSISTANT_PORT}
     restart: always
