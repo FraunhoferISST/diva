@@ -154,15 +154,17 @@ services:
 
   elasticsearch-connector:
     <<: *base-core-service
-    image: ${REGISTRY}elasticsearch-connector:0.2.6
+    image: ${REGISTRY}elasticsearch-connector:0.2.7
     container_name: elasticsearch-connector
     depends_on:
       - broker
       - elasticsearch
       - documentstore
+      - neo4j
     environment:
       <<: *base-core-service-env
       <<: *elasticsearch-env
+      <<: *neo4j-env
       PORT: ${ELASTICSEARCH_CONNECTOR_PORT}
       KAFKA_CONSUMER_TOPICS: "[\"entity.events\", \"datanetwork.events\"]"
     ports:
