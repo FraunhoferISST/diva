@@ -402,8 +402,9 @@ services:
     ports:
       - ${URBAN_PULSE_ADAPTER_PORT}:${URBAN_PULSE_ADAPTER_PORT}
     depends_on:
-      - documentstore
+      - entity-management
     environment:
+      <<: *cors-env
       PORT: ${URBAN_PULSE_ADAPTER_PORT}
       ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
 
