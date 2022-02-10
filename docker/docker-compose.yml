@@ -215,14 +215,13 @@ services:
   # ####################################################################################################################
 
   history-assistant:
-    image: ${REGISTRY}history-assistant:0.1.2
+    image: ${REGISTRY}history-assistant:0.1.3
     container_name: history-assistant
     environment:
       <<: *base-core-service-env
       NODE_ENV: production
       PORT: ${HISTORY_ASSISTANT_PORT}
       IGNORE_FIELDS: "[\"modified\"]"
-      HISTORY_ROOT_SCHEMA: history
     restart: always
     ports:
       - ${HISTORY_ASSISTANT_PORT}:${HISTORY_ASSISTANT_PORT}

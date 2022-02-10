@@ -84,7 +84,7 @@ class EntityService {
     );
   }
 
-  sanitizeEntity({ _id, ...rest }) {
+  sanitizeEntity({ _id, ...rest }, _query) {
     return rest;
   }
 
@@ -217,7 +217,6 @@ class EntityService {
 
   async deleteById(id) {
     if (await this.entityExists(id)) {
-      // TODO: delete history? --> HA listens to delete Events and does clean up
       return this.collection.deleteOne({ id });
     }
     throw entityNotFoundError;
