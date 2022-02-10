@@ -11,9 +11,7 @@ server.addMiddleware("/profiling", profilingRouter);
 
 server
   .boot()
-  .then(async () => {
-    await profilingService.init();
-  })
+  .then(() => profilingService.init())
   .catch((e) => {
     console.log(e);
     process.exit(1);

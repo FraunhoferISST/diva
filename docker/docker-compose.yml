@@ -356,6 +356,7 @@ services:
       <<: *mongodb-env
       <<: *kafka-env
       <<: *schema-registry-env
+      <<: *cors-env
       NODE_ENV: development
       PORT: ${DIVALAKE_ADAPTER_PORT}
       ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
