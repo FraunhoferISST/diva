@@ -1,13 +1,21 @@
-const boot = require("@diva/common/api/expressServer");
+const Server = require("@diva/common/api/expressServer");
 const searchRouter = require("./routes/search");
-const SearchService = require("./services/SearchService");
+const searchService = require("./services/SearchService");
 
 const port = process.env.PORT || 3005;
 
-boot(
-  (app) => {
-    app.use("/search", searchRouter);
-    return SearchService.init();
-  },
-  { port }
-);
+const server = new Server(port);
+
+server.initBasicMiddleware();
+server.addMiddleware("/search", searchRouter);
+server.addOpenApiValidatorMiddleware();
+
+server
+  .boot()
+  .then(async () => {
+    await searchService.init();
+  })
+  .catch((e) => {
+    console.log(e);
+    process.exit(1);
+  });
