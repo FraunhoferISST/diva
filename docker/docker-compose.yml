@@ -160,7 +160,7 @@ services:
       <<: *base-core-service-env
       <<: *elasticsearch-env
       PORT: ${ELASTICSEARCH_CONNECTOR_PORT}
-      KAFKA_CONSUMER_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\", \"service.events\"]"
+      KAFKA_CONSUMER_TOPICS: "[\"entity.events\", \"datanetwork.events\"]"
     ports:
       - ${ELASTICSEARCH_CONNECTOR_PORT}:${ELASTICSEARCH_CONNECTOR_PORT}
 
@@ -222,7 +222,7 @@ services:
       NODE_ENV: production
       PORT: ${HISTORY_ASSISTANT_PORT}
       IGNORE_FIELDS: "[\"modified\"]"
-      REVIEW_ROOT_SCHEMA: history
+      HISTORY_ROOT_SCHEMA: history
     restart: always
     ports:
       - ${HISTORY_ASSISTANT_PORT}:${HISTORY_ASSISTANT_PORT}
@@ -241,8 +241,6 @@ services:
       <<: *airflow-env
       NODE_ENV: production
       PORT: ${PROFILING_ASSISTANT_PORT}
-      MONGO_RESOURCE_DB_NAME: resourcesDb
-      MONGO_RESOURCE_COLLECTION_NAME: resources
 
     restart: always
     ports:
@@ -294,7 +292,7 @@ services:
       KAFKA_LOG_RETENTION_BYTES: ${KAFKA_LOG_RETENTION_BYTES}
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
       KAFKA_CREATE_TOPICS: >-
-        resource.events:1:1,
+        entity.events:1:1,
         datanetwork.events:1:1
 
 
@@ -343,14 +341,14 @@ services:
     ports:
       - ${DIVALAKE_ADAPTER_PORT}:${DIVALAKE_ADAPTER_PORT}
     depends_on:
-      - resource-management
+      - entity-management
     environment:
       <<: *mongodb-env
       <<: *kafka-env
       <<: *schema-registry-env
       NODE_ENV: development
       PORT: ${DIVALAKE_ADAPTER_PORT}
-      RESOURCE_MANAGEMENT_URL: http://resource-management:${RESOURCE_MANAGEMENT_PORT}
+      ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
       DIVA_LAKE_HOST: diva-lake
       DIVA_LAKE_PORT: ${DIVALAKE_PORT}
       DIVA_LAKE_USERNAME: ${DIVA_LAKE_USERNAME}
@@ -374,13 +372,11 @@ services:
       - documentstore
     environment:
       <<: *base-core-service-env
-      MONGO_RESOURCE_DB_NAME: resourcesDb
-      MONGO_RESOURCE_COLLECTION_NAME: resources
       DSC_USERNAME: ${DSC_USERNAME}
       DSC_PASSWORD: ${DSC_PASSWORD}
       DSC_URL: ${DSC_URL}
-      RESOURCE_MANAGEMENT_URL: http://resource-management:${RESOURCE_MANAGEMENT_PORT}
-      KAFKA_TOPICS: "[\"resource.events\"]"
+      ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
+      KAFKA_TOPICS: "[\"entity.events\"]"
 
   # ####################################################################################################################
   # Urban Pulse Services
@@ -398,8 +394,7 @@ services:
       - documentstore
     environment:
       PORT: ${URBAN_PULSE_ADAPTER_PORT}
-      RESOURCE_MANAGEMENT_URL: http://resource-management:${RESOURCE_MANAGEMENT_PORT}
-      ASSET_MANAGEMENT_URL: http://asset-management:${ASSET_MANAGEMENT_PORT}
+      ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
 
   # ####################################################################################################################
   # Event Emitter Service
@@ -419,7 +414,7 @@ services:
       PORT: ${EVENT_EMITTER_PORT}
       ASYNCAPI_SPECIFICATION: asyncapi
       EVENT_EMITTER_SPECIFICATION: event-emitter-api
-      KAFKA_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\", \"service.events\"]"
+      KAFKA_TOPICS: "[\"entity.events\", \"datanetwork.events\"]"
 
   # ####################################################################################################################
   # DIVA Data Network Graph DB
