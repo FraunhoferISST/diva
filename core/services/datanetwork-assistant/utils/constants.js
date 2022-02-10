@@ -4,13 +4,7 @@ const IS_DATA_OWNER_OF_RELATION = "isDataOwnerOf";
 const IS_REVIEW_OF_RELATION = "isReviewOf";
 const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
   ? JSON.parse(process.env.KAFKA_CONSUMER_TOPICS)
-  : [
-      "resource.events",
-      "asset.events",
-      "user.events",
-      "review.events",
-      "service.events",
-    ];
+  : ["entity.events"];
 
 module.exports = {
   IS_REVIEW_OF_RELATION,

@@ -202,10 +202,12 @@ services:
       - core
 
   datanetwork-assistant:
-    image: ${REGISTRY}datanetwork-assistant:0.1.0
+    image: ${REGISTRY}datanetwork-assistant:0.1.1
     container_name: datanetwork-assistant
     environment:
       <<: *neo4j-env
+      <<: *cors-env
+      <<: *schema-registry-env
       NODE_ENV: production
       PORT: ${DATANETWORK_ASSISTANT}
     restart: always

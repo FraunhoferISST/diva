@@ -6,8 +6,8 @@ const port = process.env.PORT || 3011;
 const server = new Server(port);
 
 server.initBasicMiddleware();
-server.addMiddleware("/profiling", profilingRouter);
 server.addOpenApiValidatorMiddleware();
+server.addMiddleware("/profiling", profilingRouter);
 
 server
   .boot()
