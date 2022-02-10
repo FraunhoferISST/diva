@@ -234,15 +234,16 @@ services:
   # ####################################################################################################################
 
   profiling-assistant:
-    image: ${REGISTRY}profiling-assistant:1.0.3
+    image: ${REGISTRY}profiling-assistant:1.0.4
     container_name: profiling-assistant
     environment:
       <<: *mongodb-env
       <<: *airflow-env
       NODE_ENV: production
       PORT: ${PROFILING_ASSISTANT_PORT}
-
     restart: always
+    depends_on:
+      - documentstore
     ports:
       - ${PROFILING_ASSISTANT_PORT}:${PROFILING_ASSISTANT_PORT}
     networks:

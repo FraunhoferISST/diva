@@ -49,7 +49,7 @@
         },
         {
           "title": "Maintenance Costs",
-          "description": "Maintenance cost of a resource",
+          "description": "Maintenance cost of a entity",
           "default": "0.00"
         }
       ]
@@ -61,7 +61,7 @@
         },
         {
           "title": "Storage Costs",
-          "description": "Storage cost of a resource",
+          "description": "Storage cost of a entity",
           "default": "0.00"
         }
       ]

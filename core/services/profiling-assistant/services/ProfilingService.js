@@ -9,9 +9,8 @@ const AIRFLOW_PATH = "api/v1/dags";
 const AIRFLOW_COMMAND = "dagRuns";
 const AIRFLOW_USERNAME = process.env._AIRFLOW_WWW_USER_USERNAME || "airflow";
 const AIRFLOW_PASSWORD = process.env._AIRFLOW_WWW_USER_PASSWORD || "airflow";
-const dbName = process.env.MONGO_RESOURCE_DB_NAME || "resourcesDb";
-const collectionName =
-  process.env.MONGO_RESOURCE_COLLECTION_NAME || "resources";
+const dbName = "divaDb";
+const collectionName = "entities";
 
 const authToken = Buffer.from(
   `${AIRFLOW_USERNAME}:${AIRFLOW_PASSWORD}`,
@@ -27,7 +26,7 @@ const axiosAirflow = axios.create({
 class ProfilingService {
   async init() {
     const mongoDbConnector = new MongoDBConnector(dbName, [collectionName]);
-    await mongoDbConnector.connect(dbName);
+    await mongoDbConnector.connect();
     this.collection = mongoDbConnector.collections[collectionName];
   }
 

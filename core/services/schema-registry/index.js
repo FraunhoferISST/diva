@@ -7,6 +7,7 @@ const port = process.env.PORT || "3010";
 const server = new Server(port);
 
 server.initBasicMiddleware();
+server.addOpenApiValidatorMiddleware();
 server.addMiddleware(schemaRouter);
 server
   .boot()
