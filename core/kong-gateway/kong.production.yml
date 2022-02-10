@@ -154,21 +154,6 @@ services:
         config:
           allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
-  - name: "DSC-Adapter"
-    url: "http://dsc-adapter:4002/"
-    routes:
-      - name: dsc-adapter-route
-        paths:
-          - "/dscAdapter"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: true
-    plugins:
-      - name: jwt-keycloak
-        config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
-
   - name: "Schema-Registry"
     url: "http://schema-registry:3010/schemata"
     routes:
