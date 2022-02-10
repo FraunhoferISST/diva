@@ -209,8 +209,8 @@ class EntityService {
       id,
       modified: new Date().toISOString(),
     });
-    this.validate(updatedEntity);
     if (await this.entityExists(id)) {
+      this.validate(updatedEntity);
       const existingEntity = await this.collection.findOne(
         { id },
         { projection: { _id: false } }
@@ -218,6 +218,8 @@ class EntityService {
       await this.replace(id, updatedEntity);
       return this.createHistoryEntry(existingEntity, updatedEntity, actorId);
     }
+    updatedEntity.created = new Date().toISOString();
+    this.validate(updatedEntity);
     await this.insert(updatedEntity);
     return this.createHistoryEntry({}, updatedEntity, actorId);
   }
