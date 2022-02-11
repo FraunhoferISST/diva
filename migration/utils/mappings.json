@@ -33,7 +33,7 @@
           "type": "text",
           "analyzer": "standard"
         },
-        "belongsTo": {
+        "attributedTo": {
           "type": "keyword"
         },
         "rating": {

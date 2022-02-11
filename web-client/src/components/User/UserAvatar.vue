@@ -15,6 +15,10 @@ import { endpoint } from "@/api/axios";
 export default {
   name: "UserAvatar",
   props: {
+    userId: {
+      type: String,
+      required: true,
+    },
     imageId: {
       type: String,
       required: false,
@@ -28,7 +32,7 @@ export default {
   computed: {
     imgUrl() {
       if (this.imageId) {
-        return `${endpoint}/userImages/${this.imageId}`;
+        return `${endpoint}/users/${this.userId}/images/${this.imageId}`;
       }
       return "";
     },

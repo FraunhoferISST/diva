@@ -1,11 +1,11 @@
 const express = require("express");
-const DivaLakeService = require("../services/DivaLakeService");
+const divaLakeResourceService = require("../services/DivaLakeService");
 
 const router = express.Router();
 
 router.post("/import", async (req, res, next) => {
   try {
-    const result = await DivaLakeService.import(
+    const result = await divaLakeResourceService.import(
       req.files[0],
       req.headers["x-actorid"]
     );
@@ -17,7 +17,9 @@ router.post("/import", async (req, res, next) => {
 
 router.get("/download/:fileName", async (req, res, next) => {
   try {
-    const downloadStream = await DivaLakeService.download(req.params.fileName);
+    const downloadStream = await divaLakeResourceService.download(
+      req.params.fileName
+    );
     downloadStream.pipe(res);
   } catch (e) {
     return next(e);

@@ -1,11 +1,11 @@
 {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
-    "$id": "distributionProperties",
+
     "type": "object",
     "title": "Distribution Properties Schema",
     "properties": {
         "distributions": {
-            "$id": "distributionProperties/properties/distributions",
+
             "title": "Distributions",
             "description": "Distributions specifies the sources from which e.g. a resource or an asset can be requested. This will only apply on technical things like data behind HTTP, a file, Urban-Pulse sensor or platform, Hadoop, etc.",
             "type": "array",

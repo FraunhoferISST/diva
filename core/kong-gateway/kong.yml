@@ -19,140 +19,6 @@ services:
         config:
           allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
-
-  - name: "Resource-Management"
-    protocol: http
-    host: "172.17.0.1"
-    port: 3000
-    path: "/resources"
-    routes:
-      - name: resources-route
-        paths:
-          - "/resources"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: true
-    plugins:
-      - name: jwt-keycloak
-        config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
-
-
-  - name: "Asset-Management"
-    protocol: http
-    host: "172.17.0.1"
-    port: 3002
-    path: "/"
-    routes:
-      - name: assets-route
-        paths:
-          - "/assets"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: false
-        plugins:
-          - name: jwt-keycloak
-            config:
-              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
-      
-      - name: assetmanagement-route-images
-        methods:
-          - POST
-          - PUT
-          - OPTIONS
-          - DELETE
-        paths:
-          - "/assetImages"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: false
-        plugins:
-          - name: jwt-keycloak
-            config:
-              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
-
-      - name: assetmanagement-route-get-images
-        methods:
-          - GET
-        paths:
-          - "/assetImages"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: false
-    plugins:
-      - name: cors
-
-  - name: "Reviews-Management"
-    protocol: http
-    host: "172.17.0.1"
-    port: 3003
-    path: "/reviews"
-    routes:
-      - name: reviews-route
-        paths:
-          - "/reviews"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: true
-    plugins:
-      - name: jwt-keycloak
-        config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
-
-  - name: "Service-Management"
-    protocol: http
-    host: "172.17.0.1"
-    port: 3004
-    path: "/"
-    routes:
-      - name: services-route
-        paths:
-          - "/services/"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: false
-        plugins:
-          - name: jwt-keycloak
-            config:
-              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
-
-      - name: services-route-images
-        methods:
-          - POST
-          - PUT
-          - GET
-          - DELETE
-          - OPTIONS
-        paths:
-          - "/serviceImages"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: false
-        plugins:
-          - name: jwt-keycloak
-            config:
-              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
-
-      - name: services-route-get-images
-        methods:
-          - GET
-        paths:
-          - "/serviceImages"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: false
-
-    plugins:
-      - name: cors
-
   - name: "Search-Assistant"
     protocol: http
     host: "172.17.0.1"
@@ -225,15 +91,23 @@ services:
         config:
           allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
-  - name: "User-Management-Service"
+  - name: "Entity-Management-Service"
     protocol: http
     host: "172.17.0.1"
-    port: 3001
+    port: 3000
     path: "/"
     routes:
       - name: usermanagement-route
         paths:
-          - "/users/"
+          - '/(users|resources|reviews|service|assets)/*$'
+          - '/(users|resources|reviews|services|assets)/(user|resource|review|service|asset):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
+        methods:
+          - POST
+          - GET
+          - DELETE
+          - PUT
+          - PATCH
+          - OPTIONS
         protocols:
           - "http"
           - "https"
@@ -242,14 +116,14 @@ services:
           - name: jwt-keycloak
             config:
               allowed_iss: ["http://172.17.0.1:7000/auth/realms/diva-kc-realm"]
-
-      - name: usermanagement-route-images
+      - name: entity-images-route
         methods:
           - POST
-          - PUT
+          - DELETE
           - OPTIONS
         paths:
-          - "/userImages"
+          - '/(users|resources|reviews|services|assets)/(user|resource|review|service|asset):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/*$'
+          - '/(users|resources|reviews|services|assets)/(user|resource|review|service|asset):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
         protocols:
           - "http"
           - "https"
@@ -258,12 +132,12 @@ services:
           - name: jwt-keycloak
             config:
               allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
-
-      - name: usermanagement-route-get-images
+      - name: entity-images-get-route
         methods:
           - GET
+          - OPTIONS
         paths:
-          - "/userImages"
+          - '/(users|resources|review|services|assets)/(user|resource|review|service|asset):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
         protocols:
           - "http"
           - "https"
@@ -298,24 +172,6 @@ services:
       - name: urban-pulse-adapter-route
         paths:
           - "/urbanPulseAdapter"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: true
-    plugins:
-      - name: jwt-keycloak
-        config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
-
-  - name: "DSC-Adapter"
-    protocol: http
-    host: "172.17.0.1"
-    port: 4002
-    path: "/"
-    routes:
-      - name: dsc-adapter-route
-        paths:
-          - "/dscAdapter"
         protocols:
           - "http"
           - "https"

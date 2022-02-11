@@ -16,10 +16,11 @@
                   <div class="d-flex justify-center pb-4 pb-sm-4 pb-md-0">
                     <div
                       class="user-data-image text-center"
-                      v-if="user.imageId && !image"
+                      v-if="user.entityIcon && !image"
                     >
                       <user-avatar
-                        :image-id="user.imageId"
+                        :image-id="user.entityIcon"
+                        :user-id="user.id"
                         :size="avatarSize"
                       />
                     </div>
@@ -309,19 +310,36 @@ export default {
     },
   },
   methods: {
-    async updateImage() {
-      if (this.image) {
-        if (this.userData.imageId) {
-          return this.$api.users.updateImage(this.userData.imageId, this.image);
-        } else {
-          return this.$api.users.uploadImage(this.image);
+    async createUserIcon() {
+      let newIconImageId = "";
+      try {
+        const { data } = await this.$api.users.uploadImage(
+          this.userData.id,
+          this.image
+        );
+        newIconImageId = data;
+        if (this.userData.entityIcon) {
+          await this.$api.users.deleteImageIfExists(
+            this.userData.id,
+            this.userData.entityIcon
+          );
         }
+        return newIconImageId;
+      } catch (e) {
+        this.showSnackbar(e, "error");
+        if (newIconImageId) {
+          this.$api.users.deleteImage(this.userData.id, newIconImageId);
+        }
+        throw e;
       }
     },
     async saveChanges() {
       this.isLoading = true;
       try {
-        const response = await this.updateImage();
+        let newUserIconId;
+        if (this.image) {
+          newUserIconId = await this.createUserIcon();
+        }
         const updatedUser = {};
         for (const attr of [
           ...this.generalInformation,
@@ -331,7 +349,7 @@ export default {
         }
         await this.$api.users.patch(this.userData.id, {
           ...updatedUser,
-          imageId: response?.data || this.userData.imageId,
+          entityIcon: newUserIconId || this.userData.entityIcon,
         });
         this.showSnackbar("Changes saved");
         this.isLoading = false;

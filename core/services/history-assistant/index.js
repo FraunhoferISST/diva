@@ -1,14 +1,24 @@
-const boot = require("@diva/common/api/expressServer");
+const Server = require("@diva/common/api/expressServer");
 const historiesRouter = require("./routes/histories");
 const historiesService = require("./services/HistoriesService");
 const eventsHandlerService = require("./services/EventsHandlerService");
+const { mongoDbConnector } = require("./utils/mongoDbConnector");
 
 const port = process.env.PORT || 3006;
 
-boot(
-  (app) => {
-    app.use("/histories", historiesRouter);
+const server = new Server(port);
+
+server.initBasicMiddleware();
+server.addMiddleware("/histories", historiesRouter);
+server.addOpenApiValidatorMiddleware();
+
+server
+  .boot()
+  .then(async () => {
+    await mongoDbConnector.connect();
     return Promise.all([historiesService.init(), eventsHandlerService.init()]);
-  },
-  { port }
-);
+  })
+  .catch((e) => {
+    console.log(e);
+    process.exit(1);
+  });

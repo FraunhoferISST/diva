@@ -85,7 +85,7 @@ export default {
       return this.$api.history
         .getHistories({
           pageSize: 50,
-          belongsTo: this.id,
+          attributedTo: this.id,
           humanReadable: true,
           ...(this.cursor ? { cursor: this.cursor } : {}),
         })

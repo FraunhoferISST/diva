@@ -105,7 +105,7 @@ const bootSocket = async () => {
   io.on("connection", connectionHandler);
   io.listen(PORT, {
     cors: {
-      origin: "*",
+      origin: process.env.CORS_ALLOW_ORIGIN || "*",
     },
   });
   console.info(chalk.blue(`✅ Websocket listening on port ${PORT} 🌐`));

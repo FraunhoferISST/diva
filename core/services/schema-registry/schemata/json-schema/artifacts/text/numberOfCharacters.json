@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
-    "$id": "numberOfCharacters",
+
     "type": "object",
     "title": "Number of Characters",
     "properties": {

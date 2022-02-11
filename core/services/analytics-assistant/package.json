@@ -1,6 +1,6 @@
 {
   "name": "analytics-assistant",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Analytics Assistant utilizes Elasticsearch for generating interesting metrics",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISST",
   "dependencies": {
-    "@diva/common": "^1.2.0"
+    "@diva/common": "^2.0.0"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",

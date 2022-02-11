@@ -89,7 +89,7 @@ components:
         type:
           title: Operation type
           type: string
-          description: The type of the perfomed operation that indicates specific events like resource update or deletion
+          description: The type of the perfomed operation that indicates specific events like entity update or deletion
           enum:
             - create
             - update
@@ -121,7 +121,7 @@ components:
         attributedTo:
           title: Reladet entites
           description: The Array contains the id's of the entities that are related or referenced by the original event. For
-            example a creation of a review may contain in this filed the id of the resource for wich this review was created
+            example a creation of a review may contain in this filed the id of the entity for wich this review was created
           type: array
           items:
             type: object

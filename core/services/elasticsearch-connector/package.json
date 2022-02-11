@@ -1,6 +1,6 @@
 {
   "name": "elasticsearch-connector",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "This service looks for entity events. Updates are propagated to an elasticsearch instance.",
   "repository": {
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
@@ -16,7 +16,7 @@
   "author": "Sergej Atamantschuk",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.2.0"
+    "@diva/common": "^2.0.0"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",

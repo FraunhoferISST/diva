@@ -5,7 +5,7 @@ const hasha = require("hasha");
 const { lookup } = require("mime-types");
 const FileType = require("file-type");
 const {
-  objectsMongoDbConnector,
+  mongoDbConnector,
   collectionName,
 } = require("../utils/mongoDbConnectors");
 const { fileNotFoundError } = require("../utils/errors");
@@ -19,8 +19,8 @@ const {
   downloadObject,
 } = require("../utils/minio");
 
-const RESOURCE_MANAGEMENT_URL = urljoin(
-  process.env.RESOURCE_MANAGEMENT_URL || "http://localhost:3000",
+const ENTITY_MANAGEMENT_URL = urljoin(
+  process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000",
   "resources"
 );
 
@@ -60,7 +60,7 @@ const generateFileResourceSchema = (file, uniqueFingerprint, mimeType) => ({
 
 const createResource = async (resourceSchema, actorid) =>
   axios
-    .post(RESOURCE_MANAGEMENT_URL, resourceSchema, {
+    .post(ENTITY_MANAGEMENT_URL, resourceSchema, {
       headers: { "x-actorid": actorid },
     })
     .then(({ data }) => data)
@@ -70,7 +70,7 @@ const createResource = async (resourceSchema, actorid) =>
 
 const deleteResource = async (resourceId, actorid) =>
   axios
-    .delete(`${RESOURCE_MANAGEMENT_URL}/${resourceId}`, {
+    .delete(`${ENTITY_MANAGEMENT_URL}/${resourceId}`, {
       headers: { "x-actorid": actorid },
     })
     .catch((e) => {
@@ -79,8 +79,8 @@ const deleteResource = async (resourceId, actorid) =>
 
 class DivaLakeResourceService {
   async init() {
-    await objectsMongoDbConnector.connect();
-    this.collection = objectsMongoDbConnector.collections[collectionName];
+    await mongoDbConnector.connect();
+    this.collection = mongoDbConnector.collections[collectionName];
   }
 
   async import(file, actorId) {

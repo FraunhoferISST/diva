@@ -8,24 +8,17 @@ const { createError } = require("./Error");
 const SCHEMA_REGISTRY_URL =
   process.env.SCHEMA_REGISTRY_URL || "http://localhost:3010/";
 
-const loadSchemaResolver = async (uri) =>
-  axios
-    .get(urljoin(SCHEMA_REGISTRY_URL, "schemata", uri))
-    .then((res) => res.data);
-
 const compileValidator = async (schemaName) => {
-  const ajv = new Ajv19({ loadSchema: loadSchemaResolver, strict: false });
+  const ajv = new Ajv19({ strict: false });
   addFormats(ajv);
 
-  const schema = await axios.get(
-    urljoin(SCHEMA_REGISTRY_URL, "schemata", schemaName)
+  const { data: schema } = await axios.get(
+    urljoin(SCHEMA_REGISTRY_URL, "resolvedSchemata", schemaName)
   );
-  return ajv.compileAsync(schema.data).then((validator) => {
-    console.log(
-      chalk.blue(`✅ Received all JSON Schemata for entity "${schemaName}"`)
-    );
-    return validator;
-  });
+  console.log(
+    chalk.blue(`✅ Received all JSON Schemata for entity "${schemaName}"`)
+  );
+  return ajv.compile(schema);
 };
 
 const validateJsonSchema = (schemaName, data, validator) => {
@@ -43,7 +36,7 @@ const validateJsonSchema = (schemaName, data, validator) => {
 };
 
 class JsonSchemaValidator {
-  async init(rootSchemas) {
+  async init(rootSchemas = ["entity"]) {
     this.validators = Object.fromEntries(
       await Promise.all(
         rootSchemas.map(async (schemaName) => [

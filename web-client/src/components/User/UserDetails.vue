@@ -16,7 +16,8 @@
                       <div class="user-details-content">
                         <div class="text-center mb-10 mb-md-0">
                           <user-avatar
-                            :image-id="user.imageId"
+                            :image-id="user.entityIcon"
+                            :user-id="user.id"
                             :size="avatarSize"
                           />
                         </div>

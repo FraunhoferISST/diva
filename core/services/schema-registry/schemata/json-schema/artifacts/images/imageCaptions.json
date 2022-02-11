@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
-    "$id": "imageCaptions",
+
     "type": "object",
     "title": "Captions of an Image",
     "properties": {

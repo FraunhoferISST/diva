@@ -1,10 +1,12 @@
 const ElasticsearchConnector = require("@diva/common/databases/ElasticsearchConnector");
 const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
 const Neo4jConnector = require("@diva/common/databases/Neo4jConnector");
+const loadESMapping = require("@diva/common/loadESMapping");
+const esSettings = require("./utils/customSettings.json");
 const { sanitizeIndexBody } = require("./utils/sanitize");
 
 const esConnector = new ElasticsearchConnector();
-const mongoConnector = new MongoDBConnector();
+const mongoConnector = new MongoDBConnector("divaDb", ["entities"]);
 const neo4jConnector = new Neo4jConnector();
 
 const edgesTypes = ["isCreatorOf", "isDataOwnerOf", "isPartOf"];
@@ -42,11 +44,12 @@ const indexExists = async (index) =>
 class Connector {
   async init() {
     esConnector.connect();
+    await mongoConnector.connect();
     await neo4jConnector.connect();
     return mongoConnector.connect();
   }
 
-  async index({ dbName, collection }, id) {
+  async index(id, { dbName = "divaDb", collection = "entities" } = {}) {
     const entity = sanitizeIndexBody(await getEntity(dbName, collection, id));
     if (entity) {
       // TODO: on each event we currently just reindex the entity with all edges to ged rid of the possible race conditions. This however doesn't scale and may have performance issues!
@@ -66,7 +69,7 @@ class Connector {
     return true;
   }
 
-  async delete({ collection }, id) {
+  async delete(id, { collection = "entities" } = {}) {
     try {
       return esConnector.client.delete({
         index: collection,
@@ -80,12 +83,20 @@ class Connector {
     }
   }
 
-  async createIndex(index, settings, mappings) {
+  async createIndex(index = "entities") {
     const { body } = await indexExists(index);
     if (!body) {
+      const [
+        {
+          mapping: { mappings },
+        },
+      ] = await loadESMapping();
       return esConnector.client.indices.create({
         index,
-        body: { ...settings, ...mappings },
+        body: {
+          ...esSettings,
+          mappings,
+        },
       });
     }
     return true;
