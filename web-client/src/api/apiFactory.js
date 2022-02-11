@@ -37,4 +37,11 @@ export default (path) => ({
   },
   getImageById: (id, imageId) => axios.get(`${path}/${id}/images/${imageId}`),
   deleteImage: (id, imageId) => axios.delete(`${path}/${id}/images/${imageId}`),
+  deleteImageIfExists: (id, imageId) =>
+    axios.delete(`${path}/${id}/images/${imageId}`).catch((e) => {
+      if (e?.response?.status === 404) {
+        return null;
+      }
+      throw e;
+    }),
 });

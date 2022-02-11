@@ -29,7 +29,7 @@
             <v-chip small :input-value="data.selected" class="ma-0 pa-0">
               <user-avatar
                 :size="5"
-                :image-id="data.item.imageId"
+                :image-id="data.item.entityIcon"
                 class="mr-2"
               />
               <span class="pr-2">
@@ -40,7 +40,7 @@
           <template #item="data">
             <template>
               <v-list-item-avatar>
-                <user-avatar :size="35" :image-id="data.item.imageId" />
+                <user-avatar :size="35" :image-id="data.item.entityIcon" />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title>{{ data.item.username }}</v-list-item-title>

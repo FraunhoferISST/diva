@@ -1,7 +1,7 @@
 <template>
   <div class="comment">
     <div class="comment-info">
-      <user-avatar :image-id="creatorImageId" />
+      <user-avatar :image-id="creatorImageId" :user-id="creatorId" />
       <div>
         <div class="comment-header">
           <h6 class="comment-header-user">
@@ -142,7 +142,10 @@ export default {
       return this.review.creator?.username || "N/A";
     },
     creatorImageId() {
-      return this.review.creator?.imageId || "";
+      return this.review.creator?.entityIcon || "";
+    },
+    creatorId() {
+      return this.review.creator?.id || "";
     },
   },
   methods: {

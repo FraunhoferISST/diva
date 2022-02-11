@@ -21,7 +21,7 @@
                   position: relative;
                 "
               >
-                <user-avatar :image-id="dataOwner.imageId" />
+                <user-avatar :image-id="dataOwner.entityIcon" />
               </div>
             </div>
           </template>
@@ -79,7 +79,7 @@ export default {
               collection.map(({ to: { id: userId }, id }) =>
                 this.$api.users
                   .getByIdIfExists(userId, {
-                    fields: "id, email, username, imageId, imageUrl",
+                    fields: "id, email, username, entityIcon, imageUrl",
                   })
                   .then(({ data }) => ({ ...data, edgeId: id }))
               )
