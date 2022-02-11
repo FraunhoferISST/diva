@@ -21,7 +21,10 @@
                   position: relative;
                 "
               >
-                <user-avatar :image-id="dataOwner.entityIcon" />
+                <user-avatar
+                  :image-id="dataOwner.entityIcon"
+                  :user-id="dataOwner.id"
+                />
               </div>
             </div>
           </template>

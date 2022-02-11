@@ -30,6 +30,7 @@
               <user-avatar
                 :size="5"
                 :image-id="data.item.entityIcon"
+                :user-id="data.item.id"
                 class="mr-2"
               />
               <span class="pr-2">
@@ -40,7 +41,11 @@
           <template #item="data">
             <template>
               <v-list-item-avatar>
-                <user-avatar :size="35" :image-id="data.item.entityIcon" />
+                <user-avatar
+                  :size="35"
+                  :image-id="data.item.entityIcon"
+                  :user-id="data.item.id"
+                />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title>{{ data.item.username }}</v-list-item-title>

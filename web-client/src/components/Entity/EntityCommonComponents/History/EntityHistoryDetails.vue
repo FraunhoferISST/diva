@@ -24,7 +24,10 @@
             <v-col cols="12">
               <div class="history-details-user-container">
                 <div>
-                  <user-avatar :image-id="creator.entityIcon || ''" />
+                  <user-avatar
+                    :image-id="creator.entityIcon || ''"
+                    :user-id="creator.id || ''"
+                  />
                 </div>
                 <div>
                   <h3 class="username">
