@@ -1,5 +1,5 @@
 const { MongoClient, ObjectId } = require("mongodb");
-const chalk = require("chalk");
+const { logger: log } = require("../logger");
 
 const mongoURI =
   process.env.MONGODB_URI || "mongodb://admin:admin@localhost:27017";
@@ -33,10 +33,8 @@ class MongoDBConnector {
         this.database.collection(c),
       ]);
       this.collections = Object.fromEntries(collections);
-      console.info(
-        chalk.blue(
-          `✅ MongoDB ready: Connected to "${this.collectionsNames}" in "${this.databaseName}" database 💽`
-        )
+      log.info(
+        `✅ MongoDB ready: Connected to "${this.collectionsNames}" in "${this.databaseName}" database 💽`
       );
     }
     return this.client;

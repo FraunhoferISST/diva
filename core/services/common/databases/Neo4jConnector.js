@@ -1,5 +1,5 @@
 const neo4j = require("neo4j-driver");
-const chalk = require("chalk");
+const { logger: log } = require("../logger");
 
 const neo4jURI = process.env.NEO4J_URL || "bolt://localhost:7687";
 const neo4jUsername = process.env.NEO4J_ROOT_USERNAME || "neo4j";
@@ -21,7 +21,7 @@ class Neo4JConnector {
       neo4jURI,
       neo4j.auth.basic(neo4jUsername, neo4jPassword)
     );
-    console.info(chalk.blue(`✅ Connected to Neo4J instance "${this.URI}"`));
+    log.info(`✅ Connected to Neo4J instance "${this.URI}"`);
   }
 }
 
