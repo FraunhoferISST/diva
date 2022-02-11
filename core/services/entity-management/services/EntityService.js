@@ -249,7 +249,6 @@ class EntityService {
 
   async deleteById(id) {
     if (await this.entityExists(id)) {
-      // TODO: delete history? --> HA listens to delete Events and does clean up
       const { entityImages } = await this.getById(id, {
         fields: "entityImages",
       });
@@ -284,13 +283,11 @@ class EntityService {
       throw imagesLimitError;
     }
     const newImageId = await entityImagesService.addImage(imageFile);
-    return this.patchById(
-      id,
-      {
-        entityImages: [...(entityImages ?? []), newImageId],
-      },
-      actorId
-    )
+    this.collection.updateOne(
+      { id },
+      { $addToSet: { entityImages: newImageId } }
+    );
+    return this.patchById(id, {}, actorId)
       .then(() => newImageId)
       .catch(async (e) => {
         await entityImagesService.deleteImageById(newImageId);
@@ -303,15 +300,9 @@ class EntityService {
   }
 
   async deleteImageById(id, imageId, actorId) {
-    const { entityImages } = await this.getById(id, { fields: "entityImages" });
     await entityImagesService.deleteImageById(imageId);
-    return this.patchById(
-      id,
-      {
-        entityImages: entityImages.filter((imgId) => imgId !== imageId),
-      },
-      actorId
-    );
+    this.collection.updateOne({ id }, { $pull: { entityImages: imageId } });
+    return this.patchById(id, {}, actorId);
   }
 }
 
