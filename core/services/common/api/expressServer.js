@@ -33,12 +33,11 @@ const errorHandler = (err, _req, res, next) => {
     let formattedError = err;
     if (isOpenAPISpecValidationError(err)) {
       formattedError = createOpenAPIValidationError(err);
-    }
-    if (!isCustomError(err)) {
+    } else if (!isCustomError(err)) {
       formattedError = createError({ message: err.toString() });
     }
     res.status(formattedError.code).send(formattedError);
-    return next(formattedError);
+    return next({ ...formattedError });
   }
 };
 
@@ -92,7 +91,7 @@ class Server {
           "stack",
           "exception",
         ], // fields to blacklist from meta data
-        dynamicMeta: (req, res) => ({
+        dynamicMeta: (req, res, err) => ({
           res: {
             statusCode: res.statusCode,
           },

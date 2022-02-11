@@ -1,9 +1,13 @@
 const path = require("path");
 const winston = require("winston");
+require("winston-daily-rotate-file");
 
 const { transports, format } = winston;
 
-const LOG_LEVEL = process.env.LOG_LEVEL || "info";
+const LOG_LEVEL =
+  process.env.LOG_LEVEL ||
+  (process.env.NODE_ENV === "production" ? "info" : "http");
+
 let WORK_DIR = process.cwd();
 if (process.pkg?.entrypoint) {
   const pkgEntryPoint = process.pkg?.entrypoint ?? "";
@@ -11,8 +15,16 @@ if (process.pkg?.entrypoint) {
 }
 const SERVICE_NAME = require(path.join(`${WORK_DIR}`, "/package.json")).name;
 
+const rotateTransport = new winston.transports.DailyRotateFile({
+  filename: process.env.LOG_PATH || `logs/${SERVICE_NAME}-%DATE%.log`,
+  datePattern: "YYYY-MM-DD-HH",
+  zippedArchive: true,
+  maxSize: "20m",
+  maxFiles: "7d",
+});
+
 const defaultMeta = {
-  service: SERVICE_NAME,
+  serviceName: SERVICE_NAME,
 };
 
 const logger = winston.createLogger({
@@ -20,12 +32,12 @@ const logger = winston.createLogger({
   format: format.combine(
     format.timestamp(),
     format.metadata({
-      fillExcept: ["message", "level", "timestamp", "service", "serviceId"],
+      fillExcept: ["message", "level", "timestamp", "serviceName", "serviceId"],
     }),
     winston.format.json()
   ),
   defaultMeta,
-  transports: [new transports.File({ filename: "combined.log" })],
+  transports: [rotateTransport],
 });
 
 // If we're not in production then log to the console
