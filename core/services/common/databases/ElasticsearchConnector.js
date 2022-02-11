@@ -8,7 +8,7 @@ class ElasticsearchConnector {
     this.URI = URI;
   }
 
-  connect() {
+  async connect() {
     this.client = new Client({
       node: {
         url: new URL(this.URI),

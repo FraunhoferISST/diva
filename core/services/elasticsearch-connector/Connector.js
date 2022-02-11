@@ -43,8 +43,7 @@ const indexExists = async (index) =>
 
 class Connector {
   async init() {
-    esConnector.connect();
-    await mongoConnector.connect();
+    await esConnector.connect();
     await neo4jConnector.connect();
     return mongoConnector.connect();
   }

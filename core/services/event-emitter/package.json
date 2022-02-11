@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISST",
   "dependencies": {
-    "@diva/common": "^2.0.0",
+    "@diva/common": "^2.1.0",
     "asyncapi-validator": "^3.0.0",
     "chalk": "^4.1.1",
     "socket.io": "^4.1.2"
