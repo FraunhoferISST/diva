@@ -4,7 +4,6 @@ import history from "@/api/history";
 import search from "@/api/search";
 import divaLakeAdapter from "@/api/adapters/divaLake";
 import urbanPulseAdapter from "@/api/adapters/urbanPulse";
-import dscAdapter from "@/api/adapters/dsc";
 import axios from "@/api/axios";
 import fetchWrapper from "@/api/fetchWrapper";
 import datanetwork from "@/api/datanetwork";
@@ -20,7 +19,6 @@ export default {
   search,
   divaLakeAdapter,
   urbanPulseAdapter,
-  dscAdapter,
   fetchWrapper,
   datanetwork,
   ...entities,

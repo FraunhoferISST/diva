@@ -367,29 +367,6 @@ services:
       BUCKET_NAME: file-lake
 
   # ####################################################################################################################
-  # IDS Connector Adapter  Services
-  # ####################################################################################################################
-
-  dsc-adapter:
-    image: ${REGISTRY}dsc-adapter:0.2.2
-    container_name: dsc-adapter
-    restart: always
-    networks:
-      - core
-    ports:
-      - ${DSC_ADAPTER_PORT}:${DSC_ADAPTER_PORT}
-    depends_on:
-      - broker
-      - documentstore
-    environment:
-      <<: *base-core-service-env
-      DSC_USERNAME: ${DSC_USERNAME}
-      DSC_PASSWORD: ${DSC_PASSWORD}
-      DSC_URL: ${DSC_URL}
-      ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
-      KAFKA_TOPICS: "[\"entity.events\"]"
-
-  # ####################################################################################################################
   # Urban Pulse Services
   # ####################################################################################################################
 

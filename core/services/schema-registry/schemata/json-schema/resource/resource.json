@@ -36,9 +36,6 @@
       "$ref": "/distributionProperties"
     },
     {
-      "$ref": "/dscProperties"
-    },
-    {
       "$ref": "/costs"
     },
     {
