@@ -1,0 +1,20 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.inputs:
+  - type: log
+    paths:
+      - /var/log/entity-management/*.log
+    json.keys_under_root: true
+    json.add_error_key: true
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  index: "diva-wow"
+
+setup.template:
+  enabled: true
+  name: "diva"
+  pattern: "diva-*"
