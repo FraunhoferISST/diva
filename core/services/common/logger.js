@@ -5,7 +5,7 @@ require("winston-daily-rotate-file");
 const { transports, format } = winston;
 
 const LOG_LEVEL =
-  process.env.LOG_LEVEL ||
+  process.env.SYSTEM_LOG_LEVEL ||
   (process.env.NODE_ENV === "production" ? "info" : "http");
 
 let WORK_DIR = process.cwd();
@@ -44,11 +44,7 @@ const logger = winston.createLogger({
 // TODO: need to decide if we need console log in production
 if (process.env.NODE_ENV === "production") {
   logger.add(new transports.Console());
-}
-
-// If we're not in production then log to the console
-// TODO: need to decide if we need console log in production
-if (process.env.NODE_ENV !== "production") {
+} else {
   logger.add(new transports.Console({ format: format.prettyPrint() }));
 }
 
