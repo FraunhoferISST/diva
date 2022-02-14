@@ -82,12 +82,26 @@ class MessageProducer {
       });
       return this.producer(msg).then(() =>
         log.info(
-          `🛫 Message for "${entityId}" produced from "${actorid}" on "${type}" event flies to "${this.topic}" topic`
+          `🛫 Message for "${entityId}" produced from "${actorid}" on "${type}" event flies to "${this.topic}" topic`,
+          {
+            topic: this.topic,
+            actorId: actorid,
+            messageName: this.messageName,
+            serviceName: this.serviceName,
+            entityId,
+          }
         )
       );
     } catch (e) {
-      log.info(
-        `❌ Could not send message for "${entityId}" produced from "${actorid}" on "${type}" event flies to "${this.topic}" topic`
+      log.error(
+        `❌ Could not send message for "${entityId}" produced from "${actorid}" on "${type}" event "${this.topic}" topic`,
+        {
+          topic: this.topic,
+          actorId: actorid,
+          messageName: this.messageName,
+          serviceName: this.serviceName,
+          entityId,
+        }
       );
       log.error(e);
     }
