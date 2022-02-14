@@ -15,10 +15,11 @@ services:
     image: docker.elastic.co/beats/filebeat:7.17.0
     container_name: diva_filebeat
     entrypoint: "filebeat -e -strict.perms=false"
+    user: root
     volumes:
       - ../core/filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro
-      - ../core/filebeat/fields.yml:/usr/share/filebeat/fields.yml:ro
-      - ../core/services/entity-management/logs/:/var/log/entity-management/
+      - /var/lib/docker:/var/lib/docker:ro
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - core
 

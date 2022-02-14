@@ -1,9 +1,0 @@
-- key: diva
-  title: diva
-  description: These are the fields used by diva logging.
-  fields:
-    - name: serviceName
-      type: keyword
-      required: true
-      description: >
-        serviceName of service

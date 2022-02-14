@@ -1,20 +1,24 @@
-filebeat.config:
-  modules:
-    path: ${path.config}/modules.d/*.yml
-    reload.enabled: false
-
 filebeat.inputs:
-  - type: log
+  - type: container
     paths:
-      - /var/log/entity-management/*.log
-    json.keys_under_root: true
-    json.add_error_key: true
+      - '/var/lib/docker/containers/*/*.log'
+
+processors:
+  - add_docker_metadata:
+      host: "unix:///var/run/docker.sock"
+
+  - decode_json_fields:
+      fields: ["message"]
+      target: "logMessage"
+      overwrite_keys: true
 
 output.elasticsearch:
-  hosts: ["http://elasticsearch:9200"]
-  index: "diva-wow"
+  hosts: ["elasticsearch:9200"]
+  indices:
+    - index: "diva-filebeat-%{+yyyy.MM.dd}"
+      when.or:
+        - regexp:
+            container.image.name: "ghcr.io/fraunhoferisst/diva/.*"
 
-setup.template:
-  enabled: true
-  name: "diva"
-  pattern: "diva-*"
+logging.json: false
+logging.metrics.enabled: false
