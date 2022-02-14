@@ -1,6 +1,6 @@
 const { Kafka } = require("kafkajs");
-const chalk = require("chalk");
 const generateUuid = require("../generateUuid");
+const { logger: log } = require("../logger");
 
 const KAFKA_URL = process.env.KAFKA_URL || "broker:9092";
 
@@ -21,11 +21,7 @@ class KafkaConnector {
     const producer = this.kafka.producer();
 
     await producer.connect();
-    console.info(
-      chalk.blue(
-        `✅ Message producer ready on "${this.URL}" for "${topic}" topic`
-      )
-    );
+    log.info(`✅ Message producer ready on "${this.URL}" for "${topic}" topic`);
     return async (msg, key) =>
       producer.send({
         topic,
@@ -50,12 +46,10 @@ class KafkaConnector {
     await consumer.run({
       eachMessage: ({ topic, message }) => onMessage(message, topic),
     });
-    console.info(
-      chalk.blue(
-        `✅ Created consumer on "${this.URL}" for topics: ${JSON.stringify(
-          topics
-        )}`
-      )
+    log.info(
+      `✅ Message producer ready on "${this.URL}" for topics: ${JSON.stringify(
+        topics
+      )}`
     );
   }
 }

@@ -11,13 +11,13 @@
     "dev": "NODE_ENV=development nodemon index.js",
     "eslint-fix": "eslint --fix . --ext .js",
     "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
-    "build:linux": "pkg -t node14-linux-x64 index.js",
+    "build:linux": "pkg --config package.json -t node14-linux-x64 --output index-linux index.js",
     "test:e2e": "NODE_ENV=test mocha --recursive test/e2e/*.spec.js --colors=true"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^2.0.0",
+    "@diva/common": "^2.1.0",
     "swagger-ui-dist": "^4.4.1"
   },
   "devDependencies": {

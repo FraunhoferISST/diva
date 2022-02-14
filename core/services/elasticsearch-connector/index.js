@@ -1,11 +1,20 @@
 const messageConsumer = require("@diva/common/messaging/MessageConsumer");
+const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
+const generateUuid = require("@diva/common/generateUuid");
 const connector = require("./Connector");
 const serviceName = require("./package.json").name;
 const { getOperation } = require("./utils/utils");
 
+const serviceId = generateUuid("service");
+
+setLoggerDefaultMeta({ serviceId });
+
+const NODE_ENV = process.env.NODE_ENV || "development";
 const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
   ? JSON.parse(process.env.KAFKA_CONSUMER_TOPICS)
   : ["entity.events", "datanetwork.events"];
+
+log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 
 const onMessage = async (message) => {
   try {
@@ -28,9 +37,9 @@ const onMessage = async (message) => {
     } else {
       await getOperation(type)(id);
     }
-    console.info(`💬 Processed message type "${type}" for entity "${id}"`);
+    log.info(`💬 Processed message type "${type}" for entity "${id}"`);
   } catch (err) {
-    console.error(err);
+    log.error(err);
   }
 };
 
@@ -43,9 +52,9 @@ const onMessage = async (message) => {
       serviceName
     );
     await messageConsumer.consume(onMessage);
-    console.info("✅ Elasticsearch connector is running!");
+    log.info(`✅ All components booted successfully 🚀`);
   } catch (e) {
-    console.error(e);
+    log.error(`${e.message}`);
     process.exit(1);
   }
 })();

@@ -1,7 +1,7 @@
-const chalk = require("chalk");
 const KafkaConnector = require("./KafkaConnector");
 const generateUuid = require("../generateUuid");
 const MessagesValidator = require("./MessagesValidator");
+const { logger: log } = require("../logger");
 
 const messagesValidator = new MessagesValidator();
 
@@ -81,19 +81,29 @@ class MessageProducer {
         operation: "publish",
       });
       return this.producer(msg).then(() =>
-        console.log(
-          chalk.green(
-            `🛫 Message for "${entityId}" produced from "${actorid}" on "${type}" event flies to "${this.topic}" topic`
-          )
+        log.info(
+          `🛫 Message for "${entityId}" produced from "${actorid}" on "${type}" event flies to "${this.topic}" topic`,
+          {
+            topic: this.topic,
+            actorId: actorid,
+            messageName: this.messageName,
+            serviceName: this.serviceName,
+            entityId,
+          }
         )
       );
     } catch (e) {
-      console.error(
-        chalk.red(
-          `❌ Could not send message for "${entityId}" produced from "${actorid}" on "${type}" event flies to "${this.topic}" topic`
-        )
+      log.error(
+        `❌ Could not send message for "${entityId}" produced from "${actorid}" on "${type}" event "${this.topic}" topic`,
+        {
+          topic: this.topic,
+          actorId: actorid,
+          messageName: this.messageName,
+          serviceName: this.serviceName,
+          entityId,
+        }
       );
-      console.error(e);
+      log.error(e);
     }
   }
 }

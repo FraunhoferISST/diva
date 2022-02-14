@@ -9,6 +9,9 @@ version: '3.9'
 x-mongodb-env: &mongodb-env
   MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@documentstore:${MONGODB_PORT}
 
+x-log-level-env: &log-level-env
+  SYSTEM_LOG_LEVEL: ${SYSTEM_LOG_LEVEL}
+
 x-schema-registry-env: &schema-registry-env
   SCHEMA_REGISTRY_URL: http://schema-registry:${SCHEMA_REGISTRY_PORT}/
 
@@ -21,7 +24,7 @@ x-elasticsearch-env: &elasticsearch-env
 x-neo4j-env: &neo4j-env
   NEO4J_URL: bolt://neo4j:${NEO4J_BOLT_PORT}
   NEO4J_ROOT_USERNAME: ${NEO4J_ROOT_USERNAME}
-  NEO4J_ROOT_PASSWORD: ${NEO4J_ROOT_USERNAME}
+  NEO4J_ROOT_PASSWORD: ${NEO4J_ROOT_PASSWORD}
 
 x-airflow-env: &airflow-env
   AIRFLOW_URL: http://airflow-webserver:${AIRFLOW_PORT}
@@ -36,6 +39,7 @@ x-base-core-service-env: &base-core-service-env
   <<: *schema-registry-env
   <<: *kafka-env
   <<: *cors-env
+  <<: *log-level-env
 
 x-base-core-service: &base-core-service
   depends_on:
@@ -176,6 +180,7 @@ services:
     environment:
       <<: *elasticsearch-env
       <<: *cors-env
+      <<: *log-level-env
       NODE_ENV: production
       PORT: ${SEARCH_ASSISTANT_PORT}
     restart: always
@@ -192,6 +197,7 @@ services:
     environment:
       <<: *elasticsearch-env
       <<: *cors-env
+      <<: *log-level-env
       NODE_ENV: production
       PORT: ${ANALYTIC_ASSISTANT_PORT}
     restart: always
@@ -209,6 +215,7 @@ services:
       <<: *neo4j-env
       <<: *cors-env
       <<: *schema-registry-env
+      <<: *log-level-env
       NODE_ENV: production
       PORT: ${DATANETWORK_ASSISTANT}
     restart: always
@@ -248,6 +255,8 @@ services:
     environment:
       <<: *mongodb-env
       <<: *airflow-env
+      <<: *log-level-env
+      <<: *cors-env
       NODE_ENV: production
       PORT: ${PROFILING_ASSISTANT_PORT}
     restart: always
@@ -320,6 +329,8 @@ services:
     ports:    
       - ${SCHEMA_REGISTRY_PORT}:${SCHEMA_REGISTRY_PORT}
     environment:
+      <<: *log-level-env
+      <<: *cors-env
       PORT: ${SCHEMA_REGISTRY_PORT}
 
   # ####################################################################################################################
@@ -335,6 +346,8 @@ services:
     volumes:
       - divaLake:/data
     environment:
+      <<: *log-level-env
+      <<: *cors-env
       MINIO_ACCESS_KEY: ${DIVA_LAKE_USERNAME}
       MINIO_SECRET_KEY: ${DIVA_LAKE_PASSWORD}
     entrypoint: sh
@@ -357,6 +370,7 @@ services:
       <<: *kafka-env
       <<: *schema-registry-env
       <<: *cors-env
+      <<: *log-level-env
       NODE_ENV: development
       PORT: ${DIVALAKE_ADAPTER_PORT}
       ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
@@ -382,6 +396,7 @@ services:
       - entity-management
     environment:
       <<: *cors-env
+      <<: *log-level-env
       PORT: ${URBAN_PULSE_ADAPTER_PORT}
       ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
 
@@ -401,6 +416,7 @@ services:
       <<: *schema-registry-env
       <<: *kafka-env
       <<: *cors-env
+      <<: *log-level-env
       PORT: ${EVENT_EMITTER_PORT}
       ASYNCAPI_SPECIFICATION: asyncapi
       EVENT_EMITTER_SPECIFICATION: event-emitter-api
@@ -423,6 +439,8 @@ services:
       NEO4J_AUTH: ${NEO4J_ROOT_USERNAME}/${NEO4J_ROOT_PASSWORD}
       NEO4J_dbms_active__database: ${NEO4J_DATABASE_NAME}
       NEO4J_dbms_logs_debug_level: DEBUG
+    networks:
+      - core
 
 # ####################################################################################################################
 # Docker Volume and Network Settings
