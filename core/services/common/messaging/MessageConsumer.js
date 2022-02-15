@@ -33,7 +33,7 @@ class MessageConsumer {
           ...parsedMsg,
           operation: "publish",
         });
-        onMessage(message, messageTopic);
+        return onMessage(message, messageTopic);
       }
     );
   }

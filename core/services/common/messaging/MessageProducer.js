@@ -94,7 +94,9 @@ class MessageProducer {
       );
     } catch (e) {
       log.error(
-        `❌ Could not send message for "${entityId}" produced from "${actorid}" on "${type}" event "${this.topic}" topic`,
+        `❌ Could not send message for "${entityId}" produced from "${actorid}" on "${type}" event "${
+          this.topic
+        }" topic: ${e.toString()}`,
         {
           topic: this.topic,
           actorId: actorid,
@@ -103,7 +105,6 @@ class MessageProducer {
           entityId,
         }
       );
-      log.error(e);
     }
   }
 }

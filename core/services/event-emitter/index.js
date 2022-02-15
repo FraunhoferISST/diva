@@ -15,18 +15,13 @@ const ASYNCAPI_SPECIFICATION = process.env.ASYNCAPI_SPECIFICATION || "asyncapi";
 const NODE_ENV = process.env.NODE_ENV || "development";
 
 const onMessage = async (message) => {
-  try {
-    const parsedMassage = JSON.parse(message.value.toString());
-
-    if (["update", "delete", "create"].includes(parsedMassage.payload.type)) {
-      emitEntityEvent(parsedMassage.payload);
-    }
-    log.info(
-      `📩 Processed message type "${parsedMassage.payload.type}" for entity "${parsedMassage.payload.object.id}"`
-    );
-  } catch (err) {
-    log.error(err);
+  const parsedMassage = JSON.parse(message.value.toString());
+  if (["update", "delete", "create"].includes(parsedMassage.payload.type)) {
+    emitEntityEvent(parsedMassage.payload);
   }
+  log.info(
+    `📩 Processed message type "${parsedMassage.payload.type}" for entity "${parsedMassage.payload.object.id}"`
+  );
 };
 
 const boot = async () => {
