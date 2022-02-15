@@ -68,3 +68,7 @@ services:
   resource-management-sink:
     container_name: resource-management-sink
     image: ${REGISTRY}resource-management-sink:1.0.1
+
+  destroy-phase-helper:
+    container_name: destroy-phase-helper
+    image: ${REGISTRY}destroy-phase-helper:0.0.1  

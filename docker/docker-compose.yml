@@ -21,7 +21,7 @@ x-elasticsearch-env: &elasticsearch-env
 x-neo4j-env: &neo4j-env
   NEO4J_URL: bolt://neo4j:${NEO4J_BOLT_PORT}
   NEO4J_ROOT_USERNAME: ${NEO4J_ROOT_USERNAME}
-  NEO4J_ROOT_PASSWORD: ${NEO4J_ROOT_USERNAME}
+  NEO4J_ROOT_PASSWORD: ${NEO4J_ROOT_PASSWORD}
 
 x-airflow-env: &airflow-env
   AIRFLOW_URL: http://airflow-webserver:${AIRFLOW_PORT}
@@ -423,6 +423,8 @@ services:
       NEO4J_AUTH: ${NEO4J_ROOT_USERNAME}/${NEO4J_ROOT_PASSWORD}
       NEO4J_dbms_active__database: ${NEO4J_DATABASE_NAME}
       NEO4J_dbms_logs_debug_level: DEBUG
+    networks:
+      - core  
 
 # ####################################################################################################################
 # Docker Volume and Network Settings

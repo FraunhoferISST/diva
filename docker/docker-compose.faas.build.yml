@@ -63,3 +63,7 @@ services:
   resource-management-sink:
     build:
       context: ../faas/resource-management-sink
+
+  destroy-phase-helper:
+    build:
+      context: ../faas/destroy-phase-helper

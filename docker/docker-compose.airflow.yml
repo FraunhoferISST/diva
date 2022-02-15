@@ -21,6 +21,8 @@ x-airflow-common:
     AIRFLOW__API__AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'
     AIRFLOW_CONN_MINIO: s3://${DIVA_LAKE_USERNAME}:${DIVA_LAKE_PASSWORD}@diva-lake:${DIVALAKE_PORT}?host=http://diva-lake:${DIVALAKE_PORT}
     AIRFLOW__WEBSERVER__WEB_SERVER_PORT: ${AIRFLOW_PORT}
+    AIRFLOW__CORE__ENABLE_XCOM_PICKLING: 'true'
+    DIVA_MONGO_URL: ""
   volumes:
     - ${AIRFLOW_DAGS}:/opt/airflow/dags
     - ${AIRFLOW_PLUGINS}:/opt/airflow/plugins
