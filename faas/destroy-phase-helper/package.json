@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
+    "dev": "nodemon app.js",
     "eslint-fix": "eslint --fix *js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "mongodb": "^4.3.1"
+  },
   "devDependencies": {
     "eslint": "^7.24.0",
     "eslint-config-airbnb-base": "^14.2.1",

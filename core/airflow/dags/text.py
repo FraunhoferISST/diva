@@ -1,6 +1,7 @@
 from airflow import DAG
 from datetime import datetime, timedelta
 from diva_operator import DivaOperator
+from airflow.models import Variable
 
 default_args = {
     'owner': 'airflow',
@@ -18,7 +19,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         "ACTOR_ID": "{{ dag_run.conf['actorId'] }}",
         "RESOURCE_ID": "{{ dag_run.conf['resourceId'] }}",
         "UNIQUE_FINGERPRINT": "{{ dag_run.conf['uniqueFingerprint'] }}",
-        "RESOURCE_MANAGEMENT_URL": 'http://resource-management:3000',  # to be removed/rethinked
+        "RESOURCE_MANAGEMENT_URL": Variable.get("entity_management_url"),
     }
     extract_text = DivaOperator(
         task_id='extracttext',

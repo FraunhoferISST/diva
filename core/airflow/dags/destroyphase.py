@@ -1,6 +1,7 @@
 from airflow import DAG
 from datetime import datetime
 from airflow.providers.docker.operators.docker import DockerOperator
+from airflow.models import Variable
 
 default_args = {
     'owner': 'airflow',
@@ -14,7 +15,7 @@ default_args = {
 
 with DAG('destroyphase', default_args=default_args, schedule_interval='* * * * *', catchup=False) as dag:
     profiling_args = {
-        "DIVA_MONGO_URL": 'http://resource-management:3000',  # to be removed/rethinked
+        "MONGODB_URI": Variable.get("mongodb_uri"),
     }
 
     destroy_phase = DockerOperator(
@@ -23,7 +24,10 @@ with DAG('destroyphase', default_args=default_args, schedule_interval='* * * * *
         api_version='auto',
         auto_remove=True,
         docker_url="unix://var/run/docker.sock",
-        network_mode="core"
+        network_mode="core",
+        environment={
+            **profiling_args
+        },
     )
 
     destroy_phase
