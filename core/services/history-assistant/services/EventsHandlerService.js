@@ -18,20 +18,15 @@ class EventsHandlerService {
   }
 
   async onMessage(message) {
-    try {
-      const parsedMassage = JSON.parse(message.value.toString());
-      const {
-        type,
-        object: { id },
-      } = parsedMassage.payload;
-      if (type === "delete") {
-        await this.collection.deleteMany({
-          attributedTo: id,
-        });
-        console.info(`💬 Processed message type "${type}" for entity "${id}"`);
-      }
-    } catch (err) {
-      console.error(err);
+    const parsedMassage = JSON.parse(message.value.toString());
+    const {
+      type,
+      object: { id },
+    } = parsedMassage.payload;
+    if (type === "delete") {
+      await this.collection.deleteMany({
+        attributedTo: id,
+      });
     }
   }
 }

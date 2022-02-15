@@ -1,6 +1,7 @@
 const { Kafka } = require("kafkajs");
 const generateUuid = require("../generateUuid");
 const { logger: log } = require("../logger");
+const retry = require("../utils/retrier");
 
 const KAFKA_URL = process.env.KAFKA_URL || "broker:9092";
 
@@ -40,11 +41,32 @@ class KafkaConnector {
     });
 
     await consumer.connect();
-    const promises = topics.map((topic) => consumer.subscribe({ topic }));
+    const promises = topics.map((topic) =>
+      consumer.subscribe({ topic, fromBeginning: true })
+    );
     await Promise.all(promises);
-
     await consumer.run({
-      eachMessage: ({ topic, message }) => onMessage(message, topic),
+      autoCommit: true,
+      eachMessage: ({ topic, message, partition }) =>
+        retry(() => onMessage(message, topic))
+          .then(() =>
+            log.info(`✅ Processed message on topic ${topic}`, {
+              topic,
+              partition,
+              offset: message.offset,
+            })
+          )
+          .catch((e) => {
+            log.error(
+              `❌ Error occurred while processing a message: ${e.toString()}`,
+              {
+                topic,
+                partition,
+                offset: message.offset,
+              }
+            );
+            throw e;
+          }),
     });
     log.info(
       `✅ Message producer ready on "${this.URL}" for topics: ${JSON.stringify(

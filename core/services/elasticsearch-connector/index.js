@@ -17,30 +17,26 @@ const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
 log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 
 const onMessage = async (message) => {
-  try {
-    const parsedMassage = JSON.parse(message.value.toString());
-    const {
-      type,
-      object: { id },
-      attributedTo,
-    } = parsedMassage.payload;
-    if (parsedMassage.channel === "datanetwork.events") {
-      // TODO as a quick prototype, we just reindex connected entities on edge event
-      const connectedEntities = attributedTo.map(
-        ({ object: { id: entityId } }) => ({
-          id: entityId,
-        })
-      );
-      for (const entityData of connectedEntities) {
-        await connector.index(entityData.id);
-      }
-    } else {
-      await getOperation(type)(id);
+  const parsedMassage = JSON.parse(message.value.toString());
+  const {
+    type,
+    object: { id },
+    attributedTo,
+  } = parsedMassage.payload;
+  if (parsedMassage.channel === "datanetwork.events") {
+    // TODO as a quick prototype, we just reindex connected entities on edge event
+    const connectedEntities = attributedTo.map(
+      ({ object: { id: entityId } }) => ({
+        id: entityId,
+      })
+    );
+    for (const entityData of connectedEntities) {
+      await connector.index(entityData.id);
     }
-    log.info(`💬 Processed message type "${type}" for entity "${id}"`);
-  } catch (err) {
-    log.error(err);
+  } else {
+    await getOperation(type)(id);
   }
+  log.info(`💬 Processed message type "${type}" for entity "${id}"`);
 };
 
 (async () => {

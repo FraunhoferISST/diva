@@ -21,7 +21,7 @@
   "author": "dtebernum",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^2.1.0"
+    "@diva/common": "^2.2.0"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",
