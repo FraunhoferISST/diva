@@ -111,6 +111,8 @@ services:
       PORT: ${ENTITY_MANAGEMENT_PORT}
     ports:
       - ${ENTITY_MANAGEMENT_PORT}:${ENTITY_MANAGEMENT_PORT}
+    networks:
+      - core
 
   # ####################################################################################################################
   # Reviews Management Service
