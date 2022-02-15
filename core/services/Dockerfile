@@ -1,15 +1,15 @@
 # ######################################################################################################################
 # This Dockerfile is used to build all core services
 # Just set the SERVICE_NAME as ARG on build time, SERVICE_NAME is relatvie to "core/services" directory and can be
-# "user-management" or "adapter-services/dsc-adapter"
+# "entity-management" or "adapter-services/dsc-adapter"
 #
 # Usage: in "core/" execute
-# docker build --build-arg SERVICE_NAME=user-management -t um-test . -f ./services/Dockerfile
+# docker build --build-arg SERVICE_NAME=entity-management -t um-test . -f ./services/Dockerfile
 # ######################################################################################################################
 
 
 # Buld service binary
-FROM node:14.16.0-alpine as builder
+FROM node:16.14.0-alpine3.15 as builder
 LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
 
 ARG SERVICE_NAME
@@ -29,7 +29,7 @@ RUN npx lerna bootstrap --hoist --ignore-scripts -- --production --no-optional
 RUN npm run build:alpine --prefix services/$SERVICE_NAME
 
 # Execute binary
-FROM alpine:3.14.0
+FROM alpine:3.15.0
 LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
 
 ARG SERVICE_NAME

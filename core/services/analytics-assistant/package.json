@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISST",
   "dependencies": {
-    "@diva/common": "^2.0.0"
+    "@diva/common": "^2.2.0"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",
