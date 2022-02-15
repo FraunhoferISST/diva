@@ -1,5 +1,5 @@
 # Stage 1
-FROM node:14.16.0-alpine as builder
+FROM node:16.14.0-alpine3.15 as builder
 LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
 
 RUN mkdir -p /app
@@ -11,6 +11,7 @@ RUN npm install
 COPY . .
 
 ENV NODE_ENV="production"
+RUN npm run lint
 RUN npm run build
 
 # Stage 2
