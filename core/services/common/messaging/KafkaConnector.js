@@ -69,7 +69,7 @@ class KafkaConnector {
           }),
     });
     log.info(
-      `✅ Message producer ready on "${this.URL}" for topics: ${JSON.stringify(
+      `✅ Message consumer ready on "${this.URL}" for topics: ${JSON.stringify(
         topics
       )}`
     );

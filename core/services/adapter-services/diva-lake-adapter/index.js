@@ -4,7 +4,6 @@ const generateUuid = require("@diva/common/generateUuid");
 const adapterRouter = require("./routes/adapter");
 const divaLakeService = require("./services/DivaLakeService");
 const eventsHandlerService = require("./services/EventsHandlerService");
-const { mongoDbConnector } = require("./utils/mongoDbConnectors");
 const serviceName = require("./package.json").name;
 
 const serviceId = generateUuid("service");
@@ -24,11 +23,10 @@ server.addMiddleware("/", adapterRouter);
 server
   .boot()
   .then(() =>
-    mongoDbConnector
-      .connect()
-      .then(() =>
-        Promise.all([divaLakeService.init(), eventsHandlerService.init()])
-      )
-      .then(() => log.info(`✅ All components booted successfully 🚀`))
+    Promise.all([divaLakeService.init(), eventsHandlerService.init()])
   )
-  .catch(() => process.exit(1));
+  .then(() => log.info(`✅ All components booted successfully 🚀`))
+  .catch((e) => {
+    log.error(e);
+    process.exit(1);
+  });
