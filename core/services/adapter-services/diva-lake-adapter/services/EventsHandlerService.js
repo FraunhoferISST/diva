@@ -1,9 +1,5 @@
 const messageConsumer = require("@diva/common/messaging/MessageConsumer");
-const { removeObjects } = require("../utils/minio");
-const {
-  mongoDbConnector,
-  collectionName,
-} = require("../utils/mongoDbConnectors");
+const { minioConnector } = require("../utils/MinIoConnector");
 const { name: serviceName } = require("../package.json");
 
 const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
@@ -12,12 +8,12 @@ const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
 
 class EventsHandlerService {
   async init() {
-    this.collection = mongoDbConnector.collections[collectionName];
     await messageConsumer.init(
       KAFKA_CONSUMER_TOPICS.map((topic) => ({ topic, spec: "asyncapi" })),
       `${serviceName}-consumer`
     );
-    await messageConsumer.consume(this.onMessage.bind(this));
+    await minioConnector;
+    return messageConsumer.consume(this.onMessage.bind(this));
   }
 
   async onMessage(message) {
@@ -27,9 +23,7 @@ class EventsHandlerService {
       object: { id },
     } = parsedMassage.payload;
     if (type === "delete" && id.startsWith("resource:")) {
-      const objects = await this.collection.find({ resourceId: id }).toArray();
-      await removeObjects(objects.map(({ fileHashSha256 }) => fileHashSha256));
-      await this.collection.deleteMany({ resourceId: id });
+      await minioConnector.removeObjects([id]);
     }
   }
 }

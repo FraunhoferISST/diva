@@ -4,20 +4,14 @@ const urljoin = require("url-join");
 const hasha = require("hasha");
 const { lookup } = require("mime-types");
 const FileType = require("file-type");
-const {
-  mongoDbConnector,
-  collectionName,
-} = require("../utils/mongoDbConnectors");
 const { fileNotFoundError } = require("../utils/errors");
 const {
   DIVA_LAKE_USERNAME,
   DIVA_LAKE_PASSWORD,
   DIVA_LAKE_PORT,
   DIVA_LAKE_HOST,
-  uploadObject,
-  removeObject,
-  downloadObject,
-} = require("../utils/minio");
+  minioConnector,
+} = require("../utils/MinIoConnector");
 
 const ENTITY_MANAGEMENT_URL = urljoin(
   process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000",
@@ -79,40 +73,26 @@ const deleteResource = async (resourceId, actorid) =>
 
 class DivaLakeResourceService {
   async init() {
-    await mongoDbConnector.connect();
-    this.collection = mongoDbConnector.collections[collectionName];
+    return minioConnector.connect();
   }
 
   async import(file, actorId) {
     const fileHashSha256 = await sha256(file.buffer);
     const mimeType = await detectMimeType(file.buffer, file.originalname);
 
-    await uploadObject(fileHashSha256, file.buffer);
     const resourceId = await createResource(
       generateFileResourceSchema(file, fileHashSha256, mimeType),
       actorId
-    ).catch((e) => {
-      const code = e?.code ?? e?.response?.data?.code;
-      if (code !== 409) {
-        removeObject(fileHashSha256);
-      }
+    );
+    await minioConnector.uploadObject(resourceId, file.buffer).catch((e) => {
+      deleteResource(resourceId, actorId);
       throw e;
     });
-    await this.collection
-      .insertOne({
-        fileHashSha256,
-        resourceId,
-      })
-      .catch((e) => {
-        removeObject(fileHashSha256);
-        deleteResource(resourceId);
-        throw e;
-      });
     return resourceId;
   }
 
   async download(fileName) {
-    return downloadObject(fileName).catch((e) => {
+    return minioConnector.downloadObject(fileName).catch((e) => {
       if (e?.code === "NoSuchKey") {
         throw fileNotFoundError;
       }
