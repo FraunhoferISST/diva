@@ -65,6 +65,6 @@ services:
     image: ${REGISTRY}image-text-extractor:3.0.0
 
 
-  resource-management-sink:
-    container_name: resource-management-sink
-    image: ${REGISTRY}resource-management-sink:1.0.1
+  entity-management-sink:
+    container_name: entity-management-sink
+    image: ${REGISTRY}entity-management-sink:1.0.0
