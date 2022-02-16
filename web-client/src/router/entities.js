@@ -3,7 +3,6 @@ import ResourceGeneral from "@/components/Resource/General/ResourceGeneral";
 import ResourceDetails from "@/views/Resources/ResourceDetails";
 import ResourceProfiling from "@/components/Resource/Profiling/ResourceProfiling";
 import ResourceSample from "@/components/Resource/Sample/ResourceSample";
-import ResourceIDS from "@/components/Resource/IDS/ResourceIDS";
 //Assets
 import AssetRelations from "@/components/Asset/AssetRelations/AssetRelations.vue";
 import AssetsDetails from "@/views/Asset/AssetDetails.vue";
@@ -76,12 +75,6 @@ resourceConfig.children.push(
     path: "sample",
     name: "resource_details_sample",
     component: ResourceSample,
-    props: true,
-  },
-  {
-    path: "ids",
-    name: "resource_details_ids",
-    component: ResourceIDS,
     props: true,
   }
 );

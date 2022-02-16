@@ -6,11 +6,7 @@
   "required": [
     "assetType"
   ],
-  "unevaluatedProperties": false,
   "allOf": [
-    {
-      "$ref": "/entity"
-    },
     {
       "$ref": "/commonProperties"
     },
@@ -26,8 +22,13 @@
     {
       "properties": {
 
+        "id": {
+          "type": "string",
+          "pattern": "^asset:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+
         "assetType": {
-          "$id": "assetType",
+
           "type": "string",
           "title": "Asset Type",
           "description": "The type of the asset",
@@ -37,22 +38,6 @@
           ],
           "_elasticsearch": {
             "type": "keyword"
-          }
-        },
-
-        "entities": {
-          "$id": "entities",
-          "type": "array",
-          "title": "Asset linked entities",
-          "description": "The array of entites id's linked with the asset",
-          "minItems": 0,
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "pattern": "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
-            "_elasticsearch": {
-              "type": "keyword"
-            }
           }
         }
       }

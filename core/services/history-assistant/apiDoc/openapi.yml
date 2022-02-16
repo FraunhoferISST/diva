@@ -48,7 +48,7 @@ paths:
             type: integer
             default: 30
             format: int32
-        - name: belongsTo
+        - name: attributedTo
           in: query
           description: Entity the history belongs to
           required: false
@@ -164,7 +164,7 @@ components:
         created:
           type: string
           format: date-time
-        belongsTo:
+        attributedTo:
           $ref:  "#/components/schemas/EntityId"
         delta:
           type: object

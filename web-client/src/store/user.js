@@ -3,8 +3,8 @@ import api from "@/api/index";
 const user = {
   email: "",
   username: "",
-  imageId: "",
-  imageURL: "",
+  entityIcon: "",
+  entityImages: [],
   created: "",
   modified: "",
   entityType: "user",

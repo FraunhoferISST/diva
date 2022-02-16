@@ -1,6 +1,6 @@
 {
   "name": "datanetwork-assistant",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "This service provides a way of adding and deleting typed and directed edges in neo4j:4.3.7-community",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   "author": "dtebernum",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.2.0"
+    "@diva/common": "^2.1.0"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",

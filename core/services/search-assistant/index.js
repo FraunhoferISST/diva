@@ -1,13 +1,26 @@
-const boot = require("@diva/common/api/expressServer");
+const Server = require("@diva/common/api/expressServer");
+const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
+const generateUuid = require("@diva/common/generateUuid");
 const searchRouter = require("./routes/search");
-const SearchService = require("./services/SearchService");
+const searchService = require("./services/SearchService");
+const serviceName = require("./package.json").name;
 
+const serviceId = generateUuid("service");
+
+setLoggerDefaultMeta({ serviceId });
+
+const NODE_ENV = process.env.NODE_ENV || "development";
 const port = process.env.PORT || 3005;
+const server = new Server(port);
 
-boot(
-  (app) => {
-    app.use("/search", searchRouter);
-    return SearchService.init();
-  },
-  { port }
-);
+log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
+
+server.initBasicMiddleware();
+server.addMiddleware("/search", searchRouter);
+server.addOpenApiValidatorMiddleware();
+
+server
+  .boot()
+  .then(() => searchService.init())
+  .then(() => log.info(`✅ All components booted successfully 🚀`))
+  .catch(() => process.exit(1));

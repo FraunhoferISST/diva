@@ -102,7 +102,7 @@ export default {
       this.loading = true;
       return this.$api.reviews
         .create({
-          belongsTo: this.id,
+          attributedTo: this.id,
           rating: this.rating,
           reviewText: this.review,
           creatorId: this.$store.state.user.id,

@@ -8,7 +8,7 @@
     >
       <template v-slot:activator="{ on }">
         <v-btn rounded large text icon v-on="on">
-          <user-avatar :image-id="user.imageId || ''" />
+          <user-avatar :image-id="user.entityIcon" :user-id="user.id" />
         </v-btn>
       </template>
 
@@ -16,7 +16,7 @@
         <v-list>
           <v-list-item>
             <v-list-item-avatar>
-              <user-avatar :image-id="user.imageId || ''" />
+              <user-avatar :image-id="user.entityIcon" :user-id="user.id" />
             </v-list-item-avatar>
 
             <v-list-item-content>

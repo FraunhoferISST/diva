@@ -29,25 +29,20 @@ class EventsHandlerService {
   }
 
   async onMessage(message) {
-    try {
-      const parsedMassage = JSON.parse(message.value.toString());
-      const {
-        type,
-        object: { id },
-        actor: { id: actorId },
-      } = parsedMassage.payload;
-      const entityType = id.slice(0, id.indexOf(":"));
+    const parsedMassage = JSON.parse(message.value.toString());
+    const {
+      type,
+      object: { id },
+      actor: { id: actorId },
+    } = parsedMassage.payload;
+    const entityType = id.slice(0, id.indexOf(":"));
 
-      if (type === "create") {
-        await this.handleCreateEvent(id, entityType, actorId, parsedMassage);
-      } else if (type === "update") {
-        await this.handleUpdateEvent(id, entityType, actorId, parsedMassage);
-      } else if (type === "delete") {
-        await this.handleDeleteEvent(id, entityType, actorId, parsedMassage);
-      }
-      console.info(`💬 Processed message type "${type}"`);
-    } catch (err) {
-      console.error(err);
+    if (type === "create") {
+      await this.handleCreateEvent(id, entityType, actorId, parsedMassage);
+    } else if (type === "update") {
+      await this.handleUpdateEvent(id, entityType, actorId, parsedMassage);
+    } else if (type === "delete") {
+      await this.handleDeleteEvent(id, entityType, actorId, parsedMassage);
     }
   }
 

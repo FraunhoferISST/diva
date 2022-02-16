@@ -1,8 +1,9 @@
 const express = require("express");
-const chalk = require("chalk");
 const cors = require("cors");
 const path = require("path");
 const OpenApiValidator = require("express-openapi-validator");
+const expressWinston = require("express-winston");
+const { logger: log } = require("../logger");
 
 let WORK_DIR = process.cwd();
 const NODE_ENV = process.env.NODE_ENV || "development";
@@ -27,52 +28,111 @@ const {
   createOpenAPIValidationError,
 } = require("../Error");
 
-// const packageJson = require(path.join(`${WORK_DIR}`, "package.json"));
-
-// eslint-disable-next-line no-unused-vars
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, _req, res, next) => {
   if (!res.headersSent) {
+    let formattedError = err;
     if (isOpenAPISpecValidationError(err)) {
-      return res.status(err.status).send(createOpenAPIValidationError(err));
+      formattedError = createOpenAPIValidationError(err);
+    } else if (!isCustomError(err)) {
+      formattedError = createError({ message: err.toString() });
     }
-    if (!isCustomError(err)) {
-      console.error(err);
-      const unexpectedError = createError({ message: err.toString() });
-      return res.status(unexpectedError.code).send(unexpectedError);
-    }
-    res.status(err.code).send(err);
+    res.status(formattedError.code).send(formattedError);
+    return next({ ...formattedError });
   }
 };
 
-module.exports = (onBoot, { port, openapiPath, corsOptions = {} }) =>
-  new Promise(async (resolve) => {
-    try {
-      console.info(
-        chalk.blue(`✅ Running ${SERVICE_NAME} in ${NODE_ENV} mode`)
-      );
-      const app = express();
-      app.use(express.json({ limit: "10mb", extended: true }));
-      app.use(express.urlencoded({ limit: "10mb", extended: false }));
-      app.use(cors({ ...corsDefaults, ...corsOptions }));
-      app.use(
-        OpenApiValidator.middleware({
-          apiSpec:
-            openapiPath || path.join(`${WORK_DIR}`, "/apiDoc/openapi.yml"),
-        })
-      );
+class Server {
+  constructor(port, serviceName = SERVICE_NAME) {
+    this.port = port;
+    this.serviceName = serviceName;
+    this.app = express();
+  }
 
-      await onBoot(app);
-      app.use(errorHandler);
+  initBasicMiddleware({ corsOptions = {} } = {}) {
+    log.info(`✅ Setting up basic API middleware`);
+    this.app.use(express.json({ limit: "10mb", extended: true }));
+    this.app.use(express.urlencoded({ limit: "10mb", extended: false }));
+    this.app.use(cors({ ...corsDefaults, ...corsOptions }));
+    this.app.use(
+      expressWinston.logger({
+        winstonInstance: log,
+        level: "http",
+        meta: true,
+        metaField: null,
+        skip: (req, res) => res.statusCode >= 400,
+        msg: `📦 HTTP {{req.method}} {{res.statusCode}}: {{req.headers["x-actorid"]}} requested {{req.url}}`,
+      })
+    );
+  }
 
-      const server = app.listen(port, () => {
-        console.info(
-          chalk.blue(`✅ REST API ready at port ${server.address().port} 🌐`)
-        );
-        console.info(chalk.blue(`✅ All components booted successfully 🚀`));
-        resolve(server);
-      });
-    } catch (e) {
-      console.error(e);
-      process.exit(1);
+  addMiddleware(...args) {
+    this.app.use(...args);
+  }
+
+  addErrorLoggingMiddleware() {
+    log.info(`✅ Setting up API error logging middleware`);
+    this.addMiddleware(
+      expressWinston.errorLogger({
+        winstonInstance: log,
+        level: (req, res) => {
+          let level = "warn";
+          if (res.statusCode >= 500) {
+            level = "error";
+          }
+          return level;
+        },
+        meta: true,
+        metaField: null,
+        blacklistedMetaFields: [
+          "process",
+          "date",
+          "os",
+          "trace",
+          "stack",
+          "exception",
+        ], // fields to blacklist from meta data
+        dynamicMeta: (req, res, err) => ({
+          res: {
+            statusCode: res.statusCode,
+          },
+        }),
+        msg: `📦 HTTP {{req.method}} {{res.statusCode}}: {{req.headers["x-actorid"]}} requested {{req.url}}`,
+      })
+    );
+  }
+
+  addOpenApiValidatorMiddleware(
+    apiSpec = path.join(`${WORK_DIR}`, "/apiDoc/openapi.yml")
+  ) {
+    log.info(`✅ Setting up OpenAPI validation middleware`);
+    this.addMiddleware(
+      OpenApiValidator.middleware({
+        apiSpec,
+      })
+    );
+    if (NODE_ENV === "development") {
+      this.addMiddleware("/api", (req, res) => res.json(apiSpec));
     }
-  });
+  }
+
+  async boot() {
+    log.info(`✅ Booting API server...`);
+    return new Promise((resolve, reject) => {
+      try {
+        this.addMiddleware(errorHandler);
+        this.addErrorLoggingMiddleware();
+        const expressServer = this.app.listen(this.port, () => {
+          log.info(
+            `✅ REST API ready at port ${expressServer.address().port} 🌐`
+          );
+          resolve(expressServer);
+        });
+      } catch (e) {
+        log.error(e);
+        reject(e);
+      }
+    });
+  }
+}
+
+module.exports = Server;

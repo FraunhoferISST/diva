@@ -4,7 +4,7 @@ const esConnector = new ElasticsearchConnector();
 
 class AnalyticsService {
   async init() {
-    esConnector.connect();
+    return esConnector.connect();
   }
 
   async countDocumentsByIndex(indexSelection = "*") {
@@ -56,10 +56,14 @@ class AnalyticsService {
   async resourceTypeDistribution() {
     try {
       const res = await esConnector.client.search({
-        index: "resources",
+        index: "entities",
         size: 0,
         body: {
-          query: { match_all: {} },
+          query: {
+            match: {
+              entityType: "resource",
+            },
+          },
           aggs: {
             resourceTypeDistribution: {
               terms: { field: "resourceType" },
@@ -90,7 +94,7 @@ class AnalyticsService {
   async resourceMimeTypeDistribution() {
     try {
       const res = await esConnector.client.search({
-        index: "resources",
+        index: "entities",
         size: 0,
         body: {
           query: {
@@ -132,12 +136,12 @@ class AnalyticsService {
     let res = "";
     try {
       res = await esConnector.client.search({
-        index: "reviews",
+        index: "entities",
         size: 0,
         body: {
           query: {
             term: {
-              belongsTo: {
+              attributedTo: {
                 value: resourceId,
                 boost: 1.0,
               },

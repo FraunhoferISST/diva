@@ -16,9 +16,4 @@ module.exports = {
     "Edge withe the given id not found",
     404
   ),
-  resourceNotFoundError: customErrorFactory(
-    "ResourceNotFound",
-    "Resource with given resource id not found",
-    404
-  ),
 };

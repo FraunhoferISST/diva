@@ -1,6 +1,6 @@
 {
   "name": "event-emitter",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A microservice for delivering events to a client",
   "repository": {
     "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISST",
   "dependencies": {
-    "@diva/common": "^1.2.0",
+    "@diva/common": "^2.2.0",
     "asyncapi-validator": "^3.0.0",
     "chalk": "^4.1.1",
     "socket.io": "^4.1.2"
