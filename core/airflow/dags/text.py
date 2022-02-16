@@ -1,6 +1,7 @@
 from airflow import DAG
 from datetime import datetime, timedelta
 from diva_operator import DivaOperator
+from airflow.models import Variable
 
 default_args = {
     'owner': 'airflow',
@@ -16,16 +17,17 @@ default_args = {
 with DAG('text', default_args=default_args, schedule_interval=None, catchup=False) as dag:
     profiling_args = {
         "ACTOR_ID": "{{ dag_run.conf['actorId'] }}",
-        "RESOURCE_ID": "{{ dag_run.conf['resourceId'] }}",
+        "ENTITY_ID": "{{ dag_run.conf['entityId'] }}",
         "UNIQUE_FINGERPRINT": "{{ dag_run.conf['uniqueFingerprint'] }}",
-        "RESOURCE_MANAGEMENT_URL": 'http://resource-management:3000',  # to be removed/rethinked
+        "ENTITY_MANAGEMENT_URL": Variable.get("entity_management_url"),
+        "MONGODB_URI": Variable.get("mongo_uri")
     }
     extract_text = DivaOperator(
         task_id='extracttext',
         image='ghcr.io/fraunhoferisst/diva/tika-extraction:1.0.0',
         api_version='auto',
         auto_remove=True,
-        s3_input_key="{{ dag_run.conf['uniqueFingerprint'] }}",
+        s3_input_key="{{ dag_run.conf['entityId'] }}",
         environment={
             'MODE': 'TEXT'
         },
@@ -39,7 +41,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         image='ghcr.io/fraunhoferisst/diva/tika-extraction:1.0.0',
         api_version='auto',
         auto_remove=True,
-        s3_input_key="{{ dag_run.conf['uniqueFingerprint'] }}",
+        s3_input_key="{{ dag_run.conf['entityId'] }}",
         environment={
             'MODE': 'META'
         },
@@ -116,7 +118,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     upload_meta = DivaOperator(
         task_id='upload_meta',
-        image='ghcr.io/fraunhoferisst/diva/resource-management-sink:1.0.1',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -131,7 +133,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     upload_keywords = DivaOperator(
         task_id='upload_keywords',
-        image='ghcr.io/fraunhoferisst/diva/resource-management-sink:1.0.1',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -146,7 +148,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     upload_core_phrase = DivaOperator(
         task_id='upload_core_phrase',
-        image='ghcr.io/fraunhoferisst/diva/resource-management-sink:1.0.1',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -161,7 +163,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     upload_languages = DivaOperator(
         task_id='upload_languages',
-        image='ghcr.io/fraunhoferisst/diva/resource-management-sink:1.0.1',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -176,7 +178,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     upload_stats = DivaOperator(
         task_id='upload_stats',
-        image='ghcr.io/fraunhoferisst/diva/resource-management-sink:1.0.1',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -191,7 +193,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     upload_personal_data = DivaOperator(
         task_id='upload_personal_data',
-        image='ghcr.io/fraunhoferisst/diva/resource-management-sink:1.0.1',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,

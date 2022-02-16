@@ -1,6 +1,7 @@
 from airflow import DAG
 from datetime import datetime, timedelta
 from diva_operator import DivaOperator
+from airflow.models import Variable
 
 default_args = {
     'owner': 'airflow',
@@ -16,11 +17,12 @@ default_args = {
 with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup=False) as dag:
     profiling_args = {
         "ACTOR_ID": "{{ dag_run.conf['actorId'] }}",
-        "RESOURCE_ID": "{{ dag_run.conf['resourceId'] }}",
+        "ENTITY_ID": "{{ dag_run.conf['entityId'] }}",
         "UNIQUE_FINGERPRINT": "{{ dag_run.conf['uniqueFingerprint'] }}",
-        "RESOURCE_MANAGEMENT_URL": 'http://resource-management:3000',  # to be removed/rethinked
         "MIME_TYPE": "{{ dag_run.conf['mimeType'] }}",
-        "NODE_ENV": 'development'  # test mode
+        "NODE_ENV": 'development',  # test mode,
+        "ENTITY_MANAGEMENT_URL": Variable.get("entity_management_url"),
+        "MONGODB_URI": Variable.get("mongo_uri")
     }
 
     # converter task
@@ -29,7 +31,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
         image='ghcr.io/fraunhoferisst/diva/table-data-to-csv:1.0.0',
         api_version='auto',
         auto_remove=True,
-        s3_input_key="{{ dag_run.conf['uniqueFingerprint'] }}",
+        s3_input_key="{{ dag_run.conf['entityId'] }}",
         environment={
             'MIME_TYPE': profiling_args['MIME_TYPE']
         },
@@ -43,7 +45,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
         image='ghcr.io/fraunhoferisst/diva/tika-extraction:1.0.0',
         api_version='auto',
         auto_remove=True,
-        s3_input_key="{{ dag_run.conf['uniqueFingerprint'] }}",
+        s3_input_key="{{ dag_run.conf['entityId'] }}",
         environment={
             'MODE': 'META'
         },
@@ -103,7 +105,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
     # PATCHES
     upload_meta = DivaOperator(
         task_id='upload_meta',
-        image='ghcr.io/fraunhoferisst/diva/resource-management-sink:1.0.1',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -118,7 +120,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
 
     upload_sample = DivaOperator(
         task_id='upload_sample',
-        image='ghcr.io/fraunhoferisst/diva/resource-management-sink:1.0.1',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -133,7 +135,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
 
     upload_stats = DivaOperator(
         task_id='upload_stats',
-        image='ghcr.io/fraunhoferisst/diva/resource-management-sink:1.0.1',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -148,7 +150,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
 
     upload_schema = DivaOperator(
         task_id='upload_schema',
-        image='ghcr.io/fraunhoferisst/diva/resource-management-sink:1.0.1',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
