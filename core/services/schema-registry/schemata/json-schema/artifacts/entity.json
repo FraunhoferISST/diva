@@ -159,7 +159,7 @@
           "examples": [
             "user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
           ],
-          "pattern": "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "pattern": "^(user|service|faas):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
           "_elasticsearch": {
             "type": "keyword"
           }
