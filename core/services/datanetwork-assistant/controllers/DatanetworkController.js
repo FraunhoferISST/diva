@@ -1,5 +1,6 @@
 const messageProducer = require("@diva/common/messaging/MessageProducer");
 const DatanetworkService = require("../services/DatanetworkService");
+const datanetworkService = require("../services/DatanetworkService");
 
 class DatanetworkController {
   async getEdges(req, res, next) {
@@ -54,6 +55,49 @@ class DatanetworkController {
         [edge.from.id, edge.to.id],
         { edgeType: edge.edgeType }
       );
+      res.status(204).send();
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async putNode(req, res, next) {
+    try {
+      const { entityId } = req.body;
+      const entityType = entityId.slice(0, entityId.indexOf(":"));
+      await DatanetworkService.createNode(entityId, entityType);
+      messageProducer.produce(
+        req.body.from,
+        req.headers["x-actorid"],
+        "create"
+      );
+      res.status(201).send();
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async deleteNodeById(req, res, next) {
+    try {
+      const { entityId } = req.body;
+      const actorId = req.headers["x-actorid"];
+      const { collection } = await datanetworkService.getEdges(
+        { from: entityId },
+        true
+      );
+      await DatanetworkService.deleteNode(entityId);
+      for (const edge of collection) {
+        messageProducer.produce(
+          edge.id,
+          actorId,
+          "delete",
+          [edge.from.id, edge.to.id],
+          {
+            edgeType: edge.edgeType,
+          }
+        );
+      }
+      messageProducer.produce(req.body.from, actorId, "create");
       res.status(204).send();
     } catch (e) {
       next(e);

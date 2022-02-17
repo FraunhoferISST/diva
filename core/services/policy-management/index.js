@@ -1,24 +1,33 @@
-const createServer = require("@diva/common/api/expressServer");
-const policyDecisionController = require("./controllers/policyDecisionController");
-
-// const policyCollectorRouter = require("./routes/policyCollector");
-// const policyCollectorService = require("./services/policyCollectorService");
-const policyDecisionRouter = require("./routes/policyDecision");
-const policyDecisionService = require("./services/policyDecisionService");
+const Server = require("@diva/common/api/expressServer");
+const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
+const generateUuid = require("@diva/common/generateUuid");
+const businessRulesService = require("./services/BusinessRulesService");
+const businessRulesRouter = require("./routes/businessRules");
+const { mongoDBConnector, neo4jConnector } = require("./utils/dbConnectors");
 const serviceName = require("./package.json").name;
 
-const port = process.env.PORT || 3013;
+const serviceId = generateUuid("service");
+setLoggerDefaultMeta({ serviceId });
 
-module.exports = createServer(
-  async (app) => {
-    // TODO: extract image file, fix until https://github.com/cdimascio/express-openapi-validator/pull/464 resolved
+const port = process.env.PORT || 3001;
+const NODE_ENV = process.env.NODE_ENV || "development";
+const server = new Server(port);
 
-    app.use("/decision", policyDecisionRouter);
+log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 
-    // await Promise.all([
-    //   policyCollectorService.init(),
-    // ]);
-    return policyDecisionService.init();
-  },
-  { port }
-);
+server.initBasicMiddleware();
+server.addMiddleware("/", businessRulesRouter);
+server.addOpenApiValidatorMiddleware();
+
+server
+  .boot()
+  .then(async () => {
+    await mongoDBConnector.connect();
+    await neo4jConnector.connect();
+    return Promise.all([businessRulesService.init()]);
+  })
+  .then(() => log.info(`✅ All components booted successfully 🚀`))
+  .catch((e) => {
+    log.error(e);
+    process.exit(1);
+  });

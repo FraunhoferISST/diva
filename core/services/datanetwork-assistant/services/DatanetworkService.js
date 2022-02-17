@@ -5,6 +5,7 @@ const {
   nodeNotFoundError,
   edgeNotFoundError,
   edgeAlreadyExistsError,
+  nodeAlreadyExistsError,
 } = require("../utils/errors");
 
 const neo4jConnector = new Neo4jConnector();
@@ -30,10 +31,6 @@ class DatanetworkService {
     this.neo4jClient = neo4jConnector.client;
   }
 
-  async createNode(id, entityType) {
-    return executeSession(`CREATE (n:${entityType} {id: '${id}'})`);
-  }
-
   async nodeExists(id) {
     const { records } = await executeSession(
       `MATCH (n {id: '${id}'}) RETURN n`
@@ -41,7 +38,14 @@ class DatanetworkService {
     return records.length > 0;
   }
 
-  async getNode(id) {
+  async createNode(entityId, entityType) {
+    if (await this.edgeExists(entityId)) {
+      throw nodeAlreadyExistsError;
+    }
+    return executeSession(`CREATE (n:${entityType} {entityId: '${entityId}'})`);
+  }
+
+  async getNodeById(id) {
     const { records } = await executeSession(
       `MATCH (n {id: '${id}'}) RETURN n`
     );

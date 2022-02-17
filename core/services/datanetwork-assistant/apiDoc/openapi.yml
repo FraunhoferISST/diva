@@ -6,7 +6,9 @@ info:
 servers:
   - url: http://localhost:3013
 tags:
-  - name: datanetwork
+  - name: edges
+    description: Datanetwork requests
+  - name: nodes
     description: Datanetwork requests
 
 paths:
@@ -15,7 +17,7 @@ paths:
       - $ref: "#/components/parameters/actoridParam"
     get:
       tags:
-        - datanetwork
+        - edges
       summary: Get edges connected to an entity
       description: The method returns a list of nodes that has relationships to the `from` entity. Note that same 
         node may apper multiple times in the result list, if it has multiple relationships to the `from` entity and 
@@ -70,10 +72,9 @@ paths:
           $ref: "#/components/responses/UnexpectedError"
         "5XX":
           $ref: "#/components/responses/UnexpectedError"
-
     put:
       tags:
-        - datanetwork
+        - edges
       summary: Put a single edge into the datanetwork.
       operationId: putEdge
       requestBody:
@@ -95,7 +96,7 @@ paths:
       - $ref: "#/components/parameters/actoridParam"
     get:
       tags:
-        - datanetwork
+        - edges
       summary: Get edge data by id
       description: Returns edge data and the `id`'s of by the edge connected entities
       operationId: getEdge
@@ -121,7 +122,7 @@ paths:
 
     delete:
       tags:
-        - datanetwork
+        - edges
       summary: Delete a edge by id.
       operationId: deleteEdgeById
       description: Delete a edge from the data network by edge `id`
@@ -133,6 +134,52 @@ paths:
           allowReserved: true
           schema:
             $ref: "#/components/schemas/EdgeId"
+      responses:
+        "204":
+          description: Deleted edge succesfully
+        "4XX":
+          $ref: "#/components/responses/UnexpectedError"
+        "5XX":
+          $ref: "#/components/responses/UnexpectedError"
+
+  /nodes:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+    put:
+      tags:
+        - nodes
+      summary: Put a single node into the datanetwork.
+      operationId: putNode
+      requestBody:
+        $ref: "#/components/requestBodies/PutNode"
+      responses:
+        "204":
+          description: Put edge succesfull. Returns the `id` of the new edge
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        "4XX":
+          $ref: "#/components/responses/UnexpectedError"
+        "5XX":
+          $ref: "#/components/responses/UnexpectedError"
+  /nodes/{id}:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+    delete:
+      tags:
+        - nodes
+      summary: Delete a node by id.
+      operationId: deleteNodeById
+      description: Delete a node from the data network by node `entityId`
+      parameters:
+        - name: id
+          in: path
+          description: The `id` of the node, represents the corresponding entity id
+          required: true
+          allowReserved: true
+          schema:
+            $ref: "#/components/schemas/EntityId"
       responses:
         "204":
           description: Deleted edge succesfully
@@ -163,6 +210,19 @@ components:
                 $ref: "#/components/schemas/EntityId"
               edgeType:
                 $ref: "#/components/schemas/EdgeType"
+    PutNode:
+      required: true
+      content:
+        application/json:
+          schema:
+            title: Node
+            description: Node defined by the `entityId`
+            type: object
+            required:
+              - entityId
+            properties:
+              entityId:
+                $ref: "#/components/schemas/EntityId"
 
   schemas:
     EntityId:

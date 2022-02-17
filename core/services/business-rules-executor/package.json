@@ -1,5 +1,5 @@
 {
-  "name": "policy-management",
+  "name": "business-rules-executor",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

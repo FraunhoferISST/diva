@@ -1,4 +1,4 @@
-[{
+ [{
     "title": "Creator of resource can perform GET",
     "priority": 0,
     "method": ["GET"],
