@@ -5,22 +5,23 @@ from airflow.models import Variable
 
 default_args = {
     'owner': 'airflow',
-    'description': 'Destroy Phase Helper',
+    'description': 'Entity Delete Bot',
     'depend_on_past': False,
-    'start_date': datetime(2018, 1, 3),
+    'start_date': datetime(2022, 1, 1),
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 0
 }
 
-with DAG('destroyphase', default_args=default_args, schedule_interval='* * * * *', catchup=False) as dag:
+with DAG('Entity Delete Bot', default_args=default_args, schedule_interval='* * * * *', catchup=False) as dag:
     profiling_args = {
         "MONGODB_URI": Variable.get("mongodb_uri"),
+        "ENTITY_MANAGEMENT_URL": Variable.get("entity_management_url"),
     }
 
-    destroy_phase = DockerOperator(
-        task_id='destroy-phase-helper',
-        image='destroy-phase-helper:0.0.1',
+    entity_delete_bot_task = DockerOperator(
+        task_id='entity-delete-bot',
+        image='entity-delete-bot:0.1.0',
         api_version='auto',
         auto_remove=True,
         docker_url="unix://var/run/docker.sock",
@@ -30,4 +31,4 @@ with DAG('destroyphase', default_args=default_args, schedule_interval='* * * * *
         },
     )
 
-    destroy_phase
+    entity_delete_bot_task
