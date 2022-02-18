@@ -87,13 +87,13 @@ class DatanetworkController {
 
   async deleteNodeById(req, res, next) {
     try {
-      const { entityId } = req.body;
       const actorId = req.headers["x-actorid"];
       const { collection } = await datanetworkService.getEdges(
-        { from: entityId },
+        { from: req.params.id },
         true
       );
-      await DatanetworkService.deleteNode(entityId);
+      await DatanetworkService.deleteNode(req.params.id);
+      messageProducer.produce(req.params.id, actorId, "create");
       for (const edge of collection) {
         messageProducer.produce(
           edge.id,
@@ -105,7 +105,6 @@ class DatanetworkController {
           }
         );
       }
-      messageProducer.produce(entityId, actorId, "create");
       res.status(204).send();
     } catch (e) {
       next(e);

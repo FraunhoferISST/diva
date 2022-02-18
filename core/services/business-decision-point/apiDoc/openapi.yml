@@ -1,0 +1,152 @@
+openapi: 3.0.0
+info:
+  description: "Policies and business rules decision point service is responsible to proof API actions and determine actions defined bei business rules"
+  version: 1.0.0
+  title: Business Descision Point API
+servers:
+  - url: http://localhost:3001
+tags:
+  - name: decisions
+    description: Operations for policy enforcements
+paths:
+  /enforcePolicies:
+    post:
+      tags:
+        - decisions
+      summary: Enforce policies
+      description: TBD
+      responses:
+        200:
+          description: TBD
+
+  /actions:
+    post:
+      tags:
+        - decisions
+      summary: Get action by business rules
+      description: On this endpoint the actions can be requested that are defined by business rules. The endpoint should be
+        in general consumed only from the Business Rules Executor. The actions are determined by supplied event message data.
+        An actions is modeled as HTTP request to one of the availiable services.
+      responses:
+        200:
+          description: Succesfuly retrieved rules
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Action"
+components:
+
+  schemas:
+    Action:
+      type: array
+      items:
+        type: object
+        required:
+          - headers
+          - method
+          - endpoint
+        properties:
+          headers:
+            type: object
+            properties:
+              x-actorid:
+                type: string
+                minLength: 1
+                pattern: "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          method:
+            type: string
+            title: HTTP method
+            description: HTTP method of the action HTTP request
+            example: "POST"
+            enum:
+              - GET
+              - POST
+              - PATCH
+              - DELETE
+          endpoint:
+            type: string
+            title: Action ednpoint
+            description: Endpoint (URL) of the action to wich the request will be made
+            example: "http://datanetwork-assistant/edges"
+          ignoreErrors:
+            title: Ignore errors
+            description: Errors that can be ignored on action execution
+            type: array
+            items:
+              type: object
+              required:
+                - statusCode
+              properties:
+                statusCode:
+                  type: number
+                  title: Error HTTP status code
+                  description: The Error HTTP status code that can be ignored on action execution
+                  example: 409
+
+    EntityId:
+      title: Entity ID
+      description: Unique identifier of an entity
+      type: string
+      example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
+      pattern: "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+
+    ResourceId:
+      title: Resource ID
+      description: Unique identifier of an entity
+      type: string
+      example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
+      pattern: "^resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - message
+        - code
+      properties:
+        type:
+          description: Description of the error type
+          type: string
+        message:
+          description: Description of the error
+          type: string
+        code:
+          description: Erro status code
+          type: number
+          format: int32
+        errors:
+          description: JSON Schema validation errors
+          type: array
+          items:
+            type: object
+
+  responses:
+
+    Error:
+      description: Internal error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+
+  parameters:
+
+    actoridParam:
+      in: header
+      description: The id of the origin that produces action/message. Can be a user or service
+      name: x-actorid
+      schema:
+        type: string
+        minLength: 1
+        pattern: "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      required: true
+
+    resourceIdParam:
+      in: path
+      description: Existing identifier of the resource that should be used by the operation
+      name: resourceId
+      schema:
+        $ref: "#/components/schemas/ResourceId"
+      required: true
