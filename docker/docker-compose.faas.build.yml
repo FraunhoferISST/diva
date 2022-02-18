@@ -64,6 +64,10 @@ services:
     build:
       context: ../faas/resource-management-sink
 
-  destroy-phase-helper:
+  # DIVA Bots
+  entity-archive-bot:
     build:
-      context: ../faas/destroy-phase-helper
+      context: ../faas/bots/entity-archive-bot
+  entity-delete-bot:
+    build:
+      context: ../faas/bots/entity-delete-bot    

@@ -1,6 +1,6 @@
 {
-  "name": "destroy-phase-helper",
-  "version": "0.0.1",
+  "name": "entity-archive-bot",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node app.js",
@@ -10,8 +10,7 @@
   "dependencies": {
     "axios": "^0.26.0",
     "mongodb": "^4.3.1",
-    "url-join": "^4.0.1",
-    "uuid": "^8.3.2"
+    "url-join": "^4.0.1"
   },
   "devDependencies": {
     "eslint": "^7.24.0",
