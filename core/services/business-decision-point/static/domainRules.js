@@ -32,6 +32,38 @@ module.exports = [
     ],
   },
   {
+    title: "Connect a review with the corresponding entity",
+    priority: 1,
+    scope: {
+      channel: "datanetwork.events",
+      "payload.type": "create",
+      "payload.object.id": "review:.*",
+    },
+    condition: true,
+    actions: [
+      {
+        headers: {
+          "x-actorid": "{{payload.actor.id}}",
+        },
+        method: "PUT",
+        endpoint: "{{datanetwork-assistant}}/edges",
+        body: {
+          from: "{{payload.object.id}}",
+          to: "{{payload.attributedTo[0].object.id}}",
+          edgeType: "isReviewOf",
+        },
+        ignoreErrors: [
+          {
+            statusCode: 409, // edge already exists
+          },
+          {
+            statusCode: 404, // one of the nodes does not exist
+          },
+        ],
+      },
+    ],
+  },
+  {
     title: "Delete review if corresponding entity was deleted",
     priority: 0,
     scope: {

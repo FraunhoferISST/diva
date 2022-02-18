@@ -27,6 +27,12 @@ paths:
       description: On this endpoint the actions can be requested that are defined by business rules. The endpoint should be
         in general consumed only from the Business Rules Executor. The actions are determined by supplied event message data.
         An actions is modeled as HTTP request to one of the availiable services.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Event message
+              type: object
       responses:
         200:
           description: Succesfuly retrieved rules

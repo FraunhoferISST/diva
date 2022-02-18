@@ -44,7 +44,7 @@ class EventsHandlerService {
 
   async handleCreateEvent(entityId, entityType, actorId) {
     const newNodeId = await datanetworkService.createNode(entityId, entityType);
-    messageProducer.produce(newNodeId, actorId, "create", [entityId]);
+    messageProducer.produce(newNodeId, actorId, "create");
   }
 
   async handleUpdateEvent(entityId, entityType, actorId) {
