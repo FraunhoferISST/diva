@@ -30,35 +30,46 @@ class EventsHandlerService {
       type,
       object: { id },
       actor: { id: actorId },
+      attributedTo,
     } = parsedMassage.payload;
+
     const entityType = id.slice(0, id.indexOf(":"));
+    const attributedToIds = attributedTo.map(
+      ({ object: { id: attrId } }) => attrId
+    );
 
     if (type === "create") {
-      await this.handleCreateEvent(id, entityType, actorId);
+      await this.handleCreateEvent(id, entityType, actorId, attributedToIds);
     } else if (type === "update") {
-      await this.handleUpdateEvent(id, entityType, actorId);
+      await this.handleUpdateEvent(id, entityType, actorId, attributedToIds);
     } else if (type === "delete") {
-      await this.handleDeleteEvent(id, entityType, actorId);
+      await this.handleDeleteEvent(id, entityType, actorId, attributedToIds);
     }
   }
 
-  async handleCreateEvent(entityId, entityType, actorId) {
+  async handleCreateEvent(entityId, entityType, actorId, attributedToIds) {
     const newNodeId = await datanetworkService.createNode(entityId, entityType);
-    messageProducer.produce(newNodeId, actorId, "create");
+    messageProducer.produce(newNodeId, actorId, "create", attributedToIds);
   }
 
-  async handleUpdateEvent(entityId, entityType, actorId) {
+  async handleUpdateEvent(entityId, entityType, actorId, attributedToIds) {
     if (!(await datanetworkService.nodeExists(entityId))) {
-      return this.handleCreateEvent(entityId, entityType, actorId);
+      return this.handleCreateEvent(
+        entityId,
+        entityType,
+        actorId,
+        attributedToIds
+      );
     }
   }
 
-  async handleDeleteEvent(entityId, entityType, actorId) {
+  async handleDeleteEvent(entityId, entityType, actorId, attributedToIds) {
     const { collection } = await datanetworkService.getEdges(
       { from: entityId },
       true
     );
     await datanetworkService.deleteNode(entityId);
+    messageProducer.produce(entityId, actorId, "delete", attributedToIds);
     for (const edge of collection) {
       messageProducer.produce(
         edge.id,

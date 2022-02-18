@@ -36,6 +36,7 @@ module.exports = [
     priority: 1,
     scope: {
       channel: "datanetwork.events",
+      "payload.attributedTo[0].object.id": "resource:.*",
       "payload.type": "create",
       "payload.object.id": "review:.*",
     },
