@@ -2,11 +2,7 @@ const messageConsumer = require("@diva/common/messaging/MessageConsumer");
 const messageProducer = require("@diva/common/messaging/MessageProducer");
 const datanetworkService = require("./DatanetworkService");
 const { name: serviceName } = require("../package.json");
-const {
-  IS_REVIEW_OF_RELATION,
-  IS_CREATOR_OF_RELATION,
-  KAFKA_CONSUMER_TOPICS,
-} = require("../utils/constants");
+const { KAFKA_CONSUMER_TOPICS } = require("../utils/constants");
 
 const NODE_ENV = process.env.NODE_ENV || "development";
 const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
@@ -38,47 +34,22 @@ class EventsHandlerService {
     const entityType = id.slice(0, id.indexOf(":"));
 
     if (type === "create") {
-      await this.handleCreateEvent(id, entityType, actorId, parsedMassage);
+      await this.handleCreateEvent(id, entityType, actorId);
     } else if (type === "update") {
-      await this.handleUpdateEvent(id, entityType, actorId, parsedMassage);
+      await this.handleUpdateEvent(id, entityType, actorId);
     } else if (type === "delete") {
-      await this.handleDeleteEvent(id, entityType, actorId, parsedMassage);
+      await this.handleDeleteEvent(id, entityType, actorId);
     }
   }
 
-  async handleCreateEvent(entityId, entityType, actorId, parsedMassage = {}) {
-    let newEdgeId = "";
-    await datanetworkService.createNode(entityId, entityType);
-    newEdgeId = await datanetworkService.createEdge({
-      from: actorId,
-      to: entityId,
-      edgeType: IS_CREATOR_OF_RELATION,
-    });
-    if (entityType === "review") {
-      const {
-        attributedTo: [
-          {
-            object: { id: belongsToEntityId },
-          },
-        ],
-      } = parsedMassage.payload;
-      newEdgeId = await datanetworkService.createEdge({
-        from: entityId,
-        to: belongsToEntityId,
-        edgeType: IS_REVIEW_OF_RELATION,
-      });
-    }
-    messageProducer.produce(newEdgeId, actorId, "create", [entityId, actorId]);
+  async handleCreateEvent(entityId, entityType, actorId) {
+    const newNodeId = await datanetworkService.createNode(entityId, entityType);
+    messageProducer.produce(newNodeId, actorId, "create", [entityId]);
   }
 
-  async handleUpdateEvent(entityId, entityType, actorId, parsedMassage = {}) {
+  async handleUpdateEvent(entityId, entityType, actorId) {
     if (!(await datanetworkService.nodeExists(entityId))) {
-      return this.handleCreateEvent(
-        entityId,
-        entityType,
-        actorId,
-        parsedMassage
-      );
+      return this.handleCreateEvent(entityId, entityType, actorId);
     }
   }
 
@@ -89,9 +60,15 @@ class EventsHandlerService {
     );
     await datanetworkService.deleteNode(entityId);
     for (const edge of collection) {
-      messageProducer.produce(edge.id, actorId, "delete", [edge.to.id], {
-        edgeType: edge.edgeType,
-      });
+      messageProducer.produce(
+        edge.id,
+        actorId,
+        "delete",
+        [edge.from.id, edge.to.id],
+        {
+          edgeType: edge.edgeType,
+        }
+      );
     }
   }
 }

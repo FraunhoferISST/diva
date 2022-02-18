@@ -8,6 +8,7 @@ router.get("/edges/:id", DatanetworkController.getEdgeById);
 router.put("/edges", DatanetworkController.putEdge);
 router.delete("/edges/:id", DatanetworkController.deleteEdgeById);
 
+router.get("/nodes/:id", DatanetworkController.getNodeById);
 router.put("/nodes", DatanetworkController.putNode);
 router.delete("/nodes/:id", DatanetworkController.deleteNodeById);
 

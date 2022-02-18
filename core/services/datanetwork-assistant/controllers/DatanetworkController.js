@@ -30,7 +30,7 @@ class DatanetworkController {
 
   async putEdge(req, res, next) {
     try {
-      await DatanetworkService.createEdge(req.body);
+      const newEdgeId = await DatanetworkService.createEdge(req.body);
       messageProducer.produce(
         req.body.from,
         req.headers["x-actorid"],
@@ -38,7 +38,7 @@ class DatanetworkController {
         [req.body.from, req.body.to],
         { edgeType: req.body.edgeType }
       );
-      res.status(204).send();
+      res.status(201).send(newEdgeId);
     } catch (e) {
       next(e);
     }
@@ -61,16 +61,24 @@ class DatanetworkController {
     }
   }
 
+  async getNodeById(req, res, next) {
+    try {
+      const result = await DatanetworkService.getNodeById(req.params.id);
+      res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async putNode(req, res, next) {
     try {
       const { entityId } = req.body;
       const entityType = entityId.slice(0, entityId.indexOf(":"));
-      await DatanetworkService.createNode(entityId, entityType);
-      messageProducer.produce(
-        req.body.from,
-        req.headers["x-actorid"],
-        "create"
+      const newNodeId = await DatanetworkService.createNode(
+        entityId,
+        entityType
       );
+      messageProducer.produce(newNodeId, req.headers["x-actorid"], "create");
       res.status(201).send();
     } catch (e) {
       next(e);
@@ -97,7 +105,7 @@ class DatanetworkController {
           }
         );
       }
-      messageProducer.produce(req.body.from, actorId, "create");
+      messageProducer.produce(entityId, actorId, "create");
       res.status(204).send();
     } catch (e) {
       next(e);

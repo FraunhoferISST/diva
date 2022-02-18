@@ -166,6 +166,32 @@ paths:
   /nodes/{id}:
     parameters:
       - $ref: "#/components/parameters/actoridParam"
+    get:
+      tags:
+        - nodes
+      summary: Get node data by id
+      description: Returns node data
+      operationId: getNode
+      parameters:
+        - name: id
+          in: path
+          description: The `id` of the node. Is represented by corresponding entity `id`
+          required: true
+          allowReserved: true
+          schema:
+            $ref: "#/components/schemas/EntityId"
+      responses:
+        "200":
+          description: Get node succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Node"
+        "4XX":
+          $ref: "#/components/responses/UnexpectedError"
+        "5XX":
+          $ref: "#/components/responses/UnexpectedError"
+
     delete:
       tags:
         - nodes
@@ -266,6 +292,15 @@ components:
           $ref: "#/components/schemas/EdgeType"
         id:
           $ref: "#/components/schemas/EdgeId"
+    Node:
+      title: Node
+      description: Definition of a node
+      type: object
+      required:
+        - entityId
+      properties:
+        entityId:
+          $ref: "#/components/schemas/EntityId"
 
     EdgeType:
       title: Edge type

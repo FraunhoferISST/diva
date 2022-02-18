@@ -42,12 +42,14 @@ class DatanetworkService {
     if (await this.edgeExists(entityId)) {
       throw nodeAlreadyExistsError;
     }
-    return executeSession(`CREATE (n:${entityType} {entityId: '${entityId}'})`);
+    return executeSession(
+      `CREATE (n:${entityType} {entityId: '${entityId}'})`
+    ).then(() => entityId);
   }
 
   async getNodeById(id) {
     const { records } = await executeSession(
-      `MATCH (n {id: '${id}'}) RETURN n`
+      `MATCH (n {entityId: '${id}'}) RETURN n`
     );
     if (records?.length === 0) {
       throw nodeNotFoundError;
@@ -56,7 +58,7 @@ class DatanetworkService {
   }
 
   async updateNode(id, entityType) {
-    return executeSession(`CREATE (n:${entityType} {id: '${id}'})`).catch(
+    return executeSession(`CREATE (n:${entityType} {entityId: '${id}'})`).catch(
       (e) => {
         if (e?.code === "Neo.ClientError.Schema.ConstraintValidationFailed") {
           return true;
@@ -67,7 +69,7 @@ class DatanetworkService {
   }
 
   async deleteNode(id) {
-    return executeSession(`MATCH (n {id: "${id}"}) DETACH DELETE n`);
+    return executeSession(`MATCH (n {entityId: "${id}"}) DETACH DELETE n`);
   }
 
   async getEdgeById(id) {
@@ -121,7 +123,7 @@ class DatanetworkService {
     }
     const newEdgeId = generateUuid("edge");
     await executeSession(
-      `MATCH (a {id: '${from}'}) MATCH (b {id: '${to}'}) MERGE(a)-[:${edgeType} {id: "${newEdgeId}"}]-(b)`
+      `MATCH (a {entityId: '${from}'}) MATCH (b {entityId: '${to}'}) MERGE(a)-[:${edgeType} {entityId: "${newEdgeId}"}]-(b)`
     );
     return newEdgeId;
   }
