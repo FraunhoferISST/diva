@@ -32,7 +32,7 @@ class DatanetworkController {
     try {
       const newEdgeId = await DatanetworkService.createEdge(req.body);
       messageProducer.produce(
-        req.body.from,
+        newEdgeId,
         req.headers["x-actorid"],
         "create",
         [req.body.from, req.body.to],

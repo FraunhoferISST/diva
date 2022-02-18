@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   title: Datanetwork Assistant API
 servers:
-  - url: http://localhost:3013
+  - url: http://localhost:3012
 tags:
   - name: edges
     description: Datanetwork requests

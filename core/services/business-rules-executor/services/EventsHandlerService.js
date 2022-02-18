@@ -16,8 +16,21 @@ const requestActions = async (message) => {
   return data;
 };
 
-const executeAction = ({ endpoint, method, body = {}, headers = {} }) =>
-  axios[method.toLowerCase()](endpoint, body, { headers });
+const executeAction = ({
+  endpoint,
+  method,
+  body = {},
+  headers = {},
+  ignoreErrors = [],
+}) =>
+  axios[method.toLowerCase()](endpoint, body, { headers }).catch((e) => {
+    for (const error of ignoreErrors) {
+      if (e?.response?.status === error.statusCode) {
+        return true;
+      }
+    }
+    throw e;
+  });
 
 class EventsHandlerService {
   async init() {
@@ -41,9 +54,13 @@ class EventsHandlerService {
     const parsedMassage = JSON.parse(message.value.toString());
     const actions = await requestActions(parsedMassage);
     for (const action of actions) {
-      log.info("Executing rules actions", { ...action, ...message });
-      // TODO: maybe catch the error after some retries and skipp the message, otherwise an incorrect action may cause a soft lock
-      await retry(() => executeAction(action));
+      log.info("Executing rules actions", { action, message });
+      await retry(() => executeAction(action)).catch((e) => {
+        log.error("Would not able to process action", {
+          action,
+          error: e.toString(),
+        });
+      });
     }
   }
 }

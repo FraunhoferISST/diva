@@ -33,7 +33,7 @@ class DatanetworkService {
 
   async nodeExists(id) {
     const { records } = await executeSession(
-      `MATCH (n {id: '${id}'}) RETURN n`
+      `MATCH (n {entityId: '${id}'}) RETURN n`
     );
     return records.length > 0;
   }
@@ -112,7 +112,7 @@ class DatanetworkService {
 
   async edgeExists(from, to, edgeType) {
     const { records } = await executeSession(
-      `MATCH (from {id: "${from}"}) -[r: ${edgeType}]- (to {id: "${to}"}) RETURN r`
+      `MATCH (from {entityId: "${from}"}) -[r: ${edgeType}]- (to {entityId: "${to}"}) RETURN r`
     );
     return records.length > 0;
   }
@@ -120,6 +120,13 @@ class DatanetworkService {
   async createEdge({ from, to, edgeType }) {
     if (await this.edgeExists(from, to, edgeType)) {
       throw edgeAlreadyExistsError;
+    }
+    if (
+      !(await (
+        await Promise.all([from, to].map(this.nodeExists))
+      ).every((exists) => exists))
+    ) {
+      throw nodeNotFoundError;
     }
     const newEdgeId = generateUuid("edge");
     await executeSession(
