@@ -183,7 +183,7 @@
         "description": "Unique user identifier",
         "type": "string",
         "example": "user:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189",
-        "pattern": "^(user|service|faas):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        "pattern": "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
       },
       "EntityId": {
         "title": "Entity id",
