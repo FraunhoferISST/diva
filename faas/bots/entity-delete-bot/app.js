@@ -16,18 +16,14 @@ const client = new MongoClient(MONGODB_URI, {
   serverSelectionTimeoutMS: 1000 * 60 * 10,
 });
 
-const patchEntity = async (entityId) => {
+const deleteEntity = async (entityId) => {
   try {
-    await axios.patch(
+    await axios.delete(
       urljoin(
         ENTITY_MANAGEMENT_URL,
         `${entityId.substr(0, entityId.indexOf(":"))}s`,
         entityId
       ),
-      {
-        entityToBeArchivedDate: null,
-        isArchived: true,
-      },
       {
         headers: {
           "x-actorid": serviceId,
@@ -56,7 +52,7 @@ const analyze = async () => {
       .project({ _id: 0, id: 1 });
 
     for await (const entity of cursor) {
-      await patchEntity(entity.id);
+      await deleteEntity(entity.id);
       console.log(
         `🤖 Entity Delete Bot: I deleted entity with id: ${entity.id}`
       );
