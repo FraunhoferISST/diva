@@ -142,7 +142,10 @@ components:
             example a creation of a review may contain in this filed the id of the entity for wich this review was created. The nodes
             events propagate the data from the original entities events as they represent the correspoinding entities. 
             The edges events are assumed to containt 2 id's where the first element in the array represents the `from` 
-            node of the edge, the seconds it the `to` node.
+            node of the edge, the seconds it the `to` node. In the edge events the order of entiteis in `attributedTo` dependes
+            on corresponding edge type. For example for the edge type `isReviewOf` we assume that the relation goes **from**
+            a review **to** a resource (or other enttiy). Accordingly, at the first position of the array you will find the review id, at the 
+            second the resource id
           type: array
           items:
             additionalItems: false

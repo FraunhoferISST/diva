@@ -64,7 +64,7 @@ class EventsConsumerService {
         edge.id,
         actorId,
         "delete",
-        [edge.from.id, edge.to.id],
+        [edge.from.entityId, edge.to.entityId],
         {
           edgeType: edge.edgeType,
         }

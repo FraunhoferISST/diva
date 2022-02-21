@@ -19,10 +19,11 @@ paths:
       tags:
         - edges
       summary: Get edges connected to an entity
-      description: The method returns a list of nodes that has relationships to the `from` entity. Note that same 
+      description: The method returns a list of edges inforamtion that has relationships to the `from` entity. Note that same 
         node may apper multiple times in the result list, if it has multiple relationships to the `from` entity and 
-        `edgeType` query param is not spezified. If you want to return all nodes regardless of the edge direction, set `bidirectional`
-        query parameter.
+        `edgeType` query param is not specified. If you want to return all nodes regardless of the edge direction, set `bidirectional`
+        query parameter. Please note that if `bidirectional` is true, the response preserves the correct edge direction
+        and the `from` entity can appear as a `to` entity corresponding to specific edge type!
       operationId: getEdges
       parameters:
         - name: from
@@ -267,7 +268,7 @@ components:
 
     Edge:
       title: Edge
-      description: Definition of an Edge as application/json.
+      description: Definition of an Edge
       type: object
       required:
         - from
@@ -279,14 +280,14 @@ components:
           description: The entity from wich the relation is outgoing
           type: object
           properties:
-            id:
+            entityId:
               $ref: "#/components/schemas/EntityId"
         to:
           title: To entity
           description: The entity to wich the relation is going
           type: object
           properties:
-            id:
+            entityId:
               $ref: "#/components/schemas/EntityId"
         edgeType:
           $ref: "#/components/schemas/EdgeType"

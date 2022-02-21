@@ -71,14 +71,14 @@ module.exports = [
       channel: "datanetwork.events",
       "payload.type": "delete",
       "payload.object.id": "edge:.*",
-      "payload.attributedTo[1].object.id": "review:.*",
+      "payload.attributedTo[0].object.id": "review:.*",
     },
     condition: {
       and: [
         {
           cypher: {
             query:
-              "MATCH (r:review {id:'{{payload.attributedTo[1].object.id}}'})-[:isReviewOf]->(entity) RETURN (count(entity)=0) as ruleMet",
+              "MATCH (r:review {id:'{{payload.attributedTo[0].object.id}}'})-[:isReviewOf]->(entity) RETURN (count(entity)=0) as ruleMet",
           },
         },
       ],
@@ -90,7 +90,7 @@ module.exports = [
         },
         method: "DELETE",
         endpoint:
-          "{{entity-management}}/reviews/{{payload.attributedTo[1].object.id}}",
+          "{{entity-management}}/reviews/{{payload.attributedTo[0].object.id}}",
         ignoreErrors: [
           {
             statusCode: 404, // already deleted, ignore it

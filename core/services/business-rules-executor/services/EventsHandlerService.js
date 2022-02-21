@@ -23,7 +23,12 @@ const executeAction = ({
   headers = {},
   ignoreErrors = [],
 }) =>
-  axios[method.toLowerCase()](endpoint, body, { headers }).catch((e) => {
+  axios({
+    url: endpoint,
+    method: method.toLowerCase(),
+    headers,
+    data: body,
+  }).catch((e) => {
     for (const error of ignoreErrors) {
       if (e?.response?.status === error.statusCode) {
         return true;
@@ -42,7 +47,7 @@ class EventsHandlerService {
         },
         {
           topic: "datanetwork.events",
-          spec: "asyncapi",
+          spec: "datanetwork-api",
         },
       ],
       serviceName
