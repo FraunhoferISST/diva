@@ -133,3 +133,25 @@ services:
       dockerfile: ../core/services/Dockerfile
       args:
         SERVICE_NAME: 'datanetwork-assistant'
+
+  # ####################################################################################################################
+  # business-decision-point
+  # ####################################################################################################################
+
+  business-decision-point:
+    build:
+      context: ../core
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'business-decision-point'
+
+  # ####################################################################################################################
+  # business-rules-executor
+  # ####################################################################################################################
+
+  business-rules-executor:
+    build:
+      context: ../core
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'business-rules-executor'
