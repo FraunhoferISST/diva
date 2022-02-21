@@ -46,6 +46,8 @@ x-base-core-service: &base-core-service
     - documentstore
     - broker
     - schema-registry
+    - business-decision-point
+    - business-rules-executor
   networks:
     - core
   restart: always
@@ -423,6 +425,36 @@ services:
       ASYNCAPI_SPECIFICATION: asyncapi
       EVENT_EMITTER_SPECIFICATION: event-emitter-api
       KAFKA_TOPICS: "[\"entity.events\", \"datanetwork.events\"]"
+
+  # ####################################################################################################################
+  # Business Decision Point Service
+  # ####################################################################################################################
+
+  business-decision-point:
+    <<: *base-core-service
+    image: ${REGISTRY}business-decision-point:0.1.0
+    container_name: business-decision-point
+    ports:
+      - ${EVENT_EMITTER_PORT}:${EVENT_EMITTER_PORT}
+    environment:
+      PORT: ${BUSINESS_DECISION_POINT}
+      SERVICES_URLS: "datanetwork-assistant::http://datanetwork-assistant:3012,entity-management::http://entity-management:3000"
+
+  # ####################################################################################################################
+  # Business Rules Executor Service
+  # ####################################################################################################################
+
+  business-rules-executor:
+    image: ${REGISTRY}business-rules-executor:1.0.0
+    container_name: business-rules-executor
+    depends_on:
+      - broker
+      - business-decision-point
+    restart: always
+    networks:
+      - core
+    environment:
+      <<: *kafka-env
 
   # ####################################################################################################################
   # DIVA Data Network Graph DB
