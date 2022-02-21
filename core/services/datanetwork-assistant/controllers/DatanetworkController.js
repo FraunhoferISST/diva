@@ -1,12 +1,27 @@
 const messageProducer = require("@diva/common/messaging/MessageProducer");
-const DatanetworkService = require("../services/DatanetworkService");
 const datanetworkService = require("../services/DatanetworkService");
+const { name: serviceName } = require("../package.json");
+
+const NODE_ENV = process.env.NODE_ENV || "development";
+const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
+const producerTopic = "datanetwork.events";
 
 class DatanetworkController {
+  async init() {
+    await messageProducer.init(
+      producerTopic,
+      serviceName,
+      "datanetworkEvents",
+      "datanetwork-api",
+      producer
+    );
+    return datanetworkService.init();
+  }
+
   async getEdges(req, res, next) {
     try {
       const { from, edgeTypes } = req.query;
-      const result = await DatanetworkService.getEdges(
+      const result = await datanetworkService.getEdges(
         {
           from,
           edgeTypes: edgeTypes ? edgeTypes.split(",") : null,
@@ -21,7 +36,7 @@ class DatanetworkController {
 
   async getEdgeById(req, res, next) {
     try {
-      const result = await DatanetworkService.getEdgeById(req.params.id);
+      const result = await datanetworkService.getEdgeById(req.params.id);
       res.status(200).json(result);
     } catch (e) {
       next(e);
@@ -30,7 +45,7 @@ class DatanetworkController {
 
   async putEdge(req, res, next) {
     try {
-      const newEdgeId = await DatanetworkService.createEdge(req.body);
+      const newEdgeId = await datanetworkService.createEdge(req.body);
       messageProducer.produce(
         newEdgeId,
         req.headers["x-actorid"],
@@ -46,8 +61,8 @@ class DatanetworkController {
 
   async deleteEdgeById(req, res, next) {
     try {
-      const edge = await DatanetworkService.getEdgeById(req.params.id);
-      await DatanetworkService.deleteEdgeById(req.params.id);
+      const edge = await datanetworkService.getEdgeById(req.params.id);
+      await datanetworkService.deleteEdgeById(req.params.id);
       messageProducer.produce(
         req.params.id,
         req.headers["x-actorid"],
@@ -63,7 +78,7 @@ class DatanetworkController {
 
   async getNodeById(req, res, next) {
     try {
-      const result = await DatanetworkService.getNodeById(req.params.id);
+      const result = await datanetworkService.getNodeById(req.params.id);
       res.status(200).json(result);
     } catch (e) {
       next(e);
@@ -74,7 +89,7 @@ class DatanetworkController {
     try {
       const { entityId } = req.body;
       const entityType = entityId.slice(0, entityId.indexOf(":"));
-      const newNodeId = await DatanetworkService.createNode(
+      const newNodeId = await datanetworkService.createNode(
         entityId,
         entityType
       );
@@ -92,7 +107,7 @@ class DatanetworkController {
         { from: req.params.id },
         true
       );
-      await DatanetworkService.deleteNode(req.params.id);
+      await datanetworkService.deleteNode(req.params.id);
       messageProducer.produce(req.params.id, actorId, "create");
       for (const edge of collection) {
         messageProducer.produce(

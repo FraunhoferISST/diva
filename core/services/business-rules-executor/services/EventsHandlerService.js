@@ -5,12 +5,12 @@ const { logger: log } = require("@diva/common/logger");
 const retry = require("@diva/common/utils/retrier");
 const { name: serviceName } = require("../package.json");
 
-const BUSINESS_DECISION_POINT =
-  process.env.BUSINESS_DECISION_POINT || "http://localhost:3001/";
+const BUSINESS_DECISION_POINT_URL =
+  process.env.BUSINESS_DECISION_POINT_URL || "http://localhost:3001/";
 
 const requestActions = async (message) => {
   const { data } = await axios.post(
-    urljoin(BUSINESS_DECISION_POINT, "actions"),
+    urljoin(BUSINESS_DECISION_POINT_URL, "actions"),
     message
   );
   return data;

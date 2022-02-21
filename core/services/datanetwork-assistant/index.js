@@ -2,9 +2,9 @@ const Server = require("@diva/common/api/expressServer");
 const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
 const generateUuid = require("@diva/common/generateUuid");
 const edgesRouter = require("./routes/network");
-const datanetworkService = require("./services/DatanetworkService");
-const eventsHandlerService = require("./services/EventsHandlerService");
-const serviceName = require("./package.json").name;
+const eventsConsumerService = require("./services/EventsConsumerService");
+const datanetworkController = require("./controllers/DatanetworkController");
+const { name: serviceName } = require("./package.json");
 
 const serviceId = generateUuid("service");
 
@@ -23,8 +23,8 @@ server.addMiddleware("/", edgesRouter);
 server
   .boot()
   .then(async () => {
-    await eventsHandlerService.init();
-    return datanetworkService.init();
+    await datanetworkController.init();
+    return eventsConsumerService.init();
   })
   .then(() => log.info(`✅ All components booted successfully 🚀`))
   .catch((e) => {

@@ -78,7 +78,7 @@ module.exports = [
         {
           cypher: {
             query:
-              "MATCH (r:review {id:'{{payload.attributedTo[1].object.id}}'})-[:isReviewOf]->(entity) RETURN (count(entity)>0) as ruleMet",
+              "MATCH (r:review {id:'{{payload.attributedTo[1].object.id}}'})-[:isReviewOf]->(entity) RETURN (count(entity)=0) as ruleMet",
           },
         },
       ],

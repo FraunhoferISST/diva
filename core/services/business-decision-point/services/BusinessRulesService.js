@@ -4,13 +4,13 @@ const {
   isConditionMet,
   getMatchingBusinessAssets,
 } = require("../utils/utils");
-const dependencyURLsMap = require("../utils/dependencyURLs");
+const servicesURLsMap = require("../utils/servicesURLs");
 
 const prepareAction = (action, message) =>
   JSON.parse(
     substituteTemplate(JSON.stringify(action), {
       ...message,
-      ...dependencyURLsMap,
+      ...servicesURLsMap,
     })
   );
 

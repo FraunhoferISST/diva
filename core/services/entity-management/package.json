@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Manages metadata of entities and publishes CRUD events to kafka",
   "repository": {
-    "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
+    "url": "https://github.com/FraunhoferISST/diva"
   },
   "main": "index.js",
   "scripts": {

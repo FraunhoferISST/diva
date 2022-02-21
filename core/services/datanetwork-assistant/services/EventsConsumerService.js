@@ -4,21 +4,10 @@ const datanetworkService = require("./DatanetworkService");
 const { name: serviceName } = require("../package.json");
 const { KAFKA_CONSUMER_TOPICS } = require("../utils/constants");
 
-const NODE_ENV = process.env.NODE_ENV || "development";
-const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
-const producerTopic = process.env.KAFKA_EVENT_TOPIC || "datanetwork.events";
-
-class EventsHandlerService {
+class EventsConsumerService {
   async init() {
-    await messageProducer.init(
-      producerTopic,
-      serviceName,
-      "datanetworkEvents",
-      "asyncapi",
-      producer
-    );
     await messageConsumer.init(
-      KAFKA_CONSUMER_TOPICS.map((topic) => ({ topic, spec: "asyncapi" })),
+      KAFKA_CONSUMER_TOPICS,
       `${serviceName}-consumer`
     );
     await messageConsumer.consume(this.onMessage.bind(this));
@@ -84,4 +73,4 @@ class EventsHandlerService {
   }
 }
 
-module.exports = new EventsHandlerService();
+module.exports = new EventsConsumerService();

@@ -1,6 +1,5 @@
 const Neo4jConnector = require("@diva/common/databases/Neo4jConnector");
 const generateUuid = require("@diva/common/generateUuid");
-const { KAFKA_CONSUMER_TOPICS } = require("../utils/constants");
 const {
   nodeNotFoundError,
   edgeNotFoundError,
@@ -15,7 +14,9 @@ const executeSession = (query) => {
   return session.run(query).finally(() => session.close());
 };
 
-const createConstraints = async (neo4jLabels) => {
+const createConstraints = async (
+  neo4jLabels = ["resource", "assets", "users", "service", "review"]
+) => {
   const constraints = neo4jLabels.map((l) =>
     executeSession(
       `CREATE CONSTRAINT unique_${l}_id IF NOT EXISTS ON (a:${l}) ASSERT a.id IS UNIQUE`
@@ -27,7 +28,7 @@ const createConstraints = async (neo4jLabels) => {
 class DatanetworkService {
   async init() {
     await neo4jConnector.connect();
-    await createConstraints(KAFKA_CONSUMER_TOPICS.map((t) => t.split(".")[0]));
+    await createConstraints();
     this.neo4jClient = neo4jConnector.client;
   }
 
@@ -74,7 +75,7 @@ class DatanetworkService {
 
   async getEdgeById(id) {
     const { records } = await executeSession(
-      `MATCH (from)-[r {id: "${id}"}]-(to) RETURN from,r,to`
+      `MATCH ()-[r {id: "${id}"}]-() RETURN startNode(r) as from, r, endNode(r) as to`
     );
     if (records.length > 0) {
       const record = records[0];
@@ -96,12 +97,13 @@ class DatanetworkService {
     const relationshipTypes = edgeTypes ? `r:${edgeTypes.join("|")}` : "r";
     const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
     return executeSession(
-      `MATCH (from {id: '${from}'})${relationship}(to) RETURN to, r`
+      `MATCH (n {entityId: '${from}'}) ${relationship} (m) RETURN startNode(r) as from, r, endNode(r) as to`
     ).then(({ records }) => ({
       collection:
         records?.map(({ _fields }) => ({
-          from: { id: from },
-          to: _fields[0].properties,
+          // preserve TRUE relationship direction
+          from: _fields[0].properties,
+          to: _fields[2].properties,
           edgeType: _fields[1].type,
           id: _fields[1].properties.id,
         })) ?? [],
@@ -130,7 +132,7 @@ class DatanetworkService {
     }
     const newEdgeId = generateUuid("edge");
     await executeSession(
-      `MATCH (a {entityId: '${from}'}) MATCH (b {entityId: '${to}'}) MERGE(a)-[:${edgeType} {entityId: "${newEdgeId}"}]-(b)`
+      `MATCH (a {entityId: '${from}'}) MATCH (b {entityId: '${to}'}) MERGE(a)-[:${edgeType} {id: "${newEdgeId}"}]-(b)`
     );
     return newEdgeId;
   }
