@@ -37,7 +37,7 @@ const executeAction = ({
     throw e;
   });
 
-class EventsHandlerService {
+class EventsConsumerService {
   async init() {
     await messageConsumer.init(
       [
@@ -70,4 +70,4 @@ class EventsHandlerService {
   }
 }
 
-module.exports = new EventsHandlerService();
+module.exports = new EventsConsumerService();

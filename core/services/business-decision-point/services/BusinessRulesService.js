@@ -1,4 +1,4 @@
-const domainRules = require("../static/domainRules");
+const domainRules = require("../static/businessRules");
 const {
   substituteTemplate,
   isConditionMet,
