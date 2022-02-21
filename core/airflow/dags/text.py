@@ -20,7 +20,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         "ENTITY_ID": "{{ dag_run.conf['entityId'] }}",
         "UNIQUE_FINGERPRINT": "{{ dag_run.conf['uniqueFingerprint'] }}",
         "ENTITY_MANAGEMENT_URL": Variable.get("entity_management_url"),
-        "MONGODB_URI": Variable.get("mongo_uri")
+        "MONGODB_URI": Variable.get("mongodb_uri")
     }
     extract_text = DivaOperator(
         task_id='extracttext',

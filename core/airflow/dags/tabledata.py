@@ -22,7 +22,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
         "MIME_TYPE": "{{ dag_run.conf['mimeType'] }}",
         "NODE_ENV": 'development',  # test mode,
         "ENTITY_MANAGEMENT_URL": Variable.get("entity_management_url"),
-        "MONGODB_URI": Variable.get("mongo_uri")
+        "MONGODB_URI": Variable.get("mongodb_uri")
     }
 
     # converter task
