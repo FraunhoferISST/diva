@@ -16,7 +16,7 @@ paths:
     post:
       tags:
         - profiling
-      summary: Check if profiling workflow exists for given resource.
+      summary: Check if profiling workflow exists for given entity.
       operationId: profilingExists
       requestBody:
         content:
@@ -24,8 +24,8 @@ paths:
             schema:
               type: object
               properties:
-                resourceId:
-                  $ref: "#/components/schemas/ResourceId"
+                entityId:
+                  $ref: "#/components/schemas/EntityId"
       responses:
         "200":
           description: Exist result
@@ -40,7 +40,7 @@ paths:
               schema:
                 oneOf:
                  - $ref: "#/components/responses/DAGNotFoundError"
-                 - $ref: "#/components/responses/ResourceNotFoundError"                
+                 - $ref: "#/components/responses/EntityNotFoundError"
         "4XX":
           $ref: "#/components/responses/UnexpectedError"
         "5XX":
@@ -52,7 +52,7 @@ paths:
     post:
       tags:
         - profiling
-      summary: Trigger pofiling workflow for a resource.
+      summary: Trigger pofiling workflow for a entity.
       operationId: profilingRun
       requestBody:
         content:
@@ -60,8 +60,8 @@ paths:
             schema:
               type: object
               properties:
-                resourceId:
-                  $ref: "#/components/schemas/ResourceId"
+                entityId:
+                  $ref: "#/components/schemas/EntityId"
       responses:
         "200":
           description: Triggered profiling
@@ -76,7 +76,7 @@ paths:
               schema:
                 oneOf:
                  - $ref: "#/components/responses/DAGNotFoundError"
-                 - $ref: "#/components/responses/ResourceNotFoundError"                
+                 - $ref: "#/components/responses/EntityNotFoundError"
         "4XX":
           $ref: "#/components/responses/UnexpectedError"
         "5XX":
@@ -86,12 +86,12 @@ components:
 
   schemas:
 
-    ResourceId:
-      title: Resource ID
+    EntityId:
+      title: Entity ID
       description: Unique identifier of an entity
       type: string
       example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
-      pattern: "^resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      pattern: "(resource|user|asset|service|review):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
 
     Error:
       type: object
@@ -132,8 +132,8 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Error"
-    ResourceNotFoundError:
-      description: Resource does not exist
+    EntityNotFoundError:
+      description: Entity does not exist
       content:
         application/json:
           schema:

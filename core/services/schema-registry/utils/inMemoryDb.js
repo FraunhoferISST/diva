@@ -3,6 +3,7 @@ const glob = require("glob");
 const Keyv = require("keyv");
 const mime = require("mime");
 const fs = require("fs");
+const { logger: log } = require("@diva/common/logger");
 const { schemaNotFoundError } = require("./errors");
 
 let WORK_DIR = process.cwd();
@@ -16,7 +17,7 @@ if (process.pkg?.entrypoint) {
 }
 
 const keyv = new Keyv();
-keyv.on("error", (err) => console.log("Connection Error", err));
+keyv.on("error", (err) => log.error("Connection Error", err));
 
 const loadSchema = async (p) => {
   const payload = fs.readFileSync(`${p}`);
@@ -25,14 +26,14 @@ const loadSchema = async (p) => {
 };
 
 const buildInMemoryDb = async () => {
-  console.log(`👀 Read Schemata`);
+  log.info(`👀 Read Schemata`);
   const schemataPaths = glob.sync(`${schemataRootPath}/**/*.*`);
   if (schemataPaths.length === 0) {
     throw Error(`Couldn't find eny schema on "${schemataRootPath}"`);
   }
   const promises = schemataPaths.map(loadSchema);
   await Promise.all(promises);
-  console.log("✅ All schemata read into memory");
+  log.info("✅ All schemata read into memory");
 };
 
 const getSchemaByName = (name) =>

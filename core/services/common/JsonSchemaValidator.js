@@ -1,5 +1,4 @@
 const axios = require("axios");
-const chalk = require("chalk");
 const urljoin = require("url-join");
 const Ajv19 = require("ajv/dist/2019");
 const addFormats = require("ajv-formats");

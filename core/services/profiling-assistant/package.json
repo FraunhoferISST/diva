@@ -1,14 +1,14 @@
 {
   "name": "profiling-assistant",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A service helping in triggering profilings using airflow 1.10",
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development node index.js",
     "eslint-fix": "eslint --fix . --ext .js",
-    "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
-    "build:linux": "pkg -t node14-linux-x64 index.js"
+    "build:alpine": "pkg --config package.json -t node16-alpine-x64 --output index-alpine index.js",
+    "build:linux": "pkg -t node16-linux-x64 index.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,9 @@
   "author": "dtebernum",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^2.2.0"
+    "@diva/common": "^2.2.0",
+    "axios": "^0.26.0",
+    "url-join": "^4.0.1"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",

@@ -29,4 +29,7 @@ module.exports = buildAppAPI(server)
     return runningServer;
   })
   .then(() => log.info(`✅ All components booted successfully 🚀`))
-  .catch(() => process.exit(1));
+  .catch((e) => {
+    log.error(e);
+    process.exit(1);
+  });

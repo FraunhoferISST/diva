@@ -2,11 +2,15 @@ const axios = require("axios");
 const fs = require("fs-extra");
 const urljoin = require("url-join");
 
-const RESOURCE_MANAGEMENT_URL =
-  process.env.RESOURCE_MANAGEMENT_URL || "localhost:3000";
+const ENTITY_MANAGEMENT_URL =
+  process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000";
+
+const getEntityPathById = (entityId) =>
+  `${entityId.slice(0, entityId.indexOf(":"))}s`;
 
 const patchData = async () => {
-  const resourceId = process.env.RESOURCE_ID;
+  const entityId = process.env.ENTITY_ID;
+  const entityPath = getEntityPathById(entityId);
   const content = fs.readFileSync(process.env.INPUT_FILE).toString();
   const parsed = JSON.parse(content);
 
@@ -15,21 +19,14 @@ const patchData = async () => {
   }
 
   if (Object.keys(parsed).length > 0) {
-    const res = await axios.patch(
-      urljoin(RESOURCE_MANAGEMENT_URL, "resources", resourceId),
+    return axios.patch(
+      urljoin(ENTITY_MANAGEMENT_URL, entityPath, entityId),
       parsed,
       {
         headers: { "x-actorid": process.env.ACTOR_ID },
       }
     );
-
-    return res;
   }
-
-  console.log(
-    `❗ Discard empty Result: ${content} (this should not be a problem)`
-  );
-
   return true;
 };
 

@@ -60,9 +60,9 @@ services:
       context: ../faas/image-text-extractor
 
 
-  resource-management-sink:
+  entity-management-sink:
     build:
-      context: ../faas/resource-management-sink
+      context: ../faas/entity-management-sink
 
   # DIVA Bots
   entity-archive-bot:

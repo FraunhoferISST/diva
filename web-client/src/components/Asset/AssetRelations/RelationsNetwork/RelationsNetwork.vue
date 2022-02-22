@@ -188,7 +188,8 @@ export default {
         })
         .then(({ data: { collection } }) => {
           const promises = collection.map(
-            ({ id: edgeId, to: { id: entityId } }) => {
+            // remember: entity - isPartOf -> asset, so from contains the entity id
+            ({ id: edgeId, from: { entityId } }) => {
               const entityType = entityId.slice(0, entityId.indexOf(":"));
               const api = this.$api[`${entityType}s`];
               return api

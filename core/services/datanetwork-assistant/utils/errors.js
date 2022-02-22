@@ -11,6 +11,11 @@ module.exports = {
     "The edge type in between given entities already exists",
     409
   ),
+  nodeAlreadyExistsError: customErrorFactory(
+    "NodeAlreadyExists",
+    "The node with the given id already exists",
+    409
+  ),
   edgeNotFoundError: customErrorFactory(
     "EdgeNotFound",
     "Edge withe the given id not found",

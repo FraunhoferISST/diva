@@ -79,7 +79,8 @@ export default {
         .then(async ({ data: { collection } }) => {
           this.dataOwners = (
             await Promise.all(
-              collection.map(({ to: { id: userId }, id }) =>
+              // remember: user - isDataOwnerOf -> entity, so from contains the user id
+              collection.map(({ from: { entityId: userId }, id }) =>
                 this.$api.users
                   .getByIdIfExists(userId, {
                     fields: "id, email, username, entityIcon, imageUrl",

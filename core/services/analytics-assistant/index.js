@@ -23,4 +23,7 @@ server
   .boot()
   .then(async () => GlobalAnalyticsService.init())
   .then(() => log.info(`✅ All components booted successfully 🚀`))
-  .catch(() => process.exit(1));
+  .catch((e) => {
+    log.error(e);
+    process.exit(1);
+  });

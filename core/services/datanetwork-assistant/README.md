@@ -1,6 +1,9 @@
 # Data Network Assistant 🛠️
 
-This service provides a way of adding and deleting typed and directed edges in `neo4j`.
+The service builds the representation and replication of the entities in a graph and provides an API to manage relations between them.
+It reacts to the entities events and creates/deletes node in `neo4j`. Through the API these nodes can be further connected
+to build meaningful entities relations graph. While publishing node events, the services propagates the event data of the 
+origin entities events (e.g. `attributedTo`)
 
 ## Requirements
 
