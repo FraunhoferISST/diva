@@ -34,11 +34,15 @@ x-airflow-env: &airflow-env
 x-kafka-env: &kafka-env
   KAFKA_URL: broker:${KAFKA_PORT}
 
+x-business-decision-point-env: &business-decision-point-env
+  BUSINESS_DECISION_POINT_URL: http://business-decision-point:${BUSINESS_DECISION_POINT}
+
 x-base-core-service-env: &base-core-service-env
   <<: *mongodb-env
   <<: *schema-registry-env
   <<: *kafka-env
   <<: *cors-env
+  <<: *business-decision-point-env
   <<: *log-level-env
 
 x-base-core-service: &base-core-service
@@ -421,13 +425,15 @@ services:
   # ####################################################################################################################
 
   event-emitter:
-    <<: *base-core-service
     image: ${REGISTRY}event-emitter:0.2.1
     container_name: event-emitter
     depends_on:
       - broker
+      - schema-registry
     ports:
       - ${EVENT_EMITTER_PORT}:${EVENT_EMITTER_PORT}
+    networks:
+      - core
     environment:
       <<: *schema-registry-env
       <<: *kafka-env
@@ -450,9 +456,12 @@ services:
       - documentstore
       - neo4j
     ports:
-      - ${EVENT_EMITTER_PORT}:${EVENT_EMITTER_PORT}
+      - ${BUSINESS_DECISION_POINT}:${BUSINESS_DECISION_POINT}
+    networks:
+      - core
     environment:
       <<: *base-core-service-env
+      <<: *neo4j-env
       PORT: ${BUSINESS_DECISION_POINT}
       SERVICES_URLS: "datanetwork-assistant::http://datanetwork-assistant:3012,entity-management::http://entity-management:3000"
 
@@ -472,6 +481,7 @@ services:
     environment:
       <<: *kafka-env
       <<: *schema-registry-env
+      <<: *business-decision-point-env
 
   # ####################################################################################################################
   # DIVA Data Network Graph DB
