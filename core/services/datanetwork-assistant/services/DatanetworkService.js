@@ -19,8 +19,12 @@ const createConstraints = async (
 ) => {
   const constraints = neo4jLabels.map((l) =>
     executeSession(
-      `CREATE CONSTRAINT unique_${l}_id IF NOT EXISTS ON (a:${l}) ASSERT a.id IS UNIQUE`
-    )
+      `CREATE CONSTRAINT unique_${l}_id IF NOT EXISTS ON (a:${l}) ASSERT a.entityId IS UNIQUE`
+    ).catch((e) => {
+      if (e.code !== "Neo.ClientError.Schema.IndexWithNameAlreadyExists") {
+        throw e;
+      }
+    })
   );
   return Promise.all(constraints);
 };
