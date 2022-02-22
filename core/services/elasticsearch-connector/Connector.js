@@ -49,8 +49,9 @@ class Connector {
   }
 
   async index(id, { dbName = "divaDb", collection = "entities" } = {}) {
-    const entity = sanitizeIndexBody(await getEntity(dbName, collection, id));
+    let entity = await getEntity(dbName, collection, id);
     if (entity) {
+      entity = sanitizeIndexBody(entity);
       // TODO: on each event we currently just reindex the entity with all edges to ged rid of the possible race conditions. This however doesn't scale and may have performance issues!
       for (const type of edgesTypes) {
         entity[type] = [];
