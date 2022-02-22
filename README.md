@@ -77,11 +77,7 @@ We also use this tool as a playground for our students, where they can work out 
 
 ## Quick start
 
-> ⚠️ 
-> The project is currently being migrated to GitHub and we are in the reconstruction phase.
-> In parallel, we are putting a lot of effort into writing a comprehensive documentation for DIVA.
-
- The whole system can be bootstrapped in your deployment environment with Docker:
+The complete system can be quickly bootstrapped with Docker:
 ```sh
 cd docker
 # create .env and copy contents from .env.default to it
@@ -89,12 +85,12 @@ cp .env.default .env
 # execute the script to boot all necessary components
 ./up_core.sh
 ```
-
-In the [documentation](https://fraunhoferisst.github.io/diva-docs/) you will learn more about the configuration of DIVA, concepts and architecture!
+To better prepare for the production environment, some system settings must be tweaked.
+Follow our [documentation](https://fraunhoferisst.github.io/diva-docs/) to learn more about the configuration, concepts and the underlying architecture of DIVA!
 
 ## Credits
 
-This project is developed by employees of Fraunhofer ISST. They put all their ❤ into this project to try out the latest **cutting edge** technologies.
+This project is developed by employees of [Fraunhofer ISST](https://www.isst.fraunhofer.de/). They put all their ❤ into this project to try out the latest **cutting edge** technologies.
 
 ||||||
 |:---:|:---:|:---:|:---:|:---:|
@@ -102,4 +98,4 @@ This project is developed by employees of Fraunhofer ISST. They put all their �
 | **Josef Schneider** <br><br> [![Josef Schneider](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3735/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/jschneider) | **Andreas Roth** <br><br> [![Andreas Roth](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3744/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/aroth) |
 
 ## License
-Copyright © Fraunhofer ISST 2021
+Copyright © Fraunhofer ISST 2022
