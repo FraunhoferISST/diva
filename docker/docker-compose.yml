@@ -47,7 +47,6 @@ x-base-core-service: &base-core-service
     - broker
     - schema-registry
     - business-decision-point
-    - business-rules-executor
   networks:
     - core
   restart: always
@@ -108,6 +107,8 @@ services:
     <<: *base-core-service
     image: ${REGISTRY}entity-management:1.0.0
     container_name: entity-management
+    depends_on:
+      - business-decision-point
     environment:
       <<: *base-core-service-env
       PORT: ${ENTITY_MANAGEMENT_PORT}
@@ -190,6 +191,7 @@ services:
     restart: always
     depends_on:
       - elasticsearch
+      - business-decision-point
     ports:
       - ${SEARCH_ASSISTANT_PORT}:${SEARCH_ASSISTANT_PORT}
     networks:
@@ -207,6 +209,7 @@ services:
     restart: always
     depends_on:
       - elasticsearch
+      - business-decision-point
     ports:
       - ${ANALYTIC_ASSISTANT_PORT}:${ANALYTIC_ASSISTANT_PORT}
     networks:
@@ -226,6 +229,7 @@ services:
     depends_on:
       - neo4j
       - broker
+      - business-decision-point
     ports:
       - ${DATANETWORK_ASSISTANT}:${DATANETWORK_ASSISTANT}
     networks:
@@ -244,6 +248,9 @@ services:
       PORT: ${HISTORY_ASSISTANT_PORT}
       IGNORE_FIELDS: "[\"modified\"]"
     restart: always
+    depends_on:
+      - documentstore
+      - business-decision-point
     ports:
       - ${HISTORY_ASSISTANT_PORT}:${HISTORY_ASSISTANT_PORT}
     networks:
@@ -266,6 +273,7 @@ services:
     restart: always
     depends_on:
       - documentstore
+      - business-decision-point
     ports:
       - ${PROFILING_ASSISTANT_PORT}:${PROFILING_ASSISTANT_PORT}
     networks:
@@ -328,6 +336,8 @@ services:
     hostname: schema-registry
     container_name: schema-registry
     restart: always
+    depends_on:
+      - business-decision-point
     networks:
       - core
     ports:    
@@ -369,6 +379,7 @@ services:
       - ${DIVALAKE_ADAPTER_PORT}:${DIVALAKE_ADAPTER_PORT}
     depends_on:
       - entity-management
+      - business-decision-point
     environment:
       <<: *mongodb-env
       <<: *kafka-env
@@ -398,6 +409,7 @@ services:
       - ${URBAN_PULSE_ADAPTER_PORT}:${URBAN_PULSE_ADAPTER_PORT}
     depends_on:
       - entity-management
+      - business-decision-point
     environment:
       <<: *cors-env
       <<: *log-level-env
@@ -431,12 +443,16 @@ services:
   # ####################################################################################################################
 
   business-decision-point:
-    <<: *base-core-service
     image: ${REGISTRY}business-decision-point:0.1.0
     container_name: business-decision-point
+    restart: always
+    depends_on:
+      - documentstore
+      - neo4j
     ports:
       - ${EVENT_EMITTER_PORT}:${EVENT_EMITTER_PORT}
     environment:
+      <<: *base-core-service-env
       PORT: ${BUSINESS_DECISION_POINT}
       SERVICES_URLS: "datanetwork-assistant::http://datanetwork-assistant:3012,entity-management::http://entity-management:3000"
 
@@ -455,6 +471,7 @@ services:
       - core
     environment:
       <<: *kafka-env
+      <<: *schema-registry-env
 
   # ####################################################################################################################
   # DIVA Data Network Graph DB
