@@ -41,12 +41,12 @@ const getDag = (resource) => {
   throw dagNotFoundError;
 };
 
-const buildAirflowConfig = (resource, actorId) => ({
+const buildAirflowConfig = (entity, actorId) => ({
   conf: {
-    resourceId: resource.id,
+    entityId: entity.id,
     actorId,
-    uniqueFingerprint: resource.uniqueFingerprint,
-    mimeType: resource.mimeType,
+    uniqueFingerprint: entity.uniqueFingerprint,
+    mimeType: entity.mimeType,
   },
 });
 

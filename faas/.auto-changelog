@@ -1,0 +1,7 @@
+{
+  "unreleased": true,
+  "commitLimit": false,
+  "breakingPattern": ".!:.",
+  "startingVersion": "v3.3.1",
+  "package": false
+}
