@@ -32,11 +32,11 @@ module.exports = [
     ],
   },
   {
-    title: "Connect a review with the corresponding entity",
+    title: "Connect a review with the corresponding entity on review creation",
     priority: 1,
     scope: {
       channel: "datanetwork.events",
-      "payload.attributedTo[0].object.id": "resource:.*",
+      "payload.attributedTo[0].object.id": "(resource|asset|service):.*",
       "payload.type": "create",
       "payload.object.id": "review:.*",
     },
