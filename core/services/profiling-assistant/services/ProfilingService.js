@@ -2,7 +2,7 @@ const axios = require("axios");
 const urljoin = require("url-join");
 const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
 const { getDag, buildAirflowConfig } = require("../utils/airflowHelper");
-const { resourceNotFoundError } = require("../utils/errors");
+const { entityNotFoundError } = require("../utils/errors");
 
 const AIRFLOW_URL = process.env.AIRFLOW_URL || "http://localhost:9090";
 const AIRFLOW_PATH = "api/v1/dags";
@@ -30,28 +30,28 @@ class ProfilingService {
     this.collection = mongoDbConnector.collections[collectionName];
   }
 
-  getResourceById(id) {
+  getEntityById(id) {
     return this.collection.findOne({ id });
   }
 
-  async run(resourceId, actorId) {
-    const resource = await this.getResourceById(resourceId);
-    if (!resource) {
-      throw resourceNotFoundError;
+  async run(entityId, actorId) {
+    const entity = await this.getEntityById(entityId);
+    if (!entity) {
+      throw entityNotFoundError;
     }
-    const dag = getDag(resource);
+    const dag = getDag(entity);
     return axiosAirflow.post(
       urljoin(AIRFLOW_PATH, dag.title, AIRFLOW_COMMAND),
-      buildAirflowConfig(resource, actorId)
+      buildAirflowConfig(entity, actorId)
     );
   }
 
-  async exists(resourceId) {
-    const resource = await this.getResourceById(resourceId);
-    if (!resource) {
-      throw resourceNotFoundError;
+  async exists(entityId) {
+    const entity = await this.getEntityById(entityId);
+    if (!entity) {
+      throw entityNotFoundError;
     }
-    return getDag(resource);
+    return getDag(entity);
   }
 }
 
