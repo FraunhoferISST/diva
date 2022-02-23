@@ -22,6 +22,9 @@ services:
   text-personal-data-evaluation:
     build:
       context: ../faas/text-personal-data-evaluation
+  text-similarity-hash-generator:
+    build:
+      context: ../faas/text-similarity-hash-generator    
 
   table-data-apriori-associations-extractor:
     build:

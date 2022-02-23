@@ -28,6 +28,9 @@ services:
   text-personal-data-evaluation:
     container_name: personal-data-evaluation
     image: ${REGISTRY}text-personal-data-evaluation:3.0.0
+  text-similarity-hash-generator:
+    container_name: text-similarity-hash-generator
+    image: ${REGISTRY}text-similarity-hash-generator:0.1.0
 
   table-data-apriori-associations-extractor:
     container_name: table-data-apriori-associations-extractor
