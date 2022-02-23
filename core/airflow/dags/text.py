@@ -116,6 +116,17 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
+    similarity_hash_generator = DivaOperator(
+        task_id='text-similarity-hash-generator',
+        image='ghcr.io/fraunhoferisst/diva/text-similarity-hash-generator:0.1.0',
+        api_version='auto',
+        auto_remove=True,
+        docker_url="unix://var/run/docker.sock",
+        network_mode="diva_workflows",
+        input_task_id='extracttext',
+        bucket='analyze'
+    )
+
     upload_meta = DivaOperator(
         task_id='upload_meta',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
@@ -206,10 +217,26 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    extract_text >> [language_guesser, keywords, stats, core_phrase, personal_data]
+    upload_similarity_hash = DivaOperator(
+        task_id='upload_similarity_hash',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        api_version='auto',
+        auto_remove=True,
+        upload_output=False,
+        docker_url="unix://var/run/docker.sock",
+        network_mode="core",
+        environment={
+            **profiling_args
+        },
+        input_task_id='text-similarity-hash-generator',
+        bucket='analyze'
+    )
+
+    extract_text >> [language_guesser, keywords, stats, core_phrase, personal_data, similarity_hash_generator]
     keywords >> upload_keywords
     core_phrase >> upload_core_phrase
     language_guesser >> upload_languages
     stats >> upload_stats
     personal_data >> upload_personal_data
+    similarity_hash_generator >> upload_similarity_hash
     extract_meta >> metadata >> upload_meta
