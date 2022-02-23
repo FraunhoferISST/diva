@@ -45,6 +45,24 @@ module.exports = [
         {
           cypher: {
             query:
+              "MATCH (r:resource {entityId:'{{entityid}}'})-[:isPartOf]->(a:asset)<-[:isCreatorOf]-(:user {entityId:'{{actorid}}'}) RETURN (count(a)>0) as ruleMet",
+          },
+        },
+      ],
+    },
+    actions: [],
+    constraints: ["G", "!H"],
+  },
+  {
+    title: "User can GET resource if both entities are part of asset",
+    priority: 1,
+    methods: ["GET"],
+    scope: ["resource-management::resources/*"],
+    condition: {
+      and: [
+        {
+          cypher: {
+            query:
               "MATCH (r:resource {entityId:'{{entityid}}'})-[:isPartOf]->(a:asset)<-[:isPartOf]-(:user {entityId:'{{actorid}}'}) RETURN (count(a)>0) as ruleMet",
           },
         },

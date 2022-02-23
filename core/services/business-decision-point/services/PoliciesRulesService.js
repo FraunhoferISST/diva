@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const { mongoDBConnector, neo4jConnector } = require("../utils/dbConnectors");
 const { isConditionMet } = require("../utils/utils");
 
@@ -13,37 +12,39 @@ class PoliciesRulesService {
     await mongoDBConnector.connect();
     await neo4jConnector.connect();
     this.neo4jClient = neo4jConnector.client;
-
-    // TODO: load policies from db
-    // return true;
   }
 
   async enforcePolicies(req) {
+    // TODO Decide on a way of adding information about the action to the requests body
+    // TODO Load corresponding policies from the DB, e.g. GET policies
     this.actorid = req.body["x-actorid"];
     this.entityid = req.body.entityid;
 
     const constraints = [];
-    let resolvedConditions = [];
-    // TODO GET policies
+    let decision = false;
 
     await Promise.all(
       policies.map(async (policy) => {
-        resolvedConditions = await isConditionMet(policy.condition, {
+        const singleDecision = await isConditionMet(policy.condition, {
           entityid: this.entityid,
           actorid: this.actorid,
         });
+        if (singleDecision === true) {
+          constraints.push(policy.constraints);
+          decision = true;
+        }
       })
     );
 
-    console.log("final result", resolvedConditions);
+    console.log("final result", decision);
     return {
-      decision: resolvedConditions,
+      decision,
       constraints: this.merge(constraints),
     };
-
   }
 
   merge(constraints) {
+    // TODO Merge constraints based on priority and deny-by-default on collisions
     return constraints;
   }
 }
