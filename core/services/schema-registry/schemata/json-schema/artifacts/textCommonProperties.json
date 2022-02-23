@@ -24,6 +24,9 @@
         },
         {
             "$ref": "/personalData"
+        },
+        {
+            "$ref": "/textContentSimilarityHash"
         }
     ]
 }
