@@ -7,6 +7,7 @@ import uuid
 
 from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.hooks.S3_hook import S3Hook
+from docker.types import Mount
 
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 import os
@@ -61,10 +62,10 @@ class DivaOperator(DockerOperator):
 
             # setup input/output volumes
             # airflow_workflow_outputs is a predefined name declared in docker-compose.airflow.yml
-            outVolume = "{}:{}:rw".format("airflow_workflow_outputs", "/output")
-            inVolume = "{}:{}:ro".format("airflow_workflow_inputs", "/input")
-            self.volumes.append(outVolume)
-            self.volumes.append(inVolume)
+            self.mounts = [
+                Mount(source="airflow_workflow_outputs", target="/output", type="volume"),
+                Mount(source="airflow_workflow_inputs", target="/input", type="volume", read_only=True),
+            ]
 
             # run the container
             logging.info("Create container")
