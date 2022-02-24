@@ -15,7 +15,10 @@ module.exports = [
       ],
     },
     actions: [],
-    constraints: ["E", "!F"],
+    constraints: {
+      included: ["A"],
+      excluded: ["Z", "Y", "W"],
+    },
   },
   {
     title: "Owner of resource can perform GET",
@@ -33,11 +36,14 @@ module.exports = [
       ],
     },
     actions: [],
-    constraints: ["A", "!B"],
+    constraints: {
+      included: ["B"],
+      excluded: ["Y"],
+    },
   },
   {
     title: "User can GET resource if both entities are part of asset",
-    priority: 1,
+    priority: 2,
     methods: ["GET"],
     scope: ["resource-management::resources/*"],
     condition: {
@@ -51,7 +57,10 @@ module.exports = [
       ],
     },
     actions: [],
-    constraints: ["G", "!H"],
+    constraints: {
+      included: ["Z", "Y"],
+      excluded: ["A"],
+    },
   },
   {
     title: "User can GET resource if both entities are part of asset",
@@ -75,6 +84,9 @@ module.exports = [
       ],
     },
     actions: [],
-    constraints: ["C", "!D"],
+    constraints: {
+      included: ["D"],
+      excluded: ["W"],
+    },
   },
 ];
