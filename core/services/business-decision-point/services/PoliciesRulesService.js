@@ -2,7 +2,6 @@ const { mongoDBConnector, neo4jConnector } = require("../utils/dbConnectors");
 const { isConditionMet } = require("../utils/utils");
 
 const policies = require("../static/policyRules");
-const { sort } = require("../static/policyRules");
 
 class PoliciesRulesService {
   constructor() {
@@ -54,7 +53,7 @@ class PoliciesRulesService {
     const sortedConstraints = constraints.sort(
       (a, b) => a.priority - b.priority
     );
-    // TODO Merge constraints based on priority and deny-by-default on collisions
+
     const mergedConstraints = {
       included: [],
       excluded: [],
@@ -62,34 +61,46 @@ class PoliciesRulesService {
     let lastPriority = -1;
 
     sortedConstraints.forEach((currentConstraint) => {
-      mergedConstraints.included = [
-        ...new Set([
-          ...mergedConstraints.included,
-          ...currentConstraint.included,
-        ]),
-      ];
+      if (currentConstraint.priority > lastPriority) {
+        mergedConstraints.included = [
+          ...new Set([
+            ...mergedConstraints.included.filter(
+              (field) => !currentConstraint.excluded.includes(field)
+            ),
+            ...currentConstraint.included.filter(
+              (field) => !currentConstraint.excluded.includes(field)
+            ),
+          ]),
+        ];
 
-      if (lastPriority <= currentConstraint.priority) {
-        mergedConstraints.excluded = mergedConstraints.excluded.filter(
-          (field) => !currentConstraint.included.includes(field)
-        );
-        mergedConstraints.included = mergedConstraints.included.filter(
-          (field) => !currentConstraint.excluded.includes(field)
-        );
+        mergedConstraints.excluded = [
+          ...new Set([
+            ...mergedConstraints.excluded.filter(
+              (field) => !currentConstraint.included.includes(field)
+            ),
+            ...currentConstraint.excluded,
+          ]),
+        ];
+      } else {
+        mergedConstraints.included = [
+          ...new Set([
+            ...mergedConstraints.included.filter(
+              (field) => !currentConstraint.excluded.includes(field)
+            ),
+            ...currentConstraint.included.filter(
+              (field) =>
+                !mergedConstraints.excluded.includes(field) &&
+                !currentConstraint.excluded.includes(field)
+            ),
+          ]),
+        ];
+
         mergedConstraints.excluded = [
           ...new Set([
             ...mergedConstraints.excluded,
             ...currentConstraint.excluded,
           ]),
         ];
-      } else {
-        currentConstraint.excluded.forEach((currentExcluded) => {
-          if (!mergedConstraints.excluded.includes(currentExcluded)) {
-            mergedConstraints.excluded = [
-              ...new Set([...mergedConstraints.excluded, currentExcluded]),
-            ];
-          }
-        });
       }
 
       lastPriority = currentConstraint.priority;

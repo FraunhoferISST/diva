@@ -1,7 +1,7 @@
 module.exports = [
   {
     title: "Creator of resource can perform GET",
-    priority: 1,
+    priority: 2,
     methods: ["GET"],
     scope: ["resource-management::resources/*"],
     condition: {
@@ -58,7 +58,7 @@ module.exports = [
     },
     actions: [],
     constraints: {
-      included: ["Z", "Y"],
+      included: ["Z", "Y", "n"],
       excluded: ["A"],
     },
   },
