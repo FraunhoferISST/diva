@@ -1,3 +1,4 @@
+const _ = require("lodash");
 const { mongoDBConnector, neo4jConnector } = require("../utils/dbConnectors");
 const { isConditionMet } = require("../utils/utils");
 
@@ -19,6 +20,8 @@ class PoliciesRulesService {
     // TODO Load corresponding policies from the DB, e.g. GET policies
     this.actorid = req.body["x-actorid"];
     this.entityid = req.body.entityid;
+    this.method = req.body.method;
+    this.patch = JSON.parse(req.body.patch);
 
     const constraints = [];
     let decision = false;
@@ -41,11 +44,36 @@ class PoliciesRulesService {
 
     // TODO merge constraints, prepare for GET (create mongo projection),
     //  or deny PATCH when field that is to be patched is not included in allowed constraints
+    const mergedConstraints = this.mergeConstraints(constraints);
+    const metadata = {};
+
+    switch (this.method) {
+      case "GET":
+        metadata.projections = {};
+        for (const excluded of mergedConstraints.excluded) {
+          metadata.projections[excluded] = 0;
+        }
+        for (const included of mergedConstraints.included) {
+          metadata.projections[included] = 1;
+        }
+        break;
+      case "PATCH":
+        decision = !mergedConstraints.excluded.some((excluded) => {
+          if (_.has(this.patch, excluded)) {
+            metadata.message = `Not allowed to patch field '${excluded}'`;
+            return true;
+          }
+          return false;
+        });
+        break;
+      default:
+        console.log("default");
+    }
 
     console.log("final result", decision);
     return {
       decision,
-      constraints: this.mergeConstraints(constraints),
+      metadata,
     };
   }
 
