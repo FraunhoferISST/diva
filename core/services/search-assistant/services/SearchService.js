@@ -3,10 +3,25 @@ const { decodeCursor, encodeCursor } = require("@diva/common/api/cursor");
 
 const ElasticsearchConnector = require("@diva/common/databases/ElasticsearchConnector");
 
+const buildESQuery = (query = "") =>
+  esb
+    .boolQuery()
+    .must(
+      esb
+        .multiMatchQuery(
+          ["title^4", "keywords^3", "description^2", "*^1"],
+          query
+        )
+        .fuzziness("AUTO")
+        .zeroTermsQuery("all")
+    )
+    .mustNot(esb.termQuery("entityType", "user"))
+    .mustNot(esb.termQuery("entityType", "review"));
+
 class SearchService {
   async init() {
-    this.elasticsearchConnector = new ElasticsearchConnector();
-    return this.elasticsearchConnector.connect();
+    this.esConnector = new ElasticsearchConnector();
+    return this.esConnector.connect();
   }
 
   async searchAll(queryData) {
@@ -22,42 +37,31 @@ class SearchService {
         throw new Error(`🛑 Invalid cursor "${cursor}" provided`);
       }
     }
+    const esQuery = buildESQuery(query);
 
-    const requestBody = esb
+    const searchRequestBody = esb
       .requestBodySearch()
-      .query(
-        esb
-          .queryStringQuery(`${query}*`)
-          .fields(["title^4", "keywords^3", "description^2", "*^1"])
-          .fuzziness("AUTO")
-      )
+      .query(esQuery)
       .sort(esb.sort("_score", "desc"))
       .highlight(
         esb.highlight().fields(["*"]).preTags("<b>", "*").postTags("</b>", "*")
       )
       .toJSON();
-    // requestBody._source = ["id", "entityType", "title", "keywords"];
-    requestBody.from = from;
-    requestBody.size = size;
 
-    const { body } = await this.elasticsearchConnector.client.search({
-      index: "*,-*kibana*",
-      body: requestBody,
+    searchRequestBody.from = from;
+    searchRequestBody.size = size;
+
+    const { body } = await this.esConnector.client.search({
+      index: "entities",
+      body: searchRequestBody,
     });
 
-    const requestCountBody = esb
-      .requestBodySearch()
-      .query(
-        esb
-          .queryStringQuery(`${query}*`)
-          .fields(["title^4", "keywords^3", "description^2", "*^1"])
-          .fuzziness("AUTO")
-      );
+    const countRequestBody = esb.requestBodySearch().query(esQuery);
 
     const total = (
-      await this.elasticsearchConnector.client.count({
-        index: "*,-*kibana*",
-        body: requestCountBody,
+      await this.esConnector.client.count({
+        index: "entities",
+        body: countRequestBody,
       })
     ).body.count;
 
