@@ -10,7 +10,7 @@
           "type": "standard"
         },
         "diva_analyzer": {
-          "tokenizer": "diva_analyzer",
+          "tokenizer": "diva_tokenizer",
           "filter": [
             "lowercase",
             "asciifolding"
@@ -18,7 +18,7 @@
         }
       },
       "tokenizer": {
-        "diva_analyzer": {
+        "diva_tokenizer": {
           "type": "ngram",
           "min_gram": 1,
           "max_gram": 3
