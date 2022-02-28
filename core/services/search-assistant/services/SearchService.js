@@ -14,9 +14,9 @@ const buildESQuery = (query = "") =>
         )
         .fuzziness("AUTO")
         .zeroTermsQuery("all")
-    )
-    .mustNot(esb.termQuery("entityType", "user"))
-    .mustNot(esb.termQuery("entityType", "review"));
+    );
+/* .mustNot(esb.termQuery("entityType", "user"))
+    .mustNot(esb.termQuery("entityType", "review")); */
 
 class SearchService {
   async init() {
