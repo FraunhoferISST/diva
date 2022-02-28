@@ -1,11 +1,27 @@
 {
   "settings": {
+    "max_ngram_diff":"3",
     "analysis": {
       "analyzer": {
-        "letter_analyzer": {
-          "type": "custom",
-          "tokenizer": "letter",
-          "filter": ["lowercase", "asciifolding"]
+        "default": {
+          "type": "standard"
+        },
+        "default_search": {
+          "type": "standard"
+        },
+        "diva_analyzer": {
+          "tokenizer": "diva_analyzer",
+          "filter": [
+            "lowercase",
+            "asciifolding"
+          ]
+        }
+      },
+      "tokenizer": {
+        "diva_analyzer": {
+          "type": "ngram",
+          "min_gram": 1,
+          "max_gram": 3
         }
       }
     }
