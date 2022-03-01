@@ -2,9 +2,9 @@ const Server = require("@diva/common/api/expressServer");
 const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
 const generateUuid = require("@diva/common/generateUuid");
 const businessRulesService = require("./services/BusinessRulesService");
-const policiesRulesService = require("./services/PoliciesRulesService");
+const policyRulesService = require("./services/PolicyRulesService");
 const businessRulesRouter = require("./routes/businessRules");
-const policiesRouter = require("./routes/policies");
+const policyRulesRouter = require("./routes/policyRules");
 const { mongoDBConnector, neo4jConnector } = require("./utils/dbConnectors");
 const serviceName = require("./package.json").name;
 
@@ -20,7 +20,7 @@ log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 server.initBasicMiddleware();
 server.addOpenApiValidatorMiddleware();
 server.addMiddleware("/", businessRulesRouter);
-server.addMiddleware("/", policiesRouter);
+server.addMiddleware("/", policyRulesRouter);
 
 server
   .boot()
@@ -29,7 +29,7 @@ server
     await neo4jConnector.connect();
     return Promise.all([
       businessRulesService.init(),
-      policiesRulesService.init(),
+      policyRulesService.init(),
     ]);
   })
   .then(() => log.info(`✅ All components booted successfully 🚀`))

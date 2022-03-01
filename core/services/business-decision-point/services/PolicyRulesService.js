@@ -4,7 +4,7 @@ const { isConditionMet } = require("../utils/utils");
 
 const policies = require("../static/policyRules");
 
-class PoliciesRulesService {
+class PolicyRulesService {
   constructor() {
     this.policies = policies;
   }
@@ -16,12 +16,14 @@ class PoliciesRulesService {
   }
 
   async enforcePolicies(req) {
+    this.method = req.body.method;
+    this.actorid = req.body.actorid;
+    this.entityid = req.body.url.split("/").slice(-1)[0];
+    this.body = req.body.body;
     // TODO Decide on a way of adding information about the action to the requests body
     // TODO Load corresponding policies from the DB, e.g. GET policies
-    this.actorid = req.body["x-actorid"];
-    this.entityid = req.body.entityid;
-    this.method = req.body.method;
-    this.patch = JSON.parse(req.body.patch);
+
+    console.log(this.method, this.actorid, this.entityid, this.body);
 
     const constraints = [];
     let decision = false;
@@ -59,7 +61,7 @@ class PoliciesRulesService {
         break;
       case "PATCH":
         decision = !mergedConstraints.excluded.some((excluded) => {
-          if (_.has(this.patch, excluded)) {
+          if (_.has(this.body, excluded)) {
             metadata.message = `Not allowed to patch field '${excluded}'`;
             return true;
           }
@@ -138,4 +140,4 @@ class PoliciesRulesService {
   }
 }
 
-module.exports = new PoliciesRulesService();
+module.exports = new PolicyRulesService();

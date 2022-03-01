@@ -35,7 +35,7 @@ x-kafka-env: &kafka-env
   KAFKA_URL: broker:${KAFKA_PORT}
 
 x-business-decision-point-env: &business-decision-point-env
-  BUSINESS_DECISION_POINT_URL: http://business-decision-point:${BUSINESS_DECISION_POINT}
+  BUSINESS_DECISION_POINT_URL: http://business-decision-point:${BUSINESS_DECISION_POINT_PORT}
 
 x-base-core-service-env: &base-core-service-env
   <<: *mongodb-env
@@ -456,13 +456,13 @@ services:
       - documentstore
       - neo4j
     ports:
-      - ${BUSINESS_DECISION_POINT}:${BUSINESS_DECISION_POINT}
+      - ${BUSINESS_DECISION_POINT_PORT}:${BUSINESS_DECISION_POINT_PORT}
     networks:
       - core
     environment:
       <<: *base-core-service-env
       <<: *neo4j-env
-      PORT: ${BUSINESS_DECISION_POINT}
+      PORT: ${BUSINESS_DECISION_POINT_PORT}
       SERVICES_URLS: "datanetwork-assistant::http://datanetwork-assistant:3012,entity-management::http://entity-management:3000"
 
   # ####################################################################################################################

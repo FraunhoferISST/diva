@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const axios = require("axios");
+const urljoin = require("url-join");
 const OpenApiValidator = require("express-openapi-validator");
 const expressWinston = require("express-winston");
 const { logger: log } = require("../logger");
@@ -41,6 +43,27 @@ const errorHandler = (err, _req, res, next) => {
   }
 };
 
+const policyRulesMiddleware = async (req, res, next) => {
+  const BUSINESS_DECISION_POINT_URL =
+    process.env.BUSINESS_DECISION_POINT_URL || "http://localhost:3001/";
+
+  const { data } = await axios.post(
+    urljoin(BUSINESS_DECISION_POINT_URL, "enforcePolicies"),
+    {
+      method: req.method,
+      actorid: req.headers["x-actorid"],
+      url: req.url,
+      body: req.body,
+    }
+  );
+
+  if (data.decision === true) {
+    next();
+  } else {
+    res.status(403).send("Unauthorized");
+  }
+};
+
 class Server {
   constructor(port, serviceName = SERVICE_NAME) {
     this.port = port;
@@ -63,6 +86,9 @@ class Server {
         msg: `📦 HTTP {{req.method}} {{res.statusCode}}: {{req.headers["x-actorid"]}} requested {{req.url}}`,
       })
     );
+    if (SERVICE_NAME !== "business-decision-point") {
+      this.app.use(policyRulesMiddleware);
+    }
   }
 
   addMiddleware(...args) {
@@ -120,7 +146,7 @@ class Server {
     return new Promise((resolve, reject) => {
       try {
         this.addMiddleware(errorHandler);
-        this.addErrorLoggingMiddleware();
+        this.addErrorLoggingMiddleware();       
         const expressServer = this.app.listen(this.port, () => {
           log.info(
             `✅ REST API ready at port ${expressServer.address().port} 🌐`
