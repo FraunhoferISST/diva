@@ -98,8 +98,7 @@ export default {
         ...data,
         creator: await this.fetchUser(data.creatorId),
         rating: await this.fetchRating(),
-        owner: data.ownerId && (await this.fetchUser(data.ownerId)),
-        profilingExists: await this.checkProfiling({ resourceId: this.id }),
+        profilingExists: await this.checkProfiling({ entityId: this.id }),
       };
     },
     getEntityTypeById(entityId) {
