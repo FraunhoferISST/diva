@@ -50,6 +50,7 @@ const policyRulesMiddleware = async (req, res, next) => {
   const { data } = await axios.post(
     urljoin(BUSINESS_DECISION_POINT_URL, "enforcePolicies"),
     {
+      serviceName: SERVICE_NAME,
       method: req.method,
       actorid: req.headers["x-actorid"],
       url: req.url,
@@ -58,6 +59,7 @@ const policyRulesMiddleware = async (req, res, next) => {
   );
 
   if (data.decision === true) {
+    req.body.metadata = data.metadata;
     next();
   } else {
     res.status(403).send("Unauthorized");

@@ -16,6 +16,7 @@ class PolicyRulesService {
   }
 
   async enforcePolicies(req) {
+    this.serviceName = req.body.serviceName;
     this.method = req.body.method;
     this.actorid = req.body.actorid;
     this.entityid = req.body.url.split("/").slice(-1)[0];
@@ -23,7 +24,7 @@ class PolicyRulesService {
     // TODO Decide on a way of adding information about the action to the requests body
     // TODO Load corresponding policies from the DB, e.g. GET policies
 
-    console.log(this.method, this.actorid, this.entityid, this.body);
+    console.log(this.method, this.actorid, this.entityid, this.body, this.service);
 
     const constraints = [];
     let decision = false;
@@ -72,7 +73,7 @@ class PolicyRulesService {
         console.log("default");
     }
 
-    console.log("final result", decision);
+    console.log("final result:", decision, "\nmetadata:", metadata);
     return {
       decision,
       metadata,
