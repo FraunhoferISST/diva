@@ -1,7 +1,7 @@
 module.exports = [
   {
     title: "Creator of resource can perform GET",
-    priority: 2,
+    priority: 1,
     methods: ["GET"],
     scope: ["resource-management::resources/*"],
     condition: {
@@ -15,10 +15,7 @@ module.exports = [
       ],
     },
     actions: [],
-    constraints: {
-      included: ["A"],
-      excluded: ["Z", "Y", "W"],
-    },
+    excludes: ["A", "B", "C"],
   },
   {
     title: "Owner of resource can perform GET",
@@ -36,14 +33,11 @@ module.exports = [
       ],
     },
     actions: [],
-    constraints: {
-      included: ["B"],
-      excluded: ["Y"],
-    },
+    excludes: ["B"],
   },
   {
     title: "User can GET resource if both entities are part of asset",
-    priority: 2,
+    priority: 3,
     methods: ["GET"],
     scope: ["resource-management::resources/*"],
     condition: {
@@ -57,10 +51,7 @@ module.exports = [
       ],
     },
     actions: [],
-    constraints: {
-      included: ["Z", "Y", "n"],
-      excluded: ["A"],
-    },
+    excludes: ["!C"],
   },
   {
     title: "User can GET resource if both entities are part of asset",
@@ -75,18 +66,9 @@ module.exports = [
               "MATCH (r:resource {entityId:'{{entityid}}'})-[:isPartOf]->(a:asset)<-[:isPartOf]-(:user {entityId:'{{actorid}}'}) RETURN (count(a)>0) as ruleMet",
           },
         },
-        {
-          cypher: {
-            query:
-              "MATCH (r:resource {entityId:'{{entityid}}'})-[:isPartOf]->(a:asset)<-[:isPartOf]-(:user {entityId:'{{actorid}}'}) RETURN (count(a)>0) as ruleMet",
-          },
-        },
       ],
     },
     actions: [],
-    constraints: {
-      included: ["D"],
-      excluded: ["W"],
-    },
+    excludes: ["D"],
   },
 ];

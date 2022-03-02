@@ -24,9 +24,15 @@ class PolicyRulesService {
     // TODO Decide on a way of adding information about the action to the requests body
     // TODO Load corresponding policies from the DB, e.g. GET policies
 
-    console.log(this.method, this.actorid, this.entityid, this.body, this.service);
+    console.log(
+      this.method,
+      this.actorid,
+      this.entityid,
+      this.body,
+      this.service
+    );
 
-    const constraints = [];
+    const excludes = [];
     let decision = false;
 
     await Promise.all(
@@ -36,32 +42,28 @@ class PolicyRulesService {
           actorid: this.actorid,
         });
         if (singleDecision === true) {
-          constraints.push({
+          excludes.push({
             priority: policy.priority,
-            ...policy.constraints,
+            fields: policy.excludes,
           });
           decision = true;
         }
       })
     );
-
     // TODO merge constraints, prepare for GET (create mongo projection),
     //  or deny PATCH when field that is to be patched is not included in allowed constraints
-    const mergedConstraints = this.mergeConstraints(constraints);
+    const mergedExcludes = this.mergeExcludes(excludes);
     const metadata = {};
 
     switch (this.method) {
       case "GET":
         metadata.projections = {};
-        for (const excluded of mergedConstraints.excluded) {
+        mergedExcludes.forEach((excluded) => {
           metadata.projections[excluded] = 0;
-        }
-        for (const included of mergedConstraints.included) {
-          metadata.projections[included] = 1;
-        }
+        });
         break;
       case "PATCH":
-        decision = !mergedConstraints.excluded.some((excluded) => {
+        decision = !mergedExcludes.some((excluded) => {
           if (_.has(this.body, excluded)) {
             metadata.message = `Not allowed to patch field '${excluded}'`;
             return true;
@@ -80,6 +82,52 @@ class PolicyRulesService {
     };
   }
 
+  mergeExcludes(excludes) {
+    const sortedExcludes = excludes.sort((a, b) => a.priority - b.priority);
+
+    let mergedExcludes = [];
+    let prevPriority = -1;
+
+    sortedExcludes.forEach((currentExcludes) => {
+      const filteredExcludes = [];
+      const notExcludes = [];
+      currentExcludes.fields.forEach((exclude) => {
+        if (exclude.startsWith("!")) {
+          notExcludes.push(exclude.substring(1));
+        } else {
+          filteredExcludes.push(exclude);
+        }
+      });
+
+      if (currentExcludes.priority > prevPriority) {
+        if (notExcludes.includes("*")) {
+          mergedExcludes = [];
+        } else {
+          mergedExcludes = [
+            ...new Set([
+              ...mergedExcludes.filter((field) => !notExcludes.includes(field)),
+              ...filteredExcludes.filter(
+                (field) => !notExcludes.includes(field)
+              ),
+            ]),
+          ];
+        }
+      } else if (!notExcludes.includes("*")) {
+        mergedExcludes = [
+          ...new Set([
+            ...mergedExcludes,
+            ...filteredExcludes.filter((field) => !notExcludes.includes(field)),
+          ]),
+        ];
+      }
+      prevPriority = currentExcludes.priority;
+    });
+    return mergedExcludes;
+  }
+
+  /**
+   * @deprecated Replaced by excludes constraint system - see mergeExcludes()
+   */
   mergeConstraints(constraints) {
     const sortedConstraints = constraints.sort(
       (a, b) => a.priority - b.priority
@@ -89,10 +137,10 @@ class PolicyRulesService {
       included: [],
       excluded: [],
     };
-    let lastPriority = -1;
+    let prevPriority = -1;
 
     sortedConstraints.forEach((currentConstraint) => {
-      if (currentConstraint.priority > lastPriority) {
+      if (currentConstraint.priority > prevPriority) {
         mergedConstraints.included = [
           ...new Set([
             ...mergedConstraints.included.filter(
@@ -134,7 +182,7 @@ class PolicyRulesService {
         ];
       }
 
-      lastPriority = currentConstraint.priority;
+      prevPriority = currentConstraint.priority;
     });
 
     return mergedConstraints;

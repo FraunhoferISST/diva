@@ -47,22 +47,29 @@ const policyRulesMiddleware = async (req, res, next) => {
   const BUSINESS_DECISION_POINT_URL =
     process.env.BUSINESS_DECISION_POINT_URL || "http://localhost:3001/";
 
-  const { data } = await axios.post(
-    urljoin(BUSINESS_DECISION_POINT_URL, "enforcePolicies"),
-    {
+  const { data } = await axios
+    .post(urljoin(BUSINESS_DECISION_POINT_URL, "enforcePolicies"), {
       serviceName: SERVICE_NAME,
       method: req.method,
       actorid: req.headers["x-actorid"],
       url: req.url,
       body: req.body,
-    }
-  );
+    })
+    .catch((error) => {
+      console.error(error);
+      return {
+        data: {
+          decision: false,
+          metadata: { error: "internal server error" },
+        },
+      };
+    });
 
   if (data.decision === true) {
     req.body.metadata = data.metadata;
     next();
   } else {
-    res.status(403).send("Unauthorized");
+    res.status(403).send("Forbidden");
   }
 };
 
@@ -148,7 +155,7 @@ class Server {
     return new Promise((resolve, reject) => {
       try {
         this.addMiddleware(errorHandler);
-        this.addErrorLoggingMiddleware();       
+        this.addErrorLoggingMiddleware();
         const expressServer = this.app.listen(this.port, () => {
           log.info(
             `✅ REST API ready at port ${expressServer.address().port} 🌐`
