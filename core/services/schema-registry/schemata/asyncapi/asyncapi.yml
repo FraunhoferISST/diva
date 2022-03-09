@@ -30,18 +30,6 @@ channels:
       operationId: publishEntityUpdate
       message:
         $ref: '#/components/messages/EntityEvents'
-  datanetwork.events:
-    description: The topic on which events related to data network may be produced and consumed.
-    subscribe:
-      description: Receive data network operations events.
-      operationId: subscribeDatanetworkEvents
-      message:
-        $ref: '#/components/messages/DatanetworkEvents'
-    publish:
-      description: Publish information about Data network changes.
-      operationId: publishDatanetworkEvents
-      message:
-        $ref: '#/components/messages/DatanetworkEvents'
 
 components:
   messages:
@@ -52,13 +40,7 @@ components:
       contentType: application/json
       payload:
         $ref: '#/components/schemas/GenericMessageSchema'
-    DatanetworkEvents:
-      name: datanetworkEvents
-      title: Data network events
-      summary: Inform about data network operations events.
-      contentType: application/json
-      payload:
-        $ref: '#/components/schemas/GenericMessageSchema'
+
   schemas:
     GenericMessageSchema:
       type: object
@@ -134,27 +116,7 @@ components:
             id:
               $ref: "#/components/schemas/ActorId"
         object:
-          title: Affected entity
-          description: The by the operation affected entity object.
-          type: object
-          additionalProperties: true
-          required:
-            - id
-          properties:
-            id:
-              title: Object id
-              description: The id of the affected entity object. May contain additional attributes specific to the event.
-              type: string
-            edgeType:
-              title: Edge type
-              description: The type of the relation that the edge represents
-              type: string
-              enum:
-                - isCreatorOf
-                - isPartOf
-                - isDataOwnerOf
-                - isReviewOf
-                - likes
+          $ref: "#/components/schemas/PayloadObject"
         attributedTo:
           title: Related entites
           description: The Array contains the id's of the entities that are related or referenced by the original event. For
@@ -168,21 +130,32 @@ components:
             additionalProperties: false
             properties:
               object:
-                title: Affected entity
-                description: The by the operation referenced entity object.
-                type: object
-                additionalProperties: true
-                required:
-                  - id
-                properties:
-                  id:
-                    title: Entity id
-                    description: The id of the referenced entity
-                    type: string
+                $ref: "#/components/schemas/PayloadObject"
         payloadId:
           title: Payload id
           description: The payload id that can be used to fetch futher payload data from the messages cache
           type: string
+
+    PayloadObject:
+      title: Affected entity
+      description: The by the operation referenced entity object.
+      type: object
+      additionalProperties: true
+      required:
+      - id
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        affectedFields:
+          $ref: '#/components/schemas/AffectedFields'
+
+    AffectedFields:
+      title: Affected fields
+      description: Root fileds affected by the executed operation
+      type: array
+      items:
+        description: The array lists the modified entity attributes names
+        type: string
 
     EntityId:
       title: Entity id
