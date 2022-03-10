@@ -14,6 +14,7 @@ class UsersController extends EntityController {
         newUserId,
         req.headers["x-actorid"] || newUserId,
         "create",
+        [],
         { affectedFields: this.getAffectedFieldsFromDelta(delta) }
       );
     } catch (err) {
