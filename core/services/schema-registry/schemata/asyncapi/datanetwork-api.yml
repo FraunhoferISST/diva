@@ -123,12 +123,10 @@ components:
             - id
           properties:
             id:
-              title: Object id
-              description: The id of the affected entity object. May contain additional attributes specific to the event.
-              type: string
+              $ref: "#/components/schemas/PayloadObject/properties/id"
             edgeType:
               title: Edge type
-              description: The type of the relation that the edge represents
+              description: The type of the relation that the edge represents. Included only in edge events
               type: string
               enum:
                 - isCreatorOf
@@ -156,17 +154,17 @@ components:
             maxItems: 2
             properties:
               object:
-                title: Affected entity
-                description: The by the operation referenced entity object.
-                type: object
-                additionalProperties: true
-                required:
-                  - id
-                properties:
-                  id:
-                    title: Entity id
-                    description: The id of the referenced entity
-                    type: string
+                $ref: "#/components/schemas/PayloadObject"
+    PayloadObject:
+      title: Affected entity
+      description: The by the operation referenced entity object.
+      type: object
+      additionalProperties: true
+      required:
+        - id
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
 
     EntityId:
       title: Entity id
