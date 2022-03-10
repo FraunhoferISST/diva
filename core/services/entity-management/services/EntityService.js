@@ -1,6 +1,6 @@
 const { ObjectId } = require("mongodb");
 const {
-  createHistoryEntry,
+  createHistoryEntity,
   createPatchDelta,
 } = require("@diva/common/createHistoryEntry");
 const { decodeCursor, encodeCursor } = require("@diva/common/api/cursor");
@@ -283,7 +283,7 @@ class EntityService {
 
   createHistoryEntry(oldObj, newObj, actorId) {
     const delta = createPatchDelta(oldObj, newObj);
-    const historyEntry = createHistoryEntry(newObj.id, delta, actorId);
+    const historyEntry = createHistoryEntity(newObj.id, delta, actorId);
     jsonSchemaValidator.validate(ENTITY_ROOT_SCHEMA, historyEntry);
     return this.historyCollection.insertOne(historyEntry).then(() => delta);
   }

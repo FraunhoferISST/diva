@@ -23,7 +23,7 @@ const jdp = jsondiffpatch.create({
 
 const createPatchDelta = (oldObj, newObj) => jdp.diff(oldObj, newObj) || {};
 
-const generateHistoryEntity = (attributedToId, delta, actorId) => ({
+const createHistoryEntity = (attributedToId, delta, actorId) => ({
   id: generateUuid("history"),
   created: new Date().toISOString(),
   modified: new Date().toISOString(),
@@ -33,6 +33,6 @@ const generateHistoryEntity = (attributedToId, delta, actorId) => ({
   delta,
 });
 module.exports = {
-  generateHistoryEntity,
+  createHistoryEntity,
   createPatchDelta,
 };

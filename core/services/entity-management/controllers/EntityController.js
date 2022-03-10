@@ -1,5 +1,7 @@
 const messageProducer = require("@diva/common/messaging/MessageProducer");
 
+const getAffectedFieldsFromDelta = (delta = {}) => Object.keys(delta);
+
 const createSingleEntity = async (service, entity, actorId) => {
   const { id: newEntityId, delta } = await service.create(entity, actorId);
   messageProducer.produce(
@@ -7,7 +9,7 @@ const createSingleEntity = async (service, entity, actorId) => {
     actorId,
     "create",
     entity.attributedTo ? [entity.attributedTo] : [],
-    { affectedFields: this.getAffectedFieldsFromDelta(delta) }
+    { affectedFields: getAffectedFieldsFromDelta(delta) }
   );
   return newEntityId;
 };
@@ -40,7 +42,7 @@ module.exports = class EntityController {
   }
 
   getAffectedFieldsFromDelta(delta = {}) {
-    return Object.keys(delta);
+    return getAffectedFieldsFromDelta(delta);
   }
 
   async create(req, res, next) {
