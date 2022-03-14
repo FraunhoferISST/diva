@@ -1,10 +1,10 @@
 <template>
-  <section id="history" class="pb-12">
+  <section id="history">
     <entity-history-details
       :history-log="selectedLog"
       :show.sync="showDetails"
     />
-    <v-container fluid>
+    <v-container fluid class="pa-0">
       <reactive-data-fetcher :fetch-method="fetchInitialHistory" :id="id">
         <template>
           <v-container fluid class="pa-0">

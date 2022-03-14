@@ -1,6 +1,6 @@
 <template>
-  <section id="reviews" class="pb-12">
-    <v-container fluid class="pt-6">
+  <section id="reviews">
+    <v-container fluid class="pa-0">
       <v-row>
         <v-col cols="12">
           <rating-overview :id="id" :itemCount="reviewsCount">

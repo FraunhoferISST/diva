@@ -1,32 +1,18 @@
 <template>
-  <entity-base-data-fetcher :id="id">
-    <template #default="{ data, api }">
-      <section class="resource-details">
-        <entity-details-navigation
-          :data="data"
-          :entityApi="api"
-          :links="links"
-          :hash="id"
-        />
-        <div class="px-md-0 px-lg-8 px-xl-8">
-          <router-transition>
-            <router-view></router-view>
-          </router-transition>
-        </div>
-      </section>
-    </template>
-  </entity-base-data-fetcher>
+  <entity-details-container :id="id" :links="links">
+    <router-transition>
+      <router-view></router-view>
+    </router-transition>
+  </entity-details-container>
 </template>
 
 <script>
 import RouterTransition from "@/components/Transitions/RouterTransition";
-import EntityDetailsNavigation from "@/components/Entity/EntityDetailsNavigation";
-import EntityBaseDataFetcher from "@/components/DataFetchers/EntityBaseDataFetcher";
+import EntityDetailsContainer from "@/components/Entity/EntityDetailsContainer";
 export default {
   name: "ResourceDetails",
   components: {
-    EntityBaseDataFetcher,
-    EntityDetailsNavigation,
+    EntityDetailsContainer,
     RouterTransition,
   },
   props: ["id"],
@@ -34,7 +20,7 @@ export default {
     return {
       links: [
         {
-          title: "General",
+          title: "Overview",
           icon: "short_text",
           name: "resource_details_general",
         },
@@ -77,6 +63,5 @@ export default {
   grid-template-columns: minmax(80px, max-content) minmax(50px, 1fr);
   grid-column-gap: 0;
   height: 100%;
-  padding-bottom: 100px;
 }
 </style>

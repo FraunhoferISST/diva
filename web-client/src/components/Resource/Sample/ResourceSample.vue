@@ -1,7 +1,7 @@
 <template>
   <section id="sample">
     <reactive-data-fetcher :id="id" :fetch-method="fetchSampleData">
-      <v-container fluid>
+      <v-container fluid class="pa-0">
         <component :is="profilingView" :data="data"></component>
       </v-container>
     </reactive-data-fetcher>

@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="pa-0">
     <reactive-data-fetcher :id="id" :fetch-method="fetchProfilingData">
       <component :is="profilingView" :id="id" :data="data" />
     </reactive-data-fetcher>

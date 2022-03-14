@@ -1,73 +1,64 @@
 <template>
   <section id="costs">
     <reactive-data-fetcher :id="id" :fetch-method="fetchCosts">
-      <v-container fluid v-if="internalCosts || externalCost">
+      <v-container fluid v-if="internalCosts || externalCost" class="pa-0">
         <v-row>
           <v-col cols="12">
-            <card header="Internal costs">
-              <v-container fluid class="px-0 pb-0" slot="body">
-                <v-row>
-                  <v-col
-                    cols="12"
-                    sm="12"
-                    md="12"
-                    lg="4"
-                    xl="4"
-                    v-for="costType in Object.keys(internalCosts)"
-                    :key="costType"
-                  >
-                    <edit-view-content
-                      class="fill-height"
-                      :initialData="{
-                        [costType]: internalCosts[costType],
-                      }"
-                      :on-save="(patch) => patchCosts(patch, costType)"
-                    >
-                      <cost-card
-                        slot="view"
-                        :title="internalCosts[costType].title"
-                        :costs-data="internalCosts[costType]"
-                      />
-                      <template v-slot:edit="{ setEditedData }">
-                        <cost-edit
-                          :costs-data="internalCosts[costType]"
-                          @update:costsData="
-                            setEditedData({ [costType]: $event })
-                          "
-                        />
-                      </template>
-                    </edit-view-content>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12">
-                    <custom-header text="External costs" />
-                  </v-col>
-                  <v-col cols="12">
-                    <edit-view-content
-                      :initialData="{
-                        externalCost: externalCost,
-                      }"
-                      :on-save="(patch) => patchCosts(patch, 'externalCost')"
-                    >
-                      <cost-card
-                        slot="view"
-                        :title="externalCost.title"
-                        :costs-data="externalCost"
-                      />
-                      <template v-slot:edit="{ setEditedData }">
-                        <cost-edit
-                          :costs-data="externalCost"
-                          @update:costsData="
-                            setEditedData({ externalCost: $event })
-                          "
-                        />
-                      </template>
-                    </edit-view-content>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </card>
+            <custom-header text="Internal costs" />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="12"
+            md="12"
+            lg="4"
+            xl="4"
+            v-for="costType in Object.keys(internalCosts)"
+            :key="costType"
+          >
+            <edit-view-content
+              class="fill-height"
+              :initialData="{
+                [costType]: internalCosts[costType],
+              }"
+              :on-save="(patch) => patchCosts(patch, costType)"
+            >
+              <cost-card
+                slot="view"
+                :title="internalCosts[costType].title"
+                :costs-data="internalCosts[costType]"
+              />
+              <template v-slot:edit="{ setEditedData }">
+                <cost-edit
+                  :costs-data="internalCosts[costType]"
+                  @update:costsData="setEditedData({ [costType]: $event })"
+                />
+              </template>
+            </edit-view-content>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12">
+            <custom-header text="External costs" />
+          </v-col>
+          <v-col cols="12">
+            <edit-view-content
+              :initialData="{
+                externalCost: externalCost,
+              }"
+              :on-save="(patch) => patchCosts(patch, 'externalCost')"
+            >
+              <cost-card
+                slot="view"
+                :title="externalCost.title"
+                :costs-data="externalCost"
+              />
+              <template v-slot:edit="{ setEditedData }">
+                <cost-edit
+                  :costs-data="externalCost"
+                  @update:costsData="setEditedData({ externalCost: $event })"
+                />
+              </template>
+            </edit-view-content>
           </v-col>
         </v-row>
       </v-container>
@@ -76,7 +67,6 @@
 </template>
 
 <script>
-import Card from "@/components/Base/Card";
 import EditViewContent from "@/components/Containers/EditViewContent";
 import CostCard from "@/components/Entity/EntityCommonComponents/Costs/CostCard";
 import CostEdit from "@/components/Entity/EntityCommonComponents/Costs/CostEdit";
@@ -96,7 +86,6 @@ export default {
     ReactiveDataFetcher,
     CostEdit,
     CostCard,
-    Card,
     EditViewContent,
   },
   props: {

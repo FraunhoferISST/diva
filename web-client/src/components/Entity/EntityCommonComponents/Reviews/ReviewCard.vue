@@ -197,7 +197,6 @@ export default {
 <style scoped lang="scss">
 .comment {
   background-color: $bg_card;
-  padding: 16px;
   position: relative;
   @include border-radius();
 }
