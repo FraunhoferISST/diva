@@ -128,7 +128,7 @@ html {
   font-family: Quicksand;
   color: $font_secondary_color;
   font-weight: bold;
-  min-width: 768px;
+  // min-width: 768px;
 }
 body {
   font-family: $font_body;

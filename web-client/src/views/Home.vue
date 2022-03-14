@@ -1,11 +1,9 @@
 <template>
   <div id="home">
-    <div>
-      <navigation-main />
-    </div>
     <router-transition>
       <router-view></router-view>
     </router-transition>
+    <navigation-main />
   </div>
 </template>
 
@@ -22,7 +20,7 @@ export default {
 <style scoped lang="scss">
 #home {
   display: grid;
-  grid-template-columns: 70px 1fr;
+  grid-template-rows: 1fr 70px;
   height: 100%;
 }
 </style>

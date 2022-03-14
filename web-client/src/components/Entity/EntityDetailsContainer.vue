@@ -3,7 +3,7 @@
     <entity-base-data-fetcher :id="id">
       <template #default="{ data }">
         <div class="entity-details-overview">
-          <v-container class="pa-0 pt-12 pb-0">
+          <v-container ref="overviewContainer" class="pa-0 pt-12 pb-0">
             <v-container
               class="entity-details-overview-container px-12 pt-12 pb-0"
             >
@@ -100,7 +100,11 @@
             <div class="entity-details-nav-container relative">
               <div
                 class="entity-details-nav"
-                :class="{ fixed: scrollOffset > 260 }"
+                :class="{
+                  fixed:
+                    overviewContainerHeight &&
+                    scrollOffset > overviewContainerHeight - 55,
+                }"
               >
                 <v-container class="fluid pa-0">
                   <v-tabs
@@ -167,6 +171,7 @@ export default {
     snackbar: false,
     snackbarText: "",
     scrollOffset: 0,
+    overviewContainerHeight: null,
     tab: 0,
   }),
   methods: {
@@ -179,9 +184,23 @@ export default {
       this.confirmationDialog = true;
     },
     onScroll(e) {
-      console.log(e.target.scrollingElement.scrollTop);
+      this.updateOverviewContainerHeight();
+      console.log(
+        e.target.scrollingElement.scrollTop,
+        this.overviewContainerHeight
+      );
       this.scrollOffset = e.target.scrollingElement.scrollTop;
     },
+    updateOverviewContainerHeight() {
+      this.$nextTick(() => {
+        console.log(this.$refs.overviewContainer?.clientHeight);
+        this.overviewContainerHeight =
+          this.$refs.overviewContainer?.clientHeight ?? null;
+      });
+    },
+  },
+  mounted() {
+    this.updateOverviewContainerHeight();
   },
 };
 </script>
@@ -231,8 +250,6 @@ export default {
   a.v-tab {
     font-weight: bold;
     font-size: 1rem;
-    //display: inline-block;
-    //padding-top: 20px;
     @include border-radius();
     &:before {
       @include border-radius($border_radius, $border_radius, 0, 0);
@@ -243,7 +260,6 @@ export default {
   width: 100%;
   z-index: 2;
   &.fixed {
-    padding-left: 70px;
     position: fixed;
     top: 0;
     left: 0;

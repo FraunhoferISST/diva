@@ -30,12 +30,12 @@ export default {
           name: "resource_details_costs",
         },
         {
-          title: "Data Profiling",
+          title: "Profiling",
           icon: "developer_board",
           name: "resource_details_profiling",
         },
         {
-          title: "Sample Data",
+          title: "Sample",
           icon: "description",
           name: "resource_details_sample",
         },
