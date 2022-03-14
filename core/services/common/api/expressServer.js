@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const OpenApiValidator = require("express-openapi-validator");
-const expressWinston = require("express-winston");
 const { logger: log, httpLogger, httpErrorLoger } = require("../logger");
 
 let WORK_DIR = process.cwd();
