@@ -3,7 +3,7 @@ const cors = require("cors");
 const path = require("path");
 const OpenApiValidator = require("express-openapi-validator");
 const expressWinston = require("express-winston");
-const { logger: log } = require("../logger");
+const { logger: log, httpLogger, httpErrorLoger } = require("../logger");
 
 let WORK_DIR = process.cwd();
 const NODE_ENV = process.env.NODE_ENV || "development";
@@ -21,6 +21,14 @@ const corsDefaults = {
   allowedHeaders: ["Content-Type", "x-actorid", "Authorization"],
 };
 
+const hideReqCredentials = (req) => ({
+  ...req,
+  headers: {
+    ...req.headers,
+    ...(req.headers?.authorization ? { authorization: "[MASKED]" } : {}),
+  },
+});
+
 const {
   createError,
   isCustomError,
@@ -37,6 +45,7 @@ const errorHandler = (err, _req, res, next) => {
       formattedError = createError({ message: err.toString() });
     }
     res.status(formattedError.code).send(formattedError);
+    // destructure to remove error stack trace!
     return next({ ...formattedError });
   }
 };
@@ -53,15 +62,8 @@ class Server {
     this.app.use(express.json({ limit: "10mb", extended: true }));
     this.app.use(express.urlencoded({ limit: "10mb", extended: false }));
     this.app.use(cors({ ...corsDefaults, ...corsOptions }));
-    this.app.use(
-      expressWinston.logger({
-        winstonInstance: log,
-        level: "http",
-        meta: true,
-        metaField: null,
-        skip: (req, res) => res.statusCode >= 400,
-        msg: `📦 HTTP {{req.method}} {{res.statusCode}}: {{req.headers["x-actorid"]}} requested {{req.url}}`,
-      })
+    this.app.use((req, res, next) =>
+      httpLogger(hideReqCredentials(req), res, next)
     );
   }
 
@@ -71,33 +73,8 @@ class Server {
 
   addErrorLoggingMiddleware() {
     log.info(`✅ Setting up API error logging middleware`);
-    this.addMiddleware(
-      expressWinston.errorLogger({
-        winstonInstance: log,
-        level: (req, res) => {
-          let level = "warn";
-          if (res.statusCode >= 500) {
-            level = "error";
-          }
-          return level;
-        },
-        meta: true,
-        metaField: null,
-        blacklistedMetaFields: [
-          "process",
-          "date",
-          "os",
-          "trace",
-          "stack",
-          "exception",
-        ], // fields to blacklist from meta data
-        dynamicMeta: (req, res, err) => ({
-          res: {
-            statusCode: res.statusCode,
-          },
-        }),
-        msg: `📦 HTTP {{req.method}} {{res.statusCode}}: {{req.headers["x-actorid"]}} requested {{req.url}}`,
-      })
+    this.addMiddleware((err, req, res, next) =>
+      httpErrorLoger(err, hideReqCredentials(req), res, next)
     );
   }
 

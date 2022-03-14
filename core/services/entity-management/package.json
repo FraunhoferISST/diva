@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^2.1.0",
+    "@diva/common": "^2.2.0",
     "swagger-ui-dist": "^4.4.1"
   },
   "devDependencies": {
