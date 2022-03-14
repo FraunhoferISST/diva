@@ -1,89 +1,61 @@
 <template>
-  <div class="relative">
-    <data-fetcher :fetch-method="checkProfiling">
-      <slot :profile="runProfiling">
-        <v-btn
-          :dark="!profilingInitiated"
-          class="gprimary"
-          v-if="profilingExists"
-          :loading="loading"
-          :disabled="profilingInitiated"
-          rounded
-          @click="runProfiling"
-        >
-          {{
-            profilingInitiated ? "profiling initiated" : "Initialize profiling"
-          }}
-        </v-btn>
-      </slot>
+  <div>
+    <data-fetcher :fetch-method="fetchCreatorUser">
+      <div class="d-flex align-center">
+        <user-avatar :user-id="computedCreatorId" :image-id="creatorImageId" />
+        <entity-details-link v-if="creatorExists" class="mx-1" :id="creator.id">
+          {{ creatorName }}
+        </entity-details-link>
+        <span v-else class="history-card-title-creator mr-1">
+          {{ creatorName }}
+        </span>
+        <span class="d-inline-block mx-2"> created at </span>
+        <date-display :date="createdAt" />
+      </div>
     </data-fetcher>
-    <v-snackbar
-      min-width="100px"
-      width="280px"
-      absolute
-      rounded
-      :timeout="10000"
-      bottom
-      text
-      v-model="snackbar"
-      :color="snackbarColor"
-      style="font-weight: bold"
-    >
-      {{ snackbarText }}
-    </v-snackbar>
   </div>
 </template>
 
 <script>
 import DataFetcher from "@/components/DataFetchers/DataFetcher";
+import UserAvatar from "@/components/User/UserAvatar";
+import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
+import DateDisplay from "@/components/Base/DateDisplay";
 export default {
   name: "EntityCreator",
-  components: { DataFetcher },
+  components: { DateDisplay, EntityDetailsLink, UserAvatar, DataFetcher },
   props: {
-    id: {
+    creatorId: {
+      type: String,
+      required: true,
+    },
+    createdAt: {
       type: String,
       required: true,
     },
   },
   data: () => ({
-    loading: false,
-    snackbar: false,
-    snackbarText: "",
-    snackbarColor: "success",
-    profilingInitiated: false,
-    profilingExists: false,
+    creator: null,
   }),
+  computed: {
+    computedCreatorId() {
+      return this.creator?.id ?? "";
+    },
+    creatorName() {
+      return this.creator?.username ?? "N/A";
+    },
+    creatorImageId() {
+      return this.creator?.imageId ?? "";
+    },
+    creatorExists() {
+      return !!this.creator;
+    },
+  },
   methods: {
-    runProfiling() {
-      this.loading = true;
-      this.$api.profiling
-        .run({ entityId: this.id })
-        .then(() => {
-          this.profilingInitiated = true;
-          this.showSnackbar();
-        })
-        .catch((e) =>
-          this.showSnackbar(
-            `${
-              e?.response?.data?.message ?? e.toString()
-            }. Please try again later`,
-            "error"
-          )
-        )
-        .finally(() => (this.loading = false));
-    },
-    showSnackbar(msg = "Profiling successfully initiated", color = "success") {
-      this.snackbarText = msg;
-      this.snackbarColor = color;
-      this.snackbar = true;
-    },
-    checkProfiling() {
-      this.loading = true;
-      return this.$api.profiling
-        .exists({ entityId: this.id })
-        .then(() => (this.profilingExists = true))
-        .catch(() => (this.profilingExists = true))
-        .finally(() => (this.loading = false));
+    fetchCreatorUser() {
+      return this.$api.users
+        .getByIdIfExists(this.creatorId)
+        .then((response) => (this.creator = response?.data));
     },
   },
 };

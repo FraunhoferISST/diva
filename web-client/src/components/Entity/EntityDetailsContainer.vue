@@ -30,17 +30,17 @@
               </div>
               <div>
                 <div class="entity-details-header">
-                  <div class="d-flex flex-column justify-center">
+                  <div>
                     <h1 class="entity-details-title">
                       {{ data.title }} Das Element wird aus dem normalen Fluss
                       gelöst und unabhängig verschoben. Dabei können
                     </h1>
-                    <info-block-value
+                    <!--                    <info-block-value
                       style="opacity: 0.4"
                       v-if="data.uniqueFingerprint"
                     >
                       #{{ data.uniqueFingerprint }}
-                    </info-block-value>
+                    </info-block-value>-->
                     <div class="mt-2">
                       <v-chip
                         class="mr-2"
@@ -52,6 +52,21 @@
                       >
                         {{ tag }}
                       </v-chip>
+                    </div>
+                    <div class="d-flex justify-start align-center mt-4">
+                      <entity-creator
+                        v-if="data.creatorId"
+                        :creator-id="data.creatorId"
+                        :created-at="data.created"
+                      />
+                      <div
+                        v-if="data.modified && data.modified !== data.created"
+                        class="d-flex align-center"
+                      >
+                        <dot-divider class="mx-3" size="2px" />
+                        <span>last updated</span>
+                        <date-display class="ml-2" :date="data.modified" />
+                      </div>
                     </div>
                   </div>
                   <div>
@@ -89,6 +104,7 @@
               >
                 <v-container class="fluid pa-0">
                   <v-tabs
+                    v-model="tab"
                     show-arrows
                     background-color="white"
                     center-active
@@ -97,8 +113,8 @@
                     <v-tabs-slider></v-tabs-slider>
                     <v-tab
                       :to="{ name: link.name }"
-                      v-for="link in links"
-                      :key="link.name"
+                      v-for="(link, i) in links"
+                      :key="i"
                     >
                       {{ link.title }}
                     </v-tab>
@@ -121,13 +137,17 @@
 
 <script>
 import EntityBaseDataFetcher from "@/components/DataFetchers/EntityBaseDataFetcher";
-import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import EntityProfilingButton from "@/components/Entity/EntityProfilingButton";
+import EntityCreator from "@/components/Entity/EntityCreator";
+import DotDivider from "@/components/Base/DotDivider";
+import DateDisplay from "@/components/Base/DateDisplay";
 export default {
   name: "EntityDetailsContainer",
   components: {
+    DateDisplay,
+    DotDivider,
+    EntityCreator,
     EntityProfilingButton,
-    InfoBlockValue,
     EntityBaseDataFetcher,
   },
   props: {
@@ -147,6 +167,7 @@ export default {
     snackbar: false,
     snackbarText: "",
     scrollOffset: 0,
+    tab: 0,
   }),
   methods: {
     getTags(data) {
