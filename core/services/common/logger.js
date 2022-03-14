@@ -1,5 +1,6 @@
 const path = require("path");
 const winston = require("winston");
+const expressWinston = require("express-winston");
 require("winston-daily-rotate-file");
 
 const { transports, format } = winston;
@@ -52,7 +53,47 @@ const setLoggerDefaultMeta = (opt) => {
   logger.defaultMeta = { ...defaultMeta, ...opt };
 };
 
+const httpLogger = () =>
+  expressWinston.logger({
+    winstonInstance: logger,
+    level: "http",
+    meta: true,
+    metaField: null,
+    skip: (req, res) => res.statusCode >= 400,
+    msg: `📦 HTTP {{req.method}} {{res.statusCode}}: {{req.headers["x-actorid"]}} requested {{req.url}}`,
+  });
+
+const httpErrorLoger = () =>
+  expressWinston.errorLogger({
+    winstonInstance: logger,
+    level: (req, res) => {
+      let level = "warn";
+      if (res.statusCode >= 500) {
+        level = "error";
+      }
+      return level;
+    },
+    meta: true,
+    metaField: null,
+    blacklistedMetaFields: [
+      "process",
+      "date",
+      "os",
+      "trace",
+      "stack",
+      "exception",
+    ], // fields to blacklist from meta data
+    dynamicMeta: (req, res) => ({
+      res: {
+        statusCode: res.statusCode,
+      },
+    }),
+    msg: `📦 HTTP {{req.method}} {{res.statusCode}}: {{req.headers["x-actorid"]}} requested {{req.url}}`,
+  });
+
 module.exports = {
   logger,
+  httpLogger: httpLogger(),
+  httpErrorLoger: httpErrorLoger(),
   setLoggerDefaultMeta,
 };
