@@ -78,9 +78,7 @@
                 <div
                   class="entity-details-content d-flex justify-end pb-8 mt-5"
                 >
-                  <v-btn dark class="gprimary" rounded>
-                    Initialize profiling
-                  </v-btn>
+                  <entity-profiling-button :id="id" />
                 </div>
               </div>
             </v-container>
@@ -124,9 +122,11 @@
 <script>
 import EntityBaseDataFetcher from "@/components/DataFetchers/EntityBaseDataFetcher";
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
+import EntityProfilingButton from "@/components/Entity/EntityProfilingButton";
 export default {
   name: "EntityDetailsContainer",
   components: {
+    EntityProfilingButton,
     InfoBlockValue,
     EntityBaseDataFetcher,
   },

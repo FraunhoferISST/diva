@@ -86,19 +86,12 @@ export default {
         .then((response) => response?.data)
         .catch(() => null);
     },
-    checkProfiling(data) {
-      return this.$api.profiling
-        .exists(data)
-        .then(() => true)
-        .catch(() => false);
-    },
     async fetchBaseData() {
       const { data } = await this.apiByEntityType.getById(this.id);
       this.data = {
         ...data,
         creator: await this.fetchUser(data.creatorId),
         rating: await this.fetchRating(),
-        profilingExists: await this.checkProfiling({ entityId: this.id }),
       };
     },
     getEntityTypeById(entityId) {
