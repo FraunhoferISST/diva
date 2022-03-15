@@ -19,13 +19,13 @@
                 >
                   <div class="pt-12">
                     <div class="d-flex justify-center align-center flex-column">
-                      <div
-                        class="entity-details-image d-flex justify-center align-center"
-                      >
-                        <span>
-                          {{ (data.title || "").charAt(0).toUpperCase() }}
-                        </span>
-                      </div>
+                      <entity-avatar
+                        v-if="data.id"
+                        :entity-id="data.id"
+                        :image-id="data.entityIcon"
+                        :size="100"
+                        :entity-title="getEntityTitle(data)"
+                      />
                       <div class="pt-2">
                         <v-rating
                           color="orange"
@@ -42,7 +42,7 @@
                     <div class="entity-details-header">
                       <div>
                         <h1 class="entity-details-title">
-                          {{ data.title }}
+                          {{ getEntityTitle(data) }}
                         </h1>
                         <!--                    <info-block-value
                           style="opacity: 0.4"
@@ -168,9 +168,11 @@ import EntityCreator from "@/components/Entity/EntityCreator";
 import DotDivider from "@/components/Base/DotDivider";
 import DateDisplay from "@/components/Base/DateDisplay";
 import EntityLikeButton from "@/components/Entity/EntityLikeButton";
+import EntityAvatar from "@/components/Entity/EntityAvatar";
 export default {
   name: "EntityDetailsContainer",
   components: {
+    EntityAvatar,
     EntityLikeButton,
     DateDisplay,
     DotDivider,
@@ -199,6 +201,9 @@ export default {
     tab: "",
   }),
   methods: {
+    getEntityTitle({ title, username } = {}) {
+      return title ?? username ?? "Entity";
+    },
     getTags(data) {
       return [data.entityType, data.resourceType, data.assetType, data.mimeType]
         .filter((t) => t)
@@ -240,15 +245,7 @@ export default {
   grid-template-columns: 1fr 40px;
   gap: 24px;
 }
-.entity-details-image {
-  border-radius: 50%;
-  height: 100px;
-  width: 100px;
-  font-family: Montserrat;
-  font-weight: bold;
-  font-size: 1.4rem !important;
-  background-color: $bg_card_secondary;
-}
+
 .entity-details-title {
   font-family: Montserrat;
   font-size: 1.5rem !important;

@@ -1,7 +1,7 @@
-import User from "@/views/User";
+import UsersDetails from "@/views/Users/UsersDetails";
 
 export default {
-  component: User,
+  component: UsersDetails,
   path: "users/:id",
   name: "users",
   props: true,
