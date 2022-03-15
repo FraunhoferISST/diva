@@ -1,7 +1,7 @@
 <template>
   <no-data-state
     v-if="!hasPoliticalGeocoding"
-    text="You can provide a political geocoding here"
+    text="Provide a political geocoding"
   >
   </no-data-state>
   <div v-else>

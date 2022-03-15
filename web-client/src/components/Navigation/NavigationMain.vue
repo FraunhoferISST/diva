@@ -178,7 +178,7 @@ export default {
 
 .diva-logo {
   margin-left: 5px;
-  margin-top: 12px;
+  margin-top: 10px;
   padding: 5px;
   width: 55px;
   height: 55px;

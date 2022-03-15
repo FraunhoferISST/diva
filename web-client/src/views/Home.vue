@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <router-transition>
-      <router-view></router-view>
+      <router-view :key="$route.params.id"></router-view>
     </router-transition>
     <navigation-main />
   </div>

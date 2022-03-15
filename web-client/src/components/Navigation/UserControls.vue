@@ -1,23 +1,31 @@
 <template>
   <div>
-    <!--    <navigation-overlay :open="overlay">
+    <navigation-overlay :open.sync="overlay">
       <user-navigation-overlay-content />
-    </navigation-overlay>-->
+    </navigation-overlay>
     <v-btn rounded large text icon @click="toggleOverlay">
-      <user-avatar :image-id="user.entityIcon" :user-id="user.id" />
+      <entity-avatar
+        :image-id="user.entityIcon"
+        :entity-id="user.id"
+        :entity-title="user.username"
+      />
     </v-btn>
   </div>
 </template>
 
 <script>
-import UserAvatar from "@/components/User/UserAvatar";
 import EntityUpdateEvents from "@/components/Mixins/EntityUpdateEvents";
 import NavigationOverlay from "@/components/Navigation/NavigationOverlay";
 import UserNavigationOverlayContent from "@/components/Navigation/UserNavigationOverlayContent";
+import EntityAvatar from "@/components/Entity/EntityAvatar";
 export default {
   name: "UserControls",
   mixins: [EntityUpdateEvents],
-  components: { UserNavigationOverlayContent, NavigationOverlay, UserAvatar },
+  components: {
+    EntityAvatar,
+    UserNavigationOverlayContent,
+    NavigationOverlay,
+  },
   data() {
     return {
       overlay: false,

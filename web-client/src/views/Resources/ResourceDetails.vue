@@ -1,7 +1,7 @@
 <template>
   <entity-details-container :id="id" :links="links">
     <router-transition>
-      <router-view></router-view>
+      <router-view :key="$route.params.id"></router-view>
     </router-transition>
   </entity-details-container>
 </template>

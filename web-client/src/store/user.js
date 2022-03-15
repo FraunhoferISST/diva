@@ -11,12 +11,14 @@ const user = {
   creatorId: "",
   id: "",
   isLoggedIn: !!localStorage.getItem("jwt"),
+  recentlyViewed: [],
 };
 const state = {
   ...user,
 };
 
 const SET_USER = "SET_USER";
+const ADD_RECENTLY_VIEWED = "ADD_RECENTLY_VIEWED";
 
 const LOGOUT = "LOGOUT";
 
@@ -31,6 +33,19 @@ const mutations = {
       state[key] = user[key];
     }
     state.isLoggedIn = false;
+  },
+  [ADD_RECENTLY_VIEWED](
+    state,
+    { id, title, username, entityType, entityIcon, mimeType }
+  ) {
+    state.recentlyViewed = [
+      { id, title, username, entityType, entityIcon, mimeType },
+      ...state.recentlyViewed,
+    ]
+      .filter(({ id }, i, self) =>
+        self.every((en, n) => (i !== n ? id !== en.id : true))
+      )
+      .slice(0, 5);
   },
 };
 
@@ -49,6 +64,9 @@ const setAuthorizationData = (token) => {
 const actions = {
   setUser({ commit }, userData) {
     commit(SET_USER, userData);
+  },
+  addRecentlyViewed({ commit }, entity) {
+    commit(ADD_RECENTLY_VIEWED, entity);
   },
   refreshToken({ commit }, token) {
     setAuthorizationData(token);

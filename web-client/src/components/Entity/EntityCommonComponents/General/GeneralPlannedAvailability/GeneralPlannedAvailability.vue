@@ -1,7 +1,7 @@
 <template>
   <no-data-state
     v-if="!plannedAvailability"
-    text="You can specify an availability level here"
+    text="Specify an availability level"
   >
   </no-data-state>
   <info-block-value v-else>

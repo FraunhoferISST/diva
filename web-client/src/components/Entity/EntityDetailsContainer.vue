@@ -17,7 +17,7 @@
                   v-show="tab.includes('/general')"
                   class="entity-details-overview-container px-12 pt-0 pb-0"
                 >
-                  <div ref="headerContent" class="pt-12">
+                  <div class="pt-12">
                     <div class="d-flex justify-center align-center flex-column">
                       <div
                         class="entity-details-image d-flex justify-center align-center"
@@ -42,8 +42,7 @@
                     <div class="entity-details-header">
                       <div>
                         <h1 class="entity-details-title">
-                          {{ data.title }} Das Element wird aus dem normalen
-                          Fluss gelöst und unabhängig verschoben. Dabei können
+                          {{ data.title }}
                         </h1>
                         <!--                    <info-block-value
                           style="opacity: 0.4"
@@ -221,6 +220,7 @@ export default {
   },
   mounted() {
     this.updateOverviewContainerHeight();
+    this.$store.dispatch("addRecentlyViewed", { id: this.id });
   },
 };
 </script>
