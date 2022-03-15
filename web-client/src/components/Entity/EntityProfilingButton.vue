@@ -82,7 +82,7 @@ export default {
       return this.$api.profiling
         .exists({ entityId: this.id })
         .then(() => (this.profilingExists = true))
-        .catch(() => (this.profilingExists = true))
+        .catch(() => (this.profilingExists = false))
         .finally(() => (this.loading = false));
     },
   },

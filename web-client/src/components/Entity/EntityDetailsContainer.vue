@@ -110,7 +110,8 @@
                     <div
                       class="entity-details-content d-flex justify-end pb-8 mt-5"
                     >
-                      <entity-profiling-button :id="id" />
+                      <entity-like-button :id="id" />
+                      <entity-profiling-button class="ml-4" :id="id" />
                     </div>
                   </div>
                 </v-container>
@@ -167,9 +168,11 @@ import EntityProfilingButton from "@/components/Entity/EntityProfilingButton";
 import EntityCreator from "@/components/Entity/EntityCreator";
 import DotDivider from "@/components/Base/DotDivider";
 import DateDisplay from "@/components/Base/DateDisplay";
+import EntityLikeButton from "@/components/Entity/EntityLikeButton";
 export default {
   name: "EntityDetailsContainer",
   components: {
+    EntityLikeButton,
     DateDisplay,
     DotDivider,
     EntityCreator,
