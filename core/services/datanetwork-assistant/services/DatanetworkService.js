@@ -97,11 +97,12 @@ class DatanetworkService {
     throw edgeNotFoundError;
   }
 
-  async getEdges({ from, edgeTypes }, bidirectional = false) {
+  async getEdges({ from, edgeTypes, to = null }, bidirectional = false) {
     const relationshipTypes = edgeTypes ? `r:${edgeTypes.join("|")}` : "r";
     const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
+    const toNode = `m ${to ? `{ entityId: '${to}' }` : ""}`;
     return executeSession(
-      `MATCH (n {entityId: '${from}'}) ${relationship} (m) RETURN startNode(r) as from, r, endNode(r) as to`
+      `MATCH (n {entityId: '${from}'}) ${relationship} (${toNode}) RETURN startNode(r) as from, r, endNode(r) as to`
     ).then(({ records }) => ({
       collection:
         records?.map(({ _fields }) => ({

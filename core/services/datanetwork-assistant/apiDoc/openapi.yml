@@ -32,7 +32,14 @@ paths:
           required: true
           allowReserved: true
           schema:
-            type: string
+            $ref: "#/components/schemas/EntityId"
+        - name: to
+          in: query
+          description: Additionaly you can specify the `id` to get edges only betwenn two specific entities
+          required: false
+          allowReserved: true
+          schema:
+            $ref: "#/components/schemas/EntityId"
         - name: edgeTypes
           in: query
           description: The types of the relations to be fetched. Is a coma separeted list of known types. If not specified,
