@@ -117,7 +117,7 @@ export default {
   "styles/tabs", "styles/date-picker";
 html {
   font-size: 14px !important;
-  overflow-y: auto !important;
+  //overflow-y: auto !important;
 }
 
 #app {
@@ -128,7 +128,6 @@ html {
   font-family: Quicksand;
   color: $font_secondary_color;
   font-weight: bold;
-  // min-width: 768px;
 }
 body {
   font-family: $font_body;
