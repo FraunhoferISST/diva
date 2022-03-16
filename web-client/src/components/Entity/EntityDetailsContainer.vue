@@ -19,14 +19,8 @@
                 >
                   <div class="pt-12">
                     <div class="d-flex justify-center align-center flex-column">
-                      <entity-avatar
-                        v-if="data.id"
-                        :entity-id="data.id"
-                        :image-id="data.entityIcon"
-                        :size="100"
-                        :entity-title="getEntityTitle(data)"
-                      />
-                      <div class="pt-2">
+                      <entity-media v-if="data.id" :entity="data" />
+                      <div class="pt-2" v-if="data.rating">
                         <v-rating
                           color="orange"
                           readonly
@@ -168,11 +162,11 @@ import EntityCreator from "@/components/Entity/EntityCreator";
 import DotDivider from "@/components/Base/DotDivider";
 import DateDisplay from "@/components/Base/DateDisplay";
 import EntityLikeButton from "@/components/Entity/EntityLikeButton";
-import EntityAvatar from "@/components/Entity/EntityAvatar";
+import EntityMedia from "@/components/Entity/EntityMedia/EntityMedia";
 export default {
   name: "EntityDetailsContainer",
   components: {
-    EntityAvatar,
+    EntityMedia,
     EntityLikeButton,
     DateDisplay,
     DotDivider,

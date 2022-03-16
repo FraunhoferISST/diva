@@ -23,7 +23,7 @@ export default {
     },
     entityTitle: {
       type: String,
-      default: "",
+      default: "Entity",
     },
     imageId: {
       type: String,
@@ -37,11 +37,7 @@ export default {
   },
   computed: {
     entityAvatarPlaceholderText() {
-      return this.entityTitle
-        .split(" ")
-        .slice(0, 2)
-        .map((text) => text[0].toUpperCase())
-        .join("");
+      return this.entityTitle[0].toLocaleUpperCase();
     },
     imgUrl() {
       const entityType = this.entityId.slice(0, this.entityId.indexOf(":"));

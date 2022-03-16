@@ -15,6 +15,8 @@
     </div>
     <!--<div class="dash-divider" v-if="header"></div>-->
     <div class="card-body">
+      <slot></slot>
+      <!-- LEGACY SLOT      -->
       <slot name="body"></slot>
     </div>
     <div class="divider" v-if="footer"></div>

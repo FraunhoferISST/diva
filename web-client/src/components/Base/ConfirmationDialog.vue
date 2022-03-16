@@ -21,7 +21,7 @@
                 Cancel
               </v-btn>
             </slot>
-            <slot name="confirm">
+            <slot name="confirm" :confirm="onConfirm">
               <v-btn small rounded color="primary" @click="onConfirm">
                 Proceed
               </v-btn>
