@@ -30,16 +30,6 @@ class UsersService extends EntityService {
     return super.create(newUser, actorId || newUser.id);
   }
 
-  async deleteById(id) {
-    const user = await this.collection.findOne({ id });
-    if (user) {
-      if (user.imageId) {
-        await UserImagesService.deleteImage(user.imageId).catch(() => "");
-      }
-    }
-    return super.deleteById(id);
-  }
-
   async updateById(id, user, actorId) {
     if (await this.entityExists(id)) {
       const existingUser = await this.collection.findOne(

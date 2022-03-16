@@ -1,5 +1,8 @@
 const { ObjectId } = require("mongodb");
-const createHistoryEntry = require("@diva/common/createHistoryEntry");
+const {
+  createHistoryEntity,
+  createPatchDelta,
+} = require("@diva/common/createHistoryEntry");
 const { decodeCursor, encodeCursor } = require("@diva/common/api/cursor");
 const {
   entityAlreadyExistsError,
@@ -125,8 +128,8 @@ class EntityService {
     });
     this.validate(newEntity);
     await this.insert(newEntity);
-    await this.createHistoryEntry({}, newEntity, actorId);
-    return newEntity.id;
+    const delta = await this.createHistoryEntry({}, newEntity, actorId);
+    return { id: newEntity.id, delta };
   }
 
   async get(query) {
@@ -215,12 +218,18 @@ class EntityService {
         { projection: { _id: false } }
       );
       await this.replace(id, updatedEntity);
-      return this.createHistoryEntry(existingEntity, updatedEntity, actorId);
+      const delta = await this.createHistoryEntry(
+        existingEntity,
+        updatedEntity,
+        actorId
+      );
+      return { delta };
     }
     updatedEntity.created = new Date().toISOString();
     this.validate(updatedEntity);
     await this.insert(updatedEntity);
-    return this.createHistoryEntry({}, updatedEntity, actorId);
+    const delta = await this.createHistoryEntry({}, updatedEntity, actorId);
+    return { delta };
   }
 
   async patchById(id, patch, actorId) {
@@ -241,7 +250,12 @@ class EntityService {
       });
       this.validate(updatedEntity);
       await this.replace(id, updatedEntity);
-      return this.createHistoryEntry(existingEntity, updatedEntity, actorId);
+      const delta = await this.createHistoryEntry(
+        existingEntity,
+        updatedEntity,
+        actorId
+      );
+      return { delta };
     }
     throw entityNotFoundError;
   }
@@ -267,9 +281,10 @@ class EntityService {
   }
 
   createHistoryEntry(oldObj, newObj, actorId) {
-    const history = createHistoryEntry(oldObj, newObj, actorId);
-    jsonSchemaValidator.validate(ENTITY_ROOT_SCHEMA, history);
-    return this.historyCollection.insertOne(history);
+    const delta = createPatchDelta(oldObj, newObj);
+    const historyEntry = createHistoryEntity(newObj.id, delta, actorId);
+    jsonSchemaValidator.validate(ENTITY_ROOT_SCHEMA, historyEntry);
+    return this.historyCollection.insertOne(historyEntry).then(() => delta);
   }
 
   count() {
