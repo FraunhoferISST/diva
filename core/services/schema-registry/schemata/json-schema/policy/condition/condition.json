@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+
+  "type": "object",
+  "title": "Condition of a rule",
+  "oneOf": [{
+      "type": "object",
+      "properties": {
+        "and": {
+          "type": "array",
+          "items": {
+            "$ref": "singleQueryCondition"
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "or": {
+          "type": "array",
+          "items": {
+            "$ref": "singleQueryCondition"
+          }
+        }
+      }
+    }
+  ]
+}

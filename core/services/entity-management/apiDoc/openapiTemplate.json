@@ -113,7 +113,8 @@
               "user",
               "asset",
               "service",
-              "review"
+              "review",
+              "policy"
             ]
           }
         }

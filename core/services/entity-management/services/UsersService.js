@@ -1,6 +1,7 @@
 const generateUuid = require("@diva/common/generateUuid");
 const EntityService = require("./EntityService");
 const UserImagesService = require("./EntityImagesService");
+const { entities } = require("../utils/constants");
 
 const createUser = async (userData, actorId) => {
   const id = generateUuid("user");
@@ -14,6 +15,9 @@ const createUser = async (userData, actorId) => {
 
 class UsersService extends EntityService {
   async init() {
+    this.entityType = entities.USERS.type;
+    this.entityCollectionName = entities.USERS.collection;
+
     await super.init();
     await this.collection.createIndex(
       { email: 1 },
