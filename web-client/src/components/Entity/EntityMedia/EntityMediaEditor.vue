@@ -21,7 +21,12 @@
         </div>
       </div>
       <v-container fluid class="mb-4">
-        <v-tabs centered background-color="transparent" v-model="tab">
+        <v-tabs
+          height="50px"
+          centered
+          background-color="transparent"
+          v-model="tab"
+        >
           <v-tabs-slider color="primary"></v-tabs-slider>
 
           <v-tab v-for="tab in tabs" :key="tab.title">
