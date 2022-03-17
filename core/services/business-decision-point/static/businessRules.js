@@ -99,4 +99,23 @@ module.exports = [
       },
     ],
   },
+  {
+    title: "Trigger Similarity Hash DAG when Keywords change",
+    priority: 0,
+    scope: {
+      channel: "entity.events",
+      "payload.type": "update",
+      "payload.object.affectedFields": '("keywords")', // arrays will be stringified. You can then use RegEx to perform checks.
+    },
+    condition: true,
+    actions: [
+      {
+        headers: {
+          "x-actorid": "{{payload.actor.id}}",
+        },
+        method: "GET",
+        endpoint: "{{entity-management}}/resources/{{payload.object.id}}",
+      },
+    ],
+  },
 ];
