@@ -1,6 +1,6 @@
 from airflow import DAG
 from datetime import datetime, timedelta
-from diva_operator import DivaOperator
+from diva_lake_operator import DivaLakeOperator
 from airflow.models import Variable
 
 default_args = {
@@ -22,7 +22,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         "ENTITY_MANAGEMENT_URL": Variable.get("entity_management_url"),
         "MONGODB_URI": Variable.get("mongodb_uri")
     }
-    extract_text = DivaOperator(
+    extract_text = DivaLakeOperator(
         task_id='extracttext',
         image='ghcr.io/fraunhoferisst/diva/tika-extraction:1.0.0',
         api_version='auto',
@@ -36,7 +36,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='file-lake'
     )
 
-    extract_meta = DivaOperator(
+    extract_meta = DivaLakeOperator(
         task_id='extractmeta',
         image='ghcr.io/fraunhoferisst/diva/tika-extraction:1.0.0',
         api_version='auto',
@@ -50,7 +50,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='file-lake'
     )
 
-    language_guesser = DivaOperator(
+    language_guesser = DivaLakeOperator(
         task_id='text-language-guesser',
         image='ghcr.io/fraunhoferisst/diva/text-language-guesser:2.0.0',
         api_version='auto',
@@ -61,7 +61,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    metadata = DivaOperator(
+    metadata = DivaLakeOperator(
         task_id='text-metadata-extractor',
         image='ghcr.io/fraunhoferisst/diva/text-metadata-extractor:2.0.0',
         api_version='auto',
@@ -72,7 +72,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    keywords = DivaOperator(
+    keywords = DivaLakeOperator(
         task_id='text-keyword-extractor',
         image='ghcr.io/fraunhoferisst/diva/text-keyword-extractor:4.1.0',
         api_version='auto',
@@ -83,7 +83,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    stats = DivaOperator(
+    stats = DivaLakeOperator(
         task_id='text-statistican',
         image='ghcr.io/fraunhoferisst/diva/text-statistican:2.0.0',
         api_version='auto',
@@ -94,7 +94,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    core_phrase = DivaOperator(
+    core_phrase = DivaLakeOperator(
         task_id='text-core-phrase-extractor',
         image='ghcr.io/fraunhoferisst/diva/text-core-phrase-extractor:4.1.0',
         api_version='auto',
@@ -105,7 +105,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    personal_data = DivaOperator(
+    personal_data = DivaLakeOperator(
         task_id='text-personal-data',
         image='ghcr.io/fraunhoferisst/diva/text-personal-data-evaluation:3.0.0',
         api_version='auto',
@@ -116,7 +116,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    similarity_hash_generator = DivaOperator(
+    similarity_hash_generator = DivaLakeOperator(
         task_id='text-similarity-hash-generator',
         image='ghcr.io/fraunhoferisst/diva/text-similarity-hash-generator:0.1.0',
         api_version='auto',
@@ -127,7 +127,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    upload_meta = DivaOperator(
+    upload_meta = DivaLakeOperator(
         task_id='upload_meta',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
@@ -142,7 +142,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    upload_keywords = DivaOperator(
+    upload_keywords = DivaLakeOperator(
         task_id='upload_keywords',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
@@ -157,7 +157,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    upload_core_phrase = DivaOperator(
+    upload_core_phrase = DivaLakeOperator(
         task_id='upload_core_phrase',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
@@ -172,7 +172,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    upload_languages = DivaOperator(
+    upload_languages = DivaLakeOperator(
         task_id='upload_languages',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
@@ -187,7 +187,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    upload_stats = DivaOperator(
+    upload_stats = DivaLakeOperator(
         task_id='upload_stats',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
@@ -202,7 +202,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    upload_personal_data = DivaOperator(
+    upload_personal_data = DivaLakeOperator(
         task_id='upload_personal_data',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
@@ -217,7 +217,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
         bucket='analyze'
     )
 
-    upload_similarity_hash = DivaOperator(
+    upload_similarity_hash = DivaLakeOperator(
         task_id='upload_similarity_hash',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',

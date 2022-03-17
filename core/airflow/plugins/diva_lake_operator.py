@@ -1,20 +1,16 @@
 import os
 import json
-import tempfile
 import logging
-import time
 import uuid
 
 from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.hooks.S3_hook import S3Hook
 from docker.types import Mount
 
-from tempfile import NamedTemporaryFile, TemporaryDirectory
+from tempfile import NamedTemporaryFile
 import os
-import pwd
-import requests
 
-class DivaOperator(DockerOperator):
+class DivaLakeOperator(DockerOperator):
     # in these fields you can use template expressions, e.g. "{{ dag_run.conf['input_resource_id'] }}"
     template_fields = ['s3_input_key', 'environment']
 
