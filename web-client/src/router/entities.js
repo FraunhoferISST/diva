@@ -9,7 +9,7 @@ import AssetsDetails from "@/views/Asset/AssetDetails.vue";
 import AssetGeneral from "@/components/Asset/AssetGeneral/AssetGeneral.vue";
 //Users
 import UsersDetails from "@/views/Users/UsersDetails.vue";
-import UserGeneral from "@/components/User/UserDetails/";
+import UserGeneral from "@/components/User/UserGeneral/";
 //Entity common views
 import EntityCosts from "@/components/Entity/EntityCommonComponents/Costs/EntityCosts";
 import EntityHistory from "@/components/Entity/EntityCommonComponents/History/EntityHistory";

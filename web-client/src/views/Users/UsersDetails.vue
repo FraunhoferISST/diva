@@ -10,7 +10,7 @@
 import RouterTransition from "@/components/Transitions/RouterTransition";
 import EntityDetailsContainer from "@/components/Entity/EntityDetailsContainer";
 export default {
-  name: "ResourceDetails",
+  name: "UserDetails",
   components: {
     EntityDetailsContainer,
     RouterTransition,

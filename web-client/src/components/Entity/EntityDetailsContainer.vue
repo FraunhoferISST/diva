@@ -8,8 +8,8 @@
       class="pa-0 fill-height d-block"
       style="background-color: white"
     >
-      <entity-base-data-fetcher :id="id" style="min-height: 55px">
-        <template #default="{ data }">
+      <data-viewer :loading="loading" :error="error">
+        <template v-if="data">
           <div class="entity-details-overview">
             <v-container ref="overviewContainer" class="pa-0 pt-0 pb-0">
               <v-expand-transition>
@@ -143,9 +143,14 @@
                 </div>
               </div>
             </v-container>
+            <v-snackbar v-model="snackbar" :color="color" top>
+              <b>
+                {{ message }}
+              </b>
+            </v-snackbar>
           </div>
         </template>
-      </entity-base-data-fetcher>
+      </data-viewer>
       <v-container class="pa-0 pt-0 pb-12">
         <v-container class="entity-details-views-container pa-12">
           <slot> </slot>
@@ -156,23 +161,26 @@
 </template>
 
 <script>
-import EntityBaseDataFetcher from "@/components/DataFetchers/EntityBaseDataFetcher";
 import EntityProfilingButton from "@/components/Entity/EntityProfilingButton";
 import EntityCreator from "@/components/Entity/EntityCreator";
 import DotDivider from "@/components/Base/DotDivider";
 import DateDisplay from "@/components/Base/DateDisplay";
 import EntityLikeButton from "@/components/Entity/EntityLikeButton";
 import EntityMedia from "@/components/Entity/EntityMedia/EntityMedia";
+import { useSnackbar } from "@/composables/useSnackbar";
+import { useEntity } from "@/composables/useEntity";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+
 export default {
   name: "EntityDetailsContainer",
   components: {
+    DataViewer,
     EntityMedia,
     EntityLikeButton,
     DateDisplay,
     DotDivider,
     EntityCreator,
     EntityProfilingButton,
-    EntityBaseDataFetcher,
   },
   props: {
     id: {
@@ -184,12 +192,33 @@ export default {
       required: true,
     },
   },
+  setup(props) {
+    const { c: color, show: showSnackbar, message, snackbar } = useSnackbar();
+    const onUpdate = ({ message, action }) => {
+      showSnackbar(message, {
+        color: action === "updated" ? "success" : "error",
+      });
+    };
+    const { load, loading, error, data } = useEntity(props.id, {
+      reactive: true,
+      onUpdate,
+    });
+    load();
+    return {
+      load,
+      loading,
+      error,
+      data,
+      color,
+      message,
+      snackbar,
+      showSnackbar,
+    };
+  },
   data: () => ({
     menu: false,
     confirmationDialog: false,
     isLoading: false,
-    snackbar: false,
-    snackbarText: "",
     scrollOffset: 0,
     overviewContainerHeight: null,
     tab: "",

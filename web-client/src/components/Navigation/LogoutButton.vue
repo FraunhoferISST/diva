@@ -1,15 +1,19 @@
 <template>
-  <v-btn
-    color="error"
-    rounded
-    text
-    :loading="loading"
-    :disabled="loading"
-    @click.native="logout"
-    v-bind="$attrs"
-  >
-    Logout
-  </v-btn>
+  <div>
+    <slot :logout="logout">
+      <v-btn
+        color="error"
+        rounded
+        text
+        :loading="loading"
+        :disabled="loading"
+        @click.native="logout"
+        v-bind="$attrs"
+      >
+        Logout
+      </v-btn>
+    </slot>
+  </div>
 </template>
 
 <script>
@@ -30,9 +34,7 @@ export default {
             redirectUri: `${window.location.origin}`,
           });
         })
-        .catch(() => {
-          this.loading = false;
-        });
+        .finally(() => (this.loading = false));
     },
   },
 };

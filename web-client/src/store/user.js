@@ -77,8 +77,8 @@ const actions = {
   async login({ commit }, { id, email, username, token }) {
     resetAuthorizationData();
     setAuthorizationData(token);
-    this._vm.$socket.io.opts.query = `jwt=${token}`;
-    this._vm.$socket.open();
+    // this._vm.$socket.io.opts.query = `jwt=${token}`;
+    // this._vm.$socket.open();
     await api.users.update(id, { email, username });
     return api.users.getById(id).then(({ data }) => {
       commit(SET_USER, {

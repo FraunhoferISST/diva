@@ -43,17 +43,24 @@
 import RouterTransition from "@/components/Transitions/RouterTransition";
 import keycloak from "@/api/keycloak";
 import LoadingStateOverlay from "@/components/Base/LoadingStateOverlay";
+import { useUser } from "@/composables/useUser";
 export default {
   name: "app",
   components: {
     LoadingStateOverlay,
     RouterTransition,
   },
+  setup() {
+    const { login, error } = useUser();
+    return {
+      login,
+      error,
+    };
+  },
   data: () => ({
     message: "Preparing the journey",
     loading: true,
     authenticating: true,
-    error: "",
   }),
   computed: {
     user() {
@@ -63,26 +70,13 @@ export default {
   methods: {
     authenticate() {
       this.loading = true;
-      this.error = "";
       this.authenticating = true;
       keycloak
         .init()
         .then(async (authenticated) => {
           if (authenticated) {
             const user = keycloak.getUser();
-            await this.$store.dispatch("login", user).catch(async (e) => {
-              if (e?.response?.data?.code === 409) {
-                const {
-                  data: { collection },
-                } = await this.$api.users.get({
-                  email: user.email,
-                });
-                const conflictingUser = collection[0];
-                await this.$api.users.delete(conflictingUser.id);
-                return this.$store.dispatch("login", user);
-              }
-              throw e;
-            });
+            await this.login(user);
             if (this.$route.name === "login") {
               this.$router.push("/");
             }

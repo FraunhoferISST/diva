@@ -60,7 +60,7 @@
         </v-hover>
       </v-col>
     </template>
-    <v-col cols="12">
+    <v-col cols="12" v-else>
       <no-data-state text="Upload a few images to use them as icon or banner" />
     </v-col>
     <v-snackbar

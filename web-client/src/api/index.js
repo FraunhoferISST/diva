@@ -8,10 +8,11 @@ import axios from "@/api/axios";
 import fetchWrapper from "@/api/fetchWrapper";
 import datanetwork from "@/api/datanetwork";
 import entities from "@/api/entities";
-import "@/api/socket";
+import { socket } from "@/api/socket";
 
 // injected as "Vue.prototype.$api = api" in main.js
 export default {
+  socket,
   axios,
   analytics,
   profiling,
