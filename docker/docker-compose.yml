@@ -265,7 +265,7 @@ services:
   # ####################################################################################################################
 
   profiling-assistant:
-    image: ${REGISTRY}profiling-assistant:1.0.5
+    image: ${REGISTRY}profiling-assistant:1.1.0
     container_name: profiling-assistant
     environment:
       <<: *mongodb-env
