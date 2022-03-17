@@ -67,6 +67,10 @@ services:
     build:
       context: ../faas/entity-management-sink
 
+  keywords-similarity-hash-generator:
+    build:
+      context: ../faas/keywords-similarity-hash-generator  
+
   # DIVA Bots
   entity-archive-bot:
     build:
