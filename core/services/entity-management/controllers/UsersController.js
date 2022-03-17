@@ -5,7 +5,7 @@ const EntityController = require("./EntityController");
 class UsersController extends EntityController {
   async create(req, res, next) {
     try {
-      const newUserId = await usersService.create(
+      const { id: newUserId, delta } = await usersService.create(
         req.body,
         req.headers["x-actorid"]
       );
@@ -13,7 +13,9 @@ class UsersController extends EntityController {
       messagesProducer.produce(
         newUserId,
         req.headers["x-actorid"] || newUserId,
-        "create"
+        "create",
+        [],
+        { affectedFields: this.getAffectedFieldsFromDelta(delta) }
       );
     } catch (err) {
       return next(err);

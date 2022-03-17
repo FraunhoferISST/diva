@@ -167,7 +167,7 @@ export default {
     runProfiling() {
       this.loading = true;
       this.$api.profiling
-        .run({ resourceId: this.data.id })
+        .run({ entityId: this.data.id })
         .then(() => {
           this.profilingInitiated = true;
           this.showSnackbar();

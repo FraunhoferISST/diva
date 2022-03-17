@@ -22,7 +22,7 @@
           "pattern": "^(.*)$",
           "_elasticsearch": {
             "type": "text",
-            "analyzer": "letter_analyzer"
+            "analyzer": "diva_analyzer"
           }
         },
         "summary": {

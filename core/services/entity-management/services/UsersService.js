@@ -1,6 +1,5 @@
 const generateUuid = require("@diva/common/generateUuid");
 const EntityService = require("./EntityService");
-const UserImagesService = require("./EntityImagesService");
 
 const createUser = async (userData, actorId) => {
   const id = generateUuid("user");
@@ -24,16 +23,6 @@ class UsersService extends EntityService {
   async create(user, actorId) {
     const newUser = await createUser(user, actorId);
     return super.create(newUser, actorId || newUser.id);
-  }
-
-  async deleteById(id) {
-    const user = await this.collection.findOne({ id });
-    if (user) {
-      if (user.imageId) {
-        await UserImagesService.deleteImage(user.imageId).catch(() => "");
-      }
-    }
-    return super.deleteById(id);
   }
 
   async updateById(id, user, actorId) {

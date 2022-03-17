@@ -1,12 +1,15 @@
 const messageProducer = require("@diva/common/messaging/MessageProducer");
 
+const getAffectedFieldsFromDelta = (delta = {}) => Object.keys(delta);
+
 const createSingleEntity = async (service, entity, actorId) => {
-  const newEntityId = await service.create(entity, actorId);
+  const { id: newEntityId, delta } = await service.create(entity, actorId);
   messageProducer.produce(
     newEntityId,
     actorId,
     "create",
-    entity.attributedTo ? [entity.attributedTo] : []
+    entity.attributedTo ? [entity.attributedTo] : [],
+    { affectedFields: getAffectedFieldsFromDelta(delta) }
   );
   return newEntityId;
 };
@@ -36,6 +39,10 @@ const processCreateBulkRequest = async (service, bulk, actorid) =>
 module.exports = class EntityController {
   constructor(service) {
     this.service = service;
+  }
+
+  getAffectedFieldsFromDelta(delta = {}) {
+    return getAffectedFieldsFromDelta(delta);
   }
 
   async create(req, res, next) {
@@ -82,14 +89,19 @@ module.exports = class EntityController {
   async patchById(req, res, next) {
     try {
       const { id } = req.params;
-      await this.service.patchById(id, req.body, req.headers["x-actorid"]);
+      const { delta } = await this.service.patchById(
+        id,
+        req.body,
+        req.headers["x-actorid"]
+      );
       const { attributedTo } = await this.service.getById(id);
       res.status(200).send();
       messageProducer.produce(
         id,
         req.headers["x-actorid"],
         "update",
-        attributedTo ? [attributedTo] : []
+        attributedTo ? [attributedTo] : [],
+        { affectedFields: this.getAffectedFieldsFromDelta(delta) }
       );
     } catch (err) {
       return next(err);
@@ -99,13 +111,18 @@ module.exports = class EntityController {
   async updateById(req, res, next) {
     try {
       const { id } = req.params;
-      await this.service.updateById(id, req.body, req.headers["x-actorid"]);
+      const { delta } = await this.service.updateById(
+        id,
+        req.body,
+        req.headers["x-actorid"]
+      );
       res.status(204).send();
       messageProducer.produce(
         id,
         req.headers["x-actorid"],
         "update",
-        req.body.attributedTo ? [req.body.attributedTo] : []
+        req.body.attributedTo ? [req.body.attributedTo] : [],
+        { affectedFields: this.getAffectedFieldsFromDelta(delta) }
       );
     } catch (err) {
       return next(err);
