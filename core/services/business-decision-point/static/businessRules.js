@@ -113,8 +113,11 @@ module.exports = [
         headers: {
           "x-actorid": "{{payload.actor.id}}",
         },
-        method: "GET",
-        endpoint: "{{entity-management}}/resources/{{payload.object.id}}",
+        method: "POST",
+        endpoint: "{{profiling-assistant}}/profiling/run/keywords_similarity",
+        body: {
+          entityId: "{{payload.object.id}}",
+        },
       },
     ],
   },
