@@ -463,7 +463,7 @@ services:
       <<: *base-core-service-env
       <<: *neo4j-env
       PORT: ${BUSINESS_DECISION_POINT}
-      SERVICES_URLS: "datanetwork-assistant::http://datanetwork-assistant:3012,entity-management::http://entity-management:3000"
+      SERVICES_URLS: "datanetwork-assistant::http://datanetwork-assistant:3012,entity-management::http://entity-management:3000,profiling-assistant::http://profiling-assistant:3011"
 
   # ####################################################################################################################
   # Business Rules Executor Service
