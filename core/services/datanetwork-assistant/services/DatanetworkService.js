@@ -29,6 +29,31 @@ const createConstraints = async (
   return Promise.all(constraints);
 };
 
+const cleanUpProperties = (properties) => {
+  let cleanProperties = {};
+  for (const [k, v] of Object.entries(properties)) {
+    if (v !== null && v !== undefined)
+      if (!Array.isArray(v) && typeof v === "object") {
+        if (Object.keys(v).length > 0) {
+          cleanProperties = {
+            ...cleanProperties,
+            ...(Object.keys(cleanUpProperties(v)).length > 0
+              ? { [k]: cleanUpProperties(v) }
+              : {}),
+          };
+        }
+      } else if (Array.isArray(v)) {
+        const cleanArray = v.filter((elem) => elem);
+        if (cleanArray.length > 0) {
+          cleanProperties[k] = cleanArray;
+        }
+      } else {
+        cleanProperties[k] = v;
+      }
+  }
+  return cleanProperties;
+};
+
 class DatanetworkService {
   async init() {
     await neo4jConnector.connect();
@@ -91,7 +116,9 @@ class DatanetworkService {
       return {
         ...fromAndToEntities,
         edgeType: record._fields[records[0]._fieldLookup.r].type,
-        id: record._fields[records[0]._fieldLookup.r].properties.id,
+        properties: {
+          ...record._fields[records[0]._fieldLookup.r].properties,
+        },
       };
     }
     throw edgeNotFoundError;
@@ -109,7 +136,9 @@ class DatanetworkService {
           from: _fields[0].properties,
           to: _fields[2].properties,
           edgeType: _fields[1].type,
-          id: _fields[1].properties.id,
+          properties: {
+            ..._fields[1].properties,
+          },
         })) ?? [],
       total: 0,
       cursor: "",
@@ -123,7 +152,7 @@ class DatanetworkService {
     return records.length > 0;
   }
 
-  async createEdge({ from, to, edgeType }) {
+  async createEdge({ from, to, edgeType, properties = {} }) {
     if (await this.edgeExists(from, to, edgeType)) {
       throw edgeAlreadyExistsError;
     }
@@ -135,10 +164,42 @@ class DatanetworkService {
       throw nodeNotFoundError;
     }
     const newEdgeId = generateUuid("edge");
-    await executeSession(
-      `MATCH (a {entityId: '${from}'}) MATCH (b {entityId: '${to}'}) MERGE(a)-[:${edgeType} {id: "${newEdgeId}"}]-(b)`
-    );
+    const edgeProperties = Object.entries({
+      ...properties,
+      id: newEdgeId,
+    })
+      .map(([key, value]) => `${key}: "${value}"`)
+      .join(", ");
+
+    const query = `MATCH (a {entityId: "${from}"}) MATCH (b {entityId: "${to}"}) MERGE (a)-[:${edgeType} {${edgeProperties}}]-(b)`;
+    await executeSession(query);
     return newEdgeId;
+  }
+
+  async patchEdgeById(edge, body) {
+    if (
+      !(await this.edgeExists(
+        edge.from.entityId,
+        edge.to.entityId,
+        edge.edgeType
+      ))
+    ) {
+      throw edgeNotFoundError;
+    }
+    // merge old properties with new
+    const edgeProperties = Object.entries(
+      cleanUpProperties({
+        ...edge.properties,
+        ...body,
+        id: edge.properties.id,
+      })
+    )
+      .map(([key, value]) => `${key}: "${value}"`)
+      .join(", ");
+
+    return executeSession(
+      `MATCH (a {entityId: "${edge.from.entityId}"})-[r]-(b {entityId: "${edge.to.entityId}"}) SET r = {${edgeProperties}}`
+    );
   }
 
   async deleteEdgeById(id) {
