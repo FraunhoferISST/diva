@@ -73,9 +73,6 @@ export default {
         fetch: null,
       },
       instantUpload: true,
-      onprocessfiles: (files) => {
-        console.log(files);
-      },
     });
   },
   beforeDestroy() {

@@ -1,4 +1,4 @@
-import axios from "@/api/axios";
+import axios from "@/api/http";
 export default {
   import: (file) => {
     const formData = new FormData();

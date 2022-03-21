@@ -1,7 +1,13 @@
 <template>
-  <div>
-    <v-expand-transition>
+  <div class="relative">
+    <div v-if="isUpdating" class="data-viewer-updating">
+      <span v-if="updating"> updating... </span>
+      <v-icon v-else color="success" x-small>done</v-icon>
+    </div>
+    <fade-in-group>
       <v-progress-circular
+        key="loading"
+        class="data-viewer-loading"
         v-if="loading"
         indeterminate
         color="primary"
@@ -19,20 +25,40 @@
           {{ errorMessage || "Some error occurred while loading data" }}
         </p>
       </v-alert>
-      <slot v-else> </slot>
-    </v-expand-transition>
+      <div key="content" v-else>
+        <slot> </slot>
+      </div>
+    </fade-in-group>
   </div>
 </template>
 <script>
+import FadeInGroup from "@/components/Transitions/FadeInGroup";
 export default {
   name: "DataViewer",
+  components: { FadeInGroup },
   props: {
     loading: {
       type: Boolean,
       default: true,
     },
+    updating: {
+      type: Boolean,
+      default: false,
+    },
     error: {
       default: null,
+    },
+  },
+  data: () => ({
+    isUpdating: false,
+  }),
+  watch: {
+    updating() {
+      if (this.updating) {
+        this.isUpdating = true;
+      } else {
+        setTimeout(() => (this.isUpdating = false), 5000);
+      }
     },
   },
   computed: {
@@ -51,4 +77,22 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.data-viewer-updating {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  padding: 2px 4px;
+  font-size: 0.7rem;
+  @include border-radius-half;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.data-viewer-loading {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+</style>

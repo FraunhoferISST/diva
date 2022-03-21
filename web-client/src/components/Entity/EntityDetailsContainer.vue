@@ -8,7 +8,7 @@
       class="pa-0 fill-height d-block"
       style="background-color: white"
     >
-      <data-viewer :loading="loading" :error="error">
+      <data-viewer :loading="loading" :error="error" :updating="updating">
         <template v-if="data">
           <div class="entity-details-overview">
             <v-container ref="overviewContainer" class="pa-0 pt-0 pb-0">
@@ -143,11 +143,14 @@
                 </div>
               </div>
             </v-container>
-            <v-snackbar v-model="snackbar" :color="color" top>
-              <b>
-                {{ message }}
-              </b>
-            </v-snackbar>
+            <entity-event-snackbar
+              :event-data="eventData || {}"
+              :color="color"
+              top
+              absolut
+              :snackbar.sync="snackbar"
+              :reload-method="reload"
+            />
           </div>
         </template>
       </data-viewer>
@@ -167,13 +170,15 @@ import DotDivider from "@/components/Base/DotDivider";
 import DateDisplay from "@/components/Base/DateDisplay";
 import EntityLikeButton from "@/components/Entity/EntityLikeButton";
 import EntityMedia from "@/components/Entity/EntityMedia/EntityMedia";
-import { useSnackbar } from "@/composables/useSnackbar";
-import { useEntity } from "@/composables/useEntity";
+import { useSnackbar } from "@/composables/snackbar";
+import { useEntity } from "@/composables/entity";
 import DataViewer from "@/components/DataFetchers/DataViewer";
+import EntityEventSnackbar from "@/components/Entity/EntityEventSnackbar";
 
 export default {
   name: "EntityDetailsContainer",
   components: {
+    EntityEventSnackbar,
     DataViewer,
     EntityMedia,
     EntityLikeButton,
@@ -194,24 +199,28 @@ export default {
   },
   setup(props) {
     const { c: color, show: showSnackbar, message, snackbar } = useSnackbar();
-    const onUpdate = ({ message, action }) => {
+    const onEvent = ({ message, action }) => {
       showSnackbar(message, {
         color: action === "updated" ? "success" : "error",
       });
     };
-    const { load, loading, error, data } = useEntity(props.id, {
-      reactive: true,
-      onUpdate,
-    });
+    const { load, loading, error, data, reload, updating, eventData } =
+      useEntity(props.id, {
+        reactive: true,
+        onEvent,
+      });
     load();
     return {
       load,
+      reload,
       loading,
+      updating,
       error,
       data,
       color,
       message,
       snackbar,
+      eventData,
       showSnackbar,
     };
   },

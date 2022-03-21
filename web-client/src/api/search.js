@@ -1,4 +1,5 @@
-import axios from "@/api/axios";
+import http from "@/api/http";
+const axios = http.axios;
 export default (q, pageSize = 30, cursor) =>
   axios.get("/search", {
     params: {

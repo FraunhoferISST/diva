@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { endpoint } from "@/api/axios";
+import api from "@/api/index";
 export default {
   name: "EntityAvatar",
   props: {
@@ -42,7 +42,7 @@ export default {
     imgUrl() {
       const entityType = this.entityId.slice(0, this.entityId.indexOf(":"));
       if (this.imageId) {
-        return `${endpoint}/${entityType}s/${this.entityId}/images/${this.imageId}`;
+        return `${api.endpoint}/${entityType}s/${this.entityId}/images/${this.imageId}`;
       }
       return "";
     },

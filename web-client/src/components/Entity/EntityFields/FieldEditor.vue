@@ -57,6 +57,7 @@ export default {
   name: "FieldEditor",
   components: {},
   props: {
+    // the initial data
     data: {
       type: Object,
       required: true,
@@ -76,15 +77,17 @@ export default {
       snackbarText: "Some error occurred!",
       isLoading: false,
       editMode: false,
+      // prepared patch (user input)
       patch: cloneDeep(this.data),
+      // new consistent state after successful patch request
       state: cloneDeep(this.data),
     };
   },
   computed: {
     hasChanges() {
-      const initialState = JSON.stringify(this.data);
+      const consistentState = JSON.stringify(this.state);
       const patchState = JSON.stringify(this.patch);
-      return initialState !== patchState;
+      return consistentState !== patchState;
     },
   },
   methods: {

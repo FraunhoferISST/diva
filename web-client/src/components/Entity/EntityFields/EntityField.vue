@@ -32,7 +32,7 @@ import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import PrimitiveFieldViewer from "@/components/Entity/EntityFields/PrimitiveField/PrimitiveFieldViewer";
 import SelectFieldViewer from "@/components/Entity/EntityFields/SelectField/SelectFieldViewer";
 import SelectFieldEditor from "@/components/Entity/EntityFields/SelectField/SelectFieldEditor";
-import { useEntity } from "@/composables/useEntity";
+import { useEntity } from "@/composables/entity";
 import { computed } from "@vue/composition-api";
 export default {
   name: "EntityField",

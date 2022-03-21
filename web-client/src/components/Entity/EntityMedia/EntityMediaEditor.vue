@@ -83,7 +83,6 @@ import ConfirmationDialog from "@/components/Base/ConfirmationDialog";
 import Card from "@/components/Base/Card";
 import imageUrl from "@/utils/imageUrl";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
-import CustomHeader from "@/components/Base/CustomHeader";
 import EntityImagesUpload from "@/components/Entity/EntityMedia/EntityImagesUpload";
 import EntityImagesViewer from "@/components/Entity/EntityMedia/EntityImagesViewer";
 import EntityVideosViewer from "@/components/Entity/EntityMedia/EntityVideosViewer";
@@ -94,7 +93,6 @@ export default {
     EntityVideosViewer,
     EntityImagesViewer,
     EntityImagesUpload,
-    CustomHeader,
     EntityAvatar,
     Card,
     ConfirmationDialog,

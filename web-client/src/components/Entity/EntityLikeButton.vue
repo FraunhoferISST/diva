@@ -32,6 +32,8 @@
 
 <script>
 import DataFetcher from "@/components/DataFetchers/DataFetcher";
+import { useUser } from "@/composables/user";
+
 export default {
   name: "EntityLikeButton",
   components: { DataFetcher },
@@ -40,6 +42,12 @@ export default {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    const { user } = useUser();
+    return {
+      user,
+    };
   },
   data: () => ({
     loading: false,
@@ -51,11 +59,6 @@ export default {
     isLikedByUser: false,
     likeEdge: null,
   }),
-  computed: {
-    user() {
-      return this.$store.state.user;
-    },
-  },
   methods: {
     toggleLike() {
       if (this.isLikedByUser) {

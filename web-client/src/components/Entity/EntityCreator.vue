@@ -2,7 +2,11 @@
   <div>
     <data-fetcher :fetch-method="fetchCreatorUser">
       <div class="d-flex align-center">
-        <user-avatar :user-id="computedCreatorId" :image-id="creatorImageId" />
+        <entity-avatar
+          :entity-id="computedCreatorId"
+          :image-id="creatorImageId"
+          :entity-title="creatorName"
+        />
         <entity-details-link v-if="creatorExists" class="mx-1" :id="creator.id">
           {{ creatorName }}
         </entity-details-link>
@@ -18,12 +22,17 @@
 
 <script>
 import DataFetcher from "@/components/DataFetchers/DataFetcher";
-import UserAvatar from "@/components/User/UserAvatar";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import DateDisplay from "@/components/Base/DateDisplay";
+import EntityAvatar from "@/components/Entity/EntityAvatar";
 export default {
   name: "EntityCreator",
-  components: { DateDisplay, EntityDetailsLink, UserAvatar, DataFetcher },
+  components: {
+    EntityAvatar,
+    DateDisplay,
+    EntityDetailsLink,
+    DataFetcher,
+  },
   props: {
     creatorId: {
       type: String,
@@ -45,7 +54,7 @@ export default {
       return this.creator?.username ?? "N/A";
     },
     creatorImageId() {
-      return this.creator?.imageId ?? "";
+      return this.creator?.entityIcon ?? "";
     },
     creatorExists() {
       return !!this.creator;

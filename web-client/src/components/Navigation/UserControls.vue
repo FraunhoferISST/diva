@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navigation-overlay :open.sync="overlay">
+    <navigation-overlay :open.sync="overlay" v-if="user">
       <user-navigation-overlay-content />
     </navigation-overlay>
     <v-btn rounded large text icon @click="toggleOverlay">
@@ -14,38 +14,30 @@
 </template>
 
 <script>
-import EntityUpdateEvents from "@/components/Mixins/EntityUpdateEvents";
 import NavigationOverlay from "@/components/Navigation/NavigationOverlay";
 import UserNavigationOverlayContent from "@/components/Navigation/UserNavigationOverlayContent";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
+import { useUser } from "@/composables/user";
+
 export default {
   name: "UserControls",
-  mixins: [EntityUpdateEvents],
   components: {
     EntityAvatar,
     UserNavigationOverlayContent,
     NavigationOverlay,
+  },
+  setup() {
+    const { user } = useUser();
+    return {
+      user,
+    };
   },
   data() {
     return {
       overlay: false,
     };
   },
-  computed: {
-    user() {
-      return this.$store.state.user;
-    },
-  },
   methods: {
-    onUpdateEvent() {
-      this.fetchUser();
-    },
-    fetchUser() {
-      return this.$api.users
-        .getById(this.id)
-        .then(({ data }) => this.$store.dispatch("setUser", data))
-        .catch();
-    },
     toggleOverlay() {
       this.overlay = !this.overlay;
     },

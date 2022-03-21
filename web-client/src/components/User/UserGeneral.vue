@@ -109,7 +109,7 @@ import keycloak from "@/api/keycloak";
 import InfoBlock from "../Base/InfoBlock/InfoBlock";
 import ConfirmationDialog from "../Base/ConfirmationDialog";
 import EntityField from "@/components/Entity/EntityFields/EntityField";
-import { useEntity } from "@/composables/useEntity";
+import { useEntity } from "@/composables/entity";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 
 export default {

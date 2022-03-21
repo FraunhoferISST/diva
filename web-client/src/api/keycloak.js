@@ -1,4 +1,5 @@
 import Keycloak from "keycloak-js";
+import api from "@/api/index";
 import store from "@/store";
 
 let initOptions = {
@@ -22,7 +23,8 @@ const getUser = () => ({
 const updateToken = () =>
   kc.updateToken(60).then((refreshed) => {
     if (refreshed) {
-      store.dispatch("refreshToken", kc.token);
+      api.setAuthorization(kc.token);
+      localStorage.setItem("jwt", kc.token);
     }
   });
 

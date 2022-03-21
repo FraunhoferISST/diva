@@ -65,10 +65,11 @@
         <v-row dense>
           <v-col cols="12">
             <div class="user-controls">
-              <user-avatar
+              <entity-avatar
                 size="80px"
                 :image-id="user.entityIcon"
-                :user-id="user.id"
+                :entity-id="user.id"
+                :entity-title="user.username"
               />
               <div class="d-flex align-center">
                 <p class="ma-0">
@@ -100,9 +101,13 @@ import CustomHeader from "@/components/Base/CustomHeader";
 import EntityMiniCard from "@/components/Entity/EntityMiniCard";
 import DataFetcher from "@/components/DataFetchers/DataFetcher";
 import NoDataState from "@/components/Base/NoDataState";
+import { useUser } from "@/composables/user";
+import EntityAvatar from "@/components/Entity/EntityAvatar";
+
 export default {
   name: "UserNavigationOverlayContent",
   components: {
+    EntityAvatar,
     NoDataState,
     DataFetcher,
     EntityMiniCard,
@@ -111,15 +116,18 @@ export default {
     UserAvatar,
     LogoutButton,
   },
+  setup() {
+    const { user } = useUser();
+    return {
+      user,
+    };
+  },
   data: () => ({
     recentLikes: [],
   }),
   computed: {
-    user() {
-      return this.$store.state.user;
-    },
     recentlyViewed() {
-      return this.user.recentlyViewed;
+      return this.user.recentlyViewed ?? [];
     },
   },
   methods: {

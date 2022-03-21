@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { endpoint } from "@/api/axios";
+import { endpoint } from "@/api/http";
 export default {
   name: "UserAvatar",
   props: {

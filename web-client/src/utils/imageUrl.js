@@ -1,4 +1,4 @@
 import entityTypeById from "@/utils/entityTypeById";
-import { endpoint } from "@/api/axios";
+import api from "@/api/index";
 export default (entityId, imageId = "") =>
-  `${endpoint}/${entityTypeById(entityId)}s/${entityId}/images/${imageId}`;
+  `${api.endpoint}/${entityTypeById(entityId)}s/${entityId}/images/${imageId}`;
