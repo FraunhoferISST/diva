@@ -334,10 +334,9 @@ components:
       enum:
         - isCreatorOf
         - isPartOf
-        - isDataOwnerOf
+        - isOwnerOf
         - isReviewOf
         - likes
-        - loves # to be removed
 
     Error:
       type: object

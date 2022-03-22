@@ -53,9 +53,12 @@ const analyze = async () => {
       { projection: { _id: 0, keywords: 1 } }
     );
 
-    const keywordsSimilarityHash = calcHashFromString(
-      result.keywords.sort(() => Math.random() - 0.5).join("")
-    );
+    const keywordsSimilarityHash =
+      result.keywords.length > 5
+        ? calcHashFromString(
+            result.keywords.sort(() => Math.random() - 0.5).join("")
+          )
+        : null;
     await patchEntity(ENTITY_ID, keywordsSimilarityHash);
     return true;
   } catch (err) {

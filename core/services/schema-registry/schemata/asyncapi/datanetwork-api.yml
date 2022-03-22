@@ -131,7 +131,7 @@ components:
               enum:
                 - isCreatorOf
                 - isPartOf
-                - isDataOwnerOf
+                - isOwnerOf
                 - isReviewOf
                 - likes
         attributedTo:

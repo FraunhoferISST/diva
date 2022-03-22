@@ -13,7 +13,7 @@ module.exports = [
         headers: {
           "x-actorid": "{{payload.actor.id}}",
         },
-        method: "PUT",
+        method: "POST",
         endpoint: "{{datanetwork-assistant}}/edges",
         body: {
           from: "{{payload.actor.id}}",
@@ -46,7 +46,7 @@ module.exports = [
         headers: {
           "x-actorid": "{{payload.actor.id}}",
         },
-        method: "PUT",
+        method: "POST",
         endpoint: "{{datanetwork-assistant}}/edges",
         body: {
           from: "{{payload.object.id}}",
