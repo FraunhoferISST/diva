@@ -8,8 +8,8 @@
       class="pa-0 fill-height d-block"
       style="background-color: white"
     >
-      <data-viewer :loading="loading" :error="error" :updating="updating">
-        <template v-if="data">
+      <entity-data-viewer :id="id">
+        <template #default="{ data }">
           <div class="entity-details-overview">
             <v-container ref="overviewContainer" class="pa-0 pt-0 pb-0">
               <v-expand-transition>
@@ -143,17 +143,9 @@
                 </div>
               </div>
             </v-container>
-            <entity-event-snackbar
-              :event-data="eventData || {}"
-              :color="color"
-              top
-              absolut
-              :snackbar.sync="snackbar"
-              :reload-method="reload"
-            />
           </div>
         </template>
-      </data-viewer>
+      </entity-data-viewer>
       <v-container class="pa-0 pt-0 pb-12">
         <v-container class="entity-details-views-container pa-12">
           <slot> </slot>
@@ -174,10 +166,12 @@ import { useSnackbar } from "@/composables/snackbar";
 import { useEntity } from "@/composables/entity";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import EntityEventSnackbar from "@/components/Entity/EntityEventSnackbar";
+import EntityDataViewer from "@/components/Entity/EntityDataViewer";
 
 export default {
   name: "EntityDetailsContainer",
   components: {
+    EntityDataViewer,
     EntityEventSnackbar,
     DataViewer,
     EntityMedia,

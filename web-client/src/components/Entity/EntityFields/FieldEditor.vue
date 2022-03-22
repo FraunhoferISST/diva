@@ -43,15 +43,16 @@
       top
       text
       v-model="snackbar"
-      color="error"
+      :color="color"
       :timeout="7000"
     >
-      {{ snackbarText }}
+      {{ message }}
     </v-snackbar>
   </div>
 </template>
 <script>
 import cloneDeep from "lodash.clonedeep";
+import { useSnackbar } from "@/composables/snackbar";
 
 export default {
   name: "FieldEditor",
@@ -71,10 +72,17 @@ export default {
       default: true,
     },
   },
+  setup() {
+    const { message, snackbar, show, c: color } = useSnackbar();
+    return {
+      showSnackbar: show,
+      snackbar,
+      message,
+      color,
+    };
+  },
   data() {
     return {
-      snackbar: false,
-      snackbarText: "Some error occurred!",
       isLoading: false,
       editMode: false,
       // prepared patch (user input)
@@ -123,7 +131,7 @@ export default {
           this.disableEdit();
         })
         .catch((e) => {
-          this.snackbarText = e.toString();
+          this.showSnackbar(e.toString(), { color: "error" });
           this.snackbar = true;
         })
         .finally(() => {
@@ -137,7 +145,7 @@ export default {
 .editable-content {
   position: relative;
   transition: 0.5s;
-  border-radius: $border_radius / 2;
+  border-radius: $border_radius;
   cursor: pointer;
   margin: -10px;
   padding: 10px;
@@ -151,7 +159,8 @@ export default {
     }
   }
   &.edit-active {
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1);
+    margin: 0;
+    padding: 0;
     background-color: rgba($bg_primary, 1);
     .edit-toggle-btn-container {
       opacity: 1;

@@ -1,27 +1,31 @@
 <template>
-  <field-editor :data="{ [property]: value }" :on-save="patchAndMutate">
-    <template #view="{ state }">
-      <slot>
-        <template>
+  <info-block :title="title">
+    <template #value>
+      <field-editor :data="{ [property]: value }" :on-save="patchAndMutate">
+        <template #view="{ state }">
+          <slot>
+            <template>
+              <component
+                :is="fieldsConfig.viewer"
+                v-bind="{ ...$props, ...$attrs }"
+                :value="state[property]"
+              />
+            </template>
+          </slot>
+        </template>
+        <template #edit="{ setPatch, patch }">
           <component
-            :is="fieldsConfig.viewer"
-            v-bind="$props"
-            :value="state[property]"
+            :is="fieldsConfig.editor"
+            v-bind="{ ...$props, ...$attrs }"
+            :property="property"
+            :value="patch[property]"
+            :title="title"
+            @update:value="(newValue) => setPatch({ [property]: newValue })"
           />
         </template>
-      </slot>
+      </field-editor>
     </template>
-    <template #edit="{ setPatch, patch }">
-      <component
-        :is="fieldsConfig.editor"
-        v-bind="$props"
-        :property="property"
-        :value="patch[property]"
-        :title="title"
-        @update:value="(newValue) => setPatch({ [property]: newValue })"
-      />
-    </template>
-  </field-editor>
+  </info-block>
 </template>
 
 <script>
@@ -34,9 +38,15 @@ import SelectFieldViewer from "@/components/Entity/EntityFields/SelectField/Sele
 import SelectFieldEditor from "@/components/Entity/EntityFields/SelectField/SelectFieldEditor";
 import { useEntity } from "@/composables/entity";
 import { computed } from "@vue/composition-api";
+import MarkdownFieldEditor from "@/components/Entity/EntityFields/MarkdownField/MarkdownFieldEditor";
+import MarkdownFieldViewer from "@/components/Entity/EntityFields/MarkdownField/MarkdownFieldViewer";
+import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 export default {
   name: "EntityField",
   components: {
+    InfoBlock,
+    MarkdownFieldViewer,
+    MarkdownFieldEditor,
     SelectFieldEditor,
     SelectFieldViewer,
     PrimitiveFieldViewer,
@@ -77,7 +87,7 @@ export default {
       get: () => props.value,
       set: (val) => emit("update:value", val),
     });
-    const { patch, patchLoading } = useEntity(props.id);
+    const { patch, patchLoading } = useEntity(props.id, { reactive: false });
     const patchAndMutate = (patchData) =>
       patch(patchData).then(() => {
         if (props.mutateSource) {
@@ -92,6 +102,10 @@ export default {
   computed: {
     fieldsConfig() {
       const configMap = {
+        richText: {
+          viewer: MarkdownFieldViewer,
+          editor: MarkdownFieldEditor,
+        },
         text: {
           viewer: PrimitiveFieldViewer,
           editor: PrimitiveFieldEditor,

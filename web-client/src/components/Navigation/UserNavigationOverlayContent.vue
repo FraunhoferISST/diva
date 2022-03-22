@@ -95,7 +95,6 @@
 
 <script>
 import LogoutButton from "./LogoutButton";
-import UserAvatar from "@/components/User/UserAvatar";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import CustomHeader from "@/components/Base/CustomHeader";
 import EntityMiniCard from "@/components/Entity/EntityMiniCard";
@@ -113,7 +112,6 @@ export default {
     EntityMiniCard,
     CustomHeader,
     EntityDetailsLink,
-    UserAvatar,
     LogoutButton,
   },
   setup() {

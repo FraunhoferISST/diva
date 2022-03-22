@@ -35,9 +35,8 @@
                   >
                     <template v-slot:item="data">
                       <template>
-                        <v-list-item-avatar>
-                          <identicon :hash="data.item.doc.id"></identicon>
-                        </v-list-item-avatar>
+                        <!--                        <v-list-item-avatar>
+                        </v-list-item-avatar>-->
                         <v-list-item-content>
                           <v-list-item-title>
                             <b>
@@ -96,13 +95,12 @@
 
 <script>
 import RelationsSearchEntityCard from "@/components/Asset/AssetRelations/RelationsSearchEntityCard";
-import Identicon from "@/components/Base/Identicon";
 import FadeIn from "@/components/Transitions/FadeIn";
 import EntitiesSearch from "@/components/DataFetchers/EntitiesSearch";
 
 export default {
   name: "RelationsSearchMenu",
-  components: { EntitiesSearch, RelationsSearchEntityCard, Identicon, FadeIn },
+  components: { EntitiesSearch, RelationsSearchEntityCard, FadeIn },
   data: () => ({
     menu: false,
     selected: [],

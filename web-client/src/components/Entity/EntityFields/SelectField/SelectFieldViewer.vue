@@ -1,26 +1,31 @@
 <template>
-  <no-data-state v-if="!hasOptions"> Edit {{ title }} </no-data-state>
-  <div v-else>
-    <v-chip
-      class="ml-1 mt-1"
-      small
-      label
-      v-for="(option, i) in value"
-      :key="option + '_' + i"
-    >
-      {{ option }}
-    </v-chip>
-  </div>
+  <info-block>
+    <template #value>
+      <div v-if="value">
+        <v-chip
+          class="ml-1 mt-1"
+          small
+          label
+          v-for="(option, i) in value"
+          :key="option + '_' + i"
+        >
+          {{ option }}
+        </v-chip>
+      </div>
+      <no-data-state v-else> Add {{ title }} </no-data-state>
+    </template>
+  </info-block>
 </template>
 
 <script>
 import NoDataState from "@/components/Base/NoDataState";
+import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 export default {
   name: "SelectFieldViewer",
-  components: { NoDataState },
+  components: { InfoBlock, NoDataState },
   props: {
     value: {
-      type: [String, Number],
+      type: [String, Number, Array],
       required: true,
     },
     title: {
@@ -34,7 +39,7 @@ export default {
   },
   computed: {
     hasOptions() {
-      return this.value.length > 0;
+      return this.value?.length > 0;
     },
   },
 };

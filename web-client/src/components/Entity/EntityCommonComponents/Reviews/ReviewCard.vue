@@ -1,7 +1,11 @@
 <template>
   <div class="comment">
     <div class="comment-info">
-      <user-avatar :image-id="creatorImageId" :user-id="creatorId" />
+      <entity-avatar
+        :image-id="creatorImageId"
+        :entity-id="creatorId"
+        :entity-title="userName"
+      />
       <div>
         <div class="comment-header">
           <h6 class="comment-header-user">
@@ -102,17 +106,17 @@
 
 <script>
 import DateDisplay from "@/components/Base/DateDisplay";
-import UserAvatar from "@/components/User/UserAvatar";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import ReviewForm from "./ReviewForm";
 import ConfirmationDialog from "../../../Base/ConfirmationDialog";
+import EntityAvatar from "@/components/Entity/EntityAvatar";
 export default {
   name: "ReviewCard",
   components: {
+    EntityAvatar,
     ConfirmationDialog,
     ReviewForm,
     EntityDetailsLink,
-    UserAvatar,
     DateDisplay,
   },
   props: {

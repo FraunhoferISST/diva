@@ -21,9 +21,10 @@
                   position: relative;
                 "
               >
-                <user-avatar
-                  :image-id="dataOwner.entityIcon"
-                  :user-id="dataOwner.id"
+                <entity-avatar
+                  :image-id="dataOwner.entityIcon || ''"
+                  :entity-id="dataOwner.id"
+                  :entity-title="dataOwner.username"
                 />
               </div>
             </div>
@@ -47,13 +48,13 @@ import EditViewContent from "@/components/Containers/EditViewContent";
 import GeneralDataOwnerEdit from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwners/GeneralDataOwnersEdit";
 import DataFetcher from "@/components/DataFetchers/DataFetcher";
 import NoDataState from "@/components/Base/NoDataState";
-import UserAvatar from "@/components/User/UserAvatar";
 import UserLink from "@/components/Base/UserLink";
+import EntityAvatar from "@/components/Entity/EntityAvatar";
 export default {
   name: "DataOwner",
   components: {
+    EntityAvatar,
     UserLink,
-    UserAvatar,
     NoDataState,
     DataFetcher,
     GeneralDataOwnerEdit,

@@ -27,10 +27,11 @@
         >
           <template #selection="data">
             <v-chip small :input-value="data.selected" class="ma-0 pa-0">
-              <user-avatar
+              <entity-avatar
                 :size="5"
                 :image-id="data.item.entityIcon"
-                :user-id="data.item.id"
+                :entity-id="data.item.id"
+                :entity-title="data.item.username"
                 class="mr-2"
               />
               <span class="pr-2">
@@ -63,11 +64,11 @@
 
 <script>
 import EditActivateTransition from "@/components/Transitions/EditActivateTransition";
-import UserAvatar from "@/components/User/UserAvatar";
+import EntityAvatar from "@/components/Entity/EntityAvatar";
 
 export default {
   name: "GeneralDataOwnerEdit",
-  components: { UserAvatar, EditActivateTransition },
+  components: { EntityAvatar, EditActivateTransition },
   props: {
     owners: {
       type: Array,

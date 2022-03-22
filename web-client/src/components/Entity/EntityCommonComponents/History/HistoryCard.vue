@@ -8,10 +8,11 @@
       <div class="">
         <div class="history-card">
           <div class="history-info-container">
-            <user-avatar
+            <entity-avatar
               :image-id="creatorImageId"
               :size="36"
-              :user-id="creatorId"
+              :entity-title="userName"
+              :entity-id="creatorId"
             />
             <div class="d-flex justify-space-between">
               <h6
@@ -53,20 +54,20 @@
 
 <script>
 import FadeIn from "@/components/Transitions/FadeIn";
-import UserAvatar from "@/components/User/UserAvatar";
 import DateDisplay from "@/components/Base/DateDisplay";
 import HistoryChanges from "@/components/Entity/EntityCommonComponents/History/HistoryChanges";
 import NoDataState from "@/components/Base/NoDataState";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
+import EntityAvatar from "@/components/Entity/EntityAvatar";
 
 export default {
   name: "HistoryCard",
   components: {
+    EntityAvatar,
     EntityDetailsLink,
     NoDataState,
     HistoryChanges,
     DateDisplay,
-    UserAvatar,
     FadeIn,
   },
   props: {

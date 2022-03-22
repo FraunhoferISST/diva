@@ -24,9 +24,10 @@
             <v-col cols="12">
               <div class="history-details-user-container">
                 <div>
-                  <user-avatar
+                  <entity-avatar
                     :image-id="creator.entityIcon || ''"
-                    :user-id="creator.id || ''"
+                    :entity-id="creator.id || ''"
+                    :entity-title="creator.username || ''"
                   />
                 </div>
                 <div>
@@ -68,17 +69,17 @@
 <script>
 import Card from "@/components/Base/Card";
 import CustomHeader from "@/components/Base/CustomHeader";
-import UserAvatar from "@/components/User/UserAvatar";
 import DateDisplay from "@/components/Base/DateDisplay";
 import HistoryChanges from "@/components/Entity/EntityCommonComponents/History/HistoryChanges";
 import NoDataState from "@/components/Base/NoDataState";
+import EntityAvatar from "@/components/Entity/EntityAvatar";
 export default {
   name: "EntityHistoryDetails",
   components: {
+    EntityAvatar,
     NoDataState,
     HistoryChanges,
     DateDisplay,
-    UserAvatar,
     CustomHeader,
     Card,
   },

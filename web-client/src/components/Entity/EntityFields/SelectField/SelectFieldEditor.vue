@@ -1,5 +1,6 @@
 <template>
-  <v-combobox
+  <component
+    :is="selectComponent"
     class="custom-autocomplete custom-input"
     v-model="computedValue"
     :items="options"
@@ -15,7 +16,7 @@
     hide-details
     autofocus
   >
-    <template #no-data>
+    <template #no-data v-if="allowCustom">
       <v-list-item dense>
         <v-list-item-content>
           <v-list-item-title>
@@ -26,10 +27,11 @@
         </v-list-item-content>
       </v-list-item>
     </template>
-  </v-combobox>
+  </component>
 </template>
 
 <script>
+import { VSelect, VCombobox } from "vuetify/lib/components";
 export default {
   name: "SelectFieldEditor",
   props: {
@@ -38,7 +40,7 @@ export default {
       required: true,
     },
     value: {
-      type: [String, Number],
+      type: [String, Number, Array],
       required: true,
     },
     title: {
@@ -48,11 +50,6 @@ export default {
     options: {
       type: Array,
       required: true,
-    },
-    type: {
-      type: String,
-      default: "text",
-      validator: (val) => ["text", "number", "email"].includes(val),
     },
     multiple: {
       type: Boolean,
@@ -71,6 +68,9 @@ export default {
       set(value) {
         this.$emit("update:value", value);
       },
+    },
+    selectComponent() {
+      return this.allowCustom ? VCombobox : VSelect;
     },
   },
 };

@@ -26,7 +26,7 @@ export function useEntity(
     const { data: _eventData } = useEvents(id, user.value.id, async () => {
       eventData.value = _eventData.value;
       updating.value = true;
-      if (updateInstantly || user.value.id === _eventData.value.actor.id) {
+      if (updateInstantly || user.value.id === _eventData.value.actorId) {
         await reload(_query.value)
           .catch()
           .finally(() => (updating.value = false));

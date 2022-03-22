@@ -1,32 +1,26 @@
 <template>
   <info-block>
     <template #value>
-      <info-block-value v-if="value">
-        {{ value }}
-      </info-block-value>
+      <markdown-viewer v-if="value" :markdown="value" />
       <no-data-state v-else> Add {{ title }} </no-data-state>
     </template>
   </info-block>
 </template>
 
 <script>
-import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
-import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import NoDataState from "@/components/Base/NoDataState";
+import MarkdownViewer from "@/components/Base/MarkdownViewer";
+import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 export default {
-  name: "PrimitiveFieldViewer",
+  name: "MarkdownFieldViewer",
   components: {
-    NoDataState,
-    InfoBlockValue,
     InfoBlock,
+    MarkdownViewer,
+    NoDataState,
   },
   props: {
-    property: {
-      type: String,
-      required: true,
-    },
     value: {
-      type: [String, Number],
+      type: String,
       required: true,
     },
     title: {

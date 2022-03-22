@@ -4,16 +4,11 @@
       <div class="search-card">
         <div class="search-card-header">
           <div class="search-card-icon d-flex">
-            <user-avatar
+            <entity-avatar
               :size="40"
-              v-if="doc.entityIcon"
+              :entity-id="doc.id || ''"
               :image-id="doc.entityIcon || ''"
-            />
-            <identicon
-              v-else
-              class="card-icon"
-              :hash="doc.uniqueFingerprint || doc.id"
-              :options="{ size: 40 }"
+              :entity-title="highlightedTitle"
             />
           </div>
           <div class="search-card-info-container">
@@ -63,22 +58,20 @@
 </template>
 
 <script>
-import Identicon from "@/components/Base/Identicon";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import DateDisplay from "@/components/Base/DateDisplay";
-import UserAvatar from "@/components/User/UserAvatar";
+import EntityAvatar from "@/components/Entity/EntityAvatar";
 
 export default {
   name: "SearchResultCard",
   components: {
-    UserAvatar,
+    EntityAvatar,
     DateDisplay,
     InfoBlockValue,
     InfoBlockTitle,
     EntityDetailsLink,
-    Identicon,
   },
   props: {
     data: {
