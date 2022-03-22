@@ -73,16 +73,16 @@ paths:
           $ref: "#/components/responses/UnexpectedError"
         "5XX":
           $ref: "#/components/responses/UnexpectedError"
-    put:
+    post:
       tags:
         - edges
-      summary: Put a single edge into the datanetwork.
-      operationId: putEdge
+      summary: Post a single edge into the datanetwork.
+      operationId: postEdge
       requestBody:
-        $ref: "#/components/requestBodies/PutEdge"
+        $ref: "#/components/requestBodies/PostEdge"
       responses:
         "204":
-          description: Put edge succesfull. Returns the `id` of the new edge
+          description: Post edge succesfull. Returns the `id` of the new edge
           content:
             text/html:
               schema:
@@ -116,6 +116,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Edge"
+        "4XX":
+          $ref: "#/components/responses/UnexpectedError"
+        "5XX":
+          $ref: "#/components/responses/UnexpectedError"
+
+    patch:
+      tags:
+        - edges
+      summary: Patch a single edge in the datanetwork.
+      operationId: patchEdge
+      requestBody:
+        $ref: "#/components/requestBodies/PatchEdge"
+      responses:
+        "204":
+          description: Patch edge succesfull.
         "4XX":
           $ref: "#/components/responses/UnexpectedError"
         "5XX":
@@ -218,7 +233,7 @@ paths:
 components:
 
   requestBodies:
-    PutEdge:
+    PostEdge:
       required: true
       content:
         application/json:
@@ -237,6 +252,15 @@ components:
                 $ref: "#/components/schemas/EntityId"
               edgeType:
                 $ref: "#/components/schemas/EdgeType"
+              properties:
+                type: object
+    PatchEdge:
+      required: true
+      content:
+        application/json:
+          schema:
+            description: "Properties to be patched"
+            type: object   
     PutNode:
       required: true
       content:
@@ -310,7 +334,7 @@ components:
       enum:
         - isCreatorOf
         - isPartOf
-        - isDataOwnerOf
+        - isOwnerOf
         - isReviewOf
         - likes
 

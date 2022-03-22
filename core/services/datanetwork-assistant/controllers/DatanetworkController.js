@@ -43,7 +43,7 @@ class DatanetworkController {
     }
   }
 
-  async putEdge(req, res, next) {
+  async postEdge(req, res, next) {
     try {
       const newEdgeId = await datanetworkService.createEdge(req.body);
       messageProducer.produce(
@@ -59,6 +59,24 @@ class DatanetworkController {
     }
   }
 
+  async patchEdge(req, res, next) {
+    try {
+      const edge = await datanetworkService.getEdgeById(req.params.id);
+      console.log(edge);
+      await datanetworkService.patchEdgeById(edge, req.body);
+      messageProducer.produce(
+        req.params.id,
+        req.headers["x-actorid"],
+        "update",
+        [edge.from.entityId, edge.to.entityId],
+        { edgeType: edge.edgeType }
+      );
+      res.status(204).send();
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async deleteEdgeById(req, res, next) {
     try {
       const edge = await datanetworkService.getEdgeById(req.params.id);
@@ -67,7 +85,7 @@ class DatanetworkController {
         req.params.id,
         req.headers["x-actorid"],
         "delete",
-        [edge.from.id, edge.to.id],
+        [edge.from.entityId, edge.to.entityId],
         { edgeType: edge.edgeType }
       );
       res.status(204).send();

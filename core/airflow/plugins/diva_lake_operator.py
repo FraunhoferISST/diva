@@ -1,19 +1,16 @@
 import os
 import json
-import tempfile
 import logging
-import time
 import uuid
 
 from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.hooks.S3_hook import S3Hook
+from docker.types import Mount
 
-from tempfile import NamedTemporaryFile, TemporaryDirectory
+from tempfile import NamedTemporaryFile
 import os
-import pwd
-import requests
 
-class DivaOperator(DockerOperator):
+class DivaLakeOperator(DockerOperator):
     # in these fields you can use template expressions, e.g. "{{ dag_run.conf['input_resource_id'] }}"
     template_fields = ['s3_input_key', 'environment']
 
@@ -61,10 +58,10 @@ class DivaOperator(DockerOperator):
 
             # setup input/output volumes
             # airflow_workflow_outputs is a predefined name declared in docker-compose.airflow.yml
-            outVolume = "{}:{}:rw".format("airflow_workflow_outputs", "/output")
-            inVolume = "{}:{}:ro".format("airflow_workflow_inputs", "/input")
-            self.volumes.append(outVolume)
-            self.volumes.append(inVolume)
+            self.mounts = [
+                Mount(source="airflow_workflow_outputs", target="/output", type="volume"),
+                Mount(source="airflow_workflow_inputs", target="/input", type="volume", read_only=True),
+            ]
 
             # run the container
             logging.info("Create container")
