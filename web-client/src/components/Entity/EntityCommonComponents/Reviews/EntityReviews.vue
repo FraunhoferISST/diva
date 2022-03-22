@@ -1,7 +1,7 @@
 <template>
   <section id="reviews">
     <v-container fluid class="pa-0">
-      <v-row>
+      <v-row class="mb-16">
         <v-col cols="12">
           <rating-overview :id="id" :itemCount="reviewsCount">
             <new-review-form :id="id" :show-form="showForm" />

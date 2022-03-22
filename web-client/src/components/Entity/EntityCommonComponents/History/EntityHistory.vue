@@ -5,7 +5,7 @@
       :show.sync="showDetails"
     />
     <v-container fluid class="pa-0">
-      <reactive-data-fetcher :fetch-method="fetchInitialHistory" :id="id">
+      <reactive-data-viewer :load-method="fetchInitialHistory" :id="id">
         <template>
           <v-container fluid class="pa-0">
             <v-row v-if="history.length > 0">
@@ -28,35 +28,53 @@
             </v-row>
           </v-container>
         </template>
-      </reactive-data-fetcher>
+      </reactive-data-viewer>
       <observer @intersect="loadNextPage" />
     </v-container>
   </section>
 </template>
 
 <script>
-import ReactiveDataFetcher from "@/components/DataFetchers/ReactiveDataFetcher";
 import HistoryCard from "@/components/Entity/EntityCommonComponents/History/HistoryCard";
 import NoDataState from "@/components/Base/NoDataState";
 import EntityHistoryDetails from "@/components/Entity/EntityCommonComponents/History/EntityHistoryDetails";
 import InfiniteScroll from "@/components/Mixins/infiniteScroll";
 import Observer from "@/components/Base/Observer";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useRequest } from "@/composables/request";
+import { useEvents } from "@/composables/events";
+import { useUser } from "@/composables/user";
+import ReactiveDataViewer from "@/components/DataFetchers/ReactiveDataViewer";
 
 export default {
   name: "EntityHistory",
   mixins: [InfiniteScroll],
   components: {
+    ReactiveDataViewer,
+    DataViewer,
     Observer,
     EntityHistoryDetails,
     NoDataState,
     HistoryCard,
-    ReactiveDataFetcher,
   },
   props: {
     id: {
       type: String,
       required: true,
     },
+  },
+  setup(props) {
+    const { user } = useUser();
+    const onEvent = (eventData) => {
+      console.log(eventData);
+    };
+    useEvents(props.id, user.id, onEvent);
+    const { request, error, loading } = useRequest();
+    return {
+      request,
+      error,
+      loading,
+    };
   },
   data: () => ({
     selectedLog: {},
@@ -76,10 +94,12 @@ export default {
       }
     },
     fetchInitialHistory() {
-      return this.fetchHistory().then(({ collection, cursor }) => {
-        this.history = collection;
-        this.cursor = cursor;
-      });
+      return this.request(
+        this.fetchHistory().then(({ collection, cursor }) => {
+          this.history = collection;
+          this.cursor = cursor;
+        })
+      );
     },
     fetchHistory() {
       return this.$api.history
@@ -103,21 +123,13 @@ export default {
           };
         });
     },
-    async getCreator(historyLog) {
-      // TODO: is this case still possible?
-      if (historyLog.creatorId.startsWith("service:")) {
-        return { username: "Internal service" };
-      }
-      return (
-        await this.$api.users
-          .getByIdIfExists(historyLog.creatorId)
-          .catch(() => null)
-      )?.data;
-    },
     selectHistoryLog(log) {
       this.selectedLog = log;
       this.showDetails = true;
     },
+  },
+  mounted() {
+    this.fetchInitialHistory();
   },
 };
 </script>

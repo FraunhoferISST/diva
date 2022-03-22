@@ -50,10 +50,9 @@ export function useEvents(id, userId, onEvent) {
   const unsubscribe = () =>
     api.socket.emit(ENTITY_UNSUBSCRIBE_UPDATES_REQUEST, id);
   onMounted(() => {
-    api.socket.emit(ENTITY_SUBSCRIBE_UPDATES_REQUEST, id);
-    api.socket.on(ENTITY_UPDATES_EVENT, onUpdateEvent);
+    subscribe();
   });
-  onUnmounted(() => api.socket.emit(ENTITY_UNSUBSCRIBE_UPDATES_REQUEST, id));
+  onUnmounted(() => unsubscribe());
 
   return {
     data,

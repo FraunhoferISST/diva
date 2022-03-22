@@ -8,35 +8,13 @@
       <div class="">
         <div class="history-card">
           <div class="history-info-container">
-            <entity-avatar
-              :image-id="creatorImageId"
-              :size="36"
-              :entity-title="userName"
-              :entity-id="creatorId"
-            />
-            <div class="d-flex justify-space-between">
-              <h6
-                class="history-card-title d-flex align-center"
-                style="height: 100%"
-              >
-                <entity-details-link
-                  v-if="creatorExists"
-                  class="mr-1"
-                  :id="data.creator.id"
-                >
-                  {{ userName }}
-                </entity-details-link>
-                <span v-else class="history-card-title-creator mr-1">
-                  {{ userName }}
-                </span>
+            <user-card :user="data.creator" dense>
+              <span class="ml-3">
                 {{ actionType }}
-                <span class="history-card-title-divider mx-2"></span>
-                <date-display :date="data.created" />
-              </h6>
-              <v-btn icon color="primary" @click="emitSelect">
-                <v-icon small>more_vert</v-icon>
-              </v-btn>
-            </div>
+              </span>
+              <dot-divider class="mx-3" />
+              <date-display :date="data.created" />
+            </user-card>
           </div>
 
           <div class="history-payload mt-2" v-if="data.human.length > 0">
@@ -57,14 +35,14 @@ import FadeIn from "@/components/Transitions/FadeIn";
 import DateDisplay from "@/components/Base/DateDisplay";
 import HistoryChanges from "@/components/Entity/EntityCommonComponents/History/HistoryChanges";
 import NoDataState from "@/components/Base/NoDataState";
-import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
-import EntityAvatar from "@/components/Entity/EntityAvatar";
+import UserCard from "@/components/User/UserCard";
+import DotDivider from "@/components/Base/DotDivider";
 
 export default {
   name: "HistoryCard",
   components: {
-    EntityAvatar,
-    EntityDetailsLink,
+    DotDivider,
+    UserCard,
     NoDataState,
     HistoryChanges,
     DateDisplay,
@@ -144,7 +122,7 @@ export default {
     position: absolute;
     width: 2px;
     height: 115%;
-    background-color: #dedfff;
+    background-color: $bg_card_secondary;
     top: 35px;
     left: 0;
     right: 0;
@@ -154,10 +132,10 @@ export default {
     content: "";
     display: inline-block;
     width: 16px;
-    border: 2px solid $bg_primary;
+    border: 2px solid $bg_card;
     border-radius: 50%;
     height: 16px;
-    background-color: #dedfff;
+    background-color: $bg_card_secondary;
     position: absolute;
     left: 0;
     right: 0;
