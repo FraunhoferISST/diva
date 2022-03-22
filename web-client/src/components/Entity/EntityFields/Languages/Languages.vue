@@ -20,9 +20,7 @@
         <template #edit="{ setPatch, patch }">
           <languages-edit
             :languages="patch.languages"
-            @update:location="
-              (newLocation) => setPatch({ location: newLocation })
-            "
+            @update:languages="(input) => setPatch({ languages: input })"
           />
         </template>
       </field-editor>

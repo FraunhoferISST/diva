@@ -159,7 +159,6 @@
 
 <script>
 import NoDataState from "@/components/Base/NoDataState";
-import GeneralLicenseEdit from "@/components/Entity/EntityCommonComponents/General/GeneralLicenses/GeneralLicenseEdit";
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
@@ -174,7 +173,6 @@ export default {
     FieldEditor,
     InfoBlock,
     InfoBlockValue,
-    GeneralLicenseEdit,
     NoDataState,
   },
   props: {

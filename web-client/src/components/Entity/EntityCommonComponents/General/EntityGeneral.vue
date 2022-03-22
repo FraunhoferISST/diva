@@ -39,7 +39,6 @@
 <script>
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import CustomHeader from "@/components/Base/CustomHeader";
-import DataOwners from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwners/DataOwners";
 
 import EntityDataViewer from "@/components/Entity/EntityDataViewer";
 import EntityField from "@/components/Entity/EntityFields/EntityField";
@@ -57,7 +56,6 @@ export default {
     Owners,
     EntityField,
     EntityDataViewer,
-    DataOwners,
     CustomHeader,
     InfoBlock,
   },
@@ -134,7 +132,7 @@ export default {
             "Transport",
           ],
           fullWidth: false,
-          multiple: false,
+          multiple: true,
         },
         {
           name: "languages",

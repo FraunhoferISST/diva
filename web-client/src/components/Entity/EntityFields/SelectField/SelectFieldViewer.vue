@@ -1,28 +1,26 @@
 <template>
-  <info-block>
-    <template #value>
-      <div v-if="value">
-        <v-chip
-          class="ml-1 mt-1"
-          small
-          label
-          v-for="(option, i) in value"
-          :key="option + '_' + i"
-        >
-          {{ option }}
-        </v-chip>
-      </div>
-      <no-data-state v-else> Add {{ title }} </no-data-state>
-    </template>
-  </info-block>
+  <div v-if="hasValues">
+    <div>
+      <v-chip
+        class="ml-1 mt-1"
+        small
+        label
+        v-for="(option, i) in preparedValue"
+        :key="option + '_' + i"
+      >
+        {{ option }}
+      </v-chip>
+    </div>
+  </div>
+  <no-data-state v-else> Add {{ title }} </no-data-state>
 </template>
 
 <script>
 import NoDataState from "@/components/Base/NoDataState";
-import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
+import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 export default {
   name: "SelectFieldViewer",
-  components: { InfoBlock, NoDataState },
+  components: { InfoBlockValue, NoDataState },
   props: {
     value: {
       type: [String, Number, Array],
@@ -38,8 +36,14 @@ export default {
     },
   },
   computed: {
-    hasOptions() {
+    preparedValue() {
+      return this.isArray ? this.value : [this.value];
+    },
+    hasValues() {
       return this.value?.length > 0;
+    },
+    isArray() {
+      return Array.isArray(this.value);
     },
   },
 };

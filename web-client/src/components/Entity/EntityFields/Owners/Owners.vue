@@ -1,14 +1,11 @@
 <template>
-  <field-editor
-    :data="{ owners: owners }"
-    :on-save="(patch) => connectOwner(patch)"
-  >
-    <template #view="{ state }">
-      <info-block>
-        <template #title>
-          <info-block-title> Owners </info-block-title>
-        </template>
-        <template #value>
+  <info-block title="Owners">
+    <template #value>
+      <field-editor
+        :data="{ owners: owners }"
+        :on-save="(patch) => connectOwner(patch)"
+      >
+        <template #view="{ state }">
           <data-viewer :loading="loading" :error="error">
             <div v-if="state.owners.length > 0">
               <template v-if="state.owners.length > 1">
@@ -39,15 +36,15 @@
             <no-data-state v-else text="Assign data owners" />
           </data-viewer>
         </template>
-      </info-block>
+        <template #edit="{ setPatch, patch }">
+          <owners-edit
+            :owners="patch.owners"
+            @update:owners="(newValue) => setPatch({ owners: newValue })"
+          />
+        </template>
+      </field-editor>
     </template>
-    <template #edit="{ setPatch, patch }">
-      <owners-edit
-        :owners="patch.owners"
-        @update:owners="(newValue) => setPatch({ owners: newValue })"
-      />
-    </template>
-  </field-editor>
+  </info-block>
 </template>
 
 <script>
@@ -59,12 +56,10 @@ import { useRequest } from "@/composables/request";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import OwnersEdit from "@/components/Entity/EntityFields/Owners/OwnersEdit";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
-import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 
 export default {
   name: "Owners",
   components: {
-    InfoBlockTitle,
     InfoBlock,
     OwnersEdit,
     DataViewer,

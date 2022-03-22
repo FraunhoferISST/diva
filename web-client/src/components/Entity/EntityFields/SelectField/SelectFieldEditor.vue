@@ -15,6 +15,7 @@
     background-color="transparent"
     hide-details
     autofocus
+    dense
   >
     <template #no-data v-if="allowCustom">
       <v-list-item dense>

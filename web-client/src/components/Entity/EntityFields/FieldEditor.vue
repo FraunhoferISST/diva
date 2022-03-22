@@ -147,8 +147,8 @@ export default {
   transition: 0.5s;
   border-radius: $border_radius;
   cursor: pointer;
-  margin: -10px;
-  padding: 10px;
+  margin: -8px;
+  padding: 8px;
   &:hover {
     background-color: rgba($bg_primary, 1);
     .edit-toggle-btn-container {

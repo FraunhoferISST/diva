@@ -1,16 +1,11 @@
 <template>
-  <info-block>
-    <template #value>
-      <info-block-value v-if="value">
-        {{ value }}
-      </info-block-value>
-      <no-data-state v-else> Add {{ title }} </no-data-state>
-    </template>
-  </info-block>
+  <info-block-value v-if="value">
+    {{ value }}
+  </info-block-value>
+  <no-data-state v-else> Add {{ title }} </no-data-state>
 </template>
 
 <script>
-import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import NoDataState from "@/components/Base/NoDataState";
 export default {
@@ -18,7 +13,6 @@ export default {
   components: {
     NoDataState,
     InfoBlockValue,
-    InfoBlock,
   },
   props: {
     property: {
