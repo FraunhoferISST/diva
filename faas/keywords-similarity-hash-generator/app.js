@@ -1,7 +1,7 @@
 const { MongoClient } = require("mongodb");
 const axios = require("axios");
 const urljoin = require("url-join");
-const { calcHashFromString, getHexStrDistance } = require("./similarityHash");
+const { calcHashFromString } = require("./similarityHash");
 
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://admin:admin@localhost:27017";
