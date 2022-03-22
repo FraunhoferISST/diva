@@ -2,12 +2,12 @@ const _ = require("lodash");
 const { mongoDBConnector, neo4jConnector } = require("../utils/dbConnectors");
 const { isConditionMet } = require("../utils/utils");
 
-const policies = require("../static/policyRules");
+// const policies = require("../static/policyRules");
 
 class PolicyRulesService {
-  constructor() {
-    this.policies = policies;
-  }
+  // constructor() {
+  //   this.policies = policies;
+  // }
 
   async init() {
     await mongoDBConnector.connect();
@@ -19,28 +19,38 @@ class PolicyRulesService {
     this.serviceName = req.body.serviceName;
     this.method = req.body.method;
     this.actorid = req.body.actorid;
-    this.entityid = req.body.url.split("/").slice(-1)[0];
     this.body = req.body.body;
+    this.scopeUrl = req.body.url;
+    this.entityid = undefined;
+
+    if (
+      new RegExp(
+        "(user|resource|review|service|asset|policy):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      ).test(this.scopeUrl)
+    ) {
+      this.entityid = req.body.url.split("/").slice(-1)[0];
+      this.scopeUrl = `${this.scopeUrl.substring(0, this.scopeUrl.lastIndexOf('/') + 1)}*`
+    }
+
     // TODO Decide on a way of adding information about the action to the requests body
     // TODO Load corresponding policies from the DB, e.g. GET policies
+    const query = {
+      scope: { $in: [`${this.serviceName}::${this.scopeUrl}`] },
+      method: { $in: [this.method] },
+    };
 
-    console.log(
-      this.method,
-      this.actorid,
-      this.entityid,
-      this.body,
-      this.service
-    );
+    const policies = await this.executeQuery(query);
 
     const excludes = [];
     let decision = false;
 
     await Promise.all(
       policies.map(async (policy) => {
-        const singleDecision = await isConditionMet(policy.condition, {
-          entityid: this.entityid,
-          actorid: this.actorid,
-        });
+        const data = {
+          ...(this.entityid && { entityid: this.entityid }),
+          ...(this.actorid && { actorid: this.actorid }),
+        };
+        const singleDecision = await isConditionMet(policy.condition, data);
         if (singleDecision === true) {
           excludes.push({
             priority: policy.priority,
@@ -50,6 +60,7 @@ class PolicyRulesService {
         }
       })
     );
+
     // TODO merge constraints, prepare for GET (create mongo projection),
     //  or deny PATCH when field that is to be patched is not included in allowed constraints
     const mergedExcludes = this.mergeExcludes(excludes);
@@ -80,6 +91,18 @@ class PolicyRulesService {
       decision,
       metadata,
     };
+  }
+
+  async executeQuery(query) {
+    try {
+      const collection = mongoDBConnector.collections.systemEntities;
+      await collection.find(query).toArray((err, policies) => {
+        if (err) throw err;
+        return policies;
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   mergeExcludes(excludes) {
