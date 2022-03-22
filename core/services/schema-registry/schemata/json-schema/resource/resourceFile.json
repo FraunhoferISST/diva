@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "resourceFile",
+
   "type": "object",
   "title": "Generic File Resource Data",
   "required": [
@@ -16,7 +16,7 @@
       "properties": {
 
         "filename": {
-          "$id": "filename",
+
           "type": "string",
           "title": "Filename",
           "description": "filename of the resource",
@@ -31,7 +31,7 @@
         },
 
         "mimeType": {
-          "$id": "mimeType",
+
           "type": "string",
           "title": "MimeType",
           "description": "The MIME-Type of the resource",
@@ -47,7 +47,7 @@
         },
 
         "uniqueFingerprint": {
-          "$id": "uniqueFingerprint",
+
           "type": "string",
           "title": "The SHA256 hash unique identifier",
           "description": "The SHA256 hash of the file content that uniquely indicates a resource",
@@ -62,7 +62,7 @@
         },
 
         "fileCreated": {
-          "$id": "fileCreated",
+
           "type": "string",
           "title": "fileCreated",
           "description": "Date the file was created",
@@ -78,7 +78,7 @@
         },
 
         "fileModified": {
-          "$id": "fileModified",
+
           "type": "string",
           "title": "fileModified",
           "description": "Date the file was modified",
@@ -91,7 +91,7 @@
         },
 
         "fileLastSaveDate": {
-          "$id": "fileLastSaveDate",
+
           "type": "string",
           "title": "fileLastSaveDate",
           "description": "Date the file was saved last time",

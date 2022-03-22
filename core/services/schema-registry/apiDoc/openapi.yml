@@ -33,7 +33,7 @@ paths:
       tags:
         - resolvedSchemata
       summary: Get resolved schema by name
-      description: Returns a specific resolved schema insance
+      description: Returns a specific resolved JSON schema insance.
       operationId: getResolvedSchemaByName
       parameters:
         - name: name
@@ -43,11 +43,7 @@ paths:
           schema:
             type: string
             enum:
-              - resource
-              - user
-              - asset
-              - service
-              - review
+              - entity
       responses:
         "200":
           $ref: "#/components/responses/SchemaResponse"
@@ -112,7 +108,9 @@ components:
             type: string
         application/json:
           schema:
-            type: string
+            title: JSON schema
+            description: By name requested JSON schema
+            type: object
     UnexpectedError:
       description: Internal Error
       content:

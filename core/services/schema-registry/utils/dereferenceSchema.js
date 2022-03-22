@@ -14,4 +14,5 @@ const schemaResolver = {
 module.exports = async (schemaName) =>
   $RefParser.dereference(schemaName, {
     resolve: { registry: schemaResolver },
+    dereference: { circular: false },
   });

@@ -196,7 +196,7 @@ $aside_width: 80px;
 
 .entity-details-nav-container {
   transition: 0.3s;
-  height: calc(100vh - 0);
+  height: 100vh;
   width: 300px;
   overflow: hidden;
   &.closed {

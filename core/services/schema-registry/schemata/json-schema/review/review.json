@@ -5,19 +5,18 @@
   "title": "Review schema",
   "required": [
     "reviewText",
-    "belongsTo",
+    "attributedTo",
     "rating"
-  ],
-  "unevaluatedProperties": false,
-  "allOf": [
-    {
-      "$ref": "/entity"
-    }
   ],
   "properties": {
 
+    "id": {
+      "type": "string",
+      "pattern": "^review:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+
     "reviewText": {
-      "$id": "reviewText",
+
       "type": "string",
       "title": "Review text",
       "description": "Creators comment to the review",
@@ -32,8 +31,8 @@
       }
     },
 
-    "belongsTo": {
-      "$id": "belongsTo",
+    "attributedTo": {
+
       "type": "string",
       "title": "Belongs To",
       "description": "The uuid of the entity id to which the review belongs to. Can be any possible entity like resource, asset, user or even an review itself.",
@@ -47,7 +46,7 @@
     },
 
     "rating": {
-      "$id": "rating",
+
       "type": "integer",
       "title": "Review rating",
       "description": "Rating assigned to an entity within a review (1-5)",

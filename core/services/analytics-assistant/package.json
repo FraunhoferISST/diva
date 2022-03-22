@@ -1,19 +1,19 @@
 {
   "name": "analytics-assistant",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Analytics Assistant utilizes Elasticsearch for generating interesting metrics",
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development nodemon index.js",
     "eslint-fix": "eslint --fix . --ext .js",
-    "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
-    "build:linux": "pkg --config package.json -t node14-linux-x64 index.js"
+    "build:alpine": "pkg --config package.json -t node16-alpine-x64 --output index-alpine index.js",
+    "build:linux": "pkg --config package.json -t node16-linux-x64 index.js"
   },
   "author": "",
   "license": "ISST",
   "dependencies": {
-    "@diva/common": "^1.2.0"
+    "@diva/common": "2.3.0"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",

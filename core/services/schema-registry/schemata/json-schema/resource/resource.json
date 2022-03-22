@@ -6,12 +6,11 @@
   "required": [
     "resourceType"
   ],
-  "unevaluatedProperties": false,
   "allOf": [
     {
       "properties": {
         "resourceType": {
-          "$id": "resourceType",
+
           "type": "string",
           "title": "Resource Type",
           "description": "The general type of the resource",
@@ -23,20 +22,18 @@
           "_elasticsearch": {
             "type": "keyword"
           }
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
         }
       }
-    },
-    {
-      "$ref": "/entity"
     },
     {
       "$ref": "/commonProperties"
     },
     {
       "$ref": "/distributionProperties"
-    },
-    {
-      "$ref": "/dscProperties"
     },
     {
       "$ref": "/costs"
@@ -46,6 +43,7 @@
     },
     {
       "if": {
+        "required": ["resourceType"],
         "properties": {
           "resourceType": {
             "const": "urbanPulseSensor"
@@ -58,6 +56,7 @@
     },
     {
       "if": {
+        "required": ["resourceType"],
         "properties": {
           "resourceType": {
             "const": "file"

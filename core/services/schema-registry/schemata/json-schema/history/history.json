@@ -1,22 +1,21 @@
 {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
-    "$id": "history",
+
     "type": "object",
     "title": "History schema",
     "required": [
-      "belongsTo",
+      "attributedTo",
       "delta"
     ],
-    "unevaluatedProperties": false,
-    "allOf": [
-      {
-        "$ref": "/entity"
-      }
-    ],
     "properties": {
+
+      "id": {
+        "type": "string",
+        "pattern": "^history:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      },
   
-      "belongsTo": {
-        "$id": "belongsTo",
+      "attributedTo": {
+
         "type": "string",
         "title": "Belongs To",
         "description": "The uuid of the entity id to which this history entry belongs to. Can be any possible entity like resource, asset, user or review. Could also be history entity itself, but seems not recommended",
@@ -27,10 +26,12 @@
       },
   
       "delta": {
-        "$id": "delta",
         "type": "object",
         "title": "Delta of metadata",
-        "description": "Delta of metadata of the entity this belongs to"
+        "description": "Delta of metadata of the entity this belongs to",
+        "_elasticsearch": {
+          "enabled": false
+        }
       }
     }
   }

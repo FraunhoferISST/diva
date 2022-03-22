@@ -10,6 +10,7 @@
     "modified",
     "creatorId"
   ],
+  "unevaluatedProperties": false,
   "definitions": {
     "imageSource": {
       "anyOf": [
@@ -42,12 +43,7 @@
         "properties": { "entityType": { "const": "resource" } }
       },
       "then": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-          }
-        }
+        "$ref": "/resource"
       }
     },
     {
@@ -55,12 +51,7 @@
         "properties": { "entityType": { "const": "asset" } }
       },
       "then": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^asset:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-          }
-        }
+        "$ref": "/asset"
       }
     },
     {
@@ -68,12 +59,7 @@
         "properties": { "entityType": { "const": "review" } }
       },
       "then": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^review:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-          }
-        }
+        "$ref": "/review"
       }
     },
     {
@@ -81,12 +67,7 @@
         "properties": { "entityType": { "const": "user" } }
       },
       "then": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-          }
-        }
+        "$ref": "/user"
       }
     },
     {
@@ -94,12 +75,7 @@
         "properties": { "entityType": { "const": "history" } }
       },
       "then": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^history:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-          }
-        }
+        "$ref": "/history"
       }
     },
     {
@@ -107,19 +83,14 @@
         "properties": { "entityType": { "const": "service" } }
       },
       "then": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^service:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-          }
-        }
+        "$ref": "/service"
       }
     },
     {
       "properties": {
 
         "id": {
-          "$id": "id",
+
           "type": "string",
           "title": "Unique Identifier",
           "description": "An unique ID of the processed entity. shortCut for -> dctermsIdentifier",
@@ -127,7 +98,7 @@
             "user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9",
             "asset:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9",
             "resource:urban-pulse-sensor:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9",
-            "resource:file:image::uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
+            "resource:image::uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
           ],
           "$comment": "This property is a placeholder for title, description, and examples. Will be overwritten by if/then conditions above.",
           "_elasticsearch": {
@@ -136,7 +107,7 @@
         },
     
         "entityType": {
-          "$id": "entityType",
+
           "type": "string",
           "title": "Entity Type",
           "description": "The general type of the entity",
@@ -154,7 +125,7 @@
         },
         
         "created": {
-          "$id": "created",
+
           "type": "string",
           "title": "Creation date",
           "description": "Date of creation of the entity",
@@ -168,7 +139,7 @@
         },
     
         "modified": {
-          "$id": "modified",
+
           "type": "string",
           "title": "Modification date",
           "description": "Date on which the entity was changed.",
@@ -181,7 +152,7 @@
           }
         },
         "creatorId": {
-          "$id": "creatorId",
+
           "type": "string",
           "title": "Publisher",
           "description": "The person who created this entity",
@@ -205,7 +176,24 @@
         },
         "entityImages": {
           "type": "array",
-          "title": "Entity Images id's or URL's",
+          "title": "Entity Images id's",
+          "description": "The collection of images id's that represents uploaded images associated with an entity. This images can also be used as icon, banner or imag gallery",
+          "maxItems": 15,
+          "items": {
+            "type": "string",
+            "title": "Image id",
+            "description": "The id of the uploaded image",
+            "examples": ["image:uuid:67d4acaa-00e0-4a00-8b61-15abe20e1413"],
+            "pattern": "^image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "_elasticsearch": {
+              "type": "keyword"
+            }
+          }
+        },
+        "entityGallery": {
+          "type": "array",
+          "title": "Entity gallery",
+          "description": "The collection of images sources as entity gallery",
           "items": {
             "$ref": "#/definitions/imageSource"
           }
@@ -215,25 +203,46 @@
           "minItems": 0,
           "title": "Entity Videos",
           "description": "Visual representation of an entity",
+          "maxItems": 15,
           "items": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uri",
-                "examples": ["https://image-host.com"],
-                "_elasticsearch": {
-                  "type": "keyword"
-                }
-              },
-              {
-                "type": "string",
-                "examples": ["video:uui:67d4acaa-00e0-4a00-8b61-15abe20e1413"],
-                "pattern": "^video:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
-                "_elasticsearch": {
-                  "type": "keyword"
-                }
-              }
-            ]
+            "type": "string",
+            "format": "uri",
+            "examples": ["https://image-host.com"],
+            "_elasticsearch": {
+              "type": "keyword"
+            }
+          }
+        },
+        "isPrivate": {
+          "type": "boolean",
+          "title": "Private"
+        },
+        "isArchived": {
+          "type": "boolean",
+          "title": "Archieved"
+        },
+        "entityToBeDeletedDate": {
+          "type": "string",
+          "title": "To be deleted date",
+          "description": "Date of when this entity should be deleted",
+          "examples": [
+            "2024-08-01T00:00:00Z"
+          ],
+          "format": "date-time",
+          "_elasticsearch": {
+            "type": "date"
+          }
+        },
+        "entityToBeArchivedDate": {
+          "type": "string",
+          "title": "To be archived date",
+          "description": "Date of when this entity should be archived",
+          "examples": [
+            "2023-08-01T00:00:00Z"
+          ],
+          "format": "date-time",
+          "_elasticsearch": {
+            "type": "date"
           }
         }
       }

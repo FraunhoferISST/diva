@@ -8,7 +8,11 @@
       <div class="">
         <div class="history-card">
           <div class="history-info-container">
-            <user-avatar :image-id="creatorImageId" :size="36" />
+            <user-avatar
+              :image-id="creatorImageId"
+              :size="36"
+              :user-id="creatorId"
+            />
             <div class="d-flex justify-space-between">
               <h6
                 class="history-card-title d-flex align-center"
@@ -97,7 +101,10 @@ export default {
       return this.data.creator?.username || "N/A";
     },
     creatorImageId() {
-      return this.data.creator?.imageId || "";
+      return this.data.creator?.entityIcon || "";
+    },
+    creatorId() {
+      return this.data.creator?.id || "";
     },
     actionType() {
       return this.data.delta.id ? "created" : "updated";

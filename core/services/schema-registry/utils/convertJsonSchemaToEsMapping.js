@@ -35,6 +35,9 @@ const buildMappingArtifact = (key, type, _elasticsearch) => {
       artifact[key].analyzer = defaultAnalyzer;
     }
   }
+  if (_.isPlainObject(_elasticsearch) && _elasticsearch.enabled === false) {
+    artifact[key].enabled = false;
+  }
 
   return artifact;
 };
@@ -98,7 +101,6 @@ const isScalarSchema = (schema) =>
 
 const buildMapping = (schema, esMapping = true) => {
   let tmp = {};
-
   const handleDirectProp = (pk, pv) => {
     const directMappingElements = [];
     if (propertyIsScalar(pv.type)) {
@@ -125,10 +127,16 @@ const buildMapping = (schema, esMapping = true) => {
     }
 
     if (propertyIsObject(pv.type)) {
-      const objMapping = buildMapping(pv, esMapping);
-      directMappingElements.push({
-        [pk]: esMapping ? { properties: objMapping } : objMapping,
-      });
+      if (!pv.properties) {
+        directMappingElements.push(
+          buildMappingArtifact(pk, getTypeHelper(pv.type), pv._elasticsearch)
+        );
+      } else {
+        const objMapping = buildMapping(pv, esMapping);
+        directMappingElements.push({
+          [pk]: esMapping ? { properties: objMapping } : objMapping,
+        });
+      }
     }
     return directMappingElements;
   };

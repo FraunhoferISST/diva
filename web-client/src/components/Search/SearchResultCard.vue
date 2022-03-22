@@ -6,8 +6,8 @@
           <div class="search-card-icon d-flex">
             <user-avatar
               :size="40"
-              v-if="doc.imageId"
-              :image-id="doc.imageId || ''"
+              v-if="doc.entityIcon"
+              :image-id="doc.entityIcon || ''"
             />
             <identicon
               v-else

@@ -18,106 +18,29 @@ servers:
 defaultContentType: application/json
 
 channels:
-  user.events:
-    description: The topic on which users data events may be produced and consumed.
+  entity.events:
+    description: The topic on which entity data events may be produced and consumed.
     subscribe:
-      description: Receive information about users data events.
-      operationId: subscribeUserUpdate
+      description: Receive information about entities data events.
+      operationId: subscribeEntityUpdate
       message:
-        $ref: '#/components/messages/UserEvents'
+        $ref: '#/components/messages/EntityEvents'
     publish:
-      description: Publish information about users data events.
-      operationId: publishUserUpdate
+      description: Publish information about entities data events.
+      operationId: publishEntityUpdate
       message:
-        $ref: '#/components/messages/UserEvents'
-  resource.events:
-    description: The topic on which events related to resource operations may be produced and consumed.
-    subscribe:
-      description: Receive resource operations events.
-      operationId: subscribeResourceEvents
-      message:
-        $ref: '#/components/messages/ResourceEvents'
-    publish:
-      description: Publish information about resource data changes.
-      operationId: publishResoureEvents
-      message:
-        $ref: '#/components/messages/ResourceEvents'
-  asset.events:
-    description: The topic on which events related to asset operations may be produced and consumed.
-    subscribe:
-      description: Receive asset operations events.
-      operationId: subscribeAssetEvents
-      message:
-        $ref: '#/components/messages/AssetEvents'
-    publish:
-      description: Publish information about asset data changes.
-      operationId: publishAssetEvents
-      message:
-        $ref: '#/components/messages/AssetEvents'
-  review.events:
-    description: The topic on which events related to reviews operations may be produced and consumed.
-    subscribe:
-      description: Receive reviews operations events.
-      operationId: subscribeReviewEvents
-      message:
-        $ref: '#/components/messages/ReviewEvents'
-    publish:
-      description: Publish information about reviews data changes.
-      operationId: publishReviewEvents
-      message:
-        $ref: '#/components/messages/ReviewEvents'
-
-  service.events:
-    description: The topic on which events related to services operations may be produced and consumed.
-    subscribe:
-      description: Receive services operations events.
-      operationId: subscribeServiceEvents
-      message:
-        $ref: '#/components/messages/ServiceEvents'
-    publish:
-      description: Publish information about services data changes.
-      operationId: publishServiceEvents
-      message:
-        $ref: '#/components/messages/ServiceEvents'
+        $ref: '#/components/messages/EntityEvents'
 
 components:
   messages:
-    UserEvents:
-      name: userEvents
-      title: Users events
-      summary: Inform about users data changes.
-      contentType: application/json
-      payload:
-        $ref: '#/components/schemas/GenericMessageSchema'
-    ResourceEvents:
-      name: resourceEvents
-      title: Resource events
-      summary: Inform about resource operations events.
-      contentType: application/json
-      payload:
-        $ref: '#/components/schemas/GenericMessageSchema'
-    AssetEvents:
-      name: assetEvents
-      title: Asset event
-      summary: Inform about asset operations events.
-      contentType: application/json
-      payload:
-        $ref: '#/components/schemas/GenericMessageSchema'
-    ReviewEvents:
-      name: reviewEvents
-      title: Review events
-      summary: Inform about review operations events.
+    EntityEvents:
+      name: entityEvents
+      title: Entities events
+      summary: Inform about entities data changes.
       contentType: application/json
       payload:
         $ref: '#/components/schemas/GenericMessageSchema'
 
-    ServiceEvents:
-      name: serviceEvents
-      title: Service events
-      summary: Inform about services operations events.
-      contentType: application/json
-      payload:
-        $ref: '#/components/schemas/GenericMessageSchema'
   schemas:
     GenericMessageSchema:
       type: object
@@ -138,11 +61,11 @@ components:
         channel:
           type: string
           description: Corresponding AsyncAPI specification channel
-          example: user.events
+          example: entity.events
         messageName:
           type: string
           description: Corresponding AsyncAPI specification message name
-          example: userEvents
+          example: entityEvents
         messageId:
           type: string
           description: Random message uuid
@@ -150,7 +73,7 @@ components:
         serviceName:
           type: string
           description: Publischer service name
-          example: usermanagement
+          example: entity-management
         serviceId:
           type: string
           description: Publischer service instance uuid
@@ -161,6 +84,7 @@ components:
           description: Message publish date
         payload:
           $ref: '#/components/schemas/GenericMessagePayload'
+
     GenericMessagePayload:
       type: object
       title: Generic message paylod
@@ -174,7 +98,7 @@ components:
         type:
           title: Operation type
           type: string
-          description: The type of the perfomed operation that indicates specific event like resource creation or deletion
+          description: The type of the perfomed operation that indicates specific event like entity creation or deletion
           enum:
             - create
             - update
@@ -190,25 +114,13 @@ components:
             - id
           properties:
             id:
-              title: Actor id
-              description: The id of the Actor that executed the operation
-              type: string
+              $ref: "#/components/schemas/ActorId"
         object:
-          title: Affected entity
-          description: The by the operation affected entity object.
-          type: object
-          additionalProperties: false
-          required:
-            - id
-          properties:
-            id:
-              title: Object id
-              description: The id of the affected entity object
-              type: string
+          $ref: "#/components/schemas/PayloadObject"
         attributedTo:
           title: Related entites
           description: The Array contains the id's of the entities that are related or referenced by the original event. For
-            example a creation of a review may contain in this filed the id of the resource for wich this review was created
+            example a creation of a review may contain in this filed the id of the entity for wich this review was created
           type: array
           items:
             additionalItems: false
@@ -218,18 +130,42 @@ components:
             additionalProperties: false
             properties:
               object:
-                title: Affected entity
-                description: The by the operation referenced entity object.
-                type: object
-                additionalProperties: false
-                required:
-                  - id
-                properties:
-                  id:
-                    title: Entity id
-                    description: The id of the referenced entity
-                    type: string
+                $ref: "#/components/schemas/PayloadObject"
         payloadId:
           title: Payload id
           description: The payload id that can be used to fetch futher payload data from the messages cache
           type: string
+
+    PayloadObject:
+      title: Affected entity
+      description: The by the operation referenced entity object.
+      type: object
+      additionalProperties: true
+      required:
+      - id
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        affectedFields:
+          $ref: '#/components/schemas/AffectedFields'
+
+    AffectedFields:
+      title: Affected fields
+      description: Root fileds affected by the executed operation
+      type: array
+      items:
+        description: The array lists the modified entity attributes names
+        type: string
+
+    EntityId:
+      title: Entity id
+      description: Unique entity uuid v4 identifier
+      type: string
+      pattern: (edge|user|resource|asset|review|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      example: resource:uuid:1fbfb29b-2905-40c5-a8a4-48a5e5684180
+    ActorId:
+      title: Actor id
+      description: The id of the Actor that executed the operation
+      type: string
+      pattern: ^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      example: user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9

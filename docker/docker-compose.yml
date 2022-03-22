@@ -9,11 +9,22 @@ version: '3.9'
 x-mongodb-env: &mongodb-env
   MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@documentstore:${MONGODB_PORT}
 
+x-log-level-env: &log-level-env
+  SYSTEM_LOG_LEVEL: ${SYSTEM_LOG_LEVEL}
+
 x-schema-registry-env: &schema-registry-env
   SCHEMA_REGISTRY_URL: http://schema-registry:${SCHEMA_REGISTRY_PORT}/
 
+x-cors-env: &cors-env
+  CORS_ALLOW_ORIGIN: "*"
+
 x-elasticsearch-env: &elasticsearch-env
   ELASTICSEARCH_URL: http://elasticsearch:${ELASTICSEARCH_PORT}
+
+x-neo4j-env: &neo4j-env
+  NEO4J_URL: bolt://neo4j:${NEO4J_BOLT_PORT}
+  NEO4J_ROOT_USERNAME: ${NEO4J_ROOT_USERNAME}
+  NEO4J_ROOT_PASSWORD: ${NEO4J_ROOT_PASSWORD}
 
 x-airflow-env: &airflow-env
   AIRFLOW_URL: http://airflow-webserver:${AIRFLOW_PORT}
@@ -23,21 +34,29 @@ x-airflow-env: &airflow-env
 x-kafka-env: &kafka-env
   KAFKA_URL: broker:${KAFKA_PORT}
 
+x-business-decision-point-env: &business-decision-point-env
+  BUSINESS_DECISION_POINT_URL: http://business-decision-point:${BUSINESS_DECISION_POINT}
+
 x-base-core-service-env: &base-core-service-env
   <<: *mongodb-env
   <<: *schema-registry-env
   <<: *kafka-env
+  <<: *cors-env
+  <<: *business-decision-point-env
+  <<: *log-level-env
 
 x-base-core-service: &base-core-service
   depends_on:
     - documentstore
     - broker
     - schema-registry
+    - business-decision-point
   networks:
     - core
   restart: always
   environment:
     <<: *base-core-service-env
+    KAFKA_EVENT_TOPIC: entity.events
 
 services:
 
@@ -61,7 +80,7 @@ services:
       - core
 
   kong:
-    image: kong:2.3.3
+    image: kong:2.7.1
     environment:
       - KONG_PROXY_ACCESS_LOG=/dev/stdout
       - KONG_ADMIN_ACCESS_LOG=/dev/stdout
@@ -85,85 +104,25 @@ services:
       - core
 
   # ####################################################################################################################
-  # Resource Management Microservice
+  # Entity Management Microservice
   # ####################################################################################################################
   
-  resource-management:
+  entity-management:
     <<: *base-core-service
-    image: ${REGISTRY}resource-management:17.0.2
-    container_name: resource-management
+    image: ${REGISTRY}entity-management:1.0.0
+    container_name: entity-management
+    depends_on:
+      - business-decision-point
     environment:
       <<: *base-core-service-env
-      PORT: ${RESOURCE_MANAGEMENT_PORT}
-      KAFKA_EVENT_TOPIC: resource.events
+      PORT: ${ENTITY_MANAGEMENT_PORT}
     ports:
-      - ${RESOURCE_MANAGEMENT_PORT}:${RESOURCE_MANAGEMENT_PORT}
-
-
-  # ####################################################################################################################
-  # Asset Management Microservice
-  # ####################################################################################################################
-  
-  asset-management:
-    <<: *base-core-service
-    image: ${REGISTRY}asset-management:17.2.3
-    container_name: asset-management
-    environment:
-      <<: *base-core-service-env
-      PORT: ${ASSET_MANAGEMENT_PORT}
-      KAFKA_EVENT_TOPIC: asset.events
-    ports:
-      - ${ASSET_MANAGEMENT_PORT}:${ASSET_MANAGEMENT_PORT}
-
-  # ####################################################################################################################
-  # User Management Microservice
-  # ####################################################################################################################
-  
-  user-management:
-    <<: *base-core-service
-    image: ${REGISTRY}user-management:5.0.3
-    container_name: user-management
-    environment:
-      <<: *base-core-service-env
-      PORT: ${USER_MANAGEMENT_PORT}
-      KAFKA_EVENT_TOPIC: user.events
-    ports:
-      - ${USER_MANAGEMENT_PORT}:${USER_MANAGEMENT_PORT}
+      - ${ENTITY_MANAGEMENT_PORT}:${ENTITY_MANAGEMENT_PORT}
+    networks:
+      - core
 
   # ####################################################################################################################
   # Reviews Management Service
-  # ####################################################################################################################
-
-  review-management:
-    <<: *base-core-service
-    image: ${REGISTRY}review-management:1.1.2
-    container_name: reviews-management
-    environment:
-      <<: *base-core-service-env
-      PORT: ${REVIEW_MANAGEMENT_PORT}
-      KAFKA_EVENT_TOPIC: review.events
-      MONGO_DB_NAME: reviewsDb
-      MONGO_DB_COLLECTION_NAME: reviews
-    ports:
-      - ${REVIEW_MANAGEMENT_PORT}:${REVIEW_MANAGEMENT_PORT}
-
-  # ####################################################################################################################
-  # Service Management Microservice
-  # ####################################################################################################################
-  
-  service-management:
-    <<: *base-core-service
-    image: ${REGISTRY}service-management:0.1.0
-    container_name: service-management
-    environment:
-      <<: *base-core-service-env
-      PORT: ${SERVICE_MANAGEMENT_PORT}
-      KAFKA_EVENT_TOPIC: service.events
-    ports:
-      - ${SERVICE_MANAGEMENT_PORT}:${SERVICE_MANAGEMENT_PORT}    
-
-  # ####################################################################################################################
-  # JSON Document Store
   # ####################################################################################################################
 
   documentstore:
@@ -208,64 +167,94 @@ services:
 
   elasticsearch-connector:
     <<: *base-core-service
-    image: ${REGISTRY}elasticsearch-connector:0.2.6
+    image: ${REGISTRY}elasticsearch-connector:0.2.7
     container_name: elasticsearch-connector
     depends_on:
       - broker
       - elasticsearch
       - documentstore
+      - neo4j
     environment:
       <<: *base-core-service-env
       <<: *elasticsearch-env
+      <<: *neo4j-env
       PORT: ${ELASTICSEARCH_CONNECTOR_PORT}
-      KAFKA_CONSUMER_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\", \"service.events\"]"
+      KAFKA_CONSUMER_TOPICS: "[\"entity.events\", \"datanetwork.events\"]"
     ports:
       - ${ELASTICSEARCH_CONNECTOR_PORT}:${ELASTICSEARCH_CONNECTOR_PORT}
 
   search-assistant:
-    image: ${REGISTRY}search-assistant:0.1.2
+    image: ${REGISTRY}search-assistant:0.1.3
     container_name: search-assistant
     environment:
       <<: *elasticsearch-env
+      <<: *cors-env
+      <<: *log-level-env
       NODE_ENV: production
       PORT: ${SEARCH_ASSISTANT_PORT}
     restart: always
     depends_on:
       - elasticsearch
+      - business-decision-point
     ports:
       - ${SEARCH_ASSISTANT_PORT}:${SEARCH_ASSISTANT_PORT}
     networks:
       - core
 
   analytics-assistant:
-    image: ${REGISTRY}analytics-assistant:2.0.2
+    image: ${REGISTRY}analytics-assistant:2.0.3
     container_name: analytics-assistant
     environment:
       <<: *elasticsearch-env
+      <<: *cors-env
+      <<: *log-level-env
       NODE_ENV: production
       PORT: ${ANALYTIC_ASSISTANT_PORT}
     restart: always
     depends_on:
       - elasticsearch
+      - business-decision-point
     ports:
       - ${ANALYTIC_ASSISTANT_PORT}:${ANALYTIC_ASSISTANT_PORT}
     networks:
-      - core      
+      - core
+
+  datanetwork-assistant:
+    image: ${REGISTRY}datanetwork-assistant:0.1.1
+    container_name: datanetwork-assistant
+    environment:
+      <<: *neo4j-env
+      <<: *cors-env
+      <<: *schema-registry-env
+      <<: *log-level-env
+      NODE_ENV: production
+      PORT: ${DATANETWORK_ASSISTANT}
+    restart: always
+    depends_on:
+      - neo4j
+      - broker
+      - business-decision-point
+    ports:
+      - ${DATANETWORK_ASSISTANT}:${DATANETWORK_ASSISTANT}
+    networks:
+      - core
 
   # ####################################################################################################################
   # History Assistant
   # ####################################################################################################################
 
   history-assistant:
-    image: ${REGISTRY}history-assistant:0.1.2
+    image: ${REGISTRY}history-assistant:0.1.3
     container_name: history-assistant
     environment:
       <<: *base-core-service-env
       NODE_ENV: production
       PORT: ${HISTORY_ASSISTANT_PORT}
       IGNORE_FIELDS: "[\"modified\"]"
-      HISTORY_ROOT_SCHEMA: history
     restart: always
+    depends_on:
+      - documentstore
+      - business-decision-point
     ports:
       - ${HISTORY_ASSISTANT_PORT}:${HISTORY_ASSISTANT_PORT}
     networks:
@@ -276,17 +265,19 @@ services:
   # ####################################################################################################################
 
   profiling-assistant:
-    image: ${REGISTRY}profiling-assistant:1.0.3
+    image: ${REGISTRY}profiling-assistant:1.1.0
     container_name: profiling-assistant
     environment:
       <<: *mongodb-env
       <<: *airflow-env
+      <<: *log-level-env
+      <<: *cors-env
       NODE_ENV: production
       PORT: ${PROFILING_ASSISTANT_PORT}
-      MONGO_RESOURCE_DB_NAME: resourcesDb
-      MONGO_RESOURCE_COLLECTION_NAME: resources
-
     restart: always
+    depends_on:
+      - documentstore
+      - business-decision-point
     ports:
       - ${PROFILING_ASSISTANT_PORT}:${PROFILING_ASSISTANT_PORT}
     networks:
@@ -336,11 +327,8 @@ services:
       KAFKA_LOG_RETENTION_BYTES: ${KAFKA_LOG_RETENTION_BYTES}
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
       KAFKA_CREATE_TOPICS: >-
-        resource.events:1:1,
-        user.events:1:1,
-        asset.events:1:1,
-        review.events:1:1
-        service.events:1:1
+        entity.events:1:1,
+        datanetwork.events:1:1
 
 
   # ####################################################################################################################
@@ -348,15 +336,19 @@ services:
   # ####################################################################################################################
 
   schema-registry:
-    image: ${REGISTRY}schema-registry:0.7.0
+    image: ${REGISTRY}schema-registry:1.0.2
     hostname: schema-registry
     container_name: schema-registry
     restart: always
+    depends_on:
+      - business-decision-point
     networks:
       - core
     ports:    
       - ${SCHEMA_REGISTRY_PORT}:${SCHEMA_REGISTRY_PORT}
     environment:
+      <<: *log-level-env
+      <<: *cors-env
       PORT: ${SCHEMA_REGISTRY_PORT}
 
   # ####################################################################################################################
@@ -372,6 +364,8 @@ services:
     volumes:
       - divaLake:/data
     environment:
+      <<: *log-level-env
+      <<: *cors-env
       MINIO_ACCESS_KEY: ${DIVA_LAKE_USERNAME}
       MINIO_SECRET_KEY: ${DIVA_LAKE_PASSWORD}
     entrypoint: sh
@@ -380,7 +374,7 @@ services:
       - core
 
   diva-lake-adapter:
-    image: ${REGISTRY}diva-lake-adapter:0.4.0
+    image: ${REGISTRY}diva-lake-adapter:0.5.0
     container_name: diva-lake-adapter
     restart: always
     networks:
@@ -388,44 +382,22 @@ services:
     ports:
       - ${DIVALAKE_ADAPTER_PORT}:${DIVALAKE_ADAPTER_PORT}
     depends_on:
-      - resource-management
+      - entity-management
+      - business-decision-point
     environment:
       <<: *mongodb-env
       <<: *kafka-env
       <<: *schema-registry-env
+      <<: *cors-env
+      <<: *log-level-env
       NODE_ENV: development
       PORT: ${DIVALAKE_ADAPTER_PORT}
-      RESOURCE_MANAGEMENT_URL: http://resource-management:${RESOURCE_MANAGEMENT_PORT}
+      ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
       DIVA_LAKE_HOST: diva-lake
       DIVA_LAKE_PORT: ${DIVALAKE_PORT}
       DIVA_LAKE_USERNAME: ${DIVA_LAKE_USERNAME}
       DIVA_LAKE_PASSWORD: ${DIVA_LAKE_PASSWORD}
       BUCKET_NAME: file-lake
-
-  # ####################################################################################################################
-  # IDS Connector Adapter  Services
-  # ####################################################################################################################
-
-  dsc-adapter:
-    image: ${REGISTRY}dsc-adapter:0.2.2
-    container_name: dsc-adapter
-    restart: always
-    networks:
-      - core
-    ports:
-      - ${DSC_ADAPTER_PORT}:${DSC_ADAPTER_PORT}
-    depends_on:
-      - broker
-      - documentstore
-    environment:
-      <<: *base-core-service-env
-      MONGO_RESOURCE_DB_NAME: resourcesDb
-      MONGO_RESOURCE_COLLECTION_NAME: resources
-      DSC_USERNAME: ${DSC_USERNAME}
-      DSC_PASSWORD: ${DSC_PASSWORD}
-      DSC_URL: ${DSC_URL}
-      RESOURCE_MANAGEMENT_URL: http://resource-management:${RESOURCE_MANAGEMENT_PORT}
-      KAFKA_TOPICS: "[\"resource.events\"]"
 
   # ####################################################################################################################
   # Urban Pulse Services
@@ -440,31 +412,96 @@ services:
     ports:
       - ${URBAN_PULSE_ADAPTER_PORT}:${URBAN_PULSE_ADAPTER_PORT}
     depends_on:
-      - documentstore
+      - entity-management
+      - business-decision-point
     environment:
+      <<: *cors-env
+      <<: *log-level-env
       PORT: ${URBAN_PULSE_ADAPTER_PORT}
-      RESOURCE_MANAGEMENT_URL: http://resource-management:${RESOURCE_MANAGEMENT_PORT}
-      ASSET_MANAGEMENT_URL: http://asset-management:${ASSET_MANAGEMENT_PORT}
+      ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
 
   # ####################################################################################################################
   # Event Emitter Service
   # ####################################################################################################################
 
   event-emitter:
-    <<: *base-core-service
-    image: ${REGISTRY}event-emitter:0.1.3
+    image: ${REGISTRY}event-emitter:0.2.1
     container_name: event-emitter
     depends_on:
       - broker
+      - schema-registry
     ports:
       - ${EVENT_EMITTER_PORT}:${EVENT_EMITTER_PORT}
+    networks:
+      - core
     environment:
       <<: *schema-registry-env
       <<: *kafka-env
+      <<: *cors-env
+      <<: *log-level-env
       PORT: ${EVENT_EMITTER_PORT}
       ASYNCAPI_SPECIFICATION: asyncapi
       EVENT_EMITTER_SPECIFICATION: event-emitter-api
-      KAFKA_TOPICS: "[\"resource.events\", \"asset.events\", \"user.events\", \"review.events\", \"service.events\"]"
+      KAFKA_TOPICS: "[\"entity.events\", \"datanetwork.events\"]"
+
+  # ####################################################################################################################
+  # Business Decision Point Service
+  # ####################################################################################################################
+
+  business-decision-point:
+    image: ${REGISTRY}business-decision-point:0.1.1
+    container_name: business-decision-point
+    restart: always
+    depends_on:
+      - documentstore
+      - neo4j
+    ports:
+      - ${BUSINESS_DECISION_POINT}:${BUSINESS_DECISION_POINT}
+    networks:
+      - core
+    environment:
+      <<: *base-core-service-env
+      <<: *neo4j-env
+      PORT: ${BUSINESS_DECISION_POINT}
+      SERVICES_URLS: "datanetwork-assistant::http://datanetwork-assistant:3012,entity-management::http://entity-management:3000,profiling-assistant::http://profiling-assistant:3011"
+
+  # ####################################################################################################################
+  # Business Rules Executor Service
+  # ####################################################################################################################
+
+  business-rules-executor:
+    image: ${REGISTRY}business-rules-executor:1.0.0
+    container_name: business-rules-executor
+    depends_on:
+      - broker
+      - business-decision-point
+    restart: always
+    networks:
+      - core
+    environment:
+      <<: *kafka-env
+      <<: *schema-registry-env
+      <<: *business-decision-point-env
+
+  # ####################################################################################################################
+  # DIVA Data Network Graph DB
+  # ####################################################################################################################
+
+  neo4j:
+    image: neo4j:4.3.7-community
+    hostname: neo4j
+    container_name: neo4j
+    ports:
+      - "${NEO4J_PORT}:7474"
+      - "${NEO4J_BOLT_PORT}:7687"
+    volumes:
+      - neo4j:/data
+    environment:
+      NEO4J_AUTH: ${NEO4J_ROOT_USERNAME}/${NEO4J_ROOT_PASSWORD}
+      NEO4J_dbms_active__database: ${NEO4J_DATABASE_NAME}
+      NEO4J_dbms_logs_debug_level: DEBUG
+    networks:
+      - core
 
 # ####################################################################################################################
 # Docker Volume and Network Settings
@@ -475,6 +512,8 @@ volumes:
     driver: local
   elasticsearch:
     driver: local
+  neo4j:
+    driver: local 
   divaLake:
     driver: local
   brokerData:

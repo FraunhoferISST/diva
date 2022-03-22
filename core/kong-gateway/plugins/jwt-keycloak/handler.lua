@@ -400,11 +400,11 @@ function JwtKeycloakHandler:access(conf)
     local claims = jwt.claims
 
     for claim_key, claim_value in pairs(claims) do
-        local value = "user:uuid:" .. tostring(claim_value)
+        -- "sub" header holds the user id
         if claim_key == "sub" then
-            req_set_header("X-actorid", value )
+            req_set_header("X-actorid", "user:uuid:" .. tostring(claim_value) )
         else
-            req_set_header("X-" .. claim_key, value)
+            req_set_header("X-" .. claim_key, claim_value)
         end
     end
 

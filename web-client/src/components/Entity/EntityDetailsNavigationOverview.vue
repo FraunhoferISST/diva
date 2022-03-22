@@ -79,13 +79,6 @@
                 </template>
               </info-block>
             </v-col>
-            <v-col cols="12" class="mt-4" v-if="data.ownerId">
-              <info-block title="Owner">
-                <template #value>
-                  <user-link :user="owner" />
-                </template>
-              </info-block>
-            </v-col>
           </v-row>
         </fade-in>
         <v-row v-if="data.profilingExists">
@@ -174,7 +167,7 @@ export default {
     runProfiling() {
       this.loading = true;
       this.$api.profiling
-        .run({ resourceId: this.data.id })
+        .run({ entityId: this.data.id })
         .then(() => {
           this.profilingInitiated = true;
           this.showSnackbar();

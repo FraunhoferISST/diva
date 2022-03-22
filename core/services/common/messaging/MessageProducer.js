@@ -1,14 +1,14 @@
-const chalk = require("chalk");
 const KafkaConnector = require("./KafkaConnector");
 const generateUuid = require("../generateUuid");
 const MessagesValidator = require("./MessagesValidator");
+const { logger: log } = require("../logger");
 
 const messagesValidator = new MessagesValidator();
 
 const ASYNCAPI_SPECIFICATION = process.env.ASYNCAPI_SPECIFICATION || "asyncapi";
 
 const creatMessage = (
-  { entityId, actorid, type, attributedTo },
+  { entityId, actorid, type, attributedTo, additionalObjectData },
   topic,
   serviceName,
   messageName,
@@ -26,6 +26,7 @@ const creatMessage = (
     },
     object: {
       id: entityId,
+      ...additionalObjectData,
     },
     attributedTo: attributedTo.map((id) => ({
       object: {
@@ -54,7 +55,13 @@ class MessageProducer {
     return messagesValidator.init([this.spec]);
   }
 
-  produce(entityId, actorid, type = "update", attributedTo = []) {
+  produce(
+    entityId,
+    actorid,
+    type = "update",
+    attributedTo = [],
+    additionalObjectData = {}
+  ) {
     try {
       const msg = creatMessage(
         {
@@ -62,6 +69,7 @@ class MessageProducer {
           actorid,
           type,
           attributedTo,
+          additionalObjectData,
         },
         this.topic,
         this.serviceName,
@@ -73,19 +81,30 @@ class MessageProducer {
         operation: "publish",
       });
       return this.producer(msg).then(() =>
-        console.log(
-          chalk.green(
-            `🛫 Message for "${entityId}" produced from "${actorid}" on "${type}" event flies to "${this.topic}" topic`
-          )
+        log.info(
+          `🛫 Message for "${entityId}" produced from "${actorid}" on "${type}" event flies to "${this.topic}" topic`,
+          {
+            topic: this.topic,
+            actorId: actorid,
+            messageName: this.messageName,
+            serviceName: this.serviceName,
+            entityId,
+          }
         )
       );
     } catch (e) {
-      console.error(
-        chalk.red(
-          `❌ Could not send message for "${entityId}" produced from "${actorid}" on "${type}" event flies to "${this.topic}" topic`
-        )
+      log.error(
+        `❌ Could not send message for "${entityId}" produced from "${actorid}" on "${type}" event "${
+          this.topic
+        }" topic: ${e.toString()}`,
+        {
+          topic: this.topic,
+          actorId: actorid,
+          messageName: this.messageName,
+          serviceName: this.serviceName,
+          entityId,
+        }
       );
-      console.error(e);
     }
   }
 }

@@ -7,16 +7,17 @@
     "username",
     "email"
   ],
-  "unevaluatedProperties": false,
   "allOf": [
-    {
-      "$ref": "/entity"
-    },
     {
       "properties": {
 
+        "id": {
+          "type": "string",
+          "pattern": "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+
         "username": {
-          "$id": "/properties/username",
+
           "type": "string",
           "title": "The Username Schema",
           "examples": [
@@ -30,7 +31,7 @@
         },
 
         "email": {
-          "$id": "/properties/email",
+
           "type": "string",
           "format": "email",
           "title": "The Email Schema ",
@@ -43,7 +44,7 @@
         },
 
         "password": {
-          "$id": "/properties/password",
+
           "type": ["string", "null"],
           "title": "The Password Schema ",
           "examples": [
@@ -55,34 +56,8 @@
           }
         },
 
-        "imageId": {
-          "$id": "/properties/imageId",
-          "type": "string",
-          "title": "The imageId Schema ",
-          "examples": [
-            "67d4acaa-00e0-4a00-8b61-15abe20e1413"
-          ],
-          "_elasticsearch": {
-            "type": "keyword"
-          }
-        },
-
-        "imageUrl": {
-          "$id": "/properties/imageUrl",
-          "type": "string",
-          "title": "The imageURL Schema",
-          "description": "The URL of externally provided user profile image",
-          "examples": [
-            "https://image-host.com"
-          ],
-          "format": "uri",
-          "_elasticsearch": {
-            "type": "keyword"
-          }
-        },
-
         "company": {
-          "$id": "/properties/company",
+
           "type": "string",
           "title": "Company Name",
           "examples": [
@@ -95,7 +70,7 @@
         },
 
         "jobTitle": {
-          "$id": "/properties/jobTitle",
+
           "type": "string",
           "title": "Job Title",
           "examples": [
@@ -108,7 +83,7 @@
         },
 
         "phoneNumber": {
-          "$id": "/properties/phoneNumber",
+
           "type": "string",
           "title": "Phone Number",
           "examples": [
@@ -121,7 +96,7 @@
         },
 
         "mobileNumber": {
-          "$id": "/properties/mobileNumber",
+
           "type": "string",
           "title": "Mobile Number",
           "examples": [

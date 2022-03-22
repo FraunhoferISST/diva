@@ -1,37 +1,26 @@
 const axios = require("axios");
-const chalk = require("chalk");
 const urljoin = require("url-join");
 const Ajv19 = require("ajv/dist/2019");
 const addFormats = require("ajv-formats");
 const { createError } = require("./Error");
+const { logger: log } = require("./logger");
 
 const SCHEMA_REGISTRY_URL =
   process.env.SCHEMA_REGISTRY_URL || "http://localhost:3010/";
 
-const loadSchemaResolver = async (uri) =>
-  axios
-    .get(urljoin(SCHEMA_REGISTRY_URL, "schemata", uri))
-    .then((res) => res.data);
-
 const compileValidator = async (schemaName) => {
-  const ajv = new Ajv19({ loadSchema: loadSchemaResolver, strict: false });
+  const ajv = new Ajv19({ strict: false });
   addFormats(ajv);
 
-  const schema = await axios.get(
-    urljoin(SCHEMA_REGISTRY_URL, "schemata", schemaName)
+  const { data: schema } = await axios.get(
+    urljoin(SCHEMA_REGISTRY_URL, "resolvedSchemata", schemaName)
   );
-  return ajv.compileAsync(schema.data).then((validator) => {
-    console.log(
-      chalk.blue(`✅ Received all JSON Schemata for entity "${schemaName}"`)
-    );
-    return validator;
-  });
+  return ajv.compile(schema);
 };
 
 const validateJsonSchema = (schemaName, data, validator) => {
   const valid = validator(data);
   if (!valid) {
-    console.warn(validator.errors);
     throw createError({
       type: "SchemaValidation",
       message: `Supplied data for the operation violates "${schemaName}" schema`,
@@ -43,7 +32,7 @@ const validateJsonSchema = (schemaName, data, validator) => {
 };
 
 class JsonSchemaValidator {
-  async init(rootSchemas) {
+  async init(rootSchemas = ["entity"]) {
     this.validators = Object.fromEntries(
       await Promise.all(
         rootSchemas.map(async (schemaName) => [
@@ -51,6 +40,11 @@ class JsonSchemaValidator {
           await compileValidator(schemaName),
         ])
       )
+    );
+    log.info(
+      `✅ JSON schema validator ready for schemata "${JSON.stringify(
+        rootSchemas
+      )}"`
     );
   }
 

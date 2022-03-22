@@ -108,7 +108,7 @@ export default {
         })
         .then(({ data: id }) => {
           this.$router.push({
-            name: "asset_details",
+            name: "assets",
             params: { id },
           });
         })

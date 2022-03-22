@@ -1,6 +1,6 @@
 <template>
   <div>
-    <user-avatar :image-id="imageId" />
+    <user-avatar :image-id="imageId" :user-id="user.id" />
     <entity-details-link v-if="id" :id="user.id" class="user-link-name">
       {{ user.username }}
     </entity-details-link>
@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     imageId() {
-      return this.user?.imageId || "";
+      return this.user?.entityIcon || "";
     },
     id() {
       return this.user?.id;

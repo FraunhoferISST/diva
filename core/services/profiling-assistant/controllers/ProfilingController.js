@@ -1,10 +1,25 @@
-const ProfilingService = require("../services/ProfilingService");
+const profilingService = require("../services/ProfilingService");
 
 class ProfilingController {
   async runProfiling(req, res, next) {
     try {
-      const result = await ProfilingService.run(
-        req.body.resourceId,
+      const result = await profilingService.run(
+        req.body.entityId,
+        req.headers["x-actorid"]
+      );
+      res.status(200).json(result.data);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async runDag(req, res, next) {
+    try {
+      const { dag } = req.params;
+      const { body } = req;
+      const result = await profilingService.runDag(
+        dag,
+        body,
         req.headers["x-actorid"]
       );
       res.status(200).json(result.data);
@@ -15,7 +30,7 @@ class ProfilingController {
 
   async existProfiling(req, res, next) {
     try {
-      const result = await ProfilingService.exists(req.body.resourceId);
+      const result = await profilingService.exists(req.body.entityId);
       res.status(200).send(result);
     } catch (e) {
       next(e);
