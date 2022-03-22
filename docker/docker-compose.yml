@@ -220,7 +220,7 @@ services:
       - core
 
   datanetwork-assistant:
-    image: ${REGISTRY}datanetwork-assistant:0.1.1
+    image: ${REGISTRY}datanetwork-assistant:0.1.2
     container_name: datanetwork-assistant
     environment:
       <<: *neo4j-env
@@ -336,7 +336,7 @@ services:
   # ####################################################################################################################
 
   schema-registry:
-    image: ${REGISTRY}schema-registry:1.0.2
+    image: ${REGISTRY}schema-registry:1.0.3
     hostname: schema-registry
     container_name: schema-registry
     restart: always
