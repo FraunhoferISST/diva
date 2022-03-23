@@ -29,6 +29,7 @@ import { useEntity } from "@/composables/entity";
 
 export default {
   name: "Location",
+  inheritAttrs: false,
   components: {
     LocationEdit,
     FieldEditor,

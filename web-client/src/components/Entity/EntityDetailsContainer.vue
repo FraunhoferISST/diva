@@ -5,11 +5,11 @@
     v-resize="updateOverviewContainerHeight"
   >
     <v-container
-      class="pa-0 fill-height d-block"
+      class="pa-0 fill-height d-block relative"
       style="background-color: white"
     >
-      <entity-data-viewer :id="id">
-        <template #default="{ data }">
+      <data-viewer :loading="loading" :updating="updating" :error="error">
+        <template v-if="data">
           <div class="entity-details-overview">
             <v-container ref="overviewContainer" class="pa-0 pt-0 pb-0">
               <v-expand-transition>
@@ -19,8 +19,8 @@
                 >
                   <div class="pt-12">
                     <div class="d-flex justify-center align-center flex-column">
-                      <entity-media v-if="data.id" :entity="data" />
-                      <div class="pt-2" v-if="data.rating">
+                      <entity-media :entity="{ ...data, title }" />
+                      <div class="pt-2">
                         <v-rating
                           color="orange"
                           readonly
@@ -35,9 +35,7 @@
                   <div class="pt-12">
                     <div class="entity-details-header">
                       <div>
-                        <h1 class="entity-details-title">
-                          {{ getEntityTitle(data) }}
-                        </h1>
+                        <h1 class="entity-details-title">{{ title }}</h1>
                         <!--                    <info-block-value
                           style="opacity: 0.4"
                           v-if="data.uniqueFingerprint"
@@ -50,7 +48,7 @@
                             small
                             label
                             color="#EFF3F7FF"
-                            v-for="tag in getTags(data)"
+                            v-for="tag in tags"
                             :key="tag"
                           >
                             {{ tag }}
@@ -145,7 +143,27 @@
             </v-container>
           </div>
         </template>
-      </entity-data-viewer>
+      </data-viewer>
+      <entity-event-snackbar
+        top
+        absolute
+        :message="message"
+        :snackbar.sync="snackbar"
+        :color="color"
+        :timeout="timeout"
+      >
+        <v-btn
+          class="ml-4"
+          v-if="!eventData.reloadInstantly"
+          text
+          small
+          color="white"
+          :loading="updating"
+          @click="reloadEntity"
+        >
+          Load changes
+        </v-btn>
+      </entity-event-snackbar>
       <v-container class="pa-0 pt-0 pb-12">
         <v-container class="entity-details-views-container pa-12">
           <slot> </slot>
@@ -164,14 +182,14 @@ import EntityLikeButton from "@/components/Entity/EntityLikeButton";
 import EntityMedia from "@/components/Entity/EntityMedia/EntityMedia";
 import { useSnackbar } from "@/composables/snackbar";
 import { useEntity } from "@/composables/entity";
+import { useBus } from "@/composables/bus";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import EntityEventSnackbar from "@/components/Entity/EntityEventSnackbar";
-import EntityDataViewer from "@/components/Entity/EntityDataViewer";
+import { computed } from "@vue/composition-api";
 
 export default {
   name: "EntityDetailsContainer",
   components: {
-    EntityDataViewer,
     EntityEventSnackbar,
     DataViewer,
     EntityMedia,
@@ -191,31 +209,64 @@ export default {
       required: true,
     },
   },
+  emits: ["reload"],
   setup(props) {
-    const { c: color, show: showSnackbar, message, snackbar } = useSnackbar();
-    const onEvent = ({ message, action }) => {
+    const { emit } = useBus();
+    const {
+      color,
+      show: showSnackbar,
+      close: closeSnackbar,
+      message,
+      snackbar,
+      timeout,
+    } = useSnackbar();
+    const onEvent = ({ message, action, reloadInstantly }) => {
+      console.log("EVENT", eventData.value);
+      if (reloadInstantly) {
+        reloadEntity();
+      }
       showSnackbar(message, {
-        color: action === "updated" ? "success" : "error",
+        color: action === "updated" ? "#009374" : "error",
+        timeout: reloadInstantly ? 2000 : 10000,
       });
     };
-    const { load, loading, error, data, reload, updating, eventData } =
+    const { load, loading, error, data, reload, updating, eventData, title } =
       useEntity(props.id, {
         reactive: true,
         onEvent,
       });
     load();
+    const reloadEntity = () => {
+      emit("reload");
+      reload().then(() => {
+        if (!eventData.value.reloadInstantly) {
+          closeSnackbar();
+        }
+      });
+    };
     return {
-      load,
-      reload,
+      reloadEntity,
       loading,
       updating,
       error,
       data,
       color,
+      timeout,
       message,
       snackbar,
-      eventData,
+      eventData: computed(() => eventData.value ?? {}),
       showSnackbar,
+      title,
+      tags: computed(() =>
+        [
+          data.value.entityType,
+          data.value.resourceType,
+          data.value.assetType,
+          data.value.mimeType,
+        ]
+          .filter((t) => t)
+          .map((t) => (t.length > 40 ? `${t.slice(0, 40)}...` : t))
+      ),
     };
   },
   data: () => ({
@@ -227,14 +278,6 @@ export default {
     tab: "",
   }),
   methods: {
-    getEntityTitle({ title, username } = {}) {
-      return title ?? username ?? "Entity";
-    },
-    getTags(data) {
-      return [data.entityType, data.resourceType, data.assetType, data.mimeType]
-        .filter((t) => t)
-        .map((t) => (t.length > 40 ? `${t.slice(0, 40)}...` : t));
-    },
     showConfirmationDialog() {
       this.confirmationDialog = true;
     },
@@ -251,15 +294,11 @@ export default {
   },
   mounted() {
     this.updateOverviewContainerHeight();
-    this.$store.dispatch("addRecentlyViewed", { id: this.id });
   },
 };
 </script>
 
 <style scoped lang="scss">
-.entity-details-container {
-  //background-color: $bg_card;
-}
 .entity-details-overview-container {
   display: grid;
   grid-template-columns: max-content 1fr;

@@ -6,6 +6,7 @@
 import MarkdownEditor from "@/components/Base/MarkdownEditor";
 export default {
   name: "MarkdownFieldEditor",
+  inheritAttrs: false,
   components: { MarkdownEditor },
   props: {
     property: {

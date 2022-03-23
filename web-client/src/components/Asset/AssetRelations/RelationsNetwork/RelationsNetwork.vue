@@ -1,5 +1,5 @@
 <template>
-  <reactive-data-fetcher :fetch-method="fetchLinkedEntities" :id="id">
+  <data-viewer>
     <div class="relations-network">
       <network
         class="network"
@@ -46,15 +46,15 @@
     <v-snackbar v-model="snackbar" absolute color="error" text timeout="10000">
       {{ snackbarMessage }}
     </v-snackbar>
-  </reactive-data-fetcher>
+  </data-viewer>
 </template>
 
 <script>
 import { Network } from "vue2vis";
 import RelationsSearchMenu from "@/components/Asset/AssetRelations/RelationsNetwork/RelationsSearchMenu";
-import ReactiveDataFetcher from "@/components/DataFetchers/ReactiveDataFetcher";
 import { capFirstCharacter } from "@/utils/utils";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
+import DataViewer from "@/components/DataFetchers/DataViewer";
 
 const bgColorMap = {
   resource: "#336FFCFF",
@@ -65,8 +65,8 @@ const bgColorMap = {
 export default {
   name: "RelationsNetwork",
   components: {
+    DataViewer,
     EntityDetailsLink,
-    ReactiveDataFetcher,
     RelationsSearchMenu,
     Network,
   },

@@ -58,7 +58,7 @@
           "description": "Keywords which tag the entity",
           "default": [],
           "items": {
-
+            "uniqueItems": true,
             "type": "string",
             "title": "Items",
             "description": "A keyword",

@@ -1,12 +1,12 @@
 <template>
   <div class="relative">
-    <data-fetcher :fetch-method="checkProfiling">
+    <data-viewer :loading="loading" :error="error">
       <slot :profile="runProfiling">
         <v-btn
           :dark="!profilingInitiated"
           class="gprimary"
           v-if="profilingExists"
-          :loading="loading"
+          :loading="profileLoading"
           :disabled="profilingInitiated"
           rounded
           @click="runProfiling"
@@ -16,7 +16,7 @@
           }}
         </v-btn>
       </slot>
-    </data-fetcher>
+    </data-viewer>
     <v-snackbar
       min-width="100px"
       width="280px"
@@ -26,64 +26,85 @@
       bottom
       text
       v-model="snackbar"
-      :color="snackbarColor"
+      :color="color"
       style="font-weight: bold"
     >
-      {{ snackbarText }}
+      {{ message }}
     </v-snackbar>
   </div>
 </template>
 
 <script>
-import DataFetcher from "@/components/DataFetchers/DataFetcher";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useRequest } from "@/composables/request";
+import { useSnackbar } from "@/composables/snackbar";
+import { useUser } from "@/composables/user";
 export default {
   name: "EntityProfilingButton",
-  components: { DataFetcher },
+  components: { DataViewer },
   props: {
     id: {
       type: String,
       required: true,
     },
   },
+  setup() {
+    const { request, loading, error } = useRequest();
+    const {
+      request: profileReq,
+      loading: profileLoading,
+      error: profileError,
+    } = useRequest();
+    const { snackbar, show, color, message } = useSnackbar();
+    const { user } = useUser();
+    return {
+      request,
+      loading,
+      error,
+      user,
+      snackbar,
+      show,
+      color,
+      message,
+      profileError,
+      profileLoading,
+      profileReq,
+    };
+  },
   data: () => ({
-    loading: false,
-    snackbar: false,
-    snackbarText: "",
-    snackbarColor: "success",
     profilingInitiated: false,
     profilingExists: false,
   }),
   methods: {
     runProfiling() {
-      this.loading = true;
-      this.$api.profiling
-        .run({ entityId: this.id })
-        .then(() => {
+      return this.profileReq(
+        this.$api.profiling.run({ entityId: this.id }).then(() => {
           this.profilingInitiated = true;
-          this.showSnackbar();
+          this.show("Profiling initiated");
         })
-        .catch((e) =>
-          this.showSnackbar(
+      ).then(() => {
+        if (this.profileError) {
+          this.show(
             `${
-              e?.response?.data?.message ?? e.toString()
+              this.profileError?.response?.data?.message ??
+              this.profileError.toString()
             }. Please try again later`,
             "error"
-          )
-        )
-        .finally(() => (this.loading = false));
-    },
-    showSnackbar(msg = "Profiling successfully initiated", color = "success") {
-      this.snackbarText = msg;
-      this.snackbarColor = color;
-      this.snackbar = true;
+          );
+        }
+      });
     },
     checkProfiling() {
       this.loading = true;
-      return this.$api.profiling
-        .exists({ entityId: this.id })
-        .then(() => (this.profilingExists = true))
-        .catch(() => (this.profilingExists = false))
-        .finally(() => (this.loading = false));
+      return this.request(
+        this.$api.profiling
+          .exists({ entityId: this.id })
+          .then(() => (this.profilingExists = true))
+          .catch((e) => {
+            this.profilingExists = false;
+            throw e;
+          })
+      );
     },
   },
 };

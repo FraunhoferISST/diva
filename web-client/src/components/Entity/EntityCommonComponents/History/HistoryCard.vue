@@ -5,26 +5,27 @@
         class="history-card-connector-container"
         :class="{ 'without-connector': hideConnector }"
       ></div>
-      <div class="">
-        <div class="history-card">
-          <div class="history-info-container">
-            <user-card :user="data.creator" dense>
-              <span class="ml-3">
-                {{ actionType }}
-              </span>
-              <dot-divider class="mx-3" />
-              <date-display :date="data.created" />
-            </user-card>
-          </div>
-
-          <div class="history-payload mt-2" v-if="data.human.length > 0">
-            <history-changes :changes="data.human" :minified="true" />
-          </div>
-          <no-data-state class="mt-2" v-else>
-            Probably the update has not produced any data changes and differs
-            only in the time stamp of the last update
-          </no-data-state>
+      <div class="history-card">
+        <div class="history-info-container d-flex justify-space-between">
+          <user-card :user="data.creator" dense>
+            <span class="ml-3">
+              {{ actionType }}
+            </span>
+            <dot-divider class="mx-3" />
+            <date-display :date="data.created" />
+          </user-card>
+          <v-btn icon color="primary" @click="emitSelect">
+            <v-icon small>more_vert</v-icon>
+          </v-btn>
         </div>
+
+        <div class="history-payload mt-2" v-if="data.human.length > 0">
+          <history-changes :changes="data.human" :minified="true" />
+        </div>
+        <no-data-state style="height: unset" class="mt-2" v-else>
+          Probably the update has not produced any data changes and differs only
+          in the time stamp of the last update
+        </no-data-state>
       </div>
     </div>
   </fade-in>

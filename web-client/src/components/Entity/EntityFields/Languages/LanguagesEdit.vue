@@ -31,6 +31,7 @@
 import countries from "@/utils/countries.json";
 export default {
   name: "LanguagesEdit",
+  inheritAttrs: false,
   props: {
     languages: {
       type: Array,

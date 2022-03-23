@@ -1,7 +1,11 @@
 <template>
   <section id="costs">
-    <reactive-data-fetcher :id="id" :fetch-method="fetchCosts">
-      <v-container fluid v-if="internalCosts || externalCost" class="pa-0">
+    <data-viewer :loading="loading" :updating="updating" :error="error">
+      <v-container
+        fluid
+        v-if="costs.internalCosts || costs.externalCost"
+        class="pa-0"
+      >
         <v-row>
           <v-col cols="12">
             <custom-header text="Internal costs" />
@@ -12,28 +16,28 @@
             md="12"
             lg="4"
             xl="4"
-            v-for="costType in Object.keys(internalCosts)"
+            v-for="costType in Object.keys(costs.internalCosts)"
             :key="costType"
           >
-            <edit-view-content
-              class="fill-height"
-              :initialData="{
-                [costType]: internalCosts[costType],
+            <field-editor
+              :data="{
+                [costType]: costs.internalCosts[costType],
               }"
-              :on-save="(patch) => patchCosts(patch, costType)"
+              :on-save="(p) => patchCosts(p, costType)"
             >
-              <cost-card
-                slot="view"
-                :title="internalCosts[costType].title"
-                :costs-data="internalCosts[costType]"
-              />
-              <template v-slot:edit="{ setEditedData }">
-                <cost-edit
-                  :costs-data="internalCosts[costType]"
-                  @update:costsData="setEditedData({ [costType]: $event })"
+              <template #view="{ state }">
+                <cost-card
+                  :title="state[costType].title"
+                  :costs-data="state[costType]"
                 />
               </template>
-            </edit-view-content>
+              <template #edit="{ setPatch, patch }">
+                <cost-edit
+                  :costs-data="patch[costType]"
+                  @update:costsData="setPatch({ [costType]: $event })"
+                />
+              </template>
+            </field-editor>
           </v-col>
         </v-row>
         <v-row>
@@ -41,37 +45,41 @@
             <custom-header text="External costs" />
           </v-col>
           <v-col cols="12">
-            <edit-view-content
-              :initialData="{
-                externalCost: externalCost,
+            <field-editor
+              :data="{
+                externalCost: costs.externalCost,
               }"
-              :on-save="(patch) => patchCosts(patch, 'externalCost')"
+              :on-save="(p) => patchCosts(p, 'externalCost')"
             >
-              <cost-card
-                slot="view"
-                :title="externalCost.title"
-                :costs-data="externalCost"
-              />
-              <template v-slot:edit="{ setEditedData }">
-                <cost-edit
-                  :costs-data="externalCost"
-                  @update:costsData="setEditedData({ externalCost: $event })"
+              <template #view="{ state }">
+                <cost-card
+                  :title="state.externalCost.title"
+                  :costs-data="state.externalCost"
                 />
               </template>
-            </edit-view-content>
+              <template #edit="{ setPatch, patch }">
+                <cost-edit
+                  :costs-data="patch.externalCost"
+                  @update:costsData="setPatch({ externalCost: $event })"
+                />
+              </template>
+            </field-editor>
           </v-col>
         </v-row>
       </v-container>
-    </reactive-data-fetcher>
+    </data-viewer>
   </section>
 </template>
 
 <script>
-import EditViewContent from "@/components/Containers/EditViewContent";
 import CostCard from "@/components/Entity/EntityCommonComponents/Costs/CostCard";
 import CostEdit from "@/components/Entity/EntityCommonComponents/Costs/CostEdit";
-import ReactiveDataFetcher from "@/components/DataFetchers/ReactiveDataFetcher";
 import CustomHeader from "@/components/Base/CustomHeader";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useEntity } from "@/composables/entity";
+import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
+import { onMounted, ref } from "@vue/composition-api";
+import { useBus } from "@/composables/bus";
 
 const emptyCostData = {
   value: null,
@@ -82,11 +90,11 @@ const emptyCostData = {
 export default {
   name: "EntityCosts",
   components: {
+    FieldEditor,
+    DataViewer,
     CustomHeader,
-    ReactiveDataFetcher,
     CostEdit,
     CostCard,
-    EditViewContent,
   },
   props: {
     id: {
@@ -94,29 +102,64 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    internalCosts: {
-      internalMaintenanceCost: {
-        title: "Maintenance cost",
-        ...emptyCostData,
-      },
-      internalStorageCost: {
-        title: "Storage cost",
-        ...emptyCostData,
-      },
-      internalDistributionCost: {
-        title: "Distribution cost",
-        ...emptyCostData,
+  setup(props) {
+    const { on } = useBus();
+    onMounted(() => on("reload", () => reload().then(setLoadedCosts)));
+    const costs = ref({
+      internalCosts: {
+        internalMaintenanceCost: {
+          title: "Maintenance cost",
+          ...emptyCostData,
+        },
+        internalStorageCost: {
+          title: "Storage cost",
+          ...emptyCostData,
+        },
+        internalDistributionCost: {
+          title: "Distribution cost",
+          ...emptyCostData,
+        },
+        externalCost: { title: "External cost", ...emptyCostData },
       },
       externalCost: { title: "External cost", ...emptyCostData },
-    },
-    externalCost: { title: "External cost", ...emptyCostData },
-  }),
-  computed: {
-    api() {
-      const entityType = this.id.slice(0, this.id.indexOf(":"));
-      return this.$api[`${entityType}s`];
-    },
+    });
+    const { data, patch, load, reload, updating, loading, error, patchError } =
+      useEntity(props.id, {
+        reactive: false,
+      });
+    const setLoadedCosts = () => {
+      costs.value.internalCosts = {
+        internalDistributionCost: {
+          title: "Distribution cost",
+          ...(data.value?.internalDistributionCost ?? emptyCostData),
+        },
+        internalStorageCost: {
+          title: "Storage cost",
+          ...(data.value?.internalStorageCost ?? emptyCostData),
+        },
+        internalMaintenanceCost: {
+          title: "Maintenance cost",
+          ...(data.value?.internalMaintenanceCost ?? emptyCostData),
+        },
+      };
+      costs.value.externalCost = {
+        title: "External cost",
+        ...(data.value?.externalCost ?? emptyCostData),
+      };
+    };
+    load({
+      fields:
+        "internalDistributionCost, internalStorageCost, internalMaintenanceCost, externalCost",
+    }).then(setLoadedCosts);
+
+    return {
+      costs,
+      patch,
+      loading,
+      error,
+      updating,
+      patchError,
+    };
   },
   methods: {
     prepareCostsPatch(patch, costType) {
@@ -136,34 +179,11 @@ export default {
     },
 
     patchCosts(patch, costType) {
-      return this.api.patch(this.id, this.prepareCostsPatch(patch, costType));
-    },
-    fetchCosts() {
-      return this.api
-        .getById(this.id, {
-          fields:
-            "internalDistributionCost, internalStorageCost, internalMaintenanceCost, externalCost",
-        })
-        .then(({ data }) => {
-          this.internalCosts = {
-            internalDistributionCost: {
-              title: "Distribution cost",
-              ...(data?.internalDistributionCost ?? emptyCostData),
-            },
-            internalStorageCost: {
-              title: "Storage cost",
-              ...(data?.internalStorageCost ?? emptyCostData),
-            },
-            internalMaintenanceCost: {
-              title: "Maintenance cost",
-              ...(data?.internalMaintenanceCost ?? emptyCostData),
-            },
-          };
-          this.externalCost = {
-            title: "External cost",
-            ...(data?.externalCost ?? emptyCostData),
-          };
-        });
+      return this.patch(this.prepareCostsPatch(patch, costType)).then(() => {
+        if (this.patchError) {
+          throw this.patchError;
+        }
+      });
     },
   },
 };

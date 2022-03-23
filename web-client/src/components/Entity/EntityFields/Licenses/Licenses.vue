@@ -168,6 +168,7 @@ import LicenseEdit from "@/components/Entity/EntityFields/Licenses/LicenseEdit";
 
 export default {
   name: "Licenses",
+  inheritAttrs: false,
   components: {
     LicenseEdit,
     FieldEditor,

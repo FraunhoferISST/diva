@@ -59,6 +59,7 @@ import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 
 export default {
   name: "Owners",
+  inheritAttrs: false,
   components: {
     InfoBlock,
     OwnersEdit,

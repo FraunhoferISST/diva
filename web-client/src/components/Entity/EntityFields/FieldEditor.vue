@@ -81,6 +81,13 @@ export default {
       color,
     };
   },
+  watch: {
+    data() {
+      const copy = cloneDeep(this.data);
+      this.setState(copy);
+      this.setPatch(copy);
+    },
+  },
   data() {
     return {
       isLoading: false,
@@ -121,6 +128,9 @@ export default {
     },
     setPatch(newValue) {
       this.patch = newValue;
+    },
+    setState(newValue) {
+      this.state = newValue;
     },
     save() {
       this.isLoading = true;

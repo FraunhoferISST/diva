@@ -8,6 +8,7 @@ import NoDataState from "@/components/Base/NoDataState";
 import MarkdownViewer from "@/components/Base/MarkdownViewer";
 export default {
   name: "MarkdownFieldViewer",
+  inheritAttrs: false,
   components: {
     MarkdownViewer,
     NoDataState,

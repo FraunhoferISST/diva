@@ -1,5 +1,5 @@
 <template>
-  <data-fetcher :fetch-method="fetchRecentAddedEntities">
+  <data-viewer>
     <div v-if="computedRecentEntities.length > 0">
       <div
         class="my-4 ellipsis"
@@ -17,16 +17,16 @@
       </div>
     </div>
     <no-data-state v-else />
-  </data-fetcher>
+  </data-viewer>
 </template>
 
 <script>
-import DataFetcher from "@/components/DataFetchers/DataFetcher";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import NoDataState from "@/components/Base/NoDataState";
+import DataViewer from "@/components/DataFetchers/DataViewer";
 export default {
   name: "DashboardRecentAssets",
-  components: { NoDataState, EntityDetailsLink, DataFetcher },
+  components: { DataViewer, NoDataState, EntityDetailsLink },
   data: () => ({
     recentEntities: [],
   }),

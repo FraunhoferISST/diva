@@ -17,25 +17,18 @@
 </template>
 
 <script>
-import keycloak from "@/api/keycloak";
+import { useUser } from "@/composables/user";
+
 export default {
   name: "logout-button",
   components: {},
-  data: () => ({
-    loading: false,
-  }),
-  methods: {
-    logout() {
-      this.loading = true;
-      this.$store
-        .dispatch("logout")
-        .then(() => {
-          keycloak.logout({
-            redirectUri: `${window.location.origin}`,
-          });
-        })
-        .finally(() => (this.loading = false));
-    },
+  setup() {
+    const { user, logout, loading } = useUser();
+    return {
+      user,
+      logout,
+      loading,
+    };
   },
 };
 </script>

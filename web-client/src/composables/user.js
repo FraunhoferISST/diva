@@ -17,6 +17,8 @@ let user = {
   recentlyViewed: [],
 };
 
+let isListeningEvents = false;
+
 const loginUser = async ({ id, email, username, token }) => {
   localStorage.setItem("jwt", token);
   api.setAuthorization(token);
@@ -32,9 +34,12 @@ export const useUser = () => {
   const error = ref(null);
   const loading = ref(false);
 
-  useEvents(user.value.id, user.value.id, async () => {
-    load();
-  });
+  if (!isListeningEvents) {
+    useEvents(user.value.id, user.value.id, async () => {
+      load();
+    });
+    isListeningEvents = true;
+  }
 
   const load = (query = {}) => {
     loading.value = true;

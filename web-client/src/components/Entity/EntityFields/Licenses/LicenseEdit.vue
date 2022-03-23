@@ -102,6 +102,7 @@
 <script>
 export default {
   name: "LicenseEdit",
+  inheritAttrs: false,
   components: {},
   props: {
     license: {

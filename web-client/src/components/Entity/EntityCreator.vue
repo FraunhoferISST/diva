@@ -1,6 +1,6 @@
 <template>
   <div>
-    <data-fetcher :fetch-method="fetchCreatorUser">
+    <data-viewer :loading="loading" :error="error">
       <div class="d-flex align-center">
         <entity-avatar
           :entity-id="computedCreatorId"
@@ -16,22 +16,24 @@
         <span class="d-inline-block mx-2"> created at </span>
         <date-display :date="createdAt" />
       </div>
-    </data-fetcher>
+    </data-viewer>
   </div>
 </template>
 
 <script>
-import DataFetcher from "@/components/DataFetchers/DataFetcher";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import DateDisplay from "@/components/Base/DateDisplay";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useRequest } from "@/composables/request";
+import { useUser } from "@/composables/user";
 export default {
   name: "EntityCreator",
   components: {
+    DataViewer,
     EntityAvatar,
     DateDisplay,
     EntityDetailsLink,
-    DataFetcher,
   },
   props: {
     creatorId: {
@@ -43,6 +45,16 @@ export default {
       required: true,
     },
   },
+  setup() {
+    const { request, loading, error } = useRequest();
+    const { user } = useUser();
+    return {
+      request,
+      loading,
+      error,
+      user,
+    };
+  },
   data: () => ({
     creator: null,
   }),
@@ -51,6 +63,9 @@ export default {
       return this.creator?.id ?? "";
     },
     creatorName() {
+      if (this.user.id === this.computedCreatorId) {
+        return "You";
+      }
       return this.creator?.username ?? "N/A";
     },
     creatorImageId() {
@@ -62,9 +77,11 @@ export default {
   },
   methods: {
     fetchCreatorUser() {
-      return this.$api.users
-        .getByIdIfExists(this.creatorId)
-        .then((response) => (this.creator = response?.data));
+      return this.request(
+        this.$api.users
+          .getByIdIfExists(this.creatorId)
+          .then((response) => (this.creator = response?.data))
+      );
     },
   },
 };

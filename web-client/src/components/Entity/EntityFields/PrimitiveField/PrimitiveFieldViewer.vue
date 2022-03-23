@@ -10,6 +10,7 @@ import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import NoDataState from "@/components/Base/NoDataState";
 export default {
   name: "PrimitiveFieldViewer",
+  inheritAttrs: false,
   components: {
     NoDataState,
     InfoBlockValue,

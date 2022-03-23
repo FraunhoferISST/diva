@@ -1,8 +1,11 @@
 <template>
-  <div class="relative">
+  <div class="relative full-width">
     <div v-if="isUpdating" class="data-viewer-updating">
       <span v-if="updating"> updating... </span>
-      <v-icon v-else color="success" x-small>done</v-icon>
+      <span v-else>
+        updated
+        <v-icon color="success" x-small>done</v-icon>
+      </span>
     </div>
     <fade-in-group>
       <v-progress-circular

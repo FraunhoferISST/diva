@@ -62,6 +62,7 @@ import EntityAvatar from "@/components/Entity/EntityAvatar";
 
 export default {
   name: "OwnerEdit",
+  inheritAttrs: false,
   components: { EntityAvatar },
   props: {
     owners: {

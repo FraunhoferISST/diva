@@ -1,18 +1,18 @@
 <template>
   <div class="relative">
-    <data-fetcher :fetch-method="checkIfIsLikedByUser">
+    <data-viewer :loading="loading" :error="error">
       <slot
         :toggleLike="toggleLike"
         :like="likeEntity"
         :dislike="dislikeEntity"
       >
-        <v-btn color="red" icon :loading="loading" @click="toggleLike">
+        <v-btn color="red" icon :loading="toggleLoading" @click="toggleLike">
           <v-icon color="red">
             {{ isLikedByUser ? "favorite" : "favorite_border" }}
           </v-icon>
         </v-btn>
       </slot>
-    </data-fetcher>
+    </data-viewer>
     <v-snackbar
       min-width="100px"
       width="280px"
@@ -22,21 +22,23 @@
       bottom
       text
       v-model="snackbar"
-      :color="snackbarColor"
+      :color="color"
       style="font-weight: bold"
     >
-      {{ snackbarText }}
+      {{ message }}
     </v-snackbar>
   </div>
 </template>
 
 <script>
-import DataFetcher from "@/components/DataFetchers/DataFetcher";
 import { useUser } from "@/composables/user";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useRequest } from "@/composables/request";
+import { useSnackbar } from "@/composables/snackbar";
 
 export default {
   name: "EntityLikeButton",
-  components: { DataFetcher },
+  components: { DataViewer },
   props: {
     id: {
       type: String,
@@ -44,31 +46,54 @@ export default {
     },
   },
   setup() {
+    const { request, loading, error } = useRequest();
+    const {
+      request: toggleReq,
+      loading: toggleLoading,
+      error: toggleError,
+    } = useRequest();
+    const { snackbar, show, color, message } = useSnackbar();
     const { user } = useUser();
     return {
+      request,
+      loading,
+      error,
       user,
+      snackbar,
+      show,
+      color,
+      message,
+      toggleError,
+      toggleLoading,
+      toggleReq,
     };
   },
   data: () => ({
-    loading: false,
-    snackbar: false,
-    snackbarText: "",
-    snackbarColor: "success",
-    profilingInitiated: false,
-    profilingExists: false,
     isLikedByUser: false,
     likeEdge: null,
   }),
   methods: {
     toggleLike() {
+      let promise = null;
       if (this.isLikedByUser) {
-        return this.dislikeEntity();
+        promise = this.dislikeEntity();
+      } else {
+        promise = this.likeEntity();
       }
-      return this.likeEntity();
+      return this.toggleReq(promise).then(() => {
+        if (this.toggleError) {
+          this.show(
+            `${
+              this.toggleError?.response?.data?.message ??
+              this.toggleError.toString()
+            }. Please try again later`,
+            { color: "error" }
+          );
+        }
+      });
     },
     likeEntity() {
-      this.loading = true;
-      this.$api.datanetwork
+      return this.$api.datanetwork
         .putEdge({
           from: this.user.id,
           edgeType: "likes",
@@ -79,51 +104,30 @@ export default {
           this.likeEdge = {
             id: newEdgeId,
           };
-        })
-        .catch((e) =>
-          this.showSnackbar(
-            `${
-              e?.response?.data?.message ?? e.toString()
-            }. Please try again later`,
-            "error"
-          )
-        )
-        .finally(() => (this.loading = false));
+        });
     },
     dislikeEntity() {
-      this.loading = true;
-      this.$api.datanetwork
+      return this.$api.datanetwork
         .deleteEdgeById(this.likeEdge.id)
-        .then(() => (this.isLikedByUser = false))
-        .catch((e) =>
-          this.showSnackbar(
-            `${
-              e?.response?.data?.message ?? e.toString()
-            }. Please try again later`,
-            "error"
-          )
-        )
-        .finally(() => (this.loading = false));
-    },
-    showSnackbar(msg = "Profiling successfully initiated", color = "success") {
-      this.snackbarText = msg;
-      this.snackbarColor = color;
-      this.snackbar = true;
+        .then(() => (this.isLikedByUser = false));
     },
     checkIfIsLikedByUser() {
-      this.loading = true;
-      return this.$api.datanetwork
-        .getEdges({
-          from: this.user.id,
-          edgeTypes: "likes",
-          to: this.id,
-        })
-        .then(({ data }) => {
-          this.isLikedByUser = data.collection.length > 0;
-          this.likeEdge = data.collection[0];
-        })
-        .finally(() => (this.loading = false));
+      return this.request(
+        this.$api.datanetwork
+          .getEdges({
+            from: this.user.id,
+            edgeTypes: "likes",
+            to: this.id,
+          })
+          .then(({ data }) => {
+            this.isLikedByUser = data.collection.length > 0;
+            this.likeEdge = data.collection[0];
+          })
+      );
     },
+  },
+  mounted() {
+    this.checkIfIsLikedByUser();
   },
 };
 </script>

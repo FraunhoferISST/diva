@@ -17,10 +17,10 @@
 
 <script>
 import NoDataState from "@/components/Base/NoDataState";
-import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 export default {
   name: "SelectFieldViewer",
-  components: { InfoBlockValue, NoDataState },
+  components: { NoDataState },
+  inheritAttrs: false,
   props: {
     value: {
       type: [String, Number, Array],

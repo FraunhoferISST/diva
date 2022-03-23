@@ -17,6 +17,7 @@
 <script>
 export default {
   name: "PrimitiveFieldEditor",
+  inheritAttrs: false,
   props: {
     property: {
       type: String,

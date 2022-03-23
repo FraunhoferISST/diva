@@ -3,19 +3,21 @@ import { ref } from "@vue/composition-api";
 export const useSnackbar = () => {
   const snackbar = ref(false);
   const message = ref("");
-  const c = ref("success");
-  const t = ref(6000);
+  const _color = ref("success");
+  const _timeout = ref(6000);
   const show = (msg, { color = "success", timeout = 6000 } = {}) => {
-    c.value = color;
-    t.value = timeout;
+    _color.value = color;
+    _timeout.value = timeout;
     message.value = msg;
     snackbar.value = true;
   };
+  const close = () => (snackbar.value = false);
   return {
     snackbar,
-    c,
-    t,
+    color: _color,
+    timeout: _timeout,
     show,
+    close,
     message,
   };
 };

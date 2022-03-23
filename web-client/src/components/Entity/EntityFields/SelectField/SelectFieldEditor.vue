@@ -35,6 +35,7 @@
 import { VSelect, VCombobox } from "vuetify/lib/components";
 export default {
   name: "SelectFieldEditor",
+  inheritAttrs: false,
   props: {
     property: {
       type: String,

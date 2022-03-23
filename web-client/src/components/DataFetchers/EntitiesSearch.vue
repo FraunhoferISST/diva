@@ -1,5 +1,5 @@
 <template>
-  <base-data-fetcher :fetch-method="search">
+  <data-viewer>
     <template #default="{ fetch, loading, error }">
       <slot
         :search="fetch"
@@ -8,13 +8,13 @@
         :result="result"
       ></slot>
     </template>
-  </base-data-fetcher>
+  </data-viewer>
 </template>
 <script>
-import BaseDataFetcher from "@/components/DataFetchers/BaseDataFetcher";
+import DataViewer from "@/components/DataFetchers/DataViewer";
 export default {
   name: "EntitiesSearch",
-  components: { BaseDataFetcher },
+  components: { DataViewer },
   props: {
     resultFormatter: {
       type: Function,

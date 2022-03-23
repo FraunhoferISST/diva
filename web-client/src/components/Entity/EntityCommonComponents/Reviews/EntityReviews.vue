@@ -9,7 +9,7 @@
         </v-col>
       </v-row>
       <v-row class="mt-12">
-        <reactive-data-fetcher :id="id" :fetch-method="fetchInitialReviews">
+        <data-viewer :loading="loading" :error="error">
           <template>
             <fade-in>
               <v-col cols="12" v-if="reviews.length > 0">
@@ -28,7 +28,7 @@
               </v-col>
             </fade-in>
           </template>
-        </reactive-data-fetcher>
+        </data-viewer>
       </v-row>
     </v-container>
     <observer @intersect="loadNextPage" />
@@ -41,16 +41,17 @@ import ReviewCard from "@/components/Entity/EntityCommonComponents/Reviews/Revie
 import FadeIn from "@/components/Transitions/FadeIn";
 import NoDataState from "@/components/Base/NoDataState";
 import NewReviewForm from "@/components/Entity/EntityCommonComponents/Reviews/NewReviewForm";
-import ReactiveDataFetcher from "@/components/DataFetchers/ReactiveDataFetcher";
-import InfiniteScroll from "@/components/Mixins/infiniteScroll";
 import Observer from "@/components/Base/Observer";
+import { useRequest } from "@/composables/request";
+import { useBus } from "@/composables/bus";
+import { useUser } from "@/composables/user";
+import DataViewer from "@/components/DataFetchers/DataViewer";
 
 export default {
   name: "EntityReviews",
-  mixins: [InfiniteScroll],
   components: {
+    DataViewer,
     Observer,
-    ReactiveDataFetcher,
     NoDataState,
     FadeIn,
     ReviewCard,
@@ -63,45 +64,63 @@ export default {
       required: true,
     },
   },
+  setup() {
+    const { request, error, loading } = useRequest();
+    const { on } = useBus();
+    const { user } = useUser();
+    return {
+      request,
+      error,
+      loading,
+      on,
+      user,
+    };
+  },
   data: () => ({
     reviews: [],
-    showForm: false,
+    showForm: true,
   }),
   computed: {
     reviewsCount() {
       return this.reviews.length;
     },
-    user() {
-      return this.$store.state.user;
-    },
   },
   methods: {
     loadNextPage(observerState) {
       if (this.cursor) {
-        this.loadPage(observerState, this.fetchReviews()).then(
-          ({ collection, cursor }) => {
+        observerState.loading = true;
+        this.loadPage()
+          .then(({ collection, cursor }) => {
             this.reviews.push(...collection);
             this.cursor = cursor;
-          }
-        );
+          })
+          .catch((e) => {
+            observerState.error = true;
+            throw e;
+          })
+          .finally(() => (observerState.loading = false));
       }
     },
-    async fetchInitialReviews() {
-      this.showForm = !(await this.userAlreadyWroteReview());
-      return this.fetchReviews().then(({ cursor, collection }) => {
-        this.reviews = collection;
-        this.cursor = cursor;
-      });
+    loadFirstPage() {
+      /* this.userAlreadyWroteReview().then(
+        (wroteReview) => (this.showForm = wroteReview)
+      );*/
+      return this.request(
+        this.loadPage(null).then(({ cursor, collection }) => {
+          this.reviews = collection;
+          this.cursor = cursor;
+        })
+      );
     },
-    async fetchReviews() {
+    async loadPage(cursor = this.cursor) {
       return this.$api.reviews
         .get({
           pageSize: 30,
           attributedTo: this.id,
-          ...(this.cursor ? { cursor: this.cursor } : {}),
+          ...(cursor ? { cursor } : {}),
         })
         .then(async ({ data: { collection, cursor } }) => {
-          this.showForm = !(await this.userAlreadyWroteReview());
+          /*this.showForm = !(await this.userAlreadyWroteReview());*/
           const creators = await this.$api.users.getManyById(
             collection.map(({ creatorId }) => creatorId)
           );
@@ -123,8 +142,15 @@ export default {
           pageSize: 1,
         })
         .then(({ data: { collectionSize } }) => collectionSize > 0)
-        .catch(() => false);
+        .catch(() => true);
     },
+  },
+  mounted() {
+    this.loadFirstPage();
+    this.on("reload", () => {
+      debugger;
+      this.loadFirstPage();
+    });
   },
 };
 </script>

@@ -3,7 +3,7 @@
     <v-row class="mt-6">
       <v-col cols="12" md="4">
         <card header="Entities type distribution in %">
-          <data-fetcher slot="body" :fetch-method="fetchDistributionOfEntities">
+          <data-viewer>
             <template>
               <chart-container v-if="distributionOfEntities.length > 0">
                 <donut-chart
@@ -13,12 +13,12 @@
               </chart-container>
               <no-data-state v-else />
             </template>
-          </data-fetcher>
+          </data-viewer>
         </card>
       </v-col>
       <v-col cols="12" md="4">
         <card header="Resource type distribution in %">
-          <data-fetcher
+          <data-viewer
             slot="body"
             :fetch-method="fetchDistributionOfResourceTypes"
           >
@@ -31,12 +31,12 @@
               </chart-container>
               <no-data-state v-else />
             </template>
-          </data-fetcher>
+          </data-viewer>
         </card>
       </v-col>
       <v-col cols="12" md="4">
         <card header="Resource mime type distribution in %">
-          <data-fetcher
+          <data-viewer
             slot="body"
             :fetch-method="fetchDistributionOfResourceMimeTypes"
           >
@@ -51,7 +51,7 @@
               </chart-container>
               <no-data-state v-else />
             </template>
-          </data-fetcher>
+          </data-viewer>
         </card>
       </v-col>
     </v-row>
@@ -60,13 +60,13 @@
 
 <script>
 import Card from "@/components/Base/Card";
-import DataFetcher from "@/components/DataFetchers/DataFetcher";
 import DonutChart from "@/components/Charts/DonutChart";
 import NoDataState from "@/components/Base/NoDataState";
 import ChartContainer from "@/components/Charts/ChartContainer";
+import DataViewer from "@/components/DataFetchers/DataViewer";
 export default {
   name: "DashboardTypesDistributionOverview",
-  components: { ChartContainer, NoDataState, DonutChart, DataFetcher, Card },
+  components: { DataViewer, ChartContainer, NoDataState, DonutChart, Card },
   data: () => ({
     distributionOfEntities: [],
     distributionOfResourceTypes: [],

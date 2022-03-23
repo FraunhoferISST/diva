@@ -1,23 +1,23 @@
 <template>
   <section id="sample">
-    <reactive-data-fetcher :id="id" :fetch-method="fetchSampleData">
+    <data-viewer>
       <v-container fluid class="pa-0">
         <component :is="profilingView" :data="data"></component>
       </v-container>
-    </reactive-data-fetcher>
+    </data-viewer>
   </section>
 </template>
 
 <script>
 import TabledataResourceSample from "@/components/Resource/Sample/Types/TabledataResourceSample";
 import ImageResourceSample from "@/components/Resource/Sample/Types/ImageResourceSample";
-import ReactiveDataFetcher from "@/components/DataFetchers/ReactiveDataFetcher";
 import NotSupportedType from "@/components/Resource/Profiling/Types/NotSupportedType";
+import DataViewer from "@/components/DataFetchers/DataViewer";
 
 export default {
   name: "ResourceSample",
   components: {
-    ReactiveDataFetcher,
+    DataViewer,
     TabledataResourceSample,
     ImageResourceSample,
   },

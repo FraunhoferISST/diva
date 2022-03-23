@@ -15,11 +15,14 @@ export function useEntity(
   const error = ref(null);
   const loading = ref(false);
   const patchLoading = ref(false);
+  const patchError = ref(false);
   const deleteLoading = ref(false);
   const updating = ref(false);
   const _query = ref({});
 
-  const title = computed(() => data?.title || data?.username);
+  const title = computed(
+    () => data.value?.title || data.value?.username || "Entity"
+  );
 
   if (reactive) {
     const { user } = useUser();
@@ -65,13 +68,13 @@ export function useEntity(
           data.value = { ...data.value, ...patch };
         }
       })
-      .catch((e) => (error.value = e))
+      .catch((e) => (patchError.value = e))
       .finally(() => (patchLoading.value = false));
   };
   const deleteEntity = () => {
     deleteLoading.value = true;
     return entityApi
-      .patch(id, patch)
+      .delete(id, patch)
       .catch((e) => (error.value = e))
       .finally(() => (deleteLoading.value = false));
   };
@@ -90,5 +93,6 @@ export function useEntity(
     title,
     updating,
     eventData,
+    patchError,
   };
 }

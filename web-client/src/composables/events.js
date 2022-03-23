@@ -23,7 +23,7 @@ export function useEvents(id, userId, onEvent) {
       message = `You ${action} this ${entityType}`;
     } else if (actorId) {
       actor = await api.users
-        .getByIdIfExists(id)
+        .getByIdIfExists(actorId)
         .then((response) => response?.data);
       message = `${
         actor?.username || "N/A"
@@ -38,6 +38,7 @@ export function useEvents(id, userId, onEvent) {
       actorId,
       action,
       message,
+      reloadInstantly: userId === actorId,
     };
     if (onEvent) {
       return onEvent(data.value);

@@ -1,8 +1,8 @@
 <template>
   <v-container fluid class="pa-0">
-    <reactive-data-fetcher :id="id" :fetch-method="fetchProfilingData">
+    <data-viewer>
       <component :is="profilingView" :id="id" :data="data" />
-    </reactive-data-fetcher>
+    </data-viewer>
   </v-container>
 </template>
 
@@ -11,13 +11,13 @@ import NotSupportedType from "@/components/Resource/Profiling/Types/NotSupported
 import TabledataResourceProfiling from "@/components/Resource/Profiling/Types/TabledataResourceProfiling";
 import TextResourceProfiling from "@/components/Resource/Profiling/Types/TextProfiling/TextResourceProfiling";
 import ImageResourceProfiling from "@/components/Resource/Profiling/Types/ImageResourceProfiling";
-import ReactiveDataFetcher from "@/components/DataFetchers/ReactiveDataFetcher";
+import DataViewer from "@/components/DataFetchers/DataViewer";
 
 export default {
   name: "ResourceProfiling",
   components: {
+    DataViewer,
     NotSupportedType,
-    ReactiveDataFetcher,
     TabledataResourceProfiling,
     TextResourceProfiling,
     ImageResourceProfiling,

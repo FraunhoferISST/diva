@@ -18,6 +18,7 @@ import LocationMap from "@/components/Charts/LocationMap";
 
 export default {
   name: "LocationEdit",
+  inheritAttrs: false,
   components: { LocationMap, EditActivateTransition },
   props: {
     location: {

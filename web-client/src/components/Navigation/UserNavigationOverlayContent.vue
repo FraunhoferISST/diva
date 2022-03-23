@@ -5,7 +5,7 @@
         <v-container fluid style="max-height: 37vh; overflow: auto">
           <v-row>
             <v-col cols="12" lg="6">
-              <data-fetcher :fetch-method="fetchRecentLikes">
+              <data-viewer :loading="loading" :error="error">
                 <v-row>
                   <v-col cols="12">
                     <custom-header text="Recent likes">
@@ -30,7 +30,7 @@
                     <no-data-state v-else text="No likes sofar" />
                   </v-col>
                 </v-row>
-              </data-fetcher>
+              </data-viewer>
             </v-col>
             <v-col cols="12" lg="6">
               <v-row>
@@ -98,64 +98,71 @@ import LogoutButton from "./LogoutButton";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import CustomHeader from "@/components/Base/CustomHeader";
 import EntityMiniCard from "@/components/Entity/EntityMiniCard";
-import DataFetcher from "@/components/DataFetchers/DataFetcher";
 import NoDataState from "@/components/Base/NoDataState";
 import { useUser } from "@/composables/user";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useRequest } from "@/composables/request";
+import { computed } from "@vue/composition-api";
 
 export default {
   name: "UserNavigationOverlayContent",
   components: {
+    DataViewer,
     EntityAvatar,
     NoDataState,
-    DataFetcher,
     EntityMiniCard,
     CustomHeader,
     EntityDetailsLink,
     LogoutButton,
   },
   setup() {
+    const { request, loading, error } = useRequest();
     const { user } = useUser();
     return {
+      request,
+      loading,
+      error,
       user,
+      recentlyViewed: computed(() => user.value?.recentlyViewed ?? []),
     };
   },
   data: () => ({
     recentLikes: [],
   }),
-  computed: {
-    recentlyViewed() {
-      return this.user.recentlyViewed ?? [];
-    },
-  },
   methods: {
     fetchRecentLikes() {
-      return this.$api.datanetwork
-        .getEdges({
-          from: this.user.id,
-          edgeTypes: "likes",
-        })
-        .then(async ({ data: { collection } }) =>
-          Promise.all(
-            collection.map((edge) => {
-              const entityType = edge.to.entityId.slice(
-                0,
-                edge.to.entityId.indexOf(":")
-              );
-              return this.$api[`${entityType}s`]
-                .getByIdIfExists(edge.to.entityId, {
-                  fields:
-                    "id, title, entityType, username, mimeType, entityIcon",
-                })
-                .then(({ data }) => data)
-                .catch(() => {
-                  /*just ignore it*/
-                });
-            })
+      return this.request(
+        this.$api.datanetwork
+          .getEdges({
+            from: this.user.id,
+            edgeTypes: "likes",
+          })
+          .then(async ({ data: { collection } }) =>
+            Promise.all(
+              collection.map((edge) => {
+                const entityType = edge.to.entityId.slice(
+                  0,
+                  edge.to.entityId.indexOf(":")
+                );
+                return this.$api[`${entityType}s`]
+                  .getByIdIfExists(edge.to.entityId, {
+                    fields:
+                      "id, title, entityType, username, mimeType, entityIcon",
+                  })
+                  .then(({ data }) => data)
+                  .catch(() => {
+                    /*just ignore it*/
+                  });
+              })
+            )
           )
-        )
-        .then((recentLikes) => (this.recentLikes = recentLikes));
+          .then((recentLikes) => (this.recentLikes = recentLikes))
+      );
     },
+  },
+  mounted() {
+    this.fetchRecentLikes();
   },
 };
 </script>

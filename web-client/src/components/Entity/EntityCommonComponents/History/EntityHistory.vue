@@ -5,7 +5,7 @@
       :show.sync="showDetails"
     />
     <v-container fluid class="pa-0">
-      <reactive-data-viewer :load-method="fetchInitialHistory" :id="id">
+      <data-viewer :loading="loading" :error="error">
         <template>
           <v-container fluid class="pa-0">
             <v-row v-if="history.length > 0">
@@ -28,7 +28,7 @@
             </v-row>
           </v-container>
         </template>
-      </reactive-data-viewer>
+      </data-viewer>
       <observer @intersect="loadNextPage" />
     </v-container>
   </section>
@@ -42,15 +42,12 @@ import InfiniteScroll from "@/components/Mixins/infiniteScroll";
 import Observer from "@/components/Base/Observer";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useRequest } from "@/composables/request";
-import { useEvents } from "@/composables/events";
-import { useUser } from "@/composables/user";
-import ReactiveDataViewer from "@/components/DataFetchers/ReactiveDataViewer";
+import { useBus } from "@/composables/bus";
 
 export default {
   name: "EntityHistory",
   mixins: [InfiniteScroll],
   components: {
-    ReactiveDataViewer,
     DataViewer,
     Observer,
     EntityHistoryDetails,
@@ -63,17 +60,14 @@ export default {
       required: true,
     },
   },
-  setup(props) {
-    const { user } = useUser();
-    const onEvent = (eventData) => {
-      console.log(eventData);
-    };
-    useEvents(props.id, user.id, onEvent);
+  setup() {
     const { request, error, loading } = useRequest();
+    const { on } = useBus();
     return {
       request,
       error,
       loading,
+      on,
     };
   },
   data: () => ({
@@ -85,29 +79,34 @@ export default {
   methods: {
     loadNextPage(observerState) {
       if (this.cursor) {
-        this.loadPage(observerState, this.fetchHistory()).then(
-          ({ collection, cursor }) => {
+        observerState.loading = true;
+        this.loadPage()
+          .then(({ collection, cursor }) => {
             this.history.push(...collection);
             this.cursor = cursor;
-          }
-        );
+          })
+          .catch((e) => {
+            observerState.error = true;
+            throw e;
+          })
+          .finally(() => (observerState.loading = false));
       }
     },
-    fetchInitialHistory() {
+    loadFirstPage() {
       return this.request(
-        this.fetchHistory().then(({ collection, cursor }) => {
+        this.loadPage(null).then(({ collection, cursor }) => {
           this.history = collection;
           this.cursor = cursor;
         })
       );
     },
-    fetchHistory() {
+    loadPage(cursor = this.cursor) {
       return this.$api.history
         .getHistories({
           pageSize: 50,
           attributedTo: this.id,
           humanReadable: true,
-          ...(this.cursor ? { cursor: this.cursor } : {}),
+          ...(cursor ? { cursor } : {}),
         })
         .then(async ({ data: { collection, cursor } }) => {
           const creators = await this.$api.users.getManyById(
@@ -129,7 +128,8 @@ export default {
     },
   },
   mounted() {
-    this.fetchInitialHistory();
+    this.loadFirstPage();
+    this.on("reload", this.loadFirstPage);
   },
 };
 </script>

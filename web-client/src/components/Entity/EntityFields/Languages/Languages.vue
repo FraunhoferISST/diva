@@ -37,6 +37,7 @@ import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 
 export default {
   name: "Languages",
+  inheritAttrs: false,
   components: { FieldEditor, LanguagesEdit, InfoBlock, NoDataState },
   props: {
     id: {
