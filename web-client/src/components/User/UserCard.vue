@@ -3,9 +3,9 @@
     <div>
       <entity-avatar
         :size="dense ? 32 : 40"
-        :entity-id="user.id"
-        :entity-title="user.username"
-        :image-id="user.entityIcon"
+        :entity-id="userId"
+        :entity-title="username"
+        :image-id="imageId"
       />
     </div>
     <div class="d-flex align-center">
@@ -15,7 +15,7 @@
           :class="{ 'justify-space-between': !dense }"
         >
           <h4 class="ellipsis">
-            <entity-details-link v-if="user.username" :id="user.id">
+            <entity-details-link v-if="userId" :id="userId">
               {{ username }}
             </entity-details-link>
             <span v-else>
@@ -50,8 +50,14 @@ export default {
     },
   },
   computed: {
+    userId() {
+      return this.user.id ?? "";
+    },
     username() {
       return this.user.username ?? "N/A";
+    },
+    imageId() {
+      return this.user.entityIcon ?? "";
     },
   },
 };
