@@ -228,14 +228,14 @@ services:
       <<: *schema-registry-env
       <<: *log-level-env
       NODE_ENV: production
-      PORT: ${DATANETWORK_ASSISTANT}
+      PORT: ${DATANETWORK_ASSISTANT_PORT}
     restart: always
     depends_on:
       - neo4j
       - broker
       - business-decision-point
     ports:
-      - ${DATANETWORK_ASSISTANT}:${DATANETWORK_ASSISTANT}
+      - ${DATANETWORK_ASSISTANT_PORT}:${DATANETWORK_ASSISTANT_PORT}
     networks:
       - core
 

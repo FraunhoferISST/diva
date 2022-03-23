@@ -82,3 +82,6 @@ services:
   entity-delete-bot:
     container_name: entity-delete-bot
     image: ${REGISTRY}entity-delete-bot:0.1.0
+  similarity-network-bot:
+    container_name: similarity-network-bot
+    image: ${REGISTRY}similarity-network-bot:0.1.0  

@@ -78,3 +78,7 @@ services:
   entity-delete-bot:
     build:
       context: ../faas/bots/entity-delete-bot    
+
+  similarity-network-bot:
+    build:
+      context: ../faas/bots/similarity-network-bot 
