@@ -90,7 +90,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
     # PATCHES
     upload_metadata = DivaLakeOperator(
         task_id='upload_metadata',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -105,7 +105,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
 
     upload_object = DivaLakeOperator(
         task_id='upload_object',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -120,7 +120,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
 
     upload_captions = DivaLakeOperator(
         task_id='upload_captions',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -135,7 +135,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
 
     upload_sample = DivaLakeOperator(
         task_id='upload_sample',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -150,7 +150,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
 
     upload_text = DivaLakeOperator(
         task_id='upload_text',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,

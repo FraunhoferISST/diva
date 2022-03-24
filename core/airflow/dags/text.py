@@ -129,7 +129,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     upload_meta = DivaLakeOperator(
         task_id='upload_meta',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -144,7 +144,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     upload_keywords = DivaLakeOperator(
         task_id='upload_keywords',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -159,7 +159,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     upload_core_phrase = DivaLakeOperator(
         task_id='upload_core_phrase',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -174,7 +174,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     upload_languages = DivaLakeOperator(
         task_id='upload_languages',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -189,7 +189,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     upload_stats = DivaLakeOperator(
         task_id='upload_stats',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -204,7 +204,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     upload_personal_data = DivaLakeOperator(
         task_id='upload_personal_data',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -219,7 +219,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     upload_similarity_hash = DivaLakeOperator(
         task_id='upload_similarity_hash',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
