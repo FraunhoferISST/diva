@@ -12,7 +12,6 @@ export const useSearch = () => {
     request(
       searchCall(q, pageSize, cursor).then(
         ({ data: { collection, cursor, total } }) => {
-          debugger;
           data.value = { collection, cursor, total };
           _cursor.value = cursor;
           _total.value = total;

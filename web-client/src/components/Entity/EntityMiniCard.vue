@@ -1,6 +1,6 @@
 <template>
   <entity-details-link :id="entity.id" target="_self">
-    <div class="entity-mini-card-container">
+    <div class="entity-mini-card-container pa-3">
       <entity-avatar
         :entity-id="entity.id"
         :image-id="entity.entityIcon"
@@ -61,7 +61,6 @@ export default {
 <style scoped lang="scss">
 .entity-mini-card-container {
   transition: 0.3s;
-  padding: 16px;
   border: 2px solid $bg_card_secondary;
   display: grid;
   grid-template-columns: 32px 1fr;
