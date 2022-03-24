@@ -95,7 +95,6 @@ export default {
       });
     },
     checkProfiling() {
-      this.loading = true;
       return this.request(
         this.$api.profiling
           .exists({ entityId: this.id })
@@ -106,6 +105,9 @@ export default {
           })
       );
     },
+  },
+  mounted() {
+    this.checkProfiling();
   },
 };
 </script>

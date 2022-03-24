@@ -2,7 +2,7 @@
   <section id="sample">
     <data-viewer :loading="loading" :error="error" :updating="updating">
       <v-container fluid class="pa-0">
-        <component :is="profilingView" :data="data"></component>
+        <component :is="sampleView" :data="data"></component>
       </v-container>
     </data-viewer>
   </section>
@@ -49,7 +49,7 @@ export default {
       loading,
       error,
       updating,
-      profilingView: computed(
+      sampleView: computed(
         () => mimeTypeToComponentMap[data.value?.mimeType] || NotSupportedType
       ),
     };

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="pa-0">
-    <data-viewer>
+    <data-viewer :loading="loading" :updating="updating">
       <component :is="profilingView" :id="id" :data="data" />
     </data-viewer>
   </v-container>
@@ -12,6 +12,9 @@ import TabledataResourceProfiling from "@/components/Resource/Profiling/Types/Ta
 import TextResourceProfiling from "@/components/Resource/Profiling/Types/TextProfiling/TextResourceProfiling";
 import ImageResourceProfiling from "@/components/Resource/Profiling/Types/ImageResourceProfiling";
 import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useBus } from "@/composables/bus";
+import { useEntity } from "@/composables/entity";
+import { computed } from "@vue/composition-api/dist/vue-composition-api";
 
 export default {
   name: "ResourceProfiling",
@@ -28,29 +31,29 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    data: {},
-    mimeTypeToComponentMap: {
+  setup(props) {
+    const mimeTypeToComponentMap = {
       "text/csv": TabledataResourceProfiling,
       "application/x-sas-data": TabledataResourceProfiling,
       "text/plain": TextResourceProfiling,
       "application/pdf": TextResourceProfiling,
       "image/jpeg": ImageResourceProfiling,
-    },
-  }),
-  computed: {
-    profilingView() {
-      return (
-        this.mimeTypeToComponentMap[this.data.mimeType] || NotSupportedType
-      );
-    },
-  },
-  methods: {
-    fetchProfilingData() {
-      return this.$api.resources
-        .getById(this.id)
-        .then(({ data }) => (this.data = data));
-    },
+    };
+    const { on } = useBus();
+    on("reload", reload);
+    const { data, load, loading, error, reload, updating } = useEntity(
+      props.id
+    );
+    load();
+    return {
+      data,
+      loading,
+      error,
+      updating,
+      profilingView: computed(
+        () => mimeTypeToComponentMap[data.value?.mimeType] || NotSupportedType
+      ),
+    };
   },
 };
 </script>
