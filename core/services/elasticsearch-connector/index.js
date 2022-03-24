@@ -10,9 +10,6 @@ const serviceId = generateUuid("service");
 setLoggerDefaultMeta({ serviceId });
 
 const NODE_ENV = process.env.NODE_ENV || "development";
-const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
-  ? JSON.parse(process.env.KAFKA_CONSUMER_TOPICS)
-  : ["entity.events", "datanetwork.events"];
 
 log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 
@@ -44,7 +41,16 @@ const onMessage = async (message) => {
     await connector.init();
     await connector.createIndex("entities");
     await messageConsumer.init(
-      KAFKA_CONSUMER_TOPICS.map((topic) => ({ topic, spec: "asyncapi" })),
+      [
+        {
+          topic: "entity.events",
+          spec: "asyncapi",
+        },
+        {
+          topic: "datanetwork.events",
+          spec: "datanetwork-api",
+        },
+      ],
       serviceName
     );
     await messageConsumer.consume(onMessage);

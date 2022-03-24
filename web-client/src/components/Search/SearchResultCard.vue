@@ -8,7 +8,7 @@
               :size="40"
               :entity-id="doc.id || ''"
               :image-id="doc.entityIcon || ''"
-              :entity-title="highlightedTitle"
+              :entity-title="doc.title || doc.username"
             />
           </div>
           <div class="search-card-info-container">
@@ -102,9 +102,8 @@ export default {
         );
     },
     description() {
-      return this.doc.description.length > 300
-        ? `${this.doc.description.slice(0, 300)}... `
-        : this.doc.description;
+      const desc = this.doc.description ?? "";
+      return desc.length > 300 ? `${desc.slice(0, 300)}... ` : desc;
     },
     keywords() {
       return (this.doc.keywords ?? []).slice(0, 25);
@@ -120,10 +119,9 @@ export default {
   transition: 0.5s;
   cursor: pointer;
   overflow: hidden;
-  background-color: $bg_card;
-  border-radius: 8px;
+  border-bottom: 2px solid $bg-card_secondary;
   &:hover {
-    box-shadow: 0 0 15px 10px rgba(black, 0.05);
+    //background-color: $bg_card_secondary;
   }
 }
 

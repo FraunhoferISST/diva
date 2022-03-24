@@ -1,5 +1,5 @@
 <template>
-  <div class="search-bar-container pa-3" :class="{ interacted: interacted }">
+  <div class="search-bar-container" :class="{ interacted: interacted }">
     <div
       class="search-bar-image d-flex justify-center"
       :class="{ interacted: interacted }"
@@ -18,7 +18,7 @@
       <v-form
         class="full-width"
         style="max-width: 700px"
-        @submit.prevent="onSubmit"
+        @submit.prevent="onInput"
       >
         <v-text-field
           hide-details
@@ -38,6 +38,9 @@
 </template>
 
 <script>
+import { Debouncer } from "@/utils/utils";
+const searchDebouncer = new Debouncer();
+
 import FadeOutIn from "@/components/Transitions/FadeOutIn";
 export default {
   name: "SearchBar",
@@ -66,13 +69,14 @@ export default {
         return this.input;
       },
       set(val) {
+        this.onInput();
         return this.$emit("update:input", val);
       },
     },
   },
   methods: {
-    onSubmit() {
-      this.$emit("submit");
+    onInput() {
+      searchDebouncer.debounce(() => this.$emit("input"));
     },
   },
 };
@@ -80,18 +84,12 @@ export default {
 
 <style scoped lang="scss">
 .search-bar-container {
-  position: absolute;
-  right: 0;
-  top: 140px;
-  width: 100%;
+  background-color: white;
+  border-bottom: 2px solid $bg_card_secondary;
+  padding: 60px 0;
   &.interacted {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 3;
-    padding-left: 70px !important;
-    background-color: white;
-    border-bottom: 2px solid $bg_card_secondary;
+    margin-bottom: 0;
+    padding: 10px 0;
   }
 }
 .search-bar-image {

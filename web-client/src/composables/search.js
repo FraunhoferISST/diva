@@ -6,10 +6,18 @@ export const useSearch = () => {
   const { search: searchCall } = useApi();
   const { request, loading, error } = useRequest();
   const data = ref(null);
-  const search = (q, pageSize = 30, cursor) =>
+  const _cursor = ref(null);
+  const _total = ref(null);
+  const search = (q, pageSize = 30, cursor = _cursor.value) =>
     request(
       searchCall(q, pageSize, cursor).then(
-        ({ data: result }) => (data.value = result)
+        ({ data: { collection, cursor, total } }) => {
+          debugger;
+          data.value = { collection, cursor, total };
+          _cursor.value = cursor;
+          _total.value = total;
+          return data.value;
+        }
       )
     );
 
@@ -18,5 +26,7 @@ export const useSearch = () => {
     search,
     loading,
     error,
+    cursor: _cursor,
+    total: _total,
   };
 };

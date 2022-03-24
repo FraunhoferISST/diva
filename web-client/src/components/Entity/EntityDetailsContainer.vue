@@ -99,7 +99,7 @@
                       </div>
                     </div>
                     <div
-                      class="entity-details-content d-flex justify-end pb-8 mt-5"
+                      class="entity-details-content d-flex justify-end pb-2 mt-5"
                     >
                       <entity-like-button :id="id" />
                       <entity-profiling-button class="ml-4" :id="id" />
