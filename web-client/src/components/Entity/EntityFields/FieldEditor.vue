@@ -1,5 +1,5 @@
 <template>
-  <div class="editable-content" :class="{ 'edit-active': editMode }">
+  <div class="editable-content relative" :class="{ 'edit-active': editMode }">
     <div class="fill-height" @click="onContentClick" ref="editor">
       <slot
         name="edit"
@@ -39,12 +39,14 @@
       </div>
     </div>
     <v-snackbar
+      height="50"
       absolute
       top
       text
+      rounded
       v-model="snackbar"
       :color="color"
-      :timeout="7000"
+      :timeout="4000"
     >
       {{ message }}
     </v-snackbar>
@@ -73,7 +75,7 @@ export default {
     },
   },
   setup() {
-    const { message, snackbar, show, c: color } = useSnackbar();
+    const { message, snackbar, show, color } = useSnackbar();
     return {
       showSnackbar: show,
       snackbar,
@@ -191,7 +193,7 @@ export default {
   max-width: 36px;
   max-height: 36px;
   border-radius: 0 0 18px 18px;
-  z-index: 2;
+  z-index: 1;
   box-shadow: 0 10px 15px 3px rgba(black, 0.15);
 }
 

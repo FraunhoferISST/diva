@@ -111,4 +111,4 @@ usersConfig.children.push({
   props: true,
 });
 
-export default [resourceConfig, usersConfig];
+export default [resourceConfig, assetConfig, usersConfig];

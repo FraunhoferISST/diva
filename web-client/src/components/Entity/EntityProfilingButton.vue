@@ -99,9 +99,8 @@ export default {
         this.$api.profiling
           .exists({ entityId: this.id })
           .then(() => (this.profilingExists = true))
-          .catch((e) => {
+          .catch(() => {
             this.profilingExists = false;
-            throw e;
           })
       );
     },

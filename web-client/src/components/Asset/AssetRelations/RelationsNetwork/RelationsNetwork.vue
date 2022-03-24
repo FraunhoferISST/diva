@@ -1,5 +1,5 @@
 <template>
-  <data-viewer>
+  <data-viewer :loading="loading" :error="error">
     <div class="relations-network">
       <network
         class="network"
@@ -55,7 +55,7 @@ import RelationsSearchMenu from "@/components/Asset/AssetRelations/RelationsNetw
 import { capFirstCharacter } from "@/utils/utils";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import DataViewer from "@/components/DataFetchers/DataViewer";
-
+import { useBus } from "@/composables/bus";
 const bgColorMap = {
   resource: "#336FFCFF",
   asset: "#4d4cac",
@@ -81,8 +81,16 @@ export default {
       default: "400",
     },
   },
+  setup() {
+    const { on } = useBus();
+    return {
+      on,
+    };
+  },
   data() {
     return {
+      loading: true,
+      error: null,
       entities: [],
       selectedNode: {},
       snackbar: "",
@@ -174,67 +182,79 @@ export default {
         }
       });
     },
-    async fetchLinkedEntities() {
-      const rootAsset = (
-        await this.$api.assets.getByIdIfExists(this.id, {
-          fields: "id,title,entityType",
-        })
-      )?.data;
-      const linkedEntities = await this.$api.datanetwork
-        .getEdges({
-          from: this.id,
-          edgeTypes: "isPartOf",
-          bidirectional: true,
-        })
-        .then(({ data: { collection } }) => {
-          const promises = collection.map(
-            // remember: entity - isPartOf -> asset, so from contains the entity id
-            ({ id: edgeId, from: { entityId } }) => {
-              const entityType = entityId.slice(0, entityId.indexOf(":"));
-              const api = this.$api[`${entityType}s`];
-              return api
-                .getByIdIfExists(entityId, {
-                  fields: "id,title,entityType,username",
-                })
-                .then((response) => ({
-                  id: response?.data?.id ?? entityId,
-                  title: response?.data?.title ?? response?.data?.username,
-                  entityType: response?.data?.entityType,
-                  edgeId,
-                }));
-            }
-          );
-          return Promise.all(promises);
-        });
-      this.entities = [
-        {
-          ...rootAsset,
-          label: rootAsset.title,
-          isRoot: true,
-        },
-        ...linkedEntities,
-      ];
+    async loadLinkedEntities() {
+      this.loading = true;
+      try {
+        const rootAsset = (
+          await this.$api.assets.getByIdIfExists(this.id, {
+            fields: "id,title,entityType",
+          })
+        )?.data;
+        const linkedEntities = await this.$api.datanetwork
+          .getEdges({
+            from: this.id,
+            edgeTypes: "isPartOf",
+            bidirectional: true,
+          })
+          .then(({ data: { collection } }) => {
+            const promises = collection.map(
+              // remember: entity - isPartOf -> asset, so from contains the entity id
+              ({ id: edgeId, from: { entityId } }) => {
+                const entityType = entityId.slice(0, entityId.indexOf(":"));
+                const api = this.$api[`${entityType}s`];
+                return api
+                  .getByIdIfExists(entityId, {
+                    fields: "id,title,entityType,username",
+                  })
+                  .then((response) => ({
+                    id: response?.data?.id ?? entityId,
+                    title: response?.data?.title ?? response?.data?.username,
+                    entityType: response?.data?.entityType,
+                    edgeId,
+                  }));
+              }
+            );
+            return Promise.all(promises);
+          });
+        this.entities = [
+          {
+            ...rootAsset,
+            label: rootAsset.title,
+            isRoot: true,
+          },
+          ...linkedEntities,
+        ];
+      } catch (e) {
+        this.error = e;
+      } finally {
+        this.loading = false;
+      }
     },
     linkEntities(entities) {
+      const promises = [];
       for (const entity of entities) {
         if (entity.entityId !== this.id) {
-          this.$api.datanetwork
-            .putEdge({
-              from: entity.entityId,
-              to: this.id,
-              edgeType: "isPartOf",
-            })
-            .catch((e) =>
-              this.showSnackbar(
-                e?.response?.data?.message || "Some error occurred"
+          promises.push(
+            this.$api.datanetwork
+              .putEdge({
+                from: entity.entityId,
+                to: this.id,
+                edgeType: "isPartOf",
+              })
+              .catch((e) =>
+                this.showSnackbar(
+                  e?.response?.data?.message || "Some error occurred"
+                )
               )
-            );
+          );
         }
       }
+      Promise.all(promises).then(() => this.loadLinkedEntities());
     },
     unlinkEntity() {
       this.$api.datanetwork
         .deleteEdgeById(this.selectedNode.edgeId)
+        .then(() => this.loadLinkedEntities())
         .catch((e) => this.showSnackbar(e?.message || "Some error occurred"));
     },
     showSnackbar(msg) {
@@ -244,6 +264,10 @@ export default {
     shortenTitle(title) {
       return `${title.length > 45 ? title.slice(0, 45) + "..." : title}`;
     },
+  },
+  mounted() {
+    this.loadLinkedEntities();
+    this.on("reload", this.loadLinkedEntities);
   },
 };
 </script>

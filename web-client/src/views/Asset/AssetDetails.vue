@@ -1,11 +1,17 @@
 <template>
-  <div>under construction</div>
+  <entity-details-container :id="id" :links="links">
+    <router-transition>
+      <router-view :key="$route.params.id"></router-view>
+    </router-transition>
+  </entity-details-container>
 </template>
 
 <script>
+import EntityDetailsContainer from "@/components/Entity/EntityDetailsContainer";
+import RouterTransition from "@/components/Transitions/RouterTransition";
 export default {
   name: "AssetDetails",
-  components: {},
+  components: { RouterTransition, EntityDetailsContainer },
   props: ["id"],
   data() {
     return {
