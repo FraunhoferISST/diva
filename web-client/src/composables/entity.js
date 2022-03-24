@@ -1,15 +1,13 @@
 import { ref, computed } from "@vue/composition-api";
-import entityTypeById from "@/utils/entityTypeById";
 import { useEvents } from "@/composables/events";
 import { useUser } from "@/composables/user";
-import api from "@/api/index";
+import { useApi } from "@/composables/api";
 
 export function useEntity(
   id,
   { reactive = false, updateInstantly = false, onEvent = null } = {}
 ) {
-  const entityCollection = `${entityTypeById(id)}s`;
-  const entityApi = api[entityCollection];
+  const { entityApi, entityCollection } = useApi(id);
   const data = ref(null);
   const eventData = ref();
   const error = ref(null);
