@@ -10,8 +10,6 @@ from airflow.hooks.S3_hook import S3Hook
 
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 
-    
-
 class DivaMultiOperator(DockerOperator):
     template_fields = ['s3_input_keys']
 

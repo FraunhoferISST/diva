@@ -52,7 +52,7 @@ paths:
     post:
       tags:
         - profiling
-      summary: Trigger pofiling workflow for a entity.
+      summary: Trigger profiling workflow for an entity.
       operationId: profilingRun
       requestBody:
         content:
@@ -62,6 +62,39 @@ paths:
               properties:
                 entityId:
                   $ref: "#/components/schemas/EntityId"
+      responses:
+        "200":
+          description: Triggered profiling
+          content:
+            application/json:
+              schema:
+                type: object   
+        "404":
+          description: not found error
+          content:
+            application/json:
+              schema:
+                oneOf:
+                 - $ref: "#/components/responses/DAGNotFoundError"
+                 - $ref: "#/components/responses/EntityNotFoundError"
+        "4XX":
+          $ref: "#/components/responses/UnexpectedError"
+        "5XX":
+          $ref: "#/components/responses/UnexpectedError"
+
+  /profiling/run/{dag}:
+    parameters:
+      - $ref: "#/components/parameters/actoridParam"
+    post:
+      tags:
+        - profiling
+      summary: Trigger specific profiling workflow for an entity.
+      operationId: profilingRunDag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
       responses:
         "200":
           description: Triggered profiling

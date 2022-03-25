@@ -64,7 +64,9 @@ const getMatchingBusinessAssets = (data, assets) => {
     const { scope } = asset;
     if (
       Object.entries(scope).every(([key, value]) => {
-        const dataValue = _.get(data, key);
+        const dataValue = _.isArray(_.get(data, key))
+          ? JSON.stringify(_.get(data, key))
+          : _.get(data, key);
         return new RegExp(value).test(dataValue);
       })
     ) {

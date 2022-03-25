@@ -13,7 +13,7 @@ module.exports = [
         headers: {
           "x-actorid": "{{payload.actor.id}}",
         },
-        method: "PUT",
+        method: "POST",
         endpoint: "{{datanetwork-assistant}}/edges",
         body: {
           from: "{{payload.actor.id}}",
@@ -46,7 +46,7 @@ module.exports = [
         headers: {
           "x-actorid": "{{payload.actor.id}}",
         },
-        method: "PUT",
+        method: "POST",
         endpoint: "{{datanetwork-assistant}}/edges",
         body: {
           from: "{{payload.object.id}}",
@@ -96,6 +96,28 @@ module.exports = [
             statusCode: 404, // already deleted, ignore it
           },
         ],
+      },
+    ],
+  },
+  {
+    title: "Trigger Similarity Hash DAG when Keywords change",
+    priority: 0,
+    scope: {
+      channel: "entity.events",
+      "payload.type": "update",
+      "payload.object.affectedFields": '("keywords")', // arrays will be stringified. You can then use RegEx to perform checks.
+    },
+    condition: true,
+    actions: [
+      {
+        headers: {
+          "x-actorid": "{{payload.actor.id}}",
+        },
+        method: "POST",
+        endpoint: "{{profiling-assistant}}/profiling/run/keywords_similarity",
+        body: {
+          entityId: "{{payload.object.id}}",
+        },
       },
     ],
   },
