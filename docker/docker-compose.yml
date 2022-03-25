@@ -184,7 +184,7 @@ services:
       - ${ELASTICSEARCH_CONNECTOR_PORT}:${ELASTICSEARCH_CONNECTOR_PORT}
 
   search-assistant:
-    image: ${REGISTRY}search-assistant:0.1.3
+    image: ${REGISTRY}search-assistant:0.2.0
     container_name: search-assistant
     environment:
       <<: *elasticsearch-env

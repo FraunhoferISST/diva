@@ -49,7 +49,29 @@ paths:
           explode: false
           allowReserved: true
           schema:
-            type: string      
+            type: string
+        - name: facets
+          in: query
+          description: Facets for current query
+          example: "entityType,keywords"
+          required: false
+          explode: true
+          allowReserved: true
+          schema:
+            type: string
+        - name: facetsOperator
+          in: query
+          description: Facets Operator for current query (default "and")
+          example: "and"
+          required: false
+          explode: false
+          allowReserved: true
+          schema:
+            type: string
+            enum:
+              - "must"
+              - "should"
+              - "mustNot"
       responses:
         "200":
           description: Search result
@@ -85,7 +107,7 @@ paths:
           $ref: "#/components/responses/UnexpectedError"
         "5XX":
           $ref: "#/components/responses/UnexpectedError"
-
+    
 components:
 
   schemas:
