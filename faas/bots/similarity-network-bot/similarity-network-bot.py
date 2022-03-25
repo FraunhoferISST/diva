@@ -56,6 +56,9 @@ def upsert_similarity_edges(entity_id, similar_fingerprints):
                        params=payload, headers=HEADERS).json()
 
     for fingerprint in similar_fingerprints:
+        if entity_id == fingerprint[1][1]:
+            continue
+
         exists = False
         needs_update = False
         edge_id = ""
