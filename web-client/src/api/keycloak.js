@@ -1,6 +1,5 @@
 import Keycloak from "keycloak-js";
 import api from "@/api/index";
-import store from "@/store";
 
 let initOptions = {
   url: process.env.VUE_APP_KEYCLOAK_URL || "http://172.17.0.1:7000/auth",

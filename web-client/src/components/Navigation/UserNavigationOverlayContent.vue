@@ -103,7 +103,6 @@ import { useUser } from "@/composables/user";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useRequest } from "@/composables/request";
-import { computed } from "@vue/composition-api";
 
 export default {
   name: "UserNavigationOverlayContent",
@@ -118,13 +117,13 @@ export default {
   },
   setup() {
     const { request, loading, error } = useRequest();
-    const { user } = useUser();
+    const { user, recentlyViewed } = useUser();
     return {
       request,
       loading,
       error,
       user,
-      recentlyViewed: computed(() => user.value?.recentlyViewed ?? []),
+      recentlyViewed,
     };
   },
   data: () => ({

@@ -186,6 +186,7 @@ import { useBus } from "@/composables/bus";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import EntityEventSnackbar from "@/components/Entity/EntityEventSnackbar";
 import { computed } from "@vue/composition-api";
+import { useUser } from "@/composables/user";
 
 export default {
   name: "EntityDetailsContainer",
@@ -211,6 +212,7 @@ export default {
   },
   emits: ["reload"],
   setup(props) {
+    const { addRecentlyViewed } = useUser();
     const { emit } = useBus();
     const {
       color,
@@ -221,7 +223,6 @@ export default {
       timeout,
     } = useSnackbar();
     const onEvent = ({ message, action, reloadInstantly }) => {
-      console.log("EVENT", eventData.value);
       if (reloadInstantly) {
         reloadEntity();
       }
@@ -235,7 +236,7 @@ export default {
         reactive: true,
         onEvent,
       });
-    load();
+    load().then(() => addRecentlyViewed(data.value));
     const reloadEntity = () => {
       emit("reload");
       reload().then(() => {

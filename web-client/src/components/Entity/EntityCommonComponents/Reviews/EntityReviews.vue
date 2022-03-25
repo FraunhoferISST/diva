@@ -147,10 +147,7 @@ export default {
   },
   mounted() {
     this.loadFirstPage();
-    this.on("reload", () => {
-      debugger;
-      this.loadFirstPage();
-    });
+    this.on("reload", () => this.loadFirstPage());
   },
 };
 </script>

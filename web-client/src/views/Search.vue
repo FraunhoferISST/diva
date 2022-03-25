@@ -13,7 +13,10 @@
       />
       <v-container class="pa-0 pt-0 pb-12">
         <fade-in>
-          <v-container v-if="items.length > 0 && !loading" class="pa-0">
+          <v-alert class="ma-12" v-if="error" color="error" text>
+            {{ error }}. Please try again later
+          </v-alert>
+          <v-container v-else-if="items.length > 0" class="pa-0">
             <search-result :search-result="items" />
           </v-container>
           <v-container v-else class="pa-16">
@@ -63,7 +66,7 @@
               </p>
             </v-alert>
           </template>
-          <template #completed v-if="items.length > pageSize">
+          <template #completed>
             <p class="text-center py-10">All results loaded</p>
           </template>
         </observer>
@@ -90,7 +93,7 @@ export default {
   name: "Search",
   setup() {
     const items = ref([]);
-    const pageSize = ref(5);
+    const pageSize = ref(30);
     const { search, data, loading, error, cursor, total } = useSearch();
     return {
       pageSize,
@@ -140,10 +143,6 @@ export default {
       if (e.target.scrollTop > 220) {
         this.interacted = true;
       }
-    },
-    submitSearch() {
-      this.cursor = null;
-      this.loadFirstSearchPage();
     },
     loadNextPage(observerState) {
       if (this.cursor) {

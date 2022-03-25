@@ -57,13 +57,11 @@ import CustomHeader from "@/components/Base/CustomHeader";
 import DateDisplay from "@/components/Base/DateDisplay";
 import HistoryChanges from "@/components/Entity/EntityCommonComponents/History/HistoryChanges";
 import NoDataState from "@/components/Base/NoDataState";
-import EntityAvatar from "@/components/Entity/EntityAvatar";
 import UserCard from "@/components/User/UserCard";
 export default {
   name: "EntityHistoryDetails",
   components: {
     UserCard,
-    EntityAvatar,
     NoDataState,
     HistoryChanges,
     DateDisplay,

@@ -17,6 +17,7 @@ let user = {
   recentlyViewed: [],
 };
 
+let recentlyViewed = [];
 let isListeningEvents = false;
 
 const loginUser = async ({ id, email, username, token }) => {
@@ -31,6 +32,7 @@ const loginUser = async ({ id, email, username, token }) => {
 export const useUser = () => {
   const loggedIn = ref(false);
   user = ref(user);
+  recentlyViewed = ref(recentlyViewed);
   const error = ref(null);
   const loading = ref(false);
 
@@ -72,6 +74,13 @@ export const useUser = () => {
       loading.value = false;
     }
   };
+  const addRecentlyViewed = (entity) => {
+    const alreadyViewedIds = recentlyViewed.value.map(({ id }) => id);
+    if (!alreadyViewedIds.includes(entity.id)) {
+      recentlyViewed.value.unshift(entity);
+      recentlyViewed.value.splice(10);
+    }
+  };
   const logout = () => {
     error.value = null;
     loading.value = null;
@@ -90,6 +99,7 @@ export const useUser = () => {
       .finally(() => (loading.value = false));
   };
   return {
+    recentlyViewed,
     user,
     load,
     logout,
@@ -97,5 +107,6 @@ export const useUser = () => {
     loggedIn,
     loading,
     error,
+    addRecentlyViewed,
   };
 };

@@ -33,7 +33,8 @@ export default {
     data: {
       handler() {
         this.chartData.datasets[0].data = this.data;
-        this.$data._chart.config.data.datasets[0].backgroundColor = this.gradients;
+        this.$data._chart.config.data.datasets[0].backgroundColor =
+          this.gradients;
         this.$data._chart.config.data.datasets[0].hoverBackgroundColor =
           "rgba(45,151,252,0.2)";
         this.$data._chart.update();
