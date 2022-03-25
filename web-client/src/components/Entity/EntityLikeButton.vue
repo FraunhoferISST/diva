@@ -94,7 +94,7 @@ export default {
     },
     likeEntity() {
       return this.$api.datanetwork
-        .putEdge({
+        .postEdge({
           from: this.user.id,
           edgeType: "likes",
           to: this.id,

@@ -204,6 +204,8 @@ services:
         methods:
           - GET
           - PUT
+          - POST
+          - PATCH
           - DELETE
           - OPTIONS
         paths:

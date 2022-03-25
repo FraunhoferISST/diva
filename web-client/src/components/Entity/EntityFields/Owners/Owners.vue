@@ -123,7 +123,7 @@ export default {
       return Promise.all([
         ...owners.map((id) =>
           this.$api.datanetwork
-            .putEdge({
+            .postEdge({
               from: id,
               to: this.id,
               edgeType: "isOwnerOf",

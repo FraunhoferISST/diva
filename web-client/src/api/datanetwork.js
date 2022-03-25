@@ -3,6 +3,6 @@ const axios = http.axios;
 
 export default {
   getEdges: (query = {}) => axios.get("/edges", { params: query }),
-  putEdge: (data) => axios.put("/edges", data),
+  postEdge: (data) => axios.post("/edges", data),
   deleteEdgeById: (id) => axios.delete(`/edges/${id}`),
 };

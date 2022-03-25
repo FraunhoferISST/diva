@@ -89,7 +89,7 @@ export default {
               this.profileError?.response?.data?.message ??
               this.profileError.toString()
             }. Please try again later`,
-            "error"
+            { color: "error" }
           );
         }
       });
