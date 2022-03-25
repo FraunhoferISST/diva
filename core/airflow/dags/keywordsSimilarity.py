@@ -23,7 +23,7 @@ with DAG('keywords_similarity', default_args=default_args, schedule_interval=Non
 
     keywords_similarity_hash_generator_task = DockerOperator(
         task_id='keywords-similarity-hash-generator',
-        image='keywords-similarity-hash-generator:0.1.0',
+        image='ghcr.io/fraunhoferisst/diva/keywords-similarity-hash-generator:0.1.0',
         api_version='auto',
         auto_remove=True,
         docker_url="unix://var/run/docker.sock",
