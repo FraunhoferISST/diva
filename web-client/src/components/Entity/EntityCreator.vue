@@ -1,13 +1,12 @@
 <template>
-  <div>
-    <data-viewer :loading="loading" :error="error">
-      <div class="d-flex align-center">
-        <user-card :user="creator || {}" dense />
-        <span class="d-inline-block mx-2"> created at </span>
+  <data-viewer :loading="loading" :error="error">
+    <user-card :user="creator || {}" dense>
+      <template>
+        <span class="d-inline-block ml-2"> created at </span>
         <date-display :date="createdAt" />
-      </div>
-    </data-viewer>
-  </div>
+      </template>
+    </user-card>
+  </data-viewer>
 </template>
 
 <script>

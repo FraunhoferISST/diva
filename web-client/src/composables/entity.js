@@ -15,6 +15,7 @@ export function useEntity(
   const patchLoading = ref(false);
   const patchError = ref(false);
   const deleteLoading = ref(false);
+  const deleteError = ref(false);
   const updating = ref(false);
   const _query = ref({});
 
@@ -24,18 +25,20 @@ export function useEntity(
 
   if (reactive) {
     const { user } = useUser();
-    const { data: _eventData } = useEvents(id, user.value.id, async () => {
-      eventData.value = _eventData.value;
-      updating.value = true;
-      if (updateInstantly || user.value.id === _eventData.value.actorId) {
-        await reload(_query.value)
-          .catch()
-          .finally(() => (updating.value = false));
-      }
-      if (onEvent) {
-        onEvent(_eventData.value);
-      }
-      updating.value = false;
+    const { data: _eventData } = useEvents(id, user.value.id, {
+      onUpdate: async () => {
+        eventData.value = _eventData.value;
+        updating.value = true;
+        if (updateInstantly || user.value.id === _eventData.value.actorId) {
+          await reload(_query.value)
+            .catch()
+            .finally(() => (updating.value = false));
+        }
+        if (onEvent) {
+          onEvent(_eventData.value);
+        }
+        updating.value = false;
+      },
     });
   }
 
@@ -73,7 +76,7 @@ export function useEntity(
     deleteLoading.value = true;
     return entityApi
       .delete(id, patch)
-      .catch((e) => (error.value = e))
+      .catch((e) => (deleteError.value = e))
       .finally(() => (deleteLoading.value = false));
   };
   return {
@@ -92,5 +95,6 @@ export function useEntity(
     updating,
     eventData,
     patchError,
+    deleteError,
   };
 }

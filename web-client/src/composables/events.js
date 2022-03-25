@@ -8,11 +8,12 @@ const ENTITY_UNSUBSCRIBE_UPDATES_REQUEST = "entityUnsubscribeRequest";
 // const ENTITY_UNSUBSCRIBE_UPDATES_RESPONSE = "entityUnsubscribeResponse";
 const ENTITY_UPDATES_EVENT = "entityEvent";
 
-export function useEvents(id, userId, onEvent) {
+export function useEvents(id, userId, { onUpdate, onDelete } = {}) {
   const data = ref(null);
   const loading = ref(false);
 
-  const onUpdateEvent = async (eventData) => {
+  const handleEvent = async (eventData) => {
+    debugger;
     loading.value = true;
     const actorId = eventData?.actor.id;
     let actor = {};
@@ -40,13 +41,16 @@ export function useEvents(id, userId, onEvent) {
       message,
       reloadInstantly: userId === actorId,
     };
-    if (onEvent) {
-      return onEvent(data.value);
+    if (action === "updated" && onUpdate) {
+      onUpdate(data.value);
+    }
+    if (action === "deleted" && onDelete) {
+      onDelete(data.value);
     }
   };
   const subscribe = () => {
     api.socket.emit(ENTITY_SUBSCRIBE_UPDATES_REQUEST, id);
-    api.socket.on(ENTITY_UPDATES_EVENT, onUpdateEvent);
+    api.socket.on(ENTITY_UPDATES_EVENT, handleEvent);
   };
   const unsubscribe = () =>
     api.socket.emit(ENTITY_UNSUBSCRIBE_UPDATES_REQUEST, id);

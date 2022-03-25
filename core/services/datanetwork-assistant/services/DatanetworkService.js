@@ -177,29 +177,20 @@ class DatanetworkService {
     return newEdgeId;
   }
 
-  async patchEdgeById(edge, body) {
-    if (
-      !(await this.edgeExists(
-        edge.from.entityId,
-        edge.to.entityId,
-        edge.edgeType
-      ))
-    ) {
-      throw edgeNotFoundError;
-    }
-    // merge old properties with new
+  async patchEdgeById(id, patch) {
+    const existingEdge = await this.getEdgeById(id);
     const edgeProperties = Object.entries(
       cleanUpProperties({
-        ...edge.properties,
-        ...body,
-        id: edge.properties.id,
+        ...existingEdge.properties,
+        ...patch,
+        id: existingEdge.properties.id,
       })
     )
       .map(([key, value]) => `${key}: "${value}"`)
       .join(", ");
 
     return executeSession(
-      `MATCH (a {entityId: "${edge.from.entityId}"})-[r]-(b {entityId: "${edge.to.entityId}"}) SET r = {${edgeProperties}}`
+      `MATCH ()-[r {id: "${id}"}]-() SET r = {${edgeProperties}}`
     );
   }
 

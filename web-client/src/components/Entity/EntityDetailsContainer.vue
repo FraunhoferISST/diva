@@ -14,8 +14,8 @@
             <v-container ref="overviewContainer" class="pa-0 pt-0 pb-0">
               <v-expand-transition>
                 <v-container
-                  v-show="tab.includes('/general')"
-                  class="entity-details-overview-container px-12 pt-0 pb-0"
+                  v-if="tab.includes('/general')"
+                  class="entity-details-overview-container px-3 px-md-12 pt-0 pb-0"
                 >
                   <div class="pt-12">
                     <div class="d-flex justify-center align-center flex-column">
@@ -54,7 +54,7 @@
                             {{ tag }}
                           </v-chip>
                         </div>
-                        <div class="d-flex justify-start align-center mt-4">
+                        <div class="d-block d-md-flex justify-start mt-4">
                           <entity-creator
                             v-if="data.creatorId"
                             :creator-id="data.creatorId"
@@ -64,11 +64,16 @@
                             v-if="
                               data.modified && data.modified !== data.created
                             "
-                            class="d-flex align-center"
+                            class="d-block d-md-flex align-center"
                           >
-                            <dot-divider class="mx-3" size="2px" />
-                            <span>last updated</span>
-                            <date-display class="ml-2" :date="data.modified" />
+                            <dot-divider
+                              class="mx-3 d-none d-md-block"
+                              size="2px"
+                            />
+                            <div class="mt-2 mt-md-0">
+                              <span>last updated</span>
+                              <date-display :date="data.modified" />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -107,43 +112,57 @@
                   </div>
                 </v-container>
               </v-expand-transition>
-              <div class="entity-details-nav-container relative">
-                <div
-                  class="entity-details-nav"
-                  :class="{
-                    fixed:
-                      overviewContainerHeight &&
-                      scrollOffset > overviewContainerHeight - 55,
-                  }"
-                >
-                  <v-container class="fluid pa-0">
-                    <v-tabs
-                      v-model="tab"
-                      show-arrows
-                      background-color="white"
-                      center-active
-                      grow
-                    >
-                      <v-tabs-slider></v-tabs-slider>
-                      <v-tab
-                        :to="{ name: link.name }"
-                        v-for="(link, i) in links"
-                        :key="i"
-                      >
-                        <v-icon small class="mr-md-2">
-                          {{ link.icon }}
-                        </v-icon>
-                        <span class="d-none d-md-inline">{{ link.title }}</span>
-                      </v-tab>
-                    </v-tabs>
-                    <div class="entity-details-divider"></div>
-                  </v-container>
-                </div>
-              </div>
             </v-container>
+          </div>
+          <div class="entity-details-nav-container">
+            <div
+              class="entity-details-nav"
+              :class="{
+                fixed:
+                  overviewContainerHeight &&
+                  scrollOffset > overviewContainerHeight,
+              }"
+            >
+              <v-container class="fluid pa-0">
+                <v-tabs
+                  v-model="tab"
+                  background-color="white"
+                  center-active
+                  show-arrows
+                  grow
+                >
+                  <v-tabs-slider></v-tabs-slider>
+                  <v-tab
+                    :to="{ name: link.name }"
+                    v-for="(link, i) in links"
+                    :key="i"
+                  >
+                    <v-icon small class="mr-md-2">
+                      {{ link.icon }}
+                    </v-icon>
+                    <span class="d-none d-md-inline">{{ link.title }}</span>
+                  </v-tab>
+                </v-tabs>
+                <div class="entity-details-divider"></div>
+              </v-container>
+            </div>
           </div>
         </template>
       </data-viewer>
+      <confirmation-dialog :show.sync="confirmationDialog">
+        <v-alert text color="error">
+          Are you sure you want to delete this entity? All corresponding data
+          will be removed and can no longer be restored!
+        </v-alert>
+        <template #confirm>
+          <v-btn text rounded color="error" @click="deleteEntity">
+            Delete entity
+          </v-btn>
+          <v-snackbar text color="error" v-model="snackbar" absolute>
+            {{ message }}
+          </v-snackbar>
+        </template>
+      </confirmation-dialog>
       <entity-event-snackbar
         top
         absolute
@@ -165,7 +184,7 @@
         </v-btn>
       </entity-event-snackbar>
       <v-container class="pa-0 pt-0 pb-12">
-        <v-container class="entity-details-views-container pa-12">
+        <v-container class="entity-details-views-container pa-3 pa-md-12">
           <slot> </slot>
         </v-container>
       </v-container>
@@ -187,10 +206,12 @@ import DataViewer from "@/components/DataFetchers/DataViewer";
 import EntityEventSnackbar from "@/components/Entity/EntityEventSnackbar";
 import { computed } from "@vue/composition-api";
 import { useUser } from "@/composables/user";
+import ConfirmationDialog from "@/components/Base/ConfirmationDialog";
 
 export default {
   name: "EntityDetailsContainer",
   components: {
+    ConfirmationDialog,
     EntityEventSnackbar,
     DataViewer,
     EntityMedia,
@@ -231,11 +252,22 @@ export default {
         timeout: reloadInstantly ? 2000 : 10000,
       });
     };
-    const { load, loading, error, data, reload, updating, eventData, title } =
-      useEntity(props.id, {
-        reactive: true,
-        onEvent,
-      });
+    const {
+      load,
+      loading,
+      error,
+      data,
+      reload,
+      updating,
+      eventData,
+      title,
+      deleteEntity,
+      deleteLoading,
+      deleteError,
+    } = useEntity(props.id, {
+      reactive: true,
+      onEvent,
+    });
     load().then(() => addRecentlyViewed(data.value));
     const reloadEntity = () => {
       emit("reload");
@@ -257,6 +289,9 @@ export default {
       snackbar,
       eventData: computed(() => eventData.value ?? {}),
       showSnackbar,
+      delete: deleteEntity,
+      deleteError,
+      deleteLoading,
       title,
       tags: computed(() =>
         [
@@ -273,7 +308,6 @@ export default {
   data: () => ({
     menu: false,
     confirmationDialog: false,
-    isLoading: false,
     scrollOffset: 0,
     overviewContainerHeight: null,
     tab: "",
@@ -281,6 +315,16 @@ export default {
   methods: {
     showConfirmationDialog() {
       this.confirmationDialog = true;
+    },
+    deleteEntity() {
+      this.delete(this.data.id).then(() => {
+        if (!this.deleteError) {
+          this.confirmationDialog = false;
+          setTimeout(() => this.$router.push({ name: "search" }), 1000);
+        } else {
+          this.showSnackbar(this.deleteError, { color: "error" });
+        }
+      });
     },
     onScroll(e) {
       this.updateOverviewContainerHeight();
@@ -313,6 +357,7 @@ export default {
 }
 
 .entity-details-title {
+  word-break: break-all;
   font-family: Montserrat;
   font-size: 1.5rem !important;
 }
@@ -337,11 +382,19 @@ export default {
 }
 .entity-details-nav {
   width: 100%;
-  z-index: 2;
+  max-width: 100vw;
+  z-index: 9999;
+  position: absolute;
   &.fixed {
     position: fixed;
     top: 0;
     left: 0;
+  }
+}
+
+@media screen and (max-width: 959px) {
+  .entity-details-overview-container {
+    display: block;
   }
 }
 </style>

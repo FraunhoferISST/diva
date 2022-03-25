@@ -119,6 +119,7 @@ export default {
   font-size: 0.7rem;
   @include border-radius-half;
   background-color: rgba(0, 0, 0, 0.05);
+  z-index: 10;
 }
 .data-viewer-loading {
   position: absolute;

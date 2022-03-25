@@ -3,7 +3,7 @@
     <data-viewer :loading="loading" :error="error">
       <template v-if="data">
         <v-container class="pa-0 ma-0" fluid>
-          <v-row v-if="canEdit">
+          <v-row>
             <v-col cols="12">
               <custom-header text="General Information" />
             </v-col>
@@ -62,7 +62,7 @@
               />
             </v-col>
           </v-row>
-          <v-row v-if="canEdit">
+          <v-row>
             <v-col cols="12">
               <v-alert text color="error" class="my-4">
                 You can delete your DIVA account. Please note that the data

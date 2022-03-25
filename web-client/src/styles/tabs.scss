@@ -3,9 +3,9 @@
   .v-tabs-items {
     background-color: transparent !important;
   }
-  .v-tabs-bar {
+  /*.v-tabs-bar {
     height: 55px;
-  }
+  }*/
   .v-tabs {
     .v-tab {
       text-transform: none;
@@ -31,10 +31,9 @@
           border-radius: 5px 0 0 5px;
         }
       }
-
-      a.v-tab {
+      /*a.v-tab {
         min-width: 50px;
-      }
+      }*/
     }
   }
 }

@@ -63,8 +63,7 @@ class DatanetworkController {
   async patchEdge(req, res, next) {
     try {
       const edge = await datanetworkService.getEdgeById(req.params.id);
-      console.log(edge);
-      await datanetworkService.patchEdgeById(edge, req.body);
+      await datanetworkService.patchEdgeById(req.params.id, req.body);
       messageProducer.produce(
         req.params.id,
         req.headers["x-actorid"],

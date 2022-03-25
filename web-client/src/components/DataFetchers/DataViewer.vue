@@ -1,5 +1,5 @@
 <template>
-  <div class="relative full-width">
+  <div class="relative">
     <div v-if="isUpdating" class="data-viewer-updating">
       <span v-if="updating"> updating... </span>
       <span v-else>
@@ -89,6 +89,7 @@ export default {
   font-size: 0.7rem;
   @include border-radius-half;
   background-color: rgba(0, 0, 0, 0.05);
+  z-index: 1;
 }
 .data-viewer-loading {
   position: absolute;

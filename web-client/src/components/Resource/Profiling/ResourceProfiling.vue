@@ -1,9 +1,7 @@
 <template>
-  <v-container fluid class="pa-0">
-    <data-viewer :loading="loading" :updating="updating">
-      <component :is="profilingView" :id="id" :data="data" />
-    </data-viewer>
-  </v-container>
+  <data-viewer :loading="loading" :updating="updating">
+    <component :is="profilingView" :id="id" :data="data" />
+  </data-viewer>
 </template>
 
 <script>
@@ -40,7 +38,9 @@ export default {
       "image/jpeg": ImageResourceProfiling,
     };
     const { on } = useBus();
-    on("reload", reload);
+    on("reload", () => {
+      reload();
+    });
     const { data, load, loading, error, reload, updating } = useEntity(
       props.id
     );

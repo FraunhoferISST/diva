@@ -37,8 +37,8 @@ export const useUser = () => {
   const loading = ref(false);
 
   if (!isListeningEvents) {
-    useEvents(user.value.id, user.value.id, async () => {
-      load();
+    useEvents(user.value.id, user.value.id, {
+      onUpdate: () => load(),
     });
     isListeningEvents = true;
   }
