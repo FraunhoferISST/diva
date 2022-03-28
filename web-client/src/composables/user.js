@@ -23,7 +23,7 @@ let isListeningEvents = false;
 const loginUser = async ({ id, email, username, token }) => {
   localStorage.setItem("jwt", token);
   api.setAuthorization(token);
-  await api.users.update(id, { email, username });
+  await api.users.update(id, { id, email, username });
   const { data: loggedInUser } = await api.users.getById(id);
   api.socket.connect();
   return loggedInUser;
