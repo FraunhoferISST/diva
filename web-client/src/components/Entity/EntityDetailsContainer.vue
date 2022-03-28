@@ -374,7 +374,7 @@ export default {
 .entity-details-nav {
   width: 100%;
   max-width: 100vw;
-  z-index: 9999;
+  z-index: 2;
   position: absolute;
   &.fixed {
     position: fixed;
