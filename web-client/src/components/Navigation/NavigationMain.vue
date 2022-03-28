@@ -1,15 +1,12 @@
 <template>
-  <aside id="navigation-main">
-    <v-row class="fill-height" no-gutters align-content="space-between">
-      <div style="width: 100%">
-        <div class="navigation-item dotted-background"></div>
-
+  <nav id="navigation-main">
+    <div id="navigation-main-items" class="d-flex justify-space-between">
+      <div class="d-flex">
         <router-link to="/">
-          <div class="diva-logo mb-5">
+          <div class="diva-logo">
             <animated-diva-logo :animated="isLoading" />
           </div>
         </router-link>
-
         <router-link
           v-for="(link, i) in links"
           :key="i"
@@ -23,20 +20,17 @@
           <custom-progress-bar v-if="activeRoute.includes(link.route)" />
         </router-link>
       </div>
-
-      <v-spacer />
-
-      <div class="navigation-item mt-4 mb-4">
-        <div class="">
+      <div>
+        <div class="navigation-item">
           <user-controls
             :id="user.id"
-            class="navigation-item user-item mt-4 mb-4"
+            class="navigation-item user-item"
             v-if="isLoggedIn"
           />
         </div>
       </div>
-    </v-row>
-  </aside>
+    </div>
+  </nav>
 </template>
 
 <script>
@@ -47,8 +41,13 @@ import CustomProgressBar from "@/components/Base/CustomProgressBar";
 
 export default {
   name: "NavigationMain",
-  components: { CustomProgressBar, UserControls, AnimatedDivaLogo },
+  components: {
+    CustomProgressBar,
+    UserControls,
+    AnimatedDivaLogo,
+  },
   data: () => ({
+    userOverlay: false,
     links: [
       {
         route: "/search",
@@ -99,22 +98,29 @@ export default {
 #navigation-main {
   position: fixed;
   left: 0;
-  top: 0;
-  width: 70px;
-  height: 100vh;
+  bottom: 0;
+  width: 100%;
+  height: 70px;
   background-color: $bg_toolbar;
   z-index: 10;
+}
+
+#navigation-main-items {
+  height: 100%;
+  position: relative;
+  z-index: 100;
+  background-color: $bg_toolbar;
 }
 
 .navigation-item {
   position: relative;
   transition: 0.3s;
-  width: 100%;
-  height: 70px;
+  width: 70px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0.7;
+  //opacity: 0.7;
   //padding: 15px 25px;
   &:hover {
     background-color: $bg_toolbar_hover;
@@ -135,9 +141,8 @@ export default {
 }
 
 .diva-logo {
-  margin-left: 8px;
-  margin-top: 12px;
-  padding: 5px;
+  margin: 10px 8px;
+  padding: 8px;
   width: 55px;
   height: 55px;
 }
@@ -149,5 +154,22 @@ export default {
   padding: 5px;
   opacity: 1 !important;
   //border: 1px white dashed;
+}
+
+@media screen and (max-width: 959px) {
+  #navigation-main {
+    height: 60px;
+  }
+  .navigation-item {
+    width: 50px;
+  }
+  .diva-logo {
+    width: 45px;
+    height: 45px;
+  }
+  .user-item {
+    width: 43px;
+    height: 43px;
+  }
 }
 </style>

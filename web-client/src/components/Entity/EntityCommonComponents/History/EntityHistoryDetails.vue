@@ -22,26 +22,12 @@
               <custom-header text="Issued from" />
             </v-col>
             <v-col cols="12">
-              <div class="history-details-user-container">
-                <div>
-                  <user-avatar
-                    :image-id="creator.entityIcon || ''"
-                    :user-id="creator.id || ''"
-                  />
-                </div>
-                <div>
-                  <h3 class="username">
-                    {{ creator.username || "N/A" }}
-                  </h3>
-                  <span class="d-block">
-                    {{ creator.email || "N/A" }}
-                  </span>
-                </div>
+              <user-card :user="creator">
                 <date-display
                   v-if="historyLog.created"
                   :date="historyLog.created || ''"
                 />
-              </div>
+              </user-card>
             </v-col>
           </v-row>
           <v-row>
@@ -68,17 +54,17 @@
 <script>
 import Card from "@/components/Base/Card";
 import CustomHeader from "@/components/Base/CustomHeader";
-import UserAvatar from "@/components/User/UserAvatar";
 import DateDisplay from "@/components/Base/DateDisplay";
 import HistoryChanges from "@/components/Entity/EntityCommonComponents/History/HistoryChanges";
 import NoDataState from "@/components/Base/NoDataState";
+import UserCard from "@/components/User/UserCard";
 export default {
   name: "EntityHistoryDetails",
   components: {
+    UserCard,
     NoDataState,
     HistoryChanges,
     DateDisplay,
-    UserAvatar,
     CustomHeader,
     Card,
   },
@@ -118,6 +104,7 @@ export default {
   }
 }
 .history-details-card {
+  padding-bottom: 70px;
   box-shadow: 0 0.7px 2.2px rgba(0, 0, 0, 0.011),
     0 1.7px 5.3px rgba(0, 0, 0, 0.016), 0 3.1px 10px rgba(0, 0, 0, 0.02),
     0 5.6px 17.9px rgba(0, 0, 0, 0.024), 0 10.4px 33.4px rgba(0, 0, 0, 0.029),

@@ -22,7 +22,7 @@ export default {
   justify-content: center;
   width: 100%;
   height: 100%;
-  border-radius: 4px;
+  @include border-radius;
   background-color: rgba($bg_primary, 1); //#f6f6f6;
   text-align: center;
   //border: 1px #ebebeb solid;

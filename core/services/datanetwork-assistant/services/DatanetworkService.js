@@ -125,11 +125,12 @@ class DatanetworkService {
     throw edgeNotFoundError;
   }
 
-  async getEdges({ from, edgeTypes }, bidirectional = false) {
+  async getEdges({ from, edgeTypes, to = null }, bidirectional = false) {
     const relationshipTypes = edgeTypes ? `r:${edgeTypes.join("|")}` : "r";
     const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
+    const toNode = `m ${to ? `{ entityId: '${to}' }` : ""}`;
     return executeSession(
-      `MATCH (n {entityId: '${from}'}) ${relationship} (m) RETURN startNode(r) as from, r, endNode(r) as to`
+      `MATCH (n {entityId: '${from}'}) ${relationship} (${toNode}) RETURN startNode(r) as from, r, endNode(r) as to`
     ).then(({ records }) => ({
       collection:
         records?.map(({ _fields }) => ({
@@ -179,22 +180,13 @@ class DatanetworkService {
     return newEdgeId;
   }
 
-  async patchEdgeById(edge, body) {
-    if (
-      !(await this.edgeExists(
-        edge.from.entityId,
-        edge.to.entityId,
-        edge.edgeType
-      ))
-    ) {
-      throw edgeNotFoundError;
-    }
-    // merge old properties with new
+  async patchEdgeById(id, patch) {
+    const existingEdge = await this.getEdgeById(id);
     const edgeProperties = Object.entries(
       cleanUpProperties({
-        ...edge.properties,
-        ...body,
-        id: edge.properties.id,
+        ...existingEdge.properties,
+        ...patch,
+        id: existingEdge.properties.id,
       })
     )
       .map(([key, value]) =>
@@ -203,7 +195,7 @@ class DatanetworkService {
       .join(", ");
 
     return executeSession(
-      `MATCH (a {entityId: "${edge.from.entityId}"})-[r]-(b {entityId: "${edge.to.entityId}"}) SET r = {${edgeProperties}}`
+      `MATCH ()-[r {id: "${id}"}]-() SET r = {${edgeProperties}}`
     );
   }
 

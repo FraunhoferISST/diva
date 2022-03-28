@@ -3,9 +3,9 @@
   .v-tabs-items {
     background-color: transparent !important;
   }
-  .v-tabs-bar {
-    height: 34px;
-  }
+  /*.v-tabs-bar {
+    height: 55px;
+  }*/
   .v-tabs {
     .v-tab {
       text-transform: none;
@@ -15,7 +15,7 @@
     }
     &:not(.v-tabs--vertical) div.v-tabs-slider-wrapper {
       height: 3px !important;
-      padding: 0 10px;
+      padding: 0 15px;
       div.v-tabs-slider {
         border-radius: 5px 5px 0 0;
       }
@@ -31,10 +31,9 @@
           border-radius: 5px 0 0 5px;
         }
       }
-
-      a.v-tab {
+      /*a.v-tab {
         min-width: 50px;
-      }
+      }*/
     }
   }
 }

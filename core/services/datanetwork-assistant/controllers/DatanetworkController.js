@@ -20,11 +20,12 @@ class DatanetworkController {
 
   async getEdges(req, res, next) {
     try {
-      const { from, edgeTypes } = req.query;
+      const { from, edgeTypes, to } = req.query;
       const result = await datanetworkService.getEdges(
         {
           from,
           edgeTypes: edgeTypes ? edgeTypes.split(",") : null,
+          to,
         },
         req.query.bidirectional
       );
@@ -62,8 +63,7 @@ class DatanetworkController {
   async patchEdge(req, res, next) {
     try {
       const edge = await datanetworkService.getEdgeById(req.params.id);
-      console.log(edge);
-      await datanetworkService.patchEdgeById(edge, req.body);
+      await datanetworkService.patchEdgeById(req.params.id, req.body);
       messageProducer.produce(
         req.params.id,
         req.headers["x-actorid"],

@@ -1,19 +1,14 @@
 <template>
   <entity-details-link :id="doc.id" target="_blank">
-    <div class="search-card-container fill-height d-flex pa-10">
+    <div class="search-card-container fill-height d-flex py-8 pa-3 pa-md-10">
       <div class="search-card">
         <div class="search-card-header">
           <div class="search-card-icon d-flex">
-            <user-avatar
+            <entity-avatar
               :size="40"
-              v-if="doc.entityIcon"
+              :entity-id="doc.id || ''"
               :image-id="doc.entityIcon || ''"
-            />
-            <identicon
-              v-else
-              class="card-icon"
-              :hash="doc.uniqueFingerprint || doc.id"
-              :options="{ size: 40 }"
+              :entity-title="doc.title || doc.username"
             />
           </div>
           <div class="search-card-info-container">
@@ -46,16 +41,26 @@
           <p class="search-card-description ma-0 mt-2" v-if="doc.description">
             {{ description }}
           </p>
-          <div class="search-card-timestamps d-flex mt-3">
-            <info-block-title>Created</info-block-title>
-            <info-block-value>
-              <date-display :date="doc.created" />
-            </info-block-value>
-            <info-block-title class="ml-2">Modified</info-block-title>
-            <info-block-value>
-              <date-display :date="doc.modified" />
-            </info-block-value>
-          </div>
+          <v-container fluid class="pa-0">
+            <v-row dense>
+              <v-col cols="12" sm="3">
+                <div class="search-card-timestamps d-flex">
+                  <info-block-title>Created</info-block-title>
+                  <info-block-value>
+                    <date-display :date="doc.created" />
+                  </info-block-value>
+                </div>
+              </v-col>
+              <v-col cols="12" sm="3">
+                <div class="search-card-timestamps d-flex">
+                  <info-block-title>Modified</info-block-title>
+                  <info-block-value>
+                    <date-display :date="doc.modified" />
+                  </info-block-value>
+                </div>
+              </v-col>
+            </v-row>
+          </v-container>
         </div>
       </div>
     </div>
@@ -63,22 +68,20 @@
 </template>
 
 <script>
-import Identicon from "@/components/Base/Identicon";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import DateDisplay from "@/components/Base/DateDisplay";
-import UserAvatar from "@/components/User/UserAvatar";
+import EntityAvatar from "@/components/Entity/EntityAvatar";
 
 export default {
   name: "SearchResultCard",
   components: {
-    UserAvatar,
+    EntityAvatar,
     DateDisplay,
     InfoBlockValue,
     InfoBlockTitle,
     EntityDetailsLink,
-    Identicon,
   },
   props: {
     data: {
@@ -109,9 +112,8 @@ export default {
         );
     },
     description() {
-      return this.doc.description.length > 300
-        ? `${this.doc.description.slice(0, 300)}... `
-        : this.doc.description;
+      const desc = this.doc.description ?? "";
+      return desc.length > 300 ? `${desc.slice(0, 300)}... ` : desc;
     },
     keywords() {
       return (this.doc.keywords ?? []).slice(0, 25);
@@ -127,10 +129,9 @@ export default {
   transition: 0.5s;
   cursor: pointer;
   overflow: hidden;
-  background-color: $bg_card;
-  border-radius: 8px;
+  border-bottom: 2px solid $bg-card_secondary;
   &:hover {
-    box-shadow: 0 0 15px 10px rgba(black, 0.05);
+    //background-color: $bg_card_secondary;
   }
 }
 

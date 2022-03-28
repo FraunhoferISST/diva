@@ -33,7 +33,7 @@
           animation="rs 500 1500 "
           :width="15"
         >
-          <template v-slot:default="{ counterTick }">
+          <template #default="{ counterTick }">
             <span
               :style="{ color: color, fontWeight: 'bold', transition: '0.3s' }"
             >

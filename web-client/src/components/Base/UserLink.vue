@@ -1,6 +1,10 @@
 <template>
   <div>
-    <user-avatar :image-id="imageId" :user-id="user.id" />
+    <entity-avatar
+      :image-id="imageId"
+      :entity-id="user.id"
+      :entity-title="user.username"
+    />
     <entity-details-link v-if="id" :id="user.id" class="user-link-name">
       {{ user.username }}
     </entity-details-link>
@@ -9,12 +13,12 @@
 </template>
 
 <script>
-import UserAvatar from "@/components/User/UserAvatar";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
+import EntityAvatar from "@/components/Entity/EntityAvatar";
 export default {
   name: "UserLink",
-  components: { InfoBlockValue, EntityDetailsLink, UserAvatar },
+  components: { EntityAvatar, InfoBlockValue, EntityDetailsLink },
   props: {
     user: {
       type: Object,

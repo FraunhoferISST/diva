@@ -3,7 +3,10 @@
     <v-row class="mt-6">
       <v-col cols="12" md="4">
         <card header="Entities type distribution in %">
-          <data-fetcher slot="body" :fetch-method="fetchDistributionOfEntities">
+          <data-viewer
+            :loading="loadingDistributionOfEntities"
+            :error="errorDistributionOfEntities"
+          >
             <template>
               <chart-container v-if="distributionOfEntities.length > 0">
                 <donut-chart
@@ -13,14 +16,14 @@
               </chart-container>
               <no-data-state v-else />
             </template>
-          </data-fetcher>
+          </data-viewer>
         </card>
       </v-col>
       <v-col cols="12" md="4">
         <card header="Resource type distribution in %">
-          <data-fetcher
-            slot="body"
-            :fetch-method="fetchDistributionOfResourceTypes"
+          <data-viewer
+            :loading="loadingDistributionOfResourceTypes"
+            :error="errorDistributionOfResourceTypes"
           >
             <template>
               <chart-container v-if="distributionOfResourceTypes.length > 0">
@@ -29,16 +32,16 @@
                   :data="distributionOfResourceTypesChartData.data"
                 />
               </chart-container>
-              <no-data-state v-else />
+              <no-data-state class="fill-height" v-else />
             </template>
-          </data-fetcher>
+          </data-viewer>
         </card>
       </v-col>
       <v-col cols="12" md="4">
         <card header="Resource mime type distribution in %">
-          <data-fetcher
-            slot="body"
-            :fetch-method="fetchDistributionOfResourceMimeTypes"
+          <data-viewer
+            :loading="loadingDistributionOfResourceMimeTypes"
+            :error="errorDistributionOfResourceMimeTypes"
           >
             <template>
               <chart-container
@@ -51,7 +54,7 @@
               </chart-container>
               <no-data-state v-else />
             </template>
-          </data-fetcher>
+          </data-viewer>
         </card>
       </v-col>
     </v-row>
@@ -60,13 +63,44 @@
 
 <script>
 import Card from "@/components/Base/Card";
-import DataFetcher from "@/components/DataFetchers/DataFetcher";
 import DonutChart from "@/components/Charts/DonutChart";
 import NoDataState from "@/components/Base/NoDataState";
 import ChartContainer from "@/components/Charts/ChartContainer";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useRequest } from "@/composables/request";
+
 export default {
   name: "DashboardTypesDistributionOverview",
-  components: { ChartContainer, NoDataState, DonutChart, DataFetcher, Card },
+  components: { DataViewer, ChartContainer, NoDataState, DonutChart, Card },
+  setup() {
+    const {
+      request: rqDistributionOfEntities,
+      loading: loadingDistributionOfEntities,
+      error: errorDistributionOfEntities,
+    } = useRequest();
+
+    const {
+      request: rqDistributionOfResourceTypes,
+      loading: loadingDistributionOfResourceTypes,
+      error: errorDistributionOfResourceTypes,
+    } = useRequest();
+    const {
+      request: rqDistributionOfResourceMimeTypes,
+      loading: loadingDistributionOfResourceMimeTypes,
+      error: errorDistributionOfResourceMimeTypes,
+    } = useRequest();
+    return {
+      rqDistributionOfResourceTypes,
+      rqDistributionOfEntities,
+      rqDistributionOfResourceMimeTypes,
+      loadingDistributionOfResourceTypes,
+      loadingDistributionOfEntities,
+      loadingDistributionOfResourceMimeTypes,
+      errorDistributionOfResourceTypes,
+      errorDistributionOfResourceMimeTypes,
+      errorDistributionOfEntities,
+    };
+  },
   data: () => ({
     distributionOfEntities: [],
     distributionOfResourceTypes: [],
@@ -108,21 +142,28 @@ export default {
     capFirstCharacter(string) {
       return `${string[0].toUpperCase()}${string.slice(1)}`;
     },
-    fetchDistributionOfEntities() {
+    loadDistributionOfEntities() {
       return this.$api.analytics
         .distributionOfEntities()
         .then(({ data }) => (this.distributionOfEntities = data));
     },
-    fetchDistributionOfResourceTypes() {
+    loadDistributionOfResourceTypes() {
       return this.$api.analytics
         .distributionOfResourceTypes()
         .then(({ data }) => (this.distributionOfResourceTypes = data));
     },
-    fetchDistributionOfResourceMimeTypes() {
+    loadDistributionOfResourceMimeTypes() {
       return this.$api.analytics
         .distributionOfResourceMimeTypes()
         .then(({ data }) => (this.distributionOfResourceMimeTypes = data));
     },
+  },
+  mounted() {
+    this.rqDistributionOfEntities(this.loadDistributionOfEntities());
+    this.rqDistributionOfResourceMimeTypes(
+      this.loadDistributionOfResourceMimeTypes()
+    );
+    this.rqDistributionOfResourceTypes(this.loadDistributionOfResourceTypes());
   },
 };
 </script>
