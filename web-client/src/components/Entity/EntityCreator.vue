@@ -2,7 +2,7 @@
   <data-viewer :loading="loading" :error="error">
     <user-card :user="creator || {}" dense>
       <template>
-        <span class="d-none d-sm-inline-block ml-2"> created at </span>
+        <span class="d-none d-sm-inline-block mx-2"> created at </span>
         <date-display :date="createdAt" />
       </template>
     </user-card>
@@ -14,7 +14,9 @@ import DateDisplay from "@/components/Base/DateDisplay";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useRequest } from "@/composables/request";
 import { useUser } from "@/composables/user";
+import { useApi } from "@/composables/api";
 import UserCard from "@/components/User/UserCard";
+import { computed, ref } from "@vue/composition-api";
 export default {
   name: "EntityCreator",
   components: {
@@ -23,7 +25,7 @@ export default {
     DateDisplay,
   },
   props: {
-    creatorId: {
+    id: {
       type: String,
       required: true,
     },
@@ -32,47 +34,33 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
+    const creator = ref({});
+    const { datanetwork, users } = useApi();
     const { request, loading, error } = useRequest();
     const { user } = useUser();
+    request(
+      datanetwork
+        .getEdges({
+          from: props.id,
+          edgeTypes: "isCreatorOf",
+          bidirectional: true,
+        })
+        .then(({ data: { collection } }) => {
+          const creatorId = collection[0].from?.entityId;
+          return users.getByIdIfExists(creatorId);
+        })
+        .then((response) => (creator.value = response?.data ?? {}))
+    );
     return {
-      request,
+      creator,
+      computedCreatorId: computed(() => creator.value.id ?? ""),
+      creatorName: computed(() => creator.value.username ?? ""),
+      creatorImageId: computed(() => creator.value.entityIcon ?? ""),
       loading,
       error,
       user,
     };
-  },
-  data: () => ({
-    creator: null,
-  }),
-  computed: {
-    computedCreatorId() {
-      return this.creator?.id ?? "";
-    },
-    creatorName() {
-      if (this.user.id === this.computedCreatorId) {
-        return "You";
-      }
-      return this.creator?.username ?? "N/A";
-    },
-    creatorImageId() {
-      return this.creator?.entityIcon ?? "";
-    },
-    creatorExists() {
-      return !!this.creator;
-    },
-  },
-  methods: {
-    loadCreatorUser() {
-      return this.request(
-        this.$api.users
-          .getByIdIfExists(this.creatorId)
-          .then((response) => (this.creator = response?.data))
-      );
-    },
-  },
-  mounted() {
-    this.loadCreatorUser();
   },
 };
 </script>
