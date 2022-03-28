@@ -150,6 +150,18 @@
             "type": "date"
           }
         },
+        "creatorId": {
+          "type": "string",
+          "title": "Publisher",
+          "description": "The person who created this entity",
+          "examples": [
+            "user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
+          ],
+          "pattern": "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
         "entityIcon": {
           "title": "Entity icon",
           "description": "The source of the entity icon image",
