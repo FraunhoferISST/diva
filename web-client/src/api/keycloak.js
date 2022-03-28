@@ -5,9 +5,8 @@ let initOptions = {
   url: process.env.VUE_APP_KEYCLOAK_URL || "http://172.17.0.1:7000/auth",
   realm: process.env.VUE_APP_KEYCLOAK_REALM || "diva-kc-realm",
   clientId: process.env.VUE_APP_KEYCLOAK_CLIENT_ID || "diva-kc-client",
-  onLoad: "check-sso",
-  checkLoginIframe: false,
-  silentCheckSsoRedirectUri: window.location.href,
+  /*onLoad: "check-sso",
+  silentCheckSsoRedirectUri: window.location.href,*/
 };
 
 let kc = Keycloak(initOptions);
@@ -34,10 +33,16 @@ export default {
   logout: kc.logout,
   verifyToken: kc.isTokenExpired,
   init: () =>
-    kc.init({ onLoad: initOptions.onLoad }).then((authenticated) => {
-      setInterval(() => updateToken(), 60000);
-      return authenticated;
-    }),
+    kc
+      .init({
+        onLoad: "check-sso",
+        checkLoginIframe: true,
+        silentCheckSsoRedirectUri: window.location.href,
+      })
+      .then((authenticated) => {
+        setInterval(() => updateToken(), 60000);
+        return authenticated;
+      }),
   getUser,
   updateToken,
 };

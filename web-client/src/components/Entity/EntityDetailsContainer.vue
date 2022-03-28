@@ -36,12 +36,6 @@
                     <div class="entity-details-header">
                       <div>
                         <h1 class="entity-details-title">{{ title }}</h1>
-                        <!--                    <info-block-value
-                          style="opacity: 0.4"
-                          v-if="data.uniqueFingerprint"
-                        >
-                          #{{ data.uniqueFingerprint }}
-                        </info-block-value>-->
                         <div class="mt-2">
                           <v-chip
                             class="mr-2"
@@ -360,9 +354,6 @@ export default {
   word-break: break-all;
   font-family: Montserrat;
   font-size: 1.5rem !important;
-}
-.entity-details-content {
-  //padding-left: 80px;
 }
 .entity-details-divider {
   width: 100%;

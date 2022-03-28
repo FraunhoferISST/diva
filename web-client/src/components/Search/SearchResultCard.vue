@@ -1,6 +1,6 @@
 <template>
   <entity-details-link :id="doc.id" target="_blank">
-    <div class="search-card-container fill-height d-flex pa-10">
+    <div class="search-card-container fill-height d-flex py-8 pa-3 pa-md-10">
       <div class="search-card">
         <div class="search-card-header">
           <div class="search-card-icon d-flex">
@@ -41,16 +41,26 @@
           <p class="search-card-description ma-0 mt-2" v-if="doc.description">
             {{ description }}
           </p>
-          <div class="search-card-timestamps d-flex mt-3">
-            <info-block-title>Created</info-block-title>
-            <info-block-value>
-              <date-display :date="doc.created" />
-            </info-block-value>
-            <info-block-title class="ml-2">Modified</info-block-title>
-            <info-block-value>
-              <date-display :date="doc.modified" />
-            </info-block-value>
-          </div>
+          <v-container fluid class="pa-0">
+            <v-row dense>
+              <v-col cols="12" sm="3">
+                <div class="search-card-timestamps d-flex">
+                  <info-block-title>Created</info-block-title>
+                  <info-block-value>
+                    <date-display :date="doc.created" />
+                  </info-block-value>
+                </div>
+              </v-col>
+              <v-col cols="12" sm="3">
+                <div class="search-card-timestamps d-flex">
+                  <info-block-title>Modified</info-block-title>
+                  <info-block-value>
+                    <date-display :date="doc.modified" />
+                  </info-block-value>
+                </div>
+              </v-col>
+            </v-row>
+          </v-container>
         </div>
       </div>
     </div>

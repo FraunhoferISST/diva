@@ -2,7 +2,7 @@
   <data-viewer :loading="loading" :error="error">
     <user-card :user="creator || {}" dense>
       <template>
-        <span class="d-inline-block ml-2"> created at </span>
+        <span class="d-none d-sm-inline-block ml-2"> created at </span>
         <date-display :date="createdAt" />
       </template>
     </user-card>

@@ -2,7 +2,7 @@
   <nav id="navigation-main">
     <div id="navigation-main-items" class="d-flex justify-space-between">
       <div class="d-flex">
-        <router-link to="/" style="width: 70px">
+        <router-link to="/">
           <div class="diva-logo">
             <animated-diva-logo :animated="isLoading" />
           </div>
@@ -30,42 +30,6 @@
         </div>
       </div>
     </div>
-    <!--    <v-row class="fill-height" no-gutters align-content="space-between">
-      <div style="width: 100%">
-        <div class="navigation-item dotted-background"></div>
-
-        <router-link to="/">
-          <div class="diva-logo mb-5">
-            <animated-diva-logo :animated="isLoading" />
-          </div>
-        </router-link>
-
-        <router-link
-          v-for="(link, i) in links"
-          :key="i"
-          :to="link.route"
-          :title="link.text"
-          class="navigation-item"
-        >
-          <v-icon small color="white">
-            {{ link.icon }}
-          </v-icon>
-          <custom-progress-bar v-if="activeRoute.includes(link.route)" />
-        </router-link>
-      </div>
-
-      <v-spacer />
-
-      <div class="navigation-item mt-4 mb-4">
-        <div class="">
-          <user-controls
-            :id="user.id"
-            class="navigation-item user-item mt-4 mb-4"
-            v-if="isLoggedIn"
-          />
-        </div>
-      </div>
-    </v-row>-->
   </nav>
 </template>
 
@@ -177,9 +141,8 @@ export default {
 }
 
 .diva-logo {
-  margin-left: 5px;
-  margin-top: 10px;
-  padding: 5px;
+  margin: 10px 8px;
+  padding: 8px;
   width: 55px;
   height: 55px;
 }
@@ -191,5 +154,22 @@ export default {
   padding: 5px;
   opacity: 1 !important;
   //border: 1px white dashed;
+}
+
+@media screen and (max-width: 959px) {
+  #navigation-main {
+    height: 60px;
+  }
+  .navigation-item {
+    width: 50px;
+  }
+  .diva-logo {
+    width: 45px;
+    height: 45px;
+  }
+  .user-item {
+    width: 43px;
+    height: 43px;
+  }
 }
 </style>

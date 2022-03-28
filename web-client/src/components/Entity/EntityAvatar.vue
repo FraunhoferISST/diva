@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     entityAvatarPlaceholderText() {
-      return this.entityTitle[0].toLocaleUpperCase();
+      return this.entityTitle[0].toUpperCase();
     },
     imgUrl() {
       const entityType = this.entityId.slice(0, this.entityId.indexOf(":"));

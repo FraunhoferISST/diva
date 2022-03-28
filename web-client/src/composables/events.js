@@ -13,7 +13,6 @@ export function useEvents(id, userId, { onUpdate, onDelete } = {}) {
   const loading = ref(false);
 
   const handleEvent = async (eventData) => {
-    debugger;
     loading.value = true;
     const actorId = eventData?.actor.id;
     let actor = {};

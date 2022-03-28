@@ -5,9 +5,9 @@
     </navigation-overlay>
     <v-btn rounded large text icon @click="toggleOverlay">
       <entity-avatar
-        :image-id="user.entityIcon"
-        :entity-id="user.id"
-        :entity-title="user.username"
+        :image-id="user.entityIcon || ''"
+        :entity-id="user.id || ''"
+        :entity-title="user.username || ''"
       />
     </v-btn>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="search-bar-container" :class="{ interacted: interacted }">
+  <div class="search-bar-container px-3" :class="{ interacted: interacted }">
     <div
       class="search-bar-image d-flex justify-center"
       :class="{ interacted: interacted }"
