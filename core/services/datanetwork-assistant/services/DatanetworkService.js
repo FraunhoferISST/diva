@@ -1,3 +1,4 @@
+const _ = require("lodash");
 const Neo4jConnector = require("@diva/common/databases/Neo4jConnector");
 const generateUuid = require("@diva/common/generateUuid");
 const {
@@ -169,7 +170,9 @@ class DatanetworkService {
       ...properties,
       id: newEdgeId,
     })
-      .map(([key, value]) => `${key}: "${value}"`)
+      .map(([key, value]) =>
+        _.isNumber(value) ? `${key}: ${value}` : `${key}: "${value}"`
+      )
       .join(", ");
 
     const query = `MATCH (a {entityId: "${from}"}) MATCH (b {entityId: "${to}"}) MERGE (a)-[:${edgeType} {${edgeProperties}}]-(b)`;
@@ -186,7 +189,9 @@ class DatanetworkService {
         id: existingEdge.properties.id,
       })
     )
-      .map(([key, value]) => `${key}: "${value}"`)
+      .map(([key, value]) =>
+        _.isNumber(value) ? `${key}: ${value}` : `${key}: "${value}"`
+      )
       .join(", ");
 
     return executeSession(

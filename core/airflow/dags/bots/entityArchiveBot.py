@@ -13,7 +13,7 @@ default_args = {
     'retries': 0
 }
 
-with DAG('entity_archive_bot', default_args=default_args, schedule_interval='* * * * *', catchup=False) as dag:
+with DAG('entity_archive_bot', default_args=default_args, schedule_interval='* * * * *',  max_active_runs=1, catchup=False) as dag:
     profiling_args = {
         "MONGODB_URI": Variable.get("mongodb_uri"),
         "ENTITY_MANAGEMENT_URL": Variable.get("entity_management_url"),

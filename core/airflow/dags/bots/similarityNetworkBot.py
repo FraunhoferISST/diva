@@ -13,7 +13,7 @@ default_args = {
     'retries': 0
 }
 
-with DAG('similarity_network_bot', default_args=default_args, schedule_interval='* * * * *', catchup=False) as dag:
+with DAG('similarity_network_bot', default_args=default_args, schedule_interval='* * * * *', max_active_runs=1, catchup=False) as dag:
     profiling_args = {
         "MONGODB_URI": Variable.get("mongodb_uri"),
         "DATANETWORK_ASSISTANT_URL": Variable.get("datanetwork_assistant_url")

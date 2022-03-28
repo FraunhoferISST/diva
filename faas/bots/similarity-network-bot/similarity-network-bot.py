@@ -66,7 +66,7 @@ def upsert_similarity_edges(entity_id, similar_fingerprints):
         for e in res["collection"]:
             if fingerprint[1][1] == e["from"]["entityId"]:
                 exists = True
-                if str(fingerprint[0]) != e["properties"]["score"]:
+                if fingerprint[0] != e["properties"]["score"]:
                     needs_update = True
                     edge_id = e["properties"]["id"]
                 break
