@@ -7,8 +7,7 @@
     "id",
     "entityType",
     "created",
-    "modified",
-    "creatorId"
+    "modified"
   ],
   "unevaluatedProperties": false,
   "definitions": {
@@ -152,7 +151,6 @@
           }
         },
         "creatorId": {
-
           "type": "string",
           "title": "Publisher",
           "description": "The person who created this entity",

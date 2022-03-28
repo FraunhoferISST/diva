@@ -50,8 +50,7 @@
                         </div>
                         <div class="d-block d-md-flex justify-start mt-4">
                           <entity-creator
-                            v-if="data.creatorId"
-                            :creator-id="data.creatorId"
+                            :id="data.id"
                             :created-at="data.created"
                           />
                           <div
@@ -112,9 +111,7 @@
             <div
               class="entity-details-nav"
               :class="{
-                fixed:
-                  overviewContainerHeight &&
-                  scrollOffset > overviewContainerHeight,
+                fixed: scrollOffset > overviewContainerHeight,
               }"
             >
               <v-container class="fluid pa-0">
