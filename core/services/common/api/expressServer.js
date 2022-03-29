@@ -75,7 +75,7 @@ const policyRulesMiddleware = async (req, res, next) => {
     );
 
     if (data.decision === true) {
-      req.body.payload = data.payload;
+      req.policy = data.payload;
       next();
     } else {
       // TODO: maybe include payload messages into error message
