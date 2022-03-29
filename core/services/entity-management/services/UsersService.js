@@ -1,6 +1,5 @@
 const generateUuid = require("@diva/common/generateUuid");
 const EntityService = require("./EntityService");
-const UserImagesService = require("./EntityImagesService");
 
 const createUser = async (userData) => ({
   ...userData,
