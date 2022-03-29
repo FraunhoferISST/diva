@@ -39,6 +39,14 @@
   "allOf": [
     {
       "if": {
+        "properties": { "entityType": { "const": "systemEntity" } }
+      },
+      "then": {
+        "$ref": "/systemEntity"
+      }
+    },
+    {
+      "if": {
         "properties": { "entityType": { "const": "resource" } }
       },
       "then": {

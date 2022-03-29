@@ -24,6 +24,45 @@
           }
         }
       }
+    },
+    "/systemEntities/resolvedSchemas/{name}" : {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/actoridParam"
+        }
+      ],
+      "get": {
+        "tags": [
+          "systemEntities"
+        ],
+        "summary": "Get entity by id",
+        "description": "Projection can be specified with `fields` parameter",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name the schema to resolve",
+            "required": true,
+            "explode": true,
+            "allowReserved": true,
+            "schema": {
+              "type": "string",
+              "example": "entity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/EntityResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
     }
   },
   "servers": [

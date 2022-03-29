@@ -95,9 +95,11 @@ class EntityService {
       "attributedTo",
       "title",
       "entityType",
+      "systemEntityType",
       "creatorId",
       "email",
       "username",
+      "name",
     ];
   }
 

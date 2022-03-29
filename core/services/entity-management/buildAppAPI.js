@@ -4,18 +4,19 @@ const buildOpenApiSpec = require("./utils/buildOpenApiSpec");
 const usersController = require("./controllers/UsersController");
 const usersService = require("./services/UsersService");
 const systemEntitiesService = require("./services/SystemEntitiesService");
+const systemEntitiesController = require("./controllers/SystemEntityController");
 const EntityService = require("./services/EntityService");
 const { collectionsNames } = require("./utils/constants");
 const { singularizeCollectionName } = require("./utils/utils");
 const EntityController = require("./controllers/EntityController");
 const { mongoDbConnector } = require("./utils/mongoDbConnector");
 
-const ENTITY_ROOT_SCHEMA = process.env.ENTITY_ROOT_SCHEMA || "entity";
+const ENTITY_ROOT_SCHEMA = "entity";
 
 const predefinedEntities = {
   [collectionsNames.SYSTEM_ENTITY_COLLECTION_NAME]: {
     collection: collectionsNames.SYSTEM_ENTITY_COLLECTION_NAME,
-    controller: null,
+    controller: systemEntitiesController,
     service: systemEntitiesService,
   },
   [collectionsNames.RESOURCE_COLLECTION_NAME]: {
@@ -87,6 +88,11 @@ module.exports = async (server) => {
       controller.deleteImageById.bind(controller)
     );
   }
+
+  router.get(
+    `/systemEntities/resolvedSchemas/:name`,
+    systemEntitiesController.resolveSchemaByName.bind(systemEntitiesController)
+  );
 
   const openApiSpec = buildOpenApiSpec(Object.keys(predefinedEntities));
   server.initBasicMiddleware();

@@ -1,4 +1,4 @@
-const policies = require("../static/rules.json");
+const policies = require("../static/policies.js");
 
 class PoliciesRulesService {
   constructor() {

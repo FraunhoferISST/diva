@@ -27,26 +27,22 @@ const loadDefaultSystemEntities = async () => {
     .map((path) => ({
       path,
       systemEntityType: "schema",
-      contentProp: "schema",
     }));
   const policies = glob
     .sync(`${systemEntitiesPath}/policies/**/*.*`)
     .map((path) => ({
       path,
       systemEntityType: "policy",
-      contentProp: "policy",
     }));
   const rules = glob.sync(`${systemEntitiesPath}/rules/**/*.*`).map((path) => ({
     path,
     systemEntityType: "rule",
-    contentProp: "rule",
   }));
   const asyncApi = glob
     .sync(`${systemEntitiesPath}/asyncapi/**/*.*`)
     .map((path) => ({
       path,
       systemEntityType: "asyncapi",
-      contentProp: "schema",
     }));
   const entitiesPaths = [...jsonSchemas, ...policies, ...rules, ...asyncApi];
   if (entitiesPaths.length === 0) {
@@ -64,8 +60,7 @@ const loadDefaultSystemEntities = async () => {
       systemEntityType: entity.systemEntityType,
       created: new Date().toISOString(),
       modified: new Date().toISOString(),
-      [entity.systemEntityType]:
-        entity.systemEntityType === "TEST" ? JSON.parse(payload) : payload,
+      [entity.systemEntityType]: payload,
     });
   }
   return Promise.all(
@@ -100,11 +95,7 @@ class SystemEntitiesService extends EntityService {
   }
 
   async resolveSchemaByName(name) {
-    const resolvedSchema = await dereferenceSchema(
-      name,
-      this.getEntityByName.bind(this)
-    );
-    return resolvedSchema;
+    return dereferenceSchema(name, this.getEntityByName.bind(this));
   }
 }
 module.exports = new SystemEntitiesService(

@@ -8,8 +8,6 @@ module.exports = async (schemaName, resolve) =>
         order: 1,
         canRead: true,
         async read(file) {
-          const tt = path.basename(file.url);
-          console.log(tt);
           const { schema } = await resolve(path.basename(file.url), "schema");
           return schema;
         },
