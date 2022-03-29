@@ -1,0 +1,23 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+
+    "type": "object",
+    "title": "Data classification",
+    "properties": {
+        "dataClassification": {
+            "type": "string",
+            "title": "Data classification",
+            "description": "Data classification according to the predefined types",
+            "minLength": 1,
+            "enum": [
+                "Public",
+                "Internal",
+                "Confidential",
+                "Restricted"
+            ],
+            "_elasticsearch": {
+                "type": "keyword"
+            }
+        }
+    }
+}

@@ -4,6 +4,7 @@ const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
 const generateUuid = require("@diva/common/generateUuid");
 const buildAppAPI = require("./buildAppAPI");
 const serviceName = require("./package.json").name;
+require("./services/SystemEntitiesService");
 
 const serviceId = generateUuid("service");
 

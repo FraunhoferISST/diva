@@ -1,0 +1,65 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+
+    "type": "object",
+    "title": "Application PDF resource Data",
+    "allOf": [
+        {
+            "$ref": "/textCommonProperties"
+        },
+        {
+            "$ref": "/documentNumberOfPages"
+        },
+        {
+            "properties": {
+
+                "pdfDocinfoCreatorTool": {
+                    "type": "string",
+                    "title": "pdfDocinfoCreatorTool",
+                    "description": "Tool, which was used to create the pdf",
+                    "default": "",
+                    "minLength": 1,
+                    "examples": [
+                        "Chromium"
+                    ],
+                    "pattern": "^(.*)$"
+                },
+
+                "pdfDocinfoProducer": {
+                    "type": "string",
+                    "title": "pdfDocinfoProducer",
+                    "description": "Producer of the PDF File",
+                    "default": "",
+                    "minLength": 1,
+                    "examples": [
+                        "Skia/PDF m58"
+                    ],
+                    "pattern": "^(.*)$"
+                },
+
+                "pdfEncrypted": {
+                    "type": "boolean",
+                    "title": "pdfEncrypted",
+                    "description": "PDF is encrypted",
+                    "examples": [
+                        true,
+                        false
+                    ]
+                },
+
+                "pdfVersion": {
+                    "type": "string",
+                    "title": "pdfVersion",
+                    "description": "Version of the PDF compiler",
+                    "default": "",
+                    "minLength": 1,
+                    "examples": [
+                        "1.4"
+                    ],
+                    "pattern": "^(.*)$"
+                }
+                
+            }
+        }
+    ]
+}

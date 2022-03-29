@@ -1,0 +1,62 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+
+    "type": "object",
+    "title": "Captions of an Image",
+    "properties": {
+        "imageCaptions": {
+            "type": "array",
+            "minItems": 1,
+            "title": "Captions list",
+            "description": "Captions of an image",
+            "items": {
+                "type": "object",
+                "title": "Items",
+                "description": "guessed captions",
+                "required": [
+                    "index",
+                    "caption",
+                    "probability"
+                ],
+                "properties": {
+                    "index": {
+                        "type": "integer",
+                        "title": "Index",
+                        "description": "Index number of extracted caption",
+                        "minimum": 0,
+                        "examples": [
+                            0,
+                            4,
+                            6
+                        ],
+                        "_elasticsearch": {
+                            "type": "short"
+                        }
+                    },
+                    "caption": {
+                        "type": "string",
+                        "title": "Caption",
+                        "description": "Guessed caption for image",
+                        "examples": [
+                            "a man a woman standing next to each other"
+                        ]
+                    },
+                    "probability": {
+                        "type": "number",
+                        "title": "Probability",
+                        "description": "Probability of the guessed caption",
+                        "default": 0,
+                        "examples": [
+                            1,
+                            0.9724364236,
+                            0.90947
+                        ],
+                        "_elasticsearch": {
+                            "type": "float"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

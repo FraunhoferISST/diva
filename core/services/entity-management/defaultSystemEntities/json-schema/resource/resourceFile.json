@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+
+  "type": "object",
+  "title": "Generic File Resource Data",
+  "required": [
+    "uniqueFingerprint",
+    "mimeType",
+    "filename"
+  ],
+  "allOf": [
+    {
+      "$ref": "/byteSize"
+    },
+    {
+      "properties": {
+
+        "filename": {
+
+          "type": "string",
+          "title": "Filename",
+          "description": "filename of the resource",
+          "default": "",
+          "examples": [
+            "foo.txt"
+          ],
+          "pattern": "^(.*)$",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+
+        "mimeType": {
+
+          "type": "string",
+          "title": "MimeType",
+          "description": "The MIME-Type of the resource",
+          "default": "",
+          "examples": [
+            "application/pdf",
+            "image/jpg",
+            "text/plain"
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+
+        "uniqueFingerprint": {
+
+          "type": "string",
+          "title": "The SHA256 hash unique identifier",
+          "description": "The SHA256 hash of the file content that uniquely indicates a resource",
+          "default": "",
+          "examples": [
+            "3a0d32967309cbc44d377c0aa801e95bfbf50f48c103f288ce25cc1f4df30f9a"
+          ],
+          "pattern": "^[A-Fa-f0-9]{64}$",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+
+        "fileCreated": {
+
+          "type": "string",
+          "title": "fileCreated",
+          "description": "Date the file was created",
+          "default": "",
+          "minLength": 1,
+          "examples": [
+            "2018-11-08T13:55:45Z"
+          ],
+          "format": "date-time",
+          "_elasticsearch": {
+            "type": "date"
+          }
+        },
+
+        "fileModified": {
+
+          "type": "string",
+          "title": "fileModified",
+          "description": "Date the file was modified",
+          "default": "",
+          "minLength": 1,
+          "examples": [
+            "2018-11-08T13:55:45Z"
+          ],
+          "format": "date-time"
+        },
+
+        "fileLastSaveDate": {
+
+          "type": "string",
+          "title": "fileLastSaveDate",
+          "description": "Date the file was saved last time",
+          "default": "",
+          "minLength": 1,
+          "examples": [
+            "2018-11-08T13:55:45Z"
+          ],
+          "format": "date-time",
+          "_elasticsearch": {
+            "type": "date"
+          }
+        }
+        
+      }
+    },
+    {
+      "if": {
+        "properties": { "mimeType": { "const": "text/plain" } }
+      },
+      "then": {
+        "$ref": "/textCommonProperties"
+      }
+    },
+    {
+      "if": {
+        "properties": { "mimeType": { "const": "application/pdf" } }
+      },
+      "then": {
+        "$ref": "/resourceFileApplicationPdf"
+      }
+    },
+    {
+      "if": {
+        "properties": { "mimeType": { "const": "text/csv" } }
+      },
+      "then": {
+        "$ref": "/resourceFileTextCsv"
+      }
+    },
+    {
+      "if": {
+        "properties": { "mimeType": { "const": "application/x-sas-data" } }
+      },
+      "then": {
+        "$ref": "/resourceFileApplicationXSasData"
+      }
+    },
+    {
+      "if": {
+        "properties": { "mimeType": { "const": "image/jpeg" } }
+      },
+      "then": {
+        "$ref": "/resourceFileImageJpeg"
+      }
+    }
+  ]
+}

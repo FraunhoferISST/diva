@@ -3,6 +3,7 @@ const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const buildOpenApiSpec = require("./utils/buildOpenApiSpec");
 const usersController = require("./controllers/UsersController");
 const usersService = require("./services/UsersService");
+const systemEntitiesService = require("./services/SystemEntitiesService");
 const EntityService = require("./services/EntityService");
 const { collectionsNames } = require("./utils/constants");
 const { singularizeCollectionName } = require("./utils/utils");
@@ -12,6 +13,11 @@ const { mongoDbConnector } = require("./utils/mongoDbConnector");
 const ENTITY_ROOT_SCHEMA = process.env.ENTITY_ROOT_SCHEMA || "entity";
 
 const predefinedEntities = {
+  [collectionsNames.SYSTEM_ENTITY_COLLECTION_NAME]: {
+    collection: collectionsNames.SYSTEM_ENTITY_COLLECTION_NAME,
+    controller: null,
+    service: systemEntitiesService,
+  },
   [collectionsNames.RESOURCE_COLLECTION_NAME]: {
     collection: collectionsNames.RESOURCE_COLLECTION_NAME,
     controller: null,

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "jsonSchema",
+  "type": "object",
+  "title": "JSON Schema",
+  "required": [
+    "name",
+    "schema"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Schema name",
+      "description": "Unique name of the schema",
+      "examples": ["entity", "byteSize"],
+      "_elasticsearch": {
+        "enabled": false
+      }
+    },
+    "schema": {
+      "type": "object",
+      "title": "Schema definition",
+      "description": "The schema definition of a field or of a part of an entity",
+      "_elasticsearch": {
+        "enabled": false
+      }
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^schema:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    }
+  }
+}

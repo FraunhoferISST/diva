@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "systemEntity",
+  "type": "object",
+  "title": "System entity Data",
+  "required": [
+    "systemEntityType"
+  ],
+  "allOf": [
+    {
+      "properties": {
+        "systemEntityType": {
+          "type": "string",
+          "title": "System entity type Type",
+          "description": "The general type of the system entity",
+          "enum": [
+            "policy",
+            "businessRule",
+            "schema",
+            "asyncApi"
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        }
+      }
+    },
+    {
+      "$ref": "/asyncApi"
+    },
+    {
+      "$ref": "/businessRule"
+    },
+    {
+      "$ref": "/jsonSchema"
+    },
+    {
+      "$ref": "/policy"
+    }
+  ]
+}

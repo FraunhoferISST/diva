@@ -1,0 +1,171 @@
+asyncapi: 2.0.0
+info:
+  title: DIVA Kafka
+  version: '1.0.0'
+  description: |
+    The specification describes the messages flow on the DIVA Kafka instance.
+
+servers:
+  production:
+    url: localhost:{port}
+    protocol: kafka
+    description: DIVA messages broker
+    variables:
+      port:
+        default: '9200'
+
+
+defaultContentType: application/json
+
+channels:
+  entity.events:
+    description: The topic on which entity data events may be produced and consumed.
+    subscribe:
+      description: Receive information about entities data events.
+      operationId: subscribeEntityUpdate
+      message:
+        $ref: '#/components/messages/EntityEvents'
+    publish:
+      description: Publish information about entities data events.
+      operationId: publishEntityUpdate
+      message:
+        $ref: '#/components/messages/EntityEvents'
+
+components:
+  messages:
+    EntityEvents:
+      name: entityEvents
+      title: Entities events
+      summary: Inform about entities data changes.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/GenericMessageSchema'
+
+  schemas:
+    GenericMessageSchema:
+      type: object
+      additionalProperties: false
+      required:
+        - schemaId
+        - channel
+        - messageName
+        - messageId
+        - serviceName
+        - serviceId
+        - creationDate
+      properties:
+        schemaId:
+          type: string
+          description: ID of AsyncAPI specification
+          example: asyncapi-specification
+        channel:
+          type: string
+          description: Corresponding AsyncAPI specification channel
+          example: entity.events
+        messageName:
+          type: string
+          description: Corresponding AsyncAPI specification message name
+          example: entityEvents
+        messageId:
+          type: string
+          description: Random message uuid
+          example: urn:uuid:someid
+        serviceName:
+          type: string
+          description: Publischer service name
+          example: entity-management
+        serviceId:
+          type: string
+          description: Publischer service instance uuid
+          example: urn:uuid:instanceid
+        creationDate:
+          type: string
+          format: date-time
+          description: Message publish date
+        payload:
+          $ref: '#/components/schemas/GenericMessagePayload'
+
+    GenericMessagePayload:
+      type: object
+      title: Generic message paylod
+      description: Generic message paylod required attributes
+      additionalProperties: false
+      required:
+        - type
+        - actor
+        - object
+      properties:
+        type:
+          title: Operation type
+          type: string
+          description: The type of the perfomed operation that indicates specific event like entity creation or deletion
+          enum:
+            - create
+            - update
+            - delete
+            - read
+          example: update
+        actor:
+          title: Actor
+          describe: Actor that executed the operation. Can be a person or a service
+          type: object
+          additionalProperties: false
+          required:
+            - id
+          properties:
+            id:
+              $ref: "#/components/schemas/ActorId"
+        object:
+          $ref: "#/components/schemas/PayloadObject"
+        attributedTo:
+          title: Related entites
+          description: The Array contains the id's of the entities that are related or referenced by the original event. For
+            example a creation of a review may contain in this filed the id of the entity for wich this review was created
+          type: array
+          items:
+            additionalItems: false
+            type: object
+            required:
+              - object
+            additionalProperties: false
+            properties:
+              object:
+                $ref: "#/components/schemas/PayloadObject"
+        payloadId:
+          title: Payload id
+          description: The payload id that can be used to fetch futher payload data from the messages cache
+          type: string
+
+    PayloadObject:
+      title: Affected entity
+      description: The by the operation referenced entity object.
+      type: object
+      additionalProperties: true
+      required:
+      - id
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        affectedFields:
+          $ref: '#/components/schemas/AffectedFields'
+
+    AffectedFields:
+      title: Affected fields
+      description: Root fileds affected by the executed operation
+      type: array
+      items:
+        description: The array lists the modified entity attributes names
+        type: string
+
+    EntityId:
+      title: Entity id
+      description: Unique entity uuid v4 identifier
+      type: string
+      pattern: (edge|user|resource|asset|review|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      example: resource:uuid:1fbfb29b-2905-40c5-a8a4-48a5e5684180
+    ActorId:
+      title: Actor id
+      description: The id of the Actor that executed the operation
+      type: string
+      pattern: ^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      example: user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9

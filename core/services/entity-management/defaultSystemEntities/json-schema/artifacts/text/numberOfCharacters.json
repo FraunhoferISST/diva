@@ -1,0 +1,22 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+
+    "type": "object",
+    "title": "Number of Characters",
+    "properties": {
+        "numberOfCharacters": {
+            "type": "integer",
+            "title": "Number of Characters",
+            "description": "Number of characters of a text",
+            "default": 0,
+            "minimum": 0,
+            "examples": [
+                22856,
+                572557
+            ],
+            "_elasticsearch": {
+                "type": "unsigned_long"
+            }
+        }
+    }
+}

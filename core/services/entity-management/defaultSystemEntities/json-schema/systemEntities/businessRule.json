@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "businessRule",
+  "type": "object",
+  "title": "Business rule",
+  "description": "Business rule definition",
+  "required": [
+    "name",
+    "rule"
+  ],
+  "definitions": {
+    "condition": {
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cypher": {
+              "type": "object",
+              "properties": {
+                "query": {
+                  "type": "string"
+                }
+              }
+            },
+            "mongo": {
+              "type": "object",
+              "properties": {
+                "query": {
+                  "type": "string"
+                },
+                "collection": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Schema name",
+      "description": "Unique name of the schema",
+      "examples": [
+        "asyncapi",
+        "datanetwork-api"
+      ],
+      "_elasticsearch": {
+        "enabled": false
+      }
+    },
+    "rule": {
+      "type": "object",
+      "title": "Rule definition",
+      "description": "Rule definition",
+      "required": [
+        "priority",
+        "condition",
+        "actions",
+        "scope"
+      ],
+      "properties": {
+        "scope": {
+          "type": "object",
+          "title": "Rule scope",
+          "description": "Defines the event message scope to which the rule applies"
+        },
+        "priority": {
+          "type": "integer",
+          "title": "priority",
+          "description": "Priority of the rule",
+          "minimum": 0
+        },
+        "condition": {
+          "title": "Rule condition",
+          "description": "Rule condition that should be met",
+          "type": "object",
+          "properties": {
+            "and": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/condition"
+                },
+                {
+                  "title": "AND conditions",
+                  "description": "Conjunction der rule conditions"
+                }
+              ]
+            },
+            "or": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/condition"
+                },
+                {
+                  "title": "OR conditions",
+                  "description": "disjunction der rule conditions"
+                }
+              ]
+            }
+          }
+        },
+        "actions": {
+          "type": "array",
+          "title": "Rule actions",
+          "description": "Rule actions to execute. Actions are executed as HTTP requests",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "title": "Action",
+            "description": "Rule action",
+            "required": [
+              "headers",
+              "method"
+            ],
+            "properties": {
+              "headers": {
+                "title": "Request headers",
+                "description": "Headers that should be added to the action request",
+                "type": "object"
+              },
+              "body": {
+                "title": "Request body",
+                "description": "Data that should be supplied within the action request",
+                "type": "object"
+              },
+              "method": {
+                "title": "Request method",
+                "description": "Action request HTTP method",
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PATCH",
+                  "PUT"
+                ]
+              },
+              "ignoreErrors": {
+                "type": "array",
+                "title": "Ignore errors",
+                "description": "Errors that can be ignored on action execution",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "title": "Error HTTP code",
+                      "description": "Error HTTP code that can be ignored",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "_elasticsearch": {
+        "enabled": false
+      }
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^rule:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    }
+  }
+}

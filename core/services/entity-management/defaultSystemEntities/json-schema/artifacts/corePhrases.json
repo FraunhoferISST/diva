@@ -1,0 +1,49 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+
+    "type": "object",
+    "title": "Core Phrases",
+    "properties": {
+        "corePhrases": {
+            "type": "array",
+            "minItems": 0,
+            "title": "Core Phrases",
+            "description": "Extracted most important sentences using a specific algorithm or by hand",
+            "items": {
+                "type": "object",
+                "title": "Items",
+                "description": "An array element is dedicated to only one algorithm or for manual setting (None)",
+                "additionalProperties": false,
+                "required": [
+                    "algorithm",
+                    "sentences"
+                ],
+                "properties": {
+                    "algorithm": {
+                        "type": "string",
+                        "enum": [
+                            "LSA",
+                            "Luhn",
+                            "LexRank",
+                            "SumBasic",
+                            "KL",
+                            "None"
+                        ],
+                        "_elasticsearch": {
+                            "type": "keyword"
+                        }
+                    },
+                    "sentences": {
+                        "type": "array",
+                        "minItems": 0,
+                        "items":{
+                            "title": "Core phrase sentence",
+                            "description": "The sentence extracted as core phrase by the algorithm",
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

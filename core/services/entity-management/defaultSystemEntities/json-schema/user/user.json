@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "user",
+  "type": "object",
+  "title": "User Data",
+  "required": [
+    "username",
+    "email"
+  ],
+  "allOf": [
+    {
+      "properties": {
+
+        "id": {
+          "type": "string",
+          "pattern": "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+
+        "username": {
+
+          "type": "string",
+          "title": "The Username Schema",
+          "examples": [
+            "mustermann"
+          ],
+          "minLength": 1,
+          "_elasticsearch": {
+            "type": "text",
+            "analyzer": "simple"
+          }
+        },
+
+        "email": {
+
+          "type": "string",
+          "format": "email",
+          "title": "The Email Schema ",
+          "examples": [
+            "muster@mann.de"
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+
+        "password": {
+
+          "type": ["string", "null"],
+          "title": "The Password Schema ",
+          "examples": [
+            "foobarpassword123"
+          ],
+          "minLength": 4,
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+
+        "company": {
+
+          "type": "string",
+          "title": "Company Name",
+          "examples": [
+            "Example Company GmbH"
+          ],
+          "_elasticsearch": {
+            "type": "text",
+            "analyzer": "simple"
+          }
+        },
+
+        "jobTitle": {
+
+          "type": "string",
+          "title": "Job Title",
+          "examples": [
+            "Senior Software Developer"
+          ],
+          "_elasticsearch": {
+            "type": "text",
+            "analyzer": "simple"
+          }
+        },
+
+        "phoneNumber": {
+
+          "type": "string",
+          "title": "Phone Number",
+          "examples": [
+            "+49 1234 56789",
+            "0022 1111 2222 3333"
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+
+        "mobileNumber": {
+
+          "type": "string",
+          "title": "Mobile Number",
+          "examples": [
+            "+49 150 1111 2222"
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+
+        "addressLocality": {
+          "type": "string",
+          "title": "Address Locality",
+          "examples": [
+            "Dortmund",
+            "New York"
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+
+        "addressRegion": {
+          "type": "string",
+          "title": "Address Region",
+          "examples": [
+            "NRW",
+            "TX"
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+
+        "postalCode": {
+          "type": "string",
+          "title": "Postal Code",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+
+        "streetAddress": {
+          "type": "string",
+          "title": "Street Address"
+        },
+
+        "postOfficeBoxNumber": {
+          "type": "string",
+          "title": "Post Office Box Number",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        }
+        
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+
+    "type": "object",
+    "title": "Text Character Encoding",
+    "properties": {
+      "characterEncoding": {
+        "type": "string",
+        "title": "Charset",
+        "description": "The used character encoding of a text",
+        "default": "",
+        "minLength": 1,
+        "examples": [
+          "utf-8",
+          "ISO-8859-1"
+        ],
+        "pattern": "^(.*)$",
+        "_elasticsearch": {
+          "type": "keyword"
+      }
+      }
+    }
+  }
+  

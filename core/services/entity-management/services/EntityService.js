@@ -77,10 +77,12 @@ const createSearchQuery = (searchParams) =>
 
 class EntityService {
   /**
-   * @param entityType - the type of the entity, (e.g. resource, user, etc.)
+   * @param {String} entityType - the type of the entity, (e.g. resource, user, etc.)
+   * @param {String} collectionName - the name of the mongo entity collection name (e.g. entities, etc.), defaults to "entities"
    */
-  constructor(entityType) {
+  constructor(entityType, collectionName = ENTITY_COLLECTION_NAME) {
     this.entityType = entityType;
+    this.collectionName = collectionName;
     /**
      * @type {{}} - primary MongoDb entity collection (users, resources...)
      */
@@ -104,7 +106,7 @@ class EntityService {
    */
   async init() {
     await entityImagesService.init();
-    this.collection = mongoDbConnector.collections[ENTITY_COLLECTION_NAME];
+    this.collection = mongoDbConnector.collections[this.collectionName];
     this.historyCollection =
       mongoDbConnector.collections[HISTORIES_COLLECTION_NAME];
   }

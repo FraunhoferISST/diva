@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+
+  "type": "object",
+  "title": "Common Properties of most Entities",
+  "required": [
+    "title"
+  ],
+  "allOf": [
+    {
+      "properties": {
+        "title": {
+
+          "type": "string",
+          "title": "Title",
+          "description": "The title of the entity",
+          "examples": [
+            "Financial Report 2019",
+            "Data Destruction Process",
+            "Street Sign Training Data Asset"
+          ],
+          "pattern": "^(.*)$",
+          "_elasticsearch": {
+            "type": "text",
+            "analyzer": "diva_analyzer"
+          }
+        },
+        "summary": {
+
+          "type": "string",
+          "title": "Summary",
+          "description": "A brief explanation what the entity is. In contrary to the description, the summary is limited in length for a quick insight e.g. on a search page.",
+          "default": "",
+          "examples": [
+            "lorem ipsum dolor sit amet..."
+          ],
+          "minLength": 0,
+          "maxLength": 255
+        },
+        "description": {
+
+          "type": "string",
+          "title": "Description",
+          "description": "The description of the entity",
+          "default": "",
+          "examples": [
+            "lorem ipsum dolor sit amet..."
+          ],
+          "_elasticsearch": {
+            "type": "text",
+            "analyzer": "standard"
+          }
+        },
+        "keywords": {
+
+          "type": "array",
+          "title": "Keywords",
+          "description": "Keywords which tag the entity",
+          "default": [],
+          "items": {
+            "uniqueItems": true,
+            "type": "string",
+            "title": "Items",
+            "description": "A keyword",
+            "_elasticsearch": {
+              "type": "keyword"
+            }
+          }
+        },
+        "keywordsSimilarityHash": {
+          
+          "type": "string",
+          "description": "256bit Hash in Hex that is used to calculate similarity between keywords",
+          "minLength": 64,
+          "maxLength": 64,
+          "examples": [
+              "7014004300020144902045244c145a8020110209005408081520802004021b06"
+          ],
+          "_elasticsearch": {
+              "type": "keyword"
+          }
+        },
+        "ownerId": {
+
+          "type": "string",
+          "title": "Owner",
+          "description": "Owner of this entity",
+          "default": "",
+          "examples": [
+            "user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
+          ],
+          "pattern": "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+        "versionInfo": {
+
+          "type": "string",
+          "title": "Version Info",
+          "description": "A string describing the version of the entity",
+          "default": "",
+          "examples": [
+            "1.0.1",
+            "v2.0",
+            "3.0-alpha"
+          ],
+          "pattern": "^(.*)$",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+        "versionNotes": {
+
+          "type": "string",
+          "title": "Version notes",
+          "description": "A string describing the version of the entity",
+          "default": "",
+          "examples": [
+            "This is a new release with awesome features"
+          ],
+          "pattern": "^(.*)$",
+          "_elasticsearch": {
+            "type": "text",
+            "analyzer": "standard"
+          }
+        },
+        "licenses": {
+
+          "type": "array",
+          "title": "Licenses",
+          "description": "Licenses which are applied to the entity",
+          "items": {
+            "title": "Licenses information",
+            "description": "Detailed information about each license",
+
+            "type": "object",
+            "required": ["url"],
+            "properties": {
+              "url": {
+                "title": "License URL",
+                "description": "A license encoded using an URI",
+                "format": "uri",
+                "type": "string",
+                "_elasticsearch": {
+                  "type": "text"
+                }
+              },
+              "code": {
+                "title": "License code",
+                "description": "A unique license code",
+                "examples": ["dl-zero-de/2.0"],
+                "type": "string",
+                "_elasticsearch": {
+                  "type": "keyword"
+                }
+              },
+              "name": {
+                "title": "License name",
+                "description": "Descriptive license name",
+                "examples": ["Datenlizenz Deutschland – Zero – Version 2.0"],
+                "type": "string",
+                "_elasticsearch": {
+                  "type": "text"
+                }
+              },
+              "attributedByText": {
+                "title": "License attribution by",
+                "description": "License attribution authority",
+                "type": "string",
+                "_elasticsearch": {
+                  "type": "text"
+                }
+              }
+            }
+          }
+        },
+        "themes": {
+
+          "type": "array",
+          "title": "Themes",
+          "description": "Predefined themes of the entity",
+          "default": [],
+          "minItem": 0,
+          "items": {
+
+            "type": "string",
+            "enum": [
+              "Agriculture",
+              "Culture",
+              "Economy",
+              "Education",
+              "Energy",
+              "Environment",
+              "Finance",
+              "Fisheries",
+              "Health",
+              "Infrastructure",
+              "International",
+              "Justice",
+              "Population",
+              "Public Sector",
+              "Regional",
+              "Science",
+              "Society",
+              "Sports",
+              "Technology",
+              "Transport"
+            ],
+            "title": "Theme Items",
+            "description": "A theme",
+            "_elasticsearch": {
+              "type": "text"
+            }
+          }
+        },
+        "plannedAvailability": {
+
+          "type": "string",
+          "title": "Planned Availability",
+          "description": "These availability levels indicate how long the document is planned to be available",
+          "minLength": 1,
+          "enum": [
+            "Temporary",
+            "Experimental",
+            "Available",
+            "Stable"
+          ],
+          "_elasticsearch": {
+            "type": "text"
+          }
+        },
+        "politicalGeocoding": {
+
+          "type": "string",
+          "title": "Political geocoding levels",
+          "description": "For the coded specification of the respective principle management level from which the data structure was collected and set, the following six options with multiple selection are possible",
+          "enum": [
+            "International",
+            "European",
+            "Federal",
+            "State",
+            "Administrative District",
+            "Municipality"
+          ],
+          "_elasticsearch": {
+            "type": "text"
+          }
+        }
+      }
+    },
+    {
+      "$ref": "/geo"
+    },
+    {
+      "$ref": "/languages"
+    }
+  ]
+}
