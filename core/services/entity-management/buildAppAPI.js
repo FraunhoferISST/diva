@@ -4,7 +4,7 @@ const buildOpenApiSpec = require("./utils/buildOpenApiSpec");
 const usersController = require("./controllers/UsersController");
 const usersService = require("./services/UsersService");
 const EntityService = require("./services/EntityService");
-const { entities } = require("./utils/constants");
+const { collectionsNames } = require("./utils/constants");
 const { singularizeCollectionName } = require("./utils/utils");
 const EntityController = require("./controllers/EntityController");
 const { mongoDbConnector } = require("./utils/mongoDbConnector");
@@ -12,46 +12,34 @@ const { mongoDbConnector } = require("./utils/mongoDbConnector");
 const ENTITY_ROOT_SCHEMA = process.env.ENTITY_ROOT_SCHEMA || "entity";
 
 const predefinedEntities = {
-  resources: {
-    type: entities.RESOURCES.type,
-    collection: entities.RESOURCES.collection,
+  [collectionsNames.RESOURCE_COLLECTION_NAME]: {
+    collection: collectionsNames.RESOURCE_COLLECTION_NAME,
     controller: null,
     service: null,
   },
-  assets: {
-    type: entities.ASSETS.type,
-    collection: entities.ASSETS.collection,
+  [collectionsNames.ASSETS_COLLECTION_NAME]: {
+    collection: collectionsNames.ASSETS_COLLECTION_NAME,
     controller: null,
     service: null,
   },
-  users: {
-    type: entities.USERS.type,
-    collection: entities.USERS.collection,
+  [collectionsNames.USERS_COLLECTION_NAME]: {
+    collection: collectionsNames.USERS_COLLECTION_NAME,
     controller: usersController,
     service: usersService,
   },
-  policies: {
-    type: entities.POLICIES.type,
-    collection: entities.POLICIES.collection,
-    controller: null,
-    service: null,
-  },
   services: {
-    type: entities.SERVICES.type,
-    collection: entities.SERVICES.collection,
+    collection: collectionsNames.SERVICES_COLLECTION_NAME,
     controller: null,
     service: null,
   },
   reviews: {
-    type: entities.REVIEWS.type,
-    collection: entities.REVIEWS.collection,
+    collection: collectionsNames.REVIEWS_COLLECTION_NAME,
     controller: null,
     service: null,
   },
 };
 
-const createEntityService = (predefinedEntity) =>
-  new EntityService(predefinedEntity.type, predefinedEntity.collection);
+const createEntityService = (entityType) => new EntityService(entityType);
 
 const createEntityController = (service) => new EntityController(service);
 
@@ -61,29 +49,32 @@ module.exports = async (server) => {
   await jsonSchemaValidator.init([ENTITY_ROOT_SCHEMA]);
   await mongoDbConnector.connect();
 
-  for (const [pathName, entity] of Object.entries(predefinedEntities)) {
-    const service = entity.service ?? createEntityService(entity);
+  for (const entity of Object.values(predefinedEntities)) {
+    const { collection } = entity;
+    const service =
+      entity.service ??
+      createEntityService(singularizeCollectionName(collection));
     await service.init();
     const controller = entity?.controller ?? createEntityController(service);
 
-    router.get(`/${pathName}`, controller.get.bind(controller));
-    router.get(`/${pathName}/:id`, controller.getById.bind(controller));
-    router.post(`/${pathName}`, controller.create.bind(controller));
-    router.patch(`/${pathName}/:id`, controller.patchById.bind(controller));
-    router.post(`/${pathName}/:id`, controller.patchById.bind(controller));
-    router.put(`/${pathName}/:id`, controller.updateById.bind(controller));
-    router.delete(`/${pathName}/:id`, controller.deleteById.bind(controller));
+    router.get(`/${collection}`, controller.get.bind(controller));
+    router.get(`/${collection}/:id`, controller.getById.bind(controller));
+    router.post(`/${collection}`, controller.create.bind(controller));
+    router.patch(`/${collection}/:id`, controller.patchById.bind(controller));
+    router.post(`/${collection}/:id`, controller.patchById.bind(controller));
+    router.put(`/${collection}/:id`, controller.updateById.bind(controller));
+    router.delete(`/${collection}/:id`, controller.deleteById.bind(controller));
 
     router.post(
-      `/${pathName}/:id/images`,
+      `/${collection}/:id/images`,
       controller.addImage.bind(controller)
     );
     router.get(
-      `/${pathName}/:id/images/:imageId`,
+      `/${collection}/:id/images/:imageId`,
       controller.getImageById.bind(controller)
     );
     router.delete(
-      `/${pathName}/:id/images/:imageId`,
+      `/${collection}/:id/images/:imageId`,
       controller.deleteImageById.bind(controller)
     );
   }

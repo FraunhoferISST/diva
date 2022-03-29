@@ -13,7 +13,9 @@ const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const generateUuid = require("@diva/common/generateUuid");
 const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const entityImagesService = require("./EntityImagesService");
-const { collectionNames } = require("../utils/constants");
+const {
+  collectionsNames: { ENTITY_COLLECTION_NAME, HISTORIES_COLLECTION_NAME },
+} = require("../utils/constants");
 
 const ENTITY_ROOT_SCHEMA = process.env.ENTITY_ROOT_SCHEMA || "entity";
 
@@ -77,9 +79,8 @@ class EntityService {
   /**
    * @param entityType - the type of the entity, (e.g. resource, user, etc.)
    */
-  constructor(entityType, entityCollectionName) {
+  constructor(entityType) {
     this.entityType = entityType;
-    this.entityCollectionName = entityCollectionName;
     /**
      * @type {{}} - primary MongoDb entity collection (users, resources...)
      */
@@ -103,9 +104,9 @@ class EntityService {
    */
   async init() {
     await entityImagesService.init();
-    this.collection = mongoDbConnector.collections[this.entityCollectionName];
+    this.collection = mongoDbConnector.collections[ENTITY_COLLECTION_NAME];
     this.historyCollection =
-      mongoDbConnector.collections[collectionNames.HISTORIES_COLLECTION_NAME];
+      mongoDbConnector.collections[HISTORIES_COLLECTION_NAME];
   }
 
   validate(entity) {

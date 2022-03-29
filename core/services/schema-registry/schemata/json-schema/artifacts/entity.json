@@ -86,14 +86,6 @@
       }
     },
     {
-      "if": {
-        "properties": { "entityType": { "const": "policy" } }
-      },
-      "then": {
-        "$ref": "/policy"
-      }
-    },
-    {
       "properties": {
 
         "id": {
@@ -124,8 +116,7 @@
             "user",
             "review",
             "history",
-            "service",
-            "policy"
+            "service"
           ],
           "_elasticsearch": {
             "type": "keyword"
