@@ -1,11 +1,11 @@
 <template>
-  <section id="history" class="pb-12">
+  <section id="history">
     <entity-history-details
       :history-log="selectedLog"
       :show.sync="showDetails"
     />
-    <v-container fluid>
-      <reactive-data-fetcher :fetch-method="fetchInitialHistory" :id="id">
+    <v-container fluid class="pa-0">
+      <data-viewer :loading="loading" :error="error">
         <template>
           <v-container fluid class="pa-0">
             <v-row v-if="history.length > 0">
@@ -28,35 +28,47 @@
             </v-row>
           </v-container>
         </template>
-      </reactive-data-fetcher>
+      </data-viewer>
       <observer @intersect="loadNextPage" />
     </v-container>
   </section>
 </template>
 
 <script>
-import ReactiveDataFetcher from "@/components/DataFetchers/ReactiveDataFetcher";
 import HistoryCard from "@/components/Entity/EntityCommonComponents/History/HistoryCard";
 import NoDataState from "@/components/Base/NoDataState";
 import EntityHistoryDetails from "@/components/Entity/EntityCommonComponents/History/EntityHistoryDetails";
 import InfiniteScroll from "@/components/Mixins/infiniteScroll";
 import Observer from "@/components/Base/Observer";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useRequest } from "@/composables/request";
+import { useBus } from "@/composables/bus";
 
 export default {
   name: "EntityHistory",
   mixins: [InfiniteScroll],
   components: {
+    DataViewer,
     Observer,
     EntityHistoryDetails,
     NoDataState,
     HistoryCard,
-    ReactiveDataFetcher,
   },
   props: {
     id: {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    const { request, error, loading } = useRequest();
+    const { on } = useBus();
+    return {
+      request,
+      error,
+      loading,
+      on,
+    };
   },
   data: () => ({
     selectedLog: {},
@@ -67,27 +79,34 @@ export default {
   methods: {
     loadNextPage(observerState) {
       if (this.cursor) {
-        this.loadPage(observerState, this.fetchHistory()).then(
-          ({ collection, cursor }) => {
+        observerState.loading = true;
+        this.loadPage()
+          .then(({ collection, cursor }) => {
             this.history.push(...collection);
             this.cursor = cursor;
-          }
-        );
+          })
+          .catch((e) => {
+            observerState.error = true;
+            throw e;
+          })
+          .finally(() => (observerState.loading = false));
       }
     },
-    fetchInitialHistory() {
-      return this.fetchHistory().then(({ collection, cursor }) => {
-        this.history = collection;
-        this.cursor = cursor;
-      });
+    loadFirstPage() {
+      return this.request(
+        this.loadPage(null).then(({ collection, cursor }) => {
+          this.history = collection;
+          this.cursor = cursor;
+        })
+      );
     },
-    fetchHistory() {
+    loadPage(cursor = this.cursor) {
       return this.$api.history
         .getHistories({
           pageSize: 50,
           attributedTo: this.id,
           humanReadable: true,
-          ...(this.cursor ? { cursor: this.cursor } : {}),
+          ...(cursor ? { cursor } : {}),
         })
         .then(async ({ data: { collection, cursor } }) => {
           const creators = await this.$api.users.getManyById(
@@ -103,21 +122,14 @@ export default {
           };
         });
     },
-    async getCreator(historyLog) {
-      // TODO: is this case still possible?
-      if (historyLog.creatorId.startsWith("service:")) {
-        return { username: "Internal service" };
-      }
-      return (
-        await this.$api.users
-          .getByIdIfExists(historyLog.creatorId)
-          .catch(() => null)
-      )?.data;
-    },
     selectHistoryLog(log) {
       this.selectedLog = log;
       this.showDetails = true;
     },
+  },
+  mounted() {
+    this.loadFirstPage();
+    this.on("reload", this.loadFirstPage);
   },
 };
 </script>

@@ -62,7 +62,7 @@
 <script>
 import UserAvatar from "@/components/User/UserAvatar";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
-import UserDetailsEditor from "@/components/User/UserDetailsEditor";
+import UserDetailsEditor from "@/components/User/UserGeneral";
 import Card from "@/components/Base/Card";
 import LogoutButton from "@/components/Navigation/LogoutButton";
 import ReactiveDataFetcher from "@/components/DataFetchers/ReactiveDataFetcher";

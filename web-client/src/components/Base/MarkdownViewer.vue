@@ -1,5 +1,5 @@
 <template>
-  <div id="md-viewer"></div>
+  <div class="md-viewer"></div>
 </template>
 
 <script>
@@ -30,3 +30,16 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.md-viewer {
+  * {
+    font-family: $font_body;
+  }
+  .tui-editor-contents {
+    p {
+      margin-top: 0;
+      color: $font_secondary_color;
+    }
+  }
+}
+</style>

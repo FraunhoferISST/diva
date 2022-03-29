@@ -1,4 +1,6 @@
-import axios from "@/api/axios";
+import http from "@/api/http";
+
+const axios = http.axios;
 
 const getByIdIfExists = (id, query, path) =>
   axios.get(`${path}/${id}`, { params: query }).catch((e) => {

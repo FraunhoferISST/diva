@@ -9,6 +9,7 @@ import VueEllipseProgress from "vue-ellipse-progress";
 import vuetify from "./plugins/vuetify";
 import api from "@/api/index";
 import L from "leaflet";
+import VueCompositionAPI from "@vue/composition-api";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -18,6 +19,7 @@ L.Icon.Default.mergeOptions({
 });
 
 Vue.use(VueEllipseProgress);
+Vue.use(VueCompositionAPI);
 
 Vue.config.productionTip = false;
 Vue.prototype.$api = api;

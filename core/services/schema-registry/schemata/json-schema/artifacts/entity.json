@@ -7,8 +7,7 @@
     "id",
     "entityType",
     "created",
-    "modified",
-    "creatorId"
+    "modified"
   ],
   "unevaluatedProperties": false,
   "definitions": {
@@ -161,7 +160,6 @@
           }
         },
         "creatorId": {
-
           "type": "string",
           "title": "Publisher",
           "description": "The person who created this entity",
@@ -220,6 +218,38 @@
             "_elasticsearch": {
               "type": "keyword"
             }
+          }
+        },
+        "isPrivate": {
+          "type": "boolean",
+          "title": "Private"
+        },
+        "isArchived": {
+          "type": "boolean",
+          "title": "Archieved"
+        },
+        "entityToBeDeletedDate": {
+          "type": "string",
+          "title": "To be deleted date",
+          "description": "Date of when this entity should be deleted",
+          "examples": [
+            "2024-08-01T00:00:00Z"
+          ],
+          "format": "date-time",
+          "_elasticsearch": {
+            "type": "date"
+          }
+        },
+        "entityToBeArchivedDate": {
+          "type": "string",
+          "title": "To be archived date",
+          "description": "Date of when this entity should be archived",
+          "examples": [
+            "2023-08-01T00:00:00Z"
+          ],
+          "format": "date-time",
+          "_elasticsearch": {
+            "type": "date"
           }
         }
       }

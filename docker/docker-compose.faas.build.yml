@@ -22,6 +22,9 @@ services:
   text-personal-data-evaluation:
     build:
       context: ../faas/text-personal-data-evaluation
+  text-similarity-hash-generator:
+    build:
+      context: ../faas/text-similarity-hash-generator    
 
   table-data-apriori-associations-extractor:
     build:
@@ -63,3 +66,19 @@ services:
   entity-management-sink:
     build:
       context: ../faas/entity-management-sink
+
+  keywords-similarity-hash-generator:
+    build:
+      context: ../faas/keywords-similarity-hash-generator  
+
+  # DIVA Bots
+  entity-archive-bot:
+    build:
+      context: ../faas/bots/entity-archive-bot
+  entity-delete-bot:
+    build:
+      context: ../faas/bots/entity-delete-bot    
+
+  similarity-network-bot:
+    build:
+      context: ../faas/bots/similarity-network-bot 

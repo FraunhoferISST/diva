@@ -1,6 +1,6 @@
 from airflow import DAG
 from datetime import datetime, timedelta
-from diva_operator import DivaOperator
+from diva_lake_operator import DivaLakeOperator
 from airflow.models import Variable
 
 default_args = {
@@ -26,7 +26,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
     }
 
     # converter task
-    convert = DivaOperator(
+    convert = DivaLakeOperator(
         task_id='convert',
         image='ghcr.io/fraunhoferisst/diva/table-data-to-csv:1.0.0',
         api_version='auto',
@@ -40,7 +40,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
         bucket='file-lake'
     )
 
-    extract_meta = DivaOperator(
+    extract_meta = DivaLakeOperator(
         task_id='extractmeta',
         image='ghcr.io/fraunhoferisst/diva/tika-extraction:1.0.0',
         api_version='auto',
@@ -54,7 +54,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
         bucket='file-lake'
     )
 
-    transform_meta = DivaOperator(
+    transform_meta = DivaLakeOperator(
         task_id='transform_meta',
         image='ghcr.io/fraunhoferisst/diva/table-data-metadata-extractor:3.0.0',
         api_version='auto',
@@ -66,7 +66,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
         bucket='analyze'
     )
 
-    sample = DivaOperator(
+    sample = DivaLakeOperator(
         task_id='sample',
         image='ghcr.io/fraunhoferisst/diva/table-data-sample-extractor:3.0.0',
         api_version='auto',
@@ -78,7 +78,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
         bucket='analyze'
     )
 
-    stats = DivaOperator(
+    stats = DivaLakeOperator(
         task_id='stats',
         image='ghcr.io/fraunhoferisst/diva/table-data-column-statistican:3.0.0',
         api_version='auto',
@@ -90,7 +90,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
         bucket='analyze'
     )
 
-    schema = DivaOperator(
+    schema = DivaLakeOperator(
         task_id='schema',
         image='ghcr.io/fraunhoferisst/diva/table-data-schema-extractor:2.0.0',
         api_version='auto',
@@ -103,7 +103,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
     )
 
     # PATCHES
-    upload_meta = DivaOperator(
+    upload_meta = DivaLakeOperator(
         task_id='upload_meta',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
@@ -118,7 +118,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
         bucket='analyze'
     )
 
-    upload_sample = DivaOperator(
+    upload_sample = DivaLakeOperator(
         task_id='upload_sample',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
@@ -133,7 +133,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
         bucket='analyze'
     )
 
-    upload_stats = DivaOperator(
+    upload_stats = DivaLakeOperator(
         task_id='upload_stats',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
@@ -148,7 +148,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
         bucket='analyze'
     )
 
-    upload_schema = DivaOperator(
+    upload_schema = DivaLakeOperator(
         task_id='upload_schema',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',

@@ -123,7 +123,6 @@ class EntityService {
       entityType: this.entityType,
       created: new Date().toISOString(),
       modified: new Date().toISOString(),
-      creatorId: actorId,
       entityImages: null,
     });
     this.validate(newEntity);

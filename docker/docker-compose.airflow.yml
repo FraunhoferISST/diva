@@ -10,7 +10,7 @@ x-mongodb-env: &mongodb-env
 
 x-airflow-common:
   &airflow-common
-  image: ghcr.io/fraunhoferisst/diva/diva-airflow:5.0.3
+  image: ghcr.io/fraunhoferisst/diva/diva-airflow:5.1.0
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -28,6 +28,7 @@ x-airflow-common:
     AIRFLOW_CONN_MINIO: s3://${DIVA_LAKE_USERNAME}:${DIVA_LAKE_PASSWORD}@diva-lake:${DIVALAKE_PORT}?host=http://diva-lake:${DIVALAKE_PORT}
     <<: *mongodb-env
     AIRFLOW_VAR_ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
+    AIRFLOW_VAR_DATANETWORK_ASSISTANT_URL: http://datanetwork-assistant:${DATANETWORK_ASSISTANT_PORT}
   volumes:
     - ${AIRFLOW_DAGS}:/opt/airflow/dags
     - ${AIRFLOW_PLUGINS}:/opt/airflow/plugins

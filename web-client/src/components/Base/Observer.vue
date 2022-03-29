@@ -41,7 +41,7 @@ export default {
   }),
   watch: {
     id() {
-      this.satate = { loading: false, completed: false, error: false };
+      this.state = { loading: false, completed: false, error: false };
       this.destroyObserver();
       this.createObserver();
     },

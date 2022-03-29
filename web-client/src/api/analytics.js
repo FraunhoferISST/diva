@@ -1,5 +1,5 @@
-import axios from "@/api/axios";
-
+import http from "@/api/http";
+const axios = http.axios;
 export default {
   distributionOfEntities: () => axios.get("/analytics/distributionOfEntities"),
   distributionOfResourceMimeTypes: () =>

@@ -1,482 +1,67 @@
 <template>
   <section id="general">
-    <entity-base-data-fetcher :id="id">
-      <template #default="{ data, api }">
-        <v-container class="ma-0" fluid v-if="data.id">
+    <data-viewer :loading="loading" :updating="updating" :error="error">
+      <template v-if="data">
+        <v-container class="pa-0 ma-0" fluid v-if="data.id">
           <v-row>
-            <v-col cols="12">
-              <card>
-                <template slot="body">
-                  <edit-view-content
-                    class="mb-5"
-                    :initialData="{ title: data.title || '' }"
-                    :on-save="(patch) => api.patch(data.id, patch)"
-                    @saved="({ title }) => (data.title = title)"
-                  >
-                    <template #view>
-                      <general-title
-                        :title="data.title"
-                        :hash="data.uniqueFingerprint || data.id"
-                      />
-                    </template>
-                    <template #edit="{ setEditedData }">
-                      <general-title-edit
-                        :title="data.title"
-                        @update:title="setEditedData($event)"
-                      />
-                    </template>
-                  </edit-view-content>
-
-                  <edit-view-content
-                    class="mb-5"
-                    :initialData="{ keywords: data.keywords }"
-                    :on-save="(patch) => api.patch(data.id, patch)"
-                    @saved="({ keywords }) => (data.keywords = keywords)"
-                  >
-                    <general-keywords
-                      slot="view"
-                      :keywords="data.keywords || []"
-                    />
-                    <template v-slot:edit="{ setEditedData }">
-                      <general-keywords-edit
-                        :keywords="data.keywords"
-                        @update:keywords="setEditedData($event)"
-                      />
-                    </template>
-                  </edit-view-content>
-
-                  <!-- Pass some specific components here -->
-                  <slot name="general-optional" :entityType="data.entityType">
-                  </slot>
-
-                  <!-- Pass entity specific metadata here, defined in corresponding entity type component -->
-                  <slot name="general-meta" :entityType="data.entityType">
-                  </slot>
-
-                  <v-row>
-                    <v-col cols="12" sm="6" md="3" lg="3">
-                      <info-block title="Data owners">
-                        <data-owners slot="value" :id="id" />
-                      </info-block>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="3" lg="3">
-                      <info-block title="Version info">
-                        <edit-view-content
-                          slot="value"
-                          :initialData="{ versionInfo: data.versionInfo }"
-                          :on-save="(patch) => api.patch(data.id, patch)"
-                          @saved="
-                            ({ versionInfo }) =>
-                              (data.versionInfo = versionInfo)
-                          "
-                        >
-                          <general-version-info
-                            slot="view"
-                            :versionInfo="data.versionInfo || ''"
-                          />
-                          <template v-slot:edit="{ setEditedData }">
-                            <general-version-info-edit
-                              :versionInfo="data.versionInfo || ''"
-                              @update:versionInfo="setEditedData($event)"
-                            />
-                          </template>
-                        </edit-view-content>
-                      </info-block>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="3" lg="3">
-                      <info-block title="Version notes">
-                        <edit-view-content
-                          slot="value"
-                          :initialData="{ versionNotes: data.versionNotes }"
-                          :on-save="(patch) => api.patch(data.id, patch)"
-                          @saved="
-                            ({ versionNotes }) =>
-                              (data.versionNotes = versionNotes)
-                          "
-                        >
-                          <general-version-notes
-                            slot="view"
-                            :versionInfo="data.versionNotes || ''"
-                          />
-                          <template #edit="{ setEditedData }">
-                            <general-version-notes-edit
-                              :versionNotes="data.versionNotes || ''"
-                              @update:versionNotes="setEditedData($event)"
-                            />
-                          </template>
-                        </edit-view-content>
-                      </info-block>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="3" lg="3">
-                      <info-block title="Rating" :value="data.rating || 'N/A'">
-                      </info-block>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="3" lg="3">
-                      <info-block title="Planned availability level">
-                        <edit-view-content
-                          slot="value"
-                          :initialData="{
-                            plannedAvailability: data.plannedAvailability,
-                          }"
-                          :on-save="(patch) => api.patch(data.id, patch)"
-                          @saved="
-                            ({ plannedAvailability }) =>
-                              (data.plannedAvailability = plannedAvailability)
-                          "
-                        >
-                          <general-planned-availability
-                            slot="view"
-                            :planned-availability="
-                              data.plannedAvailability || ''
-                            "
-                          />
-                          <template #edit="{ setEditedData, state }">
-                            <general-planned-availability-edit
-                              :planned-availability="
-                                state.plannedAvailability || ''
-                              "
-                              @update:plannedAvailability="
-                                setEditedData($event)
-                              "
-                            />
-                          </template>
-                        </edit-view-content>
-                      </info-block>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="3" lg="3">
-                      <info-block title="Political geocoding">
-                        <edit-view-content
-                          slot="value"
-                          :initialData="{
-                            politicalGeocoding: data.politicalGeocoding,
-                          }"
-                          :on-save="(patch) => api.patch(data.id, patch)"
-                          @saved="
-                            ({ politicalGeocoding }) =>
-                              (data.politicalGeocoding = politicalGeocoding)
-                          "
-                        >
-                          <general-political-geocoding
-                            slot="view"
-                            :political-geocoding="data.politicalGeocoding || ''"
-                          />
-                          <template #edit="{ setEditedData, state }">
-                            <general-political-geocoding-edit
-                              :political-geocoding="
-                                state.politicalGeocoding || ''
-                              "
-                              @update:politicalGeocoding="setEditedData($event)"
-                            />
-                          </template>
-                        </edit-view-content>
-                      </info-block>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="3" lg="3">
-                      <info-block title="Themes">
-                        <edit-view-content
-                          slot="value"
-                          :initialData="{ themes: data.themes }"
-                          :on-save="(patch) => api.patch(data.id, patch)"
-                          @saved="({ themes }) => (data.themes = themes)"
-                        >
-                          <general-themes
-                            slot="view"
-                            :themes="data.themes || []"
-                          />
-                          <template #edit="{ setEditedData, state }">
-                            <general-themes-edit
-                              :themes="state.themes || []"
-                              @update:themes="setEditedData($event)"
-                            />
-                          </template>
-                        </edit-view-content>
-                      </info-block>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="3" lg="3">
-                      <info-block title="Languages">
-                        <edit-view-content
-                          slot="value"
-                          :initialData="{ languages: data.languages }"
-                          :on-save="(patch) => api.patch(data.id, patch)"
-                          @saved="
-                            ({ languages }) => (data.languages = languages)
-                          "
-                        >
-                          <general-languages
-                            slot="view"
-                            :languages="data.languages || []"
-                          />
-                          <template #edit="{ setEditedData, state }">
-                            <general-languages-edit
-                              :languages="state.languages || []"
-                              @update:languages="setEditedData($event)"
-                            />
-                          </template>
-                        </edit-view-content>
-                      </info-block>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="3" lg="3">
-                      <info-block title="Data classification">
-                        <template #info>
-                          <v-tooltip bottom max-width="300px">
-                            <template #activator="{ on, attrs }">
-                              <v-icon
-                                class="ml-2"
-                                small
-                                v-bind="attrs"
-                                v-on="on"
-                                color="primary"
-                              >
-                                info_outlined
-                              </v-icon>
-                            </template>
-                            <div>
-                              <p>
-                                <b>Public data</b>: This type of data is freely
-                                accessible to the public (i.e. all
-                                employees/company personnel). It can be freely
-                                used, reused, and redistributed without
-                                repercussions.
-                              </p>
-                              <p>
-                                Internal-only data: This type of data is
-                                strictly accessible to internal company
-                                personnel or internal employees.
-                              </p>
-                              <p>
-                                Confidential data: Access to confidential data
-                                requires specific authorization and/or
-                                clearance. Usually, confidential data is
-                                protected by laws like HIPAA and the PCI DSS.
-                              </p>
-                              <p>
-                                Restricted data includes data that, if
-                                compromised or accessed without authorization,
-                                which could lead to criminal charges and massive
-                                legal fines or cause irreparable damage to the
-                                company.
-                              </p>
-                            </div>
-                          </v-tooltip>
-                        </template>
-                        <edit-view-content
-                          slot="value"
-                          :initialData="{
-                            dataClassification: data.dataClassification,
-                          }"
-                          :on-save="(patch) => api.patch(data.id, patch)"
-                          @saved="
-                            ({ dataClassification }) =>
-                              (data.dataClassification = dataClassification)
-                          "
-                        >
-                          <general-data-classification
-                            slot="view"
-                            :dataClassification="data.dataClassification || ''"
-                          />
-                          <template #edit="{ setEditedData, state }">
-                            <general-data-classification-edit
-                              :dataClassification="
-                                state.dataClassification || ''
-                              "
-                              @update:dataClassification="setEditedData($event)"
-                            />
-                          </template>
-                        </edit-view-content>
-                      </info-block>
-                    </v-col>
-                  </v-row>
-                  <v-row class="mb-2" v-if="data.urbanPulseSensorId">
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="3"
-                      lg="3"
-                      v-if="data.urbanPulseSensorId"
-                    >
-                      <info-block
-                        title="Sensor Id"
-                        :value="data.urbanPulseSensorId"
-                      />
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="3"
-                      lg="3"
-                      v-if="data.urbanPulseSensorSince"
-                    >
-                      <info-block
-                        title="Since date"
-                        :value="data.urbanPulseSensorSince"
-                      />
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="3"
-                      lg="3"
-                      v-if="data.urbanPulseSensorUntil"
-                    >
-                      <info-block
-                        title="Until date"
-                        :value="data.urbanPulseSensorUntil"
-                      />
-                    </v-col>
-                  </v-row>
-                </template>
-              </card>
-            </v-col>
-            <v-col cols="12">
-              <card>
-                <template slot="body">
-                  <v-row dense>
-                    <v-col cols="12">
-                      <custom-header text="Description" />
-                    </v-col>
-                    <v-col cols="12">
-                      <edit-view-content
-                        slot="body"
-                        :initialData="{ description: data.description }"
-                        :on-save="(patch) => api.patch(data.id, patch)"
-                        @saved="
-                          ({ description }) => (data.description = description)
-                        "
-                      >
-                        <general-description
-                          slot="view"
-                          :description="data.description || ''"
-                        />
-                        <template v-slot:edit="{ setEditedData }">
-                          <general-description-edit
-                            :description="data.description || ''"
-                            @update:description="setEditedData($event)"
-                          />
-                        </template>
-                      </edit-view-content>
-                    </v-col>
-                  </v-row>
-                </template>
-              </card>
-            </v-col>
-            <v-col cols="12">
-              <card>
-                <template slot="body">
-                  <v-row dense>
-                    <v-col cols="12">
-                      <custom-header text="Licenses" />
-                    </v-col>
-                    <v-col cols="12">
-                      <general-licenses
-                        :licenses="data.licenses || []"
-                        :save-method="(patch) => api.patch(data.id, patch)"
-                      />
-                    </v-col>
-                  </v-row>
-                </template>
-              </card>
-            </v-col>
-            <v-col cols="12">
-              <card>
-                <template slot="body">
-                  <v-row dense>
-                    <v-col cols="12">
-                      <custom-header text="Location" />
-                    </v-col>
-                    <v-col cols="12">
-                      <edit-view-content
-                        :clickable-content="!!!data.location"
-                        slot="body"
-                        :initialData="{ location: data.location }"
-                        :on-save="(patch) => api.patch(data.id, patch)"
-                        @saved="({ location }) => (data.location = location)"
-                      >
-                        <general-location
-                          slot="view"
-                          :location="data.location || {}"
-                        />
-                        <template #edit="{ setEditedData }">
-                          <general-location-edit
-                            :location="data.location || {}"
-                            @update:location="setEditedData($event)"
-                          />
-                        </template>
-                      </edit-view-content>
-                    </v-col>
-                  </v-row>
-                </template>
-              </card>
+            <v-col
+              cols="12"
+              :md="attribute.fullWidth ? '12' : '4'"
+              v-for="attribute in fields"
+              :key="attribute.name"
+            >
+              <component
+                v-if="attribute.component"
+                :[attribute.name]="attribute.value"
+                :is="attribute.component"
+                :id="id"
+              />
+              <entity-field
+                v-else
+                :id="id"
+                :property="attribute.name"
+                :title="attribute.title"
+                :type="attribute.type"
+                :value.sync="attribute.value"
+                :options="attribute.options || []"
+                :allowCustom="attribute.allowCustom"
+                :multiple="attribute.multiple"
+                mutate-source
+              />
             </v-col>
           </v-row>
         </v-container>
       </template>
-    </entity-base-data-fetcher>
+    </data-viewer>
   </section>
 </template>
 
 <script>
-import GeneralTitle from "@/components/Entity/EntityCommonComponents/General/GeneralTitle/GeneralTitle";
-import Card from "@/components/Base/Card";
-import GeneralDescription from "@/components/Entity/EntityCommonComponents/General/GeneralDescription/GeneralDescription";
-import GeneralDescriptionEdit from "@/components/Entity/EntityCommonComponents/General/GeneralDescription/GeneralDescriptionEdit";
-import GeneralVersionInfo from "@/components/Entity/EntityCommonComponents/General/GeneralVersionInfo/GeneralVersionInfo";
-import GeneralVersionInfoEdit from "@/components/Entity/EntityCommonComponents/General/GeneralVersionInfo/GeneralVersionInfoEdit";
-import EditViewContent from "@/components/Containers/EditViewContent";
-import GeneralTitleEdit from "@/components/Entity/EntityCommonComponents/General/GeneralTitle/GeneralTitleEdit";
-import GeneralKeywordsEdit from "@/components/Entity/EntityCommonComponents/General/GeneralKeywords/GeneralKeywordsEdit";
-import GeneralKeywords from "@/components/Entity/EntityCommonComponents/General/GeneralKeywords/GeneralKeywords";
-import GeneralLicenses from "@/components/Entity/EntityCommonComponents/General/GeneralLicenses/GeneralLicenses";
-import EntityBaseDataFetcher from "@/components/DataFetchers/EntityBaseDataFetcher";
-import GeneralVersionNotesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralVersionNotes/GeneralVersionNotesEdit";
-import GeneralVersionNotes from "@/components/Entity/EntityCommonComponents/General/GeneralVersionNotes/GeneralVersionNotes";
-import GeneralLocation from "@/components/Entity/EntityCommonComponents/General/GeneralLocation/GeneralLocation";
-import GeneralLocationEdit from "@/components/Entity/EntityCommonComponents/General/GeneralLocation/GeneralLocationEdit";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import CustomHeader from "@/components/Base/CustomHeader";
-import GeneralThemes from "@/components/Entity/EntityCommonComponents/General/GeneralThemes/GeneralThemes";
-import GeneralThemesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralThemes/GeneralThemesEdit";
-import GeneralPoliticalGeocoding from "@/components/Entity/EntityCommonComponents/General/GeneralPoliticalGeocoding/GeneralPoliticalGeocoding";
-import GeneralPoliticalGeocodingEdit from "@/components/Entity/EntityCommonComponents/General/GeneralPoliticalGeocoding/GeneralPoliticalGeocodingEdit";
-import GeneralPlannedAvailability from "@/components/Entity/EntityCommonComponents/General/GeneralPlannedAvailability/GeneralPlannedAvailability";
-import GeneralPlannedAvailabilityEdit from "@/components/Entity/EntityCommonComponents/General/GeneralPlannedAvailability/GeneralPlannedAvailabilityEdit";
-import GeneralLanguages from "@/components/Entity/EntityCommonComponents/General/GeneralLanguages/GeneralLanguages";
-import GeneralLanguagesEdit from "@/components/Entity/EntityCommonComponents/General/GeneralLanguages/GeneralLanguagesEdit";
-import GeneralDataClassification from "@/components/Entity/EntityCommonComponents/General/GeneralDataClassification/GeneralDataClassification";
-import GeneralDataClassificationEdit from "@/components/Entity/EntityCommonComponents/General/GeneralDataClassification/GeneralDataClassificationEdit";
-import DataOwners from "@/components/Entity/EntityCommonComponents/General/GeneralDataOwners/DataOwners";
+import EntityDataViewer from "@/components/Entity/EntityDataViewer";
+import EntityField from "@/components/Entity/EntityFields/EntityField";
+import Owners from "@/components/Entity/EntityFields/Owners/Owners";
+import Licenses from "@/components/Entity/EntityFields/Licenses/Licenses";
+import Location from "@/components/Entity/EntityFields/Location/Location";
+import Languages from "@/components/Entity/EntityFields/Languages/Languages";
+import { useEntity } from "@/composables/entity";
+import { computed } from "@vue/composition-api";
+import { useBus } from "@/composables/bus";
+import DataViewer from "@/components/DataFetchers/DataViewer";
 
 export default {
   name: "EntityGeneral",
   components: {
-    DataOwners,
-    GeneralDataClassificationEdit,
-    GeneralDataClassification,
-    GeneralLanguagesEdit,
-    GeneralLanguages,
-    GeneralPlannedAvailabilityEdit,
-    GeneralPlannedAvailability,
-    GeneralPoliticalGeocodingEdit,
-    GeneralPoliticalGeocoding,
-    GeneralThemesEdit,
-    GeneralThemes,
+    DataViewer,
+    Languages,
+    Location,
+    Licenses,
+    Owners,
+    EntityField,
+    EntityDataViewer,
     CustomHeader,
     InfoBlock,
-    GeneralVersionNotes,
-    GeneralVersionNotesEdit,
-    EntityBaseDataFetcher,
-    GeneralLicenses,
-    GeneralKeywords,
-    GeneralDescription,
-    GeneralDescriptionEdit,
-    GeneralVersionInfo,
-    GeneralVersionInfoEdit,
-    Card,
-    GeneralTitle,
-    GeneralTitleEdit,
-    EditViewContent,
-    GeneralKeywordsEdit,
-    GeneralLocation,
-    GeneralLocationEdit,
   },
   props: {
     id: {
@@ -484,10 +69,162 @@ export default {
       required: true,
     },
   },
-  computed: {
-    rating() {
-      return 0;
-    },
+  setup(props) {
+    const { on } = useBus();
+    on("reload", () => {
+      reload();
+    });
+    const { load, loading, error, data, reload, updating, title } = useEntity(
+      props.id,
+      {
+        reactive: false,
+      }
+    );
+    load();
+    return {
+      reload,
+      load,
+      loading,
+      updating,
+      error,
+      data,
+      title,
+      fields: computed(() =>
+        [
+          {
+            name: "title",
+            title: "Title",
+            type: "text",
+            fallbackValue: "",
+            fullWidth: true,
+          },
+          {
+            name: "keywords",
+            title: "Keywords",
+            type: "select",
+            fallbackValue: [],
+            allowCustom: true,
+            multiple: true,
+            fullWidth: true,
+          },
+          {
+            name: "owners",
+            title: "Owners",
+            fallbackValue: [],
+            component: Owners,
+          },
+          {
+            name: "versionInfo",
+            title: "Version info",
+            fallbackValue: "",
+            type: "text",
+            fullWidth: false,
+          },
+          {
+            name: "versionNotes",
+            title: "Version notes",
+            fallbackValue: "",
+            type: "text",
+            fullWidth: false,
+          },
+          {
+            name: "themes",
+            title: "Themes",
+            type: "select",
+            fallbackValue: "",
+            options: [
+              "Agriculture",
+              "Culture",
+              "Economy",
+              "Education",
+              "Energy",
+              "Environment",
+              "Finance",
+              "Fisheries",
+              "Health",
+              "Infrastructure",
+              "International",
+              "Justice",
+              "Population",
+              "Public Sector",
+              "Regional",
+              "Science",
+              "Society",
+              "Sports",
+              "Technology",
+              "Transport",
+            ],
+            fullWidth: false,
+            multiple: true,
+          },
+          {
+            name: "languages",
+            title: "Languages",
+            fallbackValue: [],
+            component: Languages,
+            fullWidth: false,
+          },
+          {
+            name: "plannedAvailability",
+            title: "Planned Availability",
+            type: "select",
+            fallbackValue: "",
+            options: ["Temporary", "Experimental", "Available", "Stable"],
+            fullWidth: false,
+            multiple: false,
+          },
+          {
+            name: "politicalGeocoding",
+            title: "Political geocoding",
+            type: "select",
+            fallbackValue: "",
+            options: [
+              "International",
+              "European",
+              "Federal",
+              "State",
+              "Administrative District",
+              "Municipality",
+            ],
+            fullWidth: false,
+            multiple: false,
+          },
+          {
+            name: "dataClassification",
+            title: "Data classification",
+            type: "select",
+            fallbackValue: "",
+            options: ["Public", "Internal", "Confidential", "Restricted"],
+            fullWidth: false,
+            multiple: false,
+          },
+          {
+            name: "description",
+            type: "richText",
+            fallbackValue: "",
+            title: "Description",
+            fullWidth: true,
+          },
+          {
+            name: "licenses",
+            title: "Licenses",
+            component: Licenses,
+            fallbackValue: [],
+            fullWidth: true,
+          },
+          {
+            name: "location",
+            title: "Location",
+            component: Location,
+            fallbackValue: {},
+            fullWidth: true,
+          },
+        ].map((prop) => ({
+          ...prop,
+          value: data.value[prop.name] ?? prop.fallbackValue,
+        }))
+      ),
+    };
   },
 };
 </script>

@@ -1,12 +1,13 @@
 <template>
   <h2
-    v-if="text"
     class="custom-header d-flex justify-space-between"
     :class="{ inverse: inverse }"
   >
-    <span>
-      {{ text }}
-    </span>
+    <slot>
+      <span>
+        {{ text }}
+      </span>
+    </slot>
     <span>
       <slot name="info"></slot>
     </span>
@@ -19,7 +20,7 @@ export default {
   props: {
     text: {
       type: String,
-      required: true,
+      required: false,
     },
     inverse: {
       type: Boolean,
@@ -35,6 +36,7 @@ export default {
   @include font-style(1.15rem, $font_body, bold, $font_primary_color);
   margin-bottom: 0;
   // letter-spacing: 0.1rem;
+  word-break: break-all;
   &.inverse {
     color: $font_primary_color_inverse;
   }

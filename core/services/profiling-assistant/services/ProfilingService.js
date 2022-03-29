@@ -46,6 +46,15 @@ class ProfilingService {
     );
   }
 
+  async runDag(dag, body, actorId) {
+    return axiosAirflow.post(urljoin(AIRFLOW_PATH, dag, AIRFLOW_COMMAND), {
+      conf: {
+        ...body,
+        actorId,
+      },
+    });
+  }
+
   async exists(entityId) {
     const entity = await this.getEntityById(entityId);
     if (!entity) {

@@ -9,10 +9,10 @@
     </div>
     <div class="asset-entity-card-overview text-center">
       <div class="mt-0">
-        <identicon
-          :hash="entity.resourceHash || entity.id"
-          style="max-width: 40px"
-          :options="{ size: 40 }"
+        <entity-avatar
+          :entity-id="entity.id"
+          :image-id="entity.entityIcon"
+          :entity-title="entity.title || entity.username"
         />
         <div class="d-flex align-center text-truncate">
           <h4 class="asset-entity-card-title text-truncate">
@@ -38,12 +38,12 @@
 </template>
 
 <script>
-import Identicon from "@/components/Base/Identicon";
 import ColoredCard from "@/components/Base/ColoredCard";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
+import EntityAvatar from "@/components/Entity/EntityAvatar";
 export default {
   name: "RelationsSearchEntityCard",
-  components: { EntityDetailsLink, ColoredCard, Identicon },
+  components: { EntityAvatar, EntityDetailsLink, ColoredCard },
   data: () => ({
     selected: [],
   }),

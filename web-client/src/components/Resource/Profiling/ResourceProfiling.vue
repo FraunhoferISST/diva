@@ -1,9 +1,7 @@
 <template>
-  <v-container fluid>
-    <reactive-data-fetcher :id="id" :fetch-method="fetchProfilingData">
-      <component :is="profilingView" :id="id" :data="data" />
-    </reactive-data-fetcher>
-  </v-container>
+  <data-viewer :loading="loading" :updating="updating">
+    <component :is="profilingView" :id="id" :data="data" />
+  </data-viewer>
 </template>
 
 <script>
@@ -11,13 +9,16 @@ import NotSupportedType from "@/components/Resource/Profiling/Types/NotSupported
 import TabledataResourceProfiling from "@/components/Resource/Profiling/Types/TabledataResourceProfiling";
 import TextResourceProfiling from "@/components/Resource/Profiling/Types/TextProfiling/TextResourceProfiling";
 import ImageResourceProfiling from "@/components/Resource/Profiling/Types/ImageResourceProfiling";
-import ReactiveDataFetcher from "@/components/DataFetchers/ReactiveDataFetcher";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useBus } from "@/composables/bus";
+import { useEntity } from "@/composables/entity";
+import { computed } from "@vue/composition-api/dist/vue-composition-api";
 
 export default {
   name: "ResourceProfiling",
   components: {
+    DataViewer,
     NotSupportedType,
-    ReactiveDataFetcher,
     TabledataResourceProfiling,
     TextResourceProfiling,
     ImageResourceProfiling,
@@ -28,29 +29,31 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    data: {},
-    mimeTypeToComponentMap: {
+  setup(props) {
+    const mimeTypeToComponentMap = {
       "text/csv": TabledataResourceProfiling,
       "application/x-sas-data": TabledataResourceProfiling,
       "text/plain": TextResourceProfiling,
       "application/pdf": TextResourceProfiling,
       "image/jpeg": ImageResourceProfiling,
-    },
-  }),
-  computed: {
-    profilingView() {
-      return (
-        this.mimeTypeToComponentMap[this.data.mimeType] || NotSupportedType
-      );
-    },
-  },
-  methods: {
-    fetchProfilingData() {
-      return this.$api.resources
-        .getById(this.id)
-        .then(({ data }) => (this.data = data));
-    },
+    };
+    const { on } = useBus();
+    on("reload", () => {
+      reload();
+    });
+    const { data, load, loading, error, reload, updating } = useEntity(
+      props.id
+    );
+    load();
+    return {
+      data,
+      loading,
+      error,
+      updating,
+      profilingView: computed(
+        () => mimeTypeToComponentMap[data.value?.mimeType] || NotSupportedType
+      ),
+    };
   },
 };
 </script>

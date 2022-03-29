@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" md="12">
         <card class="pt-lg-16 px-lg-16">
-          <template slot="body">
+          <template #body>
             <v-row>
               <v-col cols="12">
                 <h4 class="dashboard-count-title">Entities</h4>
@@ -21,7 +21,7 @@
                 :key="entity.entityType"
               >
                 <colored-card>
-                  <template slot="body">
+                  <template #body>
                     <div class="d-flex justify-space-between">
                       <h4 class="dashboard-count-title" style="color: white">
                         {{ entity.entityType }}s

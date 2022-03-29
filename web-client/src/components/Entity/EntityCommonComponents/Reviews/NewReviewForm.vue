@@ -61,6 +61,7 @@
 
 <script>
 import FadeIn from "@/components/Transitions/FadeIn";
+import { useUser } from "@/composables/user";
 
 export default {
   name: "NewReviewForm",
@@ -76,6 +77,12 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const { user } = useUser();
+    return {
+      user,
+    };
   },
   data: () => ({
     snackbar: false,
@@ -105,7 +112,7 @@ export default {
           attributedTo: this.id,
           rating: this.rating,
           reviewText: this.review,
-          creatorId: this.$store.state.user.id,
+          creatorId: this.user.id,
         })
         .then(() => {
           setTimeout(() => {

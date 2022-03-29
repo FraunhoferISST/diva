@@ -1,57 +1,42 @@
 <template>
   <div class="comment">
-    <div class="comment-info">
-      <user-avatar :image-id="creatorImageId" :user-id="creatorId" />
-      <div>
-        <div class="comment-header">
-          <h6 class="comment-header-user">
-            <entity-details-link
-              v-if="creatorExists"
-              class="mr-1"
-              :id="review.creator.id"
-            >
-              {{ userName }}
-            </entity-details-link>
-            <span v-else>
-              {{ userName }}
-            </span>
-          </h6>
-          <div v-if="userIsAuthor">
-            <v-btn
-              v-if="!isEditMode"
-              class="mr-2"
-              icon
-              color="primary"
-              small
-              @click="enableEditMode"
-            >
-              <v-icon small> edit </v-icon>
-            </v-btn>
-            <v-btn
-              icon
-              color="error"
-              small
-              @click="showDeleteReviewConfirmationDialog"
-            >
-              <v-icon small> delete </v-icon>
-            </v-btn>
-          </div>
-        </div>
-        <div class="comment-header-details">
-          <v-rating
-            :value="review.rating"
-            hover
-            readonly
-            color="orange"
-            background-color="grey lighten-1"
-            size="14"
-            dense
-          ></v-rating>
-          <div class="comment-details-divider"></div>
+    <div class="comment-header d-flex justify-space-between align-center">
+      <user-card dense :user="review.creator">
+        <template #info>
           <div class="d-flex align-center">
+            <v-rating
+              :value="review.rating"
+              hover
+              readonly
+              color="orange"
+              background-color="grey lighten-1"
+              size="14"
+              dense
+            ></v-rating>
+            <dot-divider class="mx-3" />
             <date-display :date="review.created" />
           </div>
-        </div>
+        </template>
+      </user-card>
+      <div v-if="userIsAuthor">
+        <v-btn
+          v-if="!isEditMode"
+          class="mr-2"
+          icon
+          color="primary"
+          small
+          @click="enableEditMode"
+        >
+          <v-icon small> edit </v-icon>
+        </v-btn>
+        <v-btn
+          icon
+          color="error"
+          small
+          @click="showDeleteReviewConfirmationDialog"
+        >
+          <v-icon small> delete </v-icon>
+        </v-btn>
       </div>
     </div>
     <div class="review-content mt-3 px-2 pt-2">
@@ -102,17 +87,17 @@
 
 <script>
 import DateDisplay from "@/components/Base/DateDisplay";
-import UserAvatar from "@/components/User/UserAvatar";
-import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import ReviewForm from "./ReviewForm";
 import ConfirmationDialog from "../../../Base/ConfirmationDialog";
+import UserCard from "@/components/User/UserCard";
+import DotDivider from "@/components/Base/DotDivider";
 export default {
   name: "ReviewCard",
   components: {
+    DotDivider,
+    UserCard,
     ConfirmationDialog,
     ReviewForm,
-    EntityDetailsLink,
-    UserAvatar,
     DateDisplay,
   },
   props: {
@@ -196,31 +181,11 @@ export default {
 
 <style scoped lang="scss">
 .comment {
-  background-color: $bg_card;
-  padding: 16px;
   position: relative;
-  @include border-radius();
 }
-.comment-info {
-  display: grid;
-  grid-template-columns: 50px 1fr;
-  grid-column-gap: 16px;
-}
-.comment-header {
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-}
-.comment-header-details {
-  display: grid;
-  grid-template-columns: max-content max-content max-content;
-  grid-column-gap: 8px;
-}
-.comment-header-user {
-  @include font-style(1rem, $font_body, bold, $font_primary_color);
-}
+
 .review-content {
-  margin-left: 64px;
+  margin-left: 34px;
 }
 .comment-text {
   border: 1px #eeeeee solid;

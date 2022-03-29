@@ -3,15 +3,11 @@ const EntityService = require("./EntityService");
 const UserImagesService = require("./EntityImagesService");
 const { entities } = require("../utils/constants");
 
-const createUser = async (userData, actorId) => {
-  const id = generateUuid("user");
-  return {
-    ...userData,
-    id,
-    entityType: "user",
-    creatorId: actorId || id,
-  };
-};
+const createUser = async (userData) => ({
+  ...userData,
+  id: userData.id || generateUuid("user"),
+  entityType: "user",
+});
 
 class UsersService extends EntityService {
   async init() {

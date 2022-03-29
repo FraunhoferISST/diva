@@ -43,11 +43,20 @@
 import RouterTransition from "@/components/Transitions/RouterTransition";
 import keycloak from "@/api/keycloak";
 import LoadingStateOverlay from "@/components/Base/LoadingStateOverlay";
+import { useUser } from "@/composables/user";
 export default {
   name: "app",
   components: {
     LoadingStateOverlay,
     RouterTransition,
+  },
+  setup() {
+    const { login, error: userError, user } = useUser();
+    return {
+      login,
+      user,
+      userError,
+    };
   },
   data: () => ({
     message: "Preparing the journey",
@@ -55,34 +64,20 @@ export default {
     authenticating: true,
     error: "",
   }),
-  computed: {
-    user() {
-      return this.$store.state.user;
-    },
-  },
   methods: {
     authenticate() {
       this.loading = true;
-      this.error = "";
       this.authenticating = true;
       keycloak
         .init()
         .then(async (authenticated) => {
           if (authenticated) {
             const user = keycloak.getUser();
-            await this.$store.dispatch("login", user).catch(async (e) => {
-              if (e?.response?.data?.code === 409) {
-                const {
-                  data: { collection },
-                } = await this.$api.users.get({
-                  email: user.email,
-                });
-                const conflictingUser = collection[0];
-                await this.$api.users.delete(conflictingUser.id);
-                return this.$store.dispatch("login", user);
-              }
-              throw e;
-            });
+            await this.login(user);
+            if (this.userError) {
+              console.error(this.userError);
+              throw this.userError;
+            }
             if (this.$route.name === "login") {
               this.$router.push("/");
             }
@@ -117,7 +112,7 @@ export default {
   "styles/tabs", "styles/date-picker";
 html {
   font-size: 14px !important;
-  overflow-y: auto !important;
+  //overflow-y: auto !important;
 }
 
 #app {
@@ -128,7 +123,6 @@ html {
   font-family: Quicksand;
   color: $font_secondary_color;
   font-weight: bold;
-  min-width: 768px;
 }
 body {
   font-family: $font_body;

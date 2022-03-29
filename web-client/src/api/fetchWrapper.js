@@ -1,4 +1,4 @@
-let endpoint = process.env.VUE_APP_API_GATEWAY_URL || "http://localhost:8000";
+const endpoint = process.env.VUE_APP_API_GATEWAY_URL || "http://localhost:8000";
 const JWTToken = localStorage.getItem("jwt");
 
 export default {
@@ -17,7 +17,7 @@ export default {
       body: JSON.stringify(data),
     });
   },
-  setAuthHeader(token) {
+  setAuthorizationHeader(token = "") {
     this.headers.Authorization = `Bearer ${token}`;
   },
 };

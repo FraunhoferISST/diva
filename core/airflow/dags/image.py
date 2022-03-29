@@ -1,6 +1,6 @@
 from airflow import DAG
 from datetime import datetime, timedelta
-from diva_operator import DivaOperator
+from diva_lake_operator import DivaLakeOperator
 from airflow.models import Variable
 
 default_args = {
@@ -24,7 +24,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
         "MONGODB_URI": Variable.get("mongodb_uri")
     }
 
-    captions = DivaOperator(
+    captions = DivaLakeOperator(
         task_id='captions',
         image='ghcr.io/fraunhoferisst/diva/image-caption-generator:2.0.0',
         api_version='auto',
@@ -39,7 +39,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
         bucket='file-lake'
     )
 
-    object_detection = DivaOperator(
+    object_detection = DivaLakeOperator(
         task_id='object_detection',
         image='ghcr.io/fraunhoferisst/diva/image-object-detection:2.0.0',
         api_version='auto',
@@ -54,7 +54,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
         bucket='file-lake'
     )
 
-    metadata = DivaOperator(
+    metadata = DivaLakeOperator(
         task_id='metadata',
         image='ghcr.io/fraunhoferisst/diva/image-metadata-extractor:2.0.0',
         api_version='auto',
@@ -65,7 +65,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
         bucket='file-lake'
     )
 
-    sample = DivaOperator(
+    sample = DivaLakeOperator(
         task_id='sample',
         image='ghcr.io/fraunhoferisst/diva/image-sample-extractor:3.0.0',
         api_version='auto',
@@ -76,7 +76,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
         bucket='file-lake'
     )
 
-    text_extractor = DivaOperator(
+    text_extractor = DivaLakeOperator(
         task_id='text_extractor',
         image='ghcr.io/fraunhoferisst/diva/image-text-extractor:3.0.0',
         api_version='auto',
@@ -88,7 +88,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
     )
 
     # PATCHES
-    upload_metadata = DivaOperator(
+    upload_metadata = DivaLakeOperator(
         task_id='upload_metadata',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
@@ -103,7 +103,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
         bucket='analyze'
     )
 
-    upload_object = DivaOperator(
+    upload_object = DivaLakeOperator(
         task_id='upload_object',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
@@ -118,7 +118,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
         bucket='analyze'
     )
 
-    upload_captions = DivaOperator(
+    upload_captions = DivaLakeOperator(
         task_id='upload_captions',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
@@ -133,7 +133,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
         bucket='analyze'
     )
 
-    upload_sample = DivaOperator(
+    upload_sample = DivaLakeOperator(
         task_id='upload_sample',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',
@@ -148,7 +148,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
         bucket='analyze'
     )
 
-    upload_text = DivaOperator(
+    upload_text = DivaLakeOperator(
         task_id='upload_text',
         image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
         api_version='auto',

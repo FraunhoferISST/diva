@@ -1,6 +1,6 @@
 <template>
   <div class="average-rating-container">
-    <reactive-data-fetcher :id="id" :fetch-method="fetchRating">
+    <data-viewer :loading="loading" :error="error">
       <template>
         <v-row>
           <v-col class="justify-center d-flex py-4" cols="12">
@@ -17,7 +17,7 @@
               line-mode="in 5"
               :determinate="loading"
             >
-              <template v-slot:legend-caption>
+              <template #legend-caption>
                 <v-rating
                   v-model="formattedRating"
                   hover
@@ -36,22 +36,24 @@
           </v-col>
         </v-row>
       </template>
-    </reactive-data-fetcher>
+    </data-viewer>
     <slot></slot>
   </div>
 </template>
 
 <script>
 import SubHeader from "@/components/Base/SubHeader";
-import ReactiveDataFetcher from "@/components/DataFetchers/ReactiveDataFetcher";
 import { wait } from "@/utils/utils";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useRequest } from "@/composables/request";
+import { useUser } from "@/composables/user";
 
 const waveColor = "#004aef";
 
 export default {
   name: "RatingOverview",
   components: {
-    ReactiveDataFetcher,
+    DataViewer,
     SubHeader,
   },
   props: {
@@ -64,10 +66,19 @@ export default {
       default: 0,
     },
   },
+  setup() {
+    const { request, loading, error } = useRequest();
+    const { user } = useUser();
+    return {
+      request,
+      loading,
+      error,
+      user,
+    };
+  },
   data: () => ({
     averageRating: 0,
     initialized: false,
-    loading: false,
     emptyColorFill: {
       radial: true,
       colors: [
@@ -112,19 +123,21 @@ export default {
   },
   methods: {
     async fetchRating() {
-      this.loading = true;
       if (this.initialized) {
         await wait(2000);
       }
-      return this.$api.analytics
-        .averageRating(this.id)
-        .then((response) => (this.averageRating = response?.data))
-        .catch(() => null)
-        .finally(() => {
-          this.loading = false;
-          this.initialized = true;
-        });
+      return this.request(
+        this.$api.analytics
+          .averageRating(this.id)
+          .then((response) => (this.averageRating = response?.data))
+          .finally(() => {
+            this.initialized = true;
+          })
+      );
     },
+  },
+  mounted() {
+    this.fetchRating();
   },
 };
 </script>

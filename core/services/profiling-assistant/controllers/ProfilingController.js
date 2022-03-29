@@ -13,6 +13,21 @@ class ProfilingController {
     }
   }
 
+  async runDag(req, res, next) {
+    try {
+      const { dag } = req.params;
+      const { body } = req;
+      const result = await profilingService.runDag(
+        dag,
+        body,
+        req.headers["x-actorid"]
+      );
+      res.status(200).json(result.data);
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async existProfiling(req, res, next) {
     try {
       const result = await profilingService.exists(req.body.entityId);

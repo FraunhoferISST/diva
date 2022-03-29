@@ -1,3 +1,4 @@
+const _ = require("lodash");
 const Neo4jConnector = require("@diva/common/databases/Neo4jConnector");
 const generateUuid = require("@diva/common/generateUuid");
 const {
@@ -27,6 +28,31 @@ const createConstraints = async (
     })
   );
   return Promise.all(constraints);
+};
+
+const cleanUpProperties = (properties) => {
+  let cleanProperties = {};
+  for (const [k, v] of Object.entries(properties)) {
+    if (v !== null && v !== undefined)
+      if (!Array.isArray(v) && typeof v === "object") {
+        if (Object.keys(v).length > 0) {
+          cleanProperties = {
+            ...cleanProperties,
+            ...(Object.keys(cleanUpProperties(v)).length > 0
+              ? { [k]: cleanUpProperties(v) }
+              : {}),
+          };
+        }
+      } else if (Array.isArray(v)) {
+        const cleanArray = v.filter((elem) => elem);
+        if (cleanArray.length > 0) {
+          cleanProperties[k] = cleanArray;
+        }
+      } else {
+        cleanProperties[k] = v;
+      }
+  }
+  return cleanProperties;
 };
 
 class DatanetworkService {
@@ -91,17 +117,20 @@ class DatanetworkService {
       return {
         ...fromAndToEntities,
         edgeType: record._fields[records[0]._fieldLookup.r].type,
-        id: record._fields[records[0]._fieldLookup.r].properties.id,
+        properties: {
+          ...record._fields[records[0]._fieldLookup.r].properties,
+        },
       };
     }
     throw edgeNotFoundError;
   }
 
-  async getEdges({ from, edgeTypes }, bidirectional = false) {
+  async getEdges({ from, edgeTypes, to = null }, bidirectional = false) {
     const relationshipTypes = edgeTypes ? `r:${edgeTypes.join("|")}` : "r";
     const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
+    const toNode = `m ${to ? `{ entityId: '${to}' }` : ""}`;
     return executeSession(
-      `MATCH (n {entityId: '${from}'}) ${relationship} (m) RETURN startNode(r) as from, r, endNode(r) as to`
+      `MATCH (n {entityId: '${from}'}) ${relationship} (${toNode}) RETURN startNode(r) as from, r, endNode(r) as to`
     ).then(({ records }) => ({
       collection:
         records?.map(({ _fields }) => ({
@@ -109,7 +138,9 @@ class DatanetworkService {
           from: _fields[0].properties,
           to: _fields[2].properties,
           edgeType: _fields[1].type,
-          id: _fields[1].properties.id,
+          properties: {
+            ..._fields[1].properties,
+          },
         })) ?? [],
       total: 0,
       cursor: "",
@@ -123,7 +154,7 @@ class DatanetworkService {
     return records.length > 0;
   }
 
-  async createEdge({ from, to, edgeType }) {
+  async createEdge({ from, to, edgeType, properties = {} }) {
     if (await this.edgeExists(from, to, edgeType)) {
       throw edgeAlreadyExistsError;
     }
@@ -135,10 +166,37 @@ class DatanetworkService {
       throw nodeNotFoundError;
     }
     const newEdgeId = generateUuid("edge");
-    await executeSession(
-      `MATCH (a {entityId: '${from}'}) MATCH (b {entityId: '${to}'}) MERGE(a)-[:${edgeType} {id: "${newEdgeId}"}]-(b)`
-    );
+    const edgeProperties = Object.entries({
+      ...properties,
+      id: newEdgeId,
+    })
+      .map(([key, value]) =>
+        _.isNumber(value) ? `${key}: ${value}` : `${key}: "${value}"`
+      )
+      .join(", ");
+
+    const query = `MATCH (a {entityId: "${from}"}) MATCH (b {entityId: "${to}"}) MERGE (a)-[:${edgeType} {${edgeProperties}}]-(b)`;
+    await executeSession(query);
     return newEdgeId;
+  }
+
+  async patchEdgeById(id, patch) {
+    const existingEdge = await this.getEdgeById(id);
+    const edgeProperties = Object.entries(
+      cleanUpProperties({
+        ...existingEdge.properties,
+        ...patch,
+        id: existingEdge.properties.id,
+      })
+    )
+      .map(([key, value]) =>
+        _.isNumber(value) ? `${key}: ${value}` : `${key}: "${value}"`
+      )
+      .join(", ");
+
+    return executeSession(
+      `MATCH ()-[r {id: "${id}"}]-() SET r = {${edgeProperties}}`
+    );
   }
 
   async deleteEdgeById(id) {

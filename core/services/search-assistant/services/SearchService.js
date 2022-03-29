@@ -3,21 +3,43 @@ const { decodeCursor, encodeCursor } = require("@diva/common/api/cursor");
 
 const ElasticsearchConnector = require("@diva/common/databases/ElasticsearchConnector");
 
-const buildESQuery = (query = "") =>
-  esb
+const buildESQuery = (query, rest, facetOperator) => {
+  const queries = [];
+
+  for (const [key, value] of Object.entries(rest)) {
+    const values = value.split(",");
+    const level2queries = [];
+    values.forEach((v) => {
+      level2queries.push(esb.termQuery(key, v));
+    });
+
+    queries.push(esb.boolQuery().should(level2queries));
+  }
+
+  return esb
     .boolQuery()
-    .must(
+    .must([
       esb
         .multiMatchQuery(
           ["title^4", "keywords^3", "description^2", "*^1"],
           query
         )
         .fuzziness("AUTO")
-        .zeroTermsQuery("all")
-    );
-/* .mustNot(esb.termQuery("entityType", "user"))
-    .mustNot(esb.termQuery("entityType", "review")); */
+        .zeroTermsQuery("all"),
+      esb.boolQuery()[facetOperator](queries),
+    ]);
+};
 
+const buildFacetsAggregation = (facets) => {
+  let facetsAggs = {};
+  facets.forEach((f) => {
+    facetsAggs = {
+      ...facetsAggs,
+      ...esb.termsAggregation(f, f).order("_count", "desc").size(20).toJSON(),
+    };
+  });
+  return facetsAggs;
+};
 class SearchService {
   async init() {
     this.esConnector = new ElasticsearchConnector();
@@ -25,7 +47,14 @@ class SearchService {
   }
 
   async searchAll(queryData) {
-    const { cursor, pageSize = 30, q = "" } = queryData;
+    const {
+      cursor,
+      pageSize = 30,
+      q = "",
+      facets = "",
+      facetOperator = "must",
+      ...rest
+    } = queryData;
     let query = q;
     let from = 0;
     const size = parseInt(pageSize, 10);
@@ -37,7 +66,7 @@ class SearchService {
         throw new Error(`🛑 Invalid cursor "${cursor}" provided`);
       }
     }
-    const esQuery = buildESQuery(query);
+    const esQuery = buildESQuery(query, rest, facetOperator);
 
     const searchRequestBody = esb
       .requestBodySearch()
@@ -50,6 +79,11 @@ class SearchService {
 
     searchRequestBody.from = from;
     searchRequestBody.size = size;
+    if (facets !== "") {
+      searchRequestBody.aggregations = buildFacetsAggregation(
+        facets.split(",")
+      );
+    }
 
     const { body } = await this.esConnector.client.search({
       index: "entities",
@@ -70,8 +104,11 @@ class SearchService {
       highlight: doc.highlight,
     }));
 
+    const facetsResult = body.aggregations;
+
     return {
       collection: result,
+      facets: facetsResult,
       cursor:
         total - from > pageSize
           ? encodeCursor(
