@@ -3,7 +3,9 @@ const glob = require("glob");
 const fs = require("fs");
 const { logger: log } = require("@diva/common/logger");
 const generateUuid = require("@diva/common/generateUuid");
+const { entityNotFoundError } = require("@diva/common/Error");
 const { mongoDbConnector } = require("../utils/mongoDbConnector");
+const dereferenceSchema = require("../utils/dereferenceSchema");
 const EntityService = require("./EntityService");
 const {
   collectionsNames: { SYSTEM_ENTITY_COLLECTION_NAME },
@@ -84,6 +86,25 @@ class SystemEntitiesService extends EntityService {
   async init() {
     await loadDefaultSystemEntities();
     return super.init();
+  }
+
+  async getEntityByName(name, systemEntityType) {
+    const systemEntity = await this.collection.findOne({
+      name,
+      ...(systemEntityType ? { systemEntityType } : {}),
+    });
+    if (systemEntity) {
+      return this.sanitizeEntity(systemEntity);
+    }
+    throw entityNotFoundError;
+  }
+
+  async resolveSchemaByName(name) {
+    const resolvedSchema = await dereferenceSchema(
+      name,
+      this.getEntityByName.bind(this)
+    );
+    return resolvedSchema;
   }
 }
 module.exports = new SystemEntitiesService(

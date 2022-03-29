@@ -15,9 +15,9 @@
           "description": "The general type of the system entity",
           "enum": [
             "policy",
-            "businessRule",
+            "rule",
             "schema",
-            "asyncApi"
+            "asyncapi"
           ],
           "_elasticsearch": {
             "type": "keyword"

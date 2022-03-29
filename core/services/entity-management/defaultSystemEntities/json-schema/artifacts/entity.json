@@ -42,7 +42,7 @@
         "properties": { "entityType": { "const": "systemEntity" } }
       },
       "then": {
-        "$ref": "/resource"
+        "$ref": "/systemEntity"
       }
     },
     {

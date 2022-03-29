@@ -52,8 +52,11 @@ const createEntityController = (service) => new EntityController(service);
 module.exports = async (server) => {
   const router = express.Router();
 
-  await jsonSchemaValidator.init([ENTITY_ROOT_SCHEMA]);
   await mongoDbConnector.connect();
+  await systemEntitiesService.init();
+  await jsonSchemaValidator.init([
+    await systemEntitiesService.resolveSchemaByName(ENTITY_ROOT_SCHEMA),
+  ]);
 
   for (const entity of Object.values(predefinedEntities)) {
     const { collection } = entity;
