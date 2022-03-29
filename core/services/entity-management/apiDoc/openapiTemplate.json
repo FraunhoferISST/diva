@@ -229,7 +229,7 @@
         "description": "Unique entity identifier",
         "type": "string",
         "example": "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189",
-        "pattern": "(resource|user|asset|service|review|asyncapi):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        "pattern": "(resource|user|asset|service|review|asyncapi|schema|rule|policy):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
       },
       "ImageId": {
         "title": "Image id",

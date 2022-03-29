@@ -26,16 +26,56 @@
       }
     },
     {
-      "$ref": "/asyncApi"
+      "if": {
+        "required": ["systemEntityType"],
+        "properties": {
+          "systemEntityType": {
+            "const": "asyncapi"
+          }
+        }
+      },
+      "then": {
+        "$ref": "/asyncApi"
+      }
     },
     {
-      "$ref": "/businessRule"
+      "if": {
+        "required": ["systemEntityType"],
+        "properties": {
+          "systemEntityType": {
+            "const": "schema"
+          }
+        }
+      },
+      "then": {
+        "$ref": "/jsonSchema"
+      }
     },
     {
-      "$ref": "/jsonSchema"
+      "if": {
+        "required": ["systemEntityType"],
+        "properties": {
+          "systemEntityType": {
+            "const": "rule"
+          }
+        }
+      },
+      "then": {
+        "$ref": "/businessRule"
+      }
     },
     {
-      "$ref": "/policy"
+      "if": {
+        "required": ["systemEntityType"],
+        "properties": {
+          "systemEntityType": {
+            "const": "policy"
+          }
+        }
+      },
+      "then": {
+        "$ref": "/policy"
+      }
     }
   ]
 }

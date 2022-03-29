@@ -42,7 +42,7 @@ const loadDefaultSystemEntities = async () => {
     .sync(`${systemEntitiesPath}/asyncapi/**/*.*`)
     .map((path) => ({
       path,
-      systemEntityType: "asyncapi",
+      systemEntityType: "schema",
     }));
   const entitiesPaths = [...jsonSchemas, ...policies, ...rules, ...asyncApi];
   if (entitiesPaths.length === 0) {
@@ -81,6 +81,40 @@ class SystemEntitiesService extends EntityService {
   async init() {
     await loadDefaultSystemEntities();
     return super.init();
+  }
+
+  async create(systemEntity, actorId) {
+    if (systemEntity.systemEntityType === "schema") {
+      const { id: rootSchemaId, schema } = await this.getRootSchema();
+      const parsedRootSchema = JSON.parse(schema);
+      parsedRootSchema.allOf.push({
+        if: {
+          required: [systemEntity.scope.key],
+          properties: {
+            [systemEntity.scope.key]: { const: [systemEntity.scope.value] },
+          },
+        },
+        then: {
+          $ref: `${systemEntity.name}`,
+        },
+      });
+      const { id, delta } = await super.create(systemEntity, actorId);
+      await this.updateById(
+        rootSchemaId,
+        { schema: JSON.stringify(parsedRootSchema) },
+        actorId
+      ).catch(async (e) => {
+        await this.deleteById(id);
+        throw e;
+      });
+      return { id, delta };
+    }
+    const { id, delta } = await super.create(systemEntity, actorId);
+    return { id, delta };
+  }
+
+  getRootSchema() {
+    return this.getEntityByName("entity", "schema");
   }
 
   async getEntityByName(name, systemEntityType) {
