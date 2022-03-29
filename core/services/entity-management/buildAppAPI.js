@@ -91,6 +91,7 @@ module.exports = async (server) => {
   const openApiSpec = buildOpenApiSpec(Object.keys(predefinedEntities));
   server.initBasicMiddleware();
   server.addOpenApiValidatorMiddleware(openApiSpec);
+  server.addPolicyValidatorMiddleware();
   server.addMiddleware((req, res, next) => {
     if (req.files) {
       req.file = req.files[0];

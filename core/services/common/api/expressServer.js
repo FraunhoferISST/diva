@@ -4,7 +4,7 @@ const path = require("path");
 const axios = require("axios");
 const urljoin = require("url-join");
 const OpenApiValidator = require("express-openapi-validator");
-const { logger: log, httpLogger, httpErrorLoger } = require("../logger");
+const { logger: log, httpLogger, httpErrorLogger } = require("../logger");
 
 let WORK_DIR = process.cwd();
 const NODE_ENV = process.env.NODE_ENV || "development";
@@ -35,6 +35,7 @@ const {
   isCustomError,
   isOpenAPISpecValidationError,
   createOpenAPIValidationError,
+  policyForbiddenError,
 } = require("../Error");
 
 const errorHandler = (err, _req, res, next) => {
@@ -55,29 +56,33 @@ const policyRulesMiddleware = async (req, res, next) => {
   const BUSINESS_DECISION_POINT_URL =
     process.env.BUSINESS_DECISION_POINT_URL || "http://localhost:3001/";
 
-  const { data } = await axios
-    .post(urljoin(BUSINESS_DECISION_POINT_URL, "enforcePolicies"), {
-      serviceName: SERVICE_NAME,
-      method: req.method,
-      actorid: req.headers["x-actorid"],
-      url: req.url,
-      body: req.body,
-    })
-    .catch((error) => {
-      console.error(error);
-      return {
-        data: {
-          decision: false,
-          metadata: { error: "internal server error" },
-        },
-      };
-    });
+  req.headers.serviceName = SERVICE_NAME;
 
-  if (data.decision === true) {
-    req.body.metadata = data.metadata;
-    next();
-  } else {
-    res.status(403).send("Forbidden");
+  try {
+    const { data } = await axios.post(
+      urljoin(BUSINESS_DECISION_POINT_URL, "enforcePolicies"),
+      {
+        headers: req.headers,
+        body: req.body,
+        method: req.method,
+        path: req.path,
+      },
+      {
+        headers: {
+          "x-actorid": req.headers["x-actorid"],
+        },
+      }
+    );
+
+    if (data.decision === true) {
+      req.body.payload = data.payload;
+      next();
+    } else {
+      // TODO: maybe include payload messages into error message
+      throw policyForbiddenError;
+    }
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -96,9 +101,6 @@ class Server {
     this.app.use((req, res, next) =>
       httpLogger(hideReqCredentials(req), res, next)
     );
-    if (SERVICE_NAME !== "business-decision-point") {
-      this.app.use(policyRulesMiddleware);
-    }
   }
 
   addMiddleware(...args) {
@@ -108,7 +110,7 @@ class Server {
   addErrorLoggingMiddleware() {
     log.info(`✅ Setting up API error logging middleware`);
     this.addMiddleware((err, req, res, next) =>
-      httpErrorLoger(err, hideReqCredentials(req), res, next)
+      httpErrorLogger(err, hideReqCredentials(req), res, next)
     );
   }
 
@@ -124,6 +126,11 @@ class Server {
     if (NODE_ENV === "development") {
       this.addMiddleware("/api", (req, res) => res.json(apiSpec));
     }
+  }
+
+  addPolicyValidatorMiddleware() {
+    log.info(`✅ Setting up Policy validation middleware`);
+    this.addMiddleware(policyRulesMiddleware);
   }
 
   async boot() {

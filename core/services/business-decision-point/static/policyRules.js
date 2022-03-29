@@ -2,73 +2,88 @@ module.exports = [
   {
     title: "Creator of resource can perform GET",
     priority: 1,
-    methods: ["GET"],
-    scope: ["resource-management::resources/*"],
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/resources/resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      method: "GET",
+    },
     condition: {
       and: [
         {
           cypher: {
             query:
-              "MATCH (r:resource {entityId:'{{entityid}}'})<-[e:isCreatorOf]-(:user {entityId:'{{actorid}}'}) RETURN (count(e)>0) as ruleMet",
+              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})<-[e:isCreatorOf]-(:user {entityId:'{{headers[\"x-actorid\"]}}'}) RETURN (count(e)>0) as ruleMet",
           },
         },
       ],
     },
-    actions: [],
-    excludes: ["A", "B", "C"],
+    excludes: [],
   },
   {
     title: "Owner of resource can perform GET",
     priority: 1,
-    methods: ["GET"],
-    scope: ["resource-management::resources/*"],
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/resources/resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      method: "GET",
+    },
     condition: {
       and: [
         {
           cypher: {
             query:
-              "MATCH (r:resource {entityId:'{{entityid}}'})<-[e:isOwnerOf]-(:user {entityId:'{{actorid}}'}) RETURN (count(e)>0) as ruleMet",
+              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})<-[e:isOwnerOf]-(:user {entityId:'{{headers[\"x-actorid\"]}}'}) RETURN (count(e)>0) as ruleMet",
           },
         },
       ],
     },
-    actions: [],
-    excludes: ["B"],
-  },
-  {
-    title: "User can GET resource if both entities are part of asset",
-    priority: 3,
-    methods: ["GET"],
-    scope: ["resource-management::resources/*"],
-    condition: {
-      and: [
-        {
-          cypher: {
-            query:
-              "MATCH (r:resource {entityId:'{{entityid}}'})-[:isPartOf]->(a:asset)<-[:isCreatorOf]-(:user {entityId:'{{actorid}}'}) RETURN (count(a)>0) as ruleMet",
-          },
-        },
-      ],
-    },
-    actions: [],
-    excludes: ["!C"],
+    excludes: [],
   },
   {
     title: "User can GET resource if both entities are part of asset",
     priority: 1,
-    methods: ["GET"],
-    scope: ["resource-management::resources/*"],
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/resources/resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      method: "GET",
+    },
     condition: {
       and: [
         {
           cypher: {
             query:
-              "MATCH (r:resource {entityId:'{{entityid}}'})-[:isPartOf]->(a:asset)<-[:isPartOf]-(:user {entityId:'{{actorid}}'}) RETURN (count(a)>0) as ruleMet",
+              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})-[:isPartOf]->(a:asset)<-[:isPartOf]-(:user {entityId:'{{headers[\"x-actorid\"]}}'}) RETURN (count(a)>0) as ruleMet",
           },
         },
       ],
     },
-    actions: [],
-    excludes: ["D"],
+    excludes: [],
+  },
+  {
+    title: "Creator of resource can perform PATCH",
+    priority: 1,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/resources/resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      method: "PATCH",
+    },
+    condition: {
+      and: [
+        {
+          cypher: {
+            query:
+              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})<-[e:isCreatorOf]-(:user {entityId:'{{headers[\"x-actorid\"]}}'}) RETURN (count(e)>0) as ruleMet",
+          },
+        },
+      ],
+    },
+    excludes: [
+      "entityType",
+      "resourceType",
+      "id",
+      "created",
+      "modified",
+      "creatorId",
+    ],
   },
 ];

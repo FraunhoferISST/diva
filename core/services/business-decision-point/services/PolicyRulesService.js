@@ -1,108 +1,69 @@
 const _ = require("lodash");
-const { mongoDBConnector, neo4jConnector } = require("../utils/dbConnectors");
-const { isConditionMet } = require("../utils/utils");
+const { isConditionMet, getMatchingBusinessAssets } = require("../utils/utils");
 
-// const policies = require("../static/policyRules");
+const policies = require("../static/policyRules");
 
 class PolicyRulesService {
-  // constructor() {
-  //   this.policies = policies;
-  // }
+  constructor() {
+    this.policies = policies;
+  }
 
   async init() {
-    await mongoDBConnector.connect();
-    await neo4jConnector.connect();
-    this.neo4jClient = neo4jConnector.client;
+    return true;
   }
 
   async enforcePolicies(req) {
-    this.serviceName = req.body.serviceName;
-    this.method = req.body.method;
-    this.actorid = req.body.actorid;
-    this.body = req.body.body;
-    this.scopeUrl = req.body.url;
-    this.entityid = undefined;
-
-    if (
-      new RegExp(
-        "(user|resource|review|service|asset|policy):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-      ).test(this.scopeUrl)
-    ) {
-      this.entityid = req.body.url.split("/").slice(-1)[0];
-      this.scopeUrl = `${this.scopeUrl.substring(0, this.scopeUrl.lastIndexOf('/') + 1)}*`
-    }
-
-    // TODO Decide on a way of adding information about the action to the requests body
-    // TODO Load corresponding policies from the DB, e.g. GET policies
-    const query = {
-      scope: { $in: [`${this.serviceName}::${this.scopeUrl}`] },
-      method: { $in: [this.method] },
-    };
-
-    const policies = await this.executeQuery(query);
+    const matchingPolicies = getMatchingBusinessAssets(req.body, this.policies);
 
     const excludes = [];
-    let decision = false;
+    let provisionalDecision = false;
 
     await Promise.all(
-      policies.map(async (policy) => {
-        const data = {
-          ...(this.entityid && { entityid: this.entityid }),
-          ...(this.actorid && { actorid: this.actorid }),
-        };
-        const singleDecision = await isConditionMet(policy.condition, data);
+      matchingPolicies.map(async (policy) => {
+        const singleDecision = await isConditionMet(policy.condition, req.body);
         if (singleDecision === true) {
           excludes.push({
             priority: policy.priority,
             fields: policy.excludes,
           });
-          decision = true;
+          provisionalDecision = true;
         }
       })
     );
 
-    // TODO merge constraints, prepare for GET (create mongo projection),
-    //  or deny PATCH when field that is to be patched is not included in allowed constraints
-    const mergedExcludes = this.mergeExcludes(excludes);
-    const metadata = {};
+    if (provisionalDecision === false) {
+      return {
+        decision: provisionalDecision,
+      };
+    }
 
-    switch (this.method) {
+    const payload = {};
+    const mergedExcludes = this.mergeExcludes(excludes);
+
+    switch (req.body.method) {
       case "GET":
-        metadata.projections = {};
+        payload.projections = {};
         mergedExcludes.forEach((excluded) => {
-          metadata.projections[excluded] = 0;
+          payload.projections[excluded] = 0;
         });
         break;
       case "PATCH":
-        decision = !mergedExcludes.some((excluded) => {
-          if (_.has(this.body, excluded)) {
-            metadata.message = `Not allowed to patch field '${excluded}'`;
-            return true;
+        provisionalDecision = mergedExcludes.every((excluded) => {
+          if (_.has(req.body.body, excluded)) {
+            payload.message = `Not allowed to patch field '${excluded}'`;
+            return false;
           }
-          return false;
+          return true;
         });
         break;
       default:
-        console.log("default");
+        break;
     }
 
-    console.log("final result:", decision, "\nmetadata:", metadata);
     return {
-      decision,
-      metadata,
+      decision: provisionalDecision,
+      payload,
     };
-  }
-
-  async executeQuery(query) {
-    try {
-      const collection = mongoDBConnector.collections.systemEntities;
-      await collection.find(query).toArray((err, policies) => {
-        if (err) throw err;
-        return policies;
-      });
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   mergeExcludes(excludes) {
@@ -146,69 +107,6 @@ class PolicyRulesService {
       prevPriority = currentExcludes.priority;
     });
     return mergedExcludes;
-  }
-
-  /**
-   * @deprecated Replaced by excludes constraint system - see mergeExcludes()
-   */
-  mergeConstraints(constraints) {
-    const sortedConstraints = constraints.sort(
-      (a, b) => a.priority - b.priority
-    );
-
-    const mergedConstraints = {
-      included: [],
-      excluded: [],
-    };
-    let prevPriority = -1;
-
-    sortedConstraints.forEach((currentConstraint) => {
-      if (currentConstraint.priority > prevPriority) {
-        mergedConstraints.included = [
-          ...new Set([
-            ...mergedConstraints.included.filter(
-              (field) => !currentConstraint.excluded.includes(field)
-            ),
-            ...currentConstraint.included.filter(
-              (field) => !currentConstraint.excluded.includes(field)
-            ),
-          ]),
-        ];
-
-        mergedConstraints.excluded = [
-          ...new Set([
-            ...mergedConstraints.excluded.filter(
-              (field) => !currentConstraint.included.includes(field)
-            ),
-            ...currentConstraint.excluded,
-          ]),
-        ];
-      } else {
-        mergedConstraints.included = [
-          ...new Set([
-            ...mergedConstraints.included.filter(
-              (field) => !currentConstraint.excluded.includes(field)
-            ),
-            ...currentConstraint.included.filter(
-              (field) =>
-                !mergedConstraints.excluded.includes(field) &&
-                !currentConstraint.excluded.includes(field)
-            ),
-          ]),
-        ];
-
-        mergedConstraints.excluded = [
-          ...new Set([
-            ...mergedConstraints.excluded,
-            ...currentConstraint.excluded,
-          ]),
-        ];
-      }
-
-      prevPriority = currentConstraint.priority;
-    });
-
-    return mergedConstraints;
   }
 }
 

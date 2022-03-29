@@ -10,7 +10,13 @@ const substituteTemplate = (template, data) => {
   let substitutedTemplate = template;
   for (const t of templates) {
     const pattern = new RegExp(_.escapeRegExp(t.template), "g");
-    const value = _.get(data, t.prop);
+    const splitProp = t.prop.split("||");
+    let value = null;
+    if (splitProp.length > 1) {
+      value = _.get(data, splitProp[0]).match(splitProp[1])[0];
+    } else {
+      value = _.get(data, t.prop);
+    }
     substitutedTemplate = substitutedTemplate.replace(pattern, value);
   }
   return substitutedTemplate;

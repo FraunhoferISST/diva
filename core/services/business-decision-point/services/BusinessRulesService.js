@@ -27,7 +27,6 @@ class BusinessRulesService {
   }
 
   async init() {
-    // TODO: load rules from DB
     return true;
   }
 
