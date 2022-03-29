@@ -5,8 +5,6 @@ let initOptions = {
   url: process.env.VUE_APP_KEYCLOAK_URL || "http://172.17.0.1:7000/auth",
   realm: process.env.VUE_APP_KEYCLOAK_REALM || "diva-kc-realm",
   clientId: process.env.VUE_APP_KEYCLOAK_CLIENT_ID || "diva-kc-client",
-  /*onLoad: "check-sso",
-  silentCheckSsoRedirectUri: window.location.href,*/
 };
 
 let kc = Keycloak(initOptions);
@@ -36,7 +34,6 @@ export default {
     kc
       .init({
         onLoad: "check-sso",
-        checkLoginIframe: true,
         silentCheckSsoRedirectUri: window.location.href,
       })
       .then((authenticated) => {
