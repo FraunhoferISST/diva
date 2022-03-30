@@ -5,49 +5,49 @@
   "title": "Business rule",
   "description": "Business rule definition",
   "required": [
-    "name",
     "scope",
     "condition",
+    "priority",
     "actions"
   ],
   "definitions": {
-    "condition": {
-      "oneOf": [
-        {
-          "type": "boolean"
-        },
-        {
+    "subCondition": {
+      "type": "object",
+      "properties": {
+        "cypher": {
           "type": "object",
           "properties": {
-            "cypher": {
-              "type": "object",
-              "properties": {
-                "query": {
-                  "type": "string"
-                }
-              }
+            "query": {
+              "type": "string"
+            }
+          }
+        },
+        "mongo": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
             },
-            "mongo": {
-              "type": "object",
-              "properties": {
-                "query": {
-                  "type": "string"
-                },
-                "collection": {
-                  "type": "string"
-                }
-              }
+            "collection": {
+              "type": "string"
             }
           }
         }
-      ]
+      }
     }
   },
   "properties": {
     "scope": {
       "type": "object",
       "title": "Rule scope",
-      "description": "Defines the event message scope to which the rule applies"
+      "description": "Defines the event message scope to which the rule applies",
+      "required": ["channel"],
+      "additionalProperties": true,
+      "properties": {
+        "channel": {
+          "type": "string"
+        }
+      }
     },
     "priority": {
       "type": "integer",
@@ -56,33 +56,36 @@
       "minimum": 0
     },
     "condition": {
-      "title": "Rule condition",
-      "description": "Rule condition that should be met",
-      "type": "object",
-      "properties": {
-        "and": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/condition"
-            },
-            {
-              "title": "AND conditions",
-              "description": "Conjunction der rule conditions"
-            }
-          ]
+      "oneOf": [
+        {
+          "title": "Condition",
+          "description": "Condition that should be met",
+          "type": "boolean"
         },
-        "or": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/condition"
+        {
+          "title": "Condition",
+          "description": "Condition that should be met",
+          "type": "object",
+          "properties": {
+            "and": {
+              "title": "AND conditions",
+              "description": "Conjunction der rule conditions",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/subCondition"
+              }
             },
-            {
+            "or": {
+              "type": "array",
               "title": "OR conditions",
-              "description": "disjunction der rule conditions"
+              "description": "disjunction der rule conditions",
+              "items": {
+                "$ref": "#/definitions/subCondition"
+              }
             }
-          ]
+          }
         }
-      }
+      ]
     },
     "actions": {
       "type": "array",

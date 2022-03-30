@@ -5,42 +5,34 @@
   "title": "Policy",
   "description": "policy rule definition",
   "required": [
-    "name",
     "scope",
     "priority",
     "condition"
   ],
   "definitions": {
-    "condition": {
-      "oneOf": [
-        {
-          "type": "boolean"
-        },
-        {
+    "subCondition": {
+      "type": "object",
+      "properties": {
+        "cypher": {
           "type": "object",
           "properties": {
-            "cypher": {
-              "type": "object",
-              "properties": {
-                "query": {
-                  "type": "string"
-                }
-              }
+            "query": {
+              "type": "string"
+            }
+          }
+        },
+        "mongo": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
             },
-            "mongo": {
-              "type": "object",
-              "properties": {
-                "query": {
-                  "type": "string"
-                },
-                "collection": {
-                  "type": "string"
-                }
-              }
+            "collection": {
+              "type": "string"
             }
           }
         }
-      ]
+      }
     }
   },
   "properties": {
@@ -56,33 +48,36 @@
       "minimum": 0
     },
     "condition": {
-      "title": "Rule condition",
-      "description": "Rule condition that should be met",
-      "type": "object",
-      "properties": {
-        "and": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/condition"
-            },
-            {
-              "title": "AND conditions",
-              "description": "Conjunction der rule conditions"
-            }
-          ]
+      "oneOf": [
+        {
+          "title": "Condition",
+          "description": "Condition that should be met",
+          "type": "boolean"
         },
-        "or": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/condition"
+        {
+          "title": "Condition",
+          "description": "Condition that should be met",
+          "type": "object",
+          "properties": {
+            "and": {
+              "title": "AND conditions",
+              "description": "Conjunction der rule conditions",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/subCondition"
+              }
             },
-            {
+            "or": {
+              "type": "array",
               "title": "OR conditions",
-              "description": "disjunction der rule conditions"
+              "description": "disjunction der rule conditions",
+              "items": {
+                "$ref": "#/definitions/subCondition"
+              }
             }
-          ]
+          }
         }
-      }
+      ]
     },
     "excludes": {
       "type": "array",
@@ -93,7 +88,7 @@
     },
     "id": {
       "type": "string",
-      "pattern": "^rule:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      "pattern": "^policy:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
     }
   }
 }
