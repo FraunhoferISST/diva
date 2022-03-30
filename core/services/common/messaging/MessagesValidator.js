@@ -11,17 +11,16 @@ const SCHEMA_URL = process.env.SCHEMA_URL || "http://localhost:3010/schemata";
 const fetchSpec = (specName) => axios.get(urljoin(SCHEMA_URL, specName));
 
 const loadAsyncAPISpec = async (spec) => {
+  let specification;
   if (spec.specification) {
-    return AsyncApiValidator.fromSource(
-      (await asyncapiParser.parse(spec.specification))._json,
-      {
-        msgIdentifier: "name",
-      }
-    );
+    specification = spec.specification;
+  } else {
+    const { data } = await fetchSpec(spec.name);
+    specification = data;
   }
-  const { data } = await fetchSpec(spec.name);
+
   return AsyncApiValidator.fromSource(
-    (await asyncapiParser.parse(data))._json,
+    (await asyncapiParser.parse(specification))._json,
     {
       msgIdentifier: "name",
     }
