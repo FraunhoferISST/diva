@@ -11,10 +11,14 @@ const SCHEMA_REGISTRY_URL =
 const fetchSchema = (schemaName) =>
   axios.get(urljoin(SCHEMA_REGISTRY_URL, "resolvedSchemata", schemaName));
 
-const compileValidator = (schema) => {
+const compileValidator = async (schema) => {
+  let schemaObject = null;
+  if (typeof schema === "string") {
+    schemaObject = await fetchSchema(schema);
+  }
   const ajv = new Ajv19({ strict: false });
   addFormats(ajv);
-  return ajv.compile(schema);
+  return ajv.compile(schemaObject ?? schema);
 };
 
 const validateJsonSchema = (schemaName, data, validator) => {
@@ -31,26 +35,27 @@ const validateJsonSchema = (schemaName, data, validator) => {
 };
 
 class JsonSchemaValidator {
-  async init(rootSchemas = [], rootSchemasNames = []) {
+  constructor() {
+    this.validators = [];
+  }
+
+  /**
+   * @param {Object|String[]} rootSchemas - array of schema names or schema objects
+   * @returns {Promise<void>}
+   */
+  async init(rootSchemas) {
     this.validators = Object.fromEntries(
-      rootSchemas.map((schema) => [schema.$id, compileValidator(schema)])
+      await Promise.all(
+        rootSchemas.map(async (schema) => [
+          schema.$id ?? schema,
+          await compileValidator(schema),
+        ])
+      )
     );
-    if (rootSchemasNames.length > 0) {
-      this.validators.push(
-        ...Object.fromEntries(
-          await Promise.all(
-            rootSchemasNames.map(async (schemaName) => [
-              schemaName,
-              compileValidator(await fetchSchema(schemaName)),
-            ])
-          )
-        )
-      );
-    }
     log.info(
-      `✅ JSON schema validator ready for schemata "${JSON.stringify(
-        rootSchemas
-      )}"`
+      `✅ JSON schema validator ready for schemata ${JSON.stringify(
+        rootSchemas.map((s) => s.$id ?? s).join(", ")
+      )}`
     );
   }
 

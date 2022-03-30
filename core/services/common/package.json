@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^9.0.9",
+    "@asyncapi/parser": "^1.14.1",
     "@elastic/elasticsearch": "^7.13.0",
     "ajv": "^8.6.2",
     "ajv-formats": "^2.1.0",

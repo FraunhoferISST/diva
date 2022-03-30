@@ -2,14 +2,19 @@ const urljoin = require("url-join");
 const AsyncApiValidator = require("asyncapi-validator");
 const { createError } = require("../Error");
 
-const SCHEMA_REGISTRY_URL =
-  process.env.SCHEMA_REGISTRY_URL || "http://localhost:3010/";
+const SCHEMA_URL =
+  process.env.SCHEMA_URL || "http://localhost:3000/systemEntities";
 
-const loadAsyncAPISpec = (spec) =>
-  AsyncApiValidator.fromSource(urljoin(SCHEMA_REGISTRY_URL, "schemata", spec), {
+const loadAsyncAPISpec = (spec) => {
+  if (spec.specification) {
+    return AsyncApiValidator.fromSource(spec.specification, {
+      msgIdentifier: "name",
+    });
+  }
+  return AsyncApiValidator.fromSource(urljoin(SCHEMA_URL, spec.name), {
     msgIdentifier: "name",
   });
-
+};
 const validateMessage = (
   spec,
   validator,
@@ -31,10 +36,20 @@ const validateMessage = (
 };
 
 class MessagesValidator {
+  constructor() {
+    this.validators = [];
+  }
+
+  /**
+   * @param {Object[]} specs - array of objects including specification name and the specification object
+   * @param {string} specs[].name - name of the specification
+   * @param {Object} [specs[].specification] - corresponding AsyncAPI Specification object, if not provided, the specification will be fetched by name
+   * @returns {Promise<void>}
+   */
   async init(specs) {
     this.validators = Object.fromEntries(
       await Promise.all(
-        specs.map(async (spec) => [spec, await loadAsyncAPISpec(spec)])
+        specs.map(async (spec) => [spec.name, await loadAsyncAPISpec(spec)])
       )
     );
   }

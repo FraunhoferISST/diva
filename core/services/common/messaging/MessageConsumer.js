@@ -7,7 +7,7 @@ class MessageConsumer {
   /**
    * @param {Object[]} topics - array of objects including topic and corresponding AsyncAPI Specification
    * @param {string} topics[].topic - topic to listen on
-   * @param {string} topics[].spec - corresponding AsyncAPI Specification
+   * @param {string|Object} topics[].spec - corresponding AsyncAPI Specification
    * @param serviceName
    * @returns {Promise<void>}
    */
