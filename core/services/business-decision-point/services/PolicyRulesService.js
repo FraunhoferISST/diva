@@ -1,15 +1,48 @@
 const _ = require("lodash");
+const messageConsumer = require("@diva/common/messaging/MessageConsumer");
 const { isConditionMet, getMatchingBusinessAssets } = require("../utils/utils");
+const { mongoDBConnector } = require("../utils/dbConnectors");
+const { name: serviceName } = require("../package.json");
 
 const policies = require("../static/policyRules");
 
+const KAFKA_CONSUMER_TOPICS = [
+  {
+    topic: "entity.events",
+    spec: {
+      name: "asyncapi",
+    },
+  },
+];
 class PolicyRulesService {
   constructor() {
     this.policies = policies;
   }
 
   async init() {
-    return true;
+    this.collection = mongoDBConnector.collections.systemEntities;
+    this.policies = await this.collection
+      .find({ systemEntityType: "policy" })
+      .toArray();
+
+    await messageConsumer.init(KAFKA_CONSUMER_TOPICS, serviceName);
+    await messageConsumer.consume(this.onMessage.bind(this));
+  }
+
+  async onMessage(message) {
+    const parsedMassage = JSON.parse(message.value.toString());
+    const {
+      object: { id },
+    } = parsedMassage.payload;
+    if (
+      /^policy:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
+        id
+      )
+    ) {
+      this.policies = await this.collection
+        .find({ systemEntityType: "policy" })
+        .toArray();
+    }
   }
 
   async enforcePolicies(req) {
