@@ -5,8 +5,7 @@
   "title": "JSON Schema",
   "required": [
     "name",
-    "schema",
-    "scope"
+    "schema"
   ],
   "properties": {
     "name": {
@@ -21,7 +20,7 @@
     "scope": {
       "type": "object",
       "title": "Schema scope",
-      "description": "Defines to which (sub-)entity the schema applies",
+      "description": "Defines to which (sub-)entity the schema applies. If not specified, the schema is included as the root property of an entity",
       "required": ["key", "value"],
       "examples": [
         {

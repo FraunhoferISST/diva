@@ -123,8 +123,8 @@ class EntityService {
 
   async create(entity, actorId) {
     const newEntity = cleanUpEntity({
+      id: generateUuid(this.entityType), // the id con be overwritten by concrete implementation
       ...entity,
-      id: generateUuid(this.entityType),
       entityType: this.entityType,
       created: new Date().toISOString(),
       modified: new Date().toISOString(),

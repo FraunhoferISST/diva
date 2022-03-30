@@ -1,5 +1,4 @@
 const express = require("express");
-const asyncapiParser = require("@asyncapi/parser");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const buildOpenApiSpec = require("./utils/buildOpenApiSpec");

@@ -1,7 +1,28 @@
+const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const systemEntitiesService = require("../services/SystemEntitiesService");
 const EntityController = require("./EntityController");
 
 class SystemEntitiesController extends EntityController {
+  async create(req, res, next) {
+    return super
+      .create(req, res, next)
+      .then(() =>
+        systemEntitiesService
+          .resolveSchemaByName("entity")
+          .then((resolvedSchema) => jsonSchemaValidator.init([resolvedSchema]))
+      );
+  }
+
+  async deleteById(req, res, next) {
+    return super
+      .deleteById(req, res, next)
+      .then(() =>
+        systemEntitiesService
+          .resolveSchemaByName("entity")
+          .then((resolvedSchema) => jsonSchemaValidator.init([resolvedSchema]))
+      );
+  }
+
   async resolveSchemaByName(req, res, next) {
     try {
       const resolvedSchema = await systemEntitiesService.resolveSchemaByName(

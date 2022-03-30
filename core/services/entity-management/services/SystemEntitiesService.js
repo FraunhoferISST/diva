@@ -29,7 +29,7 @@ const loadDefaultSystemEntities = async () => {
     .sync(`${systemEntitiesPath}/json-schema/**/*.*`)
     .map((path) => ({
       name: nodePath.parse(path).name,
-      title: nodePath.parse(path).name,
+      title: `${nodePath.parse(path).name} JSON schema`,
       schema: fs.readFileSync(path).toString(),
       systemEntityType: "schema",
     }));
@@ -61,18 +61,40 @@ const loadDefaultSystemEntities = async () => {
     created: new Date().toISOString(),
     modified: new Date().toISOString(),
   }));
-  return Promise.all(
-    entities.map((e) =>
-      mongoDbConnector.collections[SYSTEM_ENTITY_COLLECTION_NAME].replaceOne(
-        {
-          name: e.name,
-          systemEntityType: e.systemEntityType,
+  if (
+    (await mongoDbConnector.collections[
+      SYSTEM_ENTITY_COLLECTION_NAME
+    ].count()) === 0
+  ) {
+    log.info("Inserting default system entities");
+    return mongoDbConnector.collections[
+      SYSTEM_ENTITY_COLLECTION_NAME
+    ].insertMany(entities);
+  }
+};
+
+const updateRootJsonSchema = (rootSchema, newEntity) => {
+  const updatedRootSchema = { ...rootSchema };
+  if (newEntity.scope) {
+    updatedRootSchema.allOf.push({
+      if: {
+        required: [newEntity.scope?.key],
+        properties: {
+          [newEntity.scope?.key]: {
+            const: newEntity.scope?.value,
+          },
         },
-        e,
-        { upsert: true }
-      )
-    )
-  );
+      },
+      then: {
+        $ref: `/${newEntity.name}`,
+      },
+    });
+    return updatedRootSchema;
+  }
+  updatedRootSchema.allOf.push({
+    $ref: `/${newEntity.name}`,
+  });
+  return updatedRootSchema;
 };
 
 class SystemEntitiesService extends EntityService {
@@ -82,24 +104,20 @@ class SystemEntitiesService extends EntityService {
   }
 
   async create(systemEntity, actorId) {
-    if (systemEntity.systemEntityType === "schema") {
+    const newSystemEntity = {
+      ...systemEntity,
+      id: generateUuid(systemEntity.systemEntityType), // the id con be overwritten by concrete implementation
+    };
+    if (newSystemEntity.systemEntityType === "schema") {
       const { id: rootSchemaId, schema } = await this.getRootSchema();
-      const parsedRootSchema = JSON.parse(schema);
-      parsedRootSchema.allOf.push({
-        if: {
-          required: [systemEntity.scope.key],
-          properties: {
-            [systemEntity.scope.key]: { const: [systemEntity.scope.value] },
-          },
-        },
-        then: {
-          $ref: `${systemEntity.name}`,
-        },
-      });
-      const { id, delta } = await super.create(systemEntity, actorId);
-      await this.updateById(
+      const updatedRootSchema = updateRootJsonSchema(
+        JSON.parse(schema),
+        newSystemEntity
+      );
+      const { id, delta } = await super.create(newSystemEntity, actorId);
+      await this.patchById(
         rootSchemaId,
-        { schema: JSON.stringify(parsedRootSchema) },
+        { schema: JSON.stringify(updatedRootSchema) },
         actorId
       ).catch(async (e) => {
         await this.deleteById(id);
@@ -107,7 +125,7 @@ class SystemEntitiesService extends EntityService {
       });
       return { id, delta };
     }
-    const { id, delta } = await super.create(systemEntity, actorId);
+    const { id, delta } = await super.create(newSystemEntity, actorId);
     return { id, delta };
   }
 

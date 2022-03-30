@@ -95,9 +95,7 @@
     },
     {
       "properties": {
-
         "id": {
-
           "type": "string",
           "title": "Unique Identifier",
           "description": "An unique ID of the processed entity. shortCut for -> dctermsIdentifier",
