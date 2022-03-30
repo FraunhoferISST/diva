@@ -11,6 +11,9 @@ const {
   collectionsNames: { SYSTEM_ENTITY_COLLECTION_NAME },
 } = require("../utils/constants");
 
+const defaultPolicies = require("../defaultSystemEntities/policies/policies");
+const defaultRules = require("../defaultSystemEntities/rules/rules");
+
 let WORK_DIR = process.cwd();
 const systemEntitiesDir = "defaultSystemEntities";
 let systemEntitiesPath = nodePath.join(WORK_DIR, systemEntitiesDir);
@@ -25,44 +28,39 @@ const loadDefaultSystemEntities = async () => {
   const jsonSchemas = glob
     .sync(`${systemEntitiesPath}/json-schema/**/*.*`)
     .map((path) => ({
-      path,
+      name: nodePath.parse(path).name,
+      title: nodePath.parse(path).name,
+      schema: fs.readFileSync(path).toString(),
       systemEntityType: "schema",
     }));
-  const policies = glob
-    .sync(`${systemEntitiesPath}/policies/**/*.*`)
-    .map((path) => ({
-      path,
-      systemEntityType: "policy",
-    }));
-  const rules = glob.sync(`${systemEntitiesPath}/rules/**/*.*`).map((path) => ({
-    path,
+  const policies = defaultPolicies.map((p) => ({
+    ...p,
+    systemEntityType: "policy",
+  }));
+  const rules = defaultRules.map((r) => ({
+    ...r,
     systemEntityType: "rule",
   }));
   const asyncApi = glob
     .sync(`${systemEntitiesPath}/asyncapi/**/*.*`)
     .map((path) => ({
-      path,
-      systemEntityType: "schema",
+      name: nodePath.parse(path).name,
+      title: nodePath.parse(path).name,
+      asyncapi: fs.readFileSync(path).toString(),
+      systemEntityType: "asyncapi",
     }));
-  const entitiesPaths = [...jsonSchemas, ...policies, ...rules, ...asyncApi];
-  if (entitiesPaths.length === 0) {
+  const defaultEntities = [...jsonSchemas, ...policies, ...rules, ...asyncApi];
+  if (defaultEntities.length === 0) {
     log.warn("Couldn't find default system entities");
     return null;
   }
-  const entities = [];
-  for (const entity of entitiesPaths) {
-    const payload = fs.readFileSync(entity.path).toString();
-    entities.push({
-      id: generateUuid(entity.systemEntityType),
-      name: nodePath.parse(entity.path).name,
-      title: nodePath.parse(entity.path).name,
-      entityType: "systemEntity",
-      systemEntityType: entity.systemEntityType,
-      created: new Date().toISOString(),
-      modified: new Date().toISOString(),
-      [entity.systemEntityType]: payload,
-    });
-  }
+  const entities = defaultEntities.map((e) => ({
+    ...e,
+    id: generateUuid(e.systemEntityType),
+    entityType: "systemEntity",
+    created: new Date().toISOString(),
+    modified: new Date().toISOString(),
+  }));
   return Promise.all(
     entities.map((e) =>
       mongoDbConnector.collections[SYSTEM_ENTITY_COLLECTION_NAME].replaceOne(

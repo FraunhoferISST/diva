@@ -1,5 +1,7 @@
 const express = require("express");
+const asyncapiParser = require("@asyncapi/parser");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
+const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const buildOpenApiSpec = require("./utils/buildOpenApiSpec");
 const usersController = require("./controllers/UsersController");
 const usersService = require("./services/UsersService");
@@ -10,8 +12,12 @@ const { collectionsNames } = require("./utils/constants");
 const { singularizeCollectionName } = require("./utils/utils");
 const EntityController = require("./controllers/EntityController");
 const { mongoDbConnector } = require("./utils/mongoDbConnector");
+const { name: serviceName } = require("./package.json");
 
 const ENTITY_ROOT_SCHEMA = "entity";
+const topic = process.env.KAFKA_EVENT_TOPIC || "entity.events";
+const NODE_ENV = process.env.NODE_ENV || "development";
+const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
 
 const predefinedEntities = {
   [collectionsNames.SYSTEM_ENTITY_COLLECTION_NAME]: {
@@ -55,6 +61,22 @@ module.exports = async (server) => {
 
   await mongoDbConnector.connect();
   await systemEntitiesService.init();
+  await messagesProducer.init(
+    topic,
+    serviceName,
+    "entityEvents",
+    {
+      name: "asyncapi",
+      specification: (
+        await asyncapiParser.parse(
+          (
+            await systemEntitiesService.getEntityByName("asyncapi", "asyncapi")
+          ).asyncapi
+        )
+      )._json,
+    },
+    producer
+  );
   await jsonSchemaValidator.init([
     await systemEntitiesService.resolveSchemaByName(ENTITY_ROOT_SCHEMA),
   ]);

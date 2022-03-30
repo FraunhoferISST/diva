@@ -8,6 +8,9 @@
   ],
   "allOf": [
     {
+      "$ref": "/commonProperties"
+    },
+    {
       "properties": {
         "systemEntityType": {
           "type": "string",
@@ -21,6 +24,14 @@
           ],
           "_elasticsearch": {
             "type": "keyword"
+          }
+        },
+        "editable": {
+          "type": "boolean",
+          "title": "Editable",
+          "description": "Indicates whether the system entity is editable or not",
+          "_elasticsearch": {
+            "enabled": false
           }
         }
       }
