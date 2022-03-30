@@ -1,26 +1,27 @@
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
+const { logger } = require("@diva/common/logger");
 const systemEntitiesService = require("../services/SystemEntitiesService");
 const EntityController = require("./EntityController");
+
+const reintializeJsonSchemaValidator = () =>
+  systemEntitiesService
+    .resolveSchemaByName("entity")
+    .then((resolvedSchema) => jsonSchemaValidator.init([resolvedSchema]))
+    .catch((e) => {
+      logger.error(`Couldn't reinitialize jsonSchemaValidator: ${e} `);
+    });
 
 class SystemEntitiesController extends EntityController {
   async create(req, res, next) {
     return super
       .create(req, res, next)
-      .then(() =>
-        systemEntitiesService
-          .resolveSchemaByName("entity")
-          .then((resolvedSchema) => jsonSchemaValidator.init([resolvedSchema]))
-      );
+      .then(() => reintializeJsonSchemaValidator());
   }
 
   async deleteById(req, res, next) {
     return super
       .deleteById(req, res, next)
-      .then(() =>
-        systemEntitiesService
-          .resolveSchemaByName("entity")
-          .then((resolvedSchema) => jsonSchemaValidator.init([resolvedSchema]))
-      );
+      .then(() => reintializeJsonSchemaValidator());
   }
 
   async resolveSchemaByName(req, res, next) {

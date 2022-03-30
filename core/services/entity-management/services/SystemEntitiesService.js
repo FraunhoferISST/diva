@@ -106,7 +106,7 @@ class SystemEntitiesService extends EntityService {
   async create(systemEntity, actorId) {
     const newSystemEntity = {
       ...systemEntity,
-      id: generateUuid(systemEntity.systemEntityType), // the id con be overwritten by concrete implementation
+      id: generateUuid(systemEntity.systemEntityType),
     };
     if (newSystemEntity.systemEntityType === "schema") {
       const { id: rootSchemaId, schema } = await this.getRootSchema();
