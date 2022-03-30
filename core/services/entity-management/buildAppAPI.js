@@ -116,6 +116,13 @@ module.exports = async (server) => {
     systemEntitiesController.resolveSchemaByName.bind(systemEntitiesController)
   );
 
+  router.get(
+    `/systemEntities/byName/:name`,
+    systemEntitiesController.getSpecificationEntityByName.bind(
+      systemEntitiesController
+    )
+  );
+
   const openApiSpec = buildOpenApiSpec(Object.keys(predefinedEntities));
   server.initBasicMiddleware();
   server.addOpenApiValidatorMiddleware(openApiSpec);

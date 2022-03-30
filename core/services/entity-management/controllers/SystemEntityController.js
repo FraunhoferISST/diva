@@ -12,6 +12,21 @@ class SystemEntitiesController extends EntityController {
       return next(err);
     }
   }
+
+  async getSpecificationEntityByName(req, res, next) {
+    try {
+      const specEntity = await systemEntitiesService.getEntityByName(
+        req.params.name
+      );
+      res.setHeader(
+        "Content-Type",
+        specEntity.asyncapi ? "text/yaml" : "text/plain"
+      );
+      res.status(200).send(specEntity.schema ?? specEntity.asyncapi);
+    } catch (err) {
+      return next(err);
+    }
+  }
 }
 
 module.exports = new SystemEntitiesController(systemEntitiesService);

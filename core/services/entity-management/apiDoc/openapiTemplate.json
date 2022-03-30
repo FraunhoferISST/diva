@@ -35,13 +35,13 @@
         "tags": [
           "systemEntities"
         ],
-        "summary": "Get entity by id",
-        "description": "Projection can be specified with `fields` parameter",
+        "summary": "Get resolved schema by name",
+        "description": "Returns the resolved schema",
         "parameters": [
           {
             "name": "name",
             "in": "path",
-            "description": "Name the schema to resolve",
+            "description": "Name of the schema to resolve",
             "required": true,
             "explode": true,
             "allowReserved": true,
@@ -53,7 +53,55 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/components/responses/EntityResponse"
+            "description": "Resolved schema response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Resolved schema",
+                  "description": "Schema definition",
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    },
+    "/systemEntities/byName/{name}" : {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/actoridParam"
+        }
+      ],
+      "get": {
+        "tags": [
+          "systemEntities"
+        ],
+        "summary": "Get specification entity by name",
+        "description": "Returns JSON schema or AsyncAPI schema by name. The result contains the specification itself as string, not the entity object!",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the specification schema",
+            "required": true,
+            "explode": true,
+            "allowReserved": true,
+            "schema": {
+              "type": "string",
+              "example": "entity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
           },
           "4XX": {
             "$ref": "#/components/responses/BadRequestError"

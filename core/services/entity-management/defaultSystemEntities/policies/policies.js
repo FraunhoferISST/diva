@@ -1,5 +1,16 @@
 module.exports = [
   {
+    title: "Allow everything for entity-management (DEV only)",
+    priority: 1,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^.+$",
+      method: "(GET|PUT|POST|PATCH|DELETE)",
+    },
+    condition: true,
+    excludes: [],
+  },
+  {
     title: "Creator of resource can perform GET",
     priority: 1,
     scope: {
