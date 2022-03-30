@@ -6,7 +6,9 @@
   "description": "policy rule definition",
   "required": [
     "name",
-    "policy"
+    "scope",
+    "priority",
+    "condition"
   ],
   "definitions": {
     "condition": {
@@ -42,78 +44,51 @@
     }
   },
   "properties": {
-    "name": {
-      "type": "string",
-      "title": "Schema name",
-      "description": "Unique name of the schema",
-      "examples": [
-        "asyncapi",
-        "datanetwork-api"
-      ],
-      "_elasticsearch": {
-        "enabled": false
+    "scope": {
+      "type": "object",
+      "title": "Policy scope",
+      "description": "Defines the API request scope to which the rule applies"
+    },
+    "priority": {
+      "type": "integer",
+      "title": "priority",
+      "description": "Priority of the rule",
+      "minimum": 0
+    },
+    "condition": {
+      "title": "Rule condition",
+      "description": "Rule condition that should be met",
+      "type": "object",
+      "properties": {
+        "and": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/condition"
+            },
+            {
+              "title": "AND conditions",
+              "description": "Conjunction der rule conditions"
+            }
+          ]
+        },
+        "or": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/condition"
+            },
+            {
+              "title": "OR conditions",
+              "description": "disjunction der rule conditions"
+            }
+          ]
+        }
       }
     },
-    "policy": {
-      "type": "object",
-      "title": "Policy definition",
-      "description": "Policy definition",
-      "required": [
-        "priority",
-        "condition",
-        "scope"
-      ],
-      "properties": {
-        "scope": {
-          "type": "object",
-          "title": "Policy scope",
-          "description": "Defines the API request scope to which the rule applies"
-        },
-        "priority": {
-          "type": "integer",
-          "title": "priority",
-          "description": "Priority of the rule",
-          "minimum": 0
-        },
-        "condition": {
-          "title": "Rule condition",
-          "description": "Rule condition that should be met",
-          "type": "object",
-          "properties": {
-            "and": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/condition"
-                },
-                {
-                  "title": "AND conditions",
-                  "description": "Conjunction der rule conditions"
-                }
-              ]
-            },
-            "or": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/condition"
-                },
-                {
-                  "title": "OR conditions",
-                  "description": "disjunction der rule conditions"
-                }
-              ]
-            }
-          }
-        },
-        "excludes": {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "_elasticsearch": {
-        "enabled": false
+    "excludes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
       }
     },
     "id": {
