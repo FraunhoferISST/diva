@@ -63,7 +63,7 @@ const httpLogger = () =>
     msg: `📦 HTTP {{req.method}} {{res.statusCode}}: {{req.headers["x-actorid"]}} requested {{req.url}}`,
   });
 
-const httpErrorLoger = () =>
+const httpErrorLogger = () =>
   expressWinston.errorLogger({
     winstonInstance: logger,
     level: (req, res) => {
@@ -94,6 +94,6 @@ const httpErrorLoger = () =>
 module.exports = {
   logger,
   httpLogger: httpLogger(),
-  httpErrorLoger: httpErrorLoger(),
+  httpErrorLogger: httpErrorLogger(),
   setLoggerDefaultMeta,
 };
