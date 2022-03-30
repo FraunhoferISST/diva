@@ -1,9 +1,9 @@
-const policiesRulesService = require("../services/PoliciesRulesService");
+const policyRulesService = require("../services/PolicyRulesService");
 
 class PoliciesRulesController {
   async enforcePolicies(req, res, next) {
     try {
-      const result = await policiesRulesService.enforcePolicies(req);
+      const result = await policyRulesService.enforcePolicies(req);
       // TODO: response with relevant data
       res.status(200).send(result);
     } catch (err) {
