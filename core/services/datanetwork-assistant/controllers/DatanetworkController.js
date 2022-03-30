@@ -12,7 +12,7 @@ class DatanetworkController {
       producerTopic,
       serviceName,
       "datanetworkEvents",
-      "datanetwork-api",
+      { name: "datanetwork-api" },
       producer
     );
     return datanetworkService.init();
