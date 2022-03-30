@@ -1,22 +1,34 @@
 const urljoin = require("url-join");
 const AsyncApiValidator = require("asyncapi-validator");
+const asyncapiParser = require("@asyncapi/parser");
+const axios = require("axios");
 const { createError } = require("../Error");
 
-const SCHEMA_URL =
-  process.env.SCHEMA_URL || "http://localhost:3000/systemEntities";
+/* const SCHEMA_URL =
+  process.env.SCHEMA_URL || "http://localhost:3000/systemEntities/byName"; */
+const SCHEMA_URL = process.env.SCHEMA_URL || "http://localhost:3010/schemata";
 
-const loadAsyncAPISpec = (spec) => {
+const fetchSpec = (specName) => axios.get(urljoin(SCHEMA_URL, specName));
+
+const loadAsyncAPISpec = async (spec) => {
   if (spec.specification) {
-    return AsyncApiValidator.fromSource(spec.specification, {
-      msgIdentifier: "name",
-    });
+    return AsyncApiValidator.fromSource(
+      (await asyncapiParser.parse(spec.specification))._json,
+      {
+        msgIdentifier: "name",
+      }
+    );
   }
-  return AsyncApiValidator.fromSource(urljoin(SCHEMA_URL, spec.name), {
-    msgIdentifier: "name",
-  });
+  const { data } = await fetchSpec(spec.name);
+  return AsyncApiValidator.fromSource(
+    (await asyncapiParser.parse(data))._json,
+    {
+      msgIdentifier: "name",
+    }
+  );
 };
 const validateMessage = (
-  spec,
+  specName,
   validator,
   msg,
   { messageName, channel, operation = "publish" }
@@ -28,7 +40,7 @@ const validateMessage = (
       type: validationError.name,
       message:
         validationError.message ||
-        `Supplied message for the operation "${validationError.key}" violates "${spec}" schema`,
+        `Supplied message for the operation "${validationError.key}" violates "${specName}" schema`,
       code: 406,
       errors: validationError.errors,
     });
@@ -54,9 +66,9 @@ class MessagesValidator {
     );
   }
 
-  validate(spec, msg, specInfo) {
-    const validator = this.validators[spec];
-    return validateMessage(spec, validator, msg, specInfo);
+  validate(specName, msg, specInfo) {
+    const validator = this.validators[specName];
+    return validateMessage(specName, validator, msg, specInfo);
   }
 }
 

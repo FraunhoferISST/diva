@@ -84,9 +84,9 @@ class MessageProducer {
         this.topic,
         this.serviceName,
         this.messageName,
-        this.spec
+        this.spec.name
       );
-      messagesValidator.validate(this.spec, msg, {
+      messagesValidator.validate(this.spec.name, msg, {
         ...msg,
         operation: "publish",
       });

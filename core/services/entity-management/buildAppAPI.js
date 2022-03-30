@@ -68,12 +68,8 @@ module.exports = async (server) => {
     {
       name: "asyncapi",
       specification: (
-        await asyncapiParser.parse(
-          (
-            await systemEntitiesService.getEntityByName("asyncapi", "asyncapi")
-          ).asyncapi
-        )
-      )._json,
+        await systemEntitiesService.getEntityByName("asyncapi", "asyncapi")
+      ).asyncapi,
     },
     producer
   );

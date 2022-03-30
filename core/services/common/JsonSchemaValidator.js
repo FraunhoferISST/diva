@@ -5,11 +5,11 @@ const addFormats = require("ajv-formats");
 const { createError } = require("./Error");
 const { logger: log } = require("./logger");
 
-const SCHEMA_REGISTRY_URL =
-  process.env.SCHEMA_REGISTRY_URL || "http://localhost:3000/";
+const SCHEMA_URL =
+  process.env.SCHEMA_URL || "http://localhost:3000/systemEntities/";
 
 const fetchSchema = (schemaName) =>
-  axios.get(urljoin(SCHEMA_REGISTRY_URL, "resolvedSchemata", schemaName));
+  axios.get(urljoin(SCHEMA_URL, "resolvedSchemata", schemaName));
 
 const compileValidator = async (schema) => {
   let schemaObject = null;
