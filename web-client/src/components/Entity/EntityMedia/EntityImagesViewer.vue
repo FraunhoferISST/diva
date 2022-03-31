@@ -70,10 +70,10 @@
       v-model="snackbar"
       :timeout="6000"
       absolute
-      :color="snackbarColor"
+      :color="color"
     >
       <span>
-        <b>{{ snackbarMsg }}</b>
+        <b>{{ message }}</b>
       </span>
     </v-snackbar>
     <confirmation-dialog v-if="hasImages" :show.sync="confirmationDialog">
@@ -84,7 +84,7 @@
             text
             rounded
             color="error"
-            :loading="isLoading"
+            :loading="loading"
             @click="() => deleteImage().then(confirm)"
           >
             Delete image
@@ -96,9 +96,12 @@
 </template>
 
 <script>
-import imageUrl from "@/utils/imageUrl";
 import ConfirmationDialog from "@/components/Base/ConfirmationDialog";
 import NoDataState from "@/components/Base/NoDataState";
+import { useApi } from "@/composables/api";
+import { useRequest } from "@/composables/request";
+import { useSnackbar } from "@/composables/snackbar";
+import { computed, ref } from "@vue/composition-api";
 export default {
   name: "EntityImagesViewer",
   components: { NoDataState, ConfirmationDialog },
@@ -108,68 +111,60 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    confirmationDialog: false,
-    snackbar: false,
-    snackbarMsg: "",
-    snackbarColor: "",
-    image: "",
-    isLoading: false,
-    imageIdToDelete: null,
-  }),
-  computed: {
-    hasImages() {
-      return this.entityImages.length > 0;
-    },
-    entityType() {
-      return `${this.entity.entityType}s`;
-    },
-    entityImages() {
-      return (this.entity.entityImages ?? []).map((imageId) => ({
-        id: imageId,
-        url: imageUrl(this.entity.id, imageId),
-      }));
-    },
-  },
-  methods: {
-    showSnackbar(msg, color = "success") {
-      this.snackbarMsg = msg;
-      this.snackbarColor = color;
-      this.snackbar = true;
-    },
-    handlePromise(promise) {
-      this.isLoading = true;
-      return promise
-        .then(() => this.showSnackbar("Successfully updated!"))
-        .catch((e) => this.showSnackbar(e, "error"))
-        .finally(() => (this.isLoading = false));
-    },
-    useAsIcon(imageId) {
-      return this.handlePromise(
-        this.$api[this.entityType].patch(this.entity.id, {
+  setup(props) {
+    const { show, message, color, snackbar } = useSnackbar();
+    const { request, loading, error } = useRequest();
+    const { entityCollection, buildImageUrl, entityApi } = useApi(
+      props.entity.id
+    );
+
+    const confirmationDialog = ref(false);
+    const imageIdToDelete = ref(null);
+
+    const showDeletionDialog = (imageId) => {
+      imageIdToDelete.value = imageId;
+      confirmationDialog.value = true;
+    };
+
+    const useAsIcon = (imageId) =>
+      request(
+        entityApi.patch(props.entity.id, {
           entityIcon: imageId,
         })
       );
-    },
-    useAsBanner(imageId) {
-      return this.handlePromise(
-        this.$api[this.entityType].patch(this.entity.id, {
+
+    const useAsBanner = (imageId) =>
+      request(
+        entityApi.patch(props.entity.id, {
           entityBanner: imageId,
         })
       );
-    },
-    showDeletionDialog(imageId) {
-      this.imageIdToDelete = imageId;
-      this.confirmationDialog = true;
-    },
-    deleteImage() {
-      return this.handlePromise(
-        this.$api[this.entityType].deleteImage(
-          this.entity.id,
-          this.imageIdToDelete
-        )
-      );
-    },
+
+    const deleteImage = () =>
+      request(entityApi.deleteImage(props.entity.id, imageIdToDelete.value));
+
+    return {
+      entityCollection,
+      hasImages: computed(() => props.entity.entityImages?.length > 0),
+      entityImages: computed(() =>
+        (props.entity.entityImages ?? []).map((imageId) => ({
+          id: imageId,
+          url: buildImageUrl(entityCollection, props.entity.id, imageId),
+        }))
+      ),
+      useAsIcon,
+      useAsBanner,
+      deleteImage,
+      show,
+      showDeletionDialog,
+      message,
+      color,
+      snackbar,
+      loading,
+      error,
+      confirmationDialog,
+      imageIdToDelete,
+    };
   },
 };
 </script>
