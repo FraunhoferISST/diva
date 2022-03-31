@@ -149,14 +149,27 @@ class SystemEntitiesService extends EntityService {
   }
 
   async deleteById(id, actorId) {
+    const systemEntity = await this.getById(id, { fields: "id,name" });
     if (id.includes("schema")) {
       const { id: rootSchemaId, schema } = await this.getRootSchema();
       const updatedRootSchema = removeJsonSchema(JSON.parse(schema), id);
-      return this.patchById(
-        rootSchemaId,
-        { schema: JSON.stringify(updatedRootSchema) },
-        actorId
-      ).then(() => super.deleteById(id));
+      return (
+        this.patchById(
+          rootSchemaId,
+          { schema: JSON.stringify(updatedRootSchema) },
+          actorId
+        )
+          // first clean up the DB to avoid possible complete system soft locks (e.g. on network failure during the execution)
+          .then(() =>
+            this.collection.update(
+              {},
+              { $unset: { [systemEntity.name]: "" } },
+              { multi: true }
+            )
+          )
+          // finally, safely remove the schema
+          .then(() => super.deleteById(id))
+      );
     }
     return super.deleteById(id);
   }
