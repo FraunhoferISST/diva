@@ -288,6 +288,7 @@ export default {
         [
           data.value.entityType,
           data.value.resourceType,
+          data.value.systemEntityType,
           data.value.assetType,
           data.value.mimeType,
         ]

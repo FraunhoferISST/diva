@@ -118,7 +118,7 @@ services:
         methods:
           - GET
         paths:
-          - '/(users|resources|review|services|assets|rule|schema|policy)/(user|resource|review|service|asset|rule|schema|policy):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
+          - '/(users|resources|review|services|assets|systemEntities)/(user|resource|review|service|asset|rule|schema|policy):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
         protocols:
           - "http"
           - "https"

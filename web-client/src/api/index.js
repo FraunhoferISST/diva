@@ -8,6 +8,7 @@ import http from "@/api/http";
 import fetchWrapper from "@/api/fetchWrapper";
 import datanetwork from "@/api/datanetwork";
 import entities from "@/api/entities";
+import systemEntities from "@/api/systemEntities";
 import socket from "@/api/socket";
 
 // injected as "Vue.prototype.$api = api" in main.js
@@ -28,4 +29,5 @@ export default {
   fetchWrapper,
   datanetwork,
   ...entities,
+  ...systemEntities,
 };

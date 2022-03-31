@@ -73,7 +73,7 @@ const loadDefaultSystemEntities = async () => {
   }
 };
 
-const re = (rootSchema, newSchemaEntity) => {
+const injectJsonSchema = (rootSchema, newSchemaEntity) => {
   const updatedRootSchema = { ...rootSchema };
   if (newSchemaEntity.scope) {
     updatedRootSchema.allOf.push({
@@ -128,7 +128,10 @@ class SystemEntitiesService extends EntityService {
     };
     if (newSystemEntity.systemEntityType === "schema") {
       const { id: rootSchemaId, schema } = await this.getRootSchema();
-      const updatedRootSchema = re(JSON.parse(schema), newSystemEntity);
+      const updatedRootSchema = injectJsonSchema(
+        JSON.parse(schema),
+        newSystemEntity
+      );
       const { id, delta } = await super.create(newSystemEntity, actorId);
       await this.patchById(
         rootSchemaId,
