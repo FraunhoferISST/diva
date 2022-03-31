@@ -6,7 +6,8 @@ const { createError } = require("./Error");
 const { logger: log } = require("./logger");
 const { serviceInstanceId } = require("./utils/serviceInstanceId");
 
-const ENTITY_MANAGEMENT_URL = process.env.SCHEMA_URL || "http://localhost:3000";
+const ENTITY_MANAGEMENT_URL =
+  process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000";
 
 const fetchSchema = (schemaName) =>
   axios.get(

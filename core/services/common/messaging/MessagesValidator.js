@@ -5,7 +5,8 @@ const axios = require("axios");
 const { createError } = require("../Error");
 const { serviceInstanceId } = require("../utils/serviceInstanceId");
 
-const ENTITY_MANAGEMENT_URL = process.env.SCHEMA_URL || "http://localhost:3000";
+const ENTITY_MANAGEMENT_URL =
+  process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000";
 
 const fetchSpec = (specName) =>
   axios.get(
