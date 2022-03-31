@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "systemEntity",
+  "type": "object",
+  "title": "System entity Data",
+  "_elasticsearch": {
+    "enabled": false
+  },
+  "required": [
+    "systemEntityType"
+  ],
+  "allOf": [
+    {
+      "$ref": "/commonProperties"
+    },
+    {
+      "properties": {
+        "systemEntityType": {
+          "type": "string",
+          "title": "System entity type Type",
+          "description": "The general type of the system entity",
+          "enum": [
+            "policy",
+            "rule",
+            "schema",
+            "asyncapi"
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+        "editable": {
+          "type": "boolean",
+          "title": "Editable",
+          "description": "Indicates whether the system entity is editable or not"
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["systemEntityType"],
+        "properties": {
+          "systemEntityType": {
+            "const": "asyncapi"
+          }
+        }
+      },
+      "then": {
+        "$ref": "/asyncApi"
+      }
+    },
+    {
+      "if": {
+        "required": ["systemEntityType"],
+        "properties": {
+          "systemEntityType": {
+            "const": "schema"
+          }
+        }
+      },
+      "then": {
+        "$ref": "/jsonSchema"
+      }
+    },
+    {
+      "if": {
+        "required": ["systemEntityType"],
+        "properties": {
+          "systemEntityType": {
+            "const": "rule"
+          }
+        }
+      },
+      "then": {
+        "$ref": "/businessRule"
+      }
+    },
+    {
+      "if": {
+        "required": ["systemEntityType"],
+        "properties": {
+          "systemEntityType": {
+            "const": "policy"
+          }
+        }
+      },
+      "then": {
+        "$ref": "/policy"
+      }
+    }
+  ]
+}

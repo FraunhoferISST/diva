@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "asyncApi",
+  "type": "object",
+  "title": "AsyncAPI Schema",
+  "description": "Schema defining AsyncAPI specification",
+  "required": [
+    "name",
+    "schema"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Schema name",
+      "description": "Unique name of the schema",
+      "examples": ["asyncapi", "datanetwork-api"]
+    },
+    "schema": {
+      "type": "string",
+      "title": "Schema definition",
+      "description": "The AsyncAPI specification schema encoded as string",
+      "_elasticsearch": {
+        "enabled": false
+      }
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^asyncapi:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    }
+  }
+}

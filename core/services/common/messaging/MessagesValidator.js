@@ -1,17 +1,39 @@
 const urljoin = require("url-join");
 const AsyncApiValidator = require("asyncapi-validator");
+const asyncapiParser = require("@asyncapi/parser");
+const axios = require("axios");
 const { createError } = require("../Error");
+const { serviceInstanceId } = require("../utils/serviceInstanceId");
 
-const SCHEMA_REGISTRY_URL =
-  process.env.SCHEMA_REGISTRY_URL || "http://localhost:3010/";
+const ENTITY_MANAGEMENT_URL =
+  process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000";
 
-const loadAsyncAPISpec = (spec) =>
-  AsyncApiValidator.fromSource(urljoin(SCHEMA_REGISTRY_URL, "schemata", spec), {
-    msgIdentifier: "name",
-  });
+const fetchSpec = (specName) =>
+  axios.get(
+    urljoin(ENTITY_MANAGEMENT_URL, "/systemEntities/byName", specName),
+    {
+      headers: { "x-actorid": serviceInstanceId },
+    }
+  );
 
+const loadAsyncAPISpec = async (spec) => {
+  let specification;
+  if (spec.specification) {
+    specification = spec.specification;
+  } else {
+    const { data } = await fetchSpec(spec.name);
+    specification = data;
+  }
+
+  return AsyncApiValidator.fromSource(
+    (await asyncapiParser.parse(specification))._json,
+    {
+      msgIdentifier: "name",
+    }
+  );
+};
 const validateMessage = (
-  spec,
+  specName,
   validator,
   msg,
   { messageName, channel, operation = "publish" }
@@ -23,7 +45,7 @@ const validateMessage = (
       type: validationError.name,
       message:
         validationError.message ||
-        `Supplied message for the operation "${validationError.key}" violates "${spec}" schema`,
+        `Supplied message for the operation "${validationError.key}" violates "${specName}" schema`,
       code: 406,
       errors: validationError.errors,
     });
@@ -31,17 +53,27 @@ const validateMessage = (
 };
 
 class MessagesValidator {
+  constructor() {
+    this.validators = [];
+  }
+
+  /**
+   * @param {Object[]} specs - array of objects including specification name and the specification object
+   * @param {string} specs[].name - name of the specification
+   * @param {Object} [specs[].specification] - corresponding AsyncAPI Specification object, if not provided, the specification will be fetched by name
+   * @returns {Promise<void>}
+   */
   async init(specs) {
     this.validators = Object.fromEntries(
       await Promise.all(
-        specs.map(async (spec) => [spec, await loadAsyncAPISpec(spec)])
+        specs.map(async (spec) => [spec.name, await loadAsyncAPISpec(spec)])
       )
     );
   }
 
-  validate(spec, msg, specInfo) {
-    const validator = this.validators[spec];
-    return validateMessage(spec, validator, msg, specInfo);
+  validate(specName, msg, specInfo) {
+    const validator = this.validators[specName];
+    return validateMessage(specName, validator, msg, specInfo);
   }
 }
 

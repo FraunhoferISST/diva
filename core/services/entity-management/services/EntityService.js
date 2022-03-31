@@ -10,7 +10,7 @@ const {
   imagesLimitError,
 } = require("@diva/common/Error");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const entityImagesService = require("./EntityImagesService");
 const {
@@ -77,10 +77,12 @@ const createSearchQuery = (searchParams) =>
 
 class EntityService {
   /**
-   * @param entityType - the type of the entity, (e.g. resource, user, etc.)
+   * @param {String} entityType - the type of the entity, (e.g. resource, user, etc.)
+   * @param {String} collectionName - the name of the mongo entity collection name (e.g. entities, etc.), defaults to "entities"
    */
-  constructor(entityType) {
+  constructor(entityType, collectionName = ENTITY_COLLECTION_NAME) {
     this.entityType = entityType;
+    this.collectionName = collectionName;
     /**
      * @type {{}} - primary MongoDb entity collection (users, resources...)
      */
@@ -93,9 +95,11 @@ class EntityService {
       "attributedTo",
       "title",
       "entityType",
+      "systemEntityType",
       "creatorId",
       "email",
       "username",
+      "name",
     ];
   }
 
@@ -104,7 +108,7 @@ class EntityService {
    */
   async init() {
     await entityImagesService.init();
-    this.collection = mongoDbConnector.collections[ENTITY_COLLECTION_NAME];
+    this.collection = mongoDbConnector.collections[this.collectionName];
     this.historyCollection =
       mongoDbConnector.collections[HISTORIES_COLLECTION_NAME];
   }
@@ -119,8 +123,8 @@ class EntityService {
 
   async create(entity, actorId) {
     const newEntity = cleanUpEntity({
+      id: generateUuid(this.entityType), // the id con be overwritten by concrete implementation
       ...entity,
-      id: generateUuid(this.entityType),
       entityType: this.entityType,
       created: new Date().toISOString(),
       modified: new Date().toISOString(),

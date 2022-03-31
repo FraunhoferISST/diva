@@ -1,5 +1,5 @@
 const { Kafka } = require("kafkajs");
-const generateUuid = require("../generateUuid");
+const generateUuid = require("../utils/generateUuid");
 const { logger: log } = require("../logger");
 const retry = require("../utils/retrier");
 

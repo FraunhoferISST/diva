@@ -43,11 +43,15 @@ class EventsConsumerService {
       [
         {
           topic: "entity.events",
-          spec: "asyncapi",
+          spec: {
+            name: "asyncapi",
+          },
         },
         {
           topic: "datanetwork.events",
-          spec: "datanetwork-api",
+          spec: {
+            name: "datanetwork-api",
+          },
         },
       ],
       serviceName

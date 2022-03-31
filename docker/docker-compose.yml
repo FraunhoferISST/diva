@@ -12,8 +12,8 @@ x-mongodb-env: &mongodb-env
 x-log-level-env: &log-level-env
   SYSTEM_LOG_LEVEL: ${SYSTEM_LOG_LEVEL}
 
-x-schema-registry-env: &schema-registry-env
-  SCHEMA_REGISTRY_URL: http://schema-registry:${SCHEMA_REGISTRY_PORT}/
+x-entity-management-env: &entity-management-env
+  ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}/
 
 x-cors-env: &cors-env
   CORS_ALLOW_ORIGIN: "*"
@@ -39,7 +39,6 @@ x-business-decision-point-env: &business-decision-point-env
 
 x-base-core-service-env: &base-core-service-env
   <<: *mongodb-env
-  <<: *schema-registry-env
   <<: *kafka-env
   <<: *cors-env
   <<: *business-decision-point-env
@@ -49,7 +48,6 @@ x-base-core-service: &base-core-service
   depends_on:
     - documentstore
     - broker
-    - schema-registry
     - business-decision-point
   networks:
     - core
@@ -112,6 +110,8 @@ services:
     image: ${REGISTRY}entity-management:1.0.0
     container_name: entity-management
     depends_on:
+      - broker
+      - documentstore
       - business-decision-point
     environment:
       <<: *base-core-service-env
@@ -176,6 +176,7 @@ services:
       - neo4j
     environment:
       <<: *base-core-service-env
+      <<: *entity-management-env
       <<: *elasticsearch-env
       <<: *neo4j-env
       PORT: ${ELASTICSEARCH_CONNECTOR_PORT}
@@ -225,7 +226,7 @@ services:
     environment:
       <<: *neo4j-env
       <<: *cors-env
-      <<: *schema-registry-env
+      <<: *entity-management-env
       <<: *log-level-env
       NODE_ENV: production
       PORT: ${DATANETWORK_ASSISTANT_PORT}
@@ -248,6 +249,7 @@ services:
     container_name: history-assistant
     environment:
       <<: *base-core-service-env
+      <<: *entity-management-env
       NODE_ENV: production
       PORT: ${HISTORY_ASSISTANT_PORT}
       IGNORE_FIELDS: "[\"modified\"]"
@@ -332,26 +334,6 @@ services:
 
 
   # ####################################################################################################################
-  # Schema Registry Services
-  # ####################################################################################################################
-
-  schema-registry:
-    image: ${REGISTRY}schema-registry:1.0.3
-    hostname: schema-registry
-    container_name: schema-registry
-    restart: always
-    depends_on:
-      - business-decision-point
-    networks:
-      - core
-    ports:    
-      - ${SCHEMA_REGISTRY_PORT}:${SCHEMA_REGISTRY_PORT}
-    environment:
-      <<: *log-level-env
-      <<: *cors-env
-      PORT: ${SCHEMA_REGISTRY_PORT}
-
-  # ####################################################################################################################
   # DIVA Lake Services
   # ####################################################################################################################
 
@@ -387,12 +369,11 @@ services:
     environment:
       <<: *mongodb-env
       <<: *kafka-env
-      <<: *schema-registry-env
       <<: *cors-env
       <<: *log-level-env
+      <<: *entity-management-env
       NODE_ENV: development
       PORT: ${DIVALAKE_ADAPTER_PORT}
-      ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
       DIVA_LAKE_HOST: diva-lake
       DIVA_LAKE_PORT: ${DIVALAKE_PORT}
       DIVA_LAKE_USERNAME: ${DIVA_LAKE_USERNAME}
@@ -417,8 +398,8 @@ services:
     environment:
       <<: *cors-env
       <<: *log-level-env
+      <<: *entity-management-env
       PORT: ${URBAN_PULSE_ADAPTER_PORT}
-      ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
 
   # ####################################################################################################################
   # Event Emitter Service
@@ -429,20 +410,16 @@ services:
     container_name: event-emitter
     depends_on:
       - broker
-      - schema-registry
     ports:
       - ${EVENT_EMITTER_PORT}:${EVENT_EMITTER_PORT}
     networks:
       - core
     environment:
-      <<: *schema-registry-env
       <<: *kafka-env
       <<: *cors-env
       <<: *log-level-env
+      <<: *entity-management-env
       PORT: ${EVENT_EMITTER_PORT}
-      ASYNCAPI_SPECIFICATION: asyncapi
-      EVENT_EMITTER_SPECIFICATION: event-emitter-api
-      KAFKA_TOPICS: "[\"entity.events\", \"datanetwork.events\"]"
 
   # ####################################################################################################################
   # Business Decision Point Service
@@ -475,12 +452,13 @@ services:
     depends_on:
       - broker
       - business-decision-point
+      - entity-management
     restart: always
     networks:
       - core
     environment:
+      <<: *entity-management-env
       <<: *kafka-env
-      <<: *schema-registry-env
       <<: *business-decision-point-env
 
   # ####################################################################################################################

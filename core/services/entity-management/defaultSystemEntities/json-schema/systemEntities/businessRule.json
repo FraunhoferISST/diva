@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "businessRule",
+  "type": "object",
+  "title": "Business rule",
+  "description": "Business rule definition",
+  "required": [
+    "scope",
+    "condition",
+    "priority",
+    "actions"
+  ],
+  "definitions": {
+    "subCondition": {
+      "type": "object",
+      "properties": {
+        "cypher": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            }
+          }
+        },
+        "mongo": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            },
+            "collection": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "scope": {
+      "type": "object",
+      "title": "Rule scope",
+      "description": "Defines the event message scope to which the rule applies",
+      "required": ["channel"],
+      "additionalProperties": true,
+      "properties": {
+        "channel": {
+          "type": "string"
+        }
+      },
+      "_elasticsearch": {
+        "enabled": false
+      }
+    },
+    "priority": {
+      "type": "integer",
+      "title": "priority",
+      "description": "Priority of the rule",
+      "minimum": 0
+    },
+    "condition": {
+      "_elasticsearch": {
+        "enabled": false
+      },
+      "oneOf": [
+        {
+          "title": "Condition",
+          "description": "Condition that should be met",
+          "type": "boolean"
+        },
+        {
+          "title": "Condition",
+          "description": "Condition that should be met",
+          "type": "object",
+          "properties": {
+            "and": {
+              "title": "AND conditions",
+              "description": "Conjunction der rule conditions",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/subCondition"
+              }
+            },
+            "or": {
+              "type": "array",
+              "title": "OR conditions",
+              "description": "disjunction der rule conditions",
+              "items": {
+                "$ref": "#/definitions/subCondition"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "title": "Rule actions",
+      "description": "Rule actions to execute. Actions are executed as HTTP requests",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "title": "Action",
+        "description": "Rule action",
+        "required": [
+          "headers",
+          "method"
+        ],
+        "properties": {
+          "headers": {
+            "title": "Request headers",
+            "description": "Headers that should be added to the action request",
+            "type": "object"
+          },
+          "body": {
+            "title": "Request body",
+            "description": "Data that should be supplied within the action request",
+            "type": "object"
+          },
+          "method": {
+            "title": "Request method",
+            "description": "Action request HTTP method",
+            "type": "string",
+            "enum": [
+              "GET",
+              "POST",
+              "PATCH",
+              "DELETE",
+              "PUT"
+            ]
+          },
+          "ignoreErrors": {
+            "type": "array",
+            "title": "Ignore errors",
+            "description": "Errors that can be ignored on action execution",
+            "items": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "title": "Error HTTP code",
+                  "description": "Error HTTP code that can be ignored",
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "_elasticsearch": {
+        "enabled": false
+      }
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^rule:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-const connector = require("../Connector");
+const connector = require("../services/ConnectorService");
 
 const operationsMap = {
   create: connector.index,

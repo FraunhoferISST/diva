@@ -1,0 +1,22 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Generic File Resource Data",
+    "properties": {
+        "byteSize": {
+            "type": "integer",
+            "title": "ByteSize",
+            "description": "The size of the file in bytes",
+            "default": 0,
+            "minimum": 0,
+            "examples": [
+                3129,
+                3235235,
+                242
+            ],
+            "_elasticsearch": {
+                "type": "unsigned_long"
+            }
+        }
+    }
+}

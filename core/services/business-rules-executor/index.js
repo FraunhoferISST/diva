@@ -1,5 +1,5 @@
 const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const serviceName = require("./package.json").name;
 const eventsConsumerService = require("./services/EventsConsumerService");
 

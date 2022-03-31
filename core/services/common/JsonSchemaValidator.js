@@ -4,18 +4,31 @@ const Ajv19 = require("ajv/dist/2019");
 const addFormats = require("ajv-formats");
 const { createError } = require("./Error");
 const { logger: log } = require("./logger");
+const { serviceInstanceId } = require("./utils/serviceInstanceId");
 
-const SCHEMA_REGISTRY_URL =
-  process.env.SCHEMA_REGISTRY_URL || "http://localhost:3010/";
+const ENTITY_MANAGEMENT_URL =
+  process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000";
 
-const compileValidator = async (schemaName) => {
+const fetchSchema = (schemaName) =>
+  axios.get(
+    urljoin(
+      ENTITY_MANAGEMENT_URL,
+      "systemEntities/resolvedSchemas",
+      schemaName
+    ),
+    {
+      headers: { "x-actorid": serviceInstanceId },
+    }
+  );
+
+const compileValidator = async (schema) => {
+  let schemaObject = null;
+  if (typeof schema === "string") {
+    schemaObject = await fetchSchema(schema);
+  }
   const ajv = new Ajv19({ strict: false });
   addFormats(ajv);
-
-  const { data: schema } = await axios.get(
-    urljoin(SCHEMA_REGISTRY_URL, "resolvedSchemata", schemaName)
-  );
-  return ajv.compile(schema);
+  return ajv.compile(schemaObject ?? schema);
 };
 
 const validateJsonSchema = (schemaName, data, validator) => {
@@ -32,19 +45,27 @@ const validateJsonSchema = (schemaName, data, validator) => {
 };
 
 class JsonSchemaValidator {
-  async init(rootSchemas = ["entity"]) {
+  constructor() {
+    this.validators = [];
+  }
+
+  /**
+   * @param {Object|String[]} rootSchemas - array of schema names or schema objects
+   * @returns {Promise<void>}
+   */
+  async init(rootSchemas) {
     this.validators = Object.fromEntries(
       await Promise.all(
-        rootSchemas.map(async (schemaName) => [
-          schemaName,
-          await compileValidator(schemaName),
+        rootSchemas.map(async (schema) => [
+          schema.$id ?? schema,
+          await compileValidator(schema),
         ])
       )
     );
     log.info(
-      `✅ JSON schema validator ready for schemata "${JSON.stringify(
-        rootSchemas
-      )}"`
+      `✅ JSON schema validator ready for schemata ${JSON.stringify(
+        rootSchemas.map((s) => s.$id ?? s).join(", ")
+      )}`
     );
   }
 

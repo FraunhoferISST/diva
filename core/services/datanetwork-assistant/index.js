@@ -1,6 +1,6 @@
 const Server = require("@diva/common/api/expressServer");
 const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const edgesRouter = require("./routes/network");
 const eventsConsumerService = require("./services/EventsConsumerService");
 const datanetworkController = require("./controllers/DatanetworkController");

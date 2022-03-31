@@ -1,11 +1,11 @@
 const KafkaConnector = require("./KafkaConnector");
-const generateUuid = require("../generateUuid");
+const generateUuid = require("../utils/generateUuid");
 const MessagesValidator = require("./MessagesValidator");
 const { logger: log } = require("../logger");
 
 const messagesValidator = new MessagesValidator();
 
-const ASYNCAPI_SPECIFICATION = process.env.ASYNCAPI_SPECIFICATION || "asyncapi";
+const ASYNCAPI_SPECIFICATION = "asyncapi";
 
 const creatMessage = (
   { entityId, actorid, type, attributedTo, additionalObjectData },
@@ -39,11 +39,21 @@ const creatMessage = (
 });
 
 class MessageProducer {
+  /**
+   * @param {String} topic - name of the topic to publish to
+   * @param {string} serviceName - the name the service  using the producer
+   * @param {String} messageName - unique message name from the specification
+   * @param {Object} [spec={name: "asyncapi"}] - AsyncAPI specification to validate the messages
+   * @param {String} spec.name - the name of the specification (e.g. datanetwork-api)
+   * @param {Object} [spec.specification] - the parsed AsyncApi specification as object, optional. If not provided the specification will be fetched by name
+   * @param {Function} [producer=undefined] - optional custom produce. Mostly relevant only for tests
+   * @returns {Promise<void>}
+   */
   async init(
     topic,
     serviceName,
     messageName,
-    spec = ASYNCAPI_SPECIFICATION,
+    spec = { name: ASYNCAPI_SPECIFICATION },
     producer
   ) {
     const kafkaConnector = new KafkaConnector();
@@ -74,9 +84,9 @@ class MessageProducer {
         this.topic,
         this.serviceName,
         this.messageName,
-        this.spec
+        this.spec.name
       );
-      messagesValidator.validate(this.spec, msg, {
+      messagesValidator.validate(this.spec.name, msg, {
         ...msg,
         operation: "publish",
       });

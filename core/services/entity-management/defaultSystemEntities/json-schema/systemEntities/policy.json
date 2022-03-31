@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "policy",
+  "type": "object",
+  "title": "Policy",
+  "description": "policy rule definition",
+  "required": [
+    "scope",
+    "priority",
+    "condition"
+  ],
+  "definitions": {
+    "subCondition": {
+      "type": "object",
+      "properties": {
+        "cypher": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            }
+          }
+        },
+        "mongo": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            },
+            "collection": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "scope": {
+      "type": "object",
+      "title": "Policy scope",
+      "description": "Defines the API request scope to which the rule applies",
+      "_elasticsearch": {
+        "enabled": false
+      }
+    },
+    "priority": {
+      "type": "integer",
+      "title": "priority",
+      "description": "Priority of the rule",
+      "minimum": 0,
+      "_elasticsearch": {
+        "enabled": false
+      }
+    },
+    "condition": {
+      "_elasticsearch": {
+        "enabled": false
+      },
+      "oneOf": [
+        {
+          "title": "Condition",
+          "description": "Condition that should be met",
+          "type": "boolean"
+        },
+        {
+          "title": "Condition",
+          "description": "Condition that should be met",
+          "type": "object",
+          "properties": {
+            "and": {
+              "title": "AND conditions",
+              "description": "Conjunction der rule conditions",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/subCondition"
+              }
+            },
+            "or": {
+              "type": "array",
+              "title": "OR conditions",
+              "description": "disjunction der rule conditions",
+              "items": {
+                "$ref": "#/definitions/subCondition"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "excludes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      },
+      "_elasticsearch": {
+        "enabled": false
+      }
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^policy:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    }
+  }
+}

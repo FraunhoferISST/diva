@@ -1,5 +1,5 @@
 
-# Elasticsearch Connector 🔗
+# Elasticsearch ConnectorService 🔗
 
 This service connects to an `elasticsearch` instance and transfers the metadata of our entities. `DIVA` uses `elasticsearch` as search and analytics engine.
 
