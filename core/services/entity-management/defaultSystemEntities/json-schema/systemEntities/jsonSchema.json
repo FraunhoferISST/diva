@@ -12,10 +12,7 @@
       "type": "string",
       "title": "Schema name",
       "description": "Unique name of the schema",
-      "examples": ["entity", "byteSize"],
-      "_elasticsearch": {
-        "enabled": false
-      }
+      "examples": ["entity", "byteSize"]
     },
     "scope": {
       "type": "object",
@@ -32,6 +29,9 @@
           "value": "application/pdf"
         }
       ],
+      "_elasticsearch": {
+        "enabled": false
+      },
       "properties": {
         "key": {
           "type": "string",

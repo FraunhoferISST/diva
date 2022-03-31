@@ -13,10 +13,7 @@
       "type": "string",
       "title": "Schema name",
       "description": "Unique name of the schema",
-      "examples": ["asyncapi", "datanetwork-api"],
-      "_elasticsearch": {
-        "enabled": false
-      }
+      "examples": ["asyncapi", "datanetwork-api"]
     },
     "schema": {
       "type": "string",

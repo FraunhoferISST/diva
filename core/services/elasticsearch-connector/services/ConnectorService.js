@@ -1,9 +1,9 @@
 const ElasticsearchConnector = require("@diva/common/databases/ElasticsearchConnector");
 const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
 const Neo4jConnector = require("@diva/common/databases/Neo4jConnector");
-const loadESMapping = require("@diva/common/loadESMapping");
-const esSettings = require("./utils/customSettings.json");
-const { sanitizeIndexBody } = require("./utils/sanitize");
+const buildMappingFromJsonSchema = require("../utils/buildMappingFromJsonSchema");
+const esSettings = require("../utils/customSettings.json");
+const { sanitizeIndexBody } = require("../utils/sanitize");
 
 const esConnector = new ElasticsearchConnector();
 const mongoConnector = new MongoDBConnector("divaDb", ["entities"]);
@@ -37,14 +37,23 @@ const getEdges = async ({ from, types = edgesTypes }, bidirectional = true) => {
 };
 
 const indexExists = async (index) =>
-  esConnector.client.indices.exists({
-    index,
-  });
+  esConnector.client.indices
+    .exists({
+      index,
+    })
+    .then(({ statusCode }) => statusCode < 300);
 
-class Connector {
+class ConnectorService {
+  constructor() {
+    this.isIndexing = false;
+  }
+
   async init() {
     await esConnector.connect();
     await neo4jConnector.connect();
+    if (!(await indexExists("entities"))) {
+      await this.createIndex("entities");
+    }
     return mongoConnector.connect();
   }
 
@@ -86,11 +95,7 @@ class Connector {
   async createIndex(index = "entities") {
     const { body } = await indexExists(index);
     if (!body) {
-      const [
-        {
-          mapping: { mappings },
-        },
-      ] = await loadESMapping();
+      const mappings = await buildMappingFromJsonSchema("entity");
       return esConnector.client.indices.create({
         index,
         body: {
@@ -101,6 +106,11 @@ class Connector {
     }
     return true;
   }
+
+  reindex() {
+    this.isIndexing = true;
+    console.log("do something");
+  }
 }
 
-module.exports = new Connector();
+module.exports = new ConnectorService();

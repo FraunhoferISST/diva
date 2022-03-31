@@ -6,11 +6,15 @@ const { createError } = require("./Error");
 const { logger: log } = require("./logger");
 const { serviceInstanceId } = require("./utils/serviceInstanceId");
 
-const SCHEMA_URL = process.env.SCHEMA_URL || "http://localhost:3000";
+const ENTITY_MANAGEMENT_URL = process.env.SCHEMA_URL || "http://localhost:3000";
 
 const fetchSchema = (schemaName) =>
   axios.get(
-    urljoin(SCHEMA_URL, "systemEntities/resolvedSchemata", schemaName),
+    urljoin(
+      ENTITY_MANAGEMENT_URL,
+      "systemEntities/resolvedSchemas",
+      schemaName
+    ),
     {
       headers: { "x-actorid": serviceInstanceId },
     }

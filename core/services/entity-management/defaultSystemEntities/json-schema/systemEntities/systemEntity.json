@@ -3,6 +3,9 @@
   "$id": "systemEntity",
   "type": "object",
   "title": "System entity Data",
+  "_elasticsearch": {
+    "enabled": false
+  },
   "required": [
     "systemEntityType"
   ],
@@ -29,10 +32,7 @@
         "editable": {
           "type": "boolean",
           "title": "Editable",
-          "description": "Indicates whether the system entity is editable or not",
-          "_elasticsearch": {
-            "enabled": false
-          }
+          "description": "Indicates whether the system entity is editable or not"
         }
       }
     },

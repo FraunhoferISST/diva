@@ -47,6 +47,9 @@
         "channel": {
           "type": "string"
         }
+      },
+      "_elasticsearch": {
+        "enabled": false
       }
     },
     "priority": {
@@ -56,6 +59,9 @@
       "minimum": 0
     },
     "condition": {
+      "_elasticsearch": {
+        "enabled": false
+      },
       "oneOf": [
         {
           "title": "Condition",
@@ -139,6 +145,9 @@
             }
           }
         }
+      },
+      "_elasticsearch": {
+        "enabled": false
       }
     },
     "id": {
