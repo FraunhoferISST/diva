@@ -2,7 +2,7 @@ const nodePath = require("path");
 const glob = require("glob");
 const fs = require("fs");
 const { logger: log } = require("@diva/common/logger");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const { entityNotFoundError } = require("@diva/common/Error");
 const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const dereferenceSchema = require("../utils/dereferenceSchema");
@@ -73,27 +73,37 @@ const loadDefaultSystemEntities = async () => {
   }
 };
 
-const updateRootJsonSchema = (rootSchema, newEntity) => {
+const re = (rootSchema, newSchemaEntity) => {
   const updatedRootSchema = { ...rootSchema };
-  if (newEntity.scope) {
+  if (newSchemaEntity.scope) {
     updatedRootSchema.allOf.push({
+      schemaId: newSchemaEntity.id,
       if: {
-        required: [newEntity.scope?.key],
+        required: [newSchemaEntity.scope?.key],
         properties: {
-          [newEntity.scope?.key]: {
-            const: newEntity.scope?.value,
+          [newSchemaEntity.scope?.key]: {
+            const: newSchemaEntity.scope?.value,
           },
         },
       },
       then: {
-        $ref: `/${newEntity.name}`,
+        $ref: `/${newSchemaEntity.name}`,
       },
     });
     return updatedRootSchema;
   }
   updatedRootSchema.allOf.push({
-    $ref: `/${newEntity.name}`,
+    schemaId: newSchemaEntity.id,
+    $ref: `/${newSchemaEntity.name}`,
   });
+  return updatedRootSchema;
+};
+const removeJsonSchema = (rootSchema, removedSchemaEntityId) => {
+  const updatedRootSchema = { ...rootSchema };
+  const removeSchemaIndex = updatedRootSchema.allOf.findIndex(
+    ({ schemaId }) => schemaId === removedSchemaEntityId
+  );
+  updatedRootSchema.allOf.splice(removeSchemaIndex, 1);
   return updatedRootSchema;
 };
 
@@ -110,10 +120,7 @@ class SystemEntitiesService extends EntityService {
     };
     if (newSystemEntity.systemEntityType === "schema") {
       const { id: rootSchemaId, schema } = await this.getRootSchema();
-      const updatedRootSchema = updateRootJsonSchema(
-        JSON.parse(schema),
-        newSystemEntity
-      );
+      const updatedRootSchema = re(JSON.parse(schema), newSystemEntity);
       const { id, delta } = await super.create(newSystemEntity, actorId);
       await this.patchById(
         rootSchemaId,
@@ -131,6 +138,19 @@ class SystemEntitiesService extends EntityService {
 
   getRootSchema() {
     return this.getEntityByName("entity", "schema");
+  }
+
+  async deleteById(id, actorId) {
+    if (id.includes("schema")) {
+      const { id: rootSchemaId, schema } = await this.getRootSchema();
+      const updatedRootSchema = removeJsonSchema(JSON.parse(schema), id);
+      return this.patchById(
+        rootSchemaId,
+        { schema: JSON.stringify(updatedRootSchema) },
+        actorId
+      ).then(() => super.deleteById(id));
+    }
+    return super.deleteById(id);
   }
 
   async getEntityByName(name, systemEntityType) {

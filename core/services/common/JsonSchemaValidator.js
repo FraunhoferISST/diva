@@ -4,12 +4,17 @@ const Ajv19 = require("ajv/dist/2019");
 const addFormats = require("ajv-formats");
 const { createError } = require("./Error");
 const { logger: log } = require("./logger");
+const { serviceInstanceId } = require("./utils/serviceInstanceId");
 
-const SCHEMA_URL =
-  process.env.SCHEMA_URL || "http://localhost:3000/systemEntities/";
+const SCHEMA_URL = process.env.SCHEMA_URL || "http://localhost:3000";
 
 const fetchSchema = (schemaName) =>
-  axios.get(urljoin(SCHEMA_URL, "resolvedSchemata", schemaName));
+  axios.get(
+    urljoin(SCHEMA_URL, "systemEntities/resolvedSchemata", schemaName),
+    {
+      headers: { "x-actorid": serviceInstanceId },
+    }
+  );
 
 const compileValidator = async (schema) => {
   let schemaObject = null;

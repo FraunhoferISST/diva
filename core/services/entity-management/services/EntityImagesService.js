@@ -1,6 +1,6 @@
 const { Readable } = require("stream");
 const { GridFSBucket } = require("mongodb");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const {
   imageNotFoundError,

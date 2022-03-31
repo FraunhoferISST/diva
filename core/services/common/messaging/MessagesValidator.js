@@ -3,12 +3,17 @@ const AsyncApiValidator = require("asyncapi-validator");
 const asyncapiParser = require("@asyncapi/parser");
 const axios = require("axios");
 const { createError } = require("../Error");
+const { serviceInstanceId } = require("../utils/serviceInstanceId");
 
-/* const SCHEMA_URL =
-  process.env.SCHEMA_URL || "http://localhost:3000/systemEntities/byName"; */
-const SCHEMA_URL = process.env.SCHEMA_URL || "http://localhost:3010/schemata";
+const ENTITY_MANAGEMENT_URL = process.env.SCHEMA_URL || "http://localhost:3000";
 
-const fetchSpec = (specName) => axios.get(urljoin(SCHEMA_URL, specName));
+const fetchSpec = (specName) =>
+  axios.get(
+    urljoin(ENTITY_MANAGEMENT_URL, "/systemEntities/byName", specName),
+    {
+      headers: { "x-actorid": serviceInstanceId },
+    }
+  );
 
 const loadAsyncAPISpec = async (spec) => {
   let specification;

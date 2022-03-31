@@ -10,7 +10,7 @@ const {
   imagesLimitError,
 } = require("@diva/common/Error");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const entityImagesService = require("./EntityImagesService");
 const {

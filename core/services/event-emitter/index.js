@@ -1,4 +1,4 @@
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const messageConsumer = require("@diva/common/messaging/MessageConsumer");
 const { setLoggerDefaultMeta, log } = require("./utils/logger");
 const serviceName = require("./package.json").name;
