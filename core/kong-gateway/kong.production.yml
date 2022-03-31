@@ -156,17 +156,6 @@ services:
         config:
           allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
 
-  - name: "Schema-Registry"
-    url: "http://schema-registry:3010/schemata"
-    routes:
-      - name: schema-registry-route
-        paths:
-          - "/schemata"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: true
-
   - name: "Datanetwork-Assistant"
     url: "http://datanetwork-assistant:3012"
     routes:
