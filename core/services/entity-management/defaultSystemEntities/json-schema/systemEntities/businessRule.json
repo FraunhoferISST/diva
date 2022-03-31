@@ -119,6 +119,7 @@
               "GET",
               "POST",
               "PATCH",
+              "DELETE",
               "PUT"
             ]
           },

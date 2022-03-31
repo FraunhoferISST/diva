@@ -110,7 +110,15 @@ const removeJsonSchema = (rootSchema, removedSchemaEntityId) => {
 class SystemEntitiesService extends EntityService {
   async init() {
     await loadDefaultSystemEntities();
-    return super.init();
+    return super.init().then(() =>
+      this.collection.createIndex(
+        { name: 1 },
+        {
+          unique: true,
+          partialFilterExpression: { systemEntityType: "schema" },
+        }
+      )
+    );
   }
 
   async create(systemEntity, actorId) {
