@@ -17,7 +17,7 @@
                   v-if="tab.includes('/general')"
                   class="entity-details-overview-container px-3 px-md-12 pt-0 pb-0"
                 >
-                  <div class="pt-12">
+                  <div class="pt-3 pt-md-12">
                     <div class="d-flex justify-center align-center flex-column">
                       <entity-media :entity="{ ...data, title }" />
                       <div class="pt-2">
@@ -32,7 +32,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="pt-12">
+                  <div class="pt-3 pt-md-12">
                     <div class="entity-details-header">
                       <div>
                         <h1 class="entity-details-title">{{ title }}</h1>
@@ -156,7 +156,7 @@
       </confirmation-dialog>
       <entity-event-snackbar
         top
-        absolute
+        fixed
         :message="message"
         :snackbar.sync="snackbar"
         :color="color"
