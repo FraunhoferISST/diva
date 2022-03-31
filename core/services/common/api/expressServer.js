@@ -8,6 +8,7 @@ const { logger: log, httpLogger, httpErrorLogger } = require("../logger");
 
 let WORK_DIR = process.cwd();
 const NODE_ENV = process.env.NODE_ENV || "development";
+const POLICY_MIDDLEWARE = process.env.POLICY_MIDDLEWARE || "active";
 
 if (process.pkg?.entrypoint) {
   const pkgEntryPoint = process.pkg?.entrypoint ?? "";
@@ -129,8 +130,14 @@ class Server {
   }
 
   addPolicyValidatorMiddleware() {
-    log.info(`✅ Setting up Policy validation middleware`);
-    this.addMiddleware(policyRulesMiddleware);
+    if (POLICY_MIDDLEWARE === "active") {
+      log.info(`✅ Setting up Policy validation middleware`);
+      this.addMiddleware(policyRulesMiddleware);
+    } else {
+      log.info(
+        `🚫 Policy validation middleware has been deactivated by .env-flag`
+      );
+    }
   }
 
   async boot() {
