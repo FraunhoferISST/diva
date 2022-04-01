@@ -4,8 +4,6 @@ const { isConditionMet, getMatchingBusinessAssets } = require("../utils/utils");
 const { mongoDBConnector } = require("../utils/dbConnectors");
 const { name: serviceName } = require("../package.json");
 
-const policies = require("../static/policyRules");
-
 const KAFKA_CONSUMER_TOPICS = [
   {
     topic: "entity.events",
@@ -15,15 +13,15 @@ const KAFKA_CONSUMER_TOPICS = [
   },
 ];
 class PolicyRulesService {
-  constructor() {
-    this.policies = policies;
-  }
-
   async init() {
     this.collection = mongoDBConnector.collections.systemEntities;
     this.policies = await this.collection
       .find({ systemEntityType: "policy" })
       .toArray();
+
+    if (this.policies.length === 0) {
+      console.warn("🚫 No policies found in DB!");
+    }
 
     await messageConsumer.init(KAFKA_CONSUMER_TOPICS, serviceName);
     await messageConsumer.consume(this.recachePoliciesOnMessage.bind(this));
@@ -39,6 +37,7 @@ class PolicyRulesService {
         id
       )
     ) {
+      console.info("🔁 Recaching policies");
       this.policies = await this.collection
         .find({ systemEntityType: "policy" })
         .toArray();
