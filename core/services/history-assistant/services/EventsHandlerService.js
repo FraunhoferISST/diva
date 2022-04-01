@@ -20,11 +20,11 @@ class EventsHandlerService {
   }
 
   async onMessage(message) {
-    const parsedMassage = JSON.parse(message.value.toString());
+    const parsedMessage = JSON.parse(message.value.toString());
     const {
       type,
       object: { id },
-    } = parsedMassage.payload;
+    } = parsedMessage.payload;
     if (type === "delete") {
       await this.collection.deleteMany({
         attributedTo: id,
