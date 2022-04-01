@@ -1,0 +1,32 @@
+{
+  "id": "schema:uuid:f4bc627d-7687-4fff-a3d7-952ee0c2d835",
+  "title": "PDF creator Tool",
+  "schemaName": "pdfDocinfoCreatorTool",
+  "description": "Tool, which was used to create the pdf",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "application/pdf"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "pdfDocinfoCreatorTool",
+    "properties": {
+      "pdfDocinfoCreatorTool": {
+        "type": "string",
+        "title": "pdfDocinfoCreatorTool",
+        "description": "Tool, which was used to create the pdf",
+        "default": "",
+        "minLength": 1,
+        "examples": [
+          "Chromium"
+        ],
+        "pattern": "^(.*)$"
+      }
+    }
+  }
+}

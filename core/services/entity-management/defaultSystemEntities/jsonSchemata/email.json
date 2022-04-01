@@ -1,0 +1,34 @@
+{
+  "id": "schema:uuid:ecd6e016-5e37-4138-8e5f-15fab743a86b",
+  "title": "The Email Schema ",
+  "schemaName": "email",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "user"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "The Email Schema ",
+    "required": [
+      "email"
+    ],
+    "properties": {
+      "email": {
+        "type": "string",
+        "format": "email",
+        "title": "The Email Schema ",
+        "examples": [
+          "muster@mann.de"
+        ],
+        "_elasticsearch": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

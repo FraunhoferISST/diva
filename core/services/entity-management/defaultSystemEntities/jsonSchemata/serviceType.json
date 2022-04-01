@@ -1,0 +1,33 @@
+{
+  "id": "schema:uuid:d1097016-16c4-4022-abde-187e021b0aac",
+  "title": "Service Type",
+  "schemaName": "serviceType",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "service"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Service Vendor",
+    "required": [
+      "serviceType"
+    ],
+    "properties": {
+      "serviceType": {
+        "type": "string",
+        "title": "Service Type",
+        "description": "The general type of the service",
+        "enum": [
+          "generic",
+          "app",
+          "plugin",
+          "api"
+        ]
+      }
+    }
+  }
+}

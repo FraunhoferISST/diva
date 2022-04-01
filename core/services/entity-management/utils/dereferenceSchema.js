@@ -3,7 +3,7 @@ const path = require("path");
 
 module.exports = async (schemaName, resolve) =>
   $RefParser.dereference(schemaName, {
-    resolve: {
+    /* resolve: {
       registry: {
         order: 1,
         canRead: true,
@@ -12,6 +12,6 @@ module.exports = async (schemaName, resolve) =>
           return schema;
         },
       },
-    },
+    }, */
     dereference: { circular: false },
   });

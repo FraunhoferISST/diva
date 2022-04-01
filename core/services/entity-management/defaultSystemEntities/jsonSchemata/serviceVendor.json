@@ -1,0 +1,59 @@
+{
+  "id": "schema:uuid:805fa272-ac90-44ca-95bd-8a15271cfa6f",
+  "title": "Service Vendor List",
+  "schemaName": "serviceVendor",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "service"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Service Vendor",
+    "properties": {
+      "serviceVendor": {
+        "type": "array",
+        "minItems": 0,
+        "title": "Service Vendor List",
+        "description": "Vendors of a service",
+        "items": {
+          "type": "object",
+          "title": "Items",
+          "description": "Contains information that belongs to a vendor",
+          "required": [
+            "name",
+            "homepage"
+          ],
+          "properties": {
+            "schemaName": {
+              "type": "string",
+              "title": "Name",
+              "description": "Company or individual offering a service",
+              "examples": [
+                "X-Ray"
+              ],
+              "_elasticsearch": {
+                "type": "keyword"
+              }
+            },
+            "homepage": {
+              "type": "string",
+              "title": "Homepage",
+              "description": "Homepage of a vendor",
+              "format": "uri",
+              "examples": [
+                "https://vendor-homepage.com/"
+              ],
+              "_elasticsearch": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

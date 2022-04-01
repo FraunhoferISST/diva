@@ -1,0 +1,29 @@
+{
+  "id": "schema:uuid:6c5711ed-37cb-466d-ab59-ef888583bfe2",
+  "title": "excludes",
+  "schemaName": "excludes",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "systemEntityType",
+      "value": "policy"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "properties": {
+      "excludes": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string"
+        },
+        "_elasticsearch": {
+          "enabled": false
+        }
+      }
+    }
+  }
+}

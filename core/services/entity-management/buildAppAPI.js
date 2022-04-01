@@ -13,7 +13,6 @@ const EntityController = require("./controllers/EntityController");
 const { mongoDbConnector } = require("./utils/mongoDbConnector");
 const { name: serviceName } = require("./package.json");
 
-const ENTITY_ROOT_SCHEMA = "entity";
 const topic = process.env.KAFKA_EVENT_TOPIC || "entity.events";
 const NODE_ENV = process.env.NODE_ENV || "development";
 const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
@@ -73,14 +72,14 @@ module.exports = async (server) => {
     producer
   );
   await jsonSchemaValidator.init([
-    await systemEntitiesService.resolveSchemaByName(ENTITY_ROOT_SCHEMA),
+    await systemEntitiesService.resolveEntitySchema(),
   ]);
 
   for (const entity of Object.values(predefinedEntities)) {
     const { collection } = entity;
     const service =
       entity.service ??
-      createEntityService(singularizeCollectionName(collection));
+      createEntityService(singularizeCollectionName(collection)); // FIXME: this will fail for policies for example
     await service.init();
     const controller = entity?.controller ?? createEntityController(service);
 
@@ -108,7 +107,9 @@ module.exports = async (server) => {
 
   router.get(
     `/systemEntities/resolvedSchemas/:name`,
-    systemEntitiesController.resolveSchemaByName.bind(systemEntitiesController)
+    systemEntitiesController.getResolvedEntitySchema.bind(
+      systemEntitiesController
+    )
   );
 
   router.get(
