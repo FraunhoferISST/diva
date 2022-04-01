@@ -1,6 +1,6 @@
 const Server = require("@diva/common/api/expressServer");
 const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const analyticsRouter = require("./routes/analytics");
 const GlobalAnalyticsService = require("./services/AnalyticsService");
 const serviceName = require("./package.json").name;

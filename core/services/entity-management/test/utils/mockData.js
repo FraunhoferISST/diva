@@ -1,6 +1,6 @@
 const faker = require("faker");
 const casual = require("casual");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 
 const getRandomIntegerInRange = (from, to) => casual.integer(from, to);
 

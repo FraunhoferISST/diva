@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const hasha = require("hasha");
 const jsondiffpatch = require("jsondiffpatch");
-const generateUuid = require("./generateUuid");
+const generateUuid = require("./utils/generateUuid");
 
 const jdp = jsondiffpatch.create({
   objectHash(obj) {

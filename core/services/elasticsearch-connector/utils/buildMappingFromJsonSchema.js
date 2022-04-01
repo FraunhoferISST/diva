@@ -1,4 +1,21 @@
 const _ = require("lodash");
+const axios = require("axios");
+const { serviceInstanceId } = require("@diva/common/utils/serviceInstanceId");
+const urljoin = require("url-join");
+
+const ENTITY_MANAGEMENT_URL = process.env.SCHEMA_URL || "http://localhost:3000";
+
+const fetchSchema = (schemaName = "entity") =>
+  axios.get(
+    urljoin(
+      ENTITY_MANAGEMENT_URL,
+      "systemEntities/resolvedSchemas",
+      schemaName
+    ),
+    {
+      headers: { "x-actorid": serviceInstanceId },
+    }
+  );
 
 const combinationKeys = ["allOf", "anyOf", "oneOf"];
 
@@ -13,9 +30,13 @@ const defaultTypeMapper = {
 const defaultAnalyzer = "standard";
 
 const buildMappingArtifact = (key, type, _elasticsearch) => {
-  const artifact = {
+  let artifact = {
     [key]: {},
   };
+
+  if (_elasticsearch?.enabled === false) {
+    return {};
+  }
 
   // set type of the field
   if (_.isPlainObject(_elasticsearch) && _elasticsearch.type !== undefined) {
@@ -36,7 +57,7 @@ const buildMappingArtifact = (key, type, _elasticsearch) => {
     }
   }
   if (_.isPlainObject(_elasticsearch) && _elasticsearch.enabled === false) {
-    artifact[key].enabled = false;
+    artifact = {}; // artifact[key].enabled = false;
   }
 
   return artifact;
@@ -101,6 +122,9 @@ const isScalarSchema = (schema) =>
 
 const buildMapping = (schema, esMapping = true) => {
   let tmp = {};
+  if (schema?._elasticsearch?.enabled === false) {
+    return tmp;
+  }
   const handleDirectProp = (pk, pv) => {
     const directMappingElements = [];
     if (propertyIsScalar(pv.type)) {
@@ -189,14 +213,15 @@ const buildMapping = (schema, esMapping = true) => {
       }
     }
     if (key === "then") {
-      tmp = { ...tmp, ...buildMapping(schema.then, esMapping) };
+      if (!(value?._elasticsearch?.enabled === false)) {
+        tmp = { ...tmp, ...buildMapping(schema.then, esMapping) };
+      }
     }
   }
   return tmp;
 };
 
-module.exports = {
-  toEsMapping: (schema) => ({
-    mappings: { properties: buildMapping(schema, true) },
-  }),
+module.exports = async (schemaName) => {
+  const { data: jsonSchema } = await fetchSchema(schemaName);
+  return { properties: buildMapping(jsonSchema, true) };
 };

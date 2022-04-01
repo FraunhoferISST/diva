@@ -1,5 +1,5 @@
 const KafkaConnector = require("./KafkaConnector");
-const generateUuid = require("../generateUuid");
+const generateUuid = require("../utils/generateUuid");
 const MessagesValidator = require("./MessagesValidator");
 const { logger: log } = require("../logger");
 

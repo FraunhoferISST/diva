@@ -4,8 +4,7 @@ const { log } = require("./logger");
 
 const messagesValidator = new MessagesValidator();
 
-const EVENT_EMITTER_SPECIFICATION =
-  process.env.EVENT_EMITTER_SPECIFICATION || "event-emitter-api";
+const EVENT_EMITTER_SPECIFICATION = "event-emitter-api";
 const PORT = process.env.PORT || 3009;
 
 const DEFAULT_CHANNEL = "default";
@@ -101,7 +100,7 @@ const emitEntityEvent = (payload) => {
 };
 
 const bootSocket = async () => {
-  await messagesValidator.init([EVENT_EMITTER_SPECIFICATION]);
+  await messagesValidator.init([{ name: EVENT_EMITTER_SPECIFICATION }]);
   io.on("connection", connectionHandler);
   io.listen(PORT, {
     cors: {

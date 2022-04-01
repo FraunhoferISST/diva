@@ -3,6 +3,10 @@ import ResourceGeneral from "@/components/Resource/General/ResourceGeneral";
 import ResourceDetails from "@/views/Resources/ResourceDetails";
 import ResourceProfiling from "@/components/Resource/Profiling/ResourceProfiling";
 import ResourceSample from "@/components/Resource/Sample/ResourceSample";
+//System Entities
+import SystemEntityGeneral from "@/components/SystemEntity/General/SystemEntityGeneral";
+import SystemEntitiyDetails from "@/views/SystemEntities/SystemEntitiyDetails";
+
 //Assets
 import AssetRelations from "@/components/Asset/AssetRelations/AssetRelations.vue";
 import AssetsDetails from "@/views/Asset/AssetDetails.vue";
@@ -18,6 +22,7 @@ import EntityReviews from "@/components/Entity/EntityCommonComponents/Reviews/En
 const ASSET_PREFIX = "asset";
 const RESOURCE_PREFIX = "resource";
 const USER_PREFIX = "user";
+const SYSTEM_ENTITY_PREFIX = "system_entity";
 
 const entityCommonRoutes = (prefix) => [
   {
@@ -103,7 +108,7 @@ const usersConfig = entityRoutesFactory(
   UsersDetails,
   UserGeneral
 );
-//Asset specific routes
+//User specific routes
 usersConfig.children.push({
   path: "collections",
   name: "user_details_collections",
@@ -111,4 +116,11 @@ usersConfig.children.push({
   props: true,
 });
 
-export default [resourceConfig, assetConfig, usersConfig];
+const systemEntityConfig = entityRoutesFactory(
+  "systemEntities",
+  SYSTEM_ENTITY_PREFIX,
+  SystemEntitiyDetails,
+  SystemEntityGeneral
+);
+
+export default [resourceConfig, assetConfig, usersConfig, systemEntityConfig];

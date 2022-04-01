@@ -25,6 +25,7 @@
     "lodash.debounce": "^4.0.8",
     "material-design-icons-iconfont": "^6.5.0",
     "mitt": "^3.0.0",
+    "pluralize": "^8.0.0",
     "randomcolor": "^0.6.2",
     "socket.io-client": "^4.4.1",
     "url-join": "^4.0.1",

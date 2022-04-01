@@ -10,7 +10,7 @@ const {
   imagesLimitError,
 } = require("@diva/common/Error");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const entityImagesService = require("./EntityImagesService");
 const {
@@ -123,8 +123,8 @@ class EntityService {
 
   async create(entity, actorId) {
     const newEntity = cleanUpEntity({
+      id: generateUuid(this.entityType), // the id con be overwritten by concrete implementation
       ...entity,
-      id: generateUuid(this.entityType),
       entityType: this.entityType,
       created: new Date().toISOString(),
       modified: new Date().toISOString(),

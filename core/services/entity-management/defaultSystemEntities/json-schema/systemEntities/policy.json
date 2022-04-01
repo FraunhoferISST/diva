@@ -39,15 +39,24 @@
     "scope": {
       "type": "object",
       "title": "Policy scope",
-      "description": "Defines the API request scope to which the rule applies"
+      "description": "Defines the API request scope to which the rule applies",
+      "_elasticsearch": {
+        "enabled": false
+      }
     },
     "priority": {
       "type": "integer",
       "title": "priority",
       "description": "Priority of the rule",
-      "minimum": 0
+      "minimum": 0,
+      "_elasticsearch": {
+        "enabled": false
+      }
     },
     "condition": {
+      "_elasticsearch": {
+        "enabled": false
+      },
       "oneOf": [
         {
           "title": "Condition",
@@ -84,6 +93,9 @@
       "minItems": 1,
       "items": {
         "type": "string"
+      },
+      "_elasticsearch": {
+        "enabled": false
       }
     },
     "id": {

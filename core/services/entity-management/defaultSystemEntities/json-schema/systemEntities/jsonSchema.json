@@ -5,23 +5,19 @@
   "title": "JSON Schema",
   "required": [
     "name",
-    "schema",
-    "scope"
+    "schema"
   ],
   "properties": {
     "name": {
       "type": "string",
       "title": "Schema name",
       "description": "Unique name of the schema",
-      "examples": ["entity", "byteSize"],
-      "_elasticsearch": {
-        "enabled": false
-      }
+      "examples": ["entity", "byteSize"]
     },
     "scope": {
       "type": "object",
       "title": "Schema scope",
-      "description": "Defines to which (sub-)entity the schema applies",
+      "description": "Defines to which (sub-)entity the schema applies. If not specified, the schema is included as the root property of an entity",
       "required": ["key", "value"],
       "examples": [
         {
@@ -33,6 +29,9 @@
           "value": "application/pdf"
         }
       ],
+      "_elasticsearch": {
+        "enabled": false
+      },
       "properties": {
         "key": {
           "type": "string",

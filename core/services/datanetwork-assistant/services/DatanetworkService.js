@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const Neo4jConnector = require("@diva/common/databases/Neo4jConnector");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const {
   nodeNotFoundError,
   edgeNotFoundError,
