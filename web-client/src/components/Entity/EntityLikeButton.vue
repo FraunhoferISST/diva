@@ -109,7 +109,8 @@ export default {
     dislikeEntity() {
       return this.$api.datanetwork
         .deleteEdgeById(this.likeEdge.id)
-        .then(() => (this.isLikedByUser = false));
+        .then(() => (this.isLikedByUser = false))
+        .then(() => (this.likeEdge = null));
     },
     checkIfIsLikedByUser() {
       return this.request(
@@ -121,7 +122,10 @@ export default {
           })
           .then(({ data }) => {
             this.isLikedByUser = data.collection.length > 0;
-            this.likeEdge = data.collection[0];
+            this.likeEdge = {
+              ...data.collection[0],
+              id: data.collection[0].properties.id,
+            };
           })
       );
     },

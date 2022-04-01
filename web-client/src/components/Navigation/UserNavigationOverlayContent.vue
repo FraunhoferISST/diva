@@ -21,7 +21,7 @@
                     <v-row dense v-if="recentLikes.length > 0">
                       <v-col
                         cols="12"
-                        v-for="entity in recentLikes"
+                        v-for="entity in recentLikes.filter((l) => l)"
                         :key="entity.id"
                       >
                         <entity-mini-card :entity="entity" />
@@ -103,6 +103,7 @@ import { useUser } from "@/composables/user";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useRequest } from "@/composables/request";
+import { useApi } from "@/composables/api";
 
 export default {
   name: "UserNavigationOverlayContent",
@@ -116,6 +117,7 @@ export default {
     LogoutButton,
   },
   setup() {
+    const { getEntityApiById } = useApi();
     const { request, loading, error } = useRequest();
     const { user, recentlyViewed } = useUser();
     return {
@@ -124,6 +126,7 @@ export default {
       error,
       user,
       recentlyViewed,
+      getEntityApiById,
     };
   },
   data: () => ({
@@ -140,11 +143,7 @@ export default {
           .then(async ({ data: { collection } }) =>
             Promise.all(
               collection.map((edge) => {
-                const entityType = edge.to.entityId.slice(
-                  0,
-                  edge.to.entityId.indexOf(":")
-                );
-                return this.$api[`${entityType}s`]
+                return this.getEntityApiById(edge.to.entityId)
                   .getByIdIfExists(edge.to.entityId, {
                     fields:
                       "id, title, entityType, username, mimeType, entityIcon",

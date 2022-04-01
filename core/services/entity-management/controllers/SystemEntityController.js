@@ -5,7 +5,7 @@ const EntityController = require("./EntityController");
 
 const reintializeJsonSchemaValidator = () =>
   systemEntitiesService
-    .resolveSchemaByName("entity")
+    .resolveEntitySchema()
     .then((resolvedSchema) => jsonSchemaValidator.init([resolvedSchema]))
     .catch((e) => {
       logger.error(`Couldn't reinitialize jsonSchemaValidator: ${e} `);
@@ -24,9 +24,9 @@ class SystemEntitiesController extends EntityController {
       .then(() => reintializeJsonSchemaValidator());
   }
 
-  async resolveSchemaByName(req, res, next) {
+  async getResolvedEntitySchema(req, res, next) {
     try {
-      const resolvedSchema = await systemEntitiesService.resolveSchemaByName(
+      const resolvedSchema = await systemEntitiesService.resolveEntitySchema(
         req.params.name
       );
       res.status(200).send(resolvedSchema);

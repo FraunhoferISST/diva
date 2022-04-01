@@ -1,0 +1,34 @@
+{
+  "id": "schema:uuid:50a8b2f8-3804-43d2-b046-624132ec43e6",
+  "title": "Since date",
+  "schemaName": "urbanPulseSensorSince",
+  "description": "The start of the date range of the retrieved sensor data",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "urbanPulseSensor"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Since date",
+    "required": [
+      "urbanPulseSensorSince"
+    ],
+    "properties": {
+      "urbanPulseSensorSince": {
+        "type": "string",
+        "title": "Since date",
+        "description": "The start of the date range of the retrieved sensor data",
+        "minLength": 1,
+        "examples": [
+          "2018-11-08T13:55:45Z"
+        ],
+        "format": "date-time"
+      }
+    }
+  }
+}

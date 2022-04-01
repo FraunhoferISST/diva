@@ -1,0 +1,18 @@
+{
+  "id": "schema:uuid:36959a95-95a5-4ef8-81d1-4229bab7f6e2",
+  "title": "Private",
+  "schemaName": "isPrivate",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Private",
+    "properties": {
+      "isPrivate": {
+        "type": "boolean",
+        "title": "Private"
+      }
+    }
+  }
+}

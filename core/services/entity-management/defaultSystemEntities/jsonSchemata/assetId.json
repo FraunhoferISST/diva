@@ -1,0 +1,26 @@
+{
+  "id": "schema:uuid:bbfcdf80-1cb4-4f12-8776-84d62f708d86",
+  "title": "Asset ID",
+  "schemaName": "assetId",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Asset ID",
+    "required": [
+      "id"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^asset:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      }
+    }
+  }
+}

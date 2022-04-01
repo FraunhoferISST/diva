@@ -1,7 +1,7 @@
 const generateUuid = require("@diva/common/utils/generateUuid");
 const EntityService = require("./EntityService");
 
-const createUser = async (userData) => ({
+const createUser = (userData) => ({
   ...userData,
   id: userData.id || generateUuid("user"),
   entityType: "user",
@@ -17,7 +17,7 @@ class UsersService extends EntityService {
   }
 
   async create(user, actorId) {
-    const newUser = await createUser(user, actorId);
+    const newUser = createUser(user, actorId);
     return super.create(newUser, actorId || newUser.id);
   }
 
@@ -37,7 +37,7 @@ class UsersService extends EntityService {
         actorId
       );
     }
-    return super.updateById(id, await createUser(user), actorId);
+    return super.updateById(id, createUser(user), actorId);
   }
 }
 

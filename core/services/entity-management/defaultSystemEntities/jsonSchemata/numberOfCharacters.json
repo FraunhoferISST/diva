@@ -1,0 +1,37 @@
+{
+  "id": "schema:uuid:18270b5e-57a4-4b4b-a518-39d09d96c55b",
+  "title": "Number of Characters",
+  "schemaName": "numberOfCharacters",
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "text/csv"
+    },
+    {
+      "key": "mimeType",
+      "value": "application/x-sas-data"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Number of Characters",
+    "properties": {
+      "numberOfCharacters": {
+        "type": "integer",
+        "title": "Number of Characters",
+        "description": "Number of characters of a text",
+        "default": 0,
+        "minimum": 0,
+        "examples": [
+          22856,
+          572557
+        ],
+        "_elasticsearch": {
+          "type": "unsigned_long"
+        }
+      }
+    }
+  }
+}

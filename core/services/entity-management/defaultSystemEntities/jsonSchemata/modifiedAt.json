@@ -1,0 +1,30 @@
+{
+  "id": "schema:uuid:96b28571-5152-4749-89b0-feb2f22319c6",
+  "title": "Modification date",
+  "schemaName": "modifiedAt",
+  "description": "Date on which the entity was changed.",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Modification date",
+    "required": [
+      "modifiedAt"
+    ],
+    "properties": {
+      "modifiedAt": {
+        "type": "string",
+        "title": "Modification date",
+        "description": "Date on which the entity was changed.",
+        "examples": [
+          "2018-11-08T13:55:45Z"
+        ],
+        "format": "date-time",
+        "_elasticsearch": {
+          "type": "date"
+        }
+      }
+    }
+  }
+}

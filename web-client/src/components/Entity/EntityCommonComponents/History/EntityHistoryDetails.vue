@@ -24,8 +24,8 @@
             <v-col cols="12">
               <user-card :user="creator">
                 <date-display
-                  v-if="historyLog.created"
-                  :date="historyLog.created || ''"
+                  v-if="historyLog.createdAt"
+                  :date="historyLog.createdAt || ''"
                 />
               </user-card>
             </v-col>

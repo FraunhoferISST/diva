@@ -1,0 +1,27 @@
+{
+  "id": "schema:uuid:354bdddc-be56-4f64-bf12-6a70c23d0dc2",
+  "title": "Postal Code",
+  "schemaName": "postalCode",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "user"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Postal Code",
+    "properties": {
+      "postalCode": {
+        "type": "string",
+        "title": "Postal Code",
+        "_elasticsearch": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "schema:uuid:bc9b8d78-f471-4f17-90b3-90e8a1d93a41",
+  "title": "Number of Words",
+  "schemaName": "numberOfWords",
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "text/csv"
+    },
+    {
+      "key": "mimeType",
+      "value": "application/x-sas-data"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Number of Words",
+    "properties": {
+      "numberOfWords": {
+        "type": "integer",
+        "title": "Number of Words",
+        "description": "Number of words in a text",
+        "default": 0,
+        "minimum": 0,
+        "examples": [
+          46464,
+          4363
+        ],
+        "_elasticsearch": {
+          "type": "unsigned_long"
+        }
+      }
+    }
+  }
+}
