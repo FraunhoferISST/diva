@@ -12,7 +12,7 @@
               {{ actionType }}
             </span>
             <dot-divider class="mx-3" />
-            <date-display :date="data.created" />
+            <date-display :date="data.createdAt" />
           </user-card>
           <v-btn icon color="primary" @click="emitSelect">
             <v-icon small>more_vert</v-icon>
