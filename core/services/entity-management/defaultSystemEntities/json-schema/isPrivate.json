@@ -1,0 +1,17 @@
+{
+  "title": "Private",
+  "schemaName": "isPrivate",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Private",
+    "properties": {
+      "isPrivate": {
+        "type": "boolean",
+        "title": "Private"
+      }
+    }
+  }
+}

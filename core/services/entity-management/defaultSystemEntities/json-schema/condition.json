@@ -1,0 +1,100 @@
+{
+  "title": "condition",
+  "schemaName": "condition",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "systemEntityType",
+      "value": "policy"
+    },
+    {
+      "key": "systemEntityType",
+      "value": "rule"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "required": ["condition"],
+    "properties": {
+      "condition": {
+        "_elasticsearch": {
+          "enabled": false
+        },
+        "oneOf": [
+          {
+            "title": "Condition",
+            "description": "Condition that should be met",
+            "type": "boolean"
+          },
+          {
+            "title": "Condition",
+            "description": "Condition that should be met",
+            "type": "object",
+            "properties": {
+              "and": {
+                "title": "AND conditions",
+                "description": "Conjunction der rule conditions",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "cypher": {
+                      "type": "object",
+                      "properties": {
+                        "query": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "mongo": {
+                      "type": "object",
+                      "properties": {
+                        "query": {
+                          "type": "string"
+                        },
+                        "collection": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "or": {
+                "type": "array",
+                "title": "OR conditions",
+                "description": "disjunction der rule conditions",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "cypher": {
+                      "type": "object",
+                      "properties": {
+                        "query": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "mongo": {
+                      "type": "object",
+                      "properties": {
+                        "query": {
+                          "type": "string"
+                        },
+                        "collection": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

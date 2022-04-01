@@ -1,0 +1,31 @@
+{
+  "title": "Server Type",
+  "schemaName": "sas7bdatServerType",
+  "description": "The server type of the sas7bdat database",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "application/x-sas-data"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Server Type",
+    "properties": {
+      "sas7bdatServerType": {
+        "type": "string",
+        "title": "Server Type",
+        "description": "The server type of the sas7bdat database",
+        "default": "",
+        "minLength": 1,
+        "examples": [
+          "9.0401M4"
+        ],
+        "pattern": "^(.*)$"
+      }
+    }
+  }
+}

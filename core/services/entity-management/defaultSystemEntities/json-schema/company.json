@@ -1,0 +1,30 @@
+{
+  "title": "Company Name",
+  "schemaName": "company",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "user"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Company Name",
+    "properties": {
+      "company": {
+        "type": "string",
+        "title": "Company Name",
+        "examples": [
+          "Example Company GmbH"
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "simple"
+        }
+      }
+    }
+  }
+}

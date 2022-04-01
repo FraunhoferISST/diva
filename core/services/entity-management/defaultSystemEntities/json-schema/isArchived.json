@@ -1,0 +1,17 @@
+{
+  "title": "Archived",
+  "schemaName": "isArchived",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Archived",
+    "properties": {
+      "isArchived": {
+        "type": "boolean",
+        "title": "Archived"
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "title": "Post Office Box Number",
+  "schemaName": "postOfficeBoxNumber",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "user"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Post Office Box Number",
+    "properties": {
+      "postOfficeBoxNumber": {
+        "type": "string",
+        "title": "Post Office Box Number",
+        "_elasticsearch": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

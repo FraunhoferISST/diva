@@ -1,0 +1,33 @@
+{
+  "title": "Unique sensor identifier",
+  "schemaName": "resourceUrbanPulseUniqueFingerprint",
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "urbanPulseSensor"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Unique sensor identifier",
+    "required": [
+      "uniqueFingerprint"
+    ],
+    "properties": {
+      "uniqueFingerprint": {
+        "type": "string",
+        "title": "Unique sensor identifier",
+        "description": "Unique sensor identifier is a SHA256 hash from 'sensorId', 'since' and 'until' fields",
+        "pattern": "^[A-Fa-f0-9]{64}$",
+        "examples": [
+          "7103cd78f9f78e778f3c2b8d902c8c1e936b10c39aeb6e47d2b9a16b82093e6c"
+        ],
+        "_elasticsearch": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

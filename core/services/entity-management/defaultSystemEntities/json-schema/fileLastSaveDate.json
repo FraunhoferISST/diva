@@ -1,0 +1,34 @@
+{
+  "title": "Last saved",
+  "schemaName": "fileLastSaveDate",
+  "description": "Date the file was saved last time",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "file"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Last saved",
+    "properties": {
+      "fileLastSaveDate": {
+        "type": "string",
+        "title": "Last saved",
+        "description": "Date the file was saved last time",
+        "default": "",
+        "minLength": 1,
+        "examples": [
+          "2018-11-08T13:55:45Z"
+        ],
+        "format": "date-time",
+        "_elasticsearch": {
+          "type": "date"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "title": "Schema name",
+  "schemaName": "schemaName",
+  "description": "Unique name of the schema",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "systemEntityType",
+      "value": "asyncapi"
+    },
+    {
+      "key": "systemEntityType",
+      "value": "schema"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Schema name",
+    "required": ["schemaName"],
+    "properties": {
+      "schemaName": {
+        "type": "string",
+        "title": "Schema name",
+        "description": "Unique name of the schema",
+        "examples": [
+          "asyncapi",
+          "datanetwork-api"
+        ]
+      }
+    }
+  }
+}

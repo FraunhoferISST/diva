@@ -1,0 +1,31 @@
+{
+  "title": "Last modified",
+  "schemaName": "fileModified",
+  "description": "Date the file was modified",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "file"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Last modified",
+    "properties": {
+      "fileModified": {
+        "type": "string",
+        "title": "Last modified",
+        "description": "Date the file was modified",
+        "default": "",
+        "minLength": 1,
+        "examples": [
+          "2018-11-08T13:55:45Z"
+        ],
+        "format": "date-time"
+      }
+    }
+  }
+}

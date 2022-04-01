@@ -1,0 +1,29 @@
+{
+  "title": "Mobile Number",
+  "schemaName": "mobileNumber",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "user"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Mobile Number",
+    "properties": {
+      "mobileNumber": {
+        "type": "string",
+        "title": "Mobile Number",
+        "examples": [
+          "+49 150 1111 2222"
+        ],
+        "_elasticsearch": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

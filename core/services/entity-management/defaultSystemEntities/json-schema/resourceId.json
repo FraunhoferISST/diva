@@ -1,0 +1,25 @@
+{
+  "title": "Resource ID",
+  "name": "id",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Resource ID",
+    "required": [
+      "id"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      }
+    }
+  }
+}

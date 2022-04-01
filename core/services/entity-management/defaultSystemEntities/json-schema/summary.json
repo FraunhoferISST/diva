@@ -1,0 +1,35 @@
+{
+  "title": "Summary",
+  "name": "summary",
+  "description": "A brief explanation what the entity is. In contrary to the description, the summary is limited in length for a quick insight e.g. on a search page.",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Summary",
+    "properties": {
+      "summary": {
+        "type": "string",
+        "title": "Summary",
+        "description": "A brief explanation what the entity is. In contrary to the description, the summary is limited in length for a quick insight e.g. on a search page.",
+        "default": "",
+        "examples": [
+          "lorem ipsum dolor sit amet..."
+        ],
+        "minLength": 0,
+        "maxLength": 255
+      }
+    }
+  }
+}

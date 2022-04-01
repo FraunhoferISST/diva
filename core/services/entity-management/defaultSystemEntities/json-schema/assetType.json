@@ -1,0 +1,33 @@
+{
+  "title": "Asset Type",
+  "schemaName": "assetType",
+  "description": "The type of the asset",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Asset Type",
+    "required": ["assetType"],
+    "properties": {
+      "assetType": {
+        "type": "string",
+        "title": "Asset Type",
+        "description": "The type of the asset",
+        "enum": [
+          "generic",
+          "urbanPulse"
+        ],
+        "_elasticsearch": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

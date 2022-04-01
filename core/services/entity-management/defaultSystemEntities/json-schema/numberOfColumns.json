@@ -1,0 +1,34 @@
+{
+    "title": "Number of columns",
+    "schemaName": "numberOfColumns",
+    "scope": [
+        {
+            "key": "mimeType",
+            "value": "text/csv"
+        },
+        {
+            "key": "mimeType",
+            "value": "application/x-sas-data"
+        }
+    ],
+    "systemEntityType": "schema",
+    "schema": {
+        "$schema": "https://json-schema.org/draft/2019-09/schema",
+        "type": "object",
+        "title": "Number of Columns of a Table",
+        "properties": {
+            "numberOfColumns": {
+                "type": "integer",
+                "title": "Number of columns",
+                "description": "the number of existing columns in the csv file",
+                "default": 0,
+                "examples": [
+                    7
+                ],
+                "_elasticsearch": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

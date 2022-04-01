@@ -1,0 +1,34 @@
+{
+  "title": "The SHA256 hash unique identifier",
+  "schemaName": "resourceFileUniqueFingerprint",
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "file"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "The SHA256 hash unique identifier",
+    "required": [
+      "uniqueFingerprint"
+    ],
+    "properties": {
+      "uniqueFingerprint": {
+        "type": "string",
+        "title": "The SHA256 hash unique identifier",
+        "description": "The SHA256 hash of the file content that uniquely indicates a resource",
+        "default": "",
+        "examples": [
+          "3a0d32967309cbc44d377c0aa801e95bfbf50f48c103f288ce25cc1f4df30f9a"
+        ],
+        "pattern": "^[A-Fa-f0-9]{64}$",
+        "_elasticsearch": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

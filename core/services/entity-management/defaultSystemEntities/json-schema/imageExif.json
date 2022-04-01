@@ -1,0 +1,228 @@
+{
+    "title": "EXIF data of an Image",
+    "schemaName": "exif",
+    "scope": [
+        {
+            "key": "resourceType",
+            "value": "file"
+        }
+    ],
+    "systemEntityType": "schema",
+    "schema": {
+        "$schema": "https://json-schema.org/draft/2019-09/schema",
+        "type": "object",
+        "title": "EXIF data of an Image",
+        "properties": {
+            "exif": {
+                "type": "object",
+                "title": "EXIF",
+                "description": "Metadata in EXIF Standard",
+                "properties": {
+                    "image": {
+                        "type": "object",
+                        "title": "Image",
+                        "description": "IDF0 metadata",
+                        "properties": {
+                            "make": {
+                                "type": "string",
+                                "title": "Make",
+                                "description": "The manufacturer of the recording equipment. This is the manufacturer of the DSC, scanner, video digitizer or other equipment that generated the image. When the field is left blank, it is treated as unknown.",
+                                "default": "",
+                                "minLength": 1,
+                                "examples": [
+                                    "FUJIFILM",
+                                    "NIKON CORPORATION"
+                                ],
+                                "pattern": "^(.*)$"
+                            },
+                            "model": {
+                                "type": "string",
+                                "title": "Model",
+                                "description": "The model name or model number of the equipment. This is the model name or number of the DSC, scanner, video digitizer or other equipment that generated the image. When the field is left blank, it is treated as unknown.",
+                                "default": "",
+                                "minLength": 1,
+                                "examples": [
+                                    "FinePix40i",
+                                    "FinePix40iNikon D70"
+                                ],
+                                "pattern": "^(.*)$"
+                            },
+                            "orientation": {
+                                "type": "number",
+                                "title": "Orientation",
+                                "description": "The image orientation viewed in terms of rows and columns.",
+                                "default": 0,
+                                "examples": [
+                                    0,
+                                    1
+                                ]
+                            },
+                            "xResolution": {
+                                "type": "integer",
+                                "title": "x Resolution",
+                                "description": "The number of pixels per <ResolutionUnit> in the <ImageWidth> direction. When the image resolution is unknown, 72 [dpi] is designated.",
+                                "default": 0,
+                                "examples": [
+                                    240,
+                                    2048
+                                ],
+                                "_elasticsearch": {
+                                    "type": "integer"
+                                }
+                            },
+                            "yResolution": {
+                                "type": "integer",
+                                "title": "y Resolution",
+                                "description": "The number of pixels per <ResolutionUnit> in the <ImageLength> direction. The same value as <XResolution> is designated.",
+                                "default": 0,
+                                "examples": [
+                                    240,
+                                    1080
+                                ],
+                                "_elasticsearch": {
+                                    "type": "integer"
+                                }
+                            },
+                            "resolutionUnit": {
+                                "type": "number",
+                                "title": "Resolution Unit",
+                                "description": "The unit for measuring <XResolution> and <YResolution>. The same unit is used for both <XResolution> and <YResolution>. If the image resolution is unknown, 2 (inches) is designated.",
+                                "default": 2,
+                                "examples": [
+                                    2,
+                                    3
+                                ]
+                            },
+                            "software": {
+                                "type": "string",
+                                "title": "Software",
+                                "description": "This tag records the name and version of the software or firmware of the camera or image input device used to generate the image. The detailed format is not specified, but it is recommended that the example shown below be followed. When the field is left blank, it is treated as unknown.",
+                                "minLength": 1,
+                                "examples": [
+                                    "GIMP 2.4.5",
+                                    "Adobe Photoshop CC"
+                                ],
+                                "pattern": "^(.*)$"
+                            },
+                            "ycbcrPositioning": {
+                                "type": "number",
+                                "title": "YCbCrPositioning",
+                                "description": "The position of chrominance components in relation to the luminance component. This field is designated only for JPEG compressed data or uncompressed YCbCr data. The TIFF default is 1 (centered); but when Y:Cb:Cr = 4:2:2 it is recommended in this standard that 2 (co-sited) be used to record data, in order to improve the image quality when viewed on TV systems. When this field does not exist, the reader shall assume the TIFF default. In the case of Y:Cb:Cr = 4:2:0, the TIFF default (centered) is recommended. If the reader does not have the capability of supporting both kinds of <YCbCrPositioning>, it shall follow the TIFF default regardless of the value in this field. It is preferable that readers be able to support both centered and co-sited positioning.",
+                                "default": 0,
+                                "examples": [
+                                    0,
+                                    1,
+                                    2
+                                ]
+                            },
+                            "copyright": {
+                                "type": "string",
+                                "title": "Copyright",
+                                "description": "Copyright information. In this standard the tag is used to indicate both the photographer and editor copyrights. It is the copyright notice of the person or organization claiming rights to the image. The Interoperability copyright statement including date and rights should be written in this field; e.g., \"Copyright, John Smith, 19xx. All rights reserved.\". In this standard the field records both the photographer and editor copyrights, with each recorded in a separate part of the statement. When there is a clear distinction between the photographer and editor copyrights, these are to be written in the order of photographer followed by editor copyright, separated by NULL (in this case since the statement also ends with a NULL, there are two NULL codes). When only the photographer copyright is given, it is terminated by one NULL code. When only the editor copyright is given, the photographer copyright part consists of one space followed by a terminating NULL code, then the editor copyright is given. When the field is left blank, it is treated as unknown.",
+                                "minLength": 1,
+                                "examples": [
+                                    "Copyright, John Smith, 19xx. All rights reserved."
+                                ],
+                                "pattern": "^(.*)$"
+                            },
+                            "imageWidth": {
+                                "type": "integer",
+                                "title": "Copyright",
+                                "description": "The number of columns of image data, equal to the number of pixels per row. In JPEG compressed data a JPEG marker is used instead of this tag.",
+                                "minimum": 0,
+                                "examples": [
+                                    2400
+                                ],
+                                "_elasticsearch": {
+                                    "type": "integer"
+                                }
+                            },
+                            "imageLength": {
+                                "type": "integer",
+                                "title": "Copyright",
+                                "description": "The number of rows of image data. In JPEG compressed data a JPEG marker is used instead of this tag.",
+                                "minimum": 0,
+                                "examples": [
+                                    1800
+                                ],
+                                "_elasticsearch": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "photo": {
+                        "type": "object",
+                        "title": "Photo",
+                        "description": "EXIF IDF metadata",
+                        "additionalProperties": false,
+                        "properties": {
+                            "fNumber": {
+                                "type": "number",
+                                "title": "FNumber",
+                                "description": "The F number.",
+                                "default": 0,
+                                "examples": [
+                                    2.8
+                                ],
+                                "_elasticsearch": {
+                                    "type": "float"
+                                }
+                            },
+                            "iso": {
+                                "type": "number",
+                                "title": "ISO",
+                                "description": "ISO",
+                                "default": 0,
+                                "examples": [
+                                    200,
+                                    400
+                                ],
+                                "_elasticsearch": {
+                                    "type": "float"
+                                }
+                            },
+                            "shutterSpeedValue": {
+                                "type": "number",
+                                "title": "ShutterSpeedValue",
+                                "description": "Shutter speed.",
+                                "default": 0,
+                                "examples": [
+                                    5.4
+                                ],
+                                "_elasticsearch": {
+                                    "type": "float"
+                                }
+                            },
+                            "brightnessValue": {
+                                "type": "number",
+                                "title": "BrightnessValue",
+                                "description": "The value of brightness.",
+                                "default": 0,
+                                "examples": [
+                                    0.26
+                                ],
+                                "_elasticsearch": {
+                                    "type": "float"
+                                }
+                            },
+                            "flash": {
+                                "type": "number",
+                                "title": "Flash",
+                                "description": "Indicates the status of flash when the image was shot.",
+                                "default": 0,
+                                "examples": [
+                                    1
+                                ],
+                                "_elasticsearch": {
+                                    "type": "float"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

@@ -1,0 +1,38 @@
+{
+  "title": "Version notes",
+  "name": "versionNotes",
+  "description": "A string describing the version of the entity",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Version notes",
+    "properties": {
+      "versionNotes": {
+        "type": "string",
+        "title": "Version notes",
+        "description": "A string describing the version of the entity",
+        "default": "",
+        "examples": [
+          "This is a new release with awesome features"
+        ],
+        "pattern": "^(.*)$",
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "standard"
+        }
+      }
+    }
+  }
+}

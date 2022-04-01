@@ -1,0 +1,34 @@
+{
+  "title": "Resource type",
+  "name": "resourceType",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Resource Type",
+    "required": [
+      "resourceType"
+    ],
+    "properties": {
+      "resourceType": {
+        "type": "string",
+        "title": "Resource Type",
+        "description": "The general type of the resource",
+        "enum": [
+          "generic",
+          "file",
+          "urbanPulseSensor"
+        ],
+        "_elasticsearch": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

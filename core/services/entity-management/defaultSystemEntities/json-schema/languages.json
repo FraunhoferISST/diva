@@ -1,0 +1,98 @@
+{
+    "title": "Languages",
+    "schemaName": "languages",
+    "scope": [
+        {
+            "key": "entityType",
+            "value": "resource"
+        },
+        {
+            "key": "entityType",
+            "value": "asset"
+        }
+    ],
+    "systemEntityType": "schema",
+    "schema": {
+        "$schema": "https://json-schema.org/draft/2019-09/schema",
+        "type": "object",
+        "title": "Languages",
+        "properties": {
+            "languages": {
+                "type": "array",
+                "title": "Languages",
+                "description": "Detected Languages of a text file",
+                "items": {
+                    "type": "object",
+                    "title": "Items",
+                    "description": "Guessed languages",
+                    "required": [
+                        "alpha2",
+                        "language"
+                    ],
+                    "properties": {
+                        "alpha3": {
+                            "type": "string",
+                            "title": "Alpha3",
+                            "description": "Alpha3 description of language",
+                            "minLength": 3,
+                            "maxLength": 3,
+                            "examples": [
+                                "deu",
+                                "nld",
+                                "afr"
+                            ],
+                            "_elasticsearch": {
+                                "type": "keyword"
+                            }
+                        },
+                        "alpha2": {
+                            "type": "string",
+                            "title": "Alpha2",
+                            "description": "Alpha2 description of language",
+                            "minLength": 2,
+                            "maxLength": 2,
+                            "examples": [
+                                "de",
+                                "nl",
+                                "af"
+                            ],
+                            "_elasticsearch": {
+                                "type": "keyword"
+                            }
+                        },
+                        "language": {
+                            "type": "string",
+                            "title": "Language",
+                            "description": "Name of the Language written",
+                            "minLength": 1,
+                            "examples": [
+                                "German",
+                                "Dutch",
+                                "Afrikaans"
+                            ],
+                            "pattern": "^(.*)$",
+                            "_elasticsearch": {
+                                "type": "keyword"
+                            }
+                        },
+                        "score": {
+                            "type": "number",
+                            "title": "Score",
+                            "description": "Score of the probability of a language",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "examples": [
+                                1,
+                                0.9724364236,
+                                0.90947
+                            ],
+                            "_elasticsearch": {
+                                "type": "half_float"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

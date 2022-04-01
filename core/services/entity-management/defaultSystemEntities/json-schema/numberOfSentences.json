@@ -1,0 +1,36 @@
+{
+    "title": "Number of Sentences",
+    "schemaName": "numberOfSentences",
+    "scope": [
+        {
+            "key": "mimeType",
+            "value": "text/csv"
+        },
+        {
+            "key": "mimeType",
+            "value": "application/x-sas-data"
+        }
+    ],
+    "systemEntityType": "schema",
+    "schema": {
+        "$schema": "https://json-schema.org/draft/2019-09/schema",
+        "type": "object",
+        "title": "Number of Sentences",
+        "properties": {
+            "numberOfSentences": {
+                "type": "integer",
+                "title": "Number of Sentences",
+                "description": "Number of sentences in a text",
+                "default": 0,
+                "minimum": 0,
+                "examples": [
+                    22856,
+                    572557
+                ],
+                "_elasticsearch": {
+                    "type": "unsigned_long"
+                }
+            }
+        }
+    }
+}

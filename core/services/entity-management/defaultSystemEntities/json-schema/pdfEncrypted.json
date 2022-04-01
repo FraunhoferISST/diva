@@ -1,0 +1,29 @@
+{
+  "title": "PDF encrypted",
+  "schemaName": "pdfEncrypted",
+  "description": "PDF is encrypted",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "application/pdf"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "pdfEncrypted",
+    "properties": {
+      "pdfEncrypted": {
+        "type": "boolean",
+        "title": "pdfEncrypted",
+        "description": "PDF is encrypted",
+        "examples": [
+          true,
+          false
+        ]
+      }
+    }
+  }
+}

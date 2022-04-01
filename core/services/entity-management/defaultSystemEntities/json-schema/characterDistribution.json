@@ -1,0 +1,51 @@
+{
+    "title": "Character Distribution",
+    "schemaName": "characterDistribution",
+    "scope": [
+        {
+            "key": "mimeType",
+            "value": "text/csv"
+        },
+        {
+            "key": "mimeType",
+            "value": "application/x-sas-data"
+        }
+    ],
+    "systemEntityType": "schema",
+    "schema": {
+        "$schema": "https://json-schema.org/draft/2019-09/schema",
+        "type": "object",
+        "title": "Character Distribution",
+        "properties": {
+            "characterDistribution": {
+                "type": "array",
+                "title": "Character Distribution",
+                "description": "Distribution of the characters of a text",
+                "default": 0,
+                "minItems": 0,
+                "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                        "character",
+                        "count"
+                    ],
+                    "properties": {
+                        "character": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 1
+                        },
+                        "count": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "_elasticsearch": {
+                                "type": "unsigned_long"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

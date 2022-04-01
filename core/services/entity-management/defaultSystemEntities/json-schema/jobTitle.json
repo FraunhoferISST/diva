@@ -1,0 +1,30 @@
+{
+  "title": "Job Title",
+  "schemaName": "jobTitle",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "user"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Job Title",
+    "properties": {
+      "jobTitle": {
+        "type": "string",
+        "title": "Job Title",
+        "examples": [
+          "Senior Software Developer"
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "simple"
+        }
+      }
+    }
+  }
+}

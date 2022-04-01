@@ -1,0 +1,32 @@
+{
+  "title": "The Username Schema",
+  "schemaName": "username",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "user"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "The Username Schema",
+    "required": ["username"],
+    "properties": {
+      "username": {
+        "type": "string",
+        "title": "The Username Schema",
+        "examples": [
+          "mustermann"
+        ],
+        "minLength": 1,
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "simple"
+        }
+      }
+    }
+  }
+}

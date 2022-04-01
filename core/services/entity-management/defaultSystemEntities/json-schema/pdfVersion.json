@@ -1,0 +1,31 @@
+{
+  "title": "PDF version",
+  "schemaName": "pdfVersion",
+  "description": "Version of the PDF compiler",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "application/pdf"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "pdfVersion",
+    "properties": {
+      "pdfVersion": {
+        "type": "string",
+        "title": "pdfVersion",
+        "description": "Version of the PDF compiler",
+        "default": "",
+        "minLength": 1,
+        "examples": [
+          "1.4"
+        ],
+        "pattern": "^(.*)$"
+      }
+    }
+  }
+}

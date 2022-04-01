@@ -1,0 +1,38 @@
+{
+  "title": "Review rating",
+  "schemaName": "rating",
+  "description": "Rating assigned to an entity within a review (1-5)",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "review"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Review rating",
+    "required": ["rating"],
+    "properties": {
+      "rating": {
+        "type": "integer",
+        "title": "Review rating",
+        "description": "Rating assigned to an entity within a review (1-5)",
+        "minimum": 1,
+        "maximum": 5,
+        "examples": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "_elasticsearch": {
+          "type": "byte"
+        }
+      }
+    }
+  }
+}

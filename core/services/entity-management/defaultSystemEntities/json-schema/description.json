@@ -1,0 +1,37 @@
+{
+  "title": "Description",
+  "name": "description",
+  "description": "The description of the entity",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Description",
+    "properties": {
+      "description": {
+        "type": "string",
+        "title": "Description",
+        "description": "The description of the entity",
+        "default": "",
+        "examples": [
+          "lorem ipsum dolor sit amet..."
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "standard"
+        }
+      }
+    }
+  }
+}
