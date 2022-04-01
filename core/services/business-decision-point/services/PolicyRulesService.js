@@ -12,6 +12,7 @@ const KAFKA_CONSUMER_TOPICS = [
     },
   },
 ];
+
 class PolicyRulesService {
   async init() {
     this.collection = mongoDBConnector.collections.systemEntities;
