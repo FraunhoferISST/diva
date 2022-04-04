@@ -99,7 +99,11 @@ export default {
       pageSize,
       loading,
       error,
-      search,
+      searchEntities: (input) =>
+        search(input, {
+          pageSize: pageSize.value,
+          entityType: "resource,asset",
+        }),
       cursor,
       data,
       total,
@@ -157,7 +161,7 @@ export default {
     },
     loadFirstSearchPage() {
       this.cursor = null;
-      return this.search(this.term.trim(), this.pageSize).then(
+      return this.searchEntities(this.term.trim()).then(
         () =>
           (this.items = this.searchResult.filter(({ doc }) =>
             ["resource", "asset"].includes(doc.entityType)
@@ -165,7 +169,7 @@ export default {
       );
     },
     loadSearchPage() {
-      return this.search(this.term.trim(), this.pageSize).then(() =>
+      return this.searchEntities(this.term.trim()).then(() =>
         this.items.push(
           ...this.searchResult.filter(({ doc }) =>
             ["resource", "asset"].includes(doc.entityType)

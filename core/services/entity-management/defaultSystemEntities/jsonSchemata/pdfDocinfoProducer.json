@@ -1,0 +1,32 @@
+{
+  "id": "schema:uuid:ddfd4d62-99e3-4192-965b-7714e7d39d88",
+  "title": "PDF producer",
+  "schemaName": "pdfDocinfoProducer",
+  "description": "Producer of the PDF File",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "application/pdf"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "pdfDocinfoProducer",
+    "properties": {
+      "pdfDocinfoProducer": {
+        "type": "string",
+        "title": "pdfDocinfoProducer",
+        "description": "Producer of the PDF File",
+        "default": "",
+        "minLength": 1,
+        "examples": [
+          "Skia/PDF m58"
+        ],
+        "pattern": "^(.*)$"
+      }
+    }
+  }
+}

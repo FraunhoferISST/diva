@@ -1,0 +1,41 @@
+{
+  "id": "schema:uuid:86f25f91-c24c-43b7-aba8-6f8dee5db88c",
+  "title": "Political geocoding levels",
+  "schemaName": "politicalGeocoding",
+  "description": "For the coded specification of the respective principle management level from which the data structure was collected and set, the following six options with multiple selection are possible",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Political geocoding levels",
+    "properties": {
+      "politicalGeocoding": {
+        "type": "string",
+        "title": "Political geocoding levels",
+        "description": "For the coded specification of the respective principle management level from which the data structure was collected and set, the following six options with multiple selection are possible",
+        "enum": [
+          "International",
+          "European",
+          "Federal",
+          "State",
+          "Administrative District",
+          "Municipality"
+        ],
+        "_elasticsearch": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}

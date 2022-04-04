@@ -9,6 +9,9 @@ version: '3.9'
 x-mongodb-env: &mongodb-env
   MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@documentstore:${MONGODB_PORT}
 
+x-schema-url-env: &schema-url-env
+  SCHEMA_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}/
+
 x-log-level-env: &log-level-env
   SYSTEM_LOG_LEVEL: ${SYSTEM_LOG_LEVEL}
 
@@ -177,6 +180,7 @@ services:
     environment:
       <<: *base-core-service-env
       <<: *entity-management-env
+      <<: *schema-url-env
       <<: *elasticsearch-env
       <<: *neo4j-env
       PORT: ${ELASTICSEARCH_CONNECTOR_PORT}

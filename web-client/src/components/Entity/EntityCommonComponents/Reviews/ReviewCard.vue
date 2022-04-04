@@ -14,7 +14,7 @@
               dense
             ></v-rating>
             <dot-divider class="mx-3" />
-            <date-display :date="review.created" />
+            <date-display :date="review.createdAt" />
           </div>
         </template>
       </user-card>

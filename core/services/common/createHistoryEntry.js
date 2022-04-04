@@ -25,8 +25,8 @@ const createPatchDelta = (oldObj, newObj) => jdp.diff(oldObj, newObj) || {};
 
 const createHistoryEntity = (attributedToId, delta, actorId) => ({
   id: generateUuid("history"),
-  created: new Date().toISOString(),
-  modified: new Date().toISOString(),
+  createdAt: new Date().toISOString(),
+  modifiedAt: new Date().toISOString(),
   creatorId: actorId,
   entityType: "history",
   attributedTo: attributedToId,

@@ -14,11 +14,15 @@ export const useApi = (id = null) => {
     entityApi = api[entityCollection];
     imageUrl = buildImageUrl(entityCollection, id);
   }
+  const getEntityApiById = (entityId) => {
+    return (entityApi = api[pluralize(entityTypeById(entityId))]);
+  };
   return {
     entityApi,
     entityCollection,
     imageUrl,
     buildImageUrl,
+    getEntityApiById,
     ...api,
   };
 };

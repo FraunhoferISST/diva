@@ -1,0 +1,79 @@
+{
+  "id": "schema:uuid:c4a31ddf-fbcf-44d3-959a-f004208165b8",
+  "title": "Licenses",
+  "schemaName": "licenses",
+  "description": "Licenses which are applied to the entity",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Licenses",
+    "properties": {
+      "licenses": {
+        "type": "array",
+        "title": "Licenses",
+        "description": "Licenses which are applied to the entity",
+        "items": {
+          "title": "Licenses information",
+          "description": "Detailed information about each license",
+          "type": "object",
+          "required": [
+            "url"
+          ],
+          "properties": {
+            "url": {
+              "title": "License URL",
+              "description": "A license encoded using an URI",
+              "format": "uri",
+              "type": "string",
+              "_elasticsearch": {
+                "type": "text"
+              }
+            },
+            "code": {
+              "title": "License code",
+              "description": "A unique license code",
+              "examples": [
+                "dl-zero-de/2.0"
+              ],
+              "type": "string",
+              "_elasticsearch": {
+                "type": "keyword"
+              }
+            },
+            "name": {
+              "title": "License name",
+              "description": "Descriptive license name",
+              "examples": [
+                "Datenlizenz Deutschland – Zero – Version 2.0"
+              ],
+              "type": "string",
+              "_elasticsearch": {
+                "type": "text"
+              }
+            },
+            "attributedByText": {
+              "title": "License attribution by",
+              "description": "License attribution authority",
+              "type": "string",
+              "_elasticsearch": {
+                "type": "text"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

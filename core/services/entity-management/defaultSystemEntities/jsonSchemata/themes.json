@@ -1,0 +1,62 @@
+{
+  "id": "schema:uuid:cc51ecd3-03fb-4f3c-8ebe-8d3e690b6ccd",
+  "title": "Themes",
+  "schemaName": "themes",
+  "description": "Predefined themes of the entity",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Themes",
+    "properties": {
+      "themes": {
+        "type": "array",
+        "title": "Themes",
+        "description": "Predefined themes of the entity",
+        "default": [],
+        "minItem": 0,
+        "items": {
+          "type": "string",
+          "enum": [
+            "Agriculture",
+            "Culture",
+            "Economy",
+            "Education",
+            "Energy",
+            "Environment",
+            "Finance",
+            "Fisheries",
+            "Health",
+            "Infrastructure",
+            "International",
+            "Justice",
+            "Population",
+            "Public Sector",
+            "Regional",
+            "Science",
+            "Society",
+            "Sports",
+            "Technology",
+            "Transport"
+          ],
+          "title": "Theme Items",
+          "description": "A theme",
+          "_elasticsearch": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  }
+}

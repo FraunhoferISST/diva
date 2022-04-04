@@ -1,0 +1,37 @@
+{
+  "id": "schema:uuid:206a9456-319e-4b35-a52e-5a212272cc35",
+  "title": "Belongs To",
+  "schemaName": "attributedTo",
+  "description": "The uuid of the entity id to which this history entry belongs to. Can be any possible entity like resource, asset, user or review. Could also be history entity itself, but seems not recommended",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "history"
+    },
+    {
+      "key": "entityType",
+      "value": "review"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Belongs To",
+    "required": [
+      "attributedTo"
+    ],
+    "properties": {
+      "attributedTo": {
+        "type": "string",
+        "title": "Belongs To",
+        "description": "The uuid of the entity id to which this history entry belongs to. Can be any possible entity like resource, asset, user or review. Could also be history entity itself, but seems not recommended",
+        "examples": [
+          "resource:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
+        ],
+        "pattern": "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      }
+    }
+  }
+}

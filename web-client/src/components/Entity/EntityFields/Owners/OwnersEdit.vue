@@ -9,32 +9,39 @@
     chips
     outlined
     placeholder="Search users"
-    background-color="transparent"
+    background-color="white"
     color="info"
     label="Select Owner"
     hide-selected
     hide-details
     small-chips
     cache-items
-    no-filter
     item-text="username"
     item-value="id"
     clearable
+    deletable-chips
     multiple
-    @update:search-input="() => search(searchInput, 50)"
+    return-object
+    @update:search-input="() => searchUsers(searchInput)"
   >
     <template #selection="data">
-      <v-chip small :input-value="data.selected" class="ma-0 pa-0">
+      <v-chip
+        small
+        :input-value="data.selected"
+        close
+        @click:close="() => removeSelected(data.item)"
+      >
         <entity-avatar
           :size="5"
           :image-id="data.item.entityIcon"
           :entity-id="data.item.id"
           :entity-title="data.item.username"
           class="mr-2"
+          style="margin-left: -12px"
         />
-        <span class="pr-2">
+        <entity-details-link class="pr-2" :id="data.item.id" target="_blank">
           {{ data.item.username }}
-        </span>
+        </entity-details-link>
       </v-chip>
     </template>
     <template #item="data">
@@ -60,42 +67,47 @@
 import EntityAvatar from "@/components/Entity/EntityAvatar";
 import { useSearch } from "@/composables/search";
 import { computed, ref } from "@vue/composition-api";
+import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 
 export default {
   name: "OwnerEdit",
   inheritAttrs: false,
-  components: { EntityAvatar },
+  components: { EntityDetailsLink, EntityAvatar },
   props: {
     owners: {
       type: Array,
       required: true,
     },
   },
-  setup() {
+  setup(props, { emit }) {
     const { search, data, loading, error } = useSearch();
     const searchInput = ref("");
-    // search("", 100);
+    const computedOwners = computed({
+      get() {
+        return props.owners;
+      },
+      set(value) {
+        return emit("update:owners", value);
+      },
+    });
     return {
-      search,
-      searchResult: computed(() =>
-        (data.value?.collection ?? [])
-          .filter(({ doc }) => doc.entityType === "user")
-          .map(({ doc }) => doc)
-      ),
       loading,
       error,
       searchInput,
+      computedOwners,
+      searchResult: computed(() => [
+        ...computedOwners.value,
+        ...(data.value?.collection ?? []).map(({ doc }) => doc),
+      ]),
+      searchUsers: (input) =>
+        search(input, { pageSize: 50, entityType: "user" }),
+      removeSelected(item) {
+        const deleteIndex = computedOwners.value.findIndex(
+          ({ id }) => item.id === id
+        );
+        computedOwners.value.splice(deleteIndex, 1);
+      },
     };
-  },
-  computed: {
-    computedOwners: {
-      get() {
-        return this.owners;
-      },
-      set(value) {
-        this.$emit("update:owners", value);
-      },
-    },
   },
 };
 </script>

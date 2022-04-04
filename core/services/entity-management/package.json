@@ -28,7 +28,8 @@
   "pkg": {
     "assets": [
       "package.json",
-      "apiDoc"
+      "apiDoc",
+      "defaultSystemEntities"
     ]
   }
 }

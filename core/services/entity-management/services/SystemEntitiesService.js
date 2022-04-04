@@ -26,12 +26,11 @@ if (process.pkg?.entrypoint) {
 
 const loadDefaultSystemEntities = async () => {
   const jsonSchemas = glob
-    .sync(`${systemEntitiesPath}/json-schema/**/*.*`)
-    .map((path) => ({
-      name: nodePath.parse(path).name,
-      title: `${nodePath.parse(path).name} JSON schema`,
-      schema: fs.readFileSync(path).toString(),
-      systemEntityType: "schema",
+    .sync(`${systemEntitiesPath}/jsonSchemata/**/*.*`)
+    .map((path) => JSON.parse(fs.readFileSync(path).toString()))
+    .map((schemaEntity) => ({
+      ...schemaEntity,
+      schema: JSON.stringify(schemaEntity.schema),
     }));
   const policies = defaultPolicies.map((p) => ({
     ...p,
@@ -44,7 +43,7 @@ const loadDefaultSystemEntities = async () => {
   const asyncApi = glob
     .sync(`${systemEntitiesPath}/asyncapi/**/*.*`)
     .map((path) => ({
-      name: nodePath.parse(path).name,
+      schemaName: nodePath.parse(path).name,
       title: nodePath.parse(path).name,
       asyncapi: fs.readFileSync(path).toString(),
       systemEntityType: "asyncapi",
@@ -55,11 +54,11 @@ const loadDefaultSystemEntities = async () => {
     return null;
   }
   const entities = defaultEntities.map((e) => ({
-    ...e,
     id: generateUuid(e.systemEntityType),
+    ...e,
     entityType: "systemEntity",
-    created: new Date().toISOString(),
-    modified: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    modifiedAt: new Date().toISOString(),
   }));
   if (
     (await mongoDbConnector.collections[
@@ -73,37 +72,34 @@ const loadDefaultSystemEntities = async () => {
   }
 };
 
-const injectJsonSchema = (rootSchema, newSchemaEntity) => {
+const injectJsonSchema = async (rootSchema, schemaEntity) => {
   const updatedRootSchema = { ...rootSchema };
-  if (newSchemaEntity.scope) {
-    updatedRootSchema.allOf.push({
-      schemaId: newSchemaEntity.id,
-      if: {
-        required: [newSchemaEntity.scope?.key],
-        properties: {
-          [newSchemaEntity.scope?.key]: {
-            const: newSchemaEntity.scope?.value,
+  const schemaDefinition = await dereferenceSchema(
+    JSON.parse(schemaEntity.schema)
+  );
+  if (schemaEntity.scope) {
+    for (const scope of schemaEntity.scope) {
+      updatedRootSchema.allOf.push({
+        schemaId: schemaEntity.id,
+        if: {
+          required: [scope?.key],
+          properties: {
+            [scope?.key]: {
+              const: scope?.value,
+            },
           },
         },
-      },
-      then: {
-        $ref: `/${newSchemaEntity.name}`,
-      },
-    });
+        then: {
+          ...schemaDefinition,
+        },
+      });
+    }
     return updatedRootSchema;
   }
   updatedRootSchema.allOf.push({
-    schemaId: newSchemaEntity.id,
-    $ref: `/${newSchemaEntity.name}`,
+    schemaId: schemaEntity.id,
+    ...schemaDefinition,
   });
-  return updatedRootSchema;
-};
-const removeJsonSchema = (rootSchema, removedSchemaEntityId) => {
-  const updatedRootSchema = { ...rootSchema };
-  const removeSchemaIndex = updatedRootSchema.allOf.findIndex(
-    ({ schemaId }) => schemaId === removedSchemaEntityId
-  );
-  updatedRootSchema.allOf.splice(removeSchemaIndex, 1);
   return updatedRootSchema;
 };
 
@@ -112,7 +108,7 @@ class SystemEntitiesService extends EntityService {
     await loadDefaultSystemEntities();
     return super.init().then(() =>
       this.collection.createIndex(
-        { name: 1 },
+        { schemaName: 1 },
         {
           unique: true,
           partialFilterExpression: { systemEntityType: "schema" },
@@ -126,50 +122,20 @@ class SystemEntitiesService extends EntityService {
       ...systemEntity,
       id: generateUuid(systemEntity.systemEntityType),
     };
-    if (newSystemEntity.systemEntityType === "schema") {
-      const { id: rootSchemaId, schema } = await this.getRootSchema();
-      const updatedRootSchema = injectJsonSchema(
-        JSON.parse(schema),
-        newSystemEntity
-      );
-      const { id, delta } = await super.create(newSystemEntity, actorId);
-      await this.patchById(
-        rootSchemaId,
-        { schema: JSON.stringify(updatedRootSchema) },
-        actorId
-      ).catch(async (e) => {
-        await this.deleteById(id);
-        throw e;
-      });
-      return { id, delta };
-    }
-    const { id, delta } = await super.create(newSystemEntity, actorId);
-    return { id, delta };
+    return super.create(newSystemEntity, actorId);
   }
 
   getRootSchema() {
     return this.getEntityByName("entity", "schema");
   }
 
-  async deleteById(id, actorId) {
+  async deleteById(id) {
     const systemEntity = await this.getById(id, { fields: "id,name" });
     if (id.includes("schema")) {
-      const { id: rootSchemaId, schema } = await this.getRootSchema();
-      const updatedRootSchema = removeJsonSchema(JSON.parse(schema), id);
       return (
-        this.patchById(
-          rootSchemaId,
-          { schema: JSON.stringify(updatedRootSchema) },
-          actorId
-        )
-          // first clean up the DB to avoid possible complete system soft locks (e.g. on network failure during the execution)
-          .then(() =>
-            this.collection.update(
-              {},
-              { $unset: { [systemEntity.name]: "" } },
-              { multi: true }
-            )
-          )
+        // first clean up the DB to avoid possible complete system soft locks (e.g. on network failure during the execution)
+        this.collection
+          .update({}, { $unset: { [systemEntity.name]: "" } }, { multi: true })
           // finally, safely remove the schema
           .then(() => super.deleteById(id))
       );
@@ -177,9 +143,9 @@ class SystemEntitiesService extends EntityService {
     return super.deleteById(id);
   }
 
-  async getEntityByName(name, systemEntityType) {
+  async getEntityByName(schemaName, systemEntityType) {
     const systemEntity = await this.collection.findOne({
-      name,
+      schemaName,
       ...(systemEntityType ? { systemEntityType } : {}),
     });
     if (systemEntity) {
@@ -188,8 +154,23 @@ class SystemEntitiesService extends EntityService {
     throw entityNotFoundError;
   }
 
-  async resolveSchemaByName(name) {
-    return dereferenceSchema(name, this.getEntityByName.bind(this));
+  async resolveEntitySchema() {
+    const { schema: rootSchema } = await this.getRootSchema();
+    let parsedRootSchema = JSON.parse(rootSchema);
+    const schemaEntities = await this.collection
+      .find({
+        systemEntityType: "schema",
+      })
+      .toArray();
+    for (const schemEntity of schemaEntities) {
+      if (schemEntity.schemaName !== "entity") {
+        parsedRootSchema = await injectJsonSchema(
+          parsedRootSchema,
+          schemEntity
+        );
+      }
+    }
+    return parsedRootSchema;
   }
 }
 module.exports = new SystemEntitiesService(

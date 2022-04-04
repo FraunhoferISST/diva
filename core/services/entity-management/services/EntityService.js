@@ -126,8 +126,8 @@ class EntityService {
       id: generateUuid(this.entityType), // the id con be overwritten by concrete implementation
       ...entity,
       entityType: this.entityType,
-      created: new Date().toISOString(),
-      modified: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+      modifiedAt: new Date().toISOString(),
       entityImages: null,
     });
     this.validate(newEntity);
@@ -213,7 +213,7 @@ class EntityService {
     const updatedEntity = cleanUpEntity({
       ...entity,
       id,
-      modified: new Date().toISOString(),
+      modifiedAt: new Date().toISOString(),
     });
     if (await this.entityExists(id)) {
       this.validate(updatedEntity);
@@ -229,7 +229,7 @@ class EntityService {
       );
       return { delta };
     }
-    updatedEntity.created = new Date().toISOString();
+    updatedEntity.createdAt = new Date().toISOString();
     this.validate(updatedEntity);
     await this.insert(updatedEntity);
     const delta = await this.createHistoryEntry({}, updatedEntity, actorId);
@@ -248,8 +248,8 @@ class EntityService {
         id,
         entityType: existingEntity.entityType,
         creatorId: existingEntity.creatorId,
-        created: existingEntity.created,
-        modified: new Date().toISOString(),
+        createdAt: existingEntity.createdAt,
+        modifiedAt: new Date().toISOString(),
         entityImages: existingEntity.entityImages,
       });
       this.validate(updatedEntity);

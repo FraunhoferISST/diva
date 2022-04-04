@@ -1,0 +1,36 @@
+{
+  "id": "schema:uuid:8a054491-6a0c-4cfd-b599-b308cf4b9973",
+  "title": "Schema definition",
+  "schemaName": "schema",
+  "description": "The specification schema encoded as string",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "systemEntityType",
+      "value": "asyncapi"
+    },
+    {
+      "key": "systemEntityType",
+      "value": "schema"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Schema definition",
+    "required": [
+      "schema"
+    ],
+    "properties": {
+      "schema": {
+        "type": "string",
+        "title": "Schema definition",
+        "description": "The specification schema encoded as string",
+        "_elasticsearch": {
+          "enabled": false
+        }
+      }
+    }
+  }
+}

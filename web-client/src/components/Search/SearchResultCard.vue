@@ -47,7 +47,7 @@
                 <div class="search-card-timestamps d-flex">
                   <info-block-title>Created</info-block-title>
                   <info-block-value>
-                    <date-display :date="doc.created" />
+                    <date-display :date="doc.createdAt" />
                   </info-block-value>
                 </div>
               </v-col>
@@ -55,7 +55,7 @@
                 <div class="search-card-timestamps d-flex">
                   <info-block-title>Modified</info-block-title>
                   <info-block-value>
-                    <date-display :date="doc.modified" />
+                    <date-display :date="doc.modifiedAt" />
                   </info-block-value>
                 </div>
               </v-col>

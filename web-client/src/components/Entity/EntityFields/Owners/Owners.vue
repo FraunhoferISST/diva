@@ -2,7 +2,7 @@
   <info-block title="Owners">
     <template #value>
       <field-editor
-        :data="{ owners: owners }"
+        :data="{ owners: loadedOwners }"
         :on-save="(patch) => connectOwner(patch)"
       >
         <template #view="{ state }">
@@ -15,19 +15,22 @@
                   :key="owner.id"
                 >
                   <div
-                    style="
-                      border-radius: 50%;
-                      padding: 2px;
-                      background-color: white;
-                      width: 36px;
-                      position: relative;
-                    "
+                    style="width: 20px; overflow: visible; position: relative"
                   >
-                    <entity-avatar
-                      :image-id="owner.entityIcon || ''"
-                      :entity-id="owner.id"
-                      :entity-title="owner.username"
-                    />
+                    <div
+                      style="
+                        width: 36px;
+                        border-radius: 50%;
+                        padding: 2px;
+                        background-color: white;
+                      "
+                    >
+                      <entity-avatar
+                        :image-id="owner.entityIcon || ''"
+                        :entity-id="owner.id"
+                        :entity-title="owner.username"
+                      />
+                    </div>
                   </div>
                 </div>
               </template>
@@ -53,9 +56,12 @@ import UserLink from "@/components/Base/UserLink";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 import { useRequest } from "@/composables/request";
+import { useApi } from "@/composables/api";
+import { useBus } from "@/composables/bus";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import OwnersEdit from "@/components/Entity/EntityFields/Owners/OwnersEdit";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
+import { ref } from "@vue/composition-api";
 
 export default {
   name: "Owners",
@@ -75,57 +81,62 @@ export default {
       required: true,
     },
   },
-  setup() {
-    const { data, loading, error, request } = useRequest();
-    return {
-      data,
-      error,
-      request,
-      loading,
-    };
-  },
-  data: () => ({
-    owners: [],
-  }),
-  methods: {
-    fetchOwners() {
-      return this.request(
-        this.$api.datanetwork
+  setup(props) {
+    const loadedOwners = ref([]);
+    const { on } = useBus();
+    const { datanetwork, users } = useApi();
+    const { loading, error, request } = useRequest();
+
+    const loadOwners = () =>
+      request(
+        datanetwork
           .getEdges({
-            from: this.id,
+            from: props.id,
             edgeTypes: "isOwnerOf",
             bidirectional: true,
           })
           .then(async ({ data: { collection } }) => {
-            this.owners = (
+            loadedOwners.value = (
               await Promise.all(
                 // remember: user - isOwnerOf -> entity, so from contains the user id
-                collection.map(({ from: { entityId: userId }, id }) =>
-                  this.$api.users
-                    .getByIdIfExists(userId, {
-                      fields: "id, email, username, entityIcon",
-                    })
-                    .then(({ data }) => ({ ...data, edgeId: id }))
+                collection.map(
+                  ({
+                    from: { entityId: userId },
+                    properties: { id: edgeId },
+                  }) =>
+                    users
+                      .getByIdIfExists(userId, {
+                        fields: "id, email, username, entityIcon",
+                      })
+                      .then(({ data }) => ({ ...data, edgeId }))
                 )
               )
             ).filter((owner) => owner);
           })
       );
-    },
-    connectOwner({ owners }) {
-      const removedOwners = this.owners.filter(
-        ({ id }) => !owners.includes(id)
+    const connectOwner = ({ owners }) => {
+      const removedOwners = loadedOwners.value.filter(
+        ({ id }) => !owners.map((o) => o.id).includes(id)
+      );
+
+      const newOwners = owners.filter(
+        ({ id }) => !loadedOwners.value.map((o) => o.id).includes(id)
       );
 
       const removePromises = removedOwners.map(({ edgeId }) =>
-        this.$api.datanetwork.deleteEdgeById(edgeId)
+        datanetwork.deleteEdgeById(edgeId).catch((e) => {
+          if (e?.response?.data?.code === 404) {
+            return true;
+          }
+          throw e;
+        })
       );
       return Promise.all([
-        ...owners.map((id) =>
-          this.$api.datanetwork
+        ...newOwners.map(({ id }) =>
+          datanetwork
             .postEdge({
               from: id,
-              to: this.id,
+              to: props.id,
               edgeType: "isOwnerOf",
             })
             .catch((e) => {
@@ -137,7 +148,16 @@ export default {
         ),
         ...removePromises,
       ]);
-    },
+    };
+
+    on("reload", loadOwners);
+    loadOwners();
+    return {
+      loadedOwners,
+      error,
+      loading,
+      connectOwner,
+    };
   },
 };
 </script>

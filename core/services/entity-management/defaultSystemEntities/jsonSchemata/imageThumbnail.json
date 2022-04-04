@@ -1,0 +1,31 @@
+{
+  "id": "schema:uuid:54a90234-3f1d-46f1-bb16-05ebd38f1e3b",
+  "title": "Image Thumbnail",
+  "schemaName": "imageThumbnail",
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "file"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Thumbnail of an Image",
+    "properties": {
+      "imageThumbnail": {
+        "type": "string",
+        "title": "Image Thumbnail",
+        "description": "A base64 encoded image thumbnail",
+        "examples": [
+          "/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaH..."
+        ],
+        "pattern": "^(.*)$",
+        "_elasticsearch": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

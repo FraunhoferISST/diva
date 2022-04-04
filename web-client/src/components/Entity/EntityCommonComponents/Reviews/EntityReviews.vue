@@ -9,7 +9,7 @@
         </v-col>
       </v-row>
       <v-row class="mt-12">
-        <data-viewer :loading="loading" :error="error">
+        <data-viewer :loading="loading" :error="error" class="full-width">
           <template>
             <fade-in>
               <v-col cols="12" v-if="reviews.length > 0">

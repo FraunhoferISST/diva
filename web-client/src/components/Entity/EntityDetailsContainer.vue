@@ -51,11 +51,12 @@
                         <div class="d-block d-md-flex justify-start mt-4">
                           <entity-creator
                             :id="data.id"
-                            :created-at="data.created"
+                            :created-at="data.createdAt"
                           />
                           <div
                             v-if="
-                              data.modified && data.modified !== data.created
+                              data.modifiedAt &&
+                              data.modifiedAt !== data.createdAt
                             "
                             class="d-block d-md-flex align-center"
                           >
@@ -65,7 +66,7 @@
                             />
                             <div class="mt-2 mt-md-0">
                               <span>last updated</span>
-                              <date-display :date="data.modified" />
+                              <date-display :date="data.modifiedAt" />
                             </div>
                           </div>
                         </div>
