@@ -1,15 +1,29 @@
 const _ = require("lodash");
+const { logger } = require("@diva/common/logger");
 const { isConditionMet, getMatchingBusinessAssets } = require("../utils/utils");
+const { mongoDBConnector } = require("../utils/dbConnectors");
 
-const policies = require("../static/policyRules");
-
-class PolicyRulesService {
+class PoliciesService {
   constructor() {
-    this.policies = policies;
+    this.policies = [];
   }
 
   async init() {
-    return true;
+    this.collection = mongoDBConnector.collections.systemEntities;
+    return this.cachePolicies();
+  }
+
+  async cachePolicies() {
+    this.policies = await this.collection
+      .find({ systemEntityType: "policy" })
+      .toArray();
+
+    if (this.policies.length === 0) {
+      // TODO: need to handle race condition, EM may start later so no system entities will be loaded!
+      logger.warn("🚫 No policies found in DB!");
+    } else {
+      logger.info(`✅ Loaded ${this.policies.length} policies`);
+    }
   }
 
   async enforcePolicies(req) {
@@ -110,4 +124,4 @@ class PolicyRulesService {
   }
 }
 
-module.exports = new PolicyRulesService();
+module.exports = new PoliciesService();

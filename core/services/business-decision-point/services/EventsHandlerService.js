@@ -1,7 +1,8 @@
 const messageConsumer = require("@diva/common/messaging/MessageConsumer");
-const { mongoDbConnector } = require("../utils/mongoDbConnector");
-const { HISTORIES_COLLECTION_NAME } = require("../utils/constants");
+const { logger } = require("@diva/common/logger");
 const { name: serviceName } = require("../package.json");
+const policiesService = require("./PoliciesService");
+const businessRulesService = require("./BusinessRulesService");
 
 const KAFKA_CONSUMER_TOPICS = [
   {
@@ -14,7 +15,6 @@ const KAFKA_CONSUMER_TOPICS = [
 
 class EventsHandlerService {
   async init() {
-    this.collection = mongoDbConnector.collections[HISTORIES_COLLECTION_NAME];
     await messageConsumer.init(KAFKA_CONSUMER_TOPICS, serviceName);
     await messageConsumer.consume(this.onMessage.bind(this));
   }
@@ -22,13 +22,22 @@ class EventsHandlerService {
   async onMessage(message) {
     const parsedMessage = JSON.parse(message.value.toString());
     const {
-      type,
       object: { id },
     } = parsedMessage.payload;
-    if (type === "delete") {
-      await this.collection.deleteMany({
-        attributedTo: id,
-      });
+    if (
+      /^policy:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
+        id
+      )
+    ) {
+      logger.info("🔁 Re-caching policies");
+      await policiesService.cachePolicies();
+    } else if (
+      /^rule:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
+        id
+      )
+    ) {
+      logger.info("🔁 Re-caching rules");
+      await businessRulesService.cacheRules();
     }
   }
 }
