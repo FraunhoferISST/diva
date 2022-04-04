@@ -8,9 +8,9 @@ export const useSearch = () => {
   const data = ref(null);
   const _cursor = ref(null);
   const _total = ref(null);
-  const search = (q, pageSize = 30, cursor = _cursor.value) =>
+  const search = (q, { pageSize = 30, cursor = _cursor.value, ...params }) =>
     request(
-      searchCall(q, pageSize, cursor).then(
+      searchCall(q, { pageSize, cursor, ...params }).then(
         ({ data: { collection, cursor, total } }) => {
           data.value = { collection, cursor, total };
           _cursor.value = cursor;

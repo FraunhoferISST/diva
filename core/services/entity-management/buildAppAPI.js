@@ -35,7 +35,7 @@ const predefinedEntities = {
   },
   [collectionsNames.USERS_COLLECTION_NAME]: {
     collection: collectionsNames.USERS_COLLECTION_NAME,
-    controller: usersController,
+    controller: null, // usersController,
     service: usersService,
   },
   services: {

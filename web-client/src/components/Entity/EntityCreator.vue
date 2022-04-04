@@ -47,8 +47,11 @@ export default {
           bidirectional: true,
         })
         .then(({ data: { collection } }) => {
-          const creatorId = collection[0].from?.entityId;
-          return users.getByIdIfExists(creatorId);
+          if (collection.length > 0) {
+            const creatorId = collection[0]?.from?.entityId;
+            return users.getByIdIfExists(creatorId);
+          }
+          return {};
         })
         .then((response) => (creator.value = response?.data ?? {}))
     );

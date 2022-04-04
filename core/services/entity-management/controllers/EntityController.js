@@ -2,17 +2,17 @@ const messageProducer = require("@diva/common/messaging/MessageProducer");
 
 const getAffectedFieldsFromDelta = (delta = {}) => Object.keys(delta);
 
-const createSingleEntity = async (service, entity, actorId) => {
-  const { id: newEntityId, delta } = await service.create(entity, actorId);
-  messageProducer.produce(
-    newEntityId,
-    actorId,
-    "create",
-    entity.attributedTo ? [entity.attributedTo] : [],
-    { affectedFields: getAffectedFieldsFromDelta(delta) }
-  );
-  return newEntityId;
-};
+const createSingleEntity = async (service, entity, actorId) =>
+  service.create(entity, actorId).then(({ id: newEntityId, delta }) => {
+    messageProducer.produce(
+      newEntityId,
+      actorId,
+      "create",
+      entity.attributedTo ? [entity.attributedTo] : [],
+      { affectedFields: getAffectedFieldsFromDelta(delta) }
+    );
+    return newEntityId;
+  });
 
 const appendBulkRequestPromiseHandler = (promise, additionalData = {}) =>
   promise
@@ -31,7 +31,7 @@ const processCreateBulkRequest = async (service, bulk, actorid) =>
     bulk.map((entity) =>
       appendBulkRequestPromiseHandler(
         createSingleEntity(service, entity, actorid),
-        ...(entity ?? {})
+        entity ?? {}
       )
     )
   );

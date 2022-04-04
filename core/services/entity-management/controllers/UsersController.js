@@ -5,6 +5,7 @@ const EntityController = require("./EntityController");
 class UsersController extends EntityController {
   async create(req, res, next) {
     try {
+      const actorid = req.headers["x-actorid"];
       const { id: newUserId, delta } = await usersService.create(
         req.body,
         req.headers["x-actorid"]

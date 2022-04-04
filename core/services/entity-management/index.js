@@ -1,5 +1,4 @@
 const Server = require("@diva/common/api/expressServer");
-const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
 const generateUuid = require("@diva/common/utils/generateUuid");
 const buildAppAPI = require("./buildAppAPI");
