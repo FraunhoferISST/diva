@@ -1,4 +1,6 @@
-const domainRules = require("../static/businessRules");
+const { logger } = require("@diva/common/logger");
+const { mongoDBConnector } = require("../utils/dbConnectors");
+
 const {
   substituteTemplate,
   isConditionMet,
@@ -23,11 +25,25 @@ const getRuleActions = async (rule, message) => {
 
 class BusinessRulesService {
   constructor() {
-    this.rules = domainRules;
+    this.rules = [];
   }
 
   async init() {
-    return true;
+    this.collection = mongoDBConnector.collections.systemEntities;
+    return this.cacheRules();
+  }
+
+  async cacheRules() {
+    this.rules = await this.collection
+      .find({ systemEntityType: "rule" })
+      .toArray();
+
+    if (this.rules.length === 0) {
+      // TODO: need to handle race condition, EM may start later so no system entities will be loaded!
+      logger.warn("🚫 No rules found in DB!");
+    } else {
+      logger.info(`✅ Loaded ${this.rules.length} rules`);
+    }
   }
 
   async requestRulesActions(message) {

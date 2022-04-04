@@ -1,47 +1,28 @@
 const _ = require("lodash");
-const messageConsumer = require("@diva/common/messaging/MessageConsumer");
+const { logger } = require("@diva/common/logger");
 const { isConditionMet, getMatchingBusinessAssets } = require("../utils/utils");
 const { mongoDBConnector } = require("../utils/dbConnectors");
-const { name: serviceName } = require("../package.json");
 
-const KAFKA_CONSUMER_TOPICS = [
-  {
-    topic: "entity.events",
-    spec: {
-      name: "asyncapi",
-    },
-  },
-];
+class PoliciesService {
+  constructor() {
+    this.policies = [];
+  }
 
-class PolicyRulesService {
   async init() {
     this.collection = mongoDBConnector.collections.systemEntities;
+    return this.cachePolicies();
+  }
+
+  async cachePolicies() {
     this.policies = await this.collection
       .find({ systemEntityType: "policy" })
       .toArray();
 
     if (this.policies.length === 0) {
-      console.warn("🚫 No policies found in DB!");
-    }
-
-    await messageConsumer.init(KAFKA_CONSUMER_TOPICS, serviceName);
-    await messageConsumer.consume(this.recachePoliciesOnMessage.bind(this));
-  }
-
-  async recachePoliciesOnMessage(message) {
-    const parsedMessage = JSON.parse(message.value.toString());
-    const {
-      object: { id },
-    } = parsedMessage.payload;
-    if (
-      /^policy:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
-        id
-      )
-    ) {
-      console.info("🔁 Recaching policies");
-      this.policies = await this.collection
-        .find({ systemEntityType: "policy" })
-        .toArray();
+      // TODO: need to handle race condition, EM may start later so no system entities will be loaded!
+      logger.warn("🚫 No policies found in DB!");
+    } else {
+      logger.info(`✅ Loaded ${this.policies.length} policies`);
     }
   }
 
@@ -143,4 +124,4 @@ class PolicyRulesService {
   }
 }
 
-module.exports = new PolicyRulesService();
+module.exports = new PoliciesService();

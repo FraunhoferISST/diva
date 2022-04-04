@@ -1,8 +1,9 @@
 const Server = require("@diva/common/api/expressServer");
 const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
 const generateUuid = require("@diva/common/utils/generateUuid");
+const eventsHandlerService = require("./services/EventsHandlerService");
 const businessRulesService = require("./services/BusinessRulesService");
-const policyRulesService = require("./services/PolicyRulesService");
+const policyRulesService = require("./services/PoliciesService");
 const businessRulesRouter = require("./routes/businessRules");
 const policyRulesRouter = require("./routes/policyRules");
 const { mongoDBConnector, neo4jConnector } = require("./utils/dbConnectors");
@@ -27,10 +28,8 @@ server
   .then(async () => {
     await mongoDBConnector.connect();
     await neo4jConnector.connect();
-    return Promise.all([
-      businessRulesService.init(),
-      policyRulesService.init(),
-    ]);
+    await Promise.all([businessRulesService.init(), policyRulesService.init()]);
+    await eventsHandlerService.init();
   })
   .then(() => log.info(`✅ All components booted successfully 🚀`))
   .catch((e) => {
