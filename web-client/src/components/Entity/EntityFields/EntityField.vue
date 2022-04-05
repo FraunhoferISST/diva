@@ -87,9 +87,14 @@ export default {
       get: () => props.value,
       set: (val) => emit("update:value", val),
     });
-    const { patch, patchLoading } = useEntity(props.id, { reactive: false });
+    const { patch, patchLoading, patchError } = useEntity(props.id, {
+      reactive: false,
+    });
     const patchAndMutate = (patchData) =>
       patch(patchData).then(() => {
+        if (patchError.value) {
+          throw patchError.value;
+        }
         if (props.mutateSource) {
           computedValue.value = patchData[props.property];
         }
