@@ -2,20 +2,34 @@ const messageConsumer = require("@diva/common/messaging/MessageConsumer");
 const { logger } = require("@diva/common/logger");
 const { name: serviceName } = require("../package.json");
 const policiesService = require("./PoliciesService");
+const { mongoDBConnector } = require("../utils/dbConnectors");
 const businessRulesService = require("./BusinessRulesService");
-
-const KAFKA_CONSUMER_TOPICS = [
-  {
-    topic: "entity.events",
-    spec: {
-      name: "asyncapi",
-    },
-  },
-];
 
 class EventsHandlerService {
   async init() {
-    await messageConsumer.init(KAFKA_CONSUMER_TOPICS, serviceName);
+    const asyncApi = (
+      await mongoDBConnector.collections.systemEntities.findOne(
+        {
+          schemaName: "asyncapi",
+          systemEntityType: "asyncapi",
+        },
+        {
+          asyncapi: 1,
+        }
+      )
+    ).asyncapi;
+    await messageConsumer.init(
+      [
+        {
+          topic: "entity.events",
+          spec: {
+            name: "asyncapi",
+            specification: asyncApi,
+          },
+        },
+      ],
+      serviceName
+    );
     await messageConsumer.consume(this.onMessage.bind(this));
   }
 
