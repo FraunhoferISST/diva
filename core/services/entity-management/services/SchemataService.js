@@ -103,6 +103,10 @@ class SchemataService extends EntityService {
     );
   }
 
+  async get(query = {}) {
+    return super.get({ ...query, systemEntityType: this.systemEntityType });
+  }
+
   async create(systemEntity, actorId) {
     const newSystemEntity = {
       ...systemEntity,
@@ -144,7 +148,7 @@ class SchemataService extends EntityService {
     const schemaEntities = await this.collection
       .find({
         systemEntityType: this.systemEntityType,
-        schemaName: { $not: /entity/ },
+        schemaName: { $not: /^entity$/ },
       })
       .toArray();
     for (const schemEntity of schemaEntities) {

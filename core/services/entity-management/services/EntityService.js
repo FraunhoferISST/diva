@@ -298,14 +298,12 @@ class EntityService {
   async addImage(id, imageFile, actorId) {
     const { entityImages } = await this.getById(id, { fields: "entityImages" });
     if (entityImages?.length >= 15) {
+      // TODO: this should be handled through a policy
       throw imagesLimitError;
     }
     const newImageId = await entityImagesService.addImage(imageFile);
-    this.collection.updateOne(
-      { id },
-      { $addToSet: { entityImages: newImageId } }
-    );
-    return this.patchById(id, {}, actorId)
+    entityImages.push(newImageId);
+    return this.patchById(id, { entityImages }, actorId)
       .then(() => newImageId)
       .catch(async (e) => {
         await entityImagesService.deleteImageById(newImageId);

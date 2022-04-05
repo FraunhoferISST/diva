@@ -53,35 +53,32 @@ const predefinedEntities = {
   },
   // System entities
   [collectionsNames.RULES_COLLECTION_NAME]: {
-    collection: collectionsNames.SYSTEM_ENTITY_COLLECTION_NAME,
+    collection: collectionsNames.RULES_COLLECTION_NAME,
     controller: null,
     service: rulesService,
     entityType: entityTypes.SYSTEM_ENTITY,
   },
   [collectionsNames.POLICIES_COLLECTION_NAME]: {
-    collection: collectionsNames.SYSTEM_ENTITY_COLLECTION_NAME,
+    collection: collectionsNames.POLICIES_COLLECTION_NAME,
     controller: null,
     service: policiesService,
     entityType: entityTypes.SYSTEM_ENTITY,
   },
   [collectionsNames.SCHEMATA_COLLECTION_NAME]: {
-    collection: collectionsNames.SYSTEM_ENTITY_COLLECTION_NAME,
+    collection: collectionsNames.SCHEMATA_COLLECTION_NAME,
     controller: schemataController,
     service: schemataService,
     entityType: entityTypes.SYSTEM_ENTITY,
   },
   [collectionsNames.ASYNCAPI_COLLECTION_NAME]: {
-    collection: collectionsNames.SYSTEM_ENTITY_COLLECTION_NAME,
+    collection: collectionsNames.ASYNCAPI_COLLECTION_NAME,
     controller: asyncapisController,
     service: asyncapisService,
     entityType: entityTypes.SYSTEM_ENTITY,
   },
 };
 
-const createEntityService = (
-  entityType,
-  collectionName = collectionsNames.ENTITY_COLLECTION_NAME
-) => new EntityService(entityType, collectionName);
+const createEntityService = (entityType) => new EntityService(entityType);
 
 const createEntityController = (service) => new EntityController(service);
 
@@ -105,8 +102,7 @@ module.exports = async (server) => {
 
   for (const entity of Object.values(predefinedEntities)) {
     const { collection, entityType } = entity;
-    const service =
-      entity.service ?? createEntityService(entityType, collection);
+    const service = entity.service ?? createEntityService(entityType);
     await service.init();
     const controller = entity?.controller ?? createEntityController(service);
 

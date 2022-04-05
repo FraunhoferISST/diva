@@ -44,7 +44,12 @@ class RulesService extends EntityService {
   }
 
   async init() {
-    return loadDefault();
+    await loadDefault();
+    return super.init();
+  }
+
+  async get(query = {}) {
+    return super.get({ ...query, systemEntityType: this.systemEntityType });
   }
 
   async create(systemEntity, actorId) {

@@ -69,6 +69,10 @@ class AsyncapisService extends EntityService {
     );
   }
 
+  async get(query = {}) {
+    return super.get({ ...query, systemEntityType: this.systemEntityType });
+  }
+
   async create(systemEntity, actorId) {
     const newSystemEntity = {
       ...systemEntity,

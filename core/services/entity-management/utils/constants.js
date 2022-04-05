@@ -22,7 +22,7 @@ module.exports = {
     SERVICES_COLLECTION_NAME: "services",
     HISTORIES_COLLECTION_NAME: "histories",
     RULES_COLLECTION_NAME: "rules",
-    SCHEMATA_COLLECTION_NAME: "schemata ",
+    SCHEMATA_COLLECTION_NAME: "schemata",
     POLICIES_COLLECTION_NAME: "policies",
     ASYNCAPI_COLLECTION_NAME: "asyncapis",
   },

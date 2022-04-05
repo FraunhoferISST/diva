@@ -1,8 +1,12 @@
-import pluralize from "pluralize";
 import apiFactory from "@/api/apiFactory";
-const entityTypes = ["rule", "schema", "policy"];
+const systemEntitiesCollections = [
+  "rules",
+  "schemata",
+  "policies",
+  "asyncapis",
+];
 export default {
   ...Object.fromEntries(
-    entityTypes.map((type) => [pluralize(type), apiFactory("/systemEntities")])
+    systemEntitiesCollections.map((type) => [type, apiFactory(`/${type}`)])
   ),
 };
