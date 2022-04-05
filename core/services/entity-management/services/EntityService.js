@@ -302,11 +302,18 @@ class EntityService {
       throw imagesLimitError;
     }
     const newImageId = await entityImagesService.addImage(imageFile);
-    entityImages.push(newImageId);
+    await this.collection.updateOne(
+      { id },
+      { $addToSet: { entityImages: newImageId } }
+    );
     return this.patchById(id, { entityImages }, actorId)
       .then(() => newImageId)
       .catch(async (e) => {
-        await entityImagesService.deleteImageById(newImageId);
+        this.collection.updateOne(
+          { id },
+          { $pull: { entityImages: newImageId } }
+        );
+        entityImagesService.deleteImageById(newImageId);
         throw e;
       });
   }
