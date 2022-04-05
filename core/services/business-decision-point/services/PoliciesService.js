@@ -36,10 +36,12 @@ class PoliciesService {
       matchingPolicies.map(async (policy) => {
         const singleDecision = await isConditionMet(policy.condition, req.body);
         if (singleDecision === true) {
-          excludes.push({
-            priority: policy.priority,
-            fields: policy.excludes,
-          });
+          if (typeof policy.excludes !== "undefined") {
+            excludes.push({
+              priority: policy.priority,
+              fields: policy.excludes,
+            });
+          }
           provisionalDecision = true;
         }
       })
