@@ -1,14 +1,14 @@
 {
   "id": "schema:uuid:3ca6c9d9-f631-497d-8a3d-9e4ace0903b7",
-  "title": "Schema name",
-  "schemaName": "schemaName",
-  "description": "Unique name of the schema",
+  "title": "Specification name",
+  "schemaName": "specName",
+  "description": "Unique name of the specification",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "scope": [
     {
       "key": "systemEntityType",
-      "value": "schema"
+      "value": "asyncapi"
     }
   ],
   "schema": {
@@ -19,14 +19,13 @@
       "schemaName"
     ],
     "properties": {
-      "schemaName": {
+      "specName": {
         "type": "string",
-        "title": "Schema name",
-        "description": "Unique name of the schema",
+        "title": "Specification name",
+        "description": "Unique name of the specification",
         "examples": [
-          "entity",
-          "mimeType",
-          "internalCosts"
+          "asyncapi",
+          "datanetwork-api"
         ]
       }
     }

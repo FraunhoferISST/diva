@@ -25,7 +25,7 @@
         }
       }
     },
-    "/systemEntities/resolvedSchemas/{name}" : {
+    "/resolvedSchemata/{name}" : {
       "parameters": [
         {
           "$ref": "#/components/parameters/actoridParam"
@@ -33,10 +33,10 @@
       ],
       "get": {
         "tags": [
-          "systemEntities"
+          "schemata"
         ],
         "summary": "Get resolved schema by name",
-        "description": "Returns the resolved schema",
+        "description": "Returns the resolved schema. Currently only root entity schema can be resolved",
         "parameters": [
           {
             "name": "name",
@@ -47,7 +47,8 @@
             "allowReserved": true,
             "schema": {
               "type": "string",
-              "example": "entity"
+              "example": "entity",
+              "enum": ["entity"]
             }
           }
         ],
@@ -73,7 +74,7 @@
         }
       }
     },
-    "/systemEntities/byName/{name}" : {
+    "/asyncapis/{name}" : {
       "parameters": [
         {
           "$ref": "#/components/parameters/actoridParam"
@@ -81,21 +82,22 @@
       ],
       "get": {
         "tags": [
-          "systemEntities"
+          "asyncapis"
         ],
-        "summary": "Get specification entity by name",
-        "description": "Returns JSON schema or AsyncAPI schema by name. The result contains the specification itself as string, not the entity object!",
+        "summary": "Get specification by name",
+        "description": "Returns AsyncAPI specification by name. The result contains the specification itself as string, not the entity object!",
         "parameters": [
           {
             "name": "name",
             "in": "path",
-            "description": "Name of the specification schema",
+            "description": "Name of the specification",
             "required": true,
             "explode": true,
             "allowReserved": true,
             "schema": {
               "type": "string",
-              "example": "entity"
+              "example": "asyncapi",
+              "enum": ["asyncapi", "datanetwork-api", "event-emitter-api"]
             }
           }
         ],

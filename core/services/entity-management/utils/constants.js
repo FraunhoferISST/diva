@@ -1,5 +1,17 @@
 module.exports = {
   DIVA_DB_NAME: process.env.MONGO_DB_NAME ?? "divaDb",
+  entityTypes: {
+    RESOURCE: "resource",
+    ASSET: "asset",
+    REVIEW: "review",
+    SERVICE: "service",
+    USER: "user",
+    SYSTEM_ENTITY: "systemEntity",
+    POLICY: "policy",
+    RULE: "rule",
+    SCHEMA: "schema",
+    ASYNCAPI: "asyncapi",
+  },
   collectionsNames: {
     ENTITY_COLLECTION_NAME: "entities",
     SYSTEM_ENTITY_COLLECTION_NAME: "systemEntities",
@@ -9,5 +21,9 @@ module.exports = {
     USERS_COLLECTION_NAME: "users",
     SERVICES_COLLECTION_NAME: "services",
     HISTORIES_COLLECTION_NAME: "histories",
+    RULES_COLLECTION_NAME: "rules",
+    SCHEMATA_COLLECTION_NAME: "schemata ",
+    POLICIES_COLLECTION_NAME: "policies",
+    ASYNCAPI_COLLECTION_NAME: "asyncapis",
   },
 };
