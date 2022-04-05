@@ -1,14 +1,14 @@
 {
-  "id": "schema:uuid:8a054491-6a0c-4cfd-b599-b308cf4b9973",
-  "title": "Schema definition",
-  "schemaName": "schema",
-  "description": "The specification schema encoded as string",
+  "id": "schema:uuid:594c16ec-2357-4442-80e2-67ce87dbff2c",
+  "title": "Specification definition",
+  "schemaName": "asyncapi",
+  "description": "The specification encoded as string",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "scope": [
     {
       "key": "systemEntityType",
-      "value": "schema"
+      "value": "asyncapi"
     }
   ],
   "schema": {
@@ -16,13 +16,13 @@
     "type": "object",
     "title": "Schema definition",
     "required": [
-      "schema"
+      "asyncapi"
     ],
     "properties": {
-      "schema": {
+      "asyncapi": {
         "type": "string",
-        "title": "Schema definition",
-        "description": "The specification schema encoded as string",
+        "title": "AsyncAPI definition",
+        "description": "The specification encoded as string",
         "_elasticsearch": {
           "enabled": false
         }

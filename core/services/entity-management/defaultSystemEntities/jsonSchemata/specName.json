@@ -1,5 +1,5 @@
 {
-  "id": "schema:uuid:3ca6c9d9-f631-497d-8a3d-9e4ace0903b7",
+  "id": "schema:uuid:c5b8a035-b907-4090-9f74-d5b8e719a4c1",
   "title": "Specification name",
   "schemaName": "specName",
   "description": "Unique name of the specification",
@@ -16,7 +16,7 @@
     "type": "object",
     "title": "Schema name",
     "required": [
-      "schemaName"
+      "specName"
     ],
     "properties": {
       "specName": {

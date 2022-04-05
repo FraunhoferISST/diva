@@ -133,8 +133,8 @@ export default {
 
     const handlePromiseError = (promise) =>
       promise.then(() => {
-        if (error) {
-          show(error, { color: error });
+        if (error.value) {
+          show(error.value, { color: "error" });
         }
       });
 
