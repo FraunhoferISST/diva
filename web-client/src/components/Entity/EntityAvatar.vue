@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import api from "@/api/index";
+import { useApi } from "@/composables/api";
+import { computed } from "@vue/composition-api";
 export default {
   name: "EntityAvatar",
   props: {
@@ -35,17 +36,18 @@ export default {
       default: 32,
     },
   },
-  computed: {
-    entityAvatarPlaceholderText() {
-      return this.entityTitle[0].toUpperCase();
-    },
-    imgUrl() {
-      const entityType = this.entityId.slice(0, this.entityId.indexOf(":"));
-      if (this.imageId) {
-        return `${api.endpoint}/${entityType}s/${this.entityId}/images/${this.imageId}`;
-      }
-      return "";
-    },
+  setup(props) {
+    const { buildImageUrl, entityCollection } = useApi(props.entityId);
+    return {
+      imgUrl: computed(() =>
+        props.imageId
+          ? buildImageUrl(entityCollection, props.entityId, props.imageId)
+          : ""
+      ),
+      entityAvatarPlaceholderText: computed(() =>
+        props.entityTitle[0]?.toUpperCase()
+      ),
+    };
   },
 };
 </script>

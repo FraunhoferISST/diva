@@ -20,6 +20,9 @@
     "required": [
       "condition"
     ],
+    "_elasticsearch": {
+      "enabled": false
+    },
     "properties": {
       "condition": {
         "_elasticsearch": {

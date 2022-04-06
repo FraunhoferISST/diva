@@ -22,7 +22,7 @@ export default {
         case this.id.startsWith("user"):
           return `/users/${this.id}`;
         default:
-          return `/resources/${this.id}`;
+          return `/entities/${this.id}`;
       }
     },
   },

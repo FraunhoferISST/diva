@@ -1,5 +1,5 @@
 <template>
-  <entity-details-container :id="id" :links="links">
+  <entity-details-container :id="id" :routes="routes">
     <router-transition>
       <router-view :key="$route.params.id"></router-view>
     </router-transition>
@@ -10,32 +10,36 @@
 import RouterTransition from "@/components/Transitions/RouterTransition";
 import EntityDetailsContainer from "@/components/Entity/EntityDetailsContainer";
 export default {
-  name: "UserDetails",
+  name: "EntityDetails",
   components: {
     EntityDetailsContainer,
     RouterTransition,
   },
-  props: ["id"],
-  data() {
-    return {
-      links: [
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+    routes: {
+      type: Array,
+      default: () => [
         {
           title: "Overview",
           icon: "short_text",
-          name: "user_details_general",
+          name: "entity_details_general",
         },
         {
           title: "History",
           icon: "history",
-          name: "user_details_history",
+          name: "entity_details_history",
         },
         {
-          title: "Collections",
-          icon: "add",
-          name: "user_details_collections",
+          title: "Reviews",
+          icon: "question_answer",
+          name: "entity_details_reviews",
         },
       ],
-    };
+    },
   },
 };
 </script>

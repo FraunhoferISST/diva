@@ -126,7 +126,7 @@
                   <v-tabs-slider></v-tabs-slider>
                   <v-tab
                     :to="{ name: link.name }"
-                    v-for="(link, i) in links"
+                    v-for="(link, i) in routes"
                     :key="i"
                   >
                     <v-icon small class="mr-md-2">
@@ -218,7 +218,7 @@ export default {
       type: String,
       required: true,
     },
-    links: {
+    routes: {
       type: Array,
       required: true,
     },

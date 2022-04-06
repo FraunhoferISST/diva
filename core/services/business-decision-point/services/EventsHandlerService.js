@@ -10,7 +10,7 @@ class EventsHandlerService {
     const asyncApi = (
       await mongoDBConnector.collections.systemEntities.findOne(
         {
-          schemaName: "asyncapi",
+          specName: "asyncapi",
           systemEntityType: "asyncapi",
         },
         {

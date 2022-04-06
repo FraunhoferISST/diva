@@ -10,16 +10,9 @@ const ENTITY_MANAGEMENT_URL =
   process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000";
 
 const fetchSchema = (schemaName) =>
-  axios.get(
-    urljoin(
-      ENTITY_MANAGEMENT_URL,
-      "systemEntities/resolvedSchemas",
-      schemaName
-    ),
-    {
-      headers: { "x-actorid": serviceInstanceId },
-    }
-  );
+  axios.get(urljoin(ENTITY_MANAGEMENT_URL, "resolvedSchemata", schemaName), {
+    headers: { "x-actorid": serviceInstanceId },
+  });
 
 const compileValidator = async (schema) => {
   let schemaObject = null;

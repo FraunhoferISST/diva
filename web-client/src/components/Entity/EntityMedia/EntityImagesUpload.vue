@@ -21,9 +21,7 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-import imageUrl from "@/utils/imageUrl";
-import entityTypeById from "@/utils/entityTypeById";
-import api from "@/api/index";
+import { useApi } from "@/composables/api";
 
 export default {
   name: "EntityImagesUpload",
@@ -33,11 +31,17 @@ export default {
       required: true,
     },
   },
+  setup(props) {
+    const { imageUrl, entityApi } = useApi(props.entityId);
+    return {
+      imageUrl,
+      entityApi,
+    };
+  },
   data: () => ({
     uploader: null,
   }),
   mounted() {
-    const entity = `${entityTypeById(this.entityId)}s`;
     FilePond.registerPlugin(FilePondPluginImagePreview);
     FilePond.registerPlugin(FilePondPluginFileValidateType);
     this.uploader = FilePond.create(this.$refs.uploaderInput, {
@@ -54,16 +58,16 @@ export default {
         );
       },
       server: {
-        url: imageUrl(this.entityId),
+        url: this.imageUrl,
         process: (fieldName, file, metadata, load, error) => {
-          api[entity]
+          this.entityApi
             .uploadImage(this.entityId, file)
             .then(({ data }) => load(data))
             .catch((e) => error(e));
           return {};
         },
         revert: (imageId, load, error) => {
-          api[entity]
+          this.entityApi
             .deleteImage(this.entityId, "test")
             .then(({ data }) => load(data))
             .catch((e) => error(e));

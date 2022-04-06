@@ -85,11 +85,16 @@
             rounded
             color="error"
             :loading="loading"
-            @click="() => deleteImage().then(confirm)"
+            @click="() => deleteImage().then(() => !error && confirm())"
           >
             Delete image
           </v-btn>
         </div>
+      </template>
+      <template #info>
+        <v-alert class="pa-2 ma-0 mt-3" text color="error" v-if="error">
+          {{ error }}
+        </v-alert>
       </template>
     </confirmation-dialog>
   </v-row>
@@ -126,22 +131,35 @@ export default {
       confirmationDialog.value = true;
     };
 
+    const handlePromiseError = (promise) =>
+      promise.then(() => {
+        if (error.value) {
+          show(error.value, { color: "error" });
+        }
+      });
+
     const useAsIcon = (imageId) =>
-      request(
-        entityApi.patch(props.entity.id, {
-          entityIcon: imageId,
-        })
+      handlePromiseError(
+        request(
+          entityApi.patch(props.entity.id, {
+            entityIcon: imageId,
+          })
+        )
       );
 
     const useAsBanner = (imageId) =>
-      request(
-        entityApi.patch(props.entity.id, {
-          entityBanner: imageId,
-        })
+      handlePromiseError(
+        request(
+          entityApi.patch(props.entity.id, {
+            entityBanner: imageId,
+          })
+        )
       );
 
     const deleteImage = () =>
-      request(entityApi.deleteImage(props.entity.id, imageIdToDelete.value));
+      handlePromiseError(
+        request(entityApi.deleteImage(props.entity.id, imageIdToDelete.value))
+      );
 
     return {
       entityCollection,
