@@ -1,6 +1,7 @@
 module.exports = {
   DIVA_DB_NAME: process.env.MONGO_DB_NAME ?? "divaDb",
   entityTypes: {
+    ENTITY: "entity",
     RESOURCE: "resource",
     ASSET: "asset",
     REVIEW: "review",

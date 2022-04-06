@@ -87,7 +87,19 @@
             }
           },
           {
-            "name": "name",
+            "name": "schemaName",
+            "in": "query",
+            "description": "Name of the system entity",
+            "required": false,
+            "explode": true,
+            "example": "asyncapi",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "specName",
             "in": "query",
             "description": "Name of the system entity",
             "required": false,

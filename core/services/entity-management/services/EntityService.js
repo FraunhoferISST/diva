@@ -15,6 +15,7 @@ const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const entityImagesService = require("./EntityImagesService");
 const {
   collectionsNames: { ENTITY_COLLECTION_NAME, HISTORIES_COLLECTION_NAME },
+  entityTypes: { ENTITY },
 } = require("../utils/constants");
 
 const ENTITY_ROOT_SCHEMA = process.env.ENTITY_ROOT_SCHEMA || "entity";
@@ -99,7 +100,7 @@ class EntityService {
       "creatorId",
       "email",
       "username",
-      "name",
+      "schemaName",
     ];
   }
 
@@ -122,10 +123,11 @@ class EntityService {
   }
 
   async create(entity, actorId) {
+    const entityType = this.entityType ?? entity.entityType;
     const newEntity = cleanUpEntity({
-      id: generateUuid(this.entityType), // the id con be overwritten by concrete implementation
+      id: generateUuid(ENTITY), // the id con be overwritten by concrete implementation
       ...entity,
-      entityType: this.entityType,
+      entityType,
       createdAt: new Date().toISOString(),
       modifiedAt: new Date().toISOString(),
       entityImages: null,

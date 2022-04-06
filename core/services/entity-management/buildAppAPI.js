@@ -12,7 +12,7 @@ const { name: serviceName } = require("./package.json");
 const schemataService = require("./services/SchemataService");
 const schemataController = require("./controllers/SchemataController");
 const asyncapisService = require("./services/AsyncapisService");
-const asyncapisController = require("./controllers/AsancapisController");
+const asyncapisController = require("./controllers/AsyncapisController");
 const rulesService = require("./services/RulesService");
 const policiesService = require("./services/PoliciesService");
 
@@ -76,6 +76,13 @@ const predefinedEntities = {
     service: asyncapisService,
     entityType: entityTypes.SYSTEM_ENTITY,
   },
+  // Generic route for ally for all kinds of custom entities
+  [collectionsNames.ENTITY_COLLECTION_NAME]: {
+    collection: collectionsNames.ENTITY_COLLECTION_NAME,
+    controller: null,
+    service: null,
+    entityType: null,
+  },
 };
 
 const createEntityService = (entityType) => new EntityService(entityType);
@@ -134,7 +141,7 @@ module.exports = async (server) => {
   );
 
   router.get(
-    `/asyncapis/:name`,
+    `/asyncapis/byName/:name`,
     asyncapisController.getByName.bind(asyncapisController)
   );
 

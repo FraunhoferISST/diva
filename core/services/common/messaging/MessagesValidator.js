@@ -9,12 +9,9 @@ const ENTITY_MANAGEMENT_URL =
   process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000";
 
 const fetchSpec = (specName) =>
-  axios.get(
-    urljoin(ENTITY_MANAGEMENT_URL, "/systemEntities/byName", specName),
-    {
-      headers: { "x-actorid": serviceInstanceId },
-    }
-  );
+  axios.get(urljoin(ENTITY_MANAGEMENT_URL, "/asyncapis/byName/", specName), {
+    headers: { "x-actorid": serviceInstanceId },
+  });
 
 const loadAsyncAPISpec = async (spec) => {
   let specification;
