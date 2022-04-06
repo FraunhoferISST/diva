@@ -10,7 +10,7 @@ const ENTITY_MANAGEMENT_URL =
   process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000";
 
 const fetchSchema = (schemaName) =>
-  axios.get(urljoin(ENTITY_MANAGEMENT_URL, "resolvedSchemas", schemaName), {
+  axios.get(urljoin(ENTITY_MANAGEMENT_URL, "resolvedSchemata", schemaName), {
     headers: { "x-actorid": serviceInstanceId },
   });
 
