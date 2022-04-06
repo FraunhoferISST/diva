@@ -138,24 +138,21 @@ class EntityService {
     return { id: newEntity.id, delta };
   }
 
-  async get(query) {
-    const { cursor, pageSize = 30, fields } = query;
+  async get(queryParams, dbQuery = {}) {
+    const { cursor, pageSize = 30, fields } = queryParams;
     const searchQueryParams = extractFilterQueryParams(
       this.filterParams,
-      query
+      queryParams
     );
     const parsedPageSize = parseInt(pageSize, 10);
-    let dbQuery = {};
-    if (cursor) {
-      const prevId = decodeCursor(cursor);
-      dbQuery = createNextPageQuery(prevId);
-    }
+    const query = {
+      entityType: this.entityType,
+      ...createSearchQuery(searchQueryParams),
+      ...dbQuery,
+      ...(cursor ? createNextPageQuery(decodeCursor(cursor)) : {}),
+    };
     const collection = await this.collection
-      .find({
-        entityType: this.entityType,
-        ...createSearchQuery(searchQueryParams),
-        ...dbQuery,
-      })
+      .find(query)
       .project(createProjectionObject(fields))
       .sort({ _id: -1 })
       .limit(parsedPageSize)
@@ -170,9 +167,9 @@ class EntityService {
     }
     return {
       collectionSize: collection.length,
-      collection: collection.map((e) => this.sanitizeEntity(e, query)),
+      collection: collection.map((e) => this.sanitizeEntity(e, queryParams)),
       cursor: nextCursor,
-      total: await this.count(),
+      total: await this.count(query),
     };
   }
 
@@ -293,8 +290,8 @@ class EntityService {
     return this.historyCollection.insertOne(historyEntry).then(() => delta);
   }
 
-  count() {
-    return this.collection.countDocuments({});
+  count(query = {}) {
+    return this.collection.countDocuments(query);
   }
 
   async addImage(id, imageFile, actorId) {

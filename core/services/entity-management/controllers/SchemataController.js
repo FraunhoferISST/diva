@@ -12,6 +12,15 @@ const reintializeJsonSchemaValidator = () =>
     });
 
 class SchemataController extends EntityController {
+  async getByScope(req, res, next) {
+    try {
+      const result = await this.service.getByScope(req.body);
+      res.status(200).send(result);
+    } catch (err) {
+      return next(err);
+    }
+  }
+
   async create(req, res, next) {
     return super
       .create(req, res, next)
@@ -30,16 +39,6 @@ class SchemataController extends EntityController {
         req.params.name
       );
       res.status(200).send(resolvedSchema);
-    } catch (err) {
-      return next(err);
-    }
-  }
-
-  async getByName(req, res, next) {
-    try {
-      const specEntity = await schemataService.getSchemaByName(req.params.name);
-      res.setHeader("Content-Type", "text/plain");
-      res.status(200).send(specEntity.schema);
     } catch (err) {
       return next(err);
     }

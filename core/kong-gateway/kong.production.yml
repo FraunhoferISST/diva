@@ -98,6 +98,20 @@ services:
           - name: jwt-keycloak
             config:
               allowed_iss: ["http://172.17.0.1:7000/auth/realms/diva-kc-realm"]
+      - name: entities-scoped-schemata-route
+        paths:
+          - '/scopedSchemata/*$'
+        methods:
+          - POST
+          - OPTIONS
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
+        plugins:
+          - name: jwt-keycloak
+            config:
+              allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
       - name: entity-images-route
         methods:
           - POST

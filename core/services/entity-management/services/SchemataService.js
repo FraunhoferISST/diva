@@ -103,8 +103,24 @@ class SchemataService extends EntityService {
     );
   }
 
-  async get(query = {}) {
-    return super.get({ ...query, systemEntityType: this.systemEntityType });
+  async getByScope(body = {}) {
+    const dbQuery = body?.scope
+      ? {
+          scope: {
+            $elemMatch: {
+              key: { $in: Object.keys(body.scope) },
+              value: { $in: Object.values(body.scope) },
+            },
+          },
+        }
+      : {};
+    return super.get(
+      {
+        pageSize: 1000,
+        systemEntityType: this.systemEntityType,
+      },
+      dbQuery
+    );
   }
 
   async create(systemEntity, actorId) {
