@@ -198,7 +198,6 @@ import DataViewer from "@/components/DataFetchers/DataViewer";
 import EntityEventSnackbar from "@/components/Entity/EntityEventSnackbar";
 import { computed } from "@vue/composition-api";
 import { useUser } from "@/composables/user";
-import { useSchema } from "@/composables/schema";
 import ConfirmationDialog from "@/components/Base/ConfirmationDialog";
 
 export default {
@@ -226,7 +225,6 @@ export default {
   },
   emits: ["reload"],
   setup(props) {
-    const { load: loadSchemata } = useSchema();
     const { addRecentlyViewed } = useUser();
     const { emit } = useBus();
     const {

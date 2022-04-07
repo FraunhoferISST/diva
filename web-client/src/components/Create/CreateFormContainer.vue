@@ -13,7 +13,7 @@
                 :rounded="false"
                 class="full-width fill-height"
               >
-                <template slot="body">
+                <template #body>
                   <div
                     class="text-center fill-height d-flex column wrap justify-center align-center"
                   >

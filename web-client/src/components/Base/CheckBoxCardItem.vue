@@ -4,16 +4,12 @@
     color="transparent"
     class="check-box-card fill-height"
     v-ripple="{ class: isChecked || disabled ? 'd-none' : '' }"
-    :class="[
-      { checked: isChecked },
-      { disabled: disabled },
-      `check-box-card-${cardColor}`,
-    ]"
+    :class="[{ checked: isChecked }, { disabled: disabled }]"
   >
     <span
       slot="header"
       class="check-box-card-title-container d-flex align-center"
-      @click="toggleCheck"
+      @click="emitClick"
     >
       <span class="check-box-card-indicator mr-1"></span>
       <span class="check-box-card-title">{{ title }}</span>
@@ -21,9 +17,9 @@
     <div
       slot="body"
       class="check-box-card-body mt-3 ml-4 fill-height"
-      @click="() => !checked && toggleCheck()"
+      @click="() => !active && emitClick()"
     >
-      <slot :checked="checked" :check="check" :uncheck="uncheck"></slot>
+      <slot :active="active"></slot>
     </div>
   </colored-card>
 </template>
@@ -31,7 +27,7 @@
 <script>
 import ColoredCard from "@/components/Base/ColoredCard";
 export default {
-  name: "CheckBoxCard",
+  name: "CheckBoxCardItem",
   components: { ColoredCard },
   props: {
     active: {
@@ -54,54 +50,16 @@ export default {
       type: String,
       required: true,
     },
-    primary: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  data: () => ({
-    isLoading: false,
-    checked: false,
-  }),
-  watch: {
-    active() {
-      this.checked = this.active;
-      this.emitChange();
-    },
   },
   computed: {
     isChecked() {
-      return (this.active || this.checked) && !this.disabled;
-    },
-    cardColor() {
-      return this.primary ? "primary" : "alternative";
+      return this.active && !this.disabled;
     },
   },
   methods: {
-    uncheck() {
-      this.checked = false;
-    },
-    check() {
-      this.checked = true;
-    },
-    toggleCheck() {
-      if (!this.disabled) {
-        this.emitClick();
-      }
-      if (this.deselectable && !this.manually) {
-        this.checked = !this.checked;
-        this.emitChange();
-      }
-    },
-    emitChange() {
-      this.$emit("change", this.checked);
-    },
     emitClick() {
-      this.$emit("clicked", this.checked);
+      this.$emit("clicked");
     },
-  },
-  mounted() {
-    this.checked = this.active;
   },
 };
 </script>
