@@ -103,6 +103,13 @@ class SchemataService extends EntityService {
     );
   }
 
+  async get(queryParams) {
+    return super.get({
+      ...queryParams,
+      systemEntityType: this.systemEntityType,
+    });
+  }
+
   async getByScope(body = {}) {
     const dbQuery = body?.scope
       ? {

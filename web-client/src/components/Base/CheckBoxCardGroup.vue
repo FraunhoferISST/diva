@@ -30,7 +30,7 @@ export default {
     },
     mandatory: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   data: () => ({
@@ -50,7 +50,9 @@ export default {
   methods: {
     toggle(index) {
       if (this.selectedIndices.includes(index)) {
-        this.deselect(index);
+        if (!this.mandatory) {
+          this.deselect(index);
+        }
       } else {
         this.select(index);
       }

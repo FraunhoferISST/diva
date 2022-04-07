@@ -90,6 +90,7 @@ export default {
         value: {
           uiType: "text",
           type: "text",
+          fallBackValue: "",
         },
         selected: true,
       },
@@ -99,6 +100,7 @@ export default {
         value: {
           uiType: "richText",
           type: "text",
+          fallBackValue: "",
         },
         selected: true,
       },
@@ -108,6 +110,7 @@ export default {
         value: {
           uiType: "number",
           type: "number",
+          fallBackValue: "",
         },
         selected: true,
       },
@@ -115,8 +118,9 @@ export default {
         title: "Date",
         description: "Date selection",
         value: {
-          uiType: "data",
-          type: "text",
+          uiType: "date",
+          type: "date",
+          fallBackValue: "",
         },
         selected: true,
       },
@@ -126,6 +130,7 @@ export default {
         value: {
           uiType: "boolean",
           type: "boolean",
+          fallBackValue: false,
         },
         selected: true,
       },
@@ -138,6 +143,7 @@ export default {
           options: "",
           uiType: "select",
           type: "text",
+          fallBackValue: "",
         },
         selected: true,
       },

@@ -41,9 +41,13 @@ import { computed } from "@vue/composition-api";
 import MarkdownFieldEditor from "@/components/Entity/EntityFields/MarkdownField/MarkdownFieldEditor";
 import MarkdownFieldViewer from "@/components/Entity/EntityFields/MarkdownField/MarkdownFieldViewer";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
+import DateFieldEditor from "@/components/Entity/EntityFields/DateFieldField/DateFieldEditor";
+import DateFieldViewer from "@/components/Entity/EntityFields/DateFieldField/DateFieldViewer";
 export default {
   name: "FieldPreview",
   components: {
+    DateFieldViewer,
+    DateFieldEditor,
     InfoBlock,
     MarkdownFieldViewer,
     MarkdownFieldEditor,
@@ -114,6 +118,10 @@ export default {
         text: {
           viewer: PrimitiveFieldViewer,
           editor: PrimitiveFieldEditor,
+        },
+        date: {
+          viewer: DateFieldViewer,
+          editor: DateFieldEditor,
         },
         number: {
           viewer: PrimitiveFieldViewer,

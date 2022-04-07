@@ -50,13 +50,26 @@
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="12" sm="6" class="d-flex mt-2">
+                    <v-autocomplete
+                      v-if="getSelectedProperty(scope.key).enum"
+                      v-model="scope.value"
+                      :items="getSelectedProperty(scope.key).enum"
+                      outlined
+                      dense
+                      chips
+                      small-chips
+                      label="Scope property"
+                      hide-details
+                      :disabled="!selectedIndices.includes(2)"
+                      background-color="white"
+                    ></v-autocomplete>
                     <v-text-field
+                      v-else
                       v-model="scope.value"
                       label="Value"
                       outlined
                       dense
                       hide-details
-                      autofocus
                       :disabled="!selectedIndices.includes(2)"
                       background-color="white"
                     >
@@ -105,6 +118,10 @@ export default {
       type: Array,
       required: true,
     },
+    properties: {
+      type: Array,
+      required: true,
+    },
   },
   components: { CheckBoxCardItem, CheckBoxCardGroup },
   setup(props, { emit }) {
@@ -145,12 +162,22 @@ export default {
       scopesOptions.value[2].value.scope.push({ key: "", value: "" });
     const removeCustomScope = (index) =>
       scopesOptions.value[2].value.scope.splice(index, 1);
+    const getSelectedProperty = (propertyName) => {
+      return (
+        props.properties.filter(
+          ({ property }) => property === propertyName
+        )[0] ?? {}
+      );
+    };
     return {
-      scopeProperties: ["entityType", "resourceType"],
+      scopeProperties: computed(() =>
+        props.properties.map(({ property }) => property)
+      ),
       scopesOptions,
       computedScope,
       addCustomScope,
       removeCustomScope,
+      getSelectedProperty,
     };
   },
 };
