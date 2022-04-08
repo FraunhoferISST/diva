@@ -154,7 +154,7 @@ export default {
         description: "You can customize the scope of the new field",
         selected: false,
         value: {
-          scope: [{ key: "resourceType", value: "file" }],
+          scope: props.scope,
         },
       },
     ]);

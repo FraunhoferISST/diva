@@ -100,7 +100,7 @@ export default {
           fullWidth,
         },
       };
-      this.$emit("jsonToData", convertedData);
+      this.$emit("applySchema", convertedData);
       this.editedCode = undefined;
     },
   },

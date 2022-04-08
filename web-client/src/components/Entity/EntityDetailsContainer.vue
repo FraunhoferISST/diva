@@ -85,6 +85,16 @@
                           </template>
 
                           <v-list dense>
+                            <v-list-item @click="showFieldCreationDialog">
+                              <v-list-item-icon>
+                                <v-icon dense color="primary"> add </v-icon>
+                              </v-list-item-icon>
+                              <v-list-item-content>
+                                <v-list-item-title>
+                                  Add New field
+                                </v-list-item-title>
+                              </v-list-item-content>
+                            </v-list-item>
                             <v-list-item @click="showConfirmationDialog">
                               <v-list-item-icon>
                                 <v-icon dense color="error">delete</v-icon>
@@ -147,7 +157,7 @@
           will be removed and can no longer be restored!
         </v-alert>
         <template #confirm>
-          <v-btn text rounded color="error" @click="deleteEntity">
+          <v-btn text rounded color="error" @click="deleteEnt">
             Delete entity
           </v-btn>
           <v-snackbar text color="error" v-model="snackbar" absolute>
@@ -155,6 +165,10 @@
           </v-snackbar>
         </template>
       </confirmation-dialog>
+      <entity-field-creation-dialog
+        :show.sync="fieldCreationDialog"
+        :scope="schemaScope"
+      />
       <entity-event-snackbar
         top
         fixed
@@ -196,13 +210,15 @@ import { useEntity } from "@/composables/entity";
 import { useBus } from "@/composables/bus";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import EntityEventSnackbar from "@/components/Entity/EntityEventSnackbar";
-import { computed } from "@vue/composition-api";
+import { computed, ref } from "@vue/composition-api";
 import { useUser } from "@/composables/user";
 import ConfirmationDialog from "@/components/Base/ConfirmationDialog";
+import EntityFieldCreationDialog from "@/components/Entity/EntityFieldCreationDialog";
 
 export default {
   name: "EntityDetailsContainer",
   components: {
+    EntityFieldCreationDialog,
     ConfirmationDialog,
     EntityEventSnackbar,
     DataViewer,
@@ -225,6 +241,11 @@ export default {
   },
   emits: ["reload"],
   setup(props) {
+    const confirmationDialog = ref(false);
+    const fieldCreationDialog = ref(false);
+    const menu = ref(false);
+    const tab = ref("");
+
     const { addRecentlyViewed } = useUser();
     const { emit } = useBus();
     const {
@@ -270,7 +291,10 @@ export default {
       });
     };
     return {
-      reloadEntity,
+      confirmationDialog,
+      fieldCreationDialog,
+      tab,
+      menu,
       loading,
       updating,
       error,
@@ -279,12 +303,10 @@ export default {
       timeout,
       message,
       snackbar,
-      eventData: computed(() => eventData.value ?? {}),
-      showSnackbar,
-      delete: deleteEntity,
       deleteError,
       deleteLoading,
       title,
+      eventData: computed(() => eventData.value ?? {}),
       tags: computed(() =>
         [
           data.value.entityType,
@@ -296,29 +318,37 @@ export default {
           .filter((t) => t)
           .map((t) => (t.length > 40 ? `${t.slice(0, 40)}...` : t))
       ),
+      schemaScope: computed(() => [
+        Object.entries({
+          mimeType: data.value.mimeType,
+          resourceType: data.value.resourceType,
+          systemEntityType: data.value.systemEntityType,
+          assetType: data.value.assetType,
+          entityType: data.value.entityType,
+        })
+          .map(([key, value]) => ({ key: key, value: value }))
+          .filter(({ value }) => value)[0],
+      ]),
+      showSnackbar,
+      deleteEnt: () =>
+        deleteEntity().then(() => {
+          if (!this.deleteError) {
+            this.confirmationDialog = false;
+            setTimeout(() => this.$router.push({ name: "search" }), 1000);
+          } else {
+            this.showSnackbar(this.deleteError, { color: "error" });
+          }
+        }),
+      reloadEntity,
+      showConfirmationDialog: () => (confirmationDialog.value = true),
+      showFieldCreationDialog: () => (fieldCreationDialog.value = true),
     };
   },
   data: () => ({
-    menu: false,
-    confirmationDialog: false,
     scrollOffset: 0,
     overviewContainerHeight: null,
-    tab: "",
   }),
   methods: {
-    showConfirmationDialog() {
-      this.confirmationDialog = true;
-    },
-    deleteEntity() {
-      this.delete(this.data.id).then(() => {
-        if (!this.deleteError) {
-          this.confirmationDialog = false;
-          setTimeout(() => this.$router.push({ name: "search" }), 1000);
-        } else {
-          this.showSnackbar(this.deleteError, { color: "error" });
-        }
-      });
-    },
     onScroll(e) {
       this.updateOverviewContainerHeight();
       this.scrollOffset = e.target.scrollingElement.scrollTop;

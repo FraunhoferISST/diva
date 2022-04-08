@@ -35,11 +35,14 @@ export const useSchema = () => {
         );
       }
     );
+
+  const create = (schemaEntity) => request(schemata.create(schemaEntity));
   return {
     schema,
     loading,
     error,
     load,
     getAllSchemata,
+    create,
   };
 };

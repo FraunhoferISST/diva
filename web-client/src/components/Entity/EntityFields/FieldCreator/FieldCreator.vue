@@ -28,7 +28,7 @@
                 Define field scope
                 <small>
                   {{
-                    scope.map(({ value }) => value).join(", ") ||
+                    _scope.map(({ value }) => value).join(", ") ||
                     "Applied to all"
                   }}
                 </small>
@@ -36,7 +36,7 @@
               <v-stepper-content step="1">
                 <v-container fluid>
                   <field-scope-selector
-                    :scope.sync="scope"
+                    :scope.sync="_scope"
                     :properties="allProperties"
                   />
                 </v-container>
@@ -102,11 +102,11 @@
         <v-tab-item>
           <field-schema
             :schema="jsonSchemaEntity"
-            @jsonToData="onJsonToEditorData"
+            @applySchema="schemaToEditorData"
           />
         </v-tab-item>
       </v-tabs-items>
-      <div class="field-creator-preview">
+      <div class="field-creator-preview pb-5">
         <v-container fluid>
           <v-row>
             <v-col cols="12">
@@ -145,7 +145,7 @@
 
 <script>
 import FieldScopeSelector from "@/components/Entity/EntityFields/FieldCreator/FieldScopeSelector";
-import { computed, ref } from "@vue/composition-api";
+import { computed, ref, watch } from "@vue/composition-api";
 import FieldTypeSelector from "@/components/Entity/EntityFields/FieldCreator/FieldTypeSelector";
 import FieldDefinition from "@/components/Entity/EntityFields/FieldCreator/FieldDefinition";
 import FieldPresentation from "@/components/Entity/EntityFields/FieldCreator/FieldPresentation";
@@ -170,14 +170,24 @@ export default {
     FieldTypeSelector,
     FieldScopeSelector,
   },
-  setup() {
+  props: {
+    schemaEntity: {
+      type: Object,
+      default: () => {},
+    },
+    scope: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  setup(props, { emit }) {
     const { getAllSchemata, loading, error } = useSchema();
     const allSchemata = ref([]);
     getAllSchemata().then((schemata) => (allSchemata.value = schemata));
     const mode = ref("Editor");
     const tab = ref(0);
     const step = ref(1);
-    const scope = ref([]);
+    const _scope = ref(props.scope);
     const type = ref({});
     const definition = ref({
       propertyName: "",
@@ -190,15 +200,49 @@ export default {
       fullwidth: true,
     });
 
-    const onJsonToEditorData = (jsonData) => {
+    const schemaToEditorData = (schemaEntity) => {
+      const {
+        scope = [],
+        schema: { properties },
+      } = schemaEntity;
+      const propertyName = Object.keys(properties)[0];
+      const {
+        schema: {
+          properties: {
+            [propertyName]: {
+              type,
+              _ui: { view, position, fullWidth, ...rest },
+            },
+          },
+        },
+      } = schemaEntity;
+      const title = schemaEntity.title ?? properties[propertyName].title;
+      const description =
+        schemaEntity.description ?? properties[propertyName].description;
       type.value = {
-        ...jsonData.type,
-        options: jsonData.type?.options?.join(",") ?? "",
+        ...rest,
+        uiType: rest.type,
+        testValue: rest.fallbackValue,
+        type,
+        options: rest.options?.join(",") ?? "",
       };
-      scope.value = jsonData.scope;
-      definition.value = jsonData.definition;
-      presentation.value = jsonData.presentation;
+      scope.value = schemaEntity.scope;
+      definition.value = {
+        propertyName,
+        title,
+        description,
+        ...definition.value,
+      };
+      presentation.value = {
+        view,
+        position,
+        fullWidth,
+      };
     };
+
+    if (props.schemaEntity && Object.keys(props.schemaEntity).length > 0) {
+      schemaToEditorData(props.schemaEntity);
+    }
 
     const editorDataToSchema = (
       editorData = { ...type.value, ...definition.value, ...presentation.value }
@@ -239,10 +283,20 @@ export default {
       };
     };
     const jsonSchema = computed(() => editorDataToSchema());
+    const jsonSchemaEntity = computed(() => ({
+      title: definition.value.title,
+      schemaName: definition.value.propertyName,
+      description: definition.value.description,
+      entityType: "systemEntity",
+      systemEntityType: "schema",
+      schema: jsonSchema.value,
+      ...(_scope.value.length > 0 ? { scope: _scope.value } : {}),
+    }));
+    watch(jsonSchemaEntity, () => emit("edit", jsonSchemaEntity.value));
     return {
       loading,
       error,
-      scope,
+      _scope,
       type,
       definition,
       presentation,
@@ -271,32 +325,20 @@ export default {
           title: "JSON",
           icon: "code",
         },
-        /*{
-          title: "Both",
-          icon: "view_stream",
-        },*/
       ],
       jsonSchema,
       jsonSchemaUi: computed(
         () => jsonSchema.value.properties[definition.value.propertyName]?._ui
       ),
-      jsonSchemaEntity: computed(() => ({
-        title: definition.value.title,
-        schemaName: definition.value.propertyName,
-        description: definition.value.description,
-        entityType: "systemEntity",
-        systemEntityType: "schema",
-        schema: jsonSchema.value,
-        ...(scope.value.length > 0 ? { scope: scope.value } : {}),
-      })),
-      isScopeValid: computed(() => !!scope.value),
+      jsonSchemaEntity,
+      isScopeValid: computed(() => !!_scope.value),
       isTypeValid: computed(() => !!type.value.type),
       isDefinitionValid: computed(
         () => !!(definition.value.propertyName && definition.value.title)
       ),
       isPresentationValid: computed(() => !!presentation.value.view),
       setTab: (index) => (tab.value = index),
-      onJsonToEditorData,
+      schemaToEditorData,
     };
   },
 };

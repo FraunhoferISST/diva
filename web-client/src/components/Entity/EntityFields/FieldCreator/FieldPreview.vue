@@ -30,6 +30,7 @@
         bottom
         text
         rounded
+        v-model="snackbar"
         :color="color"
         :timeout="4000"
       >
