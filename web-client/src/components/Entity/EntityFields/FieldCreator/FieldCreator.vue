@@ -9,113 +9,117 @@
           @select="setTab"
         />
       </div>
-      <div class="field-creator-content d-flex">
-        <v-tabs-items v-model="tab">
-          <v-tab-item>
-            <div class="field-creator-editor">
-              <v-stepper
-                v-model="step"
-                vertical
-                class="elevation-0 pb-0"
-                non-linear
+      <v-tabs-items v-model="tab">
+        <v-tab-item>
+          <div class="field-creator-editor">
+            <v-stepper
+              v-model="step"
+              vertical
+              class="elevation-0 pb-0"
+              non-linear
+            >
+              <v-stepper-step
+                step="1"
+                :complete="isScopeValid"
+                :color="isScopeValid ? '#20B2AA' : 'primary'"
+                editable
+                :edit-icon="isScopeValid ? 'done' : 'edit'"
               >
-                <v-stepper-step
-                  step="1"
-                  :complete="isScopeValid"
-                  :color="isScopeValid ? '#20B2AA' : 'primary'"
-                  editable
-                  :edit-icon="isScopeValid ? 'done' : 'edit'"
-                >
-                  Define field scope
-                  <small>
-                    {{
-                      scope.map(({ value }) => value).join(", ") ||
-                      "Applied to all"
-                    }}
-                  </small>
-                </v-stepper-step>
-                <v-stepper-content step="1">
-                  <v-container fluid>
-                    <field-scope-selector
-                      :scope.sync="scope"
-                      :properties="allProperties"
-                    />
-                  </v-container>
-                </v-stepper-content>
+                Define field scope
+                <small>
+                  {{
+                    scope.map(({ value }) => value).join(", ") ||
+                    "Applied to all"
+                  }}
+                </small>
+              </v-stepper-step>
+              <v-stepper-content step="1">
+                <v-container fluid>
+                  <field-scope-selector
+                    :scope.sync="scope"
+                    :properties="allProperties"
+                  />
+                </v-container>
+              </v-stepper-content>
 
-                <v-stepper-step
-                  :edit-icon="isTypeValid ? 'done' : 'edit'"
-                  :color="isTypeValid ? '#20B2AA' : 'primary'"
-                  step="2"
-                  :complete="isTypeValid"
-                  editable
-                >
-                  Choose a field type
-                  <small>
-                    {{ type.uiType }}
-                  </small>
-                </v-stepper-step>
-                <v-stepper-content step="2">
-                  <v-container fluid>
-                    <field-type-selector :type.sync="type" />
-                  </v-container>
-                </v-stepper-content>
+              <v-stepper-step
+                :edit-icon="isTypeValid ? 'done' : 'edit'"
+                :color="isTypeValid ? '#20B2AA' : 'primary'"
+                step="2"
+                :complete="isTypeValid"
+                editable
+              >
+                Choose a field type
+                <small>
+                  {{ type.uiType }}
+                </small>
+              </v-stepper-step>
+              <v-stepper-content step="2">
+                <v-container fluid>
+                  <field-type-selector :type.sync="type" />
+                </v-container>
+              </v-stepper-content>
 
-                <v-stepper-step
-                  :edit-icon="isDefinitionValid ? 'done' : 'edit'"
-                  :color="isDefinitionValid ? '#20B2AA' : 'primary'"
-                  step="3"
-                  editable
-                  :complete="isDefinitionValid"
-                >
-                  Define field properties
-                  <small>
-                    {{ definition.propertyName }}
-                  </small>
-                </v-stepper-step>
-                <v-stepper-content step="3">
-                  <v-container fluid>
-                    <field-definition
-                      :description.sync="definition.description"
-                      :title.sync="definition.title"
-                      :property-name.sync="definition.propertyName"
-                    />
-                  </v-container>
-                </v-stepper-content>
+              <v-stepper-step
+                :edit-icon="isDefinitionValid ? 'done' : 'edit'"
+                :color="isDefinitionValid ? '#20B2AA' : 'primary'"
+                step="3"
+                editable
+                :complete="isDefinitionValid"
+              >
+                Define field properties
+                <small>
+                  {{ definition.propertyName }}
+                </small>
+              </v-stepper-step>
+              <v-stepper-content step="3">
+                <v-container fluid>
+                  <field-definition
+                    :description.sync="definition.description"
+                    :title.sync="definition.title"
+                    :property-name.sync="definition.propertyName"
+                  />
+                </v-container>
+              </v-stepper-content>
 
-                <v-stepper-step
-                  :edit-icon="isPresentationValid ? 'done' : 'edit'"
-                  :color="isPresentationValid ? '#20B2AA' : 'primary'"
-                  step="4"
-                  editable
-                  :complete="isPresentationValid"
-                >
-                  Adjust a field presentation
-                </v-stepper-step>
-                <v-stepper-content step="4">
-                  <v-container fluid>
-                    <field-presentation :presentation.sync="presentation" />
-                  </v-container>
-                </v-stepper-content>
-              </v-stepper>
-            </div>
-          </v-tab-item>
-          <v-tab-item>
-            <div class="field-creator-json">
-              <pre>
-                {{ jsonSchema }}
-              </pre>
-            </div>
-          </v-tab-item>
-        </v-tabs-items>
-      </div>
-      <div
-        class="field-creator-preview"
-        v-if="isDefinitionValid && isTypeValid"
-      >
+              <v-stepper-step
+                :edit-icon="isPresentationValid ? 'done' : 'edit'"
+                :color="isPresentationValid ? '#20B2AA' : 'primary'"
+                step="4"
+                editable
+                :complete="isPresentationValid"
+              >
+                Adjust a field presentation
+              </v-stepper-step>
+              <v-stepper-content step="4">
+                <v-container fluid>
+                  <field-presentation :presentation.sync="presentation" />
+                </v-container>
+              </v-stepper-content>
+            </v-stepper>
+          </div>
+        </v-tab-item>
+        <v-tab-item>
+          <field-schema
+            :schema="jsonSchemaEntity"
+            @jsonToData="onJsonToEditorData"
+          />
+        </v-tab-item>
+      </v-tabs-items>
+      <div class="field-creator-preview">
         <v-container fluid>
           <v-row>
-            <v-col cols="12" :md="jsonSchemaUi.fullWidth ? '12' : '4'">
+            <v-col cols="12">
+              <v-divider />
+            </v-col>
+            <v-col cols="12">
+              <custom-header>Field preview</custom-header>
+            </v-col>
+            <v-col
+              v-if="isDefinitionValid && isTypeValid"
+              cols="12"
+              :md="jsonSchemaUi.fullWidth ? '12' : '4'"
+            >
               <field-preview
                 id="test"
                 :type="jsonSchemaUi.type"
@@ -126,6 +130,11 @@
                 :multiple="jsonSchemaUi.multiple"
                 :allowCustom="jsonSchemaUi.allowCustom"
               />
+            </v-col>
+            <v-col cols="12" v-else>
+              <no-data-state>
+                Complete the steps to see the new field preview
+              </no-data-state>
             </v-col>
           </v-row>
         </v-container>
@@ -144,9 +153,15 @@ import SwitchSlider from "@/components/Base/SwitchSlider";
 import FieldPreview from "@/components/Entity/EntityFields/FieldCreator/FieldPreview";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useSchema } from "@/composables/schema";
+import CustomHeader from "@/components/Base/CustomHeader";
+import NoDataState from "@/components/Base/NoDataState";
+import FieldSchema from "@/components/Entity/EntityFields/FieldCreator/FieldSchema";
 export default {
   name: "FieldCreator",
   components: {
+    FieldSchema,
+    NoDataState,
+    CustomHeader,
     DataViewer,
     FieldPreview,
     SwitchSlider,
@@ -174,6 +189,16 @@ export default {
       position: 10,
       fullwidth: true,
     });
+
+    const onJsonToEditorData = (jsonData) => {
+      type.value = {
+        ...jsonData.type,
+        options: jsonData.type?.options?.join(",") ?? "",
+      };
+      scope.value = jsonData.scope;
+      definition.value = jsonData.definition;
+      presentation.value = jsonData.presentation;
+    };
 
     const editorDataToSchema = (
       editorData = { ...type.value, ...definition.value, ...presentation.value }
@@ -261,7 +286,7 @@ export default {
         description: definition.value.description,
         entityType: "systemEntity",
         systemEntityType: "schema",
-        schema: JSON.stringify(jsonSchema),
+        schema: jsonSchema.value,
         ...(scope.value.length > 0 ? { scope: scope.value } : {}),
       })),
       isScopeValid: computed(() => !!scope.value),
@@ -271,6 +296,7 @@ export default {
       ),
       isPresentationValid: computed(() => !!presentation.value.view),
       setTab: (index) => (tab.value = index),
+      onJsonToEditorData,
     };
   },
 };
