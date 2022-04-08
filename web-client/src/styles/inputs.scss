@@ -2,13 +2,10 @@
   /* Custom date picker styling */
   .v-picker__body {
     background-color: white;
-    //@include gradient-primary(0.2, 0.2);
-    //background: $bg_card_secondary;
   }
   .v-picker__title {
     background-color: unset;
     color: black !important;
-    //@include gradient-primary();
     & .v-date-picker-title__year {
       color: black !important;
     }
@@ -16,9 +13,7 @@
   }
   .v-picker.v-card {
     background-color: white;
-    //border: 2px #8080803b solid !important;
     @include border-radius();
-    //@include gradient-primary();
   }
 
   .v-select-list .v-list {
@@ -76,6 +71,13 @@
     }
     .v-label {
       font-size: 0.9rem;
+    }
+  }
+
+  /*Switch input*/
+  .v-input--switch {
+    .v-label {
+      font-size: 1rem;
     }
   }
 }

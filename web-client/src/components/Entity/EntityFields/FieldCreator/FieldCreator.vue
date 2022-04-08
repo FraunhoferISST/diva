@@ -103,9 +103,8 @@
           <v-tab-item>
             <div class="field-creator-json">
               <pre>
-          {{ jsonSchema }}
-          </pre
-              >
+                {{ jsonSchema }}
+              </pre>
             </div>
           </v-tab-item>
         </v-tabs-items>
@@ -122,7 +121,7 @@
                 :type="jsonSchemaUi.type"
                 :title="jsonSchemaEntity.title"
                 :property="jsonSchemaEntity.schemaName"
-                value="test"
+                :value="type.testValue"
                 :options="jsonSchemaUi.options"
                 :multiple="jsonSchemaUi.multiple"
                 :allowCustom="jsonSchemaUi.allowCustom"
@@ -180,7 +179,7 @@ export default {
       editorData = { ...type.value, ...definition.value, ...presentation.value }
     ) => {
       return {
-        $schema: "",
+        $schema: "https://json-schema.org/draft/2019-09/schema",
         title: editorData.title,
         description: editorData.description,
         type: "object",
@@ -204,7 +203,9 @@ export default {
               allowCustom: editorData.allowCustom,
               fullWidth: editorData.fullWidth,
               type: editorData?.uiType,
-              options: editorData?.options?.split(","),
+              options: editorData?.options
+                ? editorData?.options?.split(",")
+                : [],
               multiple: editorData.multiple,
               fallbackValue: "",
             },

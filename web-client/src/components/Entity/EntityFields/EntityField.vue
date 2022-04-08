@@ -41,9 +41,15 @@ import { computed } from "@vue/composition-api";
 import MarkdownFieldEditor from "@/components/Entity/EntityFields/MarkdownField/MarkdownFieldEditor";
 import MarkdownFieldViewer from "@/components/Entity/EntityFields/MarkdownField/MarkdownFieldViewer";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
+import BooleanFieldEditor from "@/components/Entity/EntityFields/BooleanField/BooleanEditor";
+import BooleanFieldViewer from "@/components/Entity/EntityFields/BooleanField/BooleanFieldViewer";
+import DateFieldViewer from "@/components/Entity/EntityFields/DateField/DateFieldViewer";
+import DateFieldEditor from "@/components/Entity/EntityFields/DateField/DateFieldEditor";
 export default {
   name: "EntityField",
   components: {
+    BooleanFieldViewer,
+    BooleanFieldEditor,
     InfoBlock,
     MarkdownFieldViewer,
     MarkdownFieldEditor,
@@ -65,7 +71,7 @@ export default {
       required: true,
     },
     value: {
-      type: [String, Number],
+      type: [String, Number, Array, Boolean, Date, Object],
       required: true,
     },
     title: {
@@ -99,33 +105,37 @@ export default {
           computedValue.value = patchData[props.property];
         }
       });
-    return {
-      patchAndMutate,
-      patchLoading,
+    const configMap = {
+      richText: {
+        viewer: MarkdownFieldViewer,
+        editor: MarkdownFieldEditor,
+      },
+      text: {
+        viewer: PrimitiveFieldViewer,
+        editor: PrimitiveFieldEditor,
+      },
+      date: {
+        viewer: DateFieldViewer,
+        editor: DateFieldEditor,
+      },
+      number: {
+        viewer: PrimitiveFieldViewer,
+        editor: PrimitiveFieldEditor,
+      },
+      select: {
+        viewer: SelectFieldViewer,
+        editor: SelectFieldEditor,
+      },
+      boolean: {
+        viewer: BooleanFieldViewer,
+        editor: BooleanFieldEditor,
+      },
     };
-  },
-  computed: {
-    fieldsConfig() {
-      const configMap = {
-        richText: {
-          viewer: MarkdownFieldViewer,
-          editor: MarkdownFieldEditor,
-        },
-        text: {
-          viewer: PrimitiveFieldViewer,
-          editor: PrimitiveFieldEditor,
-        },
-        number: {
-          viewer: PrimitiveFieldViewer,
-          editor: PrimitiveFieldEditor,
-        },
-        select: {
-          viewer: SelectFieldViewer,
-          editor: SelectFieldEditor,
-        },
-      };
-      return configMap[this.type];
-    },
+    return {
+      patchLoading,
+      fieldsConfig: computed(() => configMap[props.type]),
+      patchAndMutate,
+    };
   },
 };
 </script>

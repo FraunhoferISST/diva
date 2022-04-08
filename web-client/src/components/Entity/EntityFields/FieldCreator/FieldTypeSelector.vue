@@ -3,7 +3,12 @@
     <template #default="{ toggle, selectedIndices }">
       <v-container fluid class="pa-0">
         <v-row dense>
-          <v-col cols="12" sm="4" v-for="(type, i) in typesOptions" :key="i">
+          <v-col
+            cols="12"
+            :sm="type.value.uiType === 'select' ? '12' : '4'"
+            v-for="(type, i) in typesOptions"
+            :key="i"
+          >
             <check-box-card-item
               :active="selectedIndices.includes(i)"
               :title="type.title"
@@ -31,18 +36,22 @@
                     </v-col>
                   </v-row>
                   <v-row dense>
-                    <v-col cols="12" sm="6">
+                    <v-col cols="12" sm="4">
                       <v-switch
+                        class="ma-0"
                         dense
+                        inset
                         hide-details
                         :disabled="!selectedIndices.includes(i)"
                         v-model="type.value.multiple"
                         label="Multiple"
                       ></v-switch>
                     </v-col>
-                    <v-col cols="12" sm="6">
+                    <v-col cols="12" sm="4">
                       <v-switch
+                        class="ma-0"
                         dense
+                        inset
                         hide-details
                         :disabled="!selectedIndices.includes(i)"
                         v-model="type.value.allowCustom"
@@ -91,6 +100,7 @@ export default {
           uiType: "text",
           type: "text",
           fallBackValue: "",
+          testValue: "",
         },
         selected: true,
       },
@@ -101,6 +111,7 @@ export default {
           uiType: "richText",
           type: "text",
           fallBackValue: "",
+          testValue: "",
         },
         selected: true,
       },
@@ -111,6 +122,7 @@ export default {
           uiType: "number",
           type: "number",
           fallBackValue: "",
+          testValue: 145,
         },
         selected: true,
       },
@@ -121,22 +133,25 @@ export default {
           uiType: "date",
           type: "date",
           fallBackValue: "",
+          testValue: "2022-04-06T07:42:43.476Z",
         },
         selected: true,
       },
       {
         title: "Boolean",
-        description: "The value can be tru or false",
+        description: "The value can be true or false",
         value: {
           uiType: "boolean",
           type: "boolean",
           fallBackValue: false,
+          testValue: false,
         },
         selected: true,
       },
       {
         title: "Enumeration",
-        description: "List of values that can be picked. ",
+        description:
+          "List of values that can be picked. You can allow custom values",
         value: {
           multiple: false,
           allowCustom: false,
@@ -144,6 +159,7 @@ export default {
           uiType: "select",
           type: "text",
           fallBackValue: "",
+          testValue: "",
         },
         selected: true,
       },

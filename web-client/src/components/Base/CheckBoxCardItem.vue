@@ -16,7 +16,7 @@
     </span>
     <div
       slot="body"
-      class="check-box-card-body mt-3 ml-4 fill-height"
+      class="check-box-card-body pt-3 pl-4 fill-height"
       @click="() => !active && emitClick()"
     >
       <slot :active="active"></slot>
@@ -31,14 +31,6 @@ export default {
   components: { ColoredCard },
   props: {
     active: {
-      type: Boolean,
-      default: false,
-    },
-    deselectable: {
-      type: Boolean,
-      default: true,
-    },
-    manually: {
       type: Boolean,
       default: false,
     },
@@ -66,7 +58,7 @@ export default {
 
 <style scoped lang="scss">
 .check-box-card {
-  transition: 0.3s;
+  transition: 0.2s;
   border: 2px solid $bg_primary;
   padding: 10px;
   width: 100%;
