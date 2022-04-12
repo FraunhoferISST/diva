@@ -22,7 +22,7 @@
   "author": "dtebernum",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "3.0.0",
+    "@diva/common": "3.0.1",
     "elastic-builder": "^2.15.0"
   },
   "devDependencies": {

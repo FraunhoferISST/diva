@@ -10,8 +10,9 @@
       <template slot="header">
         <slot name="header"></slot>
       </template>
-      <template slot="body">
+      <template #body>
         <slot name="body"></slot>
+        <slot></slot>
       </template>
       <template slot="footer">
         <slot name="footer"></slot>
@@ -53,7 +54,7 @@ export default {
   },
   computed: {
     roundedClass() {
-      return this.rounded ? "rounded" : "";
+      return this.rounded ? "card-rounded" : "";
     },
   },
 };
@@ -63,7 +64,7 @@ export default {
 .colored-card {
   transition: 0.3s;
   position: relative;
-  &.rounded {
+  &.card-rounded {
     @include border-radius;
   }
 }

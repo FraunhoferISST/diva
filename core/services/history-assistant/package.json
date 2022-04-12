@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISST",
   "dependencies": {
-    "@diva/common": "3.0.0",
+    "@diva/common": "3.0.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

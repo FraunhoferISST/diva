@@ -8,10 +8,6 @@
   "scope": [
     {
       "key": "systemEntityType",
-      "value": "asyncapi"
-    },
-    {
-      "key": "systemEntityType",
       "value": "schema"
     }
   ],

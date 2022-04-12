@@ -7,39 +7,37 @@
 </template>
 
 <script>
-import EntityDetailsContainer from "@/components/Entity/EntityDetailsContainer";
 import RouterTransition from "@/components/Transitions/RouterTransition";
+import EntityDetailsContainer from "@/components/Entity/EntityDetailsContainer";
 export default {
-  name: "AssetDetails",
-  components: { RouterTransition, EntityDetailsContainer },
+  name: "SystemEntityDetails",
+  components: {
+    EntityDetailsContainer,
+    RouterTransition,
+  },
   props: ["id"],
   data() {
     return {
       links: [
         {
-          title: "General",
+          title: "Overview",
           icon: "short_text",
-          name: "asset_details_general",
+          name: "system_entity_details_general",
         },
-        {
-          title: "Costs",
-          icon: "attach_money",
-          name: "asset_details_costs",
-        },
+        /* {
+          title: "Sample",
+          icon: "description",
+          name: "system_entity_details_sample",
+        },*/
         {
           title: "History",
           icon: "history",
-          name: "asset_details_history",
+          name: "system_entity_details_history",
         },
         {
           title: "Reviews",
           icon: "question_answer",
-          name: "asset_details_reviews",
-        },
-        {
-          title: "Relations",
-          icon: "timeline",
-          name: "asset_details_relations",
+          name: "system_entity_details_reviews",
         },
       ],
     };

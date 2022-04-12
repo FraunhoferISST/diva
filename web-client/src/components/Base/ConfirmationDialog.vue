@@ -27,6 +27,7 @@
               </v-btn>
             </slot>
           </div>
+          <slot name="info"></slot>
         </div>
       </template>
     </card>

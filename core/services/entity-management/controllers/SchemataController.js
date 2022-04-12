@@ -1,17 +1,26 @@
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const { logger } = require("@diva/common/logger");
-const systemEntitiesService = require("../services/SystemEntitiesService");
+const schemataService = require("../services/SchemataService");
 const EntityController = require("./EntityController");
 
 const reintializeJsonSchemaValidator = () =>
-  systemEntitiesService
+  schemataService
     .resolveEntitySchema()
     .then((resolvedSchema) => jsonSchemaValidator.init([resolvedSchema]))
     .catch((e) => {
       logger.error(`Couldn't reinitialize jsonSchemaValidator: ${e} `);
     });
 
-class SystemEntitiesController extends EntityController {
+class SchemataController extends EntityController {
+  async getByScope(req, res, next) {
+    try {
+      const result = await this.service.getByScope(req.body);
+      res.status(200).send(result);
+    } catch (err) {
+      return next(err);
+    }
+  }
+
   async create(req, res, next) {
     return super
       .create(req, res, next)
@@ -26,7 +35,7 @@ class SystemEntitiesController extends EntityController {
 
   async getResolvedEntitySchema(req, res, next) {
     try {
-      const resolvedSchema = await systemEntitiesService.resolveEntitySchema(
+      const resolvedSchema = await schemataService.resolveEntitySchema(
         req.params.name
       );
       res.status(200).send(resolvedSchema);
@@ -34,21 +43,6 @@ class SystemEntitiesController extends EntityController {
       return next(err);
     }
   }
-
-  async getSpecificationEntityByName(req, res, next) {
-    try {
-      const specEntity = await systemEntitiesService.getEntityByName(
-        req.params.name
-      );
-      res.setHeader(
-        "Content-Type",
-        specEntity.asyncapi ? "text/yaml" : "text/plain"
-      );
-      res.status(200).send(specEntity.schema ?? specEntity.asyncapi);
-    } catch (err) {
-      return next(err);
-    }
-  }
 }
 
-module.exports = new SystemEntitiesController(systemEntitiesService);
+module.exports = new SchemataController(schemataService);

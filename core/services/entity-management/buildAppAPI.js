@@ -2,51 +2,86 @@ const express = require("express");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const buildOpenApiSpec = require("./utils/buildOpenApiSpec");
-const usersController = require("./controllers/UsersController");
 const usersService = require("./services/UsersService");
-const systemEntitiesService = require("./services/SystemEntitiesService");
-const systemEntitiesController = require("./controllers/SystemEntityController");
 const EntityService = require("./services/EntityService");
-const { collectionsNames } = require("./utils/constants");
-const { singularizeCollectionName } = require("./utils/utils");
+const { collectionsNames, entityTypes } = require("./utils/constants");
 const EntityController = require("./controllers/EntityController");
 const { mongoDbConnector } = require("./utils/mongoDbConnector");
 const { name: serviceName } = require("./package.json");
+// System entities
+const schemataService = require("./services/SchemataService");
+const schemataController = require("./controllers/SchemataController");
+const asyncapisService = require("./services/AsyncapisService");
+const asyncapisController = require("./controllers/AsyncapisController");
+const rulesService = require("./services/RulesService");
+const policiesService = require("./services/PoliciesService");
 
 const topic = process.env.KAFKA_EVENT_TOPIC || "entity.events";
 const NODE_ENV = process.env.NODE_ENV || "development";
 const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
 
 const predefinedEntities = {
-  [collectionsNames.SYSTEM_ENTITY_COLLECTION_NAME]: {
-    collection: collectionsNames.SYSTEM_ENTITY_COLLECTION_NAME,
-    controller: systemEntitiesController,
-    service: systemEntitiesService,
-  },
   [collectionsNames.RESOURCE_COLLECTION_NAME]: {
     collection: collectionsNames.RESOURCE_COLLECTION_NAME,
     controller: null,
     service: null,
+    entityType: entityTypes.RESOURCE,
   },
   [collectionsNames.ASSETS_COLLECTION_NAME]: {
     collection: collectionsNames.ASSETS_COLLECTION_NAME,
     controller: null,
     service: null,
+    entityType: entityTypes.ASSET,
   },
   [collectionsNames.USERS_COLLECTION_NAME]: {
     collection: collectionsNames.USERS_COLLECTION_NAME,
-    controller: null, // usersController,
+    controller: null,
     service: usersService,
+    entityType: entityTypes.USER,
   },
-  services: {
+  [collectionsNames.SERVICES_COLLECTION_NAME]: {
     collection: collectionsNames.SERVICES_COLLECTION_NAME,
     controller: null,
     service: null,
+    entityType: entityTypes.SERVICE,
   },
-  reviews: {
+  [collectionsNames.REVIEWS_COLLECTION_NAME]: {
     collection: collectionsNames.REVIEWS_COLLECTION_NAME,
     controller: null,
     service: null,
+    entityType: entityTypes.REVIEW,
+  },
+  // System entities
+  [collectionsNames.RULES_COLLECTION_NAME]: {
+    collection: collectionsNames.RULES_COLLECTION_NAME,
+    controller: null,
+    service: rulesService,
+    entityType: entityTypes.SYSTEM_ENTITY,
+  },
+  [collectionsNames.POLICIES_COLLECTION_NAME]: {
+    collection: collectionsNames.POLICIES_COLLECTION_NAME,
+    controller: null,
+    service: policiesService,
+    entityType: entityTypes.SYSTEM_ENTITY,
+  },
+  [collectionsNames.SCHEMATA_COLLECTION_NAME]: {
+    collection: collectionsNames.SCHEMATA_COLLECTION_NAME,
+    controller: schemataController,
+    service: schemataService,
+    entityType: entityTypes.SYSTEM_ENTITY,
+  },
+  [collectionsNames.ASYNCAPI_COLLECTION_NAME]: {
+    collection: collectionsNames.ASYNCAPI_COLLECTION_NAME,
+    controller: asyncapisController,
+    service: asyncapisService,
+    entityType: entityTypes.SYSTEM_ENTITY,
+  },
+  // Generic route for ally for all kinds of custom entities
+  [collectionsNames.ENTITY_COLLECTION_NAME]: {
+    collection: collectionsNames.ENTITY_COLLECTION_NAME,
+    controller: null,
+    service: null,
+    entityType: null,
   },
 };
 
@@ -58,28 +93,23 @@ module.exports = async (server) => {
   const router = express.Router();
 
   await mongoDbConnector.connect();
-  await systemEntitiesService.init();
+  await schemataService.init();
+  await asyncapisService.init();
   await messagesProducer.init(
     topic,
     serviceName,
     "entityEvents",
     {
       name: "asyncapi",
-      specification: (
-        await systemEntitiesService.getEntityByName("asyncapi", "asyncapi")
-      ).asyncapi,
+      specification: (await asyncapisService.getByName("asyncapi")).asyncapi,
     },
     producer
   );
-  await jsonSchemaValidator.init([
-    await systemEntitiesService.resolveEntitySchema(),
-  ]);
+  await jsonSchemaValidator.init([await schemataService.resolveEntitySchema()]);
 
   for (const entity of Object.values(predefinedEntities)) {
-    const { collection } = entity;
-    const service =
-      entity.service ??
-      createEntityService(singularizeCollectionName(collection)); // FIXME: this will fail for policies for example
+    const { collection, entityType } = entity;
+    const service = entity.service ?? createEntityService(entityType);
     await service.init();
     const controller = entity?.controller ?? createEntityController(service);
 
@@ -105,18 +135,19 @@ module.exports = async (server) => {
     );
   }
 
-  router.get(
-    `/systemEntities/resolvedSchemas/:name`,
-    systemEntitiesController.getResolvedEntitySchema.bind(
-      systemEntitiesController
-    )
+  router.post(
+    `/scopedSchemata`,
+    schemataController.getByScope.bind(schemataController)
   );
 
   router.get(
-    `/systemEntities/byName/:name`,
-    systemEntitiesController.getSpecificationEntityByName.bind(
-      systemEntitiesController
-    )
+    `/resolvedSchemata/:name`,
+    schemataController.getResolvedEntitySchema.bind(schemataController)
+  );
+
+  router.get(
+    `/asyncapis/byName/:name`,
+    asyncapisController.getByName.bind(asyncapisController)
   );
 
   const openApiSpec = buildOpenApiSpec(Object.keys(predefinedEntities));

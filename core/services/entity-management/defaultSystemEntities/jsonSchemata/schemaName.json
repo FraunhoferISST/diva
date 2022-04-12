@@ -8,10 +8,6 @@
   "scope": [
     {
       "key": "systemEntityType",
-      "value": "asyncapi"
-    },
-    {
-      "key": "systemEntityType",
       "value": "schema"
     }
   ],
@@ -28,8 +24,9 @@
         "title": "Schema name",
         "description": "Unique name of the schema",
         "examples": [
-          "asyncapi",
-          "datanetwork-api"
+          "entity",
+          "mimeType",
+          "internalCosts"
         ]
       }
     }

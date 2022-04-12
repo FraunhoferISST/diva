@@ -1,8 +1,19 @@
-import pluralize from "pluralize";
 import apiFactory from "@/api/apiFactory";
-const entityTypes = ["rule", "schema", "policy"];
+import http from "@/api/http";
+const axios = http.axios;
+const systemEntitiesCollections = [
+  "rules",
+  "schemata",
+  "policies",
+  "asyncapis",
+];
+const config = Object.fromEntries(
+  systemEntitiesCollections.map((type) => [type, apiFactory(`/${type}`)])
+);
 export default {
-  ...Object.fromEntries(
-    entityTypes.map((type) => [pluralize(type), apiFactory("/systemEntities")])
-  ),
+  ...config,
+  schemata: {
+    ...config.schemata,
+    getScopedSchemata: (scope) => axios.post("/scopedSchemata", { scope }),
+  },
 };

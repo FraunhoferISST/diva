@@ -5,11 +5,11 @@
   "scope": [
     {
       "key": "mimeType",
-      "value": "text/plain"
+      "value": "text/csv"
     },
     {
       "key": "mimeType",
-      "value": "application/pdf"
+      "value": "application/x-sas-data"
     }
   ],
   "systemEntityType": "schema",

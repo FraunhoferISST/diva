@@ -3,7 +3,7 @@
     :padding="false"
     color="transparent"
     class="check-box-card fill-height"
-    v-ripple="{ class: isChecked || disabled ? 'd-none' : 'info--text' }"
+    v-ripple="{ class: isChecked || disabled ? 'd-none' : '' }"
     :class="[
       { checked: isChecked },
       { disabled: disabled },
@@ -20,7 +20,7 @@
     </span>
     <div
       slot="body"
-      class="check-box-card-body mt-3 ml-4"
+      class="check-box-card-body mt-3 ml-4 fill-height"
       @click="() => !checked && toggleCheck()"
     >
       <slot :checked="checked" :check="check" :uncheck="uncheck"></slot>
@@ -124,7 +124,7 @@ export default {
     }
   }
   &.checked {
-    border: 2px solid rgba($c_accent_primary, 0.4);
+    background-color: $bg_card_secondary;
     .check-box-card-indicator {
       background: $c_accent_primary;
     }

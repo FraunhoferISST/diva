@@ -14,9 +14,8 @@ export const useApi = (id = null) => {
     entityApi = api[entityCollection];
     imageUrl = buildImageUrl(entityCollection, id);
   }
-  const getEntityApiById = (entityId) => {
-    return (entityApi = api[pluralize(entityTypeById(entityId))]);
-  };
+  const getEntityApiById = (entityId) =>
+    api[pluralize(entityTypeById(entityId))];
   return {
     entityApi,
     entityCollection,

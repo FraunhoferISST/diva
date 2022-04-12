@@ -1,25 +1,19 @@
 {
-  "id": "schema:uuid:aabb37ab-1ef0-4bee-8ea2-cec8f0d95b38",
-  "title": "Resource ID",
+  "id": "schema:uuid:ef3a6c75-6abe-4d14-8626-0182bccd1024",
+  "title": "Entity ID",
   "schemaName": "id",
-  "scope": [
-    {
-      "key": "entityType",
-      "value": "resource"
-    }
-  ],
   "systemEntityType": "schema",
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Resource ID",
+    "title": "Entity ID",
     "required": [
       "id"
     ],
     "properties": {
       "id": {
         "type": "string",
-        "pattern": "^resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        "pattern": "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
       }
     }
   }

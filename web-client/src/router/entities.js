@@ -1,30 +1,23 @@
 //Resources
-import ResourceGeneral from "@/components/Resource/General/ResourceGeneral";
-import ResourceDetails from "@/views/Resources/ResourceDetails";
 import ResourceProfiling from "@/components/Resource/Profiling/ResourceProfiling";
 import ResourceSample from "@/components/Resource/Sample/ResourceSample";
-//System Entities
-import SystemEntityGeneral from "@/components/SystemEntity/General/SystemEntityGeneral";
-import SystemEntitiyDetails from "@/views/SystemEntities/SystemEntitiyDetails";
-
 //Assets
 import AssetRelations from "@/components/Asset/AssetRelations/AssetRelations.vue";
-import AssetsDetails from "@/views/Asset/AssetDetails.vue";
-import AssetGeneral from "@/components/Asset/AssetGeneral/AssetGeneral.vue";
 //Users
-import UsersDetails from "@/views/Users/UsersDetails.vue";
 import UserGeneral from "@/components/User/UserGeneral/";
 //Entity common views
 import EntityCosts from "@/components/Entity/EntityCommonComponents/Costs/EntityCosts";
 import EntityHistory from "@/components/Entity/EntityCommonComponents/History/EntityHistory";
 import EntityReviews from "@/components/Entity/EntityCommonComponents/Reviews/EntityReviews";
+import EntityDetails from "@/views/EntityDetails";
+import EntityGeneral from "@/components/Entity/EntityCommonComponents/General/EntityGeneral";
 
 const ASSET_PREFIX = "asset";
 const RESOURCE_PREFIX = "resource";
 const USER_PREFIX = "user";
-const SYSTEM_ENTITY_PREFIX = "system_entity";
+const ENTITY_PREFIX = "entity";
 
-const entityCommonRoutes = (prefix) => [
+const entityCommonRoutes = (prefix = ENTITY_PREFIX) => [
   {
     path: "costs",
     name: `${prefix}_details_costs`,
@@ -45,12 +38,21 @@ const entityCommonRoutes = (prefix) => [
   },
 ];
 
-const entityRoutesFactory = (entityType, prefix, startView, generalView) => {
+const entityRoutesFactory = ({
+  collection = "entities",
+  prefix = ENTITY_PREFIX,
+  startView = EntityDetails,
+  generalView = EntityGeneral,
+  routes = undefined,
+} = {}) => {
   return {
-    path: `${entityType}/:id`,
-    name: entityType,
+    path: `${collection}/:id`,
+    name: collection,
     component: startView,
-    props: true,
+    props: (route) => ({
+      id: route.params.id,
+      routes,
+    }),
     redirect: {
       name: `${prefix}_details_general`,
     },
@@ -66,12 +68,42 @@ const entityRoutesFactory = (entityType, prefix, startView, generalView) => {
   };
 };
 
-const resourceConfig = entityRoutesFactory(
-  "resources",
-  RESOURCE_PREFIX,
-  ResourceDetails,
-  ResourceGeneral
-);
+const resourceConfig = entityRoutesFactory({
+  collection: "resources",
+  prefix: RESOURCE_PREFIX,
+  routes: [
+    {
+      title: "Overview",
+      icon: "short_text",
+      name: "resource_details_general",
+    },
+    {
+      title: "Costs",
+      icon: "attach_money",
+      name: "resource_details_costs",
+    },
+    {
+      title: "Profiling",
+      icon: "developer_board",
+      name: "resource_details_profiling",
+    },
+    {
+      title: "Sample",
+      icon: "description",
+      name: "resource_details_sample",
+    },
+    {
+      title: "History",
+      icon: "history",
+      name: "resource_details_history",
+    },
+    {
+      title: "Reviews",
+      icon: "question_answer",
+      name: "resource_details_reviews",
+    },
+  ],
+});
 //Resource specific routes
 resourceConfig.children.push(
   {
@@ -88,12 +120,37 @@ resourceConfig.children.push(
   }
 );
 
-const assetConfig = entityRoutesFactory(
-  "assets",
-  ASSET_PREFIX,
-  AssetsDetails,
-  AssetGeneral
-);
+const assetConfig = entityRoutesFactory({
+  collection: "assets",
+  prefix: ASSET_PREFIX,
+  routes: [
+    {
+      title: "General",
+      icon: "short_text",
+      name: "asset_details_general",
+    },
+    {
+      title: "Costs",
+      icon: "attach_money",
+      name: "asset_details_costs",
+    },
+    {
+      title: "History",
+      icon: "history",
+      name: "asset_details_history",
+    },
+    {
+      title: "Reviews",
+      icon: "question_answer",
+      name: "asset_details_reviews",
+    },
+    {
+      title: "Relations",
+      icon: "timeline",
+      name: "asset_details_relations",
+    },
+  ],
+});
 //Asset specific routes
 assetConfig.children.push({
   path: "relations",
@@ -102,12 +159,28 @@ assetConfig.children.push({
   props: true,
 });
 
-const usersConfig = entityRoutesFactory(
-  "users",
-  USER_PREFIX,
-  UsersDetails,
-  UserGeneral
-);
+const usersConfig = entityRoutesFactory({
+  collection: "users",
+  prefix: USER_PREFIX,
+  generalView: UserGeneral,
+  routes: [
+    {
+      title: "Overview",
+      icon: "short_text",
+      name: "user_details_general",
+    },
+    {
+      title: "History",
+      icon: "history",
+      name: "user_details_history",
+    },
+    {
+      title: "Collections",
+      icon: "add",
+      name: "user_details_collections",
+    },
+  ],
+});
 //User specific routes
 usersConfig.children.push({
   path: "collections",
@@ -116,11 +189,5 @@ usersConfig.children.push({
   props: true,
 });
 
-const systemEntityConfig = entityRoutesFactory(
-  "systemEntities",
-  SYSTEM_ENTITY_PREFIX,
-  SystemEntitiyDetails,
-  SystemEntityGeneral
-);
-
-export default [resourceConfig, assetConfig, usersConfig, systemEntityConfig];
+const entityConfig = entityRoutesFactory();
+export default [resourceConfig, assetConfig, usersConfig, entityConfig];

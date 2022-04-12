@@ -9,10 +9,8 @@ const dereferenceSchema = require("../utils/dereferenceSchema");
 const EntityService = require("./EntityService");
 const {
   collectionsNames: { SYSTEM_ENTITY_COLLECTION_NAME },
+  entityTypes: { SCHEMA, SYSTEM_ENTITY },
 } = require("../utils/constants");
-
-const defaultPolicies = require("../defaultSystemEntities/policies/policies");
-const defaultRules = require("../defaultSystemEntities/rules/rules");
 
 let WORK_DIR = process.cwd();
 const systemEntitiesDir = "defaultSystemEntities";
@@ -24,51 +22,31 @@ if (process.pkg?.entrypoint) {
   systemEntitiesPath = nodePath.join(WORK_DIR, systemEntitiesDir);
 }
 
-const loadDefaultSystemEntities = async () => {
-  const jsonSchemas = glob
+const loadDefault = async () => {
+  const defaultEntities = glob
     .sync(`${systemEntitiesPath}/jsonSchemata/**/*.*`)
     .map((path) => JSON.parse(fs.readFileSync(path).toString()))
     .map((schemaEntity) => ({
       ...schemaEntity,
+      entityType: SYSTEM_ENTITY,
+      systemEntityType: SCHEMA,
+      createdAt: new Date().toISOString(),
+      modifiedAt: new Date().toISOString(),
       schema: JSON.stringify(schemaEntity.schema),
     }));
-  const policies = defaultPolicies.map((p) => ({
-    ...p,
-    systemEntityType: "policy",
-  }));
-  const rules = defaultRules.map((r) => ({
-    ...r,
-    systemEntityType: "rule",
-  }));
-  const asyncApi = glob
-    .sync(`${systemEntitiesPath}/asyncapi/**/*.*`)
-    .map((path) => ({
-      schemaName: nodePath.parse(path).name,
-      title: nodePath.parse(path).name,
-      asyncapi: fs.readFileSync(path).toString(),
-      systemEntityType: "asyncapi",
-    }));
-  const defaultEntities = [...jsonSchemas, ...policies, ...rules, ...asyncApi];
   if (defaultEntities.length === 0) {
-    log.warn("Couldn't find default system entities");
+    log.warn("Couldn't find default schemata");
     return null;
   }
-  const entities = defaultEntities.map((e) => ({
-    id: generateUuid(e.systemEntityType),
-    ...e,
-    entityType: "systemEntity",
-    createdAt: new Date().toISOString(),
-    modifiedAt: new Date().toISOString(),
-  }));
   if (
-    (await mongoDbConnector.collections[
-      SYSTEM_ENTITY_COLLECTION_NAME
-    ].count()) === 0
+    (await mongoDbConnector.collections[SYSTEM_ENTITY_COLLECTION_NAME].count({
+      systemEntityType: SCHEMA,
+    })) === 0
   ) {
-    log.info("Inserting default system entities");
+    log.info("Inserting default schemata");
     return mongoDbConnector.collections[
       SYSTEM_ENTITY_COLLECTION_NAME
-    ].insertMany(entities);
+    ].insertMany(defaultEntities);
   }
 };
 
@@ -103,50 +81,83 @@ const injectJsonSchema = async (rootSchema, schemaEntity) => {
   return updatedRootSchema;
 };
 
-class SystemEntitiesService extends EntityService {
+class SchemataService extends EntityService {
+  constructor(
+    entityType = SYSTEM_ENTITY,
+    collectionName = SYSTEM_ENTITY_COLLECTION_NAME
+  ) {
+    super(entityType, collectionName);
+    this.systemEntityType = SCHEMA;
+  }
+
   async init() {
-    await loadDefaultSystemEntities();
+    await loadDefault();
     return super.init().then(() =>
       this.collection.createIndex(
         { schemaName: 1 },
         {
           unique: true,
-          partialFilterExpression: { systemEntityType: "schema" },
+          partialFilterExpression: { systemEntityType: this.systemEntityType },
         }
       )
+    );
+  }
+
+  async get(queryParams) {
+    return super.get({
+      ...queryParams,
+      systemEntityType: this.systemEntityType,
+    });
+  }
+
+  async getByScope(body = {}) {
+    const dbQuery = body?.scope
+      ? {
+          scope: {
+            $elemMatch: {
+              key: { $in: Object.keys(body.scope) },
+              value: { $in: Object.values(body.scope) },
+            },
+          },
+        }
+      : {};
+    return super.get(
+      {
+        pageSize: 1000,
+        systemEntityType: this.systemEntityType,
+      },
+      dbQuery
     );
   }
 
   async create(systemEntity, actorId) {
     const newSystemEntity = {
       ...systemEntity,
-      id: generateUuid(systemEntity.systemEntityType),
+      systemEntityType: this.systemEntityType,
+      id: generateUuid(this.systemEntityType),
     };
     return super.create(newSystemEntity, actorId);
   }
 
   getRootSchema() {
-    return this.getEntityByName("entity", "schema");
+    return this.getSchemaByName("entity");
   }
 
   async deleteById(id) {
     const systemEntity = await this.getById(id, { fields: "id,name" });
-    if (id.includes("schema")) {
-      return (
-        // first clean up the DB to avoid possible complete system soft locks (e.g. on network failure during the execution)
-        this.collection
-          .update({}, { $unset: { [systemEntity.name]: "" } }, { multi: true })
-          // finally, safely remove the schema
-          .then(() => super.deleteById(id))
-      );
-    }
-    return super.deleteById(id);
+    return (
+      // first clean up the DB to avoid possible complete system soft locks (e.g. on network failure during the execution)
+      this.collection
+        .update({}, { $unset: { [systemEntity.name]: "" } }, { multi: true })
+        // finally, safely remove the schema
+        .then(() => super.deleteById(id))
+    );
   }
 
-  async getEntityByName(schemaName, systemEntityType) {
+  async getSchemaByName(schemaName) {
     const systemEntity = await this.collection.findOne({
       schemaName,
-      ...(systemEntityType ? { systemEntityType } : {}),
+      systemEntityType: this.systemEntityType,
     });
     if (systemEntity) {
       return this.sanitizeEntity(systemEntity);
@@ -159,21 +170,17 @@ class SystemEntitiesService extends EntityService {
     let parsedRootSchema = JSON.parse(rootSchema);
     const schemaEntities = await this.collection
       .find({
-        systemEntityType: "schema",
+        systemEntityType: this.systemEntityType,
+        schemaName: { $not: /^entity$/ },
       })
       .toArray();
     for (const schemEntity of schemaEntities) {
-      if (schemEntity.schemaName !== "entity") {
-        parsedRootSchema = await injectJsonSchema(
-          parsedRootSchema,
-          schemEntity
-        );
-      }
+      parsedRootSchema = await injectJsonSchema(parsedRootSchema, schemEntity);
     }
     return parsedRootSchema;
   }
 }
-module.exports = new SystemEntitiesService(
-  "systemEntity",
+module.exports = new SchemataService(
+  SYSTEM_ENTITY,
   SYSTEM_ENTITY_COLLECTION_NAME
 );

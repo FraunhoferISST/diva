@@ -6,16 +6,9 @@ const urljoin = require("url-join");
 const ENTITY_MANAGEMENT_URL = process.env.SCHEMA_URL || "http://localhost:3000";
 
 const fetchSchema = (schemaName = "entity") =>
-  axios.get(
-    urljoin(
-      ENTITY_MANAGEMENT_URL,
-      "systemEntities/resolvedSchemas",
-      schemaName
-    ),
-    {
-      headers: { "x-actorid": serviceInstanceId },
-    }
-  );
+  axios.get(urljoin(ENTITY_MANAGEMENT_URL, "resolvedSchemata", schemaName), {
+    headers: { "x-actorid": serviceInstanceId },
+  });
 
 const combinationKeys = ["allOf", "anyOf", "oneOf"];
 

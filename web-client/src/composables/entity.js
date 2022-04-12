@@ -2,12 +2,14 @@ import { ref, computed } from "@vue/composition-api";
 import { useEvents } from "@/composables/events";
 import { useUser } from "@/composables/user";
 import { useApi } from "@/composables/api";
+import { useSchema } from "@/composables/schema";
 
 export function useEntity(
   id,
   { reactive = false, updateInstantly = false, onEvent = null } = {}
 ) {
   const { entityApi, entityCollection } = useApi(id);
+  const { load: loadSchema, schema } = useSchema();
   const data = ref(null);
   const eventData = ref();
   const error = ref(null);
@@ -48,6 +50,7 @@ export function useEntity(
     return entityApi
       .getById(id, _query.value)
       .then(({ data: response }) => (data.value = response))
+      .then(() => loadSchema(data.value))
       .catch((e) => (error.value = e))
       .finally(() => (loading.value = false));
   };
@@ -96,5 +99,6 @@ export function useEntity(
     eventData,
     patchError,
     deleteError,
+    schema,
   };
 }
