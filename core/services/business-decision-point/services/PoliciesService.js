@@ -36,7 +36,7 @@ class PoliciesService {
       matchingPolicies.map(async (policy) => {
         const singleDecision = await isConditionMet(policy.condition, req.body);
         if (singleDecision === true) {
-          if (typeof policy.excludes !== "undefined") {
+          if (Array.isArray(policy.excludes)) {
             excludes.push({
               priority: policy.priority,
               fields: policy.excludes,
