@@ -319,15 +319,17 @@ export default {
           .map((t) => (t.length > 40 ? `${t.slice(0, 40)}...` : t))
       ),
       schemaScope: computed(() => [
-        Object.entries({
-          mimeType: data.value.mimeType,
-          resourceType: data.value.resourceType,
-          systemEntityType: data.value.systemEntityType,
-          assetType: data.value.assetType,
-          entityType: data.value.entityType,
-        })
-          .map(([key, value]) => ({ key: key, value: value }))
-          .filter(({ value }) => value)[0],
+        !data.value
+          ? []
+          : Object.entries({
+              mimeType: data.value.mimeType,
+              resourceType: data.value.resourceType,
+              systemEntityType: data.value.systemEntityType,
+              assetType: data.value.assetType,
+              entityType: data.value.entityType,
+            })
+              .map(([key, value]) => ({ key: key, value: value }))
+              .filter(({ value }) => value)[0],
       ]),
       showSnackbar,
       deleteEnt: () =>

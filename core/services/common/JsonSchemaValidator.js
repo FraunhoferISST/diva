@@ -24,7 +24,7 @@ const compileValidator = async (schema) => {
   return ajv.compile(schemaObject ?? schema);
 };
 
-const validateJsonSchema = (schemaName, data, validator) => {
+const validateData = (schemaName, data, validator) => {
   const valid = validator(data);
   if (!valid) {
     throw createError({
@@ -32,6 +32,25 @@ const validateJsonSchema = (schemaName, data, validator) => {
       message: `Supplied data for the operation violates "${schemaName}" schema`,
       code: 406,
       errors: validator.errors,
+    });
+  }
+  return valid;
+};
+
+/**
+ * @param schema {Object} - schema definition
+ * @returns {Promise<unknown> | boolean}
+ */
+const validateSchema = (schema) => {
+  const ajv = new Ajv19({ strict: false });
+  addFormats(ajv);
+  const valid = ajv.validateSchema(schema);
+  if (!valid) {
+    throw createError({
+      type: "SchemaValidation",
+      message: "The JSON Schema definition is invalid",
+      code: 406,
+      errors: ajv.errors,
     });
   }
   return valid;
@@ -64,7 +83,11 @@ class JsonSchemaValidator {
 
   validate(schemaName, data) {
     const validator = this.validators[schemaName];
-    return validateJsonSchema(schemaName, data, validator);
+    return validateData(schemaName, data, validator);
+  }
+
+  validateSchema(schema) {
+    return validateSchema(schema);
   }
 }
 

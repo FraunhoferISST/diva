@@ -77,7 +77,9 @@ export default {
           schema: JSON.stringify(schemaEntity.value.schema),
         }).then(() => {
           if (error.value) {
-            showSnackbar(error.value, { color: "error" });
+            showSnackbar(error.value?.response?.data?.message ?? error.value, {
+              color: "error",
+            });
           } else {
             showSnackbar("New field schema was successfully applied");
             setTimeout(closeDialog, 1000);

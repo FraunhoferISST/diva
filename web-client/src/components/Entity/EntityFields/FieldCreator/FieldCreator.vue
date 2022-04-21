@@ -210,7 +210,7 @@ export default {
         schema: {
           properties: {
             [propertyName]: {
-              type,
+              type: receivedType,
               _ui: { view, position, fullWidth, ...rest },
             },
           },
@@ -223,15 +223,15 @@ export default {
         ...rest,
         uiType: rest.type,
         testValue: rest.fallbackValue,
-        type,
+        type: receivedType,
         options: rest.options?.join(",") ?? "",
       };
       scope.value = schemaEntity.scope;
       definition.value = {
+        ...definition.value,
         propertyName,
         title,
         description,
-        ...definition.value,
       };
       presentation.value = {
         view,

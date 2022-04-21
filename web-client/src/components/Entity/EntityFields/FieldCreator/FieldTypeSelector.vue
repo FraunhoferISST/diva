@@ -98,7 +98,7 @@ export default {
         description: "Plain text property",
         value: {
           uiType: "text",
-          type: "text",
+          type: "string",
           fallBackValue: "",
           testValue: "",
         },
@@ -109,7 +109,7 @@ export default {
         description: "Rich text with formatting options",
         value: {
           uiType: "richText",
-          type: "text",
+          type: "string",
           fallBackValue: "",
           testValue: "",
         },
@@ -131,7 +131,7 @@ export default {
         description: "Date selection",
         value: {
           uiType: "date",
-          type: "date",
+          type: "string",
           fallBackValue: "",
           testValue: "2022-04-06T07:42:43.476Z",
         },
@@ -157,8 +157,8 @@ export default {
           allowCustom: false,
           options: "",
           uiType: "select",
-          type: "text",
-          fallBackValue: "",
+          type: "string",
+          fallBackValue: [],
           testValue: "",
         },
         selected: true,
