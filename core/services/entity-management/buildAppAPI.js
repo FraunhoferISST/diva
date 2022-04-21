@@ -135,6 +135,11 @@ module.exports = async (server) => {
     );
   }
 
+  router.post(
+    `/scopedSchemata`,
+    schemataController.getByScope.bind(schemataController)
+  );
+
   router.get(
     `/resolvedSchemata/:name`,
     schemataController.getResolvedEntitySchema.bind(schemataController)

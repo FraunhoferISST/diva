@@ -3,6 +3,7 @@ const glob = require("glob");
 const fs = require("fs");
 const { logger: log } = require("@diva/common/logger");
 const generateUuid = require("@diva/common/utils/generateUuid");
+const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const { entityNotFoundError } = require("@diva/common/Error");
 const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const dereferenceSchema = require("../utils/dereferenceSchema");
@@ -103,8 +104,31 @@ class SchemataService extends EntityService {
     );
   }
 
-  async get(query = {}) {
-    return super.get({ ...query, systemEntityType: this.systemEntityType });
+  async get(queryParams) {
+    return super.get({
+      ...queryParams,
+      systemEntityType: this.systemEntityType,
+    });
+  }
+
+  async getByScope(body = {}) {
+    const dbQuery = body?.scope
+      ? {
+          scope: {
+            $elemMatch: {
+              key: { $in: Object.keys(body.scope) },
+              value: { $in: Object.values(body.scope) },
+            },
+          },
+        }
+      : {};
+    return super.get(
+      {
+        pageSize: 1000,
+        systemEntityType: this.systemEntityType,
+      },
+      dbQuery
+    );
   }
 
   async create(systemEntity, actorId) {
@@ -113,6 +137,7 @@ class SchemataService extends EntityService {
       systemEntityType: this.systemEntityType,
       id: generateUuid(this.systemEntityType),
     };
+    jsonSchemaValidator.validateSchema(JSON.parse(newSystemEntity.schema));
     return super.create(newSystemEntity, actorId);
   }
 

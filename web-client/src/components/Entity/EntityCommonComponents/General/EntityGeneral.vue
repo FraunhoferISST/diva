@@ -74,7 +74,7 @@ export default {
     on("reload", () => {
       reload();
     });
-    const { load, loading, error, data, reload, updating, title } = useEntity(
+    const { load, loading, error, data, reload, updating, schema } = useEntity(
       props.id,
       {
         reactive: false,
@@ -88,7 +88,7 @@ export default {
       updating,
       error,
       data,
-      title,
+      schema,
       fields: computed(() =>
         [
           {

@@ -139,7 +139,7 @@ export default {
       this.onSave(this.patch)
         .then(() => {
           this.state = cloneDeep(this.patch);
-          this.$emit("saved", this.patch);
+          this.$emit("saved", this.state);
           this.disableEdit();
         })
         .catch((e) => {

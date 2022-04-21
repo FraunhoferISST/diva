@@ -25,7 +25,7 @@
         }
       }
     },
-    "/resolvedSchemata/{name}" : {
+    "/resolvedSchemata/{name}": {
       "parameters": [
         {
           "$ref": "#/components/parameters/actoridParam"
@@ -48,7 +48,9 @@
             "schema": {
               "type": "string",
               "example": "entity",
-              "enum": ["entity"]
+              "enum": [
+                "entity"
+              ]
             }
           }
         ],
@@ -74,7 +76,184 @@
         }
       }
     },
-    "/asyncapis/byName/{name}" : {
+    "/scopedSchemata": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/actoridParam"
+        }
+      ],
+      "post": {
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Coma separated projection fields",
+            "example": "title,entityType,description",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Pagination cursor",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "example": "aHVpXzYwMTkzZmJlZTM0NmZhODVkNTE4YzJlYg==",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Page size",
+            "required": false,
+            "explode": true,
+            "example": 10,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email of the user to filter by",
+            "required": false,
+            "explode": true,
+            "example": "example@email.con",
+            "allowReserved": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "schemaName",
+            "in": "query",
+            "description": "Name of the system entity",
+            "required": false,
+            "explode": true,
+            "example": "asyncapi",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "specName",
+            "in": "query",
+            "description": "Name of the system entity",
+            "required": false,
+            "explode": true,
+            "example": "asyncapi",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "systemEntityType",
+            "in": "query",
+            "description": "Type of the system entity",
+            "required": false,
+            "explode": true,
+            "example": "schema",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "attributedTo",
+            "in": "query",
+            "description": "Filter by attributedTo attribute",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "example": "resource:uuid:ad0016df-6b85-0465-0e85-9e3784d342e8",
+            "schema": {
+              "$ref": "#/components/schemas/EntityId"
+            }
+          },
+          {
+            "name": "creatorId",
+            "in": "query",
+            "description": "Filter by creatorId attribute",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "example": "user:uuid:ad0016df-6b85-0465-0e85-9e3784d342e8",
+            "schema": {
+              "type": "string",
+              "pattern": "user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "tags": [
+          "schemata"
+        ],
+        "summary": "Get schemata by scope",
+        "description": "Returns that matches given scope. The scoped must be supplied as body object",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["scope"],
+                "properties": {
+                  "scope": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "collectionSize": {
+                      "type": "integer"
+                    },
+                    "collection": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "cursor": {
+                      "type": "string"
+                    },
+                    "total": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    },
+    "/asyncapis/byName/{name}": {
       "parameters": [
         {
           "$ref": "#/components/parameters/actoridParam"
@@ -97,7 +276,11 @@
             "schema": {
               "type": "string",
               "example": "asyncapi",
-              "enum": ["asyncapi", "datanetwork-api", "event-emitter-api"]
+              "enum": [
+                "asyncapi",
+                "datanetwork-api",
+                "event-emitter-api"
+              ]
             }
           }
         ],
@@ -172,7 +355,7 @@
               "description": "The body can be any attribute defined in the corresponding entity JSON schema. The supplied attributes overwrite the existing",
               "type": "object",
               "properties": {
-                "image":{
+                "image": {
                   "type": "string",
                   "format": "binary"
                 }
