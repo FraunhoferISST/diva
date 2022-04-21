@@ -8,22 +8,22 @@
               cols="12"
               :md="attribute.fullWidth ? '12' : '4'"
               v-for="attribute in fields"
-              :key="attribute.name"
+              :key="attribute.propertyName"
             >
               <component
                 v-if="attribute.component"
-                :[attribute.name]="attribute.value"
+                :[attribute.propertyName]="attribute.value"
                 :is="attribute.component"
                 :id="id"
               />
               <entity-field
                 v-else
                 :id="id"
-                :property="attribute.name"
+                :property="attribute.propertyName"
                 :title="attribute.title"
                 :type="attribute.type"
                 :value.sync="attribute.value"
-                :options="attribute.options || []"
+                :options="attribute.options || attribute.enum || []"
                 :allowCustom="attribute.allowCustom"
                 :multiple="attribute.multiple"
                 mutate-source
@@ -90,141 +90,150 @@ export default {
       data,
       schema,
       fields: computed(() =>
-        [
-          {
-            name: "title",
-            title: "Title",
-            type: "text",
-            fallbackValue: "",
-            fullWidth: true,
-          },
-          {
-            name: "keywords",
-            title: "Keywords",
-            type: "select",
-            fallbackValue: [],
-            allowCustom: true,
-            multiple: true,
-            fullWidth: true,
-          },
-          {
-            name: "owners",
-            title: "Owners",
-            fallbackValue: [],
-            component: Owners,
-          },
-          {
-            name: "versionInfo",
-            title: "Version info",
-            fallbackValue: "",
-            type: "text",
-            fullWidth: false,
-          },
-          {
-            name: "versionNotes",
-            title: "Version notes",
-            fallbackValue: "",
-            type: "text",
-            fullWidth: false,
-          },
-          {
-            name: "themes",
-            title: "Themes",
-            type: "select",
-            fallbackValue: "",
-            options: [
-              "Agriculture",
-              "Culture",
-              "Economy",
-              "Education",
-              "Energy",
-              "Environment",
-              "Finance",
-              "Fisheries",
-              "Health",
-              "Infrastructure",
-              "International",
-              "Justice",
-              "Population",
-              "Public Sector",
-              "Regional",
-              "Science",
-              "Society",
-              "Sports",
-              "Technology",
-              "Transport",
-            ],
-            fullWidth: false,
-            multiple: true,
-          },
-          {
-            name: "languages",
-            title: "Languages",
-            fallbackValue: [],
-            component: Languages,
-            fullWidth: false,
-          },
-          {
-            name: "plannedAvailability",
-            title: "Planned Availability",
-            type: "select",
-            fallbackValue: "",
-            options: ["Temporary", "Experimental", "Available", "Stable"],
-            fullWidth: false,
-            multiple: false,
-          },
-          {
-            name: "politicalGeocoding",
-            title: "Political geocoding",
-            type: "select",
-            fallbackValue: "",
-            options: [
-              "International",
-              "European",
-              "Federal",
-              "State",
-              "Administrative District",
-              "Municipality",
-            ],
-            fullWidth: false,
-            multiple: false,
-          },
-          {
-            name: "dataClassification",
-            title: "Data classification",
-            type: "select",
-            fallbackValue: "",
-            options: ["Public", "Internal", "Confidential", "Restricted"],
-            fullWidth: false,
-            multiple: false,
-          },
-          {
-            name: "description",
-            type: "richText",
-            fallbackValue: "",
-            title: "Description",
-            fullWidth: true,
-          },
-          {
-            name: "licenses",
-            title: "Licenses",
-            component: Licenses,
-            fallbackValue: [],
-            fullWidth: true,
-          },
-          {
-            name: "location",
-            title: "Location",
-            component: Location,
-            fallbackValue: {},
-            fullWidth: true,
-          },
-        ].map((prop) => ({
-          ...prop,
-          value: data.value[prop.name] ?? prop.fallbackValue,
-        }))
+        Object.entries(schema.value ?? {})
+          .map(([k, v]) => ({ ...v, propertyName: k }))
+          .filter((prop) => prop._ui && prop._ui.view === "overview")
+          .map((prop) => ({
+            ...prop,
+            ...prop._ui,
+            value:
+              data.value[prop.propertyName] ??
+              prop.default ??
+              prop._ui.fallbackValue,
+          }))
+          .sort((a, b) => a.position - b.position)
       ),
     };
   },
 };
+/*[
+  {
+    name: "title",
+    title: "Title",
+    type: "text",
+    fallbackValue: "",
+    fullWidth: true,
+  },
+  {
+    name: "keywords",
+    title: "Keywords",
+    type: "select",
+    fallbackValue: [],
+    allowCustom: true,
+    multiple: true,
+    fullWidth: true,
+  },
+  {
+    name: "owners",
+    title: "Owners",
+    fallbackValue: [],
+    component: Owners,
+  },
+  {
+    name: "versionInfo",
+    title: "Version info",
+    fallbackValue: "",
+    type: "text",
+    fullWidth: false,
+  },
+  {
+    name: "versionNotes",
+    title: "Version notes",
+    fallbackValue: "",
+    type: "text",
+    fullWidth: false,
+  },
+  {
+    name: "themes",
+    title: "Themes",
+    type: "select",
+    fallbackValue: "",
+    options: [
+      "Agriculture",
+      "Culture",
+      "Economy",
+      "Education",
+      "Energy",
+      "Environment",
+      "Finance",
+      "Fisheries",
+      "Health",
+      "Infrastructure",
+      "International",
+      "Justice",
+      "Population",
+      "Public Sector",
+      "Regional",
+      "Science",
+      "Society",
+      "Sports",
+      "Technology",
+      "Transport",
+    ],
+    fullWidth: false,
+    multiple: true,
+  },
+  {
+    name: "languages",
+    title: "Languages",
+    fallbackValue: [],
+    component: Languages,
+    fullWidth: false,
+  },
+  {
+    name: "plannedAvailability",
+    title: "Planned Availability",
+    type: "select",
+    fallbackValue: "",
+    options: ["Temporary", "Experimental", "Available", "Stable"],
+    fullWidth: false,
+    multiple: false,
+  },
+  {
+    name: "politicalGeocoding",
+    title: "Political geocoding",
+    type: "select",
+    fallbackValue: "",
+    options: [
+      "International",
+      "European",
+      "Federal",
+      "State",
+      "Administrative District",
+      "Municipality",
+    ],
+    fullWidth: false,
+    multiple: false,
+  },
+  {
+    name: "dataClassification",
+    title: "Data classification",
+    type: "select",
+    fallbackValue: "",
+    options: ["Public", "Internal", "Confidential", "Restricted"],
+    fullWidth: false,
+    multiple: false,
+  },
+  {
+    name: "description",
+    type: "richText",
+    fallbackValue: "",
+    title: "Description",
+    fullWidth: true,
+  },
+  {
+    name: "licenses",
+    title: "Licenses",
+    component: Licenses,
+    fallbackValue: [],
+    fullWidth: true,
+  },
+  {
+    name: "location",
+    title: "Location",
+    component: Location,
+    fallbackValue: {},
+    fullWidth: true,
+  },
+]*/
 </script>

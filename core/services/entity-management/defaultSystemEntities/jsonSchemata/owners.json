@@ -1,0 +1,35 @@
+{
+  "id": "schema:uuid:13dd9ba0-9ffd-4100-9b49-2440a2747361",
+  "title": "Owners",
+  "schemaName": "owners",
+  "description": "Users which own this entity",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Owners",
+    "properties": {
+      "keywords": {
+        "type": "array",
+        "title": "Owners",
+        "description": "Users which own this entity",
+        "default": [],
+        "items": {
+          "uniqueItems": true,
+          "type": "string",
+          "_elasticsearch": {
+            "type": "keyword",
+            "enabled": false
+          }
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 3,
+          "component": "Owners",
+          "fallbackValue": []
+        }
+      }
+    }
+  }
+}

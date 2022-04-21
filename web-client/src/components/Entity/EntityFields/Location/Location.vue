@@ -48,10 +48,10 @@ export default {
     },
   },
   setup(props) {
-    const { patch, error } = useEntity(props.id);
+    const { patch, patchError } = useEntity(props.id);
     return {
       patch,
-      error,
+      patchError,
     };
   },
   computed: {
@@ -62,8 +62,8 @@ export default {
   methods: {
     updateLocation(patch) {
       return this.patch(patch).then(() => {
-        if (this.error) {
-          throw this.error;
+        if (this.patchError) {
+          throw this.patchError;
         }
       });
     },

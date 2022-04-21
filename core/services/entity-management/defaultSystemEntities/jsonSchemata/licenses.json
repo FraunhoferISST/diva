@@ -72,6 +72,13 @@
               }
             }
           }
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 7,
+          "component": "Licenses",
+          "fallbackValue": [],
+          "fullWidth": true
         }
       }
     }

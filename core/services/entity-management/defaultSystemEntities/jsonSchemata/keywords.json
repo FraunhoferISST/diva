@@ -33,6 +33,15 @@
           "_elasticsearch": {
             "type": "keyword"
           }
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 2,
+          "type": "select",
+          "allowCustom": true,
+          "fullWidth": true,
+          "multiple": true,
+          "fallbackValue": []
         }
       }
     }

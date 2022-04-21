@@ -143,7 +143,9 @@ export default {
           this.disableEdit();
         })
         .catch((e) => {
-          this.showSnackbar(e.toString(), { color: "error" });
+          this.showSnackbar(e?.response?.data?.message ?? e.toString(), {
+            color: "error",
+          });
           this.snackbar = true;
         })
         .finally(() => {

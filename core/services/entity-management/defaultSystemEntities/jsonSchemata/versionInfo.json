@@ -33,6 +33,12 @@
         "pattern": "^(.*)$",
         "_elasticsearch": {
           "type": "keyword"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 4,
+          "type": "text",
+          "fallbackValue": ""
         }
       }
     }

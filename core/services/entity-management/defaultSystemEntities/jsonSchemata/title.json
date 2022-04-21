@@ -44,6 +44,13 @@
         "_elasticsearch": {
           "type": "text",
           "analyzer": "diva_analyzer"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 1,
+          "type": "text",
+          "fullWidth": true,
+          "fallbackValue": ""
         }
       }
     }

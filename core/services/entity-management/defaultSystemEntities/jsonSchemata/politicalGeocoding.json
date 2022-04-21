@@ -34,6 +34,12 @@
         ],
         "_elasticsearch": {
           "type": "text"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 4,
+          "type": "select",
+          "fallbackValue": ""
         }
       }
     }

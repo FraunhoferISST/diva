@@ -32,6 +32,12 @@
         "_elasticsearch": {
           "type": "text",
           "analyzer": "standard"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 4,
+          "type": "text",
+          "fallbackValue": ""
         }
       }
     }

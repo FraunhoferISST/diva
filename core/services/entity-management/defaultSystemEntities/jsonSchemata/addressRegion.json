@@ -22,6 +22,12 @@
           "NRW",
           "TX"
         ],
+        "_ui": {
+          "view": "overview",
+          "position": 2,
+          "type": "text",
+          "fallbackValue": ""
+        },
         "_elasticsearch": {
           "type": "keyword"
         }

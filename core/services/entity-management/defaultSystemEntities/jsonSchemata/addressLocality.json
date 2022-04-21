@@ -22,6 +22,12 @@
           "Dortmund",
           "New York"
         ],
+        "_ui": {
+          "view": "overview",
+          "position": 1,
+          "type": "text",
+          "fallbackValue": ""
+        },
         "_elasticsearch": {
           "type": "keyword"
         }
