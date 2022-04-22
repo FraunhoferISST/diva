@@ -33,7 +33,6 @@
           @change="emitClick"
         />
         <v-icon
-          class="mr-1"
           small
           v-if="option.icon"
           :color="
@@ -42,7 +41,7 @@
         >
           {{ option.icon }}
         </v-icon>
-        <span>{{ option.title }}</span>
+        <span class="d-inline ml-1" v-if="!hideTitle">{{ option.title }}</span>
       </label>
     </div>
   </div>
@@ -89,6 +88,10 @@ export default {
     round: {
       type: Boolean,
       default: true,
+    },
+    hideTitle: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
