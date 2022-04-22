@@ -114,12 +114,20 @@ class SchemataService extends EntityService {
   async getByScope(body = {}) {
     const dbQuery = body?.scope
       ? {
-          scope: {
-            $elemMatch: {
-              key: { $in: Object.keys(body.scope) },
-              value: { $in: Object.values(body.scope) },
+          schemaName: { $not: /^entity$/ },
+          $or: [
+            {
+              scope: {
+                $elemMatch: {
+                  key: { $in: Object.keys(body.scope) },
+                  value: { $in: Object.values(body.scope) },
+                },
+              },
             },
-          },
+            {
+              scope: { $exists: false },
+            },
+          ],
         }
       : {};
     return super.get(
