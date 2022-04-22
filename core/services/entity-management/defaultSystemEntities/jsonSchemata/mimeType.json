@@ -31,6 +31,12 @@
         ],
         "_elasticsearch": {
           "type": "keyword"
+        },
+        "_ui": {
+          "view": "profiling",
+          "position": 1,
+          "type": "text",
+          "fallbackValue": ""
         }
       }
     }

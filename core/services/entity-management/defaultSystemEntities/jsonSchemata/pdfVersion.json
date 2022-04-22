@@ -25,7 +25,13 @@
         "examples": [
           "1.4"
         ],
-        "pattern": "^(.*)$"
+        "pattern": "^(.*)$",
+        "_ui": {
+          "view": "profiling",
+          "position": 3,
+          "type": "text",
+          "fallbackValue": "false"
+        }
       }
     }
   }

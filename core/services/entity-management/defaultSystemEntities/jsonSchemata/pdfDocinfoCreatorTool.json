@@ -25,7 +25,13 @@
         "examples": [
           "Chromium"
         ],
-        "pattern": "^(.*)$"
+        "pattern": "^(.*)$",
+        "_ui": {
+          "view": "profiling",
+          "position": 3,
+          "type": "text",
+          "fallbackValue": ""
+        }
       }
     }
   }

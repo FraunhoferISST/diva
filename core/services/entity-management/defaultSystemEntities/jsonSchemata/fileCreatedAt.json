@@ -28,6 +28,12 @@
         "format": "date-time",
         "_elasticsearch": {
           "type": "date"
+        },
+        "_ui": {
+          "view": "profiling",
+          "position": 2,
+          "type": "date",
+          "fallbackValue": ""
         }
       }
     }

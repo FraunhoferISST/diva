@@ -34,6 +34,11 @@
             "description": "One element of a row",
             "pattern": "^(.*)$"
           }
+        },
+        "_ui": {
+          "view": "sample",
+          "position": 1,
+          "component": "TBD"
         }
       }
     }

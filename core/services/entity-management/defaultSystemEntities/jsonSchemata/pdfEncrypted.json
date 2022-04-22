@@ -23,7 +23,13 @@
         "examples": [
           true,
           false
-        ]
+        ],
+        "_ui": {
+          "view": "profiling",
+          "position": 3,
+          "type": "boolean",
+          "fallbackValue": false
+        }
       }
     }
   }

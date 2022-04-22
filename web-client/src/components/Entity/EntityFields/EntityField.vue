@@ -45,9 +45,13 @@ import BooleanFieldEditor from "@/components/Entity/EntityFields/BooleanField/Bo
 import BooleanFieldViewer from "@/components/Entity/EntityFields/BooleanField/BooleanFieldViewer";
 import DateFieldViewer from "@/components/Entity/EntityFields/DateField/DateFieldViewer";
 import DateFieldEditor from "@/components/Entity/EntityFields/DateField/DateFieldEditor";
+import TextAreaFieldEditor from "@/components/Entity/EntityFields/TextAreaField/TextAreaFieldEditor";
+import TextAreaFieldViewer from "@/components/Entity/EntityFields/TextAreaField/TextAreaFieldViewer";
 export default {
   name: "EntityField",
   components: {
+    TextAreaFieldViewer,
+    TextAreaFieldEditor,
     BooleanFieldViewer,
     BooleanFieldEditor,
     InfoBlock,
@@ -113,6 +117,10 @@ export default {
       text: {
         viewer: PrimitiveFieldViewer,
         editor: PrimitiveFieldEditor,
+      },
+      textArea: {
+        viewer: TextAreaFieldViewer,
+        editor: TextAreaFieldEditor,
       },
       date: {
         viewer: DateFieldViewer,

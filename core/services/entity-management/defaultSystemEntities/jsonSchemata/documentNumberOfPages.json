@@ -24,7 +24,13 @@
           23,
           89,
           235
-        ]
+        ],
+        "_ui": {
+          "view": "profiling",
+          "position": 3,
+          "type": "number",
+          "fallbackValue": 0
+        }
       }
     }
   }

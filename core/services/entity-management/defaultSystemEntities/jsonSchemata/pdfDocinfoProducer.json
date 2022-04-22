@@ -25,7 +25,13 @@
         "examples": [
           "Skia/PDF m58"
         ],
-        "pattern": "^(.*)$"
+        "pattern": "^(.*)$",
+        "_ui": {
+          "view": "profiling",
+          "position": 3,
+          "type": "text",
+          "fallbackValue": ""
+        }
       }
     }
   }

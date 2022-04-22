@@ -26,6 +26,8 @@
                 :options="attribute.options || attribute.enum || []"
                 :allowCustom="attribute.allowCustom"
                 :multiple="attribute.multiple"
+                :min-length="attribute.minLength"
+                :max-length="attribute.maxLength"
                 mutate-source
               />
             </v-col>

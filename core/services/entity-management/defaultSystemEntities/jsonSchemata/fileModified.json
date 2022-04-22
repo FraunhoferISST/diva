@@ -25,7 +25,13 @@
         "examples": [
           "2018-11-08T13:55:45Z"
         ],
-        "format": "date-time"
+        "format": "date-time",
+        "_ui": {
+          "view": "profiling",
+          "position": 2,
+          "type": "date",
+          "fallbackValue": ""
+        }
       }
     }
   }

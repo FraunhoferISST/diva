@@ -34,21 +34,18 @@ const loadDefault = async () => {
       createdAt: new Date().toISOString(),
       modifiedAt: new Date().toISOString(),
       schema: JSON.stringify(schemaEntity.schema),
+      editable: false,
     }));
   if (defaultEntities.length === 0) {
     log.warn("Couldn't find default schemata");
     return null;
   }
-  if (
-    (await mongoDbConnector.collections[SYSTEM_ENTITY_COLLECTION_NAME].count({
-      systemEntityType: SCHEMA,
-    })) === 0
-  ) {
-    log.info("Inserting default schemata");
-    return mongoDbConnector.collections[
-      SYSTEM_ENTITY_COLLECTION_NAME
-    ].insertMany(defaultEntities);
-  }
+  log.info("Upserting default schemata");
+  return mongoDbConnector.collections[SYSTEM_ENTITY_COLLECTION_NAME].bulkWrite(
+    defaultEntities.map((e) => ({
+      replaceOne: { filter: { id: e.id }, replacement: e, upsert: true },
+    }))
+  );
 };
 
 const injectJsonSchema = async (rootSchema, schemaEntity) => {

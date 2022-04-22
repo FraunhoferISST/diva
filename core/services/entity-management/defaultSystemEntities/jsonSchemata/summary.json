@@ -13,6 +13,14 @@
     {
       "key": "entityType",
       "value": "asset"
+    },
+    {
+      "key": "entityType",
+      "value": "service"
+    },
+    {
+      "key": "entityType",
+      "value": "systemEntity"
     }
   ],
   "schema": {
@@ -29,7 +37,14 @@
           "lorem ipsum dolor sit amet..."
         ],
         "minLength": 0,
-        "maxLength": 255
+        "maxLength": 255,
+        "_ui": {
+          "view": "overview",
+          "position": 5,
+          "type": "textArea",
+          "fullWidth": true,
+          "fallbackValue": "false"
+        }
       }
     }
   }

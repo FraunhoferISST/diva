@@ -17,7 +17,13 @@
     "properties": {
       "streetAddress": {
         "type": "string",
-        "title": "Street Address"
+        "title": "Street Address",
+        "_ui": {
+          "view": "overview",
+          "position": 3,
+          "type": "text",
+          "fallbackValue": ""
+        }
       }
     }
   }

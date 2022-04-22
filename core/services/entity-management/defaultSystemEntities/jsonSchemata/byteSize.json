@@ -25,6 +25,12 @@
           3235235,
           242
         ],
+        "_ui": {
+          "view": "profiling",
+          "position": 2,
+          "type": "text",
+          "fallbackValue": ""
+        },
         "_elasticsearch": {
           "type": "unsigned_long"
         }

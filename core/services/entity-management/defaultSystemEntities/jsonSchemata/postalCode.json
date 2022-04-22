@@ -20,6 +20,12 @@
         "title": "Postal Code",
         "_elasticsearch": {
           "type": "keyword"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 3,
+          "type": "text",
+          "fallbackValue": ""
         }
       }
     }

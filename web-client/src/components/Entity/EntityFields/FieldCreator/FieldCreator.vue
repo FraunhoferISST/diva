@@ -289,6 +289,7 @@ export default {
       description: definition.value.description,
       entityType: "systemEntity",
       systemEntityType: "schema",
+      editable: true,
       schema: jsonSchema.value,
       ...(_scope.value.length > 0 ? { scope: _scope.value } : {}),
     }));

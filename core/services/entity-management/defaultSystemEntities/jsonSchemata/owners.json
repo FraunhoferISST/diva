@@ -5,6 +5,24 @@
   "description": "Users which own this entity",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    },
+    {
+      "key": "entityType",
+      "value": "systemEntity"
+    },
+    {
+      "key": "entityType",
+      "value": "service"
+    }
+  ],
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
