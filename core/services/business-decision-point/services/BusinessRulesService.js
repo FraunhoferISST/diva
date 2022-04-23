@@ -35,7 +35,7 @@ class BusinessRulesService {
 
   async cacheRules() {
     this.rules = await this.collection
-      .find({ systemEntityType: "rule" })
+      .find({ systemEntityType: "rule", isActive: true })
       .toArray();
 
     if (this.rules.length === 0) {

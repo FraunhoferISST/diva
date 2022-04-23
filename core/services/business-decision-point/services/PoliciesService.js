@@ -15,7 +15,7 @@ class PoliciesService {
 
   async cachePolicies() {
     this.policies = await this.collection
-      .find({ systemEntityType: "policy" })
+      .find({ systemEntityType: "policy", isActive: true })
       .toArray();
 
     if (this.policies.length === 0) {

@@ -1,6 +1,7 @@
 module.exports = [
   {
     title: "Allow everything for entity-management (DEV only)",
+    isActive: true,
     priority: 1,
     scope: {
       "headers.serviceName": "entity-management",
@@ -10,6 +11,7 @@ module.exports = [
     condition: true,
     excludes: [],
   },
+  /*
   {
     title: "Creator of resource can perform GET",
     priority: 1,
@@ -97,4 +99,5 @@ module.exports = [
       "creatorId",
     ],
   },
+  */
 ];
