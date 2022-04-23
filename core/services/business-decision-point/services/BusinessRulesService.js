@@ -39,8 +39,9 @@ class BusinessRulesService {
       .toArray();
 
     if (this.rules.length === 0) {
-      // TODO: need to handle race condition, EM may start later so no system entities will be loaded!
-      logger.warn("🚫 No rules found in DB!");
+      logger.warn(
+        "🚫 No rules found in DB! Admin should check whether this is desired!"
+      );
     } else {
       logger.info(`✅ Loaded ${this.rules.length} rules`);
     }
