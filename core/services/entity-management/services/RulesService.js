@@ -1,5 +1,6 @@
 const { logger: log } = require("@diva/common/logger");
 const generateUuid = require("@diva/common/utils/generateUuid");
+const messageProducer = require("@diva/common/messaging/MessageProducer");
 const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const EntityService = require("./EntityService");
 const {
@@ -8,6 +9,13 @@ const {
 } = require("../utils/constants");
 
 const defaultRules = require("../defaultSystemEntities/rules/rules");
+
+let WORK_DIR = process.cwd();
+if (process.pkg?.entrypoint) {
+  const pkgEntryPoint = process.pkg?.entrypoint ?? "";
+  WORK_DIR = pkgEntryPoint.substring(0, pkgEntryPoint.lastIndexOf("/") + 1);
+}
+const { serviceId } = require(path.join(`${WORK_DIR}`, "/package.json"));
 
 const loadDefault = async () => {
   const defaultEntities = defaultRules.map((r) => ({
@@ -28,9 +36,13 @@ const loadDefault = async () => {
     })) === 0
   ) {
     log.info("Inserting default rules");
-    return mongoDbConnector.collections[
+    await mongoDbConnector.collections[
       SYSTEM_ENTITY_COLLECTION_NAME
     ].insertMany(defaultEntities);
+    defaultEntities.forEach((policy) => {
+      messageProducer.produce(policy.id, serviceId, "create");
+    });
+    return true;
   }
 };
 
