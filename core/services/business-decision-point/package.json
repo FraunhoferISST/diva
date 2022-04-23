@@ -1,6 +1,7 @@
 {
   "name": "business-decision-point",
   "version": "0.1.1",
+  "serviceId": "service:uuid:037ca2aa-571b-4b8a-9eed-7f344cc28447",
   "description": "",
   "main": "index.js",
   "scripts": {
