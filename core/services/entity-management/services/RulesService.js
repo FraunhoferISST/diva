@@ -1,3 +1,4 @@
+const path = require("path");
 const { logger: log } = require("@diva/common/logger");
 const generateUuid = require("@diva/common/utils/generateUuid");
 const messageProducer = require("@diva/common/messaging/MessageProducer");
