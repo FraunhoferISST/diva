@@ -1,4 +1,5 @@
 module.exports = [
+  // Development
   {
     title: "Allow everything for entity-management (DEV only)",
     isActive: true,
@@ -11,9 +12,45 @@ module.exports = [
     condition: true,
     excludes: [],
   },
-  /*
+
+  // Admin Policies
+  {
+    title: "Admin Power Right for Entity-Management",
+    isActive: true,
+    editable: false,
+    priority: 1,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^.+$",
+      method: "(GET|PUT|POST|PATCH|DELETE)",
+    },
+    condition: {
+      and: [
+        {
+          mongodb: {
+            query: {
+              id: '{{headers["x-actorid"]}}',
+              roles: "admin",
+            },
+          },
+        },
+        {
+          mongodb: {
+            query: {
+              id: "{{path||.*:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}",
+              editable: { $ne: false },
+            },
+          },
+        },
+      ],
+    },
+    excludes: [],
+  },
+
+  // Entities: Standard DIVA Policies
   {
     title: "Creator of resource can perform GET",
+    isActive: true,
     priority: 1,
     scope: {
       "headers.serviceName": "entity-management",
@@ -32,6 +69,7 @@ module.exports = [
     },
     excludes: [],
   },
+  /*
   {
     title: "Owner of resource can perform GET",
     priority: 1,
