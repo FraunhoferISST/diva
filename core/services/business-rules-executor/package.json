@@ -1,6 +1,7 @@
 {
   "name": "business-rules-executor",
   "version": "1.0.0",
+  "serviceId": "service:uuid:0354104d-550d-40a7-81ab-587ff4c5633a",
   "description": "",
   "main": "index.js",
   "scripts": {
