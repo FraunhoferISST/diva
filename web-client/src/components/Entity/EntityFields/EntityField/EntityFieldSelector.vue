@@ -82,7 +82,13 @@ export default {
       },
     };
     return {
-      fieldsConfig: computed(() => configMap[props.type]),
+      fieldsConfig: computed(
+        () =>
+          configMap[props.type] ?? {
+            PrimitiveFieldEditor,
+            PrimitiveFieldViewer,
+          }
+      ),
     };
   },
 };

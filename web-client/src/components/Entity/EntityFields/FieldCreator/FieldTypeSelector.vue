@@ -105,6 +105,17 @@ export default {
         selected: true,
       },
       {
+        title: "Text area",
+        description: "Longer plain text property",
+        value: {
+          uiType: "textArea",
+          type: "string",
+          fallBackValue: "",
+          testValue: "Some longer text",
+        },
+        selected: false,
+      },
+      {
         title: "Rich text",
         description: "Rich text with formatting options",
         value: {

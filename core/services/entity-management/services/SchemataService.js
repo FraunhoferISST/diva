@@ -119,14 +119,6 @@ class SchemataService extends EntityService {
                 },
               },
             })),
-            /* {
-              scope: {
-                $elemMatch: {
-                  key: { $in: Object.keys(body.scope) },
-                  value: { $in: Object.values(body.scope) },
-                },
-              },
-            }, */
             {
               scope: { $exists: false },
             },

@@ -90,6 +90,10 @@
                 :complete="isPresentationValid"
               >
                 Adjust a field presentation
+                <small>
+                  {{ presentation.view }}, {{ presentation.position }},
+                  {{ presentation.fullWidth ? "full width" : "1/3 width" }}
+                </small>
               </v-stepper-step>
               <v-stepper-content step="4">
                 <v-container fluid>

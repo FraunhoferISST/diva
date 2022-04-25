@@ -1,26 +1,9 @@
 <template>
   <section id="user-general">
+    <entity-general :id="id" />
     <data-viewer :loading="loading" :error="error">
       <template v-if="data">
         <v-container class="pa-0 ma-0" fluid>
-          <v-row>
-            <v-col
-              cols="12"
-              :sm="attribute.fullWith ? '12' : '6'"
-              md="4"
-              v-for="attribute in fields"
-              :key="attribute.name"
-            >
-              <entity-field
-                :id="id"
-                :property="attribute.name"
-                :title="attribute.title"
-                :type="attribute.type"
-                :value.sync="attribute.value"
-                mutate-source
-              />
-            </v-col>
-          </v-row>
           <v-row class="pt-5">
             <v-col cols="12">
               <custom-header text="Account information" />
@@ -49,10 +32,17 @@
                 <v-col cols="12">
                   <entity-field
                     :id="id"
-                    property="username"
-                    title="Username"
+                    :field-schema="{
+                      title: 'Username',
+                      schema: {
+                        properties: {
+                          username: {
+                            type: 'string',
+                          },
+                        },
+                      },
+                    }"
                     :value.sync="data.username"
-                    type="text"
                     mutate-source
                   />
                 </v-col>
@@ -108,10 +98,12 @@ import EntityField from "@/components/Entity/EntityFields/EntityField/EntityFiel
 import { useEntity } from "@/composables/entity";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { computed } from "@vue/composition-api/dist/vue-composition-api";
+import EntityGeneral from "@/components/Entity/EntityCommonComponents/General/EntityGeneral";
 
 export default {
   name: "UserGeneral",
   components: {
+    EntityGeneral,
     DataViewer,
     EntityField,
     ConfirmationDialog,

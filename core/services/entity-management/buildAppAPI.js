@@ -76,13 +76,6 @@ const predefinedEntities = {
     service: asyncapisService,
     entityType: entityTypes.SYSTEM_ENTITY,
   },
-  // Generic route for ally for all kinds of custom entities
-  [collectionsNames.ENTITY_COLLECTION_NAME]: {
-    collection: collectionsNames.ENTITY_COLLECTION_NAME,
-    controller: null,
-    service: null,
-    entityType: null,
-  },
 };
 
 const createEntityService = (entityType) => new EntityService(entityType);
