@@ -104,7 +104,7 @@ import CustomHeader from "@/components/Base/CustomHeader";
 import keycloak from "@/api/keycloak";
 import InfoBlock from "../Base/InfoBlock/InfoBlock";
 import ConfirmationDialog from "../Base/ConfirmationDialog";
-import EntityField from "@/components/Entity/EntityFields/EntityField";
+import EntityField from "@/components/Entity/EntityFields/EntityField/EntityField";
 import { useEntity } from "@/composables/entity";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { computed } from "@vue/composition-api/dist/vue-composition-api";

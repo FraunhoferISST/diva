@@ -308,14 +308,11 @@ export default {
       allProperties: computed(() =>
         allSchemata.value
           .filter(({ schemaName }) => schemaName !== "entity")
-          .map(({ schema }) => {
-            const parsedSchema = JSON.parse(schema);
-            const propName = Object.keys(parsedSchema.properties)[0];
-            return {
-              property: propName,
-              enum: JSON.parse(schema).properties[propName].enum,
-            };
-          })
+          .map(({ schemaName, schema, ...rest }) => ({
+            propertyName: schemaName,
+            ...rest,
+            schema: JSON.parse(schema),
+          }))
       ),
       modes: [
         {

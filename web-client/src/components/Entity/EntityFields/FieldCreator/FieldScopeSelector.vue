@@ -22,7 +22,7 @@
               like PDF, CSV etc.
             </check-box-card-item>
           </v-col>
-          <v-col cols="12">
+          <v-col cols="12" v-if="properties.length > 0">
             <check-box-card-item
               :active="selectedIndices.includes(2)"
               title="Custom Option"
@@ -50,30 +50,22 @@
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="12" sm="6" class="d-flex mt-2">
-                    <v-autocomplete
-                      v-if="getSelectedProperty(scope.key).enum"
-                      v-model="scope.value"
-                      :items="getSelectedProperty(scope.key).enum"
-                      outlined
-                      dense
-                      chips
-                      small-chips
-                      label="Scope property"
-                      hide-details
-                      :disabled="!selectedIndices.includes(2)"
-                      background-color="white"
-                    ></v-autocomplete>
-                    <v-text-field
-                      v-else
-                      v-model="scope.value"
-                      label="Value"
-                      outlined
-                      dense
-                      hide-details
-                      :disabled="!selectedIndices.includes(2)"
-                      background-color="white"
+                    <entity-field-selector
+                      :type="getSelectedProperty(scope.key).type"
                     >
-                    </v-text-field>
+                      <template #default="{ editor }">
+                        <component
+                          :is="editor"
+                          v-bind="getSelectedProperty(scope.key)"
+                          :property="
+                            getSelectedProperty(scope.key).propertyName
+                          "
+                          :value="getSelectedProperty(scope.key).value"
+                          :title="getSelectedProperty(scope.key).title"
+                          @update:value="(newVal) => (scope.value = newVal)"
+                        />
+                      </template>
+                    </entity-field-selector>
                     <v-btn
                       dense
                       icon
@@ -110,6 +102,8 @@
 import { computed, ref } from "@vue/composition-api";
 import CheckBoxCardGroup from "@/components/Base/CheckBoxCardGroup";
 import CheckBoxCardItem from "@/components/Base/CheckBoxCardItem";
+import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
+import EntityFieldSelector from "@/components/Entity/EntityFields/EntityField/EntityFieldSelector";
 
 export default {
   name: "FieldScopeSelector",
@@ -123,7 +117,12 @@ export default {
       required: true,
     },
   },
-  components: { CheckBoxCardItem, CheckBoxCardGroup },
+  components: {
+    EntityFieldSelector,
+    InfoBlock,
+    CheckBoxCardItem,
+    CheckBoxCardGroup,
+  },
   setup(props, { emit }) {
     const computedScope = computed({
       get() {
@@ -163,15 +162,25 @@ export default {
     const removeCustomScope = (index) =>
       scopesOptions.value[2].value.scope.splice(index, 1);
     const getSelectedProperty = (propertyName) => {
-      return (
+      const selectedProp =
         props.properties.filter(
-          ({ property }) => property === propertyName
-        )[0] ?? {}
-      );
+          ({ propertyName: propName }) => propName === propertyName
+        )[0] ?? {};
+      return {
+        propertyName,
+        ...selectedProp,
+        ...selectedProp?.schema?.properties[propertyName],
+        ...selectedProp?.schema?.properties[propertyName]._ui,
+        type:
+          selectedProp?.schema?.properties[propertyName]?._ui?.type ?? "text",
+        value:
+          selectedProp?.schema?.properties[propertyName]?._ui?.fallbackValue ??
+          "",
+      };
     };
     return {
       scopeProperties: computed(() =>
-        props.properties.map(({ property }) => property)
+        props.properties.map(({ propertyName }) => propertyName)
       ),
       scopesOptions,
       computedScope,

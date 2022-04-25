@@ -42,11 +42,11 @@
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import CustomHeader from "@/components/Base/CustomHeader";
 import EntityDataViewer from "@/components/Entity/EntityDataViewer";
-import EntityField from "@/components/Entity/EntityFields/EntityField";
-import Owners from "@/components/Entity/EntityFields/Owners/Owners";
-import Licenses from "@/components/Entity/EntityFields/Licenses/Licenses";
-import Location from "@/components/Entity/EntityFields/Location/Location";
-import Languages from "@/components/Entity/EntityFields/Languages/Languages";
+import EntityField from "@/components/Entity/EntityFields/EntityField/EntityField";
+import Owners from "@/components/Entity/EntityFields/EntityField/Owners/Owners";
+import Licenses from "@/components/Entity/EntityFields/EntityField/Licenses/Licenses";
+import Location from "@/components/Entity/EntityFields/EntityField/Location/Location";
+import Languages from "@/components/Entity/EntityFields/EntityField/Languages/Languages";
 import { useEntity } from "@/composables/entity";
 import { computed } from "@vue/composition-api";
 import { useBus } from "@/composables/bus";
@@ -108,134 +108,4 @@ export default {
     };
   },
 };
-/*[
-  {
-    name: "title",
-    title: "Title",
-    type: "text",
-    fallbackValue: "",
-    fullWidth: true,
-  },
-  {
-    name: "keywords",
-    title: "Keywords",
-    type: "select",
-    fallbackValue: [],
-    allowCustom: true,
-    multiple: true,
-    fullWidth: true,
-  },
-  {
-    name: "owners",
-    title: "Owners",
-    fallbackValue: [],
-    component: Owners,
-  },
-  {
-    name: "versionInfo",
-    title: "Version info",
-    fallbackValue: "",
-    type: "text",
-    fullWidth: false,
-  },
-  {
-    name: "versionNotes",
-    title: "Version notes",
-    fallbackValue: "",
-    type: "text",
-    fullWidth: false,
-  },
-  {
-    name: "themes",
-    title: "Themes",
-    type: "select",
-    fallbackValue: "",
-    options: [
-      "Agriculture",
-      "Culture",
-      "Economy",
-      "Education",
-      "Energy",
-      "Environment",
-      "Finance",
-      "Fisheries",
-      "Health",
-      "Infrastructure",
-      "International",
-      "Justice",
-      "Population",
-      "Public Sector",
-      "Regional",
-      "Science",
-      "Society",
-      "Sports",
-      "Technology",
-      "Transport",
-    ],
-    fullWidth: false,
-    multiple: true,
-  },
-  {
-    name: "languages",
-    title: "Languages",
-    fallbackValue: [],
-    component: Languages,
-    fullWidth: false,
-  },
-  {
-    name: "plannedAvailability",
-    title: "Planned Availability",
-    type: "select",
-    fallbackValue: "",
-    options: ["Temporary", "Experimental", "Available", "Stable"],
-    fullWidth: false,
-    multiple: false,
-  },
-  {
-    name: "politicalGeocoding",
-    title: "Political geocoding",
-    type: "select",
-    fallbackValue: "",
-    options: [
-      "International",
-      "European",
-      "Federal",
-      "State",
-      "Administrative District",
-      "Municipality",
-    ],
-    fullWidth: false,
-    multiple: false,
-  },
-  {
-    name: "dataClassification",
-    title: "Data classification",
-    type: "select",
-    fallbackValue: "",
-    options: ["Public", "Internal", "Confidential", "Restricted"],
-    fullWidth: false,
-    multiple: false,
-  },
-  {
-    name: "description",
-    type: "richText",
-    fallbackValue: "",
-    title: "Description",
-    fullWidth: true,
-  },
-  {
-    name: "licenses",
-    title: "Licenses",
-    component: Licenses,
-    fallbackValue: [],
-    fullWidth: true,
-  },
-  {
-    name: "location",
-    title: "Location",
-    component: Location,
-    fallbackValue: {},
-    fullWidth: true,
-  },
-]*/
 </script>

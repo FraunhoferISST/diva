@@ -16,7 +16,7 @@ import { useRequest } from "@/composables/request";
 import { useUser } from "@/composables/user";
 import { useApi } from "@/composables/api";
 import UserCard from "@/components/User/UserCard";
-import { computed, ref } from "@vue/composition-api";
+import { ref } from "@vue/composition-api";
 export default {
   name: "EntityCreator",
   components: {
@@ -57,9 +57,6 @@ export default {
     );
     return {
       creator,
-      computedCreatorId: computed(() => creator.value.id ?? ""),
-      creatorName: computed(() => creator.value.username ?? ""),
-      creatorImageId: computed(() => creator.value.entityIcon ?? ""),
       loading,
       error,
       user,

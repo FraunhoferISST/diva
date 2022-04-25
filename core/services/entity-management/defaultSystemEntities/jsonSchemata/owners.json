@@ -28,7 +28,7 @@
     "type": "object",
     "title": "Owners",
     "properties": {
-      "keywords": {
+      "owners": {
         "type": "array",
         "title": "Owners",
         "description": "Users which own this entity",

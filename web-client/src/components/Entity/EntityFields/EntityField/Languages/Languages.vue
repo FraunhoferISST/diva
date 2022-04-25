@@ -32,7 +32,7 @@
 import NoDataState from "@/components/Base/NoDataState";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import { useEntity } from "@/composables/entity";
-import LanguagesEdit from "@/components/Entity/EntityFields/Languages/LanguagesEdit";
+import LanguagesEdit from "@/components/Entity/EntityFields/EntityField/Languages/LanguagesEdit";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 
 export default {

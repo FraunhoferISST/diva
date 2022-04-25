@@ -164,7 +164,7 @@ import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 import { useEntity } from "@/composables/entity";
 import { useSnackbar } from "@/composables/snackbar";
-import LicenseEdit from "@/components/Entity/EntityFields/Licenses/LicenseEdit";
+import LicenseEdit from "@/components/Entity/EntityFields/EntityField/Licenses/LicenseEdit";
 
 export default {
   name: "Licenses",

@@ -24,7 +24,7 @@ import NoDataState from "@/components/Base/NoDataState";
 import LocationMap from "@/components/Charts/LocationMap";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
-import LocationEdit from "@/components/Entity/EntityFields/Location/LocationEdit";
+import LocationEdit from "@/components/Entity/EntityFields/EntityField/Location/LocationEdit";
 import { useEntity } from "@/composables/entity";
 import { computed } from "@vue/composition-api";
 

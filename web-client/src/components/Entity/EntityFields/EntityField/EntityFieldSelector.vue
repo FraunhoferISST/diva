@@ -1,43 +1,7 @@
 <template>
-  <info-block class="relative" :title="title">
-    <template #value>
-      <field-editor :data="{ [property]: value }" :on-save="() => testPatch()">
-        <template #view="{ state }">
-          <slot>
-            <template>
-              <component
-                :is="fieldsConfig.viewer"
-                v-bind="{ ...$props, ...$attrs }"
-                :value="state[property]"
-              />
-            </template>
-          </slot>
-        </template>
-        <template #edit="{ setPatch, patch }">
-          <component
-            :is="fieldsConfig.editor"
-            v-bind="{ ...$props, ...$attrs }"
-            :property="property"
-            :value="patch[property]"
-            :title="title"
-            @update:value="(newValue) => setPatch({ [property]: newValue })"
-          />
-        </template>
-      </field-editor>
-      <v-snackbar
-        height="50"
-        absolute
-        bottom
-        text
-        rounded
-        v-model="snackbar"
-        :color="color"
-        :timeout="4000"
-      >
-        {{ message }}
-      </v-snackbar>
-    </template>
-  </info-block>
+  <div>
+    <slot :viewer="fieldsConfig.viewer" :editor="fieldsConfig.editor"></slot>
+  </div>
 </template>
 
 <script>
@@ -48,22 +12,23 @@ import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import PrimitiveFieldViewer from "@/components/Entity/EntityFields/EntityField/PrimitiveField/PrimitiveFieldViewer";
 import SelectFieldViewer from "@/components/Entity/EntityFields/EntityField/SelectField/SelectFieldViewer";
 import SelectFieldEditor from "@/components/Entity/EntityFields/EntityField/SelectField/SelectFieldEditor";
-import { useSnackbar } from "@/composables/snackbar";
 import { computed } from "@vue/composition-api";
 import MarkdownFieldEditor from "@/components/Entity/EntityFields/EntityField/MarkdownField/MarkdownFieldEditor";
 import MarkdownFieldViewer from "@/components/Entity/EntityFields/EntityField/MarkdownField/MarkdownFieldViewer";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
-import DateFieldEditor from "@/components/Entity/EntityFields/EntityField/DateField/DateFieldEditor";
-import DateFieldViewer from "@/components/Entity/EntityFields/EntityField/DateField/DateFieldViewer";
 import BooleanFieldEditor from "@/components/Entity/EntityFields/EntityField/BooleanField/BooleanEditor";
 import BooleanFieldViewer from "@/components/Entity/EntityFields/EntityField/BooleanField/BooleanFieldViewer";
+import DateFieldViewer from "@/components/Entity/EntityFields/EntityField/DateField/DateFieldViewer";
+import DateFieldEditor from "@/components/Entity/EntityFields/EntityField/DateField/DateFieldEditor";
+import TextAreaFieldEditor from "@/components/Entity/EntityFields/EntityField/TextAreaField/TextAreaFieldEditor";
+import TextAreaFieldViewer from "@/components/Entity/EntityFields/EntityField/TextAreaField/TextAreaFieldViewer";
 export default {
-  name: "FieldPreview",
+  name: "EntityFieldSelector",
   components: {
+    TextAreaFieldViewer,
+    TextAreaFieldEditor,
     BooleanFieldViewer,
     BooleanFieldEditor,
-    DateFieldViewer,
-    DateFieldEditor,
     InfoBlock,
     MarkdownFieldViewer,
     MarkdownFieldEditor,
@@ -76,29 +41,12 @@ export default {
     FieldEditor,
   },
   props: {
-    property: {
-      type: String,
-      required: true,
-    },
-    value: {
-      type: [String, Number, Boolean, Array, Object],
-      required: true,
-    },
-    title: {
-      type: String,
-      required: true,
-    },
     type: {
       type: String,
       required: true,
     },
   },
-
-  setup(props, { emit }) {
-    const computedValue = computed({
-      get: () => props.value,
-      set: (val) => emit("update:value", val),
-    });
+  setup(props) {
     const configMap = {
       richText: {
         viewer: MarkdownFieldViewer,
@@ -107,6 +55,10 @@ export default {
       text: {
         viewer: PrimitiveFieldViewer,
         editor: PrimitiveFieldEditor,
+      },
+      textArea: {
+        viewer: TextAreaFieldViewer,
+        editor: TextAreaFieldEditor,
       },
       date: {
         viewer: DateFieldViewer,
@@ -125,18 +77,8 @@ export default {
         editor: BooleanFieldEditor,
       },
     };
-    const { show, message, color, snackbar } = useSnackbar();
     return {
-      color,
-      message,
-      computedValue,
-      snackbar,
       fieldsConfig: computed(() => configMap[props.type]),
-      show,
-      testPatch: () =>
-        new Promise((resolve) => resolve()).then(() =>
-          show("This is how the test patch looks like")
-        ),
     };
   },
 };
