@@ -16,10 +16,6 @@ export default {
     InfoBlockValue,
   },
   props: {
-    property: {
-      type: String,
-      required: true,
-    },
     value: {
       type: [String, Number],
       required: true,

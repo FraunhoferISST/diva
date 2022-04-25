@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:98199088-eb15-4533-945e-93080c04651d",
-  "title": "System entity type Type",
+  "title": "System entity type",
   "schemaName": "systemEntityType",
   "description": "The general type of the system entity",
   "systemEntityType": "schema",

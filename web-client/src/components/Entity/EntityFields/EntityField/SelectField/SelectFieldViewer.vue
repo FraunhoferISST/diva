@@ -30,10 +30,6 @@ export default {
       type: String,
       required: true,
     },
-    options: {
-      type: Array,
-      required: true,
-    },
   },
   computed: {
     preparedValue() {

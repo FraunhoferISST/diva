@@ -35,7 +35,7 @@
               "title": "Entity field name"
             },
             "value": {
-              "type": "string",
+              "type": ["string", "array", "boolean", "number"],
               "title": "Entity field value"
             }
           }

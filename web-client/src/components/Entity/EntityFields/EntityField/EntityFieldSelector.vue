@@ -56,6 +56,10 @@ export default {
         viewer: PrimitiveFieldViewer,
         editor: PrimitiveFieldEditor,
       },
+      string: {
+        viewer: PrimitiveFieldViewer,
+        editor: PrimitiveFieldEditor,
+      },
       textArea: {
         viewer: TextAreaFieldViewer,
         editor: TextAreaFieldEditor,

@@ -113,7 +113,7 @@ export default {
           fallBackValue: "",
           testValue: "",
         },
-        selected: true,
+        selected: false,
       },
       {
         title: "Number",
@@ -124,7 +124,7 @@ export default {
           fallBackValue: "",
           testValue: 145,
         },
-        selected: true,
+        selected: false,
       },
       {
         title: "Date",
@@ -135,7 +135,7 @@ export default {
           fallBackValue: "",
           testValue: "2022-04-06T07:42:43.476Z",
         },
-        selected: true,
+        selected: false,
       },
       {
         title: "Boolean",
@@ -146,7 +146,7 @@ export default {
           fallBackValue: false,
           testValue: false,
         },
-        selected: true,
+        selected: false,
       },
       {
         title: "Enumeration",
@@ -161,19 +161,13 @@ export default {
           fallBackValue: [],
           testValue: "",
         },
-        selected: true,
+        selected: false,
       },
     ]);
-    const addCustomScope = () =>
-      typesOptions.value[2].value.scope.push({ key: "", value: "" });
-    const removeCustomScope = (index) =>
-      typesOptions.value[2].value.scope.splice(index, 1);
     return {
       scopeProperties: ["entityType", "resourceType"],
       typesOptions,
       computedType,
-      addCustomScope,
-      removeCustomScope,
     };
   },
 };

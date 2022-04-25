@@ -1,7 +1,7 @@
 <template>
   <v-text-field
     dense
-    v-model="computedValue"
+    v-model.trim="computedValue"
     color="info"
     :label="title"
     :type="type"
@@ -43,7 +43,10 @@ export default {
         return this.value;
       },
       set(value) {
-        this.$emit("update:value", value);
+        this.$emit(
+          "update:value",
+          this.type === "number" ? parseFloat(value) : value
+        );
       },
     },
   },

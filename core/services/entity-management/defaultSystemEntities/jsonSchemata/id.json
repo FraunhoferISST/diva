@@ -12,8 +12,138 @@
     ],
     "properties": {
       "id": {
-        "type": "string",
-        "pattern": "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        "oneOf": [
+          {
+            "if": {
+              "properties": {
+                "entityType": {
+                  "const": "resource"
+                }
+              }
+            },
+            "then": {
+              "type": "string",
+              "pattern": "^resource+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "entityType": {
+                  "const": "user"
+                }
+              }
+            },
+            "then": {
+              "type": "string",
+              "pattern": "^user+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "entityType": {
+                  "const": "asset"
+                }
+              }
+            },
+            "then": {
+              "type": "string",
+              "pattern": "^asset+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "entityType": {
+                  "const": "service"
+                }
+              }
+            },
+            "then": {
+              "type": "string",
+              "pattern": "^service+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "entityType": {
+                  "const": "review"
+                }
+              }
+            },
+            "then": {
+              "type": "string",
+              "pattern": "^review+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "entityType": {
+                  "const": "history"
+                }
+              }
+            },
+            "then": {
+              "type": "string",
+              "pattern": "^history+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "systemEntityType": {
+                  "const": "schema"
+                }
+              }
+            },
+            "then": {
+              "type": "string",
+              "pattern": "^schema+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "systemEntityType": {
+                  "const": "policy"
+                }
+              }
+            },
+            "then": {
+              "type": "string",
+              "pattern": "^policy+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "systemEntityType": {
+                  "const": "rule"
+                }
+              }
+            },
+            "then": {
+              "type": "string",
+              "pattern": "^rule+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "systemEntityType": {
+                  "const": "asyncapi"
+                }
+              }
+            },
+            "then": {
+              "type": "string",
+              "pattern": "^asyncapi+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ]
       }
     }
   }

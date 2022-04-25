@@ -334,7 +334,7 @@ export default {
       showSnackbar,
       deleteEnt: () =>
         deleteEntity().then(() => {
-          if (!this.deleteError) {
+          if (deleteError.value) {
             this.confirmationDialog = false;
             setTimeout(() => this.$router.push({ name: "search" }), 1000);
           } else {

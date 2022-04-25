@@ -1,35 +1,40 @@
 <template>
-  <info-block :title="title">
-    <template #value>
-      <entity-field-selector :type="type">
-        <template #default="{ viewer, editor }">
-          <field-editor :data="{ [property]: value }" :on-save="patchAndMutate">
+  <entity-field-schema-renderer :schema-entity="fieldSchema">
+    <template #default="{ field, editor, viewer }">
+      <info-block :title="field.title">
+        <template #value>
+          <field-editor
+            :data="{ [field.propertyName]: value }"
+            :on-save="patchAndMutate"
+          >
             <template #view="{ state }">
-              <slot>
-                <template>
-                  <component
-                    :is="viewer"
-                    v-bind="{ ...$props, ...$attrs }"
-                    :value="state[property]"
-                  />
-                </template>
-              </slot>
+              <component
+                :is="viewer"
+                :title="field.title"
+                :value="state[field.propertyName]"
+              />
             </template>
             <template #edit="{ setPatch, patch }">
               <component
                 :is="editor"
-                v-bind="{ ...$props, ...$attrs }"
-                :property="property"
-                :value="patch[property]"
-                :title="title"
-                @update:value="(newValue) => setPatch({ [property]: newValue })"
+                :property="field.propertyName"
+                :value="patch[field.propertyName]"
+                :title="field.title"
+                :options="field.options"
+                :allowCustom="field.allowCustom"
+                :multiple="field._ui.multiple"
+                :min-length="field.minLength"
+                :max-length="field.maxLength"
+                @update:value="
+                  (newValue) => setPatch({ [field.propertyName]: newValue })
+                "
               />
             </template>
           </field-editor>
         </template>
-      </entity-field-selector>
+      </info-block>
     </template>
-  </info-block>
+  </entity-field-schema-renderer>
 </template>
 
 <script>
@@ -38,9 +43,11 @@ import { computed } from "@vue/composition-api";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import EntityFieldSelector from "@/components/Entity/EntityFields/EntityField/EntityFieldSelector";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
+import EntityFieldSchemaRenderer from "@/components/Entity/EntityFields/EntityField/EntityFieldSchemaRenderer";
 export default {
   name: "EntityField",
   components: {
+    EntityFieldSchemaRenderer,
     FieldEditor,
     EntityFieldSelector,
     InfoBlock,
@@ -50,20 +57,12 @@ export default {
       type: String,
       required: true,
     },
-    property: {
-      type: String,
+    fieldSchema: {
+      type: Object,
       required: true,
     },
     value: {
       type: [String, Number, Array, Boolean, Date, Object],
-      required: true,
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-    type: {
-      type: String,
       required: true,
     },
     mutateSource: {
@@ -86,7 +85,7 @@ export default {
           throw patchError.value;
         }
         if (props.mutateSource) {
-          computedValue.value = patchData[props.property];
+          computedValue.value = patchData[props.fieldSchema.propertyName];
         }
       });
     return {

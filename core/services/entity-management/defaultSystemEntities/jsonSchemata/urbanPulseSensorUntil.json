@@ -30,6 +30,12 @@
         "format": "date-time",
         "_elasticsearch": {
           "type": "date"
+        },
+        "_ui": {
+          "type": "date",
+          "view": "overview",
+          "position": 2,
+          "fallbackValue": ""
         }
       }
     }

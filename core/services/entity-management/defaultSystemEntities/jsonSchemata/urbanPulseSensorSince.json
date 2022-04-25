@@ -27,7 +27,13 @@
         "examples": [
           "2018-11-08T13:55:45Z"
         ],
-        "format": "date-time"
+        "format": "date-time",
+        "_ui": {
+          "type": "date",
+          "view": "overview",
+          "position": 2,
+          "fallbackValue": ""
+        }
       }
     }
   }

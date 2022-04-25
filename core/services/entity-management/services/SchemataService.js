@@ -65,9 +65,7 @@ const injectJsonSchema = async (rootSchema, schemaEntity) => {
             },
           },
         },
-        then: {
-          ...schemaDefinition,
-        },
+        then: schemaDefinition,
       });
     }
     return updatedRootSchema;
@@ -113,14 +111,22 @@ class SchemataService extends EntityService {
       ? {
           schemaName: { $not: /^entity$/ },
           $or: [
-            {
+            ...Object.entries(body.scope).map(([k, v]) => ({
+              scope: {
+                $elemMatch: {
+                  key: k,
+                  value: v,
+                },
+              },
+            })),
+            /* {
               scope: {
                 $elemMatch: {
                   key: { $in: Object.keys(body.scope) },
                   value: { $in: Object.values(body.scope) },
                 },
               },
-            },
+            }, */
             {
               scope: { $exists: false },
             },

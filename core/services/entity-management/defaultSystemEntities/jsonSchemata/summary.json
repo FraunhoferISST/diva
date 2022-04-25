@@ -43,7 +43,7 @@
           "position": 5,
           "type": "textArea",
           "fullWidth": true,
-          "fallbackValue": "false"
+          "fallbackValue": ""
         }
       }
     }

@@ -35,9 +35,8 @@
         "default": [],
         "items": {
           "uniqueItems": true,
-          "type": "string",
+          "type": "object",
           "_elasticsearch": {
-            "type": "keyword",
             "enabled": false
           }
         },

@@ -6,28 +6,21 @@
           <v-row>
             <v-col
               cols="12"
-              :md="attribute.fullWidth ? '12' : '4'"
-              v-for="attribute in fields"
-              :key="attribute.propertyName"
+              :md="field._ui.fullWidth ? '12' : '4'"
+              v-for="field in fields"
+              :key="field.propertyName"
             >
               <component
-                v-if="attribute.component"
-                :[attribute.propertyName]="attribute.value"
-                :is="attribute.component"
+                v-if="field._ui.component"
+                :[field.propertyName]="field.value"
+                :is="field._ui.component"
                 :id="id"
               />
               <entity-field
                 v-else
                 :id="id"
-                :property="attribute.propertyName"
-                :title="attribute.title"
-                :type="attribute.type"
-                :value.sync="attribute.value"
-                :options="attribute.options || attribute.enum || []"
-                :allowCustom="attribute.allowCustom"
-                :multiple="attribute.multiple"
-                :min-length="attribute.minLength"
-                :max-length="attribute.maxLength"
+                :field-schema="field"
+                :value.sync="field.value"
                 mutate-source
               />
             </v-col>
@@ -93,17 +86,25 @@ export default {
       schema,
       fields: computed(() =>
         Object.entries(schema.value ?? {})
-          .map(([k, v]) => ({ ...v, propertyName: k }))
-          .filter((prop) => prop._ui && prop._ui.view === "overview")
-          .map((prop) => ({
-            ...prop,
-            ...prop._ui,
-            value:
-              data.value[prop.propertyName] ??
-              prop.default ??
-              prop._ui.fallbackValue,
+          .map(([_, v]) => ({ ...v }))
+          .filter(
+            (schemaEntity) =>
+              schemaEntity.schema.properties[schemaEntity.propertyName]?._ui
+                ?.view === "overview"
+          )
+          .map((schemaEntity) => ({
+            ...schemaEntity,
+            _ui: schemaEntity.schema.properties[schemaEntity.propertyName]._ui,
           }))
-          .sort((a, b) => a.position - b.position)
+          .map((schemaEntity) => ({
+            ...schemaEntity,
+            value:
+              data.value[schemaEntity.propertyName] ??
+              schemaEntity.schema.default ??
+              schemaEntity.schema?.items?.default ??
+              schemaEntity._ui.fallbackValue,
+          }))
+          .sort((a, b) => a._ui.position - b._ui.position)
       ),
     };
   },

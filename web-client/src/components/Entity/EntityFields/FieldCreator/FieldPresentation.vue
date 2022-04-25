@@ -91,6 +91,7 @@ export default {
         {
           title: "Overview page",
           description: "The main overview page of a resource",
+          selected: true,
           value: {
             view: "overview",
           },
