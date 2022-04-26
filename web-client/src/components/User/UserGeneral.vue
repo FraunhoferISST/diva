@@ -1,7 +1,7 @@
 <template>
   <section id="user-general">
     <entity-general :id="id" />
-    <data-viewer :loading="loading" :error="error">
+    <data-viewer :loading="loading" :error="error" v-if="user.id === id">
       <template v-if="data">
         <v-container class="pa-0 ma-0" fluid>
           <v-row class="pt-5">
@@ -60,7 +60,7 @@
                     text
                     rounded
                     color="error"
-                    @click="showConfirmationDialog"
+                    @click="confirmationDialog = true"
                   >
                     Delete account
                   </v-btn>
@@ -76,12 +76,17 @@
                   text
                   rounded
                   color="error"
-                  :loading="isLoading"
+                  :loading="deleteLoading"
                   @click="deleteAccount"
                 >
                   Delete account
                 </v-btn>
               </div>
+              <v-snackbar v-model="snackbar" :color="color" absolute top>
+                <b>
+                  {{ message }}
+                </b>
+              </v-snackbar>
             </template>
           </confirmation-dialog>
         </v-container>
@@ -97,9 +102,12 @@ import InfoBlock from "../Base/InfoBlock/InfoBlock";
 import ConfirmationDialog from "../Base/ConfirmationDialog";
 import EntityField from "@/components/Entity/EntityFields/EntityField/EntityField";
 import { useEntity } from "@/composables/entity";
+import { useUser } from "@/composables/user";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { computed } from "@vue/composition-api/dist/vue-composition-api";
 import EntityGeneral from "@/components/Entity/EntityCommonComponents/General/EntityGeneral";
+import { useSnackbar } from "@/composables/snackbar";
+import { ref } from "@vue/composition-api";
 
 export default {
   name: "UserGeneral",
@@ -117,14 +125,32 @@ export default {
       required: true,
     },
   },
-  setup(props) {
-    const { load, loading, error, data, schema } = useEntity(props.id);
-    load();
-    return {
+  setup(props, { root }) {
+    const confirmationDialog = ref(false);
+    const { show, message, color, snackbar } = useSnackbar();
+    const {
       load,
       loading,
       error,
       data,
+      schema,
+      deleteEntity,
+      deleteLoading,
+      deleteError,
+    } = useEntity(props.id);
+    const { user, logout } = useUser();
+    load();
+    return {
+      loading,
+      confirmationDialog,
+      error,
+      data,
+      user,
+      deleteLoading,
+      message,
+      color,
+      snackbar,
+      keycloakAccountURL: computed(() => keycloak.kc.createAccountUrl()),
       fields: computed(() =>
         Object.entries(schema.value ?? {})
           .map(([k, v]) => ({ ...v, propertyName: k }))
@@ -139,119 +165,19 @@ export default {
           }))
           .sort((a, b) => a.position - b.position)
       ),
+      deleteAccount: () =>
+        deleteEntity().then(() => {
+          if (deleteError.value) {
+            show(deleteError.value, { color: "error" });
+          } else {
+            show("Account deleted", { color: "success" });
+            logout().then(() => {
+              confirmationDialog.value = false;
+              // root.$router.push({ name: "login" });
+            });
+          }
+        }),
     };
-  },
-  data() {
-    return {
-      confirmationDialog: false,
-      snackbar: false,
-      snackbarMsg: "",
-      snackbarColor: "",
-      isLoading: false,
-    };
-  },
-  computed: {
-    contactInformation() {
-      return [
-        {
-          name: "phoneNumber",
-          type: "text",
-          title: "Phone number",
-          fullWith: false,
-        },
-        {
-          name: "mobileNumber",
-          type: "text",
-          title: "Mobile number",
-          fullWith: false,
-        },
-        {
-          name: "addressLocality",
-          type: "text",
-          title: "Address locality",
-          fullWith: false,
-        },
-        {
-          name: "addressRegion",
-          type: "text",
-          title: "Address region",
-          fullWith: false,
-        },
-        {
-          name: "postalCode",
-          type: "number",
-          title: "Postal Code",
-          fullWith: false,
-        },
-        {
-          name: "streetAddress",
-          type: "text",
-          title: "Street address",
-          fullWith: false,
-        },
-        {
-          name: "postOfficeBoxNumber",
-          type: "number",
-          title: "Post office box number",
-          fullWith: false,
-        },
-        {
-          name: "company",
-          type: "text",
-          title: "Company",
-          fullWith: false,
-        },
-        {
-          name: "jobTitle",
-          type: "text",
-          title: "Job title",
-          fullWith: false,
-        },
-      ].map((attr) => ({
-        ...attr,
-        value: this.data[attr.name],
-        readonly: !this.canEdit,
-      }));
-    },
-    canEdit() {
-      return this.loggedInUserId === this.data?.id;
-    },
-    loggedInUserId() {
-      return this.$store.state.user.id;
-    },
-    keycloakAccountURL() {
-      return keycloak.kc.createAccountUrl();
-    },
-  },
-  methods: {
-    deleteAccount() {
-      this.isLoading = true;
-      this.$api.users
-        .delete(this.userData.id)
-        .then(() => {
-          this.logout();
-          this.confirmationDialog = false;
-        })
-        .catch((e) => {
-          this.showSnackbar(e?.response?.data?.message || e.message, "error");
-        })
-        .finally(() => (this.isLoading = false));
-    },
-    logout() {
-      return this.$store.dispatch("logout").then(() => {
-        keycloak.logout({
-          redirectUri: `${window.location.origin}`,
-        });
-      });
-    },
-    showConfirmationDialog() {
-      this.confirmationDialog = true;
-    },
-    showSnackbar(msg, color = "success") {
-      this.snackbar = true;
-      this.snackbarMsg = msg;
-      this.snackbarColor = color;
-    },
   },
 };
 </script>
