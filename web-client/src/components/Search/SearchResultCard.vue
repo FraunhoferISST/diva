@@ -33,14 +33,16 @@
           </div>
         </div>
         <div class="search-card-content">
-          <div class="search-card-keywords" v-if="keywords.length > 0">
+          <div class="search-card-keywords mt-4" v-if="keywords.length > 0">
             <v-chip class="mr-1" x-small v-for="(tag, i) in keywords" :key="i">
               {{ tag }}
             </v-chip>
           </div>
-          <p class="search-card-description ma-0 mt-2" v-if="doc.description">
-            {{ description }}
-          </p>
+          <markdown-viewer
+            class="search-card-description ma-0 mt-2"
+            v-if="doc.description"
+            :markdown="description"
+          />
           <v-container fluid class="pa-0 mt-4">
             <v-row dense>
               <v-col cols="12" sm="3">
@@ -73,10 +75,12 @@ import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import DateDisplay from "@/components/Base/DateDisplay";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
+import MarkdownViewer from "@/components/Base/MarkdownViewer";
 
 export default {
   name: "SearchResultCard",
   components: {
+    MarkdownViewer,
     EntityAvatar,
     DateDisplay,
     InfoBlockValue,
@@ -113,7 +117,7 @@ export default {
     },
     description() {
       const desc = this.doc.description ?? "";
-      return desc.length > 300 ? `${desc.slice(0, 300)}... ` : desc;
+      return desc.length > 250 ? `${desc.slice(0, 250)}... ` : desc;
     },
     keywords() {
       return (this.doc.keywords ?? []).slice(0, 25);
