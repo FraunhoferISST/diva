@@ -293,7 +293,8 @@ export default {
       description: definition.value.description,
       entityType: "systemEntity",
       systemEntityType: "schema",
-      editable: true,
+      isEditable: true,
+      isPatchable: true,
       schema: jsonSchema.value,
       ...(_scope.value.length > 0 ? { scope: _scope.value } : {}),
     }));
@@ -312,6 +313,8 @@ export default {
       allProperties: computed(() =>
         allSchemata.value
           .filter(({ schemaName }) => schemaName !== "entity")
+          // to scale down the power of custom field we allow only not patchable fields as scope to avoid the inconsistencies
+          .filter(({ isPatchable }) => !isPatchable)
           .map(({ schemaName, schema, ...rest }) => ({
             propertyName: schemaName,
             ...rest,
