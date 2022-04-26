@@ -21,7 +21,7 @@
                 :value="patch[field.propertyName]"
                 :title="field.title"
                 :options="field.options"
-                :allowCustom="field.allowCustom"
+                :allowCustom="field._ui.allowCustom"
                 :multiple="field._ui.multiple"
                 :min-length="field.minLength"
                 :max-length="field.maxLength"

@@ -62,10 +62,10 @@ export default {
         const uiType = uiDefinition?.type;
         let type = jsonSchemaTypesMap[propDefinition.type];
         let options;
-        if (uiType) {
+        if (uiDefinition) {
           type = uiType;
           options =
-            uiType.options ??
+            uiDefinition.options ??
             propDefinition.enum ??
             propDefinition?.items?.enum ??
             [];
