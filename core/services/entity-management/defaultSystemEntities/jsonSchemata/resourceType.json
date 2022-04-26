@@ -2,6 +2,7 @@
   "id": "schema:uuid:0f877a17-b3fc-4774-8ee5-37133e5fcff5",
   "title": "Resource type",
   "schemaName": "resourceType",
+  "isPatchable": false,
   "scope": [
     {
       "key": "entityType",

@@ -2,6 +2,7 @@
   "id": "schema:uuid:72c40145-936e-4b5f-a7a8-b706a1ff5af2",
   "title": "External Costs",
   "schemaName": "externalCost",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

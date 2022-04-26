@@ -4,6 +4,7 @@
   "schemaName": "mobileNumber",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -23,6 +24,12 @@
         ],
         "_elasticsearch": {
           "type": "keyword"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 3,
+          "type": "text",
+          "fallbackValue": ""
         }
       }
     }

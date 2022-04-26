@@ -61,7 +61,7 @@ export default {
 .card {
   transition: 0.3s;
   width: 100%;
-  height: 100%;
+  //height: 100%;
   background-color: $bg_card;
   position: relative;
   display: grid;

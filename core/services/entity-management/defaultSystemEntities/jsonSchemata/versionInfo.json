@@ -5,6 +5,7 @@
   "description": "A string describing the version of the entity",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -13,6 +14,14 @@
     {
       "key": "entityType",
       "value": "asset"
+    },
+    {
+      "key": "entityType",
+      "value": "service"
+    },
+    {
+      "key": "entityType",
+      "value": "systemEntity"
     }
   ],
   "schema": {
@@ -33,6 +42,12 @@
         "pattern": "^(.*)$",
         "_elasticsearch": {
           "type": "keyword"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 4,
+          "type": "text",
+          "fallbackValue": ""
         }
       }
     }

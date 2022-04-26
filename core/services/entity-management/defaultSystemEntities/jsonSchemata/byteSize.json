@@ -2,6 +2,7 @@
   "id": "schema:uuid:910d5547-a648-4a86-b25e-ad8f4305246c",
   "title": "byteSize",
   "schemaName": "byteSize",
+  "isPatchable": true,
   "scope": [
     {
       "key": "resourceType",
@@ -25,6 +26,12 @@
           3235235,
           242
         ],
+        "_ui": {
+          "view": "profiling",
+          "position": 2,
+          "type": "text",
+          "fallbackValue": ""
+        },
         "_elasticsearch": {
           "type": "unsigned_long"
         }

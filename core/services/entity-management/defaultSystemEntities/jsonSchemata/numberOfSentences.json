@@ -2,6 +2,7 @@
   "id": "schema:uuid:9b50a521-4dbd-4d11-bf80-613d4af70b5b",
   "title": "Number of Sentences",
   "schemaName": "numberOfSentences",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",

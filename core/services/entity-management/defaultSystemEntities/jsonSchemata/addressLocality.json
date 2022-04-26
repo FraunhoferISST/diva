@@ -4,6 +4,7 @@
   "schemaName": "addressLocality",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -22,6 +23,12 @@
           "Dortmund",
           "New York"
         ],
+        "_ui": {
+          "view": "overview",
+          "position": 1,
+          "type": "text",
+          "fallbackValue": ""
+        },
         "_elasticsearch": {
           "type": "keyword"
         }

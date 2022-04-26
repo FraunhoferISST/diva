@@ -2,6 +2,7 @@
   "id": "schema:uuid:c0f04732-07c1-4cb3-a7b1-6c63f562c010",
   "title": "Languages",
   "schemaName": "languages",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -92,6 +93,12 @@
               }
             }
           }
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 4,
+          "fallbackValue": [],
+          "component": "Languages"
         }
       }
     }

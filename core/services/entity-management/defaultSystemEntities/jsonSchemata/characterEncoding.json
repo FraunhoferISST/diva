@@ -2,6 +2,7 @@
   "id": "schema:uuid:a0df23ee-75ef-45b0-ae56-015ca2b98837",
   "title": "Text Character Encoding",
   "schemaName": "characterEncoding",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",
@@ -35,6 +36,12 @@
         "pattern": "^(.*)$",
         "_elasticsearch": {
           "type": "keyword"
+        },
+        "_ui": {
+          "view": "profiling",
+          "position": 2,
+          "type": "text",
+          "fallbackValue": ""
         }
       }
     }

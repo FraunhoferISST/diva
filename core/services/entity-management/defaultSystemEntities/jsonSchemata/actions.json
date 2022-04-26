@@ -5,6 +5,7 @@
   "description": "Rule actions to execute. Actions are executed as HTTP requests",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "systemEntityType",

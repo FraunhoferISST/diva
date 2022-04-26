@@ -2,6 +2,7 @@
   "id": "schema:uuid:66f18411-742b-43c4-9809-8aa4ff7c04ff",
   "title": "Number of columns",
   "schemaName": "numberOfColumns",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",

@@ -5,6 +5,7 @@
   "description": "The title of the entity",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -44,6 +45,13 @@
         "_elasticsearch": {
           "type": "text",
           "analyzer": "diva_analyzer"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 1,
+          "type": "text",
+          "fullWidth": true,
+          "fallbackValue": ""
         }
       }
     }

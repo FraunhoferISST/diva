@@ -5,6 +5,7 @@
   "description": "The description of the entity",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -36,6 +37,13 @@
         "examples": [
           "lorem ipsum dolor sit amet..."
         ],
+        "_ui": {
+          "view": "overview",
+          "position": 5,
+          "type": "richText",
+          "fullWidth": true,
+          "fallbackValue": ""
+        },
         "_elasticsearch": {
           "type": "text",
           "analyzer": "standard"

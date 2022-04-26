@@ -22,20 +22,24 @@
               like PDF, CSV etc.
             </check-box-card-item>
           </v-col>
-          <v-col cols="12">
+          <v-col cols="12" v-if="properties.length > 0">
             <check-box-card-item
               :active="selectedIndices.includes(2)"
               title="Custom Option"
               @clicked="() => toggle(2)"
             >
               You can customize the scope of the new field
-              <v-container fluid class="px-0">
+              <v-container
+                fluid
+                class="px-0"
+                v-if="scopesOptions[2].value.scope.length > 0"
+              >
                 <v-row
                   dense
                   v-for="(scope, i) in scopesOptions[2].value.scope"
                   :key="i"
                 >
-                  <v-col cols="12" sm="6" class="d-flex mt-2">
+                  <v-col cols="12" sm="6" class="mt-2">
                     <v-autocomplete
                       v-model="scope.key"
                       :items="scopeProperties"
@@ -46,34 +50,16 @@
                       label="Scope property"
                       hide-details
                       :disabled="!selectedIndices.includes(2)"
-                      background-color="white"
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="12" sm="6" class="d-flex mt-2">
-                    <v-autocomplete
-                      v-if="getSelectedProperty(scope.key).enum"
-                      v-model="scope.value"
-                      :items="getSelectedProperty(scope.key).enum"
-                      outlined
-                      dense
-                      chips
-                      small-chips
-                      label="Scope property"
-                      hide-details
-                      :disabled="!selectedIndices.includes(2)"
-                      background-color="white"
-                    ></v-autocomplete>
-                    <v-text-field
-                      v-else
-                      v-model="scope.value"
-                      label="Value"
-                      outlined
-                      dense
-                      hide-details
-                      :disabled="!selectedIndices.includes(2)"
-                      background-color="white"
-                    >
-                    </v-text-field>
+                    <entity-field-schema-renderer
+                      class="full-width"
+                      v-if="getSelectedProperty(scope.key)"
+                      :schema-entity="getSelectedProperty(scope.key)"
+                      :value="scope.value"
+                      @update:value="(newValue) => (scope.value = newValue)"
+                    />
                     <v-btn
                       dense
                       icon
@@ -88,16 +74,18 @@
                   </v-col>
                 </v-row>
               </v-container>
-              <v-btn
-                icon
-                dense
-                color="primary"
-                class="mt-3"
-                :disabled="!selectedIndices.includes(2)"
-                @click="addCustomScope"
-              >
-                <v-icon dense> add </v-icon>
-              </v-btn>
+              <div>
+                <v-btn
+                  icon
+                  dense
+                  color="primary"
+                  class="mt-3"
+                  :disabled="!selectedIndices.includes(2)"
+                  @click="addCustomScope"
+                >
+                  <v-icon dense> add </v-icon>
+                </v-btn>
+              </div>
             </check-box-card-item>
           </v-col>
         </v-row>
@@ -110,6 +98,7 @@
 import { computed, ref } from "@vue/composition-api";
 import CheckBoxCardGroup from "@/components/Base/CheckBoxCardGroup";
 import CheckBoxCardItem from "@/components/Base/CheckBoxCardItem";
+import EntityFieldSchemaRenderer from "@/components/Entity/EntityFields/EntityField/EntityFieldSchemaRenderer";
 
 export default {
   name: "FieldScopeSelector",
@@ -123,7 +112,11 @@ export default {
       required: true,
     },
   },
-  components: { CheckBoxCardItem, CheckBoxCardGroup },
+  components: {
+    EntityFieldSchemaRenderer,
+    CheckBoxCardItem,
+    CheckBoxCardGroup,
+  },
   setup(props, { emit }) {
     const computedScope = computed({
       get() {
@@ -138,7 +131,7 @@ export default {
         title: "Apply to all",
         description: "Will be applied to all entities",
         value: { scope: [] },
-        selected: true,
+        selected: props.scope.length === 0,
       },
       {
         title: "For all files",
@@ -152,26 +145,40 @@ export default {
       {
         title: "Custom option",
         description: "You can customize the scope of the new field",
-        selected: false,
+        selected: props.scope.length > 0,
         value: {
           scope: props.scope,
         },
       },
     ]);
-    const addCustomScope = () =>
-      scopesOptions.value[2].value.scope.push({ key: "", value: "" });
+    const addCustomScope = () => {
+      if (
+        scopesOptions.value[2].value.scope.every(
+          ({ key, value }) => key && value
+        )
+      ) {
+        scopesOptions.value[2].value.scope.push({ key: "", value: "" });
+      }
+    };
     const removeCustomScope = (index) =>
       scopesOptions.value[2].value.scope.splice(index, 1);
     const getSelectedProperty = (propertyName) => {
-      return (
-        props.properties.filter(
-          ({ property }) => property === propertyName
-        )[0] ?? {}
-      );
+      return props.properties.filter(
+        ({ propertyName: propName }) => propName === propertyName
+      )[0];
     };
     return {
       scopeProperties: computed(() =>
-        props.properties.map(({ property }) => property)
+        props.properties
+          .filter(({ schema: { properties } }) => {
+            const prop = properties[Object.keys(properties)[0]];
+            return (
+              prop.type !== "object" &&
+              prop?.items?.type !== "object" &&
+              prop?.items?.type !== "array"
+            );
+          })
+          .map(({ propertyName }) => propertyName)
       ),
       scopesOptions,
       computedScope,

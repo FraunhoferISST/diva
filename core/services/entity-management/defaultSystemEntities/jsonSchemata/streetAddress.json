@@ -4,6 +4,7 @@
   "schemaName": "streetAddress",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -17,7 +18,13 @@
     "properties": {
       "streetAddress": {
         "type": "string",
-        "title": "Street Address"
+        "title": "Street Address",
+        "_ui": {
+          "view": "overview",
+          "position": 3,
+          "type": "text",
+          "fallbackValue": ""
+        }
       }
     }
   }

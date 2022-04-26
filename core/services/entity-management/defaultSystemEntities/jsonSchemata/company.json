@@ -4,6 +4,7 @@
   "schemaName": "company",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -21,6 +22,12 @@
         "examples": [
           "Example Company GmbH"
         ],
+        "_ui": {
+          "view": "overview",
+          "position": 3,
+          "type": "text",
+          "fallbackValue": ""
+        },
         "_elasticsearch": {
           "type": "text",
           "analyzer": "simple"

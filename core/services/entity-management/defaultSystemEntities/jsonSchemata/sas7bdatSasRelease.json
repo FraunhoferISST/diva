@@ -5,6 +5,7 @@
   "description": "The version of sas used in the sas7bdat database",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",
@@ -25,7 +26,13 @@
         "examples": [
           "utf-8"
         ],
-        "pattern": "^(.*)$"
+        "pattern": "^(.*)$",
+        "_ui": {
+          "view": "profiling",
+          "position": 3,
+          "type": "text",
+          "fallbackValue": ""
+        }
       }
     }
   }

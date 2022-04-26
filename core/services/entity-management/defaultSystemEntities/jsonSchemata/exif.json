@@ -2,6 +2,7 @@
   "id": "schema:uuid:8f16273e-6c9a-49fc-aa78-872b5b52e66e",
   "title": "EXIF data of an Image",
   "schemaName": "exif",
+  "isPatchable": true,
   "scope": [
     {
       "key": "resourceType",

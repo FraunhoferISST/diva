@@ -90,6 +90,10 @@
                 :complete="isPresentationValid"
               >
                 Adjust a field presentation
+                <small>
+                  {{ presentation.view }}, {{ presentation.position }},
+                  {{ presentation.fullWidth ? "full width" : "1/3 width" }}
+                </small>
               </v-stepper-step>
               <v-stepper-content step="4">
                 <v-container fluid>
@@ -210,7 +214,7 @@ export default {
         schema: {
           properties: {
             [propertyName]: {
-              type,
+              type: receivedType,
               _ui: { view, position, fullWidth, ...rest },
             },
           },
@@ -223,15 +227,15 @@ export default {
         ...rest,
         uiType: rest.type,
         testValue: rest.fallbackValue,
-        type,
+        type: receivedType,
         options: rest.options?.join(",") ?? "",
       };
       scope.value = schemaEntity.scope;
       definition.value = {
+        ...definition.value,
         propertyName,
         title,
         description,
-        ...definition.value,
       };
       presentation.value = {
         view,
@@ -261,7 +265,7 @@ export default {
                 ? "array"
                 : editorData.type,
             ...(editorData.options && !editorData.allowCustom
-              ? { enumeration: editorData.options.split(",") }
+              ? { enum: editorData.options.split(",") }
               : {}),
             ...(editorData.uiType === "select" && editorData.multiple
               ? { items: { type: "string" } }
@@ -289,6 +293,8 @@ export default {
       description: definition.value.description,
       entityType: "systemEntity",
       systemEntityType: "schema",
+      isEditable: true,
+      isPatchable: true,
       schema: jsonSchema.value,
       ...(_scope.value.length > 0 ? { scope: _scope.value } : {}),
     }));
@@ -307,14 +313,13 @@ export default {
       allProperties: computed(() =>
         allSchemata.value
           .filter(({ schemaName }) => schemaName !== "entity")
-          .map(({ schema }) => {
-            const parsedSchema = JSON.parse(schema);
-            const propName = Object.keys(parsedSchema.properties)[0];
-            return {
-              property: propName,
-              enum: JSON.parse(schema).properties[propName].enum,
-            };
-          })
+          // to scale down the power of custom field we allow only not patchable fields as scope to avoid the inconsistencies
+          .filter(({ isPatchable }) => !isPatchable)
+          .map(({ schemaName, schema, ...rest }) => ({
+            propertyName: schemaName,
+            ...rest,
+            schema: JSON.parse(schema),
+          }))
       ),
       modes: [
         {

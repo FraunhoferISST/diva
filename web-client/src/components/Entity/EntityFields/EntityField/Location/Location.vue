@@ -24,8 +24,9 @@ import NoDataState from "@/components/Base/NoDataState";
 import LocationMap from "@/components/Charts/LocationMap";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
-import LocationEdit from "@/components/Entity/EntityFields/Location/LocationEdit";
+import LocationEdit from "@/components/Entity/EntityFields/EntityField/Location/LocationEdit";
 import { useEntity } from "@/composables/entity";
+import { computed } from "@vue/composition-api";
 
 export default {
   name: "Location",
@@ -48,25 +49,16 @@ export default {
     },
   },
   setup(props) {
-    const { patch, error } = useEntity(props.id);
+    const { patch, patchError } = useEntity(props.id);
     return {
-      patch,
-      error,
+      hasLocation: computed(() => Object.keys(props.location ?? {}).length > 0),
+      updateLocation: (locationPatch) =>
+        patch(locationPatch).then(() => {
+          if (patchError.value) {
+            throw patchError.value;
+          }
+        }),
     };
-  },
-  computed: {
-    hasLocation() {
-      return Object.keys(this.location).length > 0;
-    },
-  },
-  methods: {
-    updateLocation(patch) {
-      return this.patch(patch).then(() => {
-        if (this.error) {
-          throw this.error;
-        }
-      });
-    },
   },
 };
 </script>

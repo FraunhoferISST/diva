@@ -5,6 +5,7 @@
   "description": "Date of when this entity should be archived",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",

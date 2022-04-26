@@ -2,6 +2,7 @@
   "id": "schema:uuid:6e82f6d7-c34c-4ff8-b238-30acde3155ce",
   "title": "Storage Costs",
   "schemaName": "internalStorageCost",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

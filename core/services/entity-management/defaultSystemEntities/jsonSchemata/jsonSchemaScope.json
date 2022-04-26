@@ -5,6 +5,7 @@
   "description": "Defines the API request scope to which the rule applies",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "systemEntityType",
@@ -35,7 +36,7 @@
               "title": "Entity field name"
             },
             "value": {
-              "type": "string",
+              "type": ["string", "array", "boolean", "number"],
               "title": "Entity field value"
             }
           }

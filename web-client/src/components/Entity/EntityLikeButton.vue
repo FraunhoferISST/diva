@@ -126,7 +126,7 @@ export default {
               this.likeEdge = {
                 ...data.collection[0],
                 id: data.collection[0]?.properties?.id,
-              }; 
+              };
             }
           })
       );

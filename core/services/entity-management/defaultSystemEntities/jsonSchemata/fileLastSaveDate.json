@@ -5,6 +5,7 @@
   "description": "Date the file was saved last time",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "resourceType",
@@ -28,6 +29,12 @@
         "format": "date-time",
         "_elasticsearch": {
           "type": "date"
+        },
+        "_ui": {
+          "view": "profiling",
+          "position": 2,
+          "type": "date",
+          "fallbackValue": ""
         }
       }
     }

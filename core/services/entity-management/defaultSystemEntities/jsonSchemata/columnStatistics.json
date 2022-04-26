@@ -2,6 +2,7 @@
   "id": "schema:uuid:8c295e60-74b5-4d56-ae75-9d6d8d3f1173",
   "title": "Statistics of a table data",
   "schemaName": "columnStatistics",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",

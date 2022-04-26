@@ -18,6 +18,7 @@ let user = {
 };
 
 let recentlyViewed = [];
+// indicator to only once register the websocket event listener application wide
 let isListeningEvents = false;
 
 const loginUser = async ({ id, email, username, token }) => {
@@ -30,7 +31,6 @@ const loginUser = async ({ id, email, username, token }) => {
 };
 
 export const useUser = () => {
-  const loggedIn = ref(false);
   user = ref(user);
   recentlyViewed = ref(recentlyViewed);
   const error = ref(null);
@@ -57,7 +57,11 @@ export const useUser = () => {
     error.value = null;
     loading.value = true;
     try {
-      user.value = await loginUser(data);
+      user.value = {
+        ...user.value,
+        ...(await loginUser(data)),
+        isLoggedIn: true,
+      };
     } catch (e) {
       if (e?.response?.data?.code === 409) {
         const {
@@ -67,7 +71,11 @@ export const useUser = () => {
         });
         const conflictingUser = collection[0];
         await api.users.delete(conflictingUser.id);
-        user.value = await loginUser(data);
+        user.value = {
+          ...user.value,
+          ...(await loginUser(data)),
+          isLoggedIn: true,
+        };
       }
       error.value = e;
     } finally {
@@ -83,17 +91,14 @@ export const useUser = () => {
   };
   const logout = () => {
     error.value = null;
-    loading.value = null;
+    loading.value = true;
+    localStorage.setItem("jwt", "");
+    api.socket.close();
+    api.setAuthorization();
+    user.value = null;
     return kc
       .logout({
         redirectUri: `${window.location.origin}`,
-      })
-      .then(() => {
-        localStorage.setItem("jwt", "");
-        api.socket.close();
-        api.setAuthorization();
-        loggedIn.value = false;
-        user.value = null;
       })
       .catch((e) => (error.value = e))
       .finally(() => (loading.value = false));
@@ -104,7 +109,6 @@ export const useUser = () => {
     load,
     logout,
     login,
-    loggedIn,
     loading,
     error,
     addRecentlyViewed,

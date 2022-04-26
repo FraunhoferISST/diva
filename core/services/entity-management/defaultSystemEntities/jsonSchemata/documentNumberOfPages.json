@@ -2,6 +2,7 @@
   "id": "schema:uuid:af29ca8d-6574-46b9-9030-936f4cd394da",
   "title": "Number of Pages",
   "schemaName": "documentNumberOfPages",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",
@@ -24,7 +25,13 @@
           23,
           89,
           235
-        ]
+        ],
+        "_ui": {
+          "view": "profiling",
+          "position": 3,
+          "type": "number",
+          "fallbackValue": 0
+        }
       }
     }
   }

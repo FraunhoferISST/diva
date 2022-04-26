@@ -75,7 +75,6 @@ export default {
             const user = keycloak.getUser();
             await this.login(user);
             if (this.userError) {
-              console.error(this.userError);
               throw this.userError;
             }
             if (this.$route.name === "login") {

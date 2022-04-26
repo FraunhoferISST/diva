@@ -5,6 +5,7 @@
   "description": "UrbanPulse sensor unique identifier",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": false,
   "scope": [
     {
       "key": "resourceType",

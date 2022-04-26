@@ -25,7 +25,7 @@
           <user-controls
             :id="user.id"
             class="navigation-item user-item"
-            v-if="isLoggedIn"
+            v-if="user.isLoggedIn"
           />
         </div>
       </div>
@@ -36,8 +36,8 @@
 <script>
 import AnimatedDivaLogo from "@/components/Base/AnimatedDivaLogo";
 import UserControls from "@/components/Navigation/UserControls";
-import vars from "@/styles/vars.scss";
 import CustomProgressBar from "@/components/Base/CustomProgressBar";
+import { useUser } from "@/composables/user";
 
 export default {
   name: "NavigationMain",
@@ -45,6 +45,12 @@ export default {
     CustomProgressBar,
     UserControls,
     AnimatedDivaLogo,
+  },
+  setup() {
+    const { user } = useUser();
+    return {
+      user,
+    };
   },
   data: () => ({
     userOverlay: false,
@@ -65,32 +71,15 @@ export default {
         text: "Dashboard",
       },
     ],
-    drawer: null,
   }),
-  props: {
-    source: String,
-  },
   computed: {
-    user() {
-      return this.$store.state.user;
-    },
-    isLoggedIn() {
-      return this.$store.state.user.isLoggedIn;
-    },
     isLoading() {
       return this.$store.state.ui.route_loading;
-    },
-    mdUp() {
-      return this.$vuetify.breakpoint.mdAndUp;
     },
     activeRoute() {
       return this.$route.path;
     },
-    vars() {
-      return vars;
-    },
   },
-  methods: {},
 };
 </script>
 
@@ -120,14 +109,39 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  //opacity: 0.7;
-  //padding: 15px 25px;
+  &:after {
+    transition: height 0.3s;
+    content: "";
+    display: block;
+    width: 80%;
+    height: 0;
+    background: white;
+    position: absolute;
+    top: 0;
+    border-radius: 0 0 5px 5px;
+  }
+  &:before {
+    transition: opacity 0.3s;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background: linear-gradient(transparent, rgba(#7780ff, 0.4));
+    opacity: 0;
+  }
   &:hover {
     background-color: $bg_toolbar_hover;
   }
   &.router-link-active {
     opacity: 1;
-    background-color: $bg_toolbar_hover;
+    &:after {
+      height: 3px;
+    }
+    &:before {
+      opacity: 1;
+    }
   }
 }
 

@@ -57,50 +57,7 @@ export default {
       this.editedCode = code;
     },
     applyCodeChanges() {
-      this.schemaToEditorData(this.editedCode);
-    },
-    schemaToEditorData(jsonCode) {
-      const parsedJson = JSON.parse(jsonCode);
-      const {
-        scope = [],
-        schema: { properties },
-      } = parsedJson;
-      const propertyName = Object.keys(properties)[0];
-      const {
-        schema: {
-          properties: {
-            [propertyName]: {
-              type,
-              _ui: { view, position, fullWidth, ...rest },
-              ...additional
-            },
-          },
-        },
-      } = parsedJson;
-      const title = parsedJson.title ?? properties[propertyName].title;
-      const description =
-        parsedJson.description ?? properties[propertyName].description;
-      const convertedData = {
-        additional,
-        scope,
-        definition: {
-          propertyName,
-          title,
-          description,
-        },
-        type: {
-          ...rest,
-          uiType: rest.type,
-          testValue: rest.fallbackValue,
-          type,
-        },
-        presentation: {
-          view,
-          position,
-          fullWidth,
-        },
-      };
-      this.$emit("applySchema", convertedData);
+      this.$emit("applySchema", JSON.parse(this.editedCode));
       this.editedCode = undefined;
     },
   },
@@ -110,6 +67,7 @@ export default {
       const propertyName = Object.keys(parsedJson?.schema?.properties ?? {})[0];
       const property = parsedJson.schema?.properties[propertyName];
       return (
+        propertyName === parsedJson.schemaName &&
         parsedJson.title &&
         parsedJson.schema &&
         parsedJson.schema.properties &&

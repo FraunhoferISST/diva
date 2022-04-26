@@ -88,7 +88,7 @@
           >
             <field-editor
               :data="{ license: { ...license } }"
-              :on-save="(patch) => updateLicense(patch, i)"
+              :on-save="(editorPatch) => updateLicense(editorPatch, i)"
             >
               <template #view="{ state }">
                 <div class="license-card pa-3">
@@ -143,8 +143,8 @@
                   top
                   text
                   v-model="snackbar"
-                  color="error"
-                  :timeout="6000"
+                  :color="color"
+                  :timeout="0"
                 >
                   {{ message }}
                 </v-snackbar>
@@ -164,7 +164,7 @@ import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 import { useEntity } from "@/composables/entity";
 import { useSnackbar } from "@/composables/snackbar";
-import LicenseEdit from "@/components/Entity/EntityFields/Licenses/LicenseEdit";
+import LicenseEdit from "@/components/Entity/EntityFields/EntityField/Licenses/LicenseEdit";
 
 export default {
   name: "Licenses",
@@ -187,8 +187,10 @@ export default {
     },
   },
   setup(props) {
-    const { show, snackbar, message, c: color } = useSnackbar();
-    const { loading, patch, error } = useEntity(props.id, { reactive: false });
+    const { show, snackbar, message, color } = useSnackbar();
+    const { loading, patch, error, patchError } = useEntity(props.id, {
+      reactive: false,
+    });
     return {
       loading,
       patch,
@@ -197,6 +199,7 @@ export default {
       snackbar,
       color,
       message,
+      patchError,
     };
   },
   data() {
@@ -218,14 +221,28 @@ export default {
     updateLicense(patch, index) {
       const updatedTemporalLicenses = [...this.localLicenses];
       updatedTemporalLicenses.splice(index, 1, patch.license);
-      return this.patch({ licenses: updatedTemporalLicenses }).then(
-        () => (this.localLicenses = updatedTemporalLicenses)
-      );
+      return this.patch({ licenses: updatedTemporalLicenses }).then(() => {
+        if (this.patchError) {
+          this.show(
+            this.patchError?.response?.data?.message ?? this.patchError,
+            { color: "error" }
+          );
+          return;
+        }
+        this.localLicenses = updatedTemporalLicenses;
+      });
     },
     removeLicense(index, disableEdit) {
       const updatedTemporalLicenses = [...this.localLicenses];
       updatedTemporalLicenses.splice(index, 1);
       return this.patch({ licenses: updatedTemporalLicenses }).then(() => {
+        if (this.patchError) {
+          this.show(
+            this.patchError?.response?.data?.message ?? this.patchError,
+            { color: "error" }
+          );
+          return;
+        }
         disableEdit();
         this.localLicenses = updatedTemporalLicenses;
       });
@@ -233,6 +250,13 @@ export default {
     addLicense() {
       const newTemporalLicenses = [this.newLicense, ...this.localLicenses];
       this.patch({ licenses: newTemporalLicenses }).then(() => {
+        if (this.patchError) {
+          this.show(
+            this.patchError?.response?.data?.message ?? this.patchError,
+            { color: "error" }
+          );
+          return;
+        }
         this.localLicenses = newTemporalLicenses;
         this.addMode = false;
         this.newLicense = {

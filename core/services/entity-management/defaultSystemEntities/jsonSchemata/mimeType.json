@@ -5,6 +5,7 @@
   "description": "The MIME-Type of the resource",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": false,
   "scope": [
     {
       "key": "resourceType",
@@ -31,6 +32,12 @@
         ],
         "_elasticsearch": {
           "type": "keyword"
+        },
+        "_ui": {
+          "view": "profiling",
+          "position": 1,
+          "type": "text",
+          "fallbackValue": ""
         }
       }
     }

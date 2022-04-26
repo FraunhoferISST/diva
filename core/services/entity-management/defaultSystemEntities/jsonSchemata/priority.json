@@ -5,6 +5,7 @@
   "description": "Priority of the rule",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "systemEntityType",

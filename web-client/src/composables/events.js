@@ -18,7 +18,7 @@ export function useEvents(id, userId, { onUpdate, onDelete } = {}) {
     let actor = {};
     const entityType = entityTypeById(eventData?.object?.id) ?? "entity";
     const action = `${eventData.type ?? "update"}d`;
-    let message = "";
+    let message;
     if (actorId === userId) {
       message = `You ${action} this ${entityType}`;
     } else if (actorId) {

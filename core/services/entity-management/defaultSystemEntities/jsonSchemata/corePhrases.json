@@ -2,6 +2,7 @@
   "id": "schema:uuid:a6f363a9-96f4-4d47-8d15-14f0c818b7d1",
   "title": "Core Phrases",
   "schemaName": "corePhrases",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",

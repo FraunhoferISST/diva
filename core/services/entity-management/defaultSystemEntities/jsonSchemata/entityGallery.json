@@ -5,6 +5,7 @@
   "description": "The collection of images sources as entity gallery",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",

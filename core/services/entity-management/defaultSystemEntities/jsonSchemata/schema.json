@@ -5,6 +5,7 @@
   "description": "The specification schema encoded as string",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "systemEntityType",
@@ -25,6 +26,12 @@
         "description": "The specification schema encoded as string",
         "_elasticsearch": {
           "enabled": false
+        },
+        "_ui": {
+          "view": "overview",
+          "position": -1,
+          "type":  "text",
+          "fallbackValue": []
         }
       }
     }

@@ -3,6 +3,7 @@ const glob = require("glob");
 const fs = require("fs");
 const { logger: log } = require("@diva/common/logger");
 const generateUuid = require("@diva/common/utils/generateUuid");
+const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const { entityNotFoundError } = require("@diva/common/Error");
 const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const dereferenceSchema = require("../utils/dereferenceSchema");
@@ -33,21 +34,18 @@ const loadDefault = async () => {
       createdAt: new Date().toISOString(),
       modifiedAt: new Date().toISOString(),
       schema: JSON.stringify(schemaEntity.schema),
+      editable: false,
     }));
   if (defaultEntities.length === 0) {
     log.warn("Couldn't find default schemata");
     return null;
   }
-  if (
-    (await mongoDbConnector.collections[SYSTEM_ENTITY_COLLECTION_NAME].count({
-      systemEntityType: SCHEMA,
-    })) === 0
-  ) {
-    log.info("Inserting default schemata");
-    return mongoDbConnector.collections[
-      SYSTEM_ENTITY_COLLECTION_NAME
-    ].insertMany(defaultEntities);
-  }
+  log.info("Upserting default schemata");
+  return mongoDbConnector.collections[SYSTEM_ENTITY_COLLECTION_NAME].bulkWrite(
+    defaultEntities.map((e) => ({
+      replaceOne: { filter: { id: e.id }, replacement: e, upsert: true },
+    }))
+  );
 };
 
 const injectJsonSchema = async (rootSchema, schemaEntity) => {
@@ -67,9 +65,7 @@ const injectJsonSchema = async (rootSchema, schemaEntity) => {
             },
           },
         },
-        then: {
-          ...schemaDefinition,
-        },
+        then: schemaDefinition,
       });
     }
     return updatedRootSchema;
@@ -113,12 +109,20 @@ class SchemataService extends EntityService {
   async getByScope(body = {}) {
     const dbQuery = body?.scope
       ? {
-          scope: {
-            $elemMatch: {
-              key: { $in: Object.keys(body.scope) },
-              value: { $in: Object.values(body.scope) },
+          schemaName: { $not: /^entity$/ },
+          $or: [
+            ...Object.entries(body.scope).map(([k, v]) => ({
+              scope: {
+                $elemMatch: {
+                  key: k,
+                  value: v,
+                },
+              },
+            })),
+            {
+              scope: { $exists: false },
             },
-          },
+          ],
         }
       : {};
     return super.get(
@@ -136,6 +140,7 @@ class SchemataService extends EntityService {
       systemEntityType: this.systemEntityType,
       id: generateUuid(this.systemEntityType),
     };
+    jsonSchemaValidator.validateSchema(JSON.parse(newSystemEntity.schema));
     return super.create(newSystemEntity, actorId);
   }
 

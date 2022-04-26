@@ -2,6 +2,7 @@
   "id": "schema:uuid:8cbffb22-16cd-40ff-9648-9d3f9ab95d70",
   "title": "Max Number of Rows",
   "schemaName": "maxNumberOfRows",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",

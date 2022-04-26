@@ -24,17 +24,25 @@ export const useSchema = () => {
   };
 
   const load = (scope) =>
-    request(schemata.getScopedSchemata(scope)).then(
-      ({ data: { collection } }) => {
+    request(schemata.getScopedSchemata(scope))
+      .then((response) => {
+        if (error.value) {
+          throw error.value;
+        }
+        return response;
+      })
+      .then(({ data: { collection } }) => {
         schema.value = Object.fromEntries(
-          collection.map(({ schema: propSchema }) => {
-            const parsedSchema = JSON.parse(propSchema);
-            const propName = Object.keys(parsedSchema.properties)[0];
-            return [propName, parsedSchema.properties[propName]];
+          collection.map((schemaEntity) => {
+            const parsedSchema = JSON.parse(schemaEntity.schema);
+            const propertyName = Object.keys(parsedSchema.properties)[0];
+            return [
+              propertyName,
+              { propertyName, ...schemaEntity, schema: parsedSchema },
+            ];
           })
         );
-      }
-    );
+      });
 
   const create = (schemaEntity) => request(schemata.create(schemaEntity));
   return {

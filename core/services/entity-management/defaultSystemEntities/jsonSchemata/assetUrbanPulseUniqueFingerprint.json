@@ -2,6 +2,7 @@
   "id": "schema:uuid:5a5f3b69-64d0-4126-96ba-8e314bf6c6cf",
   "title": "byteSize",
   "schemaName": "assetUrbanPulseUniqueFingerprint",
+  "isPatchable": false,
   "scope": [
     {
       "key": "assetType",

@@ -1,65 +1,70 @@
 <template>
-  <info-block class="relative" :title="title">
-    <template #value>
-      <field-editor :data="{ [property]: value }" :on-save="() => testPatch()">
-        <template #view="{ state }">
-          <slot>
-            <template>
+  <entity-field-selector :type="type">
+    <template #default="{ editor, viewer }">
+      <info-block class="relative" :title="title">
+        <template #value>
+          <field-editor
+            :data="{ [property]: value }"
+            :on-save="() => testPatch()"
+          >
+            <template #view="{ state }">
               <component
-                :is="fieldsConfig.viewer"
+                :is="viewer"
                 v-bind="{ ...$props, ...$attrs }"
                 :value="state[property]"
               />
             </template>
-          </slot>
+            <template #edit="{ setPatch, patch }">
+              <component
+                :is="editor"
+                v-bind="{ ...$props, ...$attrs }"
+                :property="property"
+                :value="patch[property]"
+                :title="title"
+                @update:value="(newValue) => setPatch({ [property]: newValue })"
+              />
+            </template>
+          </field-editor>
+          <v-snackbar
+            height="50"
+            absolute
+            bottom
+            text
+            rounded
+            v-model="snackbar"
+            :color="color"
+            :timeout="4000"
+          >
+            {{ message }}
+          </v-snackbar>
         </template>
-        <template #edit="{ setPatch, patch }">
-          <component
-            :is="fieldsConfig.editor"
-            v-bind="{ ...$props, ...$attrs }"
-            :property="property"
-            :value="patch[property]"
-            :title="title"
-            @update:value="(newValue) => setPatch({ [property]: newValue })"
-          />
-        </template>
-      </field-editor>
-      <v-snackbar
-        height="50"
-        absolute
-        bottom
-        text
-        rounded
-        v-model="snackbar"
-        :color="color"
-        :timeout="4000"
-      >
-        {{ message }}
-      </v-snackbar>
+      </info-block>
     </template>
-  </info-block>
+  </entity-field-selector>
 </template>
 
 <script>
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
-import PrimitiveFieldEditor from "@/components/Entity/EntityFields/PrimitiveField/PrimitiveFieldEditor";
+import PrimitiveFieldEditor from "@/components/Entity/EntityFields/EntityField/PrimitiveField/PrimitiveFieldEditor";
 import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
-import PrimitiveFieldViewer from "@/components/Entity/EntityFields/PrimitiveField/PrimitiveFieldViewer";
-import SelectFieldViewer from "@/components/Entity/EntityFields/SelectField/SelectFieldViewer";
-import SelectFieldEditor from "@/components/Entity/EntityFields/SelectField/SelectFieldEditor";
+import PrimitiveFieldViewer from "@/components/Entity/EntityFields/EntityField/PrimitiveField/PrimitiveFieldViewer";
+import SelectFieldViewer from "@/components/Entity/EntityFields/EntityField/SelectField/SelectFieldViewer";
+import SelectFieldEditor from "@/components/Entity/EntityFields/EntityField/SelectField/SelectFieldEditor";
 import { useSnackbar } from "@/composables/snackbar";
 import { computed } from "@vue/composition-api";
-import MarkdownFieldEditor from "@/components/Entity/EntityFields/MarkdownField/MarkdownFieldEditor";
-import MarkdownFieldViewer from "@/components/Entity/EntityFields/MarkdownField/MarkdownFieldViewer";
+import MarkdownFieldEditor from "@/components/Entity/EntityFields/EntityField/MarkdownField/MarkdownFieldEditor";
+import MarkdownFieldViewer from "@/components/Entity/EntityFields/EntityField/MarkdownField/MarkdownFieldViewer";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
-import DateFieldEditor from "@/components/Entity/EntityFields/DateField/DateFieldEditor";
-import DateFieldViewer from "@/components/Entity/EntityFields/DateField/DateFieldViewer";
-import BooleanFieldEditor from "@/components/Entity/EntityFields/BooleanField/BooleanEditor";
-import BooleanFieldViewer from "@/components/Entity/EntityFields/BooleanField/BooleanFieldViewer";
+import DateFieldEditor from "@/components/Entity/EntityFields/EntityField/DateField/DateFieldEditor";
+import DateFieldViewer from "@/components/Entity/EntityFields/EntityField/DateField/DateFieldViewer";
+import BooleanFieldEditor from "@/components/Entity/EntityFields/EntityField/BooleanField/BooleanEditor";
+import BooleanFieldViewer from "@/components/Entity/EntityFields/EntityField/BooleanField/BooleanFieldViewer";
+import EntityFieldSelector from "@/components/Entity/EntityFields/EntityField/EntityFieldSelector";
 export default {
   name: "FieldPreview",
   components: {
+    EntityFieldSelector,
     BooleanFieldViewer,
     BooleanFieldEditor,
     DateFieldViewer,
@@ -99,39 +104,12 @@ export default {
       get: () => props.value,
       set: (val) => emit("update:value", val),
     });
-    const configMap = {
-      richText: {
-        viewer: MarkdownFieldViewer,
-        editor: MarkdownFieldEditor,
-      },
-      text: {
-        viewer: PrimitiveFieldViewer,
-        editor: PrimitiveFieldEditor,
-      },
-      date: {
-        viewer: DateFieldViewer,
-        editor: DateFieldEditor,
-      },
-      number: {
-        viewer: PrimitiveFieldViewer,
-        editor: PrimitiveFieldEditor,
-      },
-      select: {
-        viewer: SelectFieldViewer,
-        editor: SelectFieldEditor,
-      },
-      boolean: {
-        viewer: BooleanFieldViewer,
-        editor: BooleanFieldEditor,
-      },
-    };
     const { show, message, color, snackbar } = useSnackbar();
     return {
       color,
       message,
       computedValue,
       snackbar,
-      fieldsConfig: computed(() => configMap[props.type]),
       show,
       testPatch: () =>
         new Promise((resolve) => resolve()).then(() =>

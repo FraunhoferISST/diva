@@ -4,6 +4,7 @@
   "schemaName": "postalCode",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -20,6 +21,12 @@
         "title": "Postal Code",
         "_elasticsearch": {
           "type": "keyword"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 3,
+          "type": "text",
+          "fallbackValue": ""
         }
       }
     }

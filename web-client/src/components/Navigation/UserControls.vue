@@ -3,7 +3,7 @@
     <navigation-overlay :open.sync="overlay" v-if="user">
       <user-navigation-overlay-content />
     </navigation-overlay>
-    <v-btn rounded large text icon @click="toggleOverlay">
+    <v-btn rounded width="70px" height="70px" text icon @click="toggleOverlay">
       <entity-avatar
         :image-id="user.entityIcon || ''"
         :entity-id="user.id || ''"

@@ -240,7 +240,7 @@ export default {
     },
   },
   emits: ["reload"],
-  setup(props) {
+  setup(props, { root }) {
     const confirmationDialog = ref(false);
     const fieldCreationDialog = ref(false);
     const menu = ref(false);
@@ -319,24 +319,27 @@ export default {
           .map((t) => (t.length > 40 ? `${t.slice(0, 40)}...` : t))
       ),
       schemaScope: computed(() => [
-        Object.entries({
-          mimeType: data.value.mimeType,
-          resourceType: data.value.resourceType,
-          systemEntityType: data.value.systemEntityType,
-          assetType: data.value.assetType,
-          entityType: data.value.entityType,
-        })
-          .map(([key, value]) => ({ key: key, value: value }))
-          .filter(({ value }) => value)[0],
+        !data.value
+          ? []
+          : Object.entries({
+              mimeType: data.value.mimeType,
+              resourceType: data.value.resourceType,
+              systemEntityType: data.value.systemEntityType,
+              assetType: data.value.assetType,
+              entityType: data.value.entityType,
+            })
+              .map(([key, value]) => ({ key: key, value: value }))
+              .filter(({ value }) => value)[0],
       ]),
       showSnackbar,
       deleteEnt: () =>
         deleteEntity().then(() => {
-          if (!this.deleteError) {
-            this.confirmationDialog = false;
-            setTimeout(() => this.$router.push({ name: "search" }), 1000);
+          if (deleteError.value) {
+            showSnackbar(deleteError.value, { color: "error" });
           } else {
-            this.showSnackbar(this.deleteError, { color: "error" });
+            showSnackbar("Entity deleted", { color: "success" });
+            confirmationDialog.value = false;
+            setTimeout(() => root.$router.push({ name: "search" }), 1000);
           }
         }),
       reloadEntity,

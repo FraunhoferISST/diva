@@ -2,6 +2,7 @@
   "id": "schema:uuid:0e51864a-4d7f-4ca1-8942-d2e1dca883bb",
   "title": "Personal Data",
   "schemaName": "personalData",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

@@ -98,22 +98,33 @@ export default {
         description: "Plain text property",
         value: {
           uiType: "text",
-          type: "text",
+          type: "string",
           fallBackValue: "",
           testValue: "",
         },
         selected: true,
       },
       {
+        title: "Text area",
+        description: "Longer plain text property",
+        value: {
+          uiType: "textArea",
+          type: "string",
+          fallBackValue: "",
+          testValue: "Some longer text",
+        },
+        selected: false,
+      },
+      {
         title: "Rich text",
         description: "Rich text with formatting options",
         value: {
           uiType: "richText",
-          type: "text",
+          type: "string",
           fallBackValue: "",
           testValue: "",
         },
-        selected: true,
+        selected: false,
       },
       {
         title: "Number",
@@ -124,18 +135,18 @@ export default {
           fallBackValue: "",
           testValue: 145,
         },
-        selected: true,
+        selected: false,
       },
       {
         title: "Date",
         description: "Date selection",
         value: {
           uiType: "date",
-          type: "date",
+          type: "string",
           fallBackValue: "",
           testValue: "2022-04-06T07:42:43.476Z",
         },
-        selected: true,
+        selected: false,
       },
       {
         title: "Boolean",
@@ -146,7 +157,7 @@ export default {
           fallBackValue: false,
           testValue: false,
         },
-        selected: true,
+        selected: false,
       },
       {
         title: "Enumeration",
@@ -157,23 +168,17 @@ export default {
           allowCustom: false,
           options: "",
           uiType: "select",
-          type: "text",
-          fallBackValue: "",
+          type: "string",
+          fallBackValue: [],
           testValue: "",
         },
-        selected: true,
+        selected: false,
       },
     ]);
-    const addCustomScope = () =>
-      typesOptions.value[2].value.scope.push({ key: "", value: "" });
-    const removeCustomScope = (index) =>
-      typesOptions.value[2].value.scope.splice(index, 1);
     return {
       scopeProperties: ["entityType", "resourceType"],
       typesOptions,
       computedType,
-      addCustomScope,
-      removeCustomScope,
     };
   },
 };

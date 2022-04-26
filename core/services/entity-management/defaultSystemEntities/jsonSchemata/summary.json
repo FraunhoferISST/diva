@@ -5,6 +5,7 @@
   "description": "A brief explanation what the entity is. In contrary to the description, the summary is limited in length for a quick insight e.g. on a search page.",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -17,6 +18,10 @@
     {
       "key": "entityType",
       "value": "service"
+    },
+    {
+      "key": "entityType",
+      "value": "systemEntity"
     }
   ],
   "schema": {
@@ -33,7 +38,14 @@
           "lorem ipsum dolor sit amet..."
         ],
         "minLength": 0,
-        "maxLength": 255
+        "maxLength": 255,
+        "_ui": {
+          "view": "overview",
+          "position": 5,
+          "type": "textArea",
+          "fullWidth": true,
+          "fallbackValue": ""
+        }
       }
     }
   }

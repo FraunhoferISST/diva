@@ -5,6 +5,7 @@
   "description": "Predefined themes of the entity",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -55,6 +56,13 @@
           "_elasticsearch": {
             "type": "text"
           }
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 4,
+          "type": "select",
+          "multiple": true,
+          "fallbackValue": ""
         }
       }
     }

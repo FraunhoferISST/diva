@@ -5,6 +5,7 @@
   "description": "Filename of the resource",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "resourceType",
@@ -30,6 +31,13 @@
         "pattern": "^(.*)$",
         "_elasticsearch": {
           "type": "keyword"
+        },
+        "_ui": {
+          "view": "profiling",
+          "position": 0,
+          "fullWidth": true,
+          "type": "text",
+          "fallbackValue": ""
         }
       }
     }

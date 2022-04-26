@@ -5,6 +5,7 @@
   "description": "Licenses which are applied to the entity",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -72,6 +73,13 @@
               }
             }
           }
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 7,
+          "component": "Licenses",
+          "fallbackValue": [],
+          "fullWidth": true
         }
       }
     }

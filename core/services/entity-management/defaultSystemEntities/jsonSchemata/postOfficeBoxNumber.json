@@ -4,6 +4,7 @@
   "schemaName": "postOfficeBoxNumber",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -20,6 +21,12 @@
         "title": "Post Office Box Number",
         "_elasticsearch": {
           "type": "keyword"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 3,
+          "type": "text",
+          "fallbackValue": ""
         }
       }
     }

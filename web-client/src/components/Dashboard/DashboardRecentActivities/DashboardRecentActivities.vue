@@ -1,14 +1,14 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="6" class="d-flex">
         <card header="Recent resources">
-          <dashboard-recent-resources slot="body" />
+          <dashboard-recent-resources />
         </card>
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="6" class="d-flex">
         <card header="Recent assets">
-          <dashboard-recent-assets slot="body" />
+          <dashboard-recent-assets />
         </card>
       </v-col>
     </v-row>

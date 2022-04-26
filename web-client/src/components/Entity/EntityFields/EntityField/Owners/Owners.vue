@@ -59,7 +59,7 @@ import { useRequest } from "@/composables/request";
 import { useApi } from "@/composables/api";
 import { useBus } from "@/composables/bus";
 import DataViewer from "@/components/DataFetchers/DataViewer";
-import OwnersEdit from "@/components/Entity/EntityFields/Owners/OwnersEdit";
+import OwnersEdit from "@/components/Entity/EntityFields/EntityField/Owners/OwnersEdit";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import { ref } from "@vue/composition-api";
 

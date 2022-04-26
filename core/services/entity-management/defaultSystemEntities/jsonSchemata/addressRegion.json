@@ -4,6 +4,7 @@
   "schemaName": "addressRegion",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -22,6 +23,12 @@
           "NRW",
           "TX"
         ],
+        "_ui": {
+          "view": "overview",
+          "position": 2,
+          "type": "text",
+          "fallbackValue": ""
+        },
         "_elasticsearch": {
           "type": "keyword"
         }

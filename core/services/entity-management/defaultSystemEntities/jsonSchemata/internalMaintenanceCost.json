@@ -2,6 +2,7 @@
   "id": "schema:uuid:e1967852-2b7d-40ac-9111-432b5d5cc9f6",
   "title": "Maintenance Costs",
   "schemaName": "internalMaintenanceCost",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

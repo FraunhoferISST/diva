@@ -1,6 +1,6 @@
 <template>
   <div class="average-rating-container">
-    <data-viewer :loading="loading" :error="error">
+    <data-viewer :loading="false" :error="error">
       <template>
         <v-row>
           <v-col class="justify-center d-flex py-4" cols="12">
