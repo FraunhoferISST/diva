@@ -25,6 +25,7 @@ import TextAreaFieldViewer from "@/components/Entity/EntityFields/EntityField/Te
 export default {
   name: "EntityFieldSelector",
   components: {
+    /* eslint-disable */
     TextAreaFieldViewer,
     TextAreaFieldEditor,
     BooleanFieldViewer,
@@ -39,6 +40,7 @@ export default {
     InfoBlockTitle,
     PrimitiveFieldEditor,
     FieldEditor,
+    /* eslint-disable */
   },
   props: {
     type: {

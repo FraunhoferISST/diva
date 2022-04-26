@@ -125,7 +125,7 @@ export default {
       required: true,
     },
   },
-  setup(props, { root }) {
+  setup(props) {
     const confirmationDialog = ref(false);
     const { show, message, color, snackbar } = useSnackbar();
     const {
@@ -173,7 +173,6 @@ export default {
             show("Account deleted", { color: "success" });
             logout().then(() => {
               confirmationDialog.value = false;
-              // root.$router.push({ name: "login" });
             });
           }
         }),
