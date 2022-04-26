@@ -18,6 +18,7 @@ let user = {
 };
 
 let recentlyViewed = [];
+// indicator to only once register the websocket event listener application wide
 let isListeningEvents = false;
 
 const loginUser = async ({ id, email, username, token }) => {
@@ -30,7 +31,6 @@ const loginUser = async ({ id, email, username, token }) => {
 };
 
 export const useUser = () => {
-  const loggedIn = ref(false);
   user = ref(user);
   recentlyViewed = ref(recentlyViewed);
   const error = ref(null);
@@ -57,7 +57,7 @@ export const useUser = () => {
     error.value = null;
     loading.value = true;
     try {
-      user.value = await loginUser(data);
+      user.value = { ...user.value, ...(await loginUser(data)) };
     } catch (e) {
       if (e?.response?.data?.code === 409) {
         const {
@@ -67,7 +67,7 @@ export const useUser = () => {
         });
         const conflictingUser = collection[0];
         await api.users.delete(conflictingUser.id);
-        user.value = await loginUser(data);
+        user.value = { ...user.value, ...(await loginUser(data)) };
       }
       error.value = e;
     } finally {
@@ -92,7 +92,6 @@ export const useUser = () => {
         localStorage.setItem("jwt", "");
         api.socket.close();
         api.setAuthorization();
-        loggedIn.value = false;
         user.value = null;
       })
       .catch((e) => (error.value = e))
@@ -104,7 +103,6 @@ export const useUser = () => {
     load,
     logout,
     login,
-    loggedIn,
     loading,
     error,
     addRecentlyViewed,

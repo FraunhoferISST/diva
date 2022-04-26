@@ -32,7 +32,7 @@
             </div>
           </div>
         </div>
-        <div class="search-card-content mt-4">
+        <div class="search-card-content">
           <div class="search-card-keywords" v-if="keywords.length > 0">
             <v-chip class="mr-1" x-small v-for="(tag, i) in keywords" :key="i">
               {{ tag }}
@@ -41,7 +41,7 @@
           <p class="search-card-description ma-0 mt-2" v-if="doc.description">
             {{ description }}
           </p>
-          <v-container fluid class="pa-0">
+          <v-container fluid class="pa-0 mt-4">
             <v-row dense>
               <v-col cols="12" sm="3">
                 <div class="search-card-timestamps d-flex">

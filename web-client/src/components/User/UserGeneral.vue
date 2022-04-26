@@ -34,6 +34,7 @@
                     :id="id"
                     :field-schema="{
                       title: 'Username',
+                      propertyName: 'username',
                       schema: {
                         properties: {
                           username: {
