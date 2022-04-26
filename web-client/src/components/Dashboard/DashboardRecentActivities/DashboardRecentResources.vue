@@ -1,11 +1,7 @@
 <template>
   <data-viewer :loading="loading" :error="error">
     <div v-if="recentEntities.length > 0">
-      <div
-        class="my-2 ellipsis"
-        v-for="entity in recentEntities"
-        :key="entity.id"
-      >
+      <div v-for="entity in recentEntities" :key="entity.id">
         <entity-mini-card :entity="entity" />
       </div>
     </div>
@@ -24,15 +20,12 @@ export default {
   components: { EntityMiniCard, DataViewer, NoDataState },
   setup() {
     const { search, data, loading, error } = useSearch();
-    search("resource");
+    search("resource", { pageSize: 5, entityType: "resource" });
     return {
       loading,
       error,
       recentEntities: computed(() =>
-        (data.value?.collection ?? [])
-          .map(({ doc }) => doc)
-          .filter(({ entityType }) => entityType === "resource")
-          .slice(0, 5)
+        (data.value?.collection ?? []).map(({ doc }) => doc)
       ),
     };
   },

@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row class="mt-6">
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="4" class="d-flex">
         <card header="Entities type distribution in %">
           <data-viewer
             :loading="loadingDistributionOfEntities"
@@ -19,7 +19,7 @@
           </data-viewer>
         </card>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="4" class="d-flex">
         <card header="Resource type distribution in %">
           <data-viewer
             :loading="loadingDistributionOfResourceTypes"
@@ -37,7 +37,7 @@
           </data-viewer>
         </card>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="4" class="d-flex">
         <card header="Resource mime type distribution in %">
           <data-viewer
             :loading="loadingDistributionOfResourceMimeTypes"

@@ -5,32 +5,34 @@
         <v-container fluid style="max-height: 37vh; overflow: auto">
           <v-row>
             <v-col cols="12" lg="6">
-              <data-viewer :loading="loading" :error="error">
-                <v-row>
-                  <v-col cols="12">
-                    <custom-header text="Recent likes">
-                      <span> Recent likes </span>
-                      <template #info v-if="recentLikes.length > 0">
-                        <entity-details-link :id="user.id">
-                          view all
-                        </entity-details-link>
-                      </template>
-                    </custom-header>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-row dense v-if="recentLikes.length > 0">
-                      <v-col
-                        cols="12"
-                        v-for="entity in recentLikes.filter((l) => l)"
-                        :key="entity.id"
-                      >
-                        <entity-mini-card :entity="entity" />
-                      </v-col>
-                    </v-row>
-                    <no-data-state v-else text="No likes sofar" />
-                  </v-col>
-                </v-row>
-              </data-viewer>
+              <v-row>
+                <v-col cols="12">
+                  <custom-header text="Recent likes">
+                    <span> Recent likes </span>
+                    <template #info v-if="recentLikes.length > 0">
+                      <entity-details-link :id="user.id">
+                        view all
+                      </entity-details-link>
+                    </template>
+                  </custom-header>
+                </v-col>
+                <v-col cols="12">
+                  <data-viewer :loading="loading" :error="error">
+                    <v-col cols="12">
+                      <v-row dense v-if="recentLikes.length > 0">
+                        <v-col
+                          cols="12"
+                          v-for="entity in recentLikes.filter((l) => l)"
+                          :key="entity.id"
+                        >
+                          <entity-mini-card :entity="entity" />
+                        </v-col>
+                      </v-row>
+                      <no-data-state v-else text="No likes sofar" />
+                    </v-col>
+                  </data-viewer>
+                </v-col>
+              </v-row>
             </v-col>
             <v-col cols="12" lg="6">
               <v-row>
