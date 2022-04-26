@@ -5,6 +5,7 @@
   "description": "Rating assigned to an entity within a review (1-5)",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

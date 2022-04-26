@@ -5,6 +5,7 @@
   "description": "These availability levels indicate how long the document is planned to be available",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

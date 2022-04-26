@@ -69,6 +69,10 @@ export default {
       type: Function,
       required: true,
     },
+    editable: {
+      type: Boolean,
+      default: true,
+    },
     clickableContent: {
       type: Boolean,
       default: true,
@@ -109,7 +113,9 @@ export default {
   },
   methods: {
     toggleEdit() {
-      this.editMode ? this.disableEdit() : this.activateEdit();
+      if (this.editable) {
+        this.editMode ? this.disableEdit() : this.activateEdit();
+      }
     },
     onContentClick() {
       if (this.clickableContent) {

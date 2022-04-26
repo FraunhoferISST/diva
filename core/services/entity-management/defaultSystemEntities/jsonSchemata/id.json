@@ -3,6 +3,7 @@
   "title": "Entity ID",
   "schemaName": "id",
   "systemEntityType": "schema",
+  "isPatchable": false,
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",

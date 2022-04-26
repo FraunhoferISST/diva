@@ -2,6 +2,7 @@
   "id": "schema:uuid:645f4052-3c4c-4ad8-80a7-25e4ef1aeaec",
   "title": "Geometry",
   "schemaName": "location",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

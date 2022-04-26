@@ -5,6 +5,7 @@
   "description": "The uuid of the entity id to which this history entry belongs to. Can be any possible entity like resource, asset, user or review. Could also be history entity itself, but seems not recommended",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": false,
   "scope": [
     {
       "key": "entityType",

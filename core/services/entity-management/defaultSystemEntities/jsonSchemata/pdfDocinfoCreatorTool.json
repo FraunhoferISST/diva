@@ -5,6 +5,7 @@
   "description": "Tool, which was used to create the pdf",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",

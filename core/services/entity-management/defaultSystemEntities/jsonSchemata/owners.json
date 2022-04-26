@@ -5,6 +5,7 @@
   "description": "Users which own this entity",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": false,
   "scope": [
     {
       "key": "entityType",

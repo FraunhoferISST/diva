@@ -5,6 +5,7 @@
   "description": "Date of creation of the entity",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": false,
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",

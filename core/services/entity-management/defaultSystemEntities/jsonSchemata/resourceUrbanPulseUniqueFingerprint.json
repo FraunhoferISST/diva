@@ -2,6 +2,7 @@
   "id": "schema:uuid:b9792b6d-9291-4a43-80f7-ef2c85f34e29",
   "title": "Unique sensor identifier",
   "schemaName": "resourceUrbanPulseUniqueFingerprint",
+  "isPatchable": false,
   "scope": [
     {
       "key": "resourceType",

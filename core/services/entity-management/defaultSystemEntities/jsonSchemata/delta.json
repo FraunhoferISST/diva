@@ -5,6 +5,7 @@
   "description": "Delta of metadata of the entity this belongs to",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": false,
   "scope": [
     {
       "key": "entityType",

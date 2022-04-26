@@ -5,6 +5,7 @@
   "description": "The MIME-Type of the resource",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": false,
   "scope": [
     {
       "key": "resourceType",

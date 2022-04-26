@@ -2,6 +2,7 @@
   "id": "schema:uuid:8a493b85-af9f-45d3-86b6-6a39f55f67d5",
   "title": "The SHA256 hash unique identifier",
   "schemaName": "resourceFileUniqueFingerprint",
+  "isPatchable": false,
   "scope": [
     {
       "key": "resourceType",

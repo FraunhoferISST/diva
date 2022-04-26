@@ -2,6 +2,7 @@
   "id": "schema:uuid:28c98a85-4e8d-4df2-ab72-bec612c0b3d9",
   "title": "Data classification",
   "schemaName": "dataClassification",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

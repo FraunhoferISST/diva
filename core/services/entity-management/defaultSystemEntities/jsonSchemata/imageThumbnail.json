@@ -2,6 +2,7 @@
   "id": "schema:uuid:54a90234-3f1d-46f1-bb16-05ebd38f1e3b",
   "title": "Image Thumbnail",
   "schemaName": "imageThumbnail",
+  "isPatchable": true,
   "scope": [
     {
       "key": "resourceType",

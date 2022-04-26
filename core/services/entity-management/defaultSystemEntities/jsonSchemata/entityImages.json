@@ -5,6 +5,7 @@
   "description": "The collection of images id's that represents uploaded images associated with an entity. This images can also be used as icon, banner or imag gallery",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",

@@ -4,6 +4,7 @@
   "description": "256bit Hash in Hex that is used to calculate similarity between keywords",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

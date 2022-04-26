@@ -5,6 +5,7 @@
   "description": "The type of the asset",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": false,
   "scope": [
     {
       "key": "entityType",

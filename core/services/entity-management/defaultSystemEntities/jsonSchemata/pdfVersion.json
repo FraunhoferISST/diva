@@ -5,6 +5,7 @@
   "description": "Version of the PDF compiler",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",

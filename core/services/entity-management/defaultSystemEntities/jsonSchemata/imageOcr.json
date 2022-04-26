@@ -2,6 +2,7 @@
   "id": "schema:uuid:7b5e8a3b-ae5d-47ff-9ce8-c1940ab3d25d",
   "title": "OCR of an Image",
   "schemaName": "imageOcr",
+  "isPatchable": true,
   "scope": [
     {
       "key": "resourceType",

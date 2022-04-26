@@ -5,6 +5,7 @@
   "description": "Defines the API request scope to which the rule applies",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "systemEntityType",

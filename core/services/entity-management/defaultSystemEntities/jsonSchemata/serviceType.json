@@ -2,6 +2,7 @@
   "id": "schema:uuid:d1097016-16c4-4022-abde-187e021b0aac",
   "title": "Service Type",
   "schemaName": "serviceType",
+  "isPatchable": false,
   "scope": [
     {
       "key": "entityType",

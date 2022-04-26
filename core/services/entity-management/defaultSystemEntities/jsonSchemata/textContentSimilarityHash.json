@@ -2,6 +2,7 @@
   "id": "schema:uuid:ec36ac0e-1a2c-42bf-9faa-9ff8e3dd841c",
   "title": "Text Content Similarity hash",
   "schemaName": "textContentSimilarityHash",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",

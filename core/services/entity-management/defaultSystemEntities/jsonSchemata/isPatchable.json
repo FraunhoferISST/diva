@@ -1,0 +1,27 @@
+{
+  "id": "schema:uuid:0c3546d3-b0f2-4b1b-84e0-a9d686ed8759",
+  "title": "Is patchable",
+  "schemaName": "isPatchable",
+  "description": "The flag marks fields which values can be patched",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "systemEntity"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Is patchable",
+    "properties": {
+      "isPatchable": {
+        "type": "boolean",
+        "title": "Is patchable",
+        "description": "The flag marks fields which values can be patched",
+        "default": true
+      }
+    }
+  }
+}

@@ -2,9 +2,10 @@
   "id": "schema:uuid:389d583a-1a25-4130-acbf-1c3fba531051",
   "title": "Publisher",
   "schemaName": "creatorId",
-  "description": "The person who created this entity",
+  "description": "The person who created this entity (deprecated)",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": false,
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",

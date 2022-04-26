@@ -5,6 +5,7 @@
   "description": "For the coded specification of the respective principle management level from which the data structure was collected and set, the following six options with multiple selection are possible",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

@@ -2,6 +2,7 @@
   "id": "schema:uuid:18270b5e-57a4-4b4b-a518-39d09d96c55b",
   "title": "Number of Characters",
   "schemaName": "numberOfCharacters",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",

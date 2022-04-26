@@ -2,6 +2,7 @@
   "id": "schema:uuid:52ece4cc-c420-492f-873a-790bbe68b28d",
   "title": "Captions of an Image",
   "schemaName": "imageCaptions",
+  "isPatchable": true,
   "scope": [
     {
       "key": "resourceType",

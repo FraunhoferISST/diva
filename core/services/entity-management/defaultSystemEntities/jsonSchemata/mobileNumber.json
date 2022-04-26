@@ -4,6 +4,7 @@
   "schemaName": "mobileNumber",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

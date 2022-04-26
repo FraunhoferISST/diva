@@ -5,6 +5,7 @@
   "description": "Date the file was created",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "resourceType",

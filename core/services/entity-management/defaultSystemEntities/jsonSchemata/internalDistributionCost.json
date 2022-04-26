@@ -2,6 +2,7 @@
   "id": "schema:uuid:d3c0683f-54d0-4ae9-9719-db8d87261e62",
   "title": "Distribution Costs",
   "schemaName": "internalDistributionCost",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

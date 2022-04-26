@@ -2,6 +2,7 @@
   "id": "schema:uuid:805fa272-ac90-44ca-95bd-8a15271cfa6f",
   "title": "Service Vendor List",
   "schemaName": "serviceVendor",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

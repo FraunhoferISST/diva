@@ -2,6 +2,7 @@
   "id": "schema:uuid:a1b7d34d-ed74-4405-b283-32c5289227e6",
   "title": "Objects in an Image",
   "schemaName": "imageObjects",
+  "isPatchable": true,
   "scope": [
     {
       "key": "resourceType",

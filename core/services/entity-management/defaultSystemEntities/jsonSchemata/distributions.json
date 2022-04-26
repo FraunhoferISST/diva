@@ -2,6 +2,7 @@
   "id": "schema:uuid:35287d72-be64-4149-b141-f9191ec7e3a8",
   "title": "Distribution Properties",
   "schemaName": "distributions",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

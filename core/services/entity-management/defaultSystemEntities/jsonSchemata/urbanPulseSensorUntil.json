@@ -5,6 +5,7 @@
   "description": "The end of the date range of the retrieved sensor data",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": false,
   "scope": [
     {
       "key": "resourceType",

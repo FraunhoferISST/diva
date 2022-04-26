@@ -2,6 +2,7 @@
   "id": "schema:uuid:b9be0521-c15a-4d0c-9f2e-79872fa02a2d",
   "title": "Character Distribution",
   "schemaName": "characterDistribution",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",

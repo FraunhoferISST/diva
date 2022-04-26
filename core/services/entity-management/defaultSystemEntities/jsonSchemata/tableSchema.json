@@ -2,6 +2,7 @@
   "id": "schema:uuid:cf2a62cf-254c-414f-a0be-0523328544a2",
   "title": "The Schema of a table",
   "schemaName": "tableSchema",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",

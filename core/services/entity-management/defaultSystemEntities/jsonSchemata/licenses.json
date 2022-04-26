@@ -5,6 +5,7 @@
   "description": "Licenses which are applied to the entity",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",

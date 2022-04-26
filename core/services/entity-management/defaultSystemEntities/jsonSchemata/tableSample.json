@@ -2,6 +2,7 @@
   "id": "schema:uuid:f5f73a78-9c1a-4fd2-8058-208126530aa5",
   "title": "Array of Sample Rows",
   "schemaName": "tableSample",
+  "isPatchable": true,
   "scope": [
     {
       "key": "mimeType",

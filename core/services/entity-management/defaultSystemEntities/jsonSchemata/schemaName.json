@@ -5,6 +5,7 @@
   "description": "Unique name of the schema",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": false,
   "scope": [
     {
       "key": "systemEntityType",
