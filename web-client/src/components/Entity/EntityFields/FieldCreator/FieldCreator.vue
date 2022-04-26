@@ -265,7 +265,7 @@ export default {
                 ? "array"
                 : editorData.type,
             ...(editorData.options && !editorData.allowCustom
-              ? { enumeration: editorData.options.split(",") }
+              ? { enum: editorData.options.split(",") }
               : {}),
             ...(editorData.uiType === "select" && editorData.multiple
               ? { items: { type: "string" } }
