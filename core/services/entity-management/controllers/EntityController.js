@@ -79,7 +79,11 @@ module.exports = class EntityController {
 
   async getById(req, res, next) {
     try {
-      const result = await this.service.getById(req.params.id, req.query);
+      const result = await this.service.getById(
+        req.params.id,
+        req.query,
+        req.policyPayload
+      );
       res.status(200).send(result);
     } catch (err) {
       return next(err);

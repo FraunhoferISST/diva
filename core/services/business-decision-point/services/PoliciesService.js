@@ -15,12 +15,13 @@ class PoliciesService {
 
   async cachePolicies() {
     this.policies = await this.collection
-      .find({ systemEntityType: "policy" })
+      .find({ systemEntityType: "policy", isActive: true })
       .toArray();
 
     if (this.policies.length === 0) {
-      // TODO: need to handle race condition, EM may start later so no system entities will be loaded!
-      logger.warn("🚫 No policies found in DB!");
+      logger.warn(
+        "🚫 No policies found in DB! Admin should check whether this is desired!"
+      );
     } else {
       logger.info(`✅ Loaded ${this.policies.length} policies`);
     }

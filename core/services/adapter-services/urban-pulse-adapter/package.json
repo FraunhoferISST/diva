@@ -1,6 +1,7 @@
 {
   "name": "urban-pulse-adapter",
   "version": "0.2.3",
+  "serviceId": "service:uuid:97e167f0-cb9d-4442-90e2-ac4da940d9ae",
   "description": "",
   "keywords": [
     "Urban Pulse",

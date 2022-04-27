@@ -1,0 +1,38 @@
+{
+  "id": "schema:uuid:fc037760-a4b9-4f7b-8a8e-3727351880d8",
+  "title": "Roles",
+  "schemaName": "roles",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "user"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Roles",
+    "properties": {
+      "roles": {
+        "type": "array",
+        "title": "Roles",
+        "description": "Predefined roles of an user entity",
+        "default": [],
+        "minItem": 0,
+        "items": {
+          "type": "string",
+          "enum": [
+            "admin"
+          ],
+          "title": "Role Items",
+          "description": "A role",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        }
+      }
+    }  
+  }
+}

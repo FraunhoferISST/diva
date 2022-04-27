@@ -15,6 +15,7 @@ if (process.pkg?.entrypoint) {
   WORK_DIR = pkgEntryPoint.substring(0, pkgEntryPoint.lastIndexOf("/") + 1);
 }
 const SERVICE_NAME = require(path.join(`${WORK_DIR}`, "/package.json")).name;
+const { serviceId } = require(path.join(`${WORK_DIR}`, "/package.json"));
 
 const rotateTransport = new winston.transports.DailyRotateFile({
   filename: process.env.LOG_PATH || `logs/${SERVICE_NAME}-%DATE%.log`,
@@ -26,6 +27,7 @@ const rotateTransport = new winston.transports.DailyRotateFile({
 
 const defaultMeta = {
   serviceName: SERVICE_NAME,
+  serviceId,
 };
 
 const logger = winston.createLogger({
@@ -33,7 +35,14 @@ const logger = winston.createLogger({
   format: format.combine(
     format.timestamp(),
     format.metadata({
-      fillExcept: ["message", "level", "timestamp", "serviceName", "serviceId"],
+      fillExcept: [
+        "message",
+        "level",
+        "timestamp",
+        "serviceName",
+        "serviceId",
+        "serviceInstanceId",
+      ],
     }),
     winston.format.json()
   ),

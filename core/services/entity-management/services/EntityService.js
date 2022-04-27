@@ -45,14 +45,15 @@ const cleanUpEntity = (entity) => {
   return cleanEntity;
 };
 
-const createProjectionObject = (projectionQuery) => {
+const createProjectionObject = (projectionQuery, excludes) => {
   const projectionObject = {};
   if (projectionQuery) {
     for (const field of projectionQuery.split(",")) {
       projectionObject[field.trim()] = 1;
     }
   }
-  return projectionObject;
+  console.log({ ...projectionObject, ...excludes });
+  return { ...projectionObject, ...excludes };
 };
 
 const createNextPageQuery = (id) => ({ _id: { $lt: ObjectId(id) } });
@@ -173,13 +174,18 @@ class EntityService {
     };
   }
 
-  async getById(id, query = {}) {
+  async getById(id, query = {}, policyPayload = {}) {
     const { fields } = query;
     if (await this.entityExists(id)) {
       return this.sanitizeEntity(
         await this.collection.findOne(
           { id },
-          { projection: createProjectionObject(fields) }
+          {
+            projection: createProjectionObject(
+              fields,
+              policyPayload.projections
+            ),
+          }
         )
       );
     }

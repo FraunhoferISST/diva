@@ -1,0 +1,30 @@
+{
+  "id": "schema:uuid:fc037760-a4b9-4f7b-8a8e-3727351880d8",
+  "title": "Active",
+  "schemaName": "isActive",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "scope": [
+    {
+      "key": "systemEntityType",
+      "value": "policy"
+    },
+    {
+      "key": "systemEntityType",
+      "value": "rule"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Active",
+    "required": [
+      "isActive"
+    ],
+    "properties": {
+      "isActive": {
+        "type": "boolean"
+      }
+    }
+  }
+}
