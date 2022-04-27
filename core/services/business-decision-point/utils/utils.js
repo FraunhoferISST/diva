@@ -1,8 +1,14 @@
 const _ = require("lodash");
 const { neo4jConnector, mongoDBConnector } = require("./dbConnectors");
 
+const templatePattern = /{{(.*?)}}/gm;
+
+/**
+ * @param template {string} - template to substitute
+ * @param data {object} - data to substitute the template with
+ * @returns {string} - substituted template
+ */
 const substituteTemplate = (template, data) => {
-  const templatePattern = /{{(.*?)}}/gm;
   const templates = template.match(templatePattern).map((t) => ({
     template: t,
     prop: t.replace(/{{/g, "").replace(/}}/g, ""),
@@ -10,10 +16,11 @@ const substituteTemplate = (template, data) => {
   let substitutedTemplate = template;
   for (const t of templates) {
     const pattern = new RegExp(_.escapeRegExp(t.template), "g");
-    const splitProp = t.prop.split("||");
+    const [extractProp, extractPattern] = t.prop.trim().split("||");
     let value = null;
-    if (splitProp.length > 1) {
-      value = _.get(data, splitProp[0]).match(splitProp[1])[0];
+    if (extractPattern) {
+      [value] =
+        (_.get(data, extractProp.trim()) ?? "").match(extractPattern) ?? [];
     } else {
       value = _.get(data, t.prop);
     }
@@ -23,7 +30,7 @@ const substituteTemplate = (template, data) => {
 };
 
 const conditionsRulesHandlerMap = {
-  cypher: async (query) => {
+  cypher: async (query, data) => {
     const session = neo4jConnector.client.session();
     const {
       records: [
@@ -31,20 +38,33 @@ const conditionsRulesHandlerMap = {
           _fields: [ruleMet],
         },
       ],
-    } = await session.run(query).finally(() => session.close());
+    } = await session
+      .run(substituteTemplate(query, data))
+      .finally(() => session.close());
     return ruleMet;
   },
-  mongo: async (query) =>
-    mongoDBConnector.client.collection.entities.find(JSON.parse(query)),
+  mongo: async (query, data) => {
+    const substitutedQuery = Object.fromEntries(
+      Object.entries(query).map(([k, v]) => {
+        const isValueString = typeof v === "string";
+        const value = isValueString ? v : JSON.stringify(v);
+        const substitutedValue = templatePattern.test(value)
+          ? substituteTemplate(value, data)
+          : value;
+        return [
+          k,
+          isValueString ? substitutedValue : JSON.parse(substitutedValue),
+        ];
+      })
+    );
+    return mongoDBConnector.collections.entities.find(substitutedQuery);
+  },
 };
 
 const isSubConditionRuleMet = async (conditionRule, data) => {
   const conditionRuleType = Object.keys(conditionRule)[0];
-  const query = substituteTemplate(
-    conditionRule[conditionRuleType].query,
-    data
-  );
-  return conditionsRulesHandlerMap[conditionRuleType](query);
+  const { query } = conditionRule[conditionRuleType];
+  return conditionsRulesHandlerMap[conditionRuleType](query, data);
 };
 
 const isConditionMet = async (condition, data) => {
