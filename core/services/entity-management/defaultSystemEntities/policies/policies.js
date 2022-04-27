@@ -27,7 +27,7 @@ module.exports = [
     condition: {
       and: [
         {
-          mongodb: {
+          mongo: {
             query: {
               id: '{{headers["x-actorid"]}}',
               roles: "admin",
@@ -35,9 +35,9 @@ module.exports = [
           },
         },
         {
-          mongodb: {
+          mongo: {
             query: {
-              id: "{{path||.*:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}",
+              id: "{{ path||[a-zA-Z]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12} }}",
               editable: { $ne: false },
             },
           },
