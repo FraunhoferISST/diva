@@ -4,6 +4,7 @@
   "schemaName": "roles",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -31,6 +32,12 @@
           "_elasticsearch": {
             "type": "keyword"
           }
+        },
+        "_ui": {
+          "view": "overview",
+          "type": "select",
+          "multiple": true,
+          "fallbackValue": []
         }
       }
     }  

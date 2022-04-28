@@ -123,16 +123,20 @@ class EntityService {
     return rest;
   }
 
-  async create(entity, actorId) {
+  createEntityObject(entity = {}) {
     const entityType = this.entityType ?? entity.entityType;
-    const newEntity = cleanUpEntity({
-      id: generateUuid(this.entityType ?? ENTITY), // the id con be overwritten by concrete implementation
+    return cleanUpEntity({
+      id: generateUuid(this.entityType ?? ENTITY), // the id can be overwritten by concrete implementation
       ...entity,
       entityType,
       createdAt: new Date().toISOString(),
       modifiedAt: new Date().toISOString(),
       entityImages: null,
     });
+  }
+
+  async create(entity, actorId) {
+    const newEntity = this.createEntityObject(entity);
     this.validate(newEntity);
     await this.insert(newEntity);
     const delta = await this.createHistoryEntry({}, newEntity, actorId);
