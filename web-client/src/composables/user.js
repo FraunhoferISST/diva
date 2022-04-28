@@ -21,13 +21,25 @@ let recentlyViewed = [];
 // indicator to only once register the websocket event listener application wide
 let isListeningEvents = false;
 
-const loginUser = async ({ id, email, username, token }) => {
+const loginUser = async ({ id, username, email, token }) => {
   localStorage.setItem("jwt", token);
   api.setAuthorization(token);
-  await api.users.update(id, { id, email, username });
-  const { data: loggedInUser } = await api.users.getById(id);
-  api.socket.connect();
-  return loggedInUser;
+  const {
+    data: {
+      collection: [existingUser],
+    },
+  } = await api.users.get({ email });
+  if (existingUser) {
+    if (id !== existingUser.id) {
+      await api.users.delete(existingUser.id);
+      await api.users.update(id, { email, username });
+    }
+    api.socket.connect();
+  } else {
+    await api.users.update(id, { email, username });
+    api.socket.connect();
+  }
+  return api.users.getByIdIfExists(id).then((response) => response?.data ?? {});
 };
 
 export const useUser = () => {
@@ -56,31 +68,16 @@ export const useUser = () => {
   const login = async (data) => {
     error.value = null;
     loading.value = true;
-    try {
-      user.value = {
-        ...user.value,
-        ...(await loginUser(data)),
-        isLoggedIn: true,
-      };
-    } catch (e) {
-      if (e?.response?.data?.code === 409) {
-        const {
-          data: { collection },
-        } = await api.users.get({
-          email: user.email,
-        });
-        const conflictingUser = collection[0];
-        await api.users.delete(conflictingUser.id);
+    return loginUser(data)
+      .then((loggedInUser) => {
         user.value = {
           ...user.value,
-          ...(await loginUser(data)),
+          ...loggedInUser,
           isLoggedIn: true,
         };
-      }
-      error.value = e;
-    } finally {
-      loading.value = false;
-    }
+      })
+      .catch((e) => (error.value = e))
+      .finally(() => (loading.value = false));
   };
   const addRecentlyViewed = (entity) => {
     const alreadyViewedIds = recentlyViewed.value.map(({ id }) => id);

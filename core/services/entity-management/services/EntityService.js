@@ -54,7 +54,6 @@ const createProjectionObject = (projectionQuery, excludes) => {
       projectionObject[field.trim()] = 1;
     }
   }
-  console.log({ ...projectionObject, ...excludes });
   return { ...projectionObject, ...excludes };
 };
 

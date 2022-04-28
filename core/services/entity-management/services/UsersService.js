@@ -18,21 +18,28 @@ class UsersService extends EntityService {
   async init() {
     await super.init();
     const email = process.env.ADMIN_EMAIL;
+    const id = process.env.ADMIN_ID;
     if (
       email &&
+      id &&
       (await mongoDbConnector.collections[
         ENTITY_COLLECTION_NAME
       ].countDocuments(
         {
-          entityType: this.entityType,
           email,
         },
         { limit: 1 }
       )) === 0
     ) {
       log.info(`Creating default admin user ${email}`);
-      await this.create(
-        { email, username: email.split("@")[0], roles: ["admin"] },
+      await this.updateById(
+        `user:uuid:${id}`,
+        {
+          id: `user:uuid:${id}`,
+          email,
+          username: email.split("@")[0],
+          roles: ["admin"],
+        },
         serviceId
       );
     }
@@ -43,7 +50,7 @@ class UsersService extends EntityService {
   }
 
   async create(user, actorId) {
-    const newUser = createUser(user, actorId);
+    const newUser = createUser(user);
     return super.create(newUser, actorId || newUser.id);
   }
 

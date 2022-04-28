@@ -86,7 +86,7 @@ export default {
     },
     actionType() {
       // dirty hack to identify "created" event as it always the first history entry (rendered at the bottom)
-      return this.position === this.count ? "created" : "updated";
+      return this.position === this.count - 1 ? "created" : "updated";
     },
     hideConnector() {
       return this.last || this.count === 1;

@@ -11,7 +11,7 @@ let kc = Keycloak(initOptions);
 
 const getUser = () => ({
   id: `user:uuid:${kc.tokenParsed.sub}`,
-  username: kc.tokenParsed.email,
+  username: kc.tokenParsed.email.split("@")[0],
   email: kc.tokenParsed.email,
   token: kc.token,
 });
@@ -37,6 +37,7 @@ export default {
         silentCheckSsoRedirectUri: window.location.href,
       })
       .then((authenticated) => {
+        console.log(kc.tokenParsed);
         setInterval(() => updateToken(), 60000);
         return authenticated;
       }),
