@@ -1,7 +1,9 @@
 module.exports = [
   {
+    id: "rule:uuid:2952b934-39c8-4d18-a09b-b9a1a73ff908",
     title: "Connect creator with the created node",
     isActive: true,
+    isEditable: true,
     priority: 1,
     scope: {
       channel: "datanetwork.events",
@@ -33,8 +35,10 @@ module.exports = [
     ],
   },
   {
+    id: "rule:uuid:c5a20500-8d61-4ae5-acc5-d66ff73e882f",
     title: "Connect a review with the corresponding entity on review creation",
     isActive: true,
+    isEditable: true,
     priority: 1,
     scope: {
       channel: "datanetwork.events",
@@ -67,8 +71,10 @@ module.exports = [
     ],
   },
   {
+    id: "rule:uuid:8622b14e-6ad4-4083-8748-2d0ea462a7ee",
     title: "Delete review if corresponding entity was deleted",
     isActive: true,
+    isEditable: true,
     priority: 0,
     scope: {
       channel: "datanetwork.events",
@@ -103,8 +109,10 @@ module.exports = [
     ],
   },
   {
+    id: "rule:uuid:b70e3c52-20d6-49f0-860d-b63d6a6b9501",
     title: "Trigger Similarity Hash DAG when Keywords change",
     isActive: true,
+    isEditable: true,
     priority: 0,
     scope: {
       channel: "entity.events",

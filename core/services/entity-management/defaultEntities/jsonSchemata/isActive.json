@@ -1,9 +1,10 @@
 {
-  "id": "schema:uuid:fc037760-a4b9-4f7b-8a8e-3727351880d8",
+  "id": "schema:uuid:c5a1c0a1-0545-4f77-95ac-12fe8fc1cca3",
   "title": "Active",
   "schemaName": "isActive",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "isPatchable": true,
   "scope": [
     {
       "key": "systemEntityType",

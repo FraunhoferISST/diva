@@ -1,0 +1,29 @@
+{
+  "id": "schema:uuid:eea438dd-1111-4223-b1e5-2189923e77da",
+  "title": "Service name",
+  "schemaName": "serviceName",
+  "description": "A short identifying name of the service",
+  "isPatchable": false,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "service"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Service Name",
+    "required": [
+      "serviceType"
+    ],
+    "properties": {
+      "serviceName": {
+        "type": "string",
+        "title": "Service Name",
+        "description": "A short identifying name of the service"
+      }
+    }
+  }
+}

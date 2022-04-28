@@ -1,6 +1,7 @@
 module.exports = [
   // Development
   {
+    id: "policy:uuid:8e37acca-7dd7-4d93-aecd-924acf678e8d",
     title: "Allow everything for entity-management (DEV only)",
     isActive: true,
     priority: 1,
@@ -15,9 +16,10 @@ module.exports = [
 
   // Admin Policies
   {
+    id: "policy:uuid:f70c72b9-62f6-4a01-a6ee-d0d7bcbfaf31",
     title: "Admin Power Right for Entity-Management",
     isActive: true,
-    editable: false,
+    isEditable: false,
     priority: 1,
     scope: {
       "headers.serviceName": "entity-management",
@@ -38,7 +40,7 @@ module.exports = [
           mongo: {
             query: {
               id: "{{ path||[a-zA-Z]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12} }}",
-              editable: { $ne: false },
+              isEditable: { $ne: false },
             },
           },
         },
@@ -49,6 +51,7 @@ module.exports = [
 
   // Entities: Standard DIVA Policies
   {
+    id: "policy:uuid:f70c72b9-62f6-4a01-a6ee-d0d7bcbfaf31",
     title: "Creator of resource can perform GET",
     isActive: true,
     priority: 1,
@@ -71,6 +74,7 @@ module.exports = [
   },
   /*
   {
+    id: "policy:uuid:66a0b4e8-f477-4c14-b846-631c1961d692
     title: "Owner of resource can perform GET",
     priority: 1,
     scope: {

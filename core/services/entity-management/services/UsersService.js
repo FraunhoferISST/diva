@@ -5,6 +5,7 @@ const { serviceId } = require("../package.json");
 const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const {
   collectionsNames: { ENTITY_COLLECTION_NAME },
+  entityTypes: { USER },
 } = require("../utils/constants");
 
 const createUser = (userData) => ({
@@ -66,4 +67,4 @@ class UsersService extends EntityService {
   }
 }
 
-module.exports = new UsersService("user");
+module.exports = new UsersService(USER);

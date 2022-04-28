@@ -4,6 +4,7 @@ const {
   createPatchDelta,
 } = require("@diva/common/createHistoryEntry");
 const { decodeCursor, encodeCursor } = require("@diva/common/api/cursor");
+const { logger } = require("@diva/common/logger");
 const {
   entityAlreadyExistsError,
   entityNotFoundError,
@@ -17,6 +18,7 @@ const {
   collectionsNames: { ENTITY_COLLECTION_NAME, HISTORIES_COLLECTION_NAME },
   entityTypes: { ENTITY },
 } = require("../utils/constants");
+const { serviceId } = require("../package.json");
 
 const ENTITY_ROOT_SCHEMA = process.env.ENTITY_ROOT_SCHEMA || "entity";
 
@@ -82,9 +84,13 @@ class EntityService {
    * @param {String} entityType - the type of the entity, (e.g. resource, user, etc.)
    * @param {String} collectionName - the name of the mongo entity collection name (e.g. entities, etc.), defaults to "entities"
    */
-  constructor(entityType, collectionName = ENTITY_COLLECTION_NAME) {
+  constructor(
+    entityType,
+    { collectionName = ENTITY_COLLECTION_NAME, defaultEntities = [] } = {}
+  ) {
     this.entityType = entityType;
     this.collectionName = collectionName;
+    this.defaultEntities = defaultEntities;
     /**
      * @type {{}} - primary MongoDb entity collection (users, resources...)
      */
@@ -113,6 +119,35 @@ class EntityService {
     this.collection = mongoDbConnector.collections[this.collectionName];
     this.historyCollection =
       mongoDbConnector.collections[HISTORIES_COLLECTION_NAME];
+  }
+
+  loadDefault() {
+    logger.info(
+      `Loading ${this.defaultEntities.length} default entities from type ${
+        this.systemEntityType ?? this.entityType
+      }`
+    );
+    return Promise.all(
+      this.defaultEntities.map((entity) =>
+        this.replace(entity.id, entity)
+          .then(() =>
+            this.historyCollection.insertOne(
+              createHistoryEntity(
+                entity.id,
+                createPatchDelta({}, entity),
+                serviceId
+              )
+            )
+          )
+          .catch((e) => {
+            // already loaded, ignore
+            if (e.code === 409) {
+              return true;
+            }
+            throw e;
+          })
+      )
+    );
   }
 
   validate(entity) {
