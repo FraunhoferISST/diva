@@ -70,7 +70,7 @@ const policyRulesMiddleware = async (req, res, next) => {
       },
       {
         headers: {
-          "x-actorid": req.headers["x-actorid"],
+          "x-actorid": req.headers["x-actorid"] ?? "",
         },
       }
     );
