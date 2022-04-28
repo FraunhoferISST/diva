@@ -9,19 +9,21 @@ export const useApi = (id = null) => {
   let entityApi = null;
   let entityCollection = null;
   let imageUrl = null;
+  const getEntityApiById = (entityId) => api[getCollectionNameById(entityId)];
+  const getCollectionNameById = (entityId) =>
+    pluralize(entityTypeById(entityId));
   if (id) {
-    entityCollection = pluralize(entityTypeById(id));
+    entityCollection = getCollectionNameById(id);
     entityApi = api[entityCollection];
     imageUrl = buildImageUrl(entityCollection, id);
   }
-  const getEntityApiById = (entityId) =>
-    api[pluralize(entityTypeById(entityId))];
   return {
     entityApi,
     entityCollection,
     imageUrl,
+    ...api,
     buildImageUrl,
     getEntityApiById,
-    ...api,
+    getCollectionNameById,
   };
 };

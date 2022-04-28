@@ -22,12 +22,12 @@
               <custom-header text="Issued from" />
             </v-col>
             <v-col cols="12">
-              <user-card :user="creator">
+              <actor-card :actor="creator">
                 <date-display
                   v-if="historyLog.createdAt"
                   :date="historyLog.createdAt || ''"
                 />
-              </user-card>
+              </actor-card>
             </v-col>
           </v-row>
           <v-row>
@@ -57,11 +57,11 @@ import CustomHeader from "@/components/Base/CustomHeader";
 import DateDisplay from "@/components/Base/DateDisplay";
 import HistoryChanges from "@/components/Entity/EntityCommonComponents/History/HistoryChanges";
 import NoDataState from "@/components/Base/NoDataState";
-import UserCard from "@/components/User/UserCard";
+import ActorCard from "@/components/User/ActorCard";
 export default {
   name: "EntityHistoryDetails",
   components: {
-    UserCard,
+    ActorCard,
     NoDataState,
     HistoryChanges,
     DateDisplay,

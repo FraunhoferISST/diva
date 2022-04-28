@@ -1,10 +1,10 @@
 <template>
-  <div class="user-card" :class="{ dense: dense }">
+  <div class="actor-card" :class="{ dense: dense }">
     <div>
       <entity-avatar
         :size="dense ? 32 : 40"
-        :entity-id="userId"
-        :entity-title="username"
+        :entity-id="actorId"
+        :entity-title="actorName"
         :image-id="imageId"
       />
     </div>
@@ -15,17 +15,17 @@
           :class="{ 'justify-space-between': !dense }"
         >
           <h4 class="ellipsis">
-            <entity-details-link v-if="userId" :id="userId">
-              {{ username }}
+            <entity-details-link v-if="actorId" :id="actorId">
+              {{ actorName }}
             </entity-details-link>
             <span v-else>
-              {{ username }}
+              {{ actorName }}
             </span>
           </h4>
           <slot> </slot>
         </div>
-        <div v-if="user.email && !dense">
-          <span> {{ user.email }}</span>
+        <div v-if="actor.email && !dense">
+          <span> {{ actor.email }}</span>
         </div>
         <slot name="info"></slot>
       </div>
@@ -36,11 +36,13 @@
 <script>
 import EntityAvatar from "@/components/Entity/EntityAvatar";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
+import { useUser } from "@/composables/user";
+
 export default {
-  name: "UserCard",
+  name: "ActorCard",
   components: { EntityDetailsLink, EntityAvatar },
   props: {
-    user: {
+    actor: {
       type: Object,
       required: true,
     },
@@ -49,22 +51,36 @@ export default {
       default: false,
     },
   },
+  setup() {
+    const { user } = useUser();
+    return {
+      user,
+    };
+  },
   computed: {
-    userId() {
-      return this.user.id ?? "";
+    actorId() {
+      return this.actor.id ?? "";
     },
-    username() {
-      return this.user.username ?? "N/A";
+    actorName() {
+      if (this.user.id === this.actorId) {
+        return "You";
+      }
+      return (
+        this.actor.username ??
+        this.actor.serviceName ??
+        this.actor.title ??
+        "N/A"
+      );
     },
     imageId() {
-      return this.user.entityIcon ?? "";
+      return this.actor.entityIcon ?? "";
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.user-card {
+.actor-card {
   display: grid;
   grid-template-columns: 40px 1fr;
   grid-gap: 10px;

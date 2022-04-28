@@ -7,13 +7,13 @@
       ></div>
       <div class="history-card">
         <div class="history-info-container d-flex justify-space-between">
-          <user-card :user="data.creator" dense>
+          <actor-card :actor="data.creator" dense>
             <span class="ml-3">
               {{ actionType }}
             </span>
             <dot-divider class="mx-3" />
             <date-display :date="data.createdAt" />
-          </user-card>
+          </actor-card>
           <v-btn icon color="primary" @click="emitSelect">
             <v-icon small>more_vert</v-icon>
           </v-btn>
@@ -36,14 +36,14 @@ import FadeIn from "@/components/Transitions/FadeIn";
 import DateDisplay from "@/components/Base/DateDisplay";
 import HistoryChanges from "@/components/Entity/EntityCommonComponents/History/HistoryChanges";
 import NoDataState from "@/components/Base/NoDataState";
-import UserCard from "@/components/User/UserCard";
+import ActorCard from "@/components/User/ActorCard";
 import DotDivider from "@/components/Base/DotDivider";
 
 export default {
   name: "HistoryCard",
   components: {
     DotDivider,
-    UserCard,
+    ActorCard,
     NoDataState,
     HistoryChanges,
     DateDisplay,
@@ -66,6 +66,10 @@ export default {
       type: Number,
       required: true,
     },
+    position: {
+      type: Number,
+      required: true,
+    },
   },
   computed: {
     user() {
@@ -74,12 +78,6 @@ export default {
     creatorExists() {
       return !!this.data?.creator?.username;
     },
-    userName() {
-      if (this.user.id === this.data.creator?.id) {
-        return "You";
-      }
-      return this.data.creator?.username || "N/A";
-    },
     creatorImageId() {
       return this.data.creator?.entityIcon || "";
     },
@@ -87,7 +85,8 @@ export default {
       return this.data.creator?.id || "";
     },
     actionType() {
-      return this.data.delta.id ? "created" : "updated";
+      // dirty hack to identify "created" event as it always the first history entry (rendered at the bottom)
+      return this.position === this.count ? "created" : "updated";
     },
     hideConnector() {
       return this.last || this.count === 1;

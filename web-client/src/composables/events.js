@@ -1,6 +1,7 @@
 import { ref, onMounted, onUnmounted } from "@vue/composition-api";
 import entityTypeById from "@/utils/entityTypeById";
 import api from "@/api/index";
+import { useApi } from "@/composables/api";
 
 const ENTITY_SUBSCRIBE_UPDATES_REQUEST = "entitySubscribeRequest";
 // const ENTITY_SUBSCRIBE_UPDATES_RESPONSE = "entitySubscribeResponse";
@@ -11,6 +12,7 @@ const ENTITY_UPDATES_EVENT = "entityEvent";
 export function useEvents(id, userId, { onUpdate, onDelete } = {}) {
   const data = ref(null);
   const loading = ref(false);
+  const { getEntityApiById } = useApi();
 
   const handleEvent = async (eventData) => {
     loading.value = true;
@@ -22,11 +24,11 @@ export function useEvents(id, userId, { onUpdate, onDelete } = {}) {
     if (actorId === userId) {
       message = `You ${action} this ${entityType}`;
     } else if (actorId) {
-      actor = await api.users
+      actor = await getEntityApiById(actorId)
         .getByIdIfExists(actorId)
         .then((response) => response?.data);
       message = `${
-        actor?.username || "N/A"
+        actor?.username ?? actor?.serviceName ?? actor?.title ?? "N/A"
       } ${action} this ${entityType} just now`;
     } else {
       message = `${entityType} ${action}`;
