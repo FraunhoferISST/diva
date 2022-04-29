@@ -67,6 +67,8 @@ const policyRulesMiddleware = async (req, res, next) => {
         body: req.body,
         method: req.method,
         path: req.path,
+        query: req.query,
+        params: req.params,
       },
       {
         headers: {
@@ -109,6 +111,10 @@ class Server {
     this.app.use(express.json({ limit: "10mb", extended: true }));
     this.app.use(express.urlencoded({ limit: "10mb", extended: false }));
     this.app.use(cors({ ...corsDefaults, ...corsOptions }));
+    this.app.use((req, res, next) => {
+      req.headers.diva = JSON.parse(req.headers["x-diva"] ?? "{}");
+      next();
+    });
     this.app.use((req, res, next) =>
       httpLogger(hideReqCredentials(req), res, next)
     );

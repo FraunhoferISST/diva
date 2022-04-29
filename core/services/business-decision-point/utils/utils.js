@@ -11,7 +11,7 @@ const templatePattern = /{{(.*?)}}/gm;
 const substituteTemplate = (template, data) => {
   const templates = template.match(templatePattern).map((t) => ({
     template: t,
-    prop: t.replace(/{{/g, "").replace(/}}/g, ""),
+    prop: t.replace(/{{/g, "").replace(/}}/g, "").trim(),
   }));
   let substitutedTemplate = template;
   for (const t of templates) {
@@ -29,6 +29,23 @@ const substituteTemplate = (template, data) => {
   return substitutedTemplate;
 };
 
+const hasMatch = (definition, data) =>
+  Object.entries(definition).every(([key, value]) => {
+    const substitutedValue = templatePattern.test(value)
+      ? substituteTemplate(value, data)
+      : value;
+    const dataValue = _.isArray(_.get(data, key))
+      ? JSON.stringify(_.get(data, key))
+      : _.get(data, key);
+    console.log(
+      key,
+      dataValue,
+      substitutedValue,
+      new RegExp(substitutedValue).test(dataValue)
+    );
+    return new RegExp(substitutedValue).test(dataValue);
+  });
+
 const conditionsRulesHandlerMap = {
   cypher: async (query, data) => {
     const session = neo4jConnector.client.session();
@@ -43,28 +60,19 @@ const conditionsRulesHandlerMap = {
       .finally(() => session.close());
     return ruleMet;
   },
-  mongo: async (query, data) => {
-    const substitutedQuery = Object.fromEntries(
-      Object.entries(query).map(([k, v]) => {
-        const isValueString = typeof v === "string";
-        const value = isValueString ? v : JSON.stringify(v);
-        const substitutedValue = templatePattern.test(value)
-          ? substituteTemplate(value, data)
-          : value;
-        return [
-          k,
-          isValueString ? substitutedValue : JSON.parse(substitutedValue),
-        ];
-      })
+  inputData: async (query, data) => hasMatch(query, data),
+  mongo: async (query, data, collection) => {
+    const substitutedQuery = substituteTemplate(query, data);
+    return mongoDBConnector.collections[collection ?? "entities"].find(
+      JSON.parse(substitutedQuery)
     );
-    return mongoDBConnector.collections.entities.find(substitutedQuery);
   },
 };
 
 const isSubConditionRuleMet = async (conditionRule, data) => {
   const conditionRuleType = Object.keys(conditionRule)[0];
-  const { query } = conditionRule[conditionRuleType];
-  return conditionsRulesHandlerMap[conditionRuleType](query, data);
+  const { query, collection } = conditionRule[conditionRuleType];
+  return conditionsRulesHandlerMap[conditionRuleType](query, data, collection);
 };
 
 const isConditionMet = async (condition, data) => {
@@ -88,14 +96,7 @@ const getMatchingBusinessAssets = (data, assets) => {
   const matchingAssets = [];
   for (const asset of assets) {
     const { scope } = asset;
-    if (
-      Object.entries(scope).every(([key, value]) => {
-        const dataValue = _.isArray(_.get(data, key))
-          ? JSON.stringify(_.get(data, key))
-          : _.get(data, key);
-        return new RegExp(value).test(dataValue);
-      })
-    ) {
+    if (hasMatch(scope, data)) {
       matchingAssets.push(asset);
     }
   }
