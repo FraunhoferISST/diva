@@ -68,7 +68,7 @@ const policyRulesMiddleware = async (req, res, next) => {
         method: req.method,
         path: req.path,
         query: req.query,
-        params: req.params,
+        params: { ...(req.params ?? {}), ...(req.openapi.pathParams ?? {}) },
       },
       {
         headers: {
