@@ -163,6 +163,32 @@ module.exports = [
     excludes: [],
   },
 
+  // System entities
+  {
+    id: "policy:uuid:c5b6881f-c0ab-49be-9a4c-a77fb23dd2ee",
+    title: "Request schemata by scope",
+    isActive: true,
+    isEditable: false,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "/scopedSchemata/?$",
+      method: "POST",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            },
+          },
+        },
+      ],
+    },
+    excludes: [],
+  },
+
   /*
   {
     id: "policy:uuid:66a0b4e8-f477-4c14-b846-631c1961d692
