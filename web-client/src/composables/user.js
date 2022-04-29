@@ -28,7 +28,7 @@ const loginUser = async ({ id, username, email, token }) => {
     data: {
       collection: [existingUser],
     },
-  } = await api.users.get({ email });
+  } = await api.users.get({ email, fields: "email,id" });
   if (existingUser) {
     if (id !== existingUser.id) {
       await api.users.delete(existingUser.id);

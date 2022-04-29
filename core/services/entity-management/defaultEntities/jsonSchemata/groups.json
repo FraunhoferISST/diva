@@ -1,7 +1,7 @@
 {
-  "id": "schema:uuid:fc037760-a4b9-4f7b-8a8e-3727351880d8",
-  "title": "Roles",
-  "schemaName": "roles",
+  "id": "schema:uuid:3c46c85c-87e1-4020-963d-b465bb128966",
+  "title": "Groups",
+  "schemaName": "groups",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "isPatchable": false,
@@ -16,16 +16,16 @@
     "type": "object",
     "title": "Roles",
     "properties": {
-      "roles": {
+      "groups": {
         "type": "array",
         "title": "Roles",
-        "description": "Predefined roles of an user entity",
+        "description": "Predefined groups of an user entity",
         "default": [],
         "minItem": 0,
         "items": {
           "type": "string",
-          "title": "Role Items",
-          "description": "A role",
+          "title": "Group Items",
+          "description": "A group",
           "_elasticsearch": {
             "type": "keyword"
           }
@@ -34,7 +34,7 @@
           "view": "overview",
           "type": "select",
           "multiple": true,
-          "options": ["admin"],
+          "options": [],
           "allowCustom": true,
           "fallbackValue": []
         }

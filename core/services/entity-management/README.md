@@ -14,12 +14,9 @@ The service is responsible for managing the metadata about entities.
 | Name                | default                               | description                                                                                 |
 |---------------------|---------------------------------------|---------------------------------------------------------------------------------------------|
 | NODE_ENV            | development                           | sets the mode in which the service runs                                                     |
-| ADMIN_EMAIL         |                                       | sets the email of the initial admin user                                                    |
-| ADMIN_ID            |                                       | sets the id of the initial admin user                                                       |
 | PORT                | 3000                                  | sets the port allocated by the service                                                      |
 | MONGODB_URI         | mongodb://admin:admin@localhost:27017 | MongoDB connection URI                                                                      |
-| KAFKA_URL           | broker:9092                           ||
-| SCHEMA_REGISTRY_URL | http://localhost:3010/                | URL of the schema registry where the `entity` JSON schema and `asyncapi` schema are located |
+| KAFKA_URL           | broker:9092                           |                                                                                             |
 
 ## Setting up for Development
 
