@@ -1,6 +1,7 @@
 {
   "name": "entity-management",
   "version": "1.0.0",
+  "serviceId": "service:uuid:f1bfc29c-6cda-4e38-b5ef-1c6ba8134ff3",
   "description": "Manages metadata of entities and publishes CRUD events to kafka",
   "repository": {
     "url": "https://github.com/FraunhoferISST/diva"
@@ -8,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development POLICY_MIDDLEWARE=inactive  nodemon index.js",
+    "dev": "NODE_ENV=development ADMIN_EMAIL=admin@dev.com ADMIN_ID=241fe1e9-c052-4785-bcde-43703a48ea8b POLICY_MIDDLEWARE=active nodemon index.js",
     "eslint-fix": "eslint --fix . --ext .js",
     "build:alpine": "pkg --config package.json -t node16-alpine-x64 --output index-alpine index.js",
     "build:linux": "pkg --config package.json -t node16-linux-x64 --output index-linux index.js",

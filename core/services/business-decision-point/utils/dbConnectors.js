@@ -1,4 +1,4 @@
-const DbConnectors = require("@diva/common/databases/MongoDBConnector");
+const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
 const Neo4jConnector = require("@diva/common/databases/Neo4jConnector");
 
 const {
@@ -6,7 +6,7 @@ const {
   collectionsNames: { ENTITY_COLLECTION_NAME, SYSTEM_ENTITY_COLLECTION_NAME },
 } = require("./constants");
 
-const mongoDBConnector = new DbConnectors(DIVA_DB_NAME, [
+const mongoDBConnector = new MongoDBConnector(DIVA_DB_NAME, [
   ENTITY_COLLECTION_NAME,
   SYSTEM_ENTITY_COLLECTION_NAME,
 ]);

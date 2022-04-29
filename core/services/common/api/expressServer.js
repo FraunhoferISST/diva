@@ -70,7 +70,7 @@ const policyRulesMiddleware = async (req, res, next) => {
       },
       {
         headers: {
-          "x-actorid": req.headers["x-actorid"],
+          "x-actorid": req.headers["x-actorid"] ?? "",
         },
       }
     );
@@ -83,7 +83,17 @@ const policyRulesMiddleware = async (req, res, next) => {
       throw policyForbiddenError;
     }
   } catch (error) {
-    next(error);
+    if (error?.response?.status >= 500) {
+      next(
+        createError({
+          type: "PoliciesServiceUnavailable",
+          message: `Couldn't ensure policies: ${error.toString()}`,
+          code: error.status ?? 500,
+        })
+      );
+    } else {
+      next(error);
+    }
   }
 };
 

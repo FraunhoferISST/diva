@@ -1,52 +1,13 @@
-const nodePath = require("path");
-const glob = require("glob");
-const fs = require("fs");
-const { logger: log } = require("@diva/common/logger");
 const generateUuid = require("@diva/common/utils/generateUuid");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const { entityNotFoundError } = require("@diva/common/Error");
-const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const dereferenceSchema = require("../utils/dereferenceSchema");
 const EntityService = require("./EntityService");
 const {
   collectionsNames: { SYSTEM_ENTITY_COLLECTION_NAME },
   entityTypes: { SCHEMA, SYSTEM_ENTITY },
 } = require("../utils/constants");
-
-let WORK_DIR = process.cwd();
-const systemEntitiesDir = "defaultSystemEntities";
-let systemEntitiesPath = nodePath.join(WORK_DIR, systemEntitiesDir);
-
-if (process.pkg?.entrypoint) {
-  const pkgEntryPoint = process.pkg?.entrypoint ?? "";
-  WORK_DIR = pkgEntryPoint.substring(0, pkgEntryPoint.lastIndexOf("/") + 1);
-  systemEntitiesPath = nodePath.join(WORK_DIR, systemEntitiesDir);
-}
-
-const loadDefault = async () => {
-  const defaultEntities = glob
-    .sync(`${systemEntitiesPath}/jsonSchemata/**/*.*`)
-    .map((path) => JSON.parse(fs.readFileSync(path).toString()))
-    .map((schemaEntity) => ({
-      ...schemaEntity,
-      entityType: SYSTEM_ENTITY,
-      systemEntityType: SCHEMA,
-      createdAt: new Date().toISOString(),
-      modifiedAt: new Date().toISOString(),
-      schema: JSON.stringify(schemaEntity.schema),
-      editable: false,
-    }));
-  if (defaultEntities.length === 0) {
-    log.warn("Couldn't find default schemata");
-    return null;
-  }
-  log.info("Upserting default schemata");
-  return mongoDbConnector.collections[SYSTEM_ENTITY_COLLECTION_NAME].bulkWrite(
-    defaultEntities.map((e) => ({
-      replaceOne: { filter: { id: e.id }, replacement: e, upsert: true },
-    }))
-  );
-};
+const { schemata } = require("../defaultEntities/index");
 
 const injectJsonSchema = async (rootSchema, schemaEntity) => {
   const updatedRootSchema = { ...rootSchema };
@@ -82,12 +43,11 @@ class SchemataService extends EntityService {
     entityType = SYSTEM_ENTITY,
     collectionName = SYSTEM_ENTITY_COLLECTION_NAME
   ) {
-    super(entityType, collectionName);
+    super(entityType, { collectionName, defaultEntities: schemata });
     this.systemEntityType = SCHEMA;
   }
 
   async init() {
-    await loadDefault();
     return super.init().then(() =>
       this.collection.createIndex(
         { schemaName: 1 },

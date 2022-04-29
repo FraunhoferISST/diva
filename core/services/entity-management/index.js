@@ -4,9 +4,9 @@ const generateUuid = require("@diva/common/utils/generateUuid");
 const buildAppAPI = require("./buildAppAPI");
 const serviceName = require("./package.json").name;
 
-const serviceId = generateUuid("service");
+const serviceInstanceId = generateUuid("service-instance");
 
-setLoggerDefaultMeta({ serviceId });
+setLoggerDefaultMeta({ serviceInstanceId });
 
 const port = process.env.PORT || 3000;
 

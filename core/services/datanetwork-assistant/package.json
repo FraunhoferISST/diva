@@ -1,6 +1,7 @@
 {
   "name": "datanetwork-assistant",
   "version": "0.1.3",
+  "serviceId": "service:uuid:8148b264-fd29-46d7-a514-93c979bb3381",
   "description": "This service provides a way of adding and deleting typed and directed edges in neo4j:4.3.7-community",
   "main": "index.js",
   "scripts": {

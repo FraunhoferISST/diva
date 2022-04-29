@@ -18,6 +18,7 @@
                   :data="historyLog"
                   :last="i === history.length - 1"
                   :first="i === 0"
+                  :position="i"
                   :count="history.length"
                   @selected="selectHistoryLog(historyLog)"
                 />
@@ -43,6 +44,7 @@ import Observer from "@/components/Base/Observer";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useRequest } from "@/composables/request";
 import { useBus } from "@/composables/bus";
+import { useApi } from "@/composables/api";
 
 export default {
   name: "EntityHistory",
@@ -62,12 +64,15 @@ export default {
   },
   setup() {
     const { request, error, loading } = useRequest();
+    const { getEntityApiById, getCollectionNameById } = useApi();
     const { on } = useBus();
     return {
-      request,
       error,
       loading,
       on,
+      getEntityApiById,
+      getCollectionNameById,
+      request,
     };
   },
   data: () => ({
@@ -109,12 +114,24 @@ export default {
           ...(cursor ? { cursor } : {}),
         })
         .then(async ({ data: { collection, cursor } }) => {
-          const creators = await this.$api.users.getManyById(
-            collection.map(({ creatorId }) => creatorId)
-          );
+          const creatorsGroups = collection.reduce((group, entry) => {
+            const { creatorId } = entry;
+            const collectionName = this.getCollectionNameById(creatorId);
+            group[collectionName] = group[collectionName] ?? [];
+            group[collectionName].push(creatorId);
+            return group;
+          }, {});
+          const creators = (
+            await Promise.all(
+              Object.entries(creatorsGroups).map(([collectionName, ids]) =>
+                this.$api[collectionName].getManyById(ids)
+              )
+            )
+          ).flat();
+          console.log(creators);
           const historiesWithCreators = collection.map((entry) => ({
             ...entry,
-            creator: creators.find(({ id }) => id === entry.creatorId),
+            creator: creators.find(({ id }) => id === entry.creatorId) ?? {},
           }));
           return {
             collection: historiesWithCreators,

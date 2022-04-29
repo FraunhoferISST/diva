@@ -1,5 +1,12 @@
 const generateUuid = require("@diva/common/utils/generateUuid");
+const { logger: log } = require("@diva/common/logger");
 const EntityService = require("./EntityService");
+const { serviceId } = require("../package.json");
+const { mongoDbConnector } = require("../utils/mongoDbConnector");
+const {
+  collectionsNames: { ENTITY_COLLECTION_NAME },
+  entityTypes: { USER },
+} = require("../utils/constants");
 
 const createUser = (userData) => ({
   ...userData,
@@ -10,14 +17,40 @@ const createUser = (userData) => ({
 class UsersService extends EntityService {
   async init() {
     await super.init();
-    await this.collection.createIndex(
+    const email = process.env.ADMIN_EMAIL;
+    const id = process.env.ADMIN_ID;
+    if (
+      email &&
+      id &&
+      (await mongoDbConnector.collections[
+        ENTITY_COLLECTION_NAME
+      ].countDocuments(
+        {
+          email,
+        },
+        { limit: 1 }
+      )) === 0
+    ) {
+      log.info(`Creating default admin user ${email}`);
+      await this.updateById(
+        `user:uuid:${id}`,
+        {
+          id: `user:uuid:${id}`,
+          email,
+          username: email.split("@")[0],
+          roles: ["admin"],
+        },
+        serviceId
+      );
+    }
+    return this.collection.createIndex(
       { email: 1 },
       { unique: true, partialFilterExpression: { entityType: this.entityType } }
     );
   }
 
   async create(user, actorId) {
-    const newUser = createUser(user, actorId);
+    const newUser = createUser(user);
     return super.create(newUser, actorId || newUser.id);
   }
 
@@ -41,4 +74,4 @@ class UsersService extends EntityService {
   }
 }
 
-module.exports = new UsersService("user");
+module.exports = new UsersService(USER);

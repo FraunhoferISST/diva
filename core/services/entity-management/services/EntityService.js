@@ -4,6 +4,7 @@ const {
   createPatchDelta,
 } = require("@diva/common/createHistoryEntry");
 const { decodeCursor, encodeCursor } = require("@diva/common/api/cursor");
+const { logger } = require("@diva/common/logger");
 const {
   entityAlreadyExistsError,
   entityNotFoundError,
@@ -17,6 +18,7 @@ const {
   collectionsNames: { ENTITY_COLLECTION_NAME, HISTORIES_COLLECTION_NAME },
   entityTypes: { ENTITY },
 } = require("../utils/constants");
+const { serviceId } = require("../package.json");
 
 const ENTITY_ROOT_SCHEMA = process.env.ENTITY_ROOT_SCHEMA || "entity";
 
@@ -45,14 +47,14 @@ const cleanUpEntity = (entity) => {
   return cleanEntity;
 };
 
-const createProjectionObject = (projectionQuery) => {
+const createProjectionObject = (projectionQuery, excludes) => {
   const projectionObject = {};
   if (projectionQuery) {
     for (const field of projectionQuery.split(",")) {
       projectionObject[field.trim()] = 1;
     }
   }
-  return projectionObject;
+  return { ...projectionObject, ...excludes };
 };
 
 const createNextPageQuery = (id) => ({ _id: { $lt: ObjectId(id) } });
@@ -81,9 +83,13 @@ class EntityService {
    * @param {String} entityType - the type of the entity, (e.g. resource, user, etc.)
    * @param {String} collectionName - the name of the mongo entity collection name (e.g. entities, etc.), defaults to "entities"
    */
-  constructor(entityType, collectionName = ENTITY_COLLECTION_NAME) {
+  constructor(
+    entityType,
+    { collectionName = ENTITY_COLLECTION_NAME, defaultEntities = [] } = {}
+  ) {
     this.entityType = entityType;
     this.collectionName = collectionName;
+    this.defaultEntities = defaultEntities;
     /**
      * @type {{}} - primary MongoDb entity collection (users, resources...)
      */
@@ -114,6 +120,35 @@ class EntityService {
       mongoDbConnector.collections[HISTORIES_COLLECTION_NAME];
   }
 
+  loadDefault() {
+    logger.info(
+      `Loading ${this.defaultEntities.length} default entities from type ${
+        this.systemEntityType ?? this.entityType
+      }`
+    );
+    return Promise.all(
+      this.defaultEntities.map((entity) =>
+        this.replace(entity.id, entity)
+          .then(() =>
+            this.historyCollection.insertOne(
+              createHistoryEntity(
+                entity.id,
+                createPatchDelta({}, entity),
+                serviceId
+              )
+            )
+          )
+          .catch((e) => {
+            // already loaded, ignore
+            if (e.code === 409) {
+              return true;
+            }
+            throw e;
+          })
+      )
+    );
+  }
+
   validate(entity) {
     jsonSchemaValidator.validate(ENTITY_ROOT_SCHEMA, entity);
   }
@@ -122,16 +157,20 @@ class EntityService {
     return rest;
   }
 
-  async create(entity, actorId) {
+  createEntityObject(entity = {}) {
     const entityType = this.entityType ?? entity.entityType;
-    const newEntity = cleanUpEntity({
-      id: generateUuid(this.entityType ?? ENTITY), // the id con be overwritten by concrete implementation
+    return cleanUpEntity({
+      id: generateUuid(this.entityType ?? ENTITY), // the id can be overwritten by concrete implementation
       ...entity,
       entityType,
       createdAt: new Date().toISOString(),
       modifiedAt: new Date().toISOString(),
       entityImages: null,
     });
+  }
+
+  async create(entity, actorId) {
+    const newEntity = this.createEntityObject(entity);
     this.validate(newEntity);
     await this.insert(newEntity);
     const delta = await this.createHistoryEntry({}, newEntity, actorId);
@@ -173,13 +212,18 @@ class EntityService {
     };
   }
 
-  async getById(id, query = {}) {
+  async getById(id, query = {}, policyPayload = {}) {
     const { fields } = query;
     if (await this.entityExists(id)) {
       return this.sanitizeEntity(
         await this.collection.findOne(
           { id },
-          { projection: createProjectionObject(fields) }
+          {
+            projection: createProjectionObject(
+              fields,
+              policyPayload.projections
+            ),
+          }
         )
       );
     }

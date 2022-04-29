@@ -8,6 +8,7 @@ const { collectionsNames, entityTypes } = require("./utils/constants");
 const EntityController = require("./controllers/EntityController");
 const { mongoDbConnector } = require("./utils/mongoDbConnector");
 const { name: serviceName } = require("./package.json");
+const defaultEntities = require("./defaultEntities/index");
 // System entities
 const schemataService = require("./services/SchemataService");
 const schemataController = require("./controllers/SchemataController");
@@ -15,12 +16,39 @@ const asyncapisService = require("./services/AsyncapisService");
 const asyncapisController = require("./controllers/AsyncapisController");
 const rulesService = require("./services/RulesService");
 const policiesService = require("./services/PoliciesService");
+const { serviceId } = require("./package.json");
 
 const topic = process.env.KAFKA_EVENT_TOPIC || "entity.events";
 const NODE_ENV = process.env.NODE_ENV || "development";
 const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
 
 const predefinedEntities = {
+  // System entities
+  // Make sure schemata defined before other system entities
+  [collectionsNames.SCHEMATA_COLLECTION_NAME]: {
+    collection: collectionsNames.SCHEMATA_COLLECTION_NAME,
+    controller: schemataController,
+    service: schemataService,
+    entityType: entityTypes.SYSTEM_ENTITY,
+  },
+  [collectionsNames.ASYNCAPI_COLLECTION_NAME]: {
+    collection: collectionsNames.ASYNCAPI_COLLECTION_NAME,
+    controller: asyncapisController,
+    service: asyncapisService,
+    entityType: entityTypes.SYSTEM_ENTITY,
+  },
+  [collectionsNames.RULES_COLLECTION_NAME]: {
+    collection: collectionsNames.RULES_COLLECTION_NAME,
+    controller: null,
+    service: rulesService,
+    entityType: entityTypes.SYSTEM_ENTITY,
+  },
+  [collectionsNames.POLICIES_COLLECTION_NAME]: {
+    collection: collectionsNames.POLICIES_COLLECTION_NAME,
+    controller: null,
+    service: policiesService,
+    entityType: entityTypes.SYSTEM_ENTITY,
+  },
   [collectionsNames.RESOURCE_COLLECTION_NAME]: {
     collection: collectionsNames.RESOURCE_COLLECTION_NAME,
     controller: null,
@@ -51,34 +79,12 @@ const predefinedEntities = {
     service: null,
     entityType: entityTypes.REVIEW,
   },
-  // System entities
-  [collectionsNames.RULES_COLLECTION_NAME]: {
-    collection: collectionsNames.RULES_COLLECTION_NAME,
-    controller: null,
-    service: rulesService,
-    entityType: entityTypes.SYSTEM_ENTITY,
-  },
-  [collectionsNames.POLICIES_COLLECTION_NAME]: {
-    collection: collectionsNames.POLICIES_COLLECTION_NAME,
-    controller: null,
-    service: policiesService,
-    entityType: entityTypes.SYSTEM_ENTITY,
-  },
-  [collectionsNames.SCHEMATA_COLLECTION_NAME]: {
-    collection: collectionsNames.SCHEMATA_COLLECTION_NAME,
-    controller: schemataController,
-    service: schemataService,
-    entityType: entityTypes.SYSTEM_ENTITY,
-  },
-  [collectionsNames.ASYNCAPI_COLLECTION_NAME]: {
-    collection: collectionsNames.ASYNCAPI_COLLECTION_NAME,
-    controller: asyncapisController,
-    service: asyncapisService,
-    entityType: entityTypes.SYSTEM_ENTITY,
-  },
 };
 
-const createEntityService = (entityType) => new EntityService(entityType);
+const createEntityService = (entityType, collectionName) =>
+  new EntityService(entityType, {
+    defaultEntities: defaultEntities[collectionName],
+  });
 
 const createEntityController = (service) => new EntityController(service);
 
@@ -86,8 +92,11 @@ module.exports = async (server) => {
   const router = express.Router();
 
   await mongoDbConnector.connect();
-  await schemataService.init();
   await asyncapisService.init();
+  await asyncapisService.loadDefault();
+  await schemataService.init();
+  await schemataService.loadDefault();
+  await jsonSchemaValidator.init([await schemataService.resolveEntitySchema()]);
   await messagesProducer.init(
     topic,
     serviceName,
@@ -98,12 +107,17 @@ module.exports = async (server) => {
     },
     producer
   );
-  await jsonSchemaValidator.init([await schemataService.resolveEntitySchema()]);
 
   for (const entity of Object.values(predefinedEntities)) {
     const { collection, entityType } = entity;
-    const service = entity.service ?? createEntityService(entityType);
-    await service.init();
+    const service =
+      entity.service ?? createEntityService(entityType, collection);
+    await service.init().then(async () => {
+      await service.loadDefault();
+      (defaultEntities[collection] ?? []).map(({ id }) =>
+        messagesProducer.produce(id, serviceId)
+      );
+    });
     const controller = entity?.controller ?? createEntityController(service);
 
     router.get(`/${collection}`, controller.get.bind(controller));

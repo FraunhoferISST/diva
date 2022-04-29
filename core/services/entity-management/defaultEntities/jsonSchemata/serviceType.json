@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:d1097016-16c4-4022-abde-187e021b0aac",
-  "title": "Service Type",
+  "title": "Service type",
   "schemaName": "serviceType",
   "isPatchable": false,
   "scope": [
@@ -13,7 +13,7 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Service Vendor",
+    "title": "Service type",
     "required": [
       "serviceType"
     ],
@@ -26,7 +26,8 @@
           "generic",
           "app",
           "plugin",
-          "api"
+          "api",
+          "internal"
         ]
       }
     }

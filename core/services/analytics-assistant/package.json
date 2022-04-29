@@ -1,6 +1,7 @@
 {
   "name": "analytics-assistant",
   "version": "2.0.3",
+  "serviceId": "service:uuid:c6ce5034-788c-457a-9b57-b15fb5bfd95a",
   "description": "Analytics Assistant utilizes Elasticsearch for generating interesting metrics",
   "main": "index.js",
   "scripts": {

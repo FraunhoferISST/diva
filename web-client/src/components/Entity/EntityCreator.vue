@@ -1,11 +1,11 @@
 <template>
   <data-viewer :loading="loading" :error="error">
-    <user-card :user="creator || {}" dense>
+    <actor-card :actor="creator || {}" dense>
       <template>
         <span class="d-none d-sm-inline-block mx-2"> created at </span>
         <date-display :date="createdAt" />
       </template>
-    </user-card>
+    </actor-card>
   </data-viewer>
 </template>
 
@@ -15,12 +15,12 @@ import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useRequest } from "@/composables/request";
 import { useUser } from "@/composables/user";
 import { useApi } from "@/composables/api";
-import UserCard from "@/components/User/UserCard";
+import ActorCard from "@/components/User/ActorCard";
 import { ref } from "@vue/composition-api";
 export default {
   name: "EntityCreator",
   components: {
-    UserCard,
+    ActorCard,
     DataViewer,
     DateDisplay,
   },

@@ -1,6 +1,7 @@
 {
   "name": "diva-lake-adapter",
   "version": "0.5.0",
+  "serviceId": "service:uuid:c494d8c8-df34-4628-bc22-e64491398786",
   "description": "Adapter for our DIVA Lake",
   "keywords": [
     "DIVA Lake",

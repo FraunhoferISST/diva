@@ -1,7 +1,7 @@
 <template>
   <div class="comment">
     <div class="comment-header d-flex justify-space-between align-center">
-      <user-card dense :user="review.creator">
+      <actor-card dense :actor="review.creator">
         <template #info>
           <div class="d-flex align-center">
             <v-rating
@@ -17,7 +17,7 @@
             <date-display :date="review.createdAt" />
           </div>
         </template>
-      </user-card>
+      </actor-card>
       <div v-if="userIsAuthor">
         <v-btn
           v-if="!isEditMode"
@@ -89,13 +89,13 @@
 import DateDisplay from "@/components/Base/DateDisplay";
 import ReviewForm from "./ReviewForm";
 import ConfirmationDialog from "../../../Base/ConfirmationDialog";
-import UserCard from "@/components/User/UserCard";
+import ActorCard from "@/components/User/ActorCard";
 import DotDivider from "@/components/Base/DotDivider";
 export default {
   name: "ReviewCard",
   components: {
     DotDivider,
-    UserCard,
+    ActorCard,
     ConfirmationDialog,
     ReviewForm,
     DateDisplay,
