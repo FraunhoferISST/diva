@@ -1,4 +1,4 @@
-import { ref } from "@vue/composition-api";
+import { computed, ref } from "@vue/composition-api";
 import api from "@/api/index";
 import kc from "@/api/keycloak";
 import { useEvents } from "@/composables/events";
@@ -21,24 +21,11 @@ let recentlyViewed = [];
 // indicator to only once register the websocket event listener application wide
 let isListeningEvents = false;
 
-const loginUser = async ({ id, username, email, token }) => {
+const loginUser = async ({ id, username, email, token, roles, groups }) => {
   localStorage.setItem("jwt", token);
   api.setAuthorization(token);
-  const {
-    data: {
-      collection: [existingUser],
-    },
-  } = await api.users.get({ email });
-  if (existingUser) {
-    if (id !== existingUser.id) {
-      await api.users.delete(existingUser.id);
-      await api.users.update(id, { email, username });
-    }
-    api.socket.connect();
-  } else {
-    await api.users.update(id, { email, username });
-    api.socket.connect();
-  }
+  await api.users.update(id, { email, username, roles, groups });
+  api.socket.connect();
   return api.users.getByIdIfExists(id).then((response) => response?.data ?? {});
 };
 
@@ -47,6 +34,8 @@ export const useUser = () => {
   recentlyViewed = ref(recentlyViewed);
   const error = ref(null);
   const loading = ref(false);
+
+  const isAdmin = computed(() => (user.value.roles ?? []).includes("admin"));
 
   if (!isListeningEvents) {
     useEvents(user.value.id, user.value.id, {
@@ -73,6 +62,8 @@ export const useUser = () => {
         user.value = {
           ...user.value,
           ...loggedInUser,
+          ...data,
+          roles: data.roles,
           isLoggedIn: true,
         };
       })
@@ -103,11 +94,12 @@ export const useUser = () => {
   return {
     recentlyViewed,
     user,
+    isAdmin,
+    loading,
+    error,
     load,
     logout,
     login,
-    loading,
-    error,
     addRecentlyViewed,
   };
 };

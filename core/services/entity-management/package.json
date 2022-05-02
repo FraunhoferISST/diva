@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development ADMIN_EMAIL=admin@dev.com ADMIN_ID=241fe1e9-c052-4785-bcde-43703a48ea8b POLICY_MIDDLEWARE=active nodemon index.js",
+    "dev": "NODE_ENV=development POLICY_MIDDLEWARE=active nodemon index.js",
     "eslint-fix": "eslint --fix . --ext .js",
     "build:alpine": "pkg --config package.json -t node16-alpine-x64 --output index-alpine index.js",
     "build:linux": "pkg --config package.json -t node16-linux-x64 --output index-linux index.js",
@@ -30,7 +30,7 @@
     "assets": [
       "package.json",
       "apiDoc",
-      "defaultSystemEntities"
+      "defaultEntities"
     ]
   }
 }

@@ -8,6 +8,8 @@
 <script>
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import NoDataState from "@/components/Base/NoDataState";
+import entityFieldViewerInterfaces from "@/components/Entity/EntityFields/EntityField/entityFieldViewerInterface";
+
 export default {
   name: "TextAreaFieldViewer",
   inheritAttrs: false,
@@ -16,11 +18,8 @@ export default {
     InfoBlockValue,
   },
   props: {
+    ...entityFieldViewerInterfaces,
     value: {
-      type: [String, Number],
-      required: true,
-    },
-    title: {
       type: String,
       required: true,
     },

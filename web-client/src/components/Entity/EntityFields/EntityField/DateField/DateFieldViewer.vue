@@ -9,6 +9,8 @@
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import NoDataState from "@/components/Base/NoDataState";
 import DateDisplay from "@/components/Base/DateDisplay";
+import entityFieldViewerInterfaces from "@/components/Entity/EntityFields/EntityField/entityFieldViewerInterface";
+
 export default {
   name: "DateFieldViewer",
   inheritAttrs: false,
@@ -18,15 +20,8 @@ export default {
     InfoBlockValue,
   },
   props: {
-    property: {
-      type: String,
-      required: true,
-    },
+    ...entityFieldViewerInterfaces,
     value: {
-      type: String,
-      required: true,
-    },
-    title: {
       type: String,
       required: true,
     },

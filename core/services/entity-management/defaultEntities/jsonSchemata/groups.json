@@ -1,11 +1,11 @@
 {
-  "id": "schema:uuid:fc037760-a4b9-4f7b-8a8e-3727351880d8",
-  "title": "Roles",
-  "schemaName": "roles",
+  "id": "schema:uuid:3c46c85c-87e1-4020-963d-b465bb128966",
+  "title": "Groups",
+  "schemaName": "groups",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "description": "Predefined groups of an user. Can be only specified from admin in the Identity Management System",
   "isPatchable": false,
-  "description": "Predefined roles of an user. Can be only specified from admin in the Identity Management System",
   "scope": [
     {
       "key": "entityType",
@@ -15,17 +15,18 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Roles",
+    "title": "Groups",
     "properties": {
-      "roles": {
+      "groups": {
         "type": "array",
-        "title": "Roles",
+        "title": "Groups",
+        "description": "Predefined groups of an user. Can be only specified from admin in the Identity Management System",
         "default": [],
         "minItem": 0,
         "items": {
           "type": "string",
-          "title": "Role Items",
-          "description": "A role",
+          "title": "Group Items",
+          "description": "A group",
           "_elasticsearch": {
             "type": "keyword"
           }
@@ -34,9 +35,8 @@
           "view": "overview",
           "type": "select",
           "multiple": true,
-          "readOnly": true,
           "options": [],
-          "allowCustom": false,
+          "allowCustom": true,
           "fallbackValue": []
         }
       }

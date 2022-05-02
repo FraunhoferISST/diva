@@ -2,16 +2,25 @@ const axios = require("axios");
 const urljoin = require("url-join");
 const Ajv19 = require("ajv/dist/2019");
 const addFormats = require("ajv-formats");
+const path = require("path");
 const { createError } = require("./Error");
 const { logger: log } = require("./logger");
 const { serviceInstanceId } = require("./utils/serviceInstanceId");
+const workDir = require("./utils/workDir");
+
+const { serviceId } = require(path.join(`${workDir}`, "/package.json"));
 
 const ENTITY_MANAGEMENT_URL =
   process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000";
 
 const fetchSchema = (schemaName) =>
   axios.get(urljoin(ENTITY_MANAGEMENT_URL, "resolvedSchemata", schemaName), {
-    headers: { "x-actorid": serviceInstanceId },
+    headers: {
+      "x-diva": JSON.stringify({
+        actorId: serviceId,
+        serviceInstanceId,
+      }),
+    },
   });
 
 const compileValidator = async (schema) => {
