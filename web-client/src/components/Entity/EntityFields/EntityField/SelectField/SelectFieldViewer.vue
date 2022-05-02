@@ -12,22 +12,24 @@
       </v-chip>
     </div>
   </div>
-  <no-data-state v-else> Add {{ title }} </no-data-state>
+  <no-data-state v-else>
+    <span v-if="editable">Add {{ title }}</span>
+    <span v-else>Value of {{ title }} is not editable</span>
+  </no-data-state>
 </template>
 
 <script>
 import NoDataState from "@/components/Base/NoDataState";
+import entityFieldViewerInterfaces from "@/components/Entity/EntityFields/EntityField/entityFieldViewerInterface";
+
 export default {
   name: "SelectFieldViewer",
   components: { NoDataState },
   inheritAttrs: false,
   props: {
+    ...entityFieldViewerInterfaces,
     value: {
       type: [String, Number, Array],
-      required: true,
-    },
-    title: {
-      type: String,
       required: true,
     },
   },

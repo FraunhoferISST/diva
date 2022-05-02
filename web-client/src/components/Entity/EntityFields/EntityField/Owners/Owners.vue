@@ -80,6 +80,10 @@ export default {
       type: String,
       required: true,
     },
+    editable: {
+      type: Boolean,
+      required: true,
+    },
   },
   setup(props) {
     const loadedOwners = ref([]);

@@ -47,6 +47,10 @@ export default {
       type: Object,
       required: true,
     },
+    editable: {
+      type: Boolean,
+      required: true,
+    },
   },
   setup(props) {
     const { patch, patchError } = useEntity(props.id);

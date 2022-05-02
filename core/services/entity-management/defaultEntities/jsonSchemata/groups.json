@@ -14,11 +14,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Roles",
+    "title": "Groups",
     "properties": {
       "groups": {
         "type": "array",
-        "title": "Roles",
+        "title": "Groups",
         "description": "Predefined groups of an user entity",
         "default": [],
         "minItem": 0,

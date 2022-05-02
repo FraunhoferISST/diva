@@ -1,9 +1,12 @@
 <template>
-  <div class="editable-content relative" :class="{ 'edit-active': editMode }">
+  <div
+    class="editable-content relative"
+    :class="{ 'edit-active': editMode, editable: editable }"
+  >
     <div class="fill-height" @click="onContentClick" ref="editor">
       <slot
         name="edit"
-        v-if="editMode"
+        v-if="editMode && editable"
         :set-patch="setPatch"
         :patch="patch"
         :disableEdit="disableEdit"
@@ -12,7 +15,7 @@
       <slot name="view" :patch="patch" :state="state" v-else></slot>
     </div>
 
-    <div class="edit-toggle-btn-container">
+    <div class="edit-toggle-btn-container" v-if="editable">
       <div class="edit-toggle-btn">
         <v-btn
           text
@@ -118,7 +121,7 @@ export default {
       }
     },
     onContentClick() {
-      if (this.clickableContent) {
+      if (this.clickableContent && this.editable) {
         this.activateEdit();
       }
     },
@@ -164,18 +167,20 @@ export default {
 <style scoped lang="scss">
 .editable-content {
   position: relative;
-  transition: 0.5s;
   border-radius: $border_radius;
-  cursor: pointer;
   margin: -8px;
   padding: 8px;
-  &:hover {
-    background-color: rgba($bg_primary, 1);
-    .edit-toggle-btn-container {
-      opacity: 1;
-    }
-    .edit-toggle-btn {
-      max-height: 36px;
+  &.editable {
+    transition: 0.5s;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba($bg_primary, 1);
+      .edit-toggle-btn-container {
+        opacity: 1;
+      }
+      .edit-toggle-btn {
+        max-height: 36px;
+      }
     }
   }
   &.edit-active {

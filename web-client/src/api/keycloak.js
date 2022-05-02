@@ -13,6 +13,8 @@ const getUser = () => ({
   id: `user:uuid:${kc.tokenParsed.sub}`,
   username: kc.tokenParsed.email.split("@")[0],
   email: kc.tokenParsed.email,
+  roles: kc.tokenParsed.realm_access.roles,
+  groups: kc.tokenParsed.groups,
   token: kc.token,
 });
 

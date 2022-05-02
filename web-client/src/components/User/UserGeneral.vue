@@ -133,7 +133,6 @@ export default {
       loading,
       error,
       data,
-      schema,
       deleteEntity,
       deleteLoading,
       deleteError,
@@ -151,20 +150,6 @@ export default {
       color,
       snackbar,
       keycloakAccountURL: computed(() => keycloak.kc.createAccountUrl()),
-      fields: computed(() =>
-        Object.entries(schema.value ?? {})
-          .map(([k, v]) => ({ ...v, propertyName: k }))
-          .filter((prop) => prop._ui && prop._ui.view === "overview")
-          .map((prop) => ({
-            ...prop,
-            ...prop._ui,
-            value:
-              data.value[prop.propertyName] ??
-              prop.default ??
-              prop._ui.fallbackValue,
-          }))
-          .sort((a, b) => a.position - b.position)
-      ),
       deleteAccount: () =>
         deleteEntity().then(() => {
           if (deleteError.value) {

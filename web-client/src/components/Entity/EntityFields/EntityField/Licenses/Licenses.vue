@@ -185,6 +185,10 @@ export default {
       type: Array,
       required: true,
     },
+    editable: {
+      type: Boolean,
+      required: true,
+    },
   },
   setup(props) {
     const { show, snackbar, message, color } = useSnackbar();

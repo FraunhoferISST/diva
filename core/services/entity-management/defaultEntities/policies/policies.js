@@ -101,6 +101,29 @@ module.exports = [
     excludes: [],
   },
   {
+    id: "policy:uuid:57fc472b-57ef-4115-84e6-33d8ea1832be",
+    title: "User can delete own DIVA account",
+    description: "The policy allows each user to delete it own account",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      method: "DELETE",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId": "{{params.id}}",
+            },
+          },
+        },
+      ],
+    },
+  },
+  {
     id: "policy:uuid:9e671c93-d1d8-469f-a8ea-96260f64b687",
     title: "User can read own data",
     description: "User should be able to read own data without restrictions",

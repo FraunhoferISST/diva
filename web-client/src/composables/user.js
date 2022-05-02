@@ -21,24 +21,11 @@ let recentlyViewed = [];
 // indicator to only once register the websocket event listener application wide
 let isListeningEvents = false;
 
-const loginUser = async ({ id, username, email, token }) => {
+const loginUser = async ({ id, username, email, token, roles, groups }) => {
   localStorage.setItem("jwt", token);
   api.setAuthorization(token);
-  const {
-    data: {
-      collection: [existingUser],
-    },
-  } = await api.users.get({ email, fields: "email,id" });
-  if (existingUser) {
-    if (id !== existingUser.id) {
-      await api.users.delete(existingUser.id);
-      await api.users.update(id, { email, username });
-    }
-    api.socket.connect();
-  } else {
-    await api.users.update(id, { email, username });
-    api.socket.connect();
-  }
+  await api.users.update(id, { email, username, roles, groups });
+  api.socket.connect();
   return api.users.getByIdIfExists(id).then((response) => response?.data ?? {});
 };
 
@@ -73,6 +60,7 @@ export const useUser = () => {
         user.value = {
           ...user.value,
           ...loggedInUser,
+          ...data,
           isLoggedIn: true,
         };
       })

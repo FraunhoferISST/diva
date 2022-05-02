@@ -16,6 +16,8 @@
 <script>
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import NoDataState from "@/components/Base/NoDataState";
+import entityFieldViewerInterfaces from "@/components/Entity/EntityFields/EntityField/entityFieldViewerInterface";
+
 export default {
   name: "BooleanFieldViewer",
   inheritAttrs: false,
@@ -24,16 +26,9 @@ export default {
     InfoBlockValue,
   },
   props: {
-    property: {
-      type: String,
-      required: true,
-    },
+    ...entityFieldViewerInterfaces,
     value: {
       type: Boolean,
-      required: true,
-    },
-    title: {
-      type: String,
       required: true,
     },
   },

@@ -6,6 +6,7 @@
 <script>
 import NoDataState from "@/components/Base/NoDataState";
 import MarkdownViewer from "@/components/Base/MarkdownViewer";
+import entityFieldViewerInterface from "@/components/Entity/EntityFields/EntityField/entityFieldViewerInterface";
 export default {
   name: "MarkdownFieldViewer",
   inheritAttrs: false,
@@ -14,11 +15,8 @@ export default {
     NoDataState,
   },
   props: {
+    ...entityFieldViewerInterface,
     value: {
-      type: String,
-      required: true,
-    },
-    title: {
       type: String,
       required: true,
     },

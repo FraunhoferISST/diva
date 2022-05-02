@@ -34,8 +34,9 @@
           "view": "overview",
           "type": "select",
           "multiple": true,
-          "options": ["admin"],
-          "allowCustom": true,
+          "readOnly": true,
+          "options": [],
+          "allowCustom": false,
           "fallbackValue": []
         }
       }

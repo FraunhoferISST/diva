@@ -4,6 +4,7 @@
       <info-block :title="field.title">
         <template #value>
           <field-editor
+            :editable="field.isPatchable"
             :data="{ [field.propertyName]: value }"
             :on-save="patchAndMutate"
           >
@@ -12,6 +13,7 @@
                 :is="viewer"
                 :title="field.title"
                 :value="state[field.propertyName]"
+                :editable="field.isPatchable"
               />
             </template>
             <template #edit="{ setPatch, patch }">

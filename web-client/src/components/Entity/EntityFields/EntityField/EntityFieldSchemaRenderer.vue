@@ -79,6 +79,7 @@ export default {
           options = propDefinition.enum ?? propDefinition?.items?.enum ?? [];
         }
         return {
+          ...props.schemaEntity,
           propertyName,
           title: props.schemaEntity.title,
           description: props.schemaEntity.description,
