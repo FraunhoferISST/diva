@@ -1,7 +1,10 @@
 const express = require("express");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
-const messagesProducer = require("@diva/common/messaging/MessageProducer");
 const buildOpenApiSpec = require("./utils/buildOpenApiSpec");
+const {
+  dataNetworkMessagesProducer,
+  entitiesMessagesProducer,
+} = require("./utils/messagesProducer");
 const usersService = require("./services/UsersService");
 const EntityService = require("./services/EntityService");
 const { collectionsNames, entityTypes } = require("./utils/constants");
@@ -16,9 +19,13 @@ const asyncapisService = require("./services/AsyncapisService");
 const asyncapisController = require("./controllers/AsyncapisController");
 const rulesService = require("./services/RulesService");
 const policiesService = require("./services/PoliciesService");
+const dataNetworkService = require("./services/DataNetworkService");
+const dataNetworkController = require("./controllers/DataNetworkController");
+const dataNetworkRouter = require("./routes/dataNetwork");
 const { serviceId } = require("./package.json");
 
-const topic = process.env.KAFKA_EVENT_TOPIC || "entity.events";
+const entitiesTopic = "entity.events";
+const dataNetworkTopic = "entity.datanetwork";
 const NODE_ENV = process.env.NODE_ENV || "development";
 const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
 
@@ -97,13 +104,26 @@ module.exports = async (server) => {
   await schemataService.init();
   await schemataService.loadDefault();
   await jsonSchemaValidator.init([await schemataService.resolveEntitySchema()]);
-  await messagesProducer.init(
-    topic,
+  await dataNetworkService.init();
+  await entitiesMessagesProducer.init(
+    entitiesTopic,
     serviceName,
     "entityEvents",
     {
       name: "asyncapi",
       specification: (await asyncapisService.getByName("asyncapi")).asyncapi,
+    },
+    producer
+  );
+  await dataNetworkMessagesProducer.init(
+    dataNetworkTopic,
+    serviceName,
+    "datanetworkEvents",
+    {
+      name: "datanetwork-api",
+      specification: (
+        await asyncapisService.getByName("datanetwork-api")
+      ).asyncapi,
     },
     producer
   );
@@ -115,7 +135,7 @@ module.exports = async (server) => {
     await service.init().then(async () => {
       await service.loadDefault();
       (defaultEntities[collection] ?? []).map(({ id }) =>
-        messagesProducer.produce(id, serviceId)
+        entitiesMessagesProducer.produce(id, serviceId)
       );
     });
     const controller = entity?.controller ?? createEntityController(service);
@@ -169,5 +189,6 @@ module.exports = async (server) => {
     next();
   });
   server.addMiddleware("/", router);
+  server.addMiddleware("/", dataNetworkRouter);
   return server.boot();
 };

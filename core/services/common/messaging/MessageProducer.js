@@ -119,4 +119,4 @@ class MessageProducer {
   }
 }
 
-module.exports = new MessageProducer();
+module.exports = MessageProducer;
