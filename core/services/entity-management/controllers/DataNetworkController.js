@@ -1,4 +1,4 @@
-const { dataNetworkMessagesProducer } = require("../utils/messagesProducer");
+const { dataNetworkMessagesProducer } = require("../utils/messagesProducers");
 const dataNetworkService = require("../services/DataNetworkService");
 
 class DataNetworkController {

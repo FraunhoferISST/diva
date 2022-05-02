@@ -4,7 +4,7 @@ const buildOpenApiSpec = require("./utils/buildOpenApiSpec");
 const {
   dataNetworkMessagesProducer,
   entitiesMessagesProducer,
-} = require("./utils/messagesProducer");
+} = require("./utils/messagesProducers");
 const usersService = require("./services/UsersService");
 const EntityService = require("./services/EntityService");
 const { collectionsNames, entityTypes } = require("./utils/constants");

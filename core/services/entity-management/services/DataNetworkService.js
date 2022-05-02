@@ -84,7 +84,7 @@ class DataNetworkService {
     );
   }
 
-  async deleteNode(id) {
+  async deleteNodeById(id) {
     return executeSession(`MATCH (n {entityId: "${id}"}) DETACH DELETE n`);
   }
 
@@ -141,7 +141,7 @@ class DataNetworkService {
     const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
     const toNode = `m ${to ? `{ entityId: '${to}' }` : ""}`;
     return executeSession(
-      `MATCH (n {entityId: '${from}'}) ${relationship} (${toNode}) RETURN startNode(r) as from, r, endNode(r) as to`
+      `MATCH (n {entityId: '${from}'}) ${relationship} (${toNode}) RETURN startNode(r) as from, r, endNode(r) as to, count(r) as count`
     ).then(({ records }) => ({
       collection:
         records?.map(({ _fields }) => ({

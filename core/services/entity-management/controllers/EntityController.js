@@ -1,18 +1,59 @@
 const messageProducer = require("@diva/common/messaging/MessageProducer");
+const {
+  entitiesMessagesProducer,
+  dataNetworkMessagesProducer,
+} = require("../utils/messagesProducers");
+const dataNetworkService = require("../services/DataNetworkService");
 
 const getAffectedFieldsFromDelta = (delta = {}) => Object.keys(delta);
 
-const createSingleEntity = async (service, entity, actorId) =>
-  service.create(entity, actorId).then(({ id: newEntityId, delta }) => {
-    messageProducer.produce(
-      newEntityId,
-      actorId,
-      "create",
-      entity.attributedTo ? [entity.attributedTo] : [],
-      { affectedFields: getAffectedFieldsFromDelta(delta) }
-    );
-    return newEntityId;
-  });
+const executeTransaction = async (operations = [], onFailure = () => {}) => {
+  let operationsData = {};
+  try {
+    for (const op of operations) {
+      const opData = await op(operationsData);
+      operationsData = { ...operationsData, ...opData };
+    }
+    return operationsData;
+  } catch (e) {
+    await onFailure(operationsData);
+    throw e;
+  }
+};
+
+const createSingleEntity = async (service, entity, actorId, entityType) =>
+  executeTransaction(
+    [
+      () => service.create(entity, actorId),
+      ({ id: newEntityId }) =>
+        dataNetworkService.updateNode(newEntityId, entityType),
+      ({ id: newEntityId, delta }) =>
+        entitiesMessagesProducer.produce(
+          newEntityId,
+          actorId,
+          "create",
+          entity.attributedTo ? [entity.attributedTo] : [],
+          { affectedFields: getAffectedFieldsFromDelta(delta) }
+        ),
+    ],
+    async ({ id }) => {
+      if (id) {
+        return Promise.all(
+          [
+            await service.deleteById(id),
+            await dataNetworkService.deleteNodeById(id),
+          ].map((p) =>
+            p.catch((e) => {
+              if (e.code === 404) {
+                return true;
+              }
+              throw e;
+            })
+          )
+        );
+      }
+    }
+  );
 
 const appendBulkRequestPromiseHandler = (promise, additionalData = {}) =>
   promise
@@ -26,11 +67,11 @@ const appendBulkRequestPromiseHandler = (promise, additionalData = {}) =>
       error: err,
     }));
 
-const processCreateBulkRequest = async (service, bulk, actorid) =>
+const processCreateBulkRequest = async (service, bulk, actorid, entityType) =>
   Promise.all(
     bulk.map((entity) =>
       appendBulkRequestPromiseHandler(
-        createSingleEntity(service, entity, actorid),
+        createSingleEntity(service, entity, actorid, entityType),
         entity ?? {}
       )
     )
@@ -39,6 +80,7 @@ const processCreateBulkRequest = async (service, bulk, actorid) =>
 module.exports = class EntityController {
   constructor(service) {
     this.service = service;
+    this.dataNetwrokService = dataNetworkService;
   }
 
   getAffectedFieldsFromDelta(delta = {}) {
@@ -52,14 +94,16 @@ module.exports = class EntityController {
         const result = await processCreateBulkRequest(
           this.service,
           req.body,
-          actorid
+          actorid,
+          this.service.entityType
         );
         res.status(207).send(result);
       } else {
         const result = await createSingleEntity(
           this.service,
           req.body,
-          actorid
+          actorid,
+          this.service.entityType
         );
         res.status(201).send(result);
       }
@@ -100,7 +144,7 @@ module.exports = class EntityController {
       );
       const { attributedTo } = await this.service.getById(id);
       res.status(200).send();
-      messageProducer.produce(
+      entitiesMessagesProducer.produce(
         id,
         req.headers["x-actorid"],
         "update",
@@ -121,7 +165,7 @@ module.exports = class EntityController {
         req.headers["x-actorid"]
       );
       res.status(204).send();
-      messageProducer.produce(
+      entitiesMessagesProducer.produce(
         id,
         req.headers["x-actorid"],
         "update",
@@ -136,15 +180,53 @@ module.exports = class EntityController {
   async deleteById(req, res, next) {
     try {
       const { id } = req.params;
-      const { attributedTo } = await this.service.getById(id);
-      await this.service.deleteById(id, req.headers["x-actorid"]);
-      res.status(200).send();
-      messageProducer.produce(
-        id,
-        req.headers["x-actorid"],
-        "delete",
-        attributedTo ? [attributedTo] : []
+      const { actorId } = req.headers.diva;
+      const entityToDelete = await this.service.getById(id);
+      await executeTransaction(
+        [
+          async () => {
+            const { collection: edges } =
+              await this.dataNetwrokService.getEdges({ from: id }, true);
+            return edges;
+          },
+          async () =>
+            this.dataNetwrokService
+              .deleteNodeById(id)
+              .then(() => ({ deletedNodeId: id })),
+          ({ edges }) =>
+            edges.forEach((edge) =>
+              entitiesMessagesProducer.produce(
+                edge.id,
+                actorId,
+                "delete",
+                [edge.from.entityId, edge.to.entityId],
+                {
+                  edgeType: edge.edgeType,
+                }
+              )
+            ),
+          () =>
+            this.service
+              .deleteById(id, actorId)
+              .then(() => ({ deletedId: id })),
+          () =>
+            entitiesMessagesProducer.produce(
+              id,
+              actorId,
+              "delete",
+              entityToDelete.attributedTo ? [entityToDelete.attributedTo] : []
+            ),
+        ],
+        async ({ deletedId, deletedNodeId }) => {
+          if (deletedId) {
+            await this.service.insert(entityToDelete);
+          }
+          if (deletedNodeId) {
+            await this.dataNetwrokService.createNode(entityToDelete.id);
+          }
+        }
       );
+      res.status(200).send();
     } catch (err) {
       return next(err);
     }
@@ -159,7 +241,7 @@ module.exports = class EntityController {
       );
       const { attributedTo } = await this.service.getById(req.params.id);
       res.status(201).send(newImageId);
-      messageProducer.produce(
+      entitiesMessagesProducer.produce(
         req.params.id,
         req.headers["x-actorid"],
         "update",
@@ -192,7 +274,7 @@ module.exports = class EntityController {
       );
       const { attributedTo } = await this.service.getById(req.params.id);
       res.status(200).send();
-      messageProducer.produce(
+      entitiesMessagesProducer.produce(
         req.params.id,
         req.headers["x-actorid"],
         "update",
