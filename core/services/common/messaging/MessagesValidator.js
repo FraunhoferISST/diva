@@ -2,8 +2,12 @@ const urljoin = require("url-join");
 const AsyncApiValidator = require("asyncapi-validator");
 const asyncapiParser = require("@asyncapi/parser");
 const axios = require("axios");
+const path = require("path");
 const { createError } = require("../Error");
 const { serviceInstanceId } = require("../utils/serviceInstanceId");
+const workDir = require("../utils/workDir");
+
+const { serviceId } = require(path.join(`${workDir}`, "/package.json"));
 
 const ENTITY_MANAGEMENT_URL =
   process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000";
@@ -12,7 +16,7 @@ const fetchSpec = (specName) =>
   axios.get(urljoin(ENTITY_MANAGEMENT_URL, "/asyncapis/byName/", specName), {
     headers: {
       "x-diva": JSON.stringify({
-        actorId: serviceInstanceId,
+        actorId: serviceId,
         serviceInstanceId,
       }),
     },

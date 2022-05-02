@@ -5,17 +5,12 @@ const axios = require("axios");
 const urljoin = require("url-join");
 const OpenApiValidator = require("express-openapi-validator");
 const { logger: log, httpLogger, httpErrorLogger } = require("../logger");
+const workDir = require("../utils/workDir");
 
-let WORK_DIR = process.cwd();
 const NODE_ENV = process.env.NODE_ENV || "development";
 const POLICY_MIDDLEWARE = process.env.POLICY_MIDDLEWARE || "active";
 
-if (process.pkg?.entrypoint) {
-  const pkgEntryPoint = process.pkg?.entrypoint ?? "";
-  WORK_DIR = pkgEntryPoint.substring(0, pkgEntryPoint.lastIndexOf("/") + 1);
-}
-
-const SERVICE_NAME = require(path.join(`${WORK_DIR}`, "/package.json")).name;
+const SERVICE_NAME = require(path.join(`${workDir}`, "/package.json")).name;
 
 const corsDefaults = {
   origin: process.env.CORS_ALLOW_ORIGIN || "*",
@@ -132,7 +127,7 @@ class Server {
   }
 
   addOpenApiValidatorMiddleware(
-    apiSpec = path.join(`${WORK_DIR}`, "/apiDoc/openapi.yml")
+    apiSpec = path.join(`${workDir}`, "/apiDoc/openapi.yml")
   ) {
     log.info(`✅ Setting up OpenAPI validation middleware`);
     this.addMiddleware(

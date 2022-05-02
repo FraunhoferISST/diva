@@ -578,7 +578,7 @@
         "name": "x-diva",
         "required": true,
         "schema": {
-          "type": "object",
+          "type": "string",
           "properties": {
             "actorId": {
               "$ref": "#/components/schemas/ActorId"

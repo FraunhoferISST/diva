@@ -47,6 +47,19 @@ module.exports = [
     },
     excludes: [],
   },
+  // Images GET Policy
+  {
+    id: "policy:uuid:abd0c3a0-41bc-4073-9c10-20db9ed4bce1",
+    title: "Everybody can GET entity images",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/[a-zA-Z0-9]+/[a-zA-Z0-9]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/?$",
+      method: "GET",
+    },
+    condition: true,
+  },
 
   // Entities: Standard DIVA Policies
   {
