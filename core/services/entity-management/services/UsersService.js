@@ -13,10 +13,6 @@ const createUser = (userData) => ({
 class UsersService extends EntityService {
   async init() {
     await super.init();
-    return this.collection.createIndex(
-      { email: 1 },
-      { unique: true, partialFilterExpression: { entityType: this.entityType } }
-    );
   }
 
   async create(user, actorId) {
