@@ -10,7 +10,12 @@ const ENTITY_MANAGEMENT_URL =
 
 const fetchSpec = (specName) =>
   axios.get(urljoin(ENTITY_MANAGEMENT_URL, "/asyncapis/byName/", specName), {
-    headers: { "x-actorid": serviceInstanceId },
+    headers: {
+      "x-diva": JSON.stringify({
+        actorId: serviceInstanceId,
+        serviceInstanceId,
+      }),
+    },
   });
 
 const loadAsyncAPISpec = async (spec) => {

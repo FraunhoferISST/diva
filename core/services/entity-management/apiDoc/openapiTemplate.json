@@ -29,6 +29,9 @@
       "parameters": [
         {
           "$ref": "#/components/parameters/actoridParam"
+        },
+        {
+          "$ref": "#/components/parameters/divaHeader"
         }
       ],
       "get": {
@@ -80,6 +83,9 @@
       "parameters": [
         {
           "$ref": "#/components/parameters/actoridParam"
+        },
+        {
+          "$ref": "#/components/parameters/divaHeader"
         }
       ],
       "post": {
@@ -257,6 +263,9 @@
       "parameters": [
         {
           "$ref": "#/components/parameters/actoridParam"
+        },
+        {
+          "$ref": "#/components/parameters/divaHeader"
         }
       ],
       "get": {
@@ -443,9 +452,9 @@
           }
         }
       },
-      "UserId": {
-        "title": "User id",
-        "description": "Unique user identifier",
+      "ActorId": {
+        "title": "Actor id",
+        "description": "Unique actor identifier. Actor is represented by a user or a internal service",
         "type": "string",
         "example": "user:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189",
         "pattern": "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
@@ -522,7 +531,7 @@
         }
       },
       "EntityCreateSuccess": {
-        "description": "Succesful entity creation retruns created entity id",
+        "description": "Successful entity creation reruns created entity id",
         "content": {
           "text/html": {
             "schema": {
@@ -532,7 +541,7 @@
         }
       },
       "EntityResponse": {
-        "description": "ENńtity data response",
+        "description": "Entity data response",
         "content": {
           "application/json": {
             "schema": {
@@ -563,23 +572,28 @@
       }
     },
     "parameters": {
-      "actoridParam": {
+      "divaHeader": {
         "in": "header",
-        "description": "The id of the origin that produces action/message. Can be an user or a service",
-        "name": "x-actorid",
+        "description": "The system specific stringified object whit relevant data like actorId, token etc.",
+        "name": "x-diva",
         "required": true,
         "schema": {
-          "$ref": "#/components/schemas/UserId"
+          "type": "object",
+          "properties": {
+            "actorId": {
+              "$ref": "#/components/schemas/ActorId"
+            }
+          }
         }
       },
-      "useridParam": {
-        "in": "path",
-        "description": "The id of the origin that produces action/message. Can be a user or service",
-        "name": "id",
+      "actoridParam": {
+        "in": "header",
+        "description": "The id of the origin that produces action/message. Can be an user or a service (deprecated)",
+        "name": "x-actorid",
+        "required": false,
         "schema": {
-          "$ref": "#/components/schemas/UserId"
-        },
-        "required": true
+          "$ref": "#/components/schemas/ActorId"
+        }
       },
       "entityIdParam": {
         "in": "path",

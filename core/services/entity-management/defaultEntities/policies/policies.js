@@ -211,6 +211,30 @@ module.exports = [
     },
     excludes: [],
   },
+  {
+    id: "policy:uuid:87df1872-e685-4ee6-8ca0-001609a40e36",
+    title: "Allow internal services to request AsyncAPI specification ",
+    isActive: true,
+    isEditable: false,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "/asyncapis/byName/(asyncapi|datanetwork-api|event-emitter-api)/?$",
+      method: "GET",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "^service:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            },
+          },
+        },
+      ],
+    },
+    excludes: [],
+  },
 
   /*
   {
