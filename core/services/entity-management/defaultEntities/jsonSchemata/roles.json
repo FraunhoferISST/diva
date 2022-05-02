@@ -5,6 +5,7 @@
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "isPatchable": false,
+  "description": "Predefined roles of an user. Can be only specified from admin in the Identity Management System",
   "scope": [
     {
       "key": "entityType",
@@ -19,7 +20,6 @@
       "roles": {
         "type": "array",
         "title": "Roles",
-        "description": "Predefined roles of an user entity",
         "default": [],
         "minItem": 0,
         "items": {

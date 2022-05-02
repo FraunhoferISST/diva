@@ -85,7 +85,10 @@
                           </template>
 
                           <v-list dense>
-                            <v-list-item @click="showFieldCreationDialog">
+                            <v-list-item
+                              v-if="isAdmin"
+                              @click="showFieldCreationDialog"
+                            >
                               <v-list-item-icon>
                                 <v-icon dense color="primary"> add </v-icon>
                               </v-list-item-icon>
@@ -246,7 +249,7 @@ export default {
     const menu = ref(false);
     const tab = ref("");
 
-    const { addRecentlyViewed } = useUser();
+    const { addRecentlyViewed, isAdmin } = useUser();
     const { emit } = useBus();
     const {
       color,
@@ -306,6 +309,7 @@ export default {
       deleteError,
       deleteLoading,
       title,
+      isAdmin,
       eventData: computed(() => eventData.value ?? {}),
       tags: computed(() =>
         [

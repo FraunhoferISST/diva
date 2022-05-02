@@ -1,14 +1,18 @@
 <template>
   <section id="user-general">
     <entity-general :id="id" />
-    <data-viewer :loading="loading" :error="error" v-if="user.id === id">
+    <data-viewer
+      :loading="loading"
+      :error="error"
+      v-if="user.id === id || isAdmin"
+    >
       <template v-if="data">
         <v-container class="pa-0 ma-0" fluid>
           <v-row class="pt-5">
             <v-col cols="12">
               <custom-header text="Account information" />
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" v-if="user.id === id">
               <v-row>
                 <v-col cols="12">
                   <v-row>
@@ -49,11 +53,11 @@
                 </v-col>
               </v-row>
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" v-if="user.id === id || isAdmin">
               <v-alert text color="error" class="my-4">
-                You can delete your DIVA account. Please note that the data
-                cannot be restored. Your data in Keycloak will not be affected
-                by deleting your DIVA account.
+                You can delete this DIVA account. Please note that the data
+                cannot be restored. The data in Keycloak will not be affected by
+                deleting this DIVA account.
                 <div class="d-flex justify-end">
                   <v-btn
                     class="mt-3"
@@ -137,7 +141,7 @@ export default {
       deleteLoading,
       deleteError,
     } = useEntity(props.id);
-    const { user, logout } = useUser();
+    const { user, logout, isAdmin } = useUser();
     load();
     return {
       loading,
@@ -149,6 +153,7 @@ export default {
       message,
       color,
       snackbar,
+      isAdmin,
       keycloakAccountURL: computed(() => keycloak.kc.createAccountUrl()),
       deleteAccount: () =>
         deleteEntity().then(() => {

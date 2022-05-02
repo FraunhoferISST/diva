@@ -4,6 +4,7 @@
   "schemaName": "groups",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
+  "description": "Predefined groups of an user. Can be only specified from admin in the Identity Management System",
   "isPatchable": false,
   "scope": [
     {
@@ -19,7 +20,7 @@
       "groups": {
         "type": "array",
         "title": "Groups",
-        "description": "Predefined groups of an user entity",
+        "description": "Predefined groups of an user. Can be only specified from admin in the Identity Management System",
         "default": [],
         "minItem": 0,
         "items": {

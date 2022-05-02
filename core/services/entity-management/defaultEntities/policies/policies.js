@@ -84,13 +84,46 @@ module.exports = [
     },
     excludes: [],
   },
+  {
+    id: "policy:uuid:cd0400c9-ed81-4f41-a6a2-ebc1f3cef834",
+    title: "Allows normal users to see not private entities",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/[a-zA-Z0-9]+/[a-zA-Z0-9]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/?$",
+      method: "GET",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              // means actually user is logged in
+              "headers.diva.actorId":
+                "user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+        {
+          mongo: {
+            query: {
+              id: "{{params.id}}",
+              isPrivate: { $ne: true },
+            },
+          },
+        },
+      ],
+    },
+    excludes: [],
+  },
 
   // Users | Login:
   {
     id: "policy:uuid:132e0f2e-19a6-4e61-b42f-e5033322b1ec",
     title: "User can execute PUT on itself (excluding admin role)",
     description:
-      "The post request is especially required on first user login in DIVA. On first login the user will be created with the KC id. Without this the login would not be possible!",
+      "The PUT request is especially required on first user login in DIVA. On first login the user will be created with the KC id. Without this the login would not be possible!",
     isActive: true,
     isEditable: true,
     scope: {
@@ -112,6 +145,31 @@ module.exports = [
       ],
     },
     excludes: [],
+  },
+  {
+    id: "policy:uuid:a229c1a9-9371-4d84-89b7-81b662250c7d",
+    title: "User can execute PATCH on itself (excluding admin role)",
+    description:
+      "THe policy allows an user to edit own data, excepting roles and groups",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      method: "PATCH",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId": "{{params.id}}",
+            },
+          },
+        },
+      ],
+    },
+    excludes: ["groups", "roles"],
   },
   {
     id: "policy:uuid:57fc472b-57ef-4115-84e6-33d8ea1832be",

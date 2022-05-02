@@ -1,4 +1,4 @@
-import { ref } from "@vue/composition-api";
+import { computed, ref } from "@vue/composition-api";
 import api from "@/api/index";
 import kc from "@/api/keycloak";
 import { useEvents } from "@/composables/events";
@@ -35,6 +35,8 @@ export const useUser = () => {
   const error = ref(null);
   const loading = ref(false);
 
+  const isAdmin = computed(() => (user.value.roles ?? []).includes("admin"));
+
   if (!isListeningEvents) {
     useEvents(user.value.id, user.value.id, {
       onUpdate: () => load(),
@@ -61,6 +63,7 @@ export const useUser = () => {
           ...user.value,
           ...loggedInUser,
           ...data,
+          roles: data.roles,
           isLoggedIn: true,
         };
       })
@@ -91,11 +94,12 @@ export const useUser = () => {
   return {
     recentlyViewed,
     user,
+    isAdmin,
+    loading,
+    error,
     load,
     logout,
     login,
-    loading,
-    error,
     addRecentlyViewed,
   };
 };

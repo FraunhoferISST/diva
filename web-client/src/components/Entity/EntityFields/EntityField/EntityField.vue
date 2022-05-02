@@ -2,6 +2,21 @@
   <entity-field-schema-renderer :schema-entity="fieldSchema">
     <template #default="{ field, editor, viewer }">
       <info-block :title="field.title">
+        <template #title v-if="field.description">
+          <info-block-title class="d-flex justify-space-between">
+            {{ field.title }}
+            <template #info>
+              <v-tooltip top open-delay="600" max-width="400px">
+                <template #activator="{ on, attrs }">
+                  <v-icon color="primary" dense v-bind="attrs" v-on="on">
+                    info_outline
+                  </v-icon>
+                </template>
+                <span>{{ field.description }}</span>
+              </v-tooltip>
+            </template>
+          </info-block-title>
+        </template>
         <template #value>
           <field-editor
             :editable="field.isPatchable"
@@ -46,9 +61,11 @@ import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import EntityFieldSelector from "@/components/Entity/EntityFields/EntityField/EntityFieldSelector";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 import EntityFieldSchemaRenderer from "@/components/Entity/EntityFields/EntityField/EntityFieldSchemaRenderer";
+import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 export default {
   name: "EntityField",
   components: {
+    InfoBlockTitle,
     EntityFieldSchemaRenderer,
     FieldEditor,
     EntityFieldSelector,
