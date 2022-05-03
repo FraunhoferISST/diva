@@ -4,15 +4,16 @@ import pybktree
 import collections
 import requests
 import time
+import json
 
 # env and fixed variables
 MONGODB_URI = os.getenv('MONGODB_URI', "mongodb://admin:admin@localhost:27017/")
 DB_NAME = os.getenv('DB_NAME', "divaDb")
 COLLECTION_NAME = os.getenv('COLLECTION_NAME', "entities")
-DATANETWORK_ASSISTANT_URL = os.getenv(
-    'DATANETWORK_ASSISTANT_URL', "http://localhost:3012")
+ENTITY_MANAGEMENT_URL = os.getenv(
+    'ENTITY_MANAGEMENT_URL', "http://localhost:3000")
 SERVICE_ID = "service:uuid:f144b46a-6dfe-4dac-8fbc-611622e57394"
-HEADERS = {"x-actorid": SERVICE_ID}
+HEADERS = {"x-diva": json.encoder({ "actorId": SERVICE_ID })}
 
 HASH_FIELD = os.getenv('HASH_FIELD', "keywordsSimilarityHash")
 EDGE_TYPE = os.getenv('EDGE_TYPE', "keywordsSimilarity")
@@ -31,7 +32,7 @@ def delete_outdated_similarity_edges(entity_id, similar_fingerprints):
     # get existing similarity edges for current entity
     payload = {"from": entity_id, "bidirectional": "true",
                "edgeTypes": EDGE_TYPE}
-    res = requests.get(DATANETWORK_ASSISTANT_URL + "/edges",
+    res = requests.get(ENTITY_MANAGEMENT_URL + "/edges",
                        params=payload, headers=HEADERS).json()
 
     # Delete existing edges if there is no similarity anymore
@@ -44,7 +45,7 @@ def delete_outdated_similarity_edges(entity_id, similar_fingerprints):
         if exists:
             break
 
-        requests.delete(DATANETWORK_ASSISTANT_URL + "/edges/" +
+        requests.delete(ENTITY_MANAGEMENT_URL + "/edges/" +
                         edge["properties"]["id"], headers=HEADERS)
 
 def upsert_similarity_edges(entity_id, similar_fingerprints):
@@ -52,7 +53,7 @@ def upsert_similarity_edges(entity_id, similar_fingerprints):
     # get existing similarity edges for current entity
     payload = {"from": entity_id, "bidirectional": "true",
                "edgeTypes": EDGE_TYPE}
-    res = requests.get(DATANETWORK_ASSISTANT_URL + "/edges",
+    res = requests.get(ENTITY_MANAGEMENT_URL + "/edges",
                        params=payload, headers=HEADERS).json()
 
     for fingerprint in similar_fingerprints:
@@ -73,7 +74,7 @@ def upsert_similarity_edges(entity_id, similar_fingerprints):
 
         # if edge does not exist and nodes are not the same, POST
         if not exists and entity_id != fingerprint[1][1]:
-            requests.post(DATANETWORK_ASSISTANT_URL + "/edges", json={
+            requests.post(ENTITY_MANAGEMENT_URL + "/edges", json={
                 "from": entity_id,
                 "to": fingerprint[1][1],
                 "edgeType": EDGE_TYPE,
@@ -84,7 +85,7 @@ def upsert_similarity_edges(entity_id, similar_fingerprints):
 
         # if edge exists and needs update, PATCH
         if exists and needs_update:
-            requests.patch(DATANETWORK_ASSISTANT_URL + "/edges/" + edge_id, json={
+            requests.patch(ENTITY_MANAGEMENT_URL + "/edges/" + edge_id, json={
                 "score": fingerprint[0]
             }, headers=HEADERS)
 
