@@ -2,12 +2,18 @@ const _ = require("lodash");
 const axios = require("axios");
 const { serviceInstanceId } = require("@diva/common/utils/serviceInstanceId");
 const urljoin = require("url-join");
+const { serviceId } = require("../package.json");
 
 const ENTITY_MANAGEMENT_URL = process.env.SCHEMA_URL || "http://localhost:3000";
 
 const fetchSchema = (schemaName = "entity") =>
   axios.get(urljoin(ENTITY_MANAGEMENT_URL, "resolvedSchemata", schemaName), {
-    headers: { "x-actorid": serviceInstanceId },
+    headers: {
+      "x-diva": JSON.stringify({
+        actorId: serviceId,
+        serviceInstanceId,
+      }),
+    },
   });
 
 const combinationKeys = ["allOf", "anyOf", "oneOf"];
