@@ -1,6 +1,7 @@
 {
   "name": "image-caption-generator",
   "version": "2.0.0",
+  "serviceId": "service:uuid:1eea5348-ed9c-49cb-81c3-20f2e9f852cf",
   "private": true,
   "scripts": {
     "start": "node app.js",

@@ -1,6 +1,7 @@
 {
   "name": "entity-management-sink",
   "version": "1.0.0",
+  "sessionId": "service:uuid:9ac1e8f9-cfe8-4ae4-81bc-07151c7c4978",
   "private": true,
   "scripts": {
     "start": "node app.js",
