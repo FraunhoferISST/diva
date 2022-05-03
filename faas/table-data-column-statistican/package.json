@@ -1,6 +1,7 @@
 {
   "name": "table-data-column-statistican",
   "version": "3.0.0",
+  "serviceId": "service:uuid:8bb987fa-d9bf-4a35-b8ba-dc90b9f3f987",
   "private": true,
   "scripts": {
     "start": "node app.js",

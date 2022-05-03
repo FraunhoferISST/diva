@@ -8,7 +8,7 @@ module.exports = [
     serviceType: "internal",
     entityType: "service",
   },
-  // FaaS
+  // FaaS Bots
   {
     title: "Similarity Network Bot",
     description:
@@ -36,6 +36,7 @@ module.exports = [
     serviceType: "faas",
     entityType: "service",
   },
+  // FaaS
   {
     title: "Keywords Similarity Hash Generator",
     description:
@@ -54,7 +55,7 @@ module.exports = [
     serviceType: "faas",
     entityType: "service",
   },
-  // Image Analytics FaaS
+  // FaaS Image Analytics
   {
     title: "Image Caption Generator",
     description:
@@ -96,4 +97,55 @@ module.exports = [
     serviceType: "faas",
     entityType: "service",
   },
+  // FaaS Table Data
+  {
+    title: "Table Data Apriori Associations Extractor",
+    description: "Service that calculates associations between columns.",
+    serviceName: "table-data-apriori-associations-extractor",
+    id: "service:uuid:6ade4eb1-00fd-4cfa-a605-4d5ab25c8efc",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  {
+    title: "Table Data Column Statistican",
+    description:
+      "Service that calculates standard statistics for each column in the table.",
+    serviceName: "table-data-column-statistican",
+    id: "service:uuid:8bb987fa-d9bf-4a35-b8ba-dc90b9f3f987",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  {
+    title: "Table Data Metadata Extractor",
+    description: "Service that extracts metadata from a csv file.",
+    serviceName: "table-data-metadata-extractor",
+    id: "service:uuid:f76cd916-ed17-41d9-b07a-31b39fcb1a4c",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  {
+    title: "Table Data Sample Extractor",
+    description: "Service that extracts ~20 rows from the table as sample.",
+    serviceName: "table-data-sample-extractor",
+    id: "service:uuid:8e34555c-601f-4f87-9caa-1fbcca9ba4b2",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  {
+    title: "Table Data Schema Extractor",
+    description: "Service that extracts the schema of the table.",
+    serviceName: "table-data-schema-extractor",
+    id: "service:uuid:aa48a478-010e-4b27-95b4-94461a2cf8f5",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  {
+    title: "Table Data to CSV",
+    description: "Service that (currently only) transforms sas7bdat to csv.",
+    serviceName: "table-data-to-csv",
+    id: "service:uuid:19232684-53f1-4235-8656-0731ee63bcf0",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  // Faas Text
 ];
