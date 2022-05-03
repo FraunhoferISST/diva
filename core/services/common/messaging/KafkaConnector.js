@@ -13,7 +13,7 @@ class KafkaConnector {
       brokers: [this.URL],
       retry: {
         initialRetryTime: 100,
-        retries: 8,
+        retries: 3,
       },
     });
   }

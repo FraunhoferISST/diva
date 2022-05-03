@@ -67,7 +67,7 @@ const policyRulesMiddleware = async (req, res, next) => {
       },
       {
         headers: {
-          "x-actorid": req.headers["x-actorid"] ?? "",
+          "x-diva": JSON.stringify({ actorId: req.headers.diva.actorId }),
         },
       }
     );
