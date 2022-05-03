@@ -8,13 +8,21 @@ const {
 } = require("../utils/utils");
 const servicesURLsMap = require("../utils/servicesURLs");
 
-const prepareAction = (action, message) =>
-  JSON.parse(
+const prepareAction = (action, message) => {
+  const substitutedAction = JSON.parse(
     substituteTemplate(JSON.stringify(action), {
       ...message,
       ...servicesURLsMap,
     })
   );
+  return {
+    ...substitutedAction,
+    headers: {
+      ...substitutedAction.headers,
+      "x-diva": JSON.stringify(substitutedAction.headers["x-diva"]),
+    },
+  };
+};
 
 const getRuleActions = async (rule, message) => {
   if (await isConditionMet(rule.condition, message)) {
