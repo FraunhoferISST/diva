@@ -34,4 +34,13 @@ module.exports = [
     serviceType: "faas",
     entityType: "service",
   },
+  {
+    title: "Keywords Similarity Hash Generator",
+    description:
+      "Can be triggered through airflow to calculate a similarity hash for keywords.",
+    serviceName: "keywords-similarity-hash-generator",
+    id: "service:uuid:ff98d351-7fe5-433f-bf68-90545c70de6b",
+    serviceType: "faas",
+    entityType: "service",
+  },
 ];
