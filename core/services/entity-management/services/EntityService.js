@@ -161,6 +161,7 @@ class EntityService {
     const entityType = this.entityType ?? entity.entityType;
     return cleanUpEntity({
       id: generateUuid(this.entityType ?? ENTITY), // the id can be overwritten by concrete implementation
+      isEditable: true, // can be also overwritten
       ...entity,
       entityType,
       createdAt: new Date().toISOString(),
@@ -276,7 +277,7 @@ class EntityService {
     this.validate(updatedEntity);
     await this.insert(updatedEntity);
     const delta = await this.createHistoryEntry({}, updatedEntity, actorId);
-    return { delta };
+    return { upsert: true, delta };
   }
 
   async patchById(id, patch, actorId) {

@@ -15,6 +15,7 @@
                 :[field.propertyName]="field.value"
                 :is="field._ui.component"
                 :id="id"
+                :editable="field.isPatchable"
               />
               <entity-field
                 v-else

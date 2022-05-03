@@ -224,26 +224,6 @@ services:
     networks:
       - core
 
-  datanetwork-assistant:
-    image: ${REGISTRY}datanetwork-assistant:0.1.3
-    container_name: datanetwork-assistant
-    environment:
-      <<: *neo4j-env
-      <<: *cors-env
-      <<: *entity-management-env
-      <<: *log-level-env
-      NODE_ENV: production
-      PORT: ${DATANETWORK_ASSISTANT_PORT}
-    restart: always
-    depends_on:
-      - neo4j
-      - broker
-      - business-decision-point
-    ports:
-      - ${DATANETWORK_ASSISTANT_PORT}:${DATANETWORK_ASSISTANT_PORT}
-    networks:
-      - core
-
   # ####################################################################################################################
   # History Assistant
   # ####################################################################################################################

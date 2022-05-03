@@ -77,7 +77,7 @@ module.exports = [
         {
           cypher: {
             query:
-              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})<-[e:isCreatorOf]-(:user {entityId:'{{headers[\"x-actorid\"]}}'}) RETURN (count(e)>0) as ruleMet",
+              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})<-[e:isCreatorOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(e)>0) as ruleMet",
           },
         },
       ],
@@ -307,6 +307,72 @@ module.exports = [
     excludes: [],
   },
 
+  // Edges
+  {
+    id: "policy:uuid:62d1bc96-31ca-4fbc-89a1-0cef12e20c73",
+    title:
+      "Logged in users and internal services can perform operations on edges",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/edges/?$",
+      method: "(GET|POST)",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            },
+          },
+        },
+      ],
+    },
+  },
+  {
+    id: "policy:uuid:4293491e-ecc5-4f79-9ba9-baf0c9c4de11",
+    title:
+      "Logged in users and internal services can perform operations on edges by id",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/edges/edge:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/?$",
+      method: "(GET|POST|PATCH|PUT)",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            },
+          },
+        },
+        {
+          mongo: {
+            query: {
+              id: "{{body.to.id}}",
+              isEditable: true,
+            },
+          },
+        },
+        {
+          mongo: {
+            query: {
+              id: "{{body.from.id}}",
+              isEditable: true,
+            },
+          },
+        },
+      ],
+    },
+  },
+
   /*
   {
     id: "policy:uuid:66a0b4e8-f477-4c14-b846-631c1961d692
@@ -322,7 +388,7 @@ module.exports = [
         {
           cypher: {
             query:
-              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})<-[e:isOwnerOf]-(:user {entityId:'{{headers[\"x-actorid\"]}}'}) RETURN (count(e)>0) as ruleMet",
+              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})<-[e:isOwnerOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(e)>0) as ruleMet",
           },
         },
       ],
@@ -342,7 +408,7 @@ module.exports = [
         {
           cypher: {
             query:
-              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})-[:isPartOf]->(a:asset)<-[:isPartOf]-(:user {entityId:'{{headers[\"x-actorid\"]}}'}) RETURN (count(a)>0) as ruleMet",
+              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})-[:isPartOf]->(a:asset)<-[:isPartOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(a)>0) as ruleMet",
           },
         },
       ],
@@ -362,7 +428,7 @@ module.exports = [
         {
           cypher: {
             query:
-              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})<-[e:isCreatorOf]-(:user {entityId:'{{headers[\"x-actorid\"]}}'}) RETURN (count(e)>0) as ruleMet",
+              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})<-[e:isCreatorOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(e)>0) as ruleMet",
           },
         },
       ],

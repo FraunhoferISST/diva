@@ -87,7 +87,7 @@ export default {
           }
         })
         .catch((e) => {
-          const error = e?.error || e?.response?.data?.message || e.toString();
+          const error = e?.error || e?.response?.data?.message || e;
           this.error = error ?? "Failed to initialize authentication";
         })
         .finally(() => {

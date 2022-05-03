@@ -1,9 +1,13 @@
 <template>
   <info-block title="Languages">
     <template #value>
-      <field-editor :data="{ languages }" :on-save="updateLanguages">
+      <field-editor
+        :data="{ languages }"
+        :on-save="updateLanguages"
+        :editable="editable"
+      >
         <template #view="{ state }">
-          <no-data-state v-if="!hasLanguages" text="Select languages">
+          <no-data-state v-if="!hasLanguages(state)" text="Select languages">
           </no-data-state>
           <div v-else>
             <v-chip
@@ -60,12 +64,10 @@ export default {
       error,
     };
   },
-  computed: {
-    hasLanguages() {
-      return this.languages.length > 0;
-    },
-  },
   methods: {
+    hasLanguages(state) {
+      return (state.languages ?? []).length > 0;
+    },
     updateLanguages(patch) {
       return this.patch(patch).then(() => {
         if (this.error) {

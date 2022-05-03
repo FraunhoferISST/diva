@@ -39,7 +39,6 @@ export default {
         silentCheckSsoRedirectUri: window.location.href,
       })
       .then((authenticated) => {
-        console.log(kc.tokenParsed);
         setInterval(() => updateToken(), 60000);
         return authenticated;
       }),

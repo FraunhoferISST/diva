@@ -128,7 +128,6 @@ export default {
               )
             )
           ).flat();
-          console.log(creators);
           const historiesWithCreators = collection.map((entry) => ({
             ...entry,
             creator: creators.find(({ id }) => id === entry.creatorId) ?? {},

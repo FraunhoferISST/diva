@@ -5,7 +5,16 @@
     "version": "1.0.0",
     "title": "Entity Management API"
   },
-  "tags": [],
+  "tags": [
+    {
+      "name": "edges",
+      "description": "Data Network requests"
+    },
+    {
+      "name": "nodes",
+      "description": "Data Network requests"
+    }
+  ],
   "paths": {
     "/api": {
       "get": {
