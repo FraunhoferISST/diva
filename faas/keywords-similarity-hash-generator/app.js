@@ -9,7 +9,6 @@ const DIVA_DB_NAME = process.env.DIVA_DB_NAME || "divaDb";
 const ENTITY_COLLECTION_NAME = process.env.ENTITY_COLLECTION_NAME || "entities";
 const ENTITY_MANAGEMENT_URL =
   process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000";
-// const serviceId = "service:uuid:ff98d351-7fe5-433f-bf68-90545c70de6b";
 const { ENTITY_ID, ACTOR_ID } = process.env;
 
 const client = new MongoClient(MONGODB_URI, {
@@ -31,7 +30,9 @@ const patchEntity = async (entityId, keywordsSimilarityHash) => {
       },
       {
         headers: {
-          "x-actorid": ACTOR_ID,
+          "x-diva": {
+            actorId: ACTOR_ID,
+          },
         },
       }
     );
