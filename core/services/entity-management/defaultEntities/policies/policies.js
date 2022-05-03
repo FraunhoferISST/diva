@@ -266,7 +266,7 @@ module.exports = [
     scope: {
       "headers.serviceName": "entity-management",
       path: "/scopedSchemata/?$",
-      method: "POST",
+      method: "GET",
     },
     condition: {
       and: [
@@ -280,7 +280,29 @@ module.exports = [
         },
       ],
     },
-    excludes: [],
+  },
+  {
+    id: "policy:uuid:99a75ace-e761-4f9b-8eeb-137da37c7b5c",
+    title: "Allow only ESC to fetch resolved schemata",
+    isActive: true,
+    isEditable: false,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "/resolvedSchemata/entity/?$",
+      method: "GET",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "service:uuid:0a777e67-5ed7-4f1e-82d3-2078a7643ebd",
+            },
+          },
+        },
+      ],
+    },
   },
   {
     id: "policy:uuid:87df1872-e685-4ee6-8ca0-001609a40e36",
@@ -304,7 +326,6 @@ module.exports = [
         },
       ],
     },
-    excludes: [],
   },
 
   // Edges
