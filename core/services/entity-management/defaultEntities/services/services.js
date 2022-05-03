@@ -2,9 +2,10 @@ module.exports = [
   // internal services
   {
     title: "Entity Management Service",
-    description: require("../../package.json").description,
+    description:
+      "Manages metadata of entities and publishes CRUD events to kafka",
     serviceName: "entity-management",
-    id: require("../../package.json").serviceId,
+    id: "service:uuid:f1bfc29c-6cda-4e38-b5ef-1c6ba8134ff3",
     serviceType: "internal",
     entityType: "service",
   },
@@ -148,4 +149,73 @@ module.exports = [
     entityType: "service",
   },
   // Faas Text
+  {
+    title: "Text Core Phrase Extractor",
+    description:
+      "Service that extractes core phrases according to a set of algorithms.",
+    serviceName: "text-core-phrase-extractor",
+    id: "service:uuid:570a8fc7-47eb-44d0-8200-e6655b60b09a",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  {
+    title: "Text Keyword Extractor",
+    description: "Service that extracts keywords from a text.",
+    serviceName: "text-keyword-extractor",
+    id: "service:uuid:a0bc8f6b-824c-4a0f-9db5-5f684a34b8bb",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  {
+    title: "Text Language Guesser",
+    description: "Service that guesses the language of a text.",
+    serviceName: "text-language-guesser",
+    id: "service:uuid:2c2455be-4865-431b-9e0f-d8f256109788",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  {
+    title: "Text Metadata Extractor",
+    description:
+      "Service that extracts metadata from pdf, word and other text files.",
+    serviceName: "text-metadata-extractor",
+    id: "service:uuid:5c1c1105-ba6c-40aa-b07d-77068b0bc974",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  {
+    title: "Text Personal Data Evaluation",
+    description:
+      "Service that calculates GDPR metric according to count of personal data.",
+    serviceName: "text-personal-data-evaluation",
+    id: "service:uuid:10dade28-97b7-4ae8-b1d2-95ca4afe004b",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  {
+    title: "Text Similarity Hash Generator",
+    description:
+      "Service that generates a similarity hash from the content of the text.",
+    serviceName: "text-similarity-hash-generator",
+    id: "service:uuid:c63d828a-3077-4769-8386-4bc9de86e97d",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  {
+    title: "Text Statistican",
+    description: "Service that calculates statistics from a text.",
+    serviceName: "text-statistican",
+    id: "service:uuid:9b3b637c-5627-42a3-b984-0fa8953fb126",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  {
+    title: "TIKA Extraction",
+    description:
+      "Service that extracts the raw text from an pdf, word and other file formats.",
+    serviceName: "tika-extraction",
+    id: "service:uuid:2045664d-6325-4526-a280-fc5793bcb730",
+    serviceType: "faas",
+    entityType: "service",
+  },
 ];
