@@ -14,21 +14,6 @@ module.exports = {
     "Invalid data supplied for the operation",
     406
   ),
-  userAlreadyExistsError: customErrorFactory(
-    "UserAlreadyExists",
-    "User with the given email already exists",
-    409
-  ),
-  userNotFoundError: customErrorFactory(
-    "UserNotFound",
-    "User with the given id not found",
-    404
-  ),
-  userNotAuthenticatedError: customErrorFactory(
-    "Authentication",
-    "User is not authenticated",
-    401
-  ),
   imageNotFoundError: customErrorFactory(
     "ImageNotFound",
     "Image with the provided id not found",
@@ -38,5 +23,25 @@ module.exports = {
     "ImageFormat",
     "Image format not supported. Provide PNG or JPG file",
     406
+  ),
+  nodeNotFoundError: customErrorFactory(
+    "NodeNotFound",
+    "Node for the given entity id not found",
+    404
+  ),
+  edgeAlreadyExistsError: customErrorFactory(
+    "EdgeAlreadyExists",
+    "The edge type in between given entities already exists",
+    409
+  ),
+  nodeAlreadyExistsError: customErrorFactory(
+    "NodeAlreadyExists",
+    "The node with the given id already exists",
+    409
+  ),
+  edgeNotFoundError: customErrorFactory(
+    "EdgeNotFound",
+    "Edge withe the given id not found",
+    404
   ),
 };

@@ -86,12 +86,12 @@ module.exports = class EntityController {
 
   async create(req, res, next) {
     try {
-      const actorid = req.headers["x-actorid"];
+      const { actorId } = req.headers.diva;
       if (Array.isArray(req.body)) {
         const result = await processCreateBulkRequest(
           this.service,
           req.body,
-          actorid,
+          actorId,
           this.service.entityType
         );
         res.status(207).send(result);
@@ -99,7 +99,7 @@ module.exports = class EntityController {
         const { id } = await createSingleEntity(
           this.service,
           req.body,
-          actorid,
+          actorId,
           this.service.entityType
         );
         res.status(201).send(id);
@@ -139,13 +139,12 @@ module.exports = class EntityController {
         req.body,
         req.headers.diva.actorId
       );
-      const { attributedTo } = await this.service.getById(id);
       res.status(200).send();
       entitiesMessagesProducer.produce(
         id,
-        req.headers["x-actorid"],
+        req.headers.diva.headers,
         "update",
-        attributedTo ? [attributedTo] : [],
+        [],
         { affectedFields: this.getAffectedFieldsFromDelta(delta) }
       );
     } catch (err) {

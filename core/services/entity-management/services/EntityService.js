@@ -161,6 +161,7 @@ class EntityService {
     const entityType = this.entityType ?? entity.entityType;
     return cleanUpEntity({
       id: generateUuid(this.entityType ?? ENTITY), // the id can be overwritten by concrete implementation
+      isEditable: true, // can be also overwritten
       ...entity,
       entityType,
       createdAt: new Date().toISOString(),

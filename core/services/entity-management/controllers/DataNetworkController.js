@@ -54,7 +54,7 @@ class DataNetworkController {
       await this.service.patchEdgeById(req.params.id, req.body);
       dataNetworkMessagesProducer.produce(
         req.params.id,
-        req.headers["x-actorid"],
+        req.headers.diva.actorId,
         "update",
         [edge.from.entityId, edge.to.entityId],
         { edgeType: edge.edgeType }
@@ -71,7 +71,7 @@ class DataNetworkController {
       await this.service.deleteEdgeById(req.params.id);
       dataNetworkMessagesProducer.produce(
         req.params.id,
-        req.headers["x-actorid"],
+        req.headers.diva.actorId,
         "delete",
         [edge.from.entityId, edge.to.entityId],
         { edgeType: edge.edgeType }
@@ -98,7 +98,7 @@ class DataNetworkController {
       const newNodeId = await this.service.createNode(entityId, entityType);
       dataNetworkMessagesProducer.produce(
         newNodeId,
-        req.headers["x-actorid"],
+        req.headers.diva.actorId,
         "create"
       );
       res.status(201).send();
@@ -109,7 +109,7 @@ class DataNetworkController {
 
   async deleteNodeById(req, res, next) {
     try {
-      const actorId = req.headers["x-actorid"];
+      const { actorId } = req.headers.diva;
       const { collection } = await this.service.getEdges(
         { from: req.params.id },
         true
