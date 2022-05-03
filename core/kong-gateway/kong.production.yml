@@ -79,6 +79,24 @@ services:
   - name: "Entity-Management-Service"
     url: "http://entity-management:3000/"
     routes:
+      - name: edges-route
+        paths:
+          - '/edges'
+        methods:
+          - POST
+          - GET
+          - DELETE
+          - PUT
+          - PATCH
+          - OPTIONS
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
+        plugins:
+          - name: jwt-keycloak
+            config:
+              allowed_iss: ["http://172.17.0.1:7000/auth/realms/diva-kc-realm"]
       - name: entities-route
         paths:
           - '/(users|resources|reviews|service|assets|rules|schemata|asyncapis|policies)/*$'
@@ -165,28 +183,6 @@ services:
           - "http"
           - "https"
         strip_path: true
-    plugins:
-      - name: jwt-keycloak
-        config:
-          allowed_iss: [ "http://172.17.0.1:7000/auth/realms/diva-kc-realm" ]
-
-  - name: "Datanetwork-Assistant"
-    url: "http://datanetwork-assistant:3012"
-    routes:
-      - name: datanetwork-assistant-route
-        methods:
-          - GET
-          - PUT
-          - POST
-          - PATCH
-          - DELETE
-          - OPTIONS
-        paths:
-          - "/edges"
-        protocols:
-          - "http"
-          - "https"
-        strip_path: false
     plugins:
       - name: jwt-keycloak
         config:
