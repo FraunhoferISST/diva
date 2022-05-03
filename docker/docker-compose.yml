@@ -118,6 +118,7 @@ services:
       - business-decision-point
     environment:
       <<: *base-core-service-env
+      <<: *neo4j-env
       PORT: ${ENTITY_MANAGEMENT_PORT}
     ports:
       - ${ENTITY_MANAGEMENT_PORT}:${ENTITY_MANAGEMENT_PORT}
