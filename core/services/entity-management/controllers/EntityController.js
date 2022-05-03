@@ -1,4 +1,3 @@
-const messageProducer = require("@diva/common/messaging/MessageProducer");
 const {
   entitiesMessagesProducer,
   dataNetworkMessagesProducer,
@@ -39,16 +38,14 @@ const createSingleEntity = async (service, entity, actorId, entityType) =>
     async ({ id }) => {
       if (id) {
         return Promise.all(
-          [
-            await service.deleteById(id),
-            await dataNetworkService.deleteNodeById(id),
-          ].map((p) =>
-            p.catch((e) => {
-              if (e.code === 404) {
-                return true;
-              }
-              throw e;
-            })
+          [service.deleteById(id), dataNetworkService.deleteNodeById(id)].map(
+            (p) =>
+              p.catch((e) => {
+                if (e.code === 404) {
+                  return true;
+                }
+                throw e;
+              })
           )
         );
       }
@@ -67,11 +64,11 @@ const appendBulkRequestPromiseHandler = (promise, additionalData = {}) =>
       error: err,
     }));
 
-const processCreateBulkRequest = async (service, bulk, actorid, entityType) =>
+const processCreateBulkRequest = async (service, bulk, actorId, entityType) =>
   Promise.all(
     bulk.map((entity) =>
       appendBulkRequestPromiseHandler(
-        createSingleEntity(service, entity, actorid, entityType),
+        createSingleEntity(service, entity, actorId, entityType),
         entity ?? {}
       )
     )
@@ -99,13 +96,13 @@ module.exports = class EntityController {
         );
         res.status(207).send(result);
       } else {
-        const result = await createSingleEntity(
+        const { id } = await createSingleEntity(
           this.service,
           req.body,
           actorid,
           this.service.entityType
         );
-        res.status(201).send(result);
+        res.status(201).send(id);
       }
     } catch (err) {
       return next(err);
@@ -140,7 +137,7 @@ module.exports = class EntityController {
       const { delta } = await this.service.patchById(
         id,
         req.body,
-        req.headers["x-actorid"]
+        req.headers.diva.actorId
       );
       const { attributedTo } = await this.service.getById(id);
       res.status(200).send();
@@ -159,19 +156,35 @@ module.exports = class EntityController {
   async updateById(req, res, next) {
     try {
       const { id } = req.params;
-      const { delta } = await this.service.updateById(
-        id,
-        req.body,
-        req.headers["x-actorid"]
+      const { actorId } = req.headers.diva;
+      const { upsert: upserted } = await executeTransaction(
+        [
+          () => this.service.updateById(id, req.body, actorId),
+          async ({ upsert }) =>
+            upsert
+              ? { nodeId: await this.dataNetwrokService.createNode(id) }
+              : {},
+          ({ delta, upsert }) =>
+            entitiesMessagesProducer.produce(
+              id,
+              actorId,
+              upsert ? "create" : "update",
+              [],
+              {
+                affectedFields: this.getAffectedFieldsFromDelta(delta),
+              }
+            ),
+        ],
+        async ({ nodeId, upsert }) => {
+          if (upsert) {
+            await this.service.deleteById(id);
+          }
+          if (nodeId) {
+            await this.dataNetwrokService.deleteNodeById(id);
+          }
+        }
       );
-      res.status(204).send();
-      entitiesMessagesProducer.produce(
-        id,
-        req.headers["x-actorid"],
-        "update",
-        req.body.attributedTo ? [req.body.attributedTo] : [],
-        { affectedFields: this.getAffectedFieldsFromDelta(delta) }
-      );
+      res.status(upserted ? 201 : 200).send();
     } catch (err) {
       return next(err);
     }
@@ -184,6 +197,11 @@ module.exports = class EntityController {
       const entityToDelete = await this.service.getById(id);
       await executeTransaction(
         [
+          async () =>
+            this.service.collection.updateOne(
+              { id },
+              { $set: { isEditable: false } }
+            ),
           async () => {
             const { collection: edges } =
               await this.dataNetwrokService.getEdges({ from: id }, true);
@@ -195,7 +213,7 @@ module.exports = class EntityController {
               .then(() => ({ deletedNodeId: id })),
           ({ edges }) =>
             edges.forEach((edge) =>
-              entitiesMessagesProducer.produce(
+              dataNetworkMessagesProducer.produce(
                 edge.id,
                 actorId,
                 "delete",
@@ -209,15 +227,13 @@ module.exports = class EntityController {
             this.service
               .deleteById(id, actorId)
               .then(() => ({ deletedId: id })),
-          () =>
-            entitiesMessagesProducer.produce(
-              id,
-              actorId,
-              "delete",
-              entityToDelete.attributedTo ? [entityToDelete.attributedTo] : []
-            ),
+          () => entitiesMessagesProducer.produce(id, actorId, "delete", []),
         ],
         async ({ deletedId, deletedNodeId }) => {
+          await this.service.collection.updateOne(
+            { id },
+            { $set: { isEditable: true } }
+          );
           if (deletedId) {
             await this.service.insert(entityToDelete);
           }
@@ -234,16 +250,17 @@ module.exports = class EntityController {
 
   async addImage(req, res, next) {
     try {
+      const { actorId } = req.headers.diva;
       const newImageId = await this.service.addImage(
         req.params.id,
         req.file,
-        req.headers["x-actorid"]
+        actorId
       );
       const { attributedTo } = await this.service.getById(req.params.id);
       res.status(201).send(newImageId);
       entitiesMessagesProducer.produce(
         req.params.id,
-        req.headers["x-actorid"],
+        actorId,
         "update",
         attributedTo ? [attributedTo] : []
       );
@@ -267,19 +284,14 @@ module.exports = class EntityController {
 
   async deleteImageById(req, res, next) {
     try {
+      const { actorId } = req.headers.diva;
       await this.service.deleteImageById(
         req.params.id,
         req.params.imageId,
-        req.headers["x-actorid"]
+        actorId
       );
-      const { attributedTo } = await this.service.getById(req.params.id);
       res.status(200).send();
-      entitiesMessagesProducer.produce(
-        req.params.id,
-        req.headers["x-actorid"],
-        "update",
-        attributedTo ? [attributedTo] : []
-      );
+      entitiesMessagesProducer.produce(req.params.id, actorId, "update", []);
     } catch (err) {
       return next(err);
     }

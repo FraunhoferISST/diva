@@ -35,9 +35,9 @@ class DataNetworkController {
   async createEdge(req, res, next) {
     try {
       const newEdgeId = await this.service.createEdge(req.body);
-      dataNetworkMessagesProducer.produce(
+      await dataNetworkMessagesProducer.produce(
         newEdgeId,
-        req.headers["x-actorid"],
+        req.headers.diva.actorId,
         "create",
         [req.body.from, req.body.to],
         { edgeType: req.body.edgeType }

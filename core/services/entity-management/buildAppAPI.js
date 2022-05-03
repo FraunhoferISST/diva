@@ -20,12 +20,11 @@ const asyncapisController = require("./controllers/AsyncapisController");
 const rulesService = require("./services/RulesService");
 const policiesService = require("./services/PoliciesService");
 const dataNetworkService = require("./services/DataNetworkService");
-const dataNetworkController = require("./controllers/DataNetworkController");
 const dataNetworkRouter = require("./routes/dataNetwork");
 const { serviceId } = require("./package.json");
 
 const entitiesTopic = "entity.events";
-const dataNetworkTopic = "entity.datanetwork";
+const dataNetworkTopic = "datanetwork.events";
 const NODE_ENV = process.env.NODE_ENV || "development";
 const producer = NODE_ENV === "test" ? () => Promise.resolve() : null;
 

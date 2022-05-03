@@ -6,18 +6,19 @@ module.exports = [
     isEditable: true,
     priority: 1,
     scope: {
-      channel: "datanetwork.events",
+      channel: "entity.events",
       "payload.type": "create",
-      "payload.object.id": "(resource|asset|review|service|user):.*",
+      "payload.object.id":
+        "(resource|asset|review|service|user|rule|policy|schema):.*",
     },
     condition: true,
     actions: [
       {
         headers: {
-          "x-actorid": "{{payload.actor.id}}",
+          "x-diva": { actorId: "{{payload.actor.id}}" },
         },
         method: "POST",
-        endpoint: "{{datanetwork-assistant}}/edges",
+        endpoint: "{{entity-management}}/edges",
         body: {
           from: "{{payload.actor.id}}",
           to: "{{payload.object.id}}",
@@ -30,6 +31,9 @@ module.exports = [
           {
             statusCode: 404, // one of the nodes does not exist
           },
+          {
+            statusCode: 403, // forbidden is forbidden, try not to write rules that confront with the policies
+          },
         ], // in some cases it makes sense to ignore error, for example if the node/edge already exists
       },
     ],
@@ -41,8 +45,9 @@ module.exports = [
     isEditable: true,
     priority: 1,
     scope: {
-      channel: "datanetwork.events",
-      "payload.attributedTo[0].object.id": "(resource|asset|service):.*",
+      channel: "entity.events",
+      "payload.attributedTo[0].object.id":
+        "(resource|asset|service|rule|policy|schema):.*",
       "payload.type": "create",
       "payload.object.id": "review:.*",
     },
@@ -50,10 +55,10 @@ module.exports = [
     actions: [
       {
         headers: {
-          "x-actorid": "{{payload.actor.id}}",
+          "x-diva": "{ actorId: {{payload.actor.id}} }",
         },
         method: "POST",
-        endpoint: "{{datanetwork-assistant}}/edges",
+        endpoint: "{{entity-management}}/edges",
         body: {
           from: "{{payload.object.id}}",
           to: "{{payload.attributedTo[0].object.id}}",
@@ -65,6 +70,9 @@ module.exports = [
           },
           {
             statusCode: 404, // one of the nodes does not exist
+          },
+          {
+            statusCode: 403, // forbidden is forbidden, try not to write rules that confront with the policies
           },
         ],
       },
@@ -95,7 +103,7 @@ module.exports = [
     actions: [
       {
         headers: {
-          "x-actorid": "{{payload.actor.id}}",
+          "x-diva": "{ actorId: {{payload.actor.id}} }",
         },
         method: "DELETE",
         endpoint:
@@ -103,6 +111,9 @@ module.exports = [
         ignoreErrors: [
           {
             statusCode: 404, // already deleted, ignore it
+          },
+          {
+            statusCode: 403, // forbidden is forbidden, try not to write rules that confront with the policies
           },
         ],
       },
@@ -123,13 +134,18 @@ module.exports = [
     actions: [
       {
         headers: {
-          "x-actorid": "{{payload.actor.id}}",
+          "x-diva": "{ actorId: {{payload.actor.id}} }",
         },
         method: "POST",
         endpoint: "{{profiling-assistant}}/profiling/run/keywords_similarity",
         body: {
           entityId: "{{payload.object.id}}",
         },
+        ignoreErrors: [
+          {
+            statusCode: 403, // forbidden is forbidden, try not to write rules that confront with the policies
+          },
+        ],
       },
     ],
   },

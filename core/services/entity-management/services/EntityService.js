@@ -276,7 +276,7 @@ class EntityService {
     this.validate(updatedEntity);
     await this.insert(updatedEntity);
     const delta = await this.createHistoryEntry({}, updatedEntity, actorId);
-    return { delta };
+    return { upsert: true, delta };
   }
 
   async patchById(id, patch, actorId) {
