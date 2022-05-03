@@ -1,7 +1,11 @@
 <template>
   <info-block title="Location">
     <template #value>
-      <field-editor :data="{ location }" :on-save="updateLocation">
+      <field-editor
+        :data="{ location }"
+        :on-save="updateLocation"
+        :editable="editable"
+      >
         <template #view="{ state }">
           <no-data-state v-if="!hasLocation" text="Add Location" />
           <location-map v-else :location="state.location" :editable="false" />
