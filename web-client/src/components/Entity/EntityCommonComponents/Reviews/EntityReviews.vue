@@ -14,9 +14,17 @@
             <fade-in>
               <v-col cols="12" v-if="reviews.length > 0">
                 <v-row>
-                  <v-col cols="12" v-for="review in reviews" :key="review.id">
+                  <v-col
+                    cols="12"
+                    v-for="(review, i) in reviews"
+                    :key="review.id"
+                  >
                     <fade-in>
-                      <review-card :review="review"></review-card>
+                      <review-card
+                        :review="review"
+                        @patch="(updatedReview) => onPatch(i, updatedReview)"
+                        @delete="() => onDelete(i)"
+                      ></review-card>
                     </fade-in>
                   </v-col>
                 </v-row>
@@ -46,6 +54,7 @@ import { useRequest } from "@/composables/request";
 import { useBus } from "@/composables/bus";
 import { useUser } from "@/composables/user";
 import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useApi } from "@/composables/api";
 
 export default {
   name: "EntityReviews",
@@ -66,14 +75,22 @@ export default {
   },
   setup() {
     const { request, error, loading } = useRequest();
+    const {
+      reviews: reviewsApi,
+      getEntityApiById,
+      getCollectionNameById,
+    } = useApi();
     const { on } = useBus();
     const { user } = useUser();
     return {
-      request,
       error,
       loading,
-      on,
       user,
+      reviewsApi,
+      on,
+      getEntityApiById,
+      getCollectionNameById,
+      request,
     };
   },
   data: () => ({
@@ -113,7 +130,7 @@ export default {
       );
     },
     async loadPage(cursor = this.cursor) {
-      return this.$api.reviews
+      return this.reviewsApi
         .get({
           pageSize: 30,
           attributedTo: this.id,
@@ -121,9 +138,20 @@ export default {
         })
         .then(async ({ data: { collection, cursor } }) => {
           /*this.showForm = !(await this.userAlreadyWroteReview());*/
-          const creators = await this.$api.users.getManyById(
-            collection.map(({ creatorId }) => creatorId)
-          );
+          const creatorsGroups = collection.reduce((group, entry) => {
+            const { creatorId } = entry;
+            const collectionName = this.getCollectionNameById(creatorId);
+            group[collectionName] = group[collectionName] ?? [];
+            group[collectionName].push(creatorId);
+            return group;
+          }, {});
+          const creators = (
+            await Promise.all(
+              Object.entries(creatorsGroups).map(([collectionName, ids]) =>
+                this.$api[collectionName].getManyById(ids)
+              )
+            )
+          ).flat();
           const reviewsWithCreators = collection.map((review) => ({
             ...review,
             creator: creators.find(({ id }) => id === review.creatorId),
@@ -134,15 +162,11 @@ export default {
           };
         });
     },
-    userAlreadyWroteReview() {
-      return this.$api.reviews
-        .get({
-          creatorId: this.user.id,
-          attributedTo: this.id,
-          pageSize: 1,
-        })
-        .then(({ data: { collectionSize } }) => collectionSize > 0)
-        .catch(() => true);
+    onPatch(index, review) {
+      this.reviews.splice(index, 1, review);
+    },
+    onDelete(index) {
+      this.reviews.splice(index, 1);
     },
   },
   mounted() {

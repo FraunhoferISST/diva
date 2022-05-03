@@ -29,12 +29,7 @@
         >
           <v-icon small> edit </v-icon>
         </v-btn>
-        <v-btn
-          icon
-          color="error"
-          small
-          @click="showDeleteReviewConfirmationDialog"
-        >
+        <v-btn icon color="error" small @click="showConfirmationDialog = true">
           <v-icon small> delete </v-icon>
         </v-btn>
       </div>
@@ -58,15 +53,15 @@
             color="primary"
             @click="() => patchReview({ reviewText, rating })"
             :disabled="!reviewText || !(rating > 0)"
-            :loading="isLoading"
+            :loading="loading"
           >
             Update review
           </v-btn>
         </template>
       </review-form>
     </div>
-    <v-snackbar text color="error" v-model="snackbar" absolute>
-      {{ snackbarText }}
+    <v-snackbar text :color="color" v-model="snackbar" absolute>
+      {{ message }}
     </v-snackbar>
     <confirmation-dialog
       v-if="userIsAuthor"
@@ -91,6 +86,11 @@ import ReviewForm from "./ReviewForm";
 import ConfirmationDialog from "../../../Base/ConfirmationDialog";
 import ActorCard from "@/components/User/ActorCard";
 import DotDivider from "@/components/Base/DotDivider";
+import { useUser } from "@/composables/user";
+import { useApi } from "@/composables/api";
+import { useSnackbar } from "@/composables/snackbar";
+import { useRequest } from "@/composables/request";
+import { computed, ref } from "@vue/composition-api";
 export default {
   name: "ReviewCard",
   components: {
@@ -106,75 +106,50 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    isEditMode: false,
-    isLoading: false,
-    snackbar: false,
-    showConfirmationDialog: false,
-    snackbarText: "",
-  }),
-  computed: {
-    user() {
-      return this.$store.state.user;
-    },
-    userIsAuthor() {
-      return this.user.id === this.review.creatorId;
-    },
-    creatorExists() {
-      return !!this.review?.creator?.username;
-    },
-    userName() {
-      return this.review.creator?.username || "N/A";
-    },
-    creatorImageId() {
-      return this.review.creator?.entityIcon || "";
-    },
-    creatorId() {
-      return this.review.creator?.id || "";
-    },
-  },
-  methods: {
-    enableEditMode() {
-      this.isEditMode = true;
-    },
-    disableEditMode() {
-      this.isEditMode = false;
-    },
-    patchReview(reviewData) {
-      this.isLoading = true;
-      this.$api.reviews
-        .patch(this.review.id, reviewData)
-        .then(() => (this.isEditMode = false))
-        .catch((e) => {
-          this.snackbarText =
-            e.response?.data?.message ??
-            e?.error ??
-            "Some error occurred. Please try again!";
-          this.snackbar = true;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    showDeleteReviewConfirmationDialog() {
-      this.showConfirmationDialog = true;
-    },
-    deleteReview() {
-      this.isLoading = true;
-      this.$api.reviews
-        .delete(this.review.id)
-        .then(() => (this.isEditMode = false))
-        .catch((e) => {
-          this.snackbarText =
-            e.response?.data?.message ??
-            e?.error ??
-            "Some error occurred. Please try again!";
-          this.snackbar = true;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
+  setup(props, { emit }) {
+    const isEditMode = ref(false);
+    const showConfirmationDialog = ref(false);
+    const { user } = useUser();
+    const { snackbar, message, color, show } = useSnackbar();
+    const { request, error, loading } = useRequest();
+    const { reviews: reviewsApi } = useApi();
+    return {
+      user,
+      reviewsApi,
+      isEditMode,
+      showConfirmationDialog,
+      snackbar,
+      message,
+      color,
+      loading,
+      userIsAuthor: computed(() => props.review.creatorId === user.value.id),
+      enableEditMode: () => (isEditMode.value = true),
+      disableEditMode: () => (isEditMode.value = false),
+      patchReview: (reviewData) =>
+        request(reviewsApi.patch(props.review.id, reviewData))
+          .then(() => {
+            if (error.value) {
+              show(error.value.response?.data?.message ?? error.value, {
+                color: "error",
+              });
+            }
+          })
+          .then(() => emit("patch", { ...props.review, ...reviewData }))
+          .then(() => (isEditMode.value = false))
+          .then(() => (showConfirmationDialog.value = false)),
+      deleteReview: () =>
+        request(reviewsApi.delete(props.review.id))
+          .then(() => {
+            if (error.value) {
+              show(error.value.response?.data?.message ?? error.value, {
+                color: "error",
+              });
+            }
+          })
+          .then(() => emit("delete", props.review))
+          .then(() => (isEditMode.value = false))
+          .then(() => (showConfirmationDialog.value = false)),
+    };
   },
 };
 </script>
