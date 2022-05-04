@@ -236,7 +236,7 @@ export default {
         if (entity.entityId !== this.id) {
           promises.push(
             this.$api.datanetwork
-              .postEdge({
+              .createEdge({
                 from: entity.entityId,
                 to: this.id,
                 edgeType: "isPartOf",

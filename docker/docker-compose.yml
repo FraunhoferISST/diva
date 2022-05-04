@@ -435,8 +435,9 @@ services:
     environment:
       <<: *cors-env
       <<: *mongodb-env
+      <<: *neo4j-env
       PORT: ${BUSINESS_DECISION_POINT_PORT}
-      POLICY_MIDDLEWARE: false
+      POLICY_MIDDLEWARE: "false"
       SERVICES_URLS: "entity-management::http://entity-management:3000,profiling-assistant::http://profiling-assistant:3011"
 
   # ####################################################################################################################

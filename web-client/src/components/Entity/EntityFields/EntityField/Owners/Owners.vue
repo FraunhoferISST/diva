@@ -138,7 +138,7 @@ export default {
       return Promise.all([
         ...newOwners.map(({ id }) =>
           datanetwork
-            .postEdge({
+            .createEdge({
               from: id,
               to: props.id,
               edgeType: "isOwnerOf",
