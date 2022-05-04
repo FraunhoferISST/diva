@@ -8,13 +8,15 @@
               :size="40"
               :entity-id="doc.id || ''"
               :image-id="doc.entityIcon || ''"
-              :entity-title="doc.title || doc.username"
+              :entity-title="doc.title || doc.username || 'Some entity'"
             />
           </div>
           <div class="search-card-info-container">
             <h1 class="search-card-title">
               <span v-if="highlightedTitle" v-html="highlightedTitle"></span>
-              <span v-else>{{ doc.title || doc.username }}</span>
+              <span v-else>{{
+                doc.title || doc.username || "Some entity"
+              }}</span>
             </h1>
             <div class="search-card-meta-container mt-1">
               <div>

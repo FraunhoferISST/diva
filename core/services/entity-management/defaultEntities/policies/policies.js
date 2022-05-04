@@ -66,7 +66,6 @@ module.exports = [
     id: "policy:uuid:274cf188-98f5-40b0-8e3c-fb9ee75e43c7",
     title: "Creator of resource can perform GET",
     isActive: true,
-    priority: 1,
     scope: {
       "headers.serviceName": "entity-management",
       path: "^/resources/resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
@@ -82,7 +81,6 @@ module.exports = [
         },
       ],
     },
-    excludes: [],
   },
   {
     id: "policy:uuid:cd0400c9-ed81-4f41-a6a2-ebc1f3cef834",
@@ -91,7 +89,7 @@ module.exports = [
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/[a-zA-Z0-9]+/[a-zA-Z0-9]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/?$",
+      path: "^/[a-zA-Z0-9]+/[a-zA-Z0-9]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}.*",
       method: "GET",
     },
     condition: {
@@ -115,7 +113,53 @@ module.exports = [
         },
       ],
     },
-    excludes: [],
+  },
+  {
+    id: "policy:uuid:2eff6696-ecec-4381-96dc-720b9b700edf",
+    title: "Allows normal users to GET list of entities",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/[a-zA-Z0-9]+/?.*",
+      method: "GET",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              // means actually user is logged in
+              "headers.diva.actorId":
+                "user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+      ],
+    },
+  },
+  {
+    id: "policy:uuid:468db289-3ebf-4f93-8d64-d56117875266",
+    title: "Allow anybody to create entities",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/resources/?$",
+      method: "POST",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+      ],
+    },
   },
 
   // Users | Login:

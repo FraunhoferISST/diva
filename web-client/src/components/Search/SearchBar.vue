@@ -1,25 +1,9 @@
 <template>
-  <div class="search-bar-container px-3" :class="{ interacted: interacted }">
-    <div
-      class="search-bar-image d-flex justify-center"
-      :class="{ interacted: interacted }"
-    >
-      <fade-out-in>
-        <img
-          id="diva-typo"
-          alt="DIVA"
-          width="200"
-          :src="require('@/assets/diva_logo_typo.svg')"
-          v-if="!interacted"
-        />
-      </fade-out-in>
-    </div>
-    <div class="d-flex justify-center">
-      <v-form
-        class="full-width"
-        style="max-width: 700px"
-        @submit.prevent="onInput"
-      >
+  <v-container class="pa-16 pb-8">
+    <h1 class="search-bar-title">Discover your catalog</h1>
+    <!--    <p>Some description here</p>-->
+    <div class="mt-10">
+      <v-form @submit.prevent="onInput">
         <v-text-field
           hide-details
           :loading="loading"
@@ -28,23 +12,40 @@
           flat
           rounded
           autofocus
-          :dense="interacted"
           full-width
           v-model="computedInput"
         />
       </v-form>
     </div>
-  </div>
+    <div
+      class="search-bar-stats pt-10 px-0 py-0 d-flex justify-space-between align-center"
+    >
+      <div class="d-flex align-center">
+        <div class="search-bar-total pr-3">
+          {{ total }} Item{{ total > 1 ? "s" : "" }}
+        </div>
+      </div>
+      <div>
+        <v-select
+          dense
+          rounded
+          flat
+          hide-details
+          :items="['Creation', 'Last modified', 'Title']"
+          label="Sort by"
+          solo
+        ></v-select>
+      </div>
+    </div>
+  </v-container>
 </template>
 
 <script>
 import { Debouncer } from "@/utils/utils";
 const searchDebouncer = new Debouncer();
-
-import FadeOutIn from "@/components/Transitions/FadeOutIn";
 export default {
   name: "SearchBar",
-  components: { FadeOutIn },
+  components: {},
   props: {
     input: {
       type: String,
@@ -54,11 +55,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    interacted: {
-      type: Boolean,
-      default: false,
-    },
-    totalSearchResults: {
+    total: {
       type: Number,
       default: 0,
     },
@@ -84,21 +81,21 @@ export default {
 
 <style scoped lang="scss">
 .search-bar-container {
-  background-color: white;
-  border-bottom: 2px solid $bg_card_secondary;
-  padding: 60px 0;
-  &.interacted {
-    margin-bottom: 0;
-    padding: 10px 0;
-  }
+  //background-color: white;
+  //border-bottom: 2px solid $bg_card_secondary;
 }
-.search-bar-image {
-  transition: 0.3s;
-  height: 65px;
-  margin-bottom: 20px;
-  &.interacted {
-    height: 0;
-    margin-bottom: 0;
-  }
+.search-bar-title {
+  font-family: $font_header;
+  letter-spacing: 0.07rem;
+  display: block;
+  font-size: 3rem !important;
+  font-weight: bolder;
+  opacity: 0.9;
+}
+.search-bar-total {
+  min-width: 80px;
+  font-family: Montserrat;
+  font-weight: bolder;
+  font-size: 1rem;
 }
 </style>
