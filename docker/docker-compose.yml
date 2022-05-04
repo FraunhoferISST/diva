@@ -404,6 +404,7 @@ services:
   event-emitter:
     image: ${REGISTRY}event-emitter:0.2.1
     container_name: event-emitter
+    restart: always
     depends_on:
       - broker
     ports:
