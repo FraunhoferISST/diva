@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "Starting Core..."
+echo "Starting Core without Airflow (small version)..."
 echo "\n"
 ENV_FILE=.env
 if test -f "$ENV_FILE"; then
