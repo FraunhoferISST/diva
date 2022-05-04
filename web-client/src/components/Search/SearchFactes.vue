@@ -5,7 +5,7 @@
       :error="error || searchError"
     >
       <div v-if="computedFacets.length > 0">
-        <div v-for="facet in computedFacets" :key="facet.type">
+        <div class="mb-6" v-for="facet in computedFacets" :key="facet.type">
           <custom-header>
             {{ facet.title }}
             <template #info>
@@ -75,8 +75,7 @@ export default {
     search("", {
       pageSize: 0,
       //facets: schemata.map(({ schemaName }) => schemaName).join(","),
-      facets:
-        "entityType, resourceType, assetType, mimeType, systemEntityType,",
+      facets: "entityType,resourceType,assetType,mimeType,systemEntityType,",
     }).then(async ({ facets: fetchedFacets }) => {
       const schemata = await getAllSchemata();
       computedFacets.value = Object.entries(fetchedFacets).map(
