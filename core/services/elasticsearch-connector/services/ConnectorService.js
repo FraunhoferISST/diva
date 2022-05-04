@@ -26,7 +26,7 @@ const getEdges = async ({ from, types = edgesTypes }, bidirectional = true) => {
   const relationshipTypes = types ? `r:${types.join("|")}` : "r";
   const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
   return executeSession(
-    `MATCH (from {id: '${from}'})${relationship}(to) RETURN to, r`
+    `MATCH (from {entityId: '${from}'})${relationship}(to) RETURN to, r`
   ).then(
     ({ records }) =>
       records?.map(({ _fields }) => ({
