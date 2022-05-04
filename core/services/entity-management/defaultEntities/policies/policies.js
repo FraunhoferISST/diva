@@ -266,7 +266,7 @@ module.exports = [
     scope: {
       "headers.serviceName": "entity-management",
       path: "/scopedSchemata/?$",
-      method: "GET",
+      method: "POST",
     },
     condition: {
       and: [
