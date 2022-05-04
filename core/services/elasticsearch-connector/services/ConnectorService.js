@@ -67,7 +67,7 @@ class ConnectorService {
       }
       const edges = await getEdges({ from: id }, true);
       for (const edge of edges) {
-        entity[edge.type].push(edge.id);
+        entity[edge.type].push(edge.entityId);
       }
       await esConnector.client.index({
         index: collection,
