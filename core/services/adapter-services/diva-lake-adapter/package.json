@@ -22,7 +22,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
+    "url": "https://github.com/FraunhoferISST/diva/tree/main/core/services/adapter-services/diva-lake-adapter"
   },
   "dependencies": {
     "@diva/common": "3.1.0",

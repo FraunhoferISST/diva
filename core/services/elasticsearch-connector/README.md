@@ -44,7 +44,7 @@ npm run dev
 
 ### Docker
 
-Use docker-compose to start the service in a container, build new service image and push the image to the GitLab docker registry.
+Use docker-compose to start the service in a container, build new service image and push the image to the GitHub docker registry.
 
 Pull the image:
 

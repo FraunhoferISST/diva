@@ -1,7 +1,6 @@
 # Text Metadata Extractor 📤
 
-[![version](https://img.shields.io/badge/text--metadata--extractor-2.0.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/text-metadata-extractor)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/text-metadata-extractor/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/text-metadata-extractor/-/commits/master)
+![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Ftext-metadata-extractor%2Fpackage.json)
 
 This service takes a metadata JSON-file from Apache Tika and provides an sanitized output for `DIVA`.
 

@@ -76,18 +76,6 @@ Run the script with specified ENV's. You can create in the root `test.txt` and `
 python3 profiling.py
 ```
 
-## Developers
-
-|**Sergej Atamantschuk**|
-|:---:|
-| [![Sergej Atamantschuk](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3617/avatar.png?width=400)](https://github.com/Igelex) | 
-
-**Version <3.0.0:**
-
-|**Julia Pampus**|**Daniel Tebernum**|**Dustin Chabrowski**|
-|:---:| :---:|:---:|
-| [![Julia Pampus](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/4688/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/jpampus) | [![Daniel Tebernum](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3566/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/dtebernum)    | [![Duske](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3563/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/dchabrowski)  |
-
 ## License
 
 Copyright © Fraunhofer ISST 2021

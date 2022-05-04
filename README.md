@@ -12,8 +12,8 @@
 
 <br />
 
-[![version](https://img.shields.io/badge/diva-v4.0.0--beta.0-orange)](https://gitlab.cc-asp.fraunhofer.de/diva/drm)
-
+![GitHub](https://img.shields.io/badge/diva-v4.0.0--beta.0-orange)
+![GitHub](https://img.shields.io/github/license/FraunhoferISST/diva)
 <br />
 
 <div align="center" style="text-align: center;">
