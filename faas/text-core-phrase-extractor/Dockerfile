@@ -1,4 +1,4 @@
-FROM registry.gitlab.cc-asp.fraunhofer.de:4567/diva/tooling/base-images/base-python3-nltk:1.0.0
+FROM ghcr.io/fraunhoferisst/diva/base-python3-nltk:1.0.0
 LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
 
 RUN mkdir -p /usr/src/app
