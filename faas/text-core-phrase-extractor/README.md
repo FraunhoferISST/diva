@@ -1,7 +1,6 @@
 # Text Core Phrase Extractor 💬
 
-[![version](https://img.shields.io/badge/text--core--phrase--extractor-4.1.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/text-core-phrase-extractor)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/text-core-phrase-extractor/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/text-core-phrase-extractor/-/commits/master)
+![GitHub](https://img.shields.io/badge/version-v4.1.0-green)
 
 This service accepts a `text/plain` file as input, extracts its content and delivers the core phrases as output. A set of different algorithms is available. For more details you need to lookup the corresponding papers. Number of sentences to be extracted and language of the text can be set using ENV variables.
 

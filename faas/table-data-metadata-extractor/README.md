@@ -1,7 +1,6 @@
 # Table Data Metadata Extractor 📤
 
-[![version](https://img.shields.io/badge/table--data--metadata--extractor-3.0.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-metadata-extractor)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-metadata-extractor/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-metadata-extractor/-/commits/master)
+![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Ftable-data-metadata-extractor%2Fpackage.json)
 
 This service gets the Apache Tika metadata of a CSV-file as input, extracts its content and provides the file metadata as output. The produced JSON result is written to the output file.
 

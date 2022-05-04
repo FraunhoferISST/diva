@@ -1,7 +1,6 @@
 # Image Text Extractor 📤
 
-[![version](https://img.shields.io/badge/image--text--extractor-3.0.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/image-text-extractor)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/image-text-extractor/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/image-text-extractor/-/commits/master)
+![GitHub](https://img.shields.io/badge/version-v3.0.0-green)
 
 This service gets an image file as input and provides OCR recognized image text as output.
 The produced JSON result is written to the output file.
@@ -51,12 +50,6 @@ or
 apt install tesseract-ocr
 ```
 
-## Developer
-
-|**Daniel Tebernum**|**Dustin Chabrowski**|
-|:---:|:---:|
-| [![Daniel Tebernum](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3566/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/dtebernum)    | [![Duske](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3563/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/dchabrowski)  |
-
 ## License
 
-Copyright © Fraunhofer ISST 2021
+Copyright © Fraunhofer ISST 2022
