@@ -26,9 +26,9 @@ const deleteEntity = async (entityId) => {
       ),
       {
         headers: {
-          "x-diva": {
+          "x-diva": JSON.stringify({
             actorId: serviceId,
-          },
+          }),
         },
       }
     );

@@ -30,9 +30,9 @@ const patchEntity = async (entityId, keywordsSimilarityHash) => {
       },
       {
         headers: {
-          "x-diva": {
+          "x-diva": JSON.stringify({
             actorId: ACTOR_ID,
-          },
+          }),
         },
       }
     );

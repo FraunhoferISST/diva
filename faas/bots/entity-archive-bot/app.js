@@ -30,9 +30,9 @@ const patchEntity = async (entityId) => {
       },
       {
         headers: {
-          "x-diva": {
+          "x-diva": JSON.stringify({
             actorId: serviceId,
-          },
+          }),
         },
       }
     );
