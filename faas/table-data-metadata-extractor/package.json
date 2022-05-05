@@ -1,6 +1,7 @@
 {
   "name": "table-data-metadata-extractor",
   "version": "3.0.0",
+  "serviceId": "service:uuid:f76cd916-ed17-41d9-b07a-31b39fcb1a4c",
   "private": true,
   "scripts": {
     "start": "node app.js",

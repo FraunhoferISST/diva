@@ -27,7 +27,8 @@
           "app",
           "plugin",
           "api",
-          "internal"
+          "internal",
+          "faas"
         ]
       }
     }

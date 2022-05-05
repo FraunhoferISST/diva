@@ -1,6 +1,7 @@
 {
   "name": "image-object-detection",
   "version": "2.0.0",
+  "serviceId": "service:uuid:6e918b98-c83a-45f4-95eb-5d51385741e5",
   "private": true,
   "scripts": {
     "start": "node app.js",

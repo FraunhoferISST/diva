@@ -1,6 +1,7 @@
 {
   "name": "entity-archive-bot",
   "version": "0.1.0",
+  "serviceId": "service:uuid:cfca72e0-4db4-47ea-bba5-0881be5e670a",
   "private": true,
   "scripts": {
     "start": "node app.js",

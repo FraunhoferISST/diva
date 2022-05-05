@@ -1,6 +1,7 @@
 {
   "name": "table-data-schemaextractor",
   "version": "2.0.0",
+  "serviceId": "service:uuid:aa48a478-010e-4b27-95b4-94461a2cf8f5",
   "private": true,
   "scripts": {
     "start": "node app.js",
