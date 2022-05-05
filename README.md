@@ -98,7 +98,7 @@ This project is developed by employees of [Fraunhofer ISST](https://www.isst.fra
 |:---:|:---:|:---:|:---:|
 |[![Daniel Tebernum](https://avatars.githubusercontent.com/u/12967305?u=622c4a26340563d8675786b9b5358d6f5b88e2c7&v=4&s=128)](https://github.com/DaTebe) | [![Sergej Atamantschuk](https://avatars.githubusercontent.com/u/15034996?v=4&s=128)](https://github.com/setaman) | [![Anatoly Novohatny](https://avatars.githubusercontent.com/u/50167528?v=4&s=128)](https://github.com/anatoliynovo) | [![Janis Büse](https://avatars.githubusercontent.com/u/47151705?v=4&s=128)](https://github.com/jbuese)
 
-|**Dustin Chabrowski** <br><br>|**Marcel Altendeitering** <br><br>|**Julia Pampus** <br><br>|
+|**Dustin Chabrowski** <br>(Alumni)<br>|**Marcel Altendeitering** <br>(Alumni)<br>|**Julia Pampus** <br>(Alumni)<br>|
 |:---:|:---:|:---:|
 |[![Dustin Chabrowski](https://avatars.githubusercontent.com/u/5938056?v=4&s=128)](https://github.com/Duske) | [![Marcel Altendeitering](https://avatars.githubusercontent.com/u/19547410?v=4&s=128)](https://github.com/maltendeitering) | [![Julia Pampus](https://avatars.githubusercontent.com/u/72392527?v=4&s=128)](https://github.com/juliapampus)
 
