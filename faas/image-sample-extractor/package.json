@@ -1,6 +1,7 @@
 {
   "name": "image-sample-extractor",
   "version": "3.0.0",
+  "serviceId": "service:uuid:4865fa98-7b0d-4db3-a211-7ccf60afc038",
   "description": "a microservice for extracting thumbnails of resources",
   "main": "app.js",
   "scripts": {

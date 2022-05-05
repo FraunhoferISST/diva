@@ -26,7 +26,7 @@ const getEdges = async ({ from, types = edgesTypes }, bidirectional = true) => {
   const relationshipTypes = types ? `r:${types.join("|")}` : "r";
   const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
   return executeSession(
-    `MATCH (from {id: '${from}'})${relationship}(to) RETURN to, r`
+    `MATCH (from {entityId: '${from}'})${relationship}(to) RETURN to, r`
   ).then(
     ({ records }) =>
       records?.map(({ _fields }) => ({
@@ -67,7 +67,7 @@ class ConnectorService {
       }
       const edges = await getEdges({ from: id }, true);
       for (const edge of edges) {
-        entity[edge.type].push(edge.id);
+        entity[edge.type].push(edge.entityId);
       }
       await esConnector.client.index({
         index: collection,

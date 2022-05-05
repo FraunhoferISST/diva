@@ -1,7 +1,6 @@
 # Language Guesser 🈹
 
-[![version](https://img.shields.io/badge/text--language--guesser-v2.0.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/drm)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/text-language-guesser/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/text-language-guesser/-/commits/master)
+![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Ftext-language-guesser%2Fpackage.json)
 
 This service gets a plain text file as input and tries to guess the language the text is written in. It will return the top three languages as array with scoring. The JSON result is written to the output file.
 
@@ -57,4 +56,4 @@ INPUT_FILE=./test.txt OUTPUT_FILE=./test_output.json node app.js
 
 ## License
 
-Copyright © Fraunhofer ISST 2021
+Copyright © Fraunhofer ISST 2022

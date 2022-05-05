@@ -1,7 +1,6 @@
 # Table Data Column Statistican 📊
 
-[![version](https://img.shields.io/badge/table--data--column--statistican-v3.0.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-column-statistican)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-column-statistican/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-column-statistican/-/commits/master)
+![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Ftable-data-column-statistican%2Fpackage.json)
 
 This service gets a table data file in `text/csv` as input and provides the calculated statistics for each columns as output. The produced JSON result is written to the output file.
 
@@ -91,12 +90,6 @@ INPUT_FILE=table.csv OUTPUT_FILE=result.json node app.js
 }
 ```
 
-## Developer
-
-|**Daniel Tebernum**|**Dustin Chabrowski**|
-|:---:|:---:|
-| [![Daniel Tebernum](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3566/avatar.png?width=200)](https://gitlab.cc-asp.fraunhofer.de/dtebernum) | [![Duske](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3563/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/dchabrowski) |
-
 ## License
 
-Copyright © Fraunhofer ISST 2021
+Copyright © Fraunhofer ISST 2022

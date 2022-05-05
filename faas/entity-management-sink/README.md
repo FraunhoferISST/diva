@@ -1,7 +1,6 @@
 # Resource Management Sink 🛀
 
-[![version](https://img.shields.io/badge/resource--management--sink-1.0.1-green)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/resource-management-sink)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/resource-management-sink/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/resource-management-sink/-/commits/master)
+![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Fentity-management-sink%2Fpackage.json)
 
 A simple service to PATCH workflow results in our `resource-management`.
 
@@ -45,4 +44,4 @@ INPUT_FILE=./test.txt node app.js
 
 ## License
 
-Copyright © Fraunhofer ISST 2021
+Copyright © Fraunhofer ISST 2022

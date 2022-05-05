@@ -1,6 +1,7 @@
 {
   "name": "text-similarity-hash-generator",
   "version": "0.1.0",
+  "serviceId": "service:uuid:c63d828a-3077-4769-8386-4bc9de86e97d",
   "private": true,
   "scripts": {
     "start": "node app.js",

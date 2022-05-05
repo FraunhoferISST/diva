@@ -1,6 +1,7 @@
 {
   "name": "entity-delete-bot",
   "version": "0.1.0",
+  "serviceId": "service:uuid:8640d5de-91fe-486a-9378-b8350ede33a5",
   "private": true,
   "scripts": {
     "start": "node app.js",

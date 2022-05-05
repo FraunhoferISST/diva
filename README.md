@@ -12,8 +12,8 @@
 
 <br />
 
-[![version](https://img.shields.io/badge/diva-v4.0.0--beta.0-orange)](https://gitlab.cc-asp.fraunhofer.de/diva/drm)
-
+![GitHub](https://img.shields.io/badge/diva-v4.0.0--beta.0-orange)
+![GitHub](https://img.shields.io/github/license/FraunhoferISST/diva)
 <br />
 
 <div align="center" style="text-align: center;">
@@ -92,10 +92,16 @@ Follow our [documentation](https://fraunhoferisst.github.io/diva-docs/) to learn
 
 This project is developed by employees of [Fraunhofer ISST](https://www.isst.fraunhofer.de/). They put all their ❤ into this project to try out the latest **cutting edge** technologies.
 
-||||||
-|:---:|:---:|:---:|:---:|:---:|
-| **Daniel Tebernum** <br><br> [![Daniel Tebernum](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3566/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/dtebernum) | **Sergej Atamantschuk** <br><br> [![Sergej Atamantschuk](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3617/avatar.png?width=400)](https://github.com/setaman) | **Dustin Chabrowski** <br><br> [![Dustin Chabrowski](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3563/avatar.png?width=400)](https://github.com/Duske) | **Julia Pampus** <br><br> [![Julia Pampus](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/4688/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/jpampus) | **Marcel Altendeitering** <br><br> [![Marcel Altendeitering](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3589/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/maltendeitering) |
-| **Josef Schneider** <br><br> [![Josef Schneider](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3735/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/jschneider) | **Andreas Roth** <br><br> [![Andreas Roth](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3744/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/aroth) |
+### Active People
+
+|**Daniel Tebernum** <br>(Lead)|**Sergej Atamantschuk** <br>(Lead)|**Anatoly Novohatny** <br><br>|**Janis Büse** <br><br>|
+|:---:|:---:|:---:|:---:|
+|[![Daniel Tebernum](https://avatars.githubusercontent.com/u/12967305?u=622c4a26340563d8675786b9b5358d6f5b88e2c7&v=4&s=128)](https://github.com/DaTebe) | [![Sergej Atamantschuk](https://avatars.githubusercontent.com/u/15034996?v=4&s=128)](https://github.com/setaman) | [![Anatoly Novohatny](https://avatars.githubusercontent.com/u/50167528?v=4&s=128)](https://github.com/anatoliynovo) | [![Janis Büse](https://avatars.githubusercontent.com/u/47151705?v=4&s=128)](https://github.com/jbuese)
+
+|**Dustin Chabrowski** <br>(Alumni)<br>|**Marcel Altendeitering** <br>(Alumni)<br>|**Julia Pampus** <br>(Alumni)<br>|
+|:---:|:---:|:---:|
+|[![Dustin Chabrowski](https://avatars.githubusercontent.com/u/5938056?v=4&s=128)](https://github.com/Duske) | [![Marcel Altendeitering](https://avatars.githubusercontent.com/u/19547410?v=4&s=128)](https://github.com/maltendeitering) | [![Julia Pampus](https://avatars.githubusercontent.com/u/72392527?v=4&s=128)](https://github.com/juliapampus)
 
 ## License
+
 Copyright © Fraunhofer ISST 2022

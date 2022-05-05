@@ -1,6 +1,7 @@
 {
   "name": "table-data-sample-extractor",
   "version": "3.0.0",
+  "serviceId": "service:uuid:8e34555c-601f-4f87-9caa-1fbcca9ba4b2",
   "private": true,
   "scripts": {
     "start": "node app.js",

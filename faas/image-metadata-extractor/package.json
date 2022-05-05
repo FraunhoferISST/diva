@@ -1,6 +1,7 @@
 {
   "name": "image-metadataextractor",
   "version": "2.0.0",
+  "serviceId": "service:uuid:8cb29cd9-2b12-4547-b440-08cb9028bf5a",
   "private": true,
   "scripts": {
     "start": "node app.js",

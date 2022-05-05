@@ -1,6 +1,7 @@
 const { MongoClient } = require("mongodb");
 const axios = require("axios");
 const urljoin = require("url-join");
+const { serviceId } = require("./package.json");
 
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://admin:admin@localhost:27017";
@@ -8,7 +9,6 @@ const DIVA_DB_NAME = process.env.DIVA_DB_NAME || "divaDb";
 const ENTITY_COLLECTION_NAME = process.env.ENTITY_COLLECTION_NAME || "entities";
 const ENTITY_MANAGEMENT_URL =
   process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000";
-const serviceId = "service:uuid:8640d5de-91fe-486a-9378-b8350ede33a5";
 
 const client = new MongoClient(MONGODB_URI, {
   useNewUrlParser: true,
@@ -26,7 +26,9 @@ const deleteEntity = async (entityId) => {
       ),
       {
         headers: {
-          "x-actorid": serviceId,
+          "x-diva": JSON.stringify({
+            actorId: serviceId,
+          }),
         },
       }
     );

@@ -1,6 +1,5 @@
 .git
 .gitignore
-.gitlab-ci.yml
 .vscode
 test.jpg
 README.md

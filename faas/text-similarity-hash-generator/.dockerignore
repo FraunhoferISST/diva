@@ -1,7 +1,6 @@
 .eslintrc
 .git
 .gitignore
-.gitlab-ci.yml
 Dockerfile
 node_modules
 README.md
