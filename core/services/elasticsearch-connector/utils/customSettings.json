@@ -28,8 +28,8 @@
           "min_gram": 2
         },
         "diva_tokenizer_2" : {
-          "type" : "NGram",
-          "max_gram" : 100,
+          "type" : "ngram",
+          "max_gram" : 3,
           "min_gram" : 2
        }
       }
