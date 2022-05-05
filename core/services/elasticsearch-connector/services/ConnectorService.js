@@ -93,23 +93,36 @@ class ConnectorService {
   }
 
   async createIndex(index = "entities") {
-    const { body } = await indexExists(index);
-    if (!body) {
-      const mappings = await buildMappingFromJsonSchema("entity");
-      return esConnector.client.indices.create({
-        index,
-        body: {
-          ...esSettings,
-          mappings,
-        },
-      });
-    }
-    return true;
+    const mappings = await buildMappingFromJsonSchema("entity");
+    return esConnector.client.indices.create({
+      index,
+      body: {
+        ...esSettings,
+        mappings,
+      },
+    });
   }
 
-  reindex() {
-    this.isIndexing = true;
-    console.log("do something");
+  async reindex(schemaId, type, index = "entities") {
+    if (type === "create") {
+      // request schema from mongo to get property name
+      const entity = await getEntity("divaDb", "systemEntities", schemaId);
+      // build whole mapping
+      const mappings = await buildMappingFromJsonSchema("entity");
+      // extract sub mapping and build PUT body
+      const subMapping = {
+        properties: {
+          [entity.schemaName]: mappings.properties[entity.schemaName],
+        },
+      };
+      // send PUT
+      return esConnector.client.indices.putMapping({
+        index,
+        body: subMapping,
+      });
+    } else if ( type === "delete" ) {
+      // TODO
+    }
   }
 }
 
