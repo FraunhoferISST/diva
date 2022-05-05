@@ -16,17 +16,26 @@
           temporary
           v-if="$vuetify.breakpoint.smAndDown"
         >
-          <search-facets :facets.sync="facets" />
+          <search-facets
+            :facets.sync="facets"
+            :facets-operator.sync="facetsOperator"
+          />
         </v-navigation-drawer>
-        <search-facets v-else :facets.sync="facets" />
+        <search-facets
+          v-else
+          :facets.sync="facets"
+          :facets-operator.sync="facetsOperator"
+        />
         <data-viewer :loading="loading" :error="error">
           <template>
             <fade-in>
               <search-result v-if="items.length > 0" :items="items" />
-              <p v-else class="pa-16 text-center">
-                <span class="d-inline-block" style="max-width: 400px">
-                  {{ emptyResultText }}
-                </span>
+              <div v-else class="text-center">
+                <p class="ma-0 pa-16 pb-3 text-center">
+                  <span class="d-inline-block" style="max-width: 400px">
+                    {{ emptyResultText }}
+                  </span>
+                </p>
                 <v-btn
                   :to="{ name: 'create' }"
                   v-if="!term && !hasSelectedFacets"
@@ -38,7 +47,7 @@
                   import data
                   <v-icon class="ml-2" dense> add </v-icon>
                 </v-btn>
-              </p>
+              </div>
             </fade-in>
           </template>
         </data-viewer>
@@ -75,6 +84,7 @@ import { computed, ref } from "@vue/composition-api";
 import SearchFacets from "@/components/Search/SearchFactes";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import FadeIn from "@/components/Transitions/FadeIn";
+import camelCase from "lodash.camelcase";
 
 export default {
   components: {
@@ -90,6 +100,7 @@ export default {
     const offsetTop = ref(0);
     const facetsDrawer = ref(false);
     const facets = ref([]);
+    const facetsOperator = ref("Should");
     const items = ref([]);
     const pageSize = ref(30);
     const { search, data, loading, error, cursor, total } = useSearch();
@@ -104,6 +115,7 @@ export default {
       facets,
       facetsDrawer,
       offsetTop,
+      facetsOperator,
       hasSelectedFacets: computed(
         () =>
           facets.value.filter(({ selected }) => selected.length > 0).length > 0
@@ -120,10 +132,14 @@ export default {
                 selected.map(({ key }) => key).join(","),
               ])
           ),
+          facetsOperator: camelCase(facetsOperator.value.trim()),
         }),
     };
   },
   watch: {
+    facetsOperator() {
+      this.loadFirstSearchPage(this.term, this.facets);
+    },
     facets: {
       handler() {
         this.loadFirstSearchPage(this.term, this.facets);
@@ -159,22 +175,11 @@ export default {
         name: "search",
         query: {
           ...(this.term ? { term: this.term } : {}),
-          /*...Object.fromEntries(
-            facets
-              .filter(({ selected }) => selected.length > 0)
-              .map(({ type, selected }) => [
-                type,
-                selected.map(({ key }) => key).join(","),
-              ])
-          ),*/
         },
       });
     },
     onScroll(e) {
       this.offsetTop = e.target.scrollTop;
-      if (e.target.scrollTop > 220) {
-        this.interacted = true;
-      }
     },
     loadNextPage(observerState) {
       if (this.cursor) {

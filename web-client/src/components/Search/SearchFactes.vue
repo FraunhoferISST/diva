@@ -5,6 +5,21 @@
       :error="error || searchError"
     >
       <div v-if="computedFacets.length > 0">
+        <div class="mb-6">
+          <!--          <custom-header> Operator </custom-header>-->
+          <div class="d-flex justify-center">
+            <switch-slider
+              :options="[
+                { title: 'Should' },
+                { title: 'Must' },
+                { title: 'Must not' },
+              ]"
+              :size="60"
+              mini
+              :selected.sync="computedFacetsOperator"
+            />
+          </div>
+        </div>
         <div class="mb-6" v-for="facet in computedFacets" :key="facet.type">
           <custom-header>
             {{ facet.title }}
@@ -55,16 +70,25 @@ import { useSearch } from "@/composables/search";
 import { computed } from "@vue/composition-api";
 import CustomHeader from "@/components/Base/CustomHeader";
 import NoDataState from "@/components/Base/NoDataState";
+import SwitchSlider from "@/components/Base/SwitchSlider";
 
 export default {
   name: "SearchFacets",
-  components: { NoDataState, CustomHeader, DataViewer },
+  components: { SwitchSlider, NoDataState, CustomHeader, DataViewer },
   props: {
     facets: {
       type: Array,
     },
+    facetsOperator: {
+      type: String,
+      required: true,
+    },
   },
   setup(props, { emit }) {
+    const computedFacetsOperator = computed({
+      get: () => props.facetsOperator,
+      set: (val) => emit("update:facetsOperator", val),
+    });
     const computedFacets = computed({
       get: () => props.facets.filter(({ options }) => options?.length > 0),
       set: (val) => emit("update:facets", val),
@@ -108,6 +132,7 @@ export default {
       searchLoading,
       searchError,
       computedFacets,
+      computedFacetsOperator,
     };
   },
 };
