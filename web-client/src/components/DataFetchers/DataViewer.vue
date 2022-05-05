@@ -7,7 +7,7 @@
         <v-icon color="success" x-small>done</v-icon>
       </span>
     </div>
-    <fade-in-group>
+    <v-fade-transition group>
       <v-progress-circular
         key="loading"
         class="data-viewer-loading"
@@ -16,22 +16,19 @@
         color="primary"
         width="2"
       ></v-progress-circular>
-      <v-alert
-        key="alert"
-        v-else-if="error"
-        dense
-        text
-        color="error"
-        class="text-center ma-0"
-      >
-        <p class="text-center ma-0">
-          {{ errorMessage || "Some error occurred while loading data" }}
-        </p>
-      </v-alert>
+      <div key="alert" v-else-if="error">
+        <slot>
+          <v-alert dense text color="error" class="text-center ma-0">
+            <p class="text-center ma-0">
+              {{ errorMessage || "Some error occurred while loading data" }}
+            </p>
+          </v-alert>
+        </slot>
+      </div>
       <div key="content" v-else>
         <slot> </slot>
       </div>
-    </fade-in-group>
+    </v-fade-transition>
   </div>
 </template>
 <script>

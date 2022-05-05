@@ -1,8 +1,11 @@
 <template>
-  <v-container fluid class="search-result-container pa-0 pb-12">
-    <div v-for="(item, i) in items" :key="i">
-      <search-result-card class="d-block" :key="item.id" :data="item" />
-    </div>
+  <v-container fluid class="search-result-container pl-0 pr-0 pt-0">
+    <search-result-card
+      class="d-block"
+      v-for="(item, i) in items"
+      :key="i"
+      :data="item"
+    />
   </v-container>
 </template>
 
@@ -27,5 +30,6 @@ export default {
 <style lang="scss">
 .search-result-container {
   background-color: white;
+  padding-bottom: 100px;
 }
 </style>

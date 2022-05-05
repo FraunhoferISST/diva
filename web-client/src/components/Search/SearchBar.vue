@@ -1,43 +1,55 @@
 <template>
-  <v-container class="pa-16 pb-8">
-    <h1 class="search-bar-title">Discover your catalog</h1>
-    <!--    <p>Some description here</p>-->
-    <div class="mt-10">
-      <v-form @submit.prevent="onInput">
-        <v-text-field
-          hide-details
-          :loading="loading"
-          label="Explore your catalog"
-          outlined
-          flat
-          rounded
-          autofocus
-          full-width
-          v-model="computedInput"
-        />
-      </v-form>
-    </div>
-    <div
-      class="search-bar-stats pt-10 px-0 py-0 d-flex justify-space-between align-center"
-    >
-      <div class="d-flex align-center">
-        <div class="search-bar-total pr-3">
-          {{ total }} Item{{ total > 1 ? "s" : "" }}
+  <div class="search-bar-container">
+    <v-container class="pa-4 pa-md-16 pb-8 pb-md-8">
+      <h1 class="search-bar-title">Discover your catalog</h1>
+      <!--    <p>Some description here</p>-->
+      <div class="mt-4 mt-md-10">
+        <v-form @submit.prevent="onInput">
+          <v-text-field
+            :dense="$vuetify.breakpoint.smAndDown"
+            hide-details
+            :loading="loading"
+            label="Search by Title, Description, Filename etc."
+            outlined
+            flat
+            rounded
+            autofocus
+            full-width
+            v-model="computedInput"
+          />
+        </v-form>
+      </div>
+      <div
+        class="search-bar-stats pt-10 px-0 py-0 d-flex justify-space-between align-center"
+      >
+        <div class="d-flex align-center">
+          <v-btn
+            small
+            icon
+            class="mr-3 d-block d-md-none"
+            color="primary"
+            @click="() => $emit('toggleFacets')"
+          >
+            <v-icon small> filter_list </v-icon>
+          </v-btn>
+          <span class="search-bar-total">
+            {{ total }} Item{{ total > 1 ? "s" : "" }}
+          </span>
+        </div>
+        <div>
+          <v-select
+            dense
+            rounded
+            flat
+            hide-details
+            :items="['Creation', 'Last modified', 'Title']"
+            label="Sort by"
+            solo
+          ></v-select>
         </div>
       </div>
-      <div>
-        <v-select
-          dense
-          rounded
-          flat
-          hide-details
-          :items="['Creation', 'Last modified', 'Title']"
-          label="Sort by"
-          solo
-        ></v-select>
-      </div>
-    </div>
-  </v-container>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -81,8 +93,7 @@ export default {
 
 <style scoped lang="scss">
 .search-bar-container {
-  //background-color: white;
-  //border-bottom: 2px solid $bg_card_secondary;
+  background-color: $bg_card_secondary;
 }
 .search-bar-title {
   font-family: $font_header;
@@ -97,5 +108,10 @@ export default {
   font-family: Montserrat;
   font-weight: bolder;
   font-size: 1rem;
+}
+@media screen and (max-width: 959px) {
+  .search-bar-title {
+    font-size: 2.2rem !important;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <v-container class="search-facets pt-16 pr-6">
+  <v-container class="search-facets pt-md-10 pr-md-6">
     <data-viewer
       :loading="loading || searchLoading"
       :error="error || searchError"
@@ -52,7 +52,7 @@
 import { useSchema } from "@/composables/schema";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useSearch } from "@/composables/search";
-import { computed, ref } from "@vue/composition-api";
+import { computed } from "@vue/composition-api";
 import CustomHeader from "@/components/Base/CustomHeader";
 import NoDataState from "@/components/Base/NoDataState";
 
@@ -69,18 +69,31 @@ export default {
       get: () => props.facets.filter(({ options }) => options?.length > 0),
       set: (val) => emit("update:facets", val),
     });
-    const _facets = ref([]);
     const { getAllSchemata, loading, error } = useSchema();
     const { search, loading: searchLoading, error: searchError } = useSearch();
-    search("", {
-      pageSize: 0,
-      //facets: schemata.map(({ schemaName }) => schemaName).join(","),
-      facets: "entityType,resourceType,assetType,mimeType,systemEntityType,",
-    }).then(async ({ facets: fetchedFacets }) => {
-      const schemata = await getAllSchemata();
+    getAllSchemata().then(async (schemata) => {
+      const relevantFieldsSchemata = schemata.filter(
+        ({ schemaName, schema }) => {
+          if (schemaName === "entity") {
+            return false;
+          }
+          const parsedSchema = JSON.parse(schema);
+          const fieldNameDefinition = parsedSchema.properties[schemaName] ?? {};
+          return (
+            fieldNameDefinition?._elasticsearch?.type === "keyword" ||
+            fieldNameDefinition?.items?._elasticsearch?.type === "keyword"
+          );
+        }
+      );
+      const { facets: fetchedFacets } = await search("", {
+        pageSize: 0,
+        facets: relevantFieldsSchemata
+          .map(({ schemaName }) => schemaName)
+          .join(","),
+      });
       computedFacets.value = Object.entries(fetchedFacets).map(
         ([key, value]) => ({
-          title: schemata.filter(
+          title: relevantFieldsSchemata.filter(
             ({ schemaName }) => schemaName === key.trim()
           )[0]?.title,
           type: key.trim(),
@@ -95,9 +108,6 @@ export default {
       searchLoading,
       searchError,
       computedFacets,
-      _facets: computed(() =>
-        _facets.value.filter(({ options }) => options.length > 0)
-      ),
     };
   },
 };

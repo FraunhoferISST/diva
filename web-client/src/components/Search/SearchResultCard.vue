@@ -47,7 +47,7 @@
           />
           <v-container fluid class="pa-0 mt-4">
             <v-row dense>
-              <v-col cols="12" sm="3">
+              <v-col cols="12" sm="6" lg="3">
                 <div class="search-card-timestamps d-flex">
                   <info-block-title>Created</info-block-title>
                   <info-block-value>
@@ -55,7 +55,7 @@
                   </info-block-value>
                 </div>
               </v-col>
-              <v-col cols="12" sm="3">
+              <v-col cols="12" sm="6" lg="3">
                 <div class="search-card-timestamps d-flex">
                   <info-block-title>Modified</info-block-title>
                   <info-block-value>
@@ -135,9 +135,9 @@ export default {
   transition: 0.5s;
   cursor: pointer;
   overflow: hidden;
-  border-bottom: 2px solid $bg-card_secondary;
+  //border-bottom: 2px solid $bg-card_secondary;
   &:hover {
-    //background-color: $bg_card_secondary;
+    background-color: #f8f8f8;
   }
 }
 

@@ -6,10 +6,42 @@
         :loading="loading"
         :total="total"
         @input="loadFirstSearchPage"
+        @toggleFacets="facetsDrawer = !facetsDrawer"
       />
       <div class="search-container">
-        <search-facets :facets.sync="facets" />
-        <search-result :items="items" />
+        <v-navigation-drawer
+          v-model="facetsDrawer"
+          fixed
+          top
+          temporary
+          v-if="$vuetify.breakpoint.smAndDown"
+        >
+          <search-facets :facets.sync="facets" />
+        </v-navigation-drawer>
+        <search-facets v-else :facets.sync="facets" />
+        <data-viewer :loading="loading" :error="error">
+          <template>
+            <fade-in>
+              <search-result v-if="items.length > 0" :items="items" />
+              <p v-else class="pa-16 text-center">
+                <span class="d-inline-block" style="max-width: 400px">
+                  {{ emptyResultText }}
+                </span>
+                <v-btn
+                  :to="{ name: 'create' }"
+                  v-if="!term && !hasSelectedFacets"
+                  class="mt-3"
+                  rounded
+                  text
+                  color="primary"
+                >
+                  import data
+                  <v-icon class="ml-2" dense> add </v-icon>
+                </v-btn>
+              </p>
+            </fade-in>
+          </template>
+        </data-viewer>
       </div>
       <observer
         v-if="items.length > 0 && !loading"
@@ -41,9 +73,13 @@ import Observer from "@/components/Base/Observer";
 import { useSearch } from "@/composables/search";
 import { computed, ref } from "@vue/composition-api";
 import SearchFacets from "@/components/Search/SearchFactes";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+import FadeIn from "@/components/Transitions/FadeIn";
 
 export default {
   components: {
+    FadeIn,
+    DataViewer,
     SearchFacets,
     Observer,
     SearchBar,
@@ -51,6 +87,8 @@ export default {
   },
   name: "Search",
   setup() {
+    const offsetTop = ref(0);
+    const facetsDrawer = ref(false);
     const facets = ref([]);
     const items = ref([]);
     const pageSize = ref(30);
@@ -64,6 +102,12 @@ export default {
       total,
       items,
       facets,
+      facetsDrawer,
+      offsetTop,
+      hasSelectedFacets: computed(
+        () =>
+          facets.value.filter(({ selected }) => selected.length > 0).length > 0
+      ),
       searchResult: computed(() => data.value?.collection ?? []),
       searchEntities: (input) =>
         search(input, {
@@ -79,29 +123,25 @@ export default {
         }),
     };
   },
-  data: () => ({
-    interacted: false,
-    offsetTop: 0,
-  }),
   watch: {
     facets: {
       handler() {
         this.loadFirstSearchPage(this.term, this.facets);
-        this.setRouteParams(this.term, this.facets);
+        //this.setRouteParams(this.term, this.facets);
       },
       deep: true,
     },
     term() {
       this.setRouteParams(this.term, this.facets);
-      this.interacted = true;
     },
   },
   computed: {
     emptyResultText() {
       const baseText = "We could not find anything.";
-      const reasonText = this.term
-        ? "Try something else"
-        : "It seem that you do not have any data in your catalog. Start now and import your data";
+      const reasonText =
+        this.term || this.hasSelectedFacets
+          ? "Try something else or adjust facets"
+          : "It seem that you do not have any data in your catalog. Start now and import your data";
       return `${baseText} ${reasonText}`;
     },
     term: {
@@ -114,19 +154,19 @@ export default {
     },
   },
   methods: {
-    setRouteParams(input, facets = []) {
+    setRouteParams(/*facets = []*/) {
       this.$router.replace({
         name: "search",
         query: {
-          term: this.term,
-          ...Object.fromEntries(
+          ...(this.term ? { term: this.term } : {}),
+          /*...Object.fromEntries(
             facets
               .filter(({ selected }) => selected.length > 0)
               .map(({ type, selected }) => [
                 type,
                 selected.map(({ key }) => key).join(","),
               ])
-          ),
+          ),*/
         },
       });
     },
@@ -174,13 +214,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#search {
+  background-color: white;
+}
 .search-container {
   display: grid;
   grid-template-columns: 380px 1fr;
 }
-@media screen and (max-width: 599px) {
+@media screen and (max-width: 1263px) {
   .search-container {
     grid-template-columns: 280px 1fr;
+  }
+}
+@media screen and (max-width: 959px) {
+  .search-container {
+    display: block;
   }
 }
 </style>
