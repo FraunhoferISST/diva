@@ -92,12 +92,16 @@ Follow our [documentation](https://fraunhoferisst.github.io/diva-docs/) to learn
 
 This project is developed by employees of [Fraunhofer ISST](https://www.isst.fraunhofer.de/). They put all their ❤ into this project to try out the latest **cutting edge** technologies.
 
-|||||
+### Active People
+
+|**Daniel Tebernum** <br>(Lead)|**Sergej Atamantschuk** <br>(Lead)|**Anatoly Novohatny** <br><br>|**Janis Büse** <br><br>|
 |:---:|:---:|:---:|:---:|
-| **Daniel Tebernum** <br>(Lead)<br> [![Daniel Tebernum](https://avatars.githubusercontent.com/u/12967305?u=622c4a26340563d8675786b9b5358d6f5b88e2c7&v=4&s=128)](https://github.com/DaTebe) | **Sergej Atamantschuk** <br>(Lead)<br> [![Sergej Atamantschuk](https://avatars.githubusercontent.com/u/15034996?v=4&s=128)](https://github.com/setaman) | **Anatoly Novohatny** <br><br> [![Anatoly Novohatny](https://avatars.githubusercontent.com/u/50167528?v=4&s=128)](https://github.com/anatoliynovo) | **Janis Büse** <br><br> [![Janis Büse](https://avatars.githubusercontent.com/u/47151705?v=4&s=128)](https://github.com/jbuese)
+|[![Daniel Tebernum](https://avatars.githubusercontent.com/u/12967305?u=622c4a26340563d8675786b9b5358d6f5b88e2c7&v=4&s=128)](https://github.com/DaTebe) | [![Sergej Atamantschuk](https://avatars.githubusercontent.com/u/15034996?v=4&s=128)](https://github.com/setaman) | [![Anatoly Novohatny](https://avatars.githubusercontent.com/u/50167528?v=4&s=128)](https://github.com/anatoliynovo) | [![Janis Büse](https://avatars.githubusercontent.com/u/47151705?v=4&s=128)](https://github.com/jbuese)
 
-
-
+|**Dustin Chabrowski** <br><br>|**Marcel Altendeitering** <br><br>|**Julia Pampus** <br><br>|
+|:---:|:---:|:---:|
+|[![Dustin Chabrowski](https://avatars.githubusercontent.com/u/5938056?v=4&s=128)](https://github.com/Duske) | [![Marcel Altendeitering](https://avatars.githubusercontent.com/u/19547410?v=4&s=128)](https://github.com/maltendeitering) | [![Julia Pampus](https://avatars.githubusercontent.com/u/72392527?v=4&s=128)](https://github.com/juliapampus)
 
 ## License
+
 Copyright © Fraunhofer ISST 2022

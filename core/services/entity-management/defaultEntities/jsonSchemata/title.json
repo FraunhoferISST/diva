@@ -44,7 +44,7 @@
         "pattern": "^(.*)$",
         "_elasticsearch": {
           "type": "text",
-          "analyzer": "diva_analyzer"
+          "analyzer": "diva_analyzer_2"
         },
         "_ui": {
           "view": "overview",
