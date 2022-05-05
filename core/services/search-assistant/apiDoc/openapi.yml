@@ -72,6 +72,19 @@ paths:
               - "must"
               - "should"
               - "mustNot"
+        - name: sortBy
+          in: query
+          description: Defines the field to sort by
+          example: "modifiedAt"
+          required: false
+          explode: false
+          allowReserved: true
+          schema:
+            type: string
+            enum:
+              - "modifiedAt"
+              - "createdAt"
+              - "_score"
       responses:
         "200":
           description: Search result

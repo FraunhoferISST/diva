@@ -54,6 +54,7 @@ class SearchService {
       q = "",
       facets = "",
       facetsOperator = "must",
+      sortBy = "relevance",
       ...rest
     } = queryData;
     let query = q;
@@ -72,7 +73,7 @@ class SearchService {
     const searchRequestBody = esb
       .requestBodySearch()
       .query(esQuery)
-      .sort(esb.sort("_score", "desc"))
+      .sort(esb.sort(sortBy === "relevance" ? "_score" : sortBy, "desc"))
       .highlight(
         esb.highlight().fields(["*"]).preTags("<b>", "*").postTags("</b>", "*")
       )

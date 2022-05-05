@@ -16,8 +16,8 @@
         color="primary"
         width="2"
       ></v-progress-circular>
-      <div key="alert" v-else-if="error">
-        <slot>
+      <div key="error" v-else-if="error">
+        <slot name="error">
           <v-alert dense text color="error" class="text-center ma-0">
             <p class="text-center ma-0">
               {{ errorMessage || "Some error occurred while loading data" }}
@@ -32,10 +32,8 @@
   </div>
 </template>
 <script>
-import FadeInGroup from "@/components/Transitions/FadeInGroup";
 export default {
   name: "DataViewer",
-  components: { FadeInGroup },
   props: {
     loading: {
       type: Boolean,

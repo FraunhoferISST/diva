@@ -3,6 +3,7 @@
     <v-container fluid class="pa-0 relative">
       <search-bar
         :input.sync="term"
+        :sort-by.sync="sortBy"
         :loading="loading"
         :total="total"
         @input="loadFirstSearchPage"
@@ -27,29 +28,25 @@
           :facets-operator.sync="facetsOperator"
         />
         <data-viewer :loading="loading" :error="error">
-          <template>
-            <fade-in>
-              <search-result v-if="items.length > 0" :items="items" />
-              <div v-else class="text-center">
-                <p class="ma-0 pa-16 pb-3 text-center">
-                  <span class="d-inline-block" style="max-width: 400px">
-                    {{ emptyResultText }}
-                  </span>
-                </p>
-                <v-btn
-                  :to="{ name: 'create' }"
-                  v-if="!term && !hasSelectedFacets"
-                  class="mt-3"
-                  rounded
-                  text
-                  color="primary"
-                >
-                  import data
-                  <v-icon class="ml-2" dense> add </v-icon>
-                </v-btn>
-              </div>
-            </fade-in>
-          </template>
+          <search-result v-if="items.length > 0" :items="items" />
+          <div v-else class="text-center">
+            <p class="ma-0 pa-16 pb-3 text-center">
+              <span class="d-inline-block" style="max-width: 400px">
+                {{ emptyResultText }}
+              </span>
+            </p>
+            <v-btn
+              :to="{ name: 'create' }"
+              v-if="!term && !hasSelectedFacets"
+              class="mt-3"
+              rounded
+              text
+              color="primary"
+            >
+              import data
+              <v-icon class="ml-2" dense> add </v-icon>
+            </v-btn>
+          </div>
         </data-viewer>
       </div>
       <observer
@@ -83,12 +80,10 @@ import { useSearch } from "@/composables/search";
 import { computed, ref } from "@vue/composition-api";
 import SearchFacets from "@/components/Search/SearchFactes";
 import DataViewer from "@/components/DataFetchers/DataViewer";
-import FadeIn from "@/components/Transitions/FadeIn";
 import camelCase from "lodash.camelcase";
 
 export default {
   components: {
-    FadeIn,
     DataViewer,
     SearchFacets,
     Observer,
@@ -101,6 +96,7 @@ export default {
     const facetsDrawer = ref(false);
     const facets = ref([]);
     const facetsOperator = ref("Should");
+    const sortBy = ref("_score");
     const items = ref([]);
     const pageSize = ref(30);
     const { search, data, loading, error, cursor, total } = useSearch();
@@ -116,6 +112,7 @@ export default {
       facetsDrawer,
       offsetTop,
       facetsOperator,
+      sortBy,
       hasSelectedFacets: computed(
         () =>
           facets.value.filter(({ selected }) => selected.length > 0).length > 0
@@ -133,11 +130,15 @@ export default {
               ])
           ),
           facetsOperator: camelCase(facetsOperator.value.trim()),
+          sortBy: sortBy.value,
         }),
     };
   },
   watch: {
     facetsOperator() {
+      this.loadFirstSearchPage(this.term, this.facets);
+    },
+    sortBy() {
       this.loadFirstSearchPage(this.term, this.facets);
     },
     facets: {

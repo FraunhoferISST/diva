@@ -38,11 +38,14 @@
         </div>
         <div>
           <v-select
+            v-model="computedSortBy"
             dense
             rounded
             flat
             hide-details
-            :items="['Creation', 'Last modified', 'Title']"
+            :items="sortByItems"
+            item-text="title"
+            item-value="field"
             label="Sort by"
             solo
           ></v-select>
@@ -63,6 +66,10 @@ export default {
       type: String,
       required: true,
     },
+    sortBy: {
+      type: String,
+      required: true,
+    },
     loading: {
       type: Boolean,
       default: false,
@@ -72,6 +79,22 @@ export default {
       default: 0,
     },
   },
+  data: () => ({
+    sortByItems: [
+      {
+        title: "Relevance",
+        field: "_score",
+      },
+      {
+        title: "Last created",
+        field: "createdAt",
+      },
+      {
+        title: "Last modified",
+        field: "modifiedAt",
+      },
+    ],
+  }),
   computed: {
     computedInput: {
       get() {
@@ -80,6 +103,14 @@ export default {
       set(val) {
         this.onInput();
         return this.$emit("update:input", val);
+      },
+    },
+    computedSortBy: {
+      get() {
+        return this.sortBy;
+      },
+      set(val) {
+        return this.$emit("update:sortBy", val);
       },
     },
   },

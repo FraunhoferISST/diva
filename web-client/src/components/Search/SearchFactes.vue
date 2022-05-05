@@ -67,7 +67,7 @@
 import { useSchema } from "@/composables/schema";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useSearch } from "@/composables/search";
-import { computed } from "@vue/composition-api";
+import { computed, ref } from "@vue/composition-api";
 import CustomHeader from "@/components/Base/CustomHeader";
 import NoDataState from "@/components/Base/NoDataState";
 import SwitchSlider from "@/components/Base/SwitchSlider";
@@ -85,6 +85,20 @@ export default {
     },
   },
   setup(props, { emit }) {
+    const sortByItems = ref([
+      {
+        title: "Relevance",
+        field: "_score",
+      },
+      {
+        title: "Last create",
+        field: "createdAt",
+      },
+      {
+        title: "Last modified",
+        field: "modifiedAt",
+      },
+    ]);
     const computedFacetsOperator = computed({
       get: () => props.facetsOperator,
       set: (val) => emit("update:facetsOperator", val),
@@ -115,16 +129,18 @@ export default {
           .map(({ schemaName }) => schemaName)
           .join(","),
       });
-      computedFacets.value = Object.entries(fetchedFacets).map(
-        ([key, value]) => ({
-          title: relevantFieldsSchemata.filter(
-            ({ schemaName }) => schemaName === key.trim()
-          )[0]?.title,
-          type: key.trim(),
-          options: value?.buckets ?? [],
-          selected: [],
-        })
-      );
+      if (!searchError.value) {
+        computedFacets.value = Object.entries(fetchedFacets).map(
+          ([key, value]) => ({
+            title: relevantFieldsSchemata.filter(
+              ({ schemaName }) => schemaName === key.trim()
+            )[0]?.title,
+            type: key.trim(),
+            options: value?.buckets ?? [],
+            selected: [],
+          })
+        );
+      }
     });
     return {
       loading,
@@ -133,6 +149,7 @@ export default {
       searchError,
       computedFacets,
       computedFacetsOperator,
+      sortByItems,
     };
   },
 };
