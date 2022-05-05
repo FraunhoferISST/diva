@@ -23,9 +23,6 @@
           "+49 1234 56789",
           "0022 1111 2222 3333"
         ],
-        "_elasticsearch": {
-          "type": "keyword"
-        },
         "_ui": {
           "view": "overview",
           "position": 3,

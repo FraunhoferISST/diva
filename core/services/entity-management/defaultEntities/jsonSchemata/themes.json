@@ -58,7 +58,7 @@
           "title": "Theme Items",
           "description": "A theme",
           "_elasticsearch": {
-            "type": "text"
+            "type": "keyword"
           }
         },
         "_ui": {
