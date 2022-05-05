@@ -66,12 +66,6 @@ pip3 install -r requirements.txt
 python3 apriori.py
 ```
 
-## Developers
-
-|**Marcel Altendeitering**|**Sergej Atamantschuk**|
-|:---:| :---:|
-| [![Marcel Altendeitering](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3589/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/maltendeitering) | [![Sergej Atamantschuk](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3617/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/satamantschuk)|
-
 ## License
 
-Copyright © Fraunhofer ISST 2020
+Copyright © Fraunhofer ISST 2022

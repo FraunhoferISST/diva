@@ -4,7 +4,7 @@
   "serviceId": "service:uuid:7d7b9cf4-2ef0-49e9-8d73-ffc0ca9e6ba1",
   "description": "A microservice for delivering events to a client",
   "repository": {
-    "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
+    "url": "https://github.com/FraunhoferISST/diva/tree/main/core/services/event-emitter"
   },
   "main": "index.js",
   "scripts": {

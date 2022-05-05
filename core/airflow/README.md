@@ -16,7 +16,7 @@ Please note that this download/upload is performed by the airflow executor and *
 simply mounts the downloaded files in a predefined docker volume `airflow_workflow_inputs` at `/inputs` and expects output files written to the
 designated output volume `airflow_workflow_outputs`, which is mounted at `/outputs`.
 To tell the analytics image where the input file is located and where to write the output file, the env variables
-`INPUT_FILE` and `OUTPUT_FILE` are used. In [all FaaS images](https://gitlab.cc-asp.fraunhofer.de/diva/faas) these variables are required.
+`INPUT_FILE` and `OUTPUT_FILE` are used. In [all FaaS images](https://github.com/FraunhoferISST/diva/tree/main/faas) these variables are required.
 
 ##### Input Data
 The DivaOperator can download the input file from a previous task, if this task provided the resource id as the output XCOM value.
@@ -31,12 +31,12 @@ captions = DivaOperator(
     # name of this task
     task_id='captions',
     # image to spawn for analysis
-    image='registry.gitlab.cc-asp.fraunhofer.de:4567/diva/faas/image-caption-generator:1.0.0',
+    image='ghcr.io/fraunhoferisst/diva/faas/image-caption-generator:2.0.0',
     
     api_version='auto',
     auto_remove=True,
     
-    # docker credentials for pulling custom images. faas_docker allows pulling from Fraunhofer gitlab.
+    # docker credentials for pulling custom images. faas_docker allows pulling from GitHub.
     docker_conn_id='faas_docker',
     
     # download the input data directly from minio. The resource id is read from the config value `input_resource_id` in this case. 
@@ -107,7 +107,7 @@ Please note that the kafka-sink holds all the schemas and therefore is the same 
 
 upload_personal_data = DivaOperator(
     task_id='upload_personal_data',
-    image='registry.gitlab.cc-asp.fraunhofer.de:4567/diva/faas/kafka-sink:1.5.0',
+    image='ghcr.io/fraunhoferisst/diva/faas/entity-management-sink:1.0.0',
     api_version='auto',
     auto_remove=True,
     docker_conn_id='faas_docker',
