@@ -3,7 +3,7 @@ const { decodeCursor, encodeCursor } = require("@diva/common/api/cursor");
 
 const ElasticsearchConnector = require("@diva/common/databases/ElasticsearchConnector");
 
-const buildESQuery = (query, rest, facetOperator) => {
+const buildESQuery = (query, rest, facetsOperator) => {
   const queries = [];
 
   for (const [key, value] of Object.entries(rest)) {
@@ -25,8 +25,9 @@ const buildESQuery = (query, rest, facetOperator) => {
           query
         )
         .zeroTermsQuery("all"),
-      esb.boolQuery()[facetOperator](queries),
-    ]);
+      esb.boolQuery()[facetsOperator](queries),
+    ])
+    .mustNot(esb.termQuery("entityType", "review"));
 };
 
 const buildFacetsAggregation = (facets) => {
@@ -39,6 +40,7 @@ const buildFacetsAggregation = (facets) => {
   });
   return facetsAggs;
 };
+
 class SearchService {
   async init() {
     this.esConnector = new ElasticsearchConnector();
@@ -51,7 +53,7 @@ class SearchService {
       pageSize = 30,
       q = "",
       facets = "",
-      facetOperator = "must",
+      facetsOperator = "must",
       ...rest
     } = queryData;
     let query = q;
@@ -65,7 +67,7 @@ class SearchService {
         throw new Error(`🛑 Invalid cursor "${cursor}" provided`);
       }
     }
-    const esQuery = buildESQuery(query, rest, facetOperator);
+    const esQuery = buildESQuery(query, rest, facetsOperator);
 
     const searchRequestBody = esb
       .requestBodySearch()
