@@ -49,19 +49,14 @@ We also use this tool as a playground for our students, where they can work out 
 
 - __🐳__ __docker ready:__ all microservices and core components are docker ready so you can start them right out of the box.
 
-## Technologies and Frameworks used
+## Core Technologies and Frameworks used
 
 |Technology|Description|
 |----------|-------------|
-|[VueJS 2](https://vuejs.org/)|component based frontend solution for building robust apps|
-|[Vuetify](https://vuetifyjs.com/en/)|makes frontend beautiful|
 |[Kong](https://konghq.com/)|our API gateway that we use to route microservices|
 |[Kafka](https://kafka.apache.org/)|message log for microservice communication|
 |[node.js](https://nodejs.org/en/)|nice JavaScript platform for running server apps|
 |[Express Framework](https://expressjs.com/)|helps us building simple microservices|
-|[Apache Tika](https://tika.apache.org/)|if you need to take a look into heterogenous data, Tika is your solution|
-|[Python3](https://www.python.org/)|helps us doing data science and NLP (natural language processing)|
-|[Electron](https://electronjs.org/)|building desktop applications for Windows, OSX and Linux|
 |[Docker](https://www.docker.com/)|building and publishing images|
 |[Kubernetes](https://kubernetes.io/de/)|production-grade container orchestration|
 |[Airflow](https://airflow.apache.org/)|author, schedule and monitor workflows|
@@ -70,10 +65,20 @@ We also use this tool as a playground for our students, where they can work out 
 |[JSON Schema](https://json-schema.org/)|specification language to describe how an entity is build|
 |[MongoDB](https://github.com/mongodb/mongo)|our main document store that is the single source of truth when it comes to metadata|
 |[Elasticsearch](https://www.elastic.co/de/elasticsearch/)|our search index used to search for entities and make interesting aggregations|
-|[Kibana](https://www.elastic.co/de/kibana)|our window into `elasticsearch` for debugging|
-|[MinIO](https://min.io/)|our object store to save files uploaded by browser (aka `diva-lake`)|
-|[DataspaceConnector](https://www.dataspace-connector.io/)|our connection to the world of secure and sovereign data exchange|
 |[Keycloak](https://www.keycloak.org/)|Open Source Identity and Access Management|
+|[MinIO](https://min.io/)|our object store to save files uploaded by browser (aka `diva-lake`)|
+|[neo4j](https://neo4j.com/)|our graph database to store relations between entities more efficient|
+
+## Other Technologies and Frameworks used
+
+|Technology|Description|
+|----------|-------------|
+|[VueJS 2](https://vuejs.org/)|component based frontend solution for building robust apps|
+|[Vuetify](https://vuetifyjs.com/en/)|makes frontend beautiful|
+|[Apache Tika](https://tika.apache.org/)|if you need to take a look into heterogenous data, Tika is your solution|
+|[Python3](https://www.python.org/)|helps us doing data science and NLP (natural language processing)|
+|[Kibana](https://www.elastic.co/de/kibana)|our window into `elasticsearch` for debugging|
+|[Filebeat](https://www.elastic.co/de/beats/filebeat)|fills elasticsearch with logs produced in our microservices|
 
 ## Quick start
 
