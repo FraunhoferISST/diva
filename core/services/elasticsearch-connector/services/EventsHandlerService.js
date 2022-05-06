@@ -47,8 +47,8 @@ class EventsHandlerService {
       }
     } else if (!systemEntitiesPrefixes.some((prefix) => id.includes(prefix))) {
       await getOperation(type)(id);
-    } else {
-      log.info("Could start reindexing or something like that!?");
+    } else if (id.includes("schema")) {
+      connectorService.reindex(id, type);
     }
     log.info(`💬 Processed message type "${type}" for entity "${id}"`);
   }

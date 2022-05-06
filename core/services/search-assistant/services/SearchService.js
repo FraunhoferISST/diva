@@ -24,6 +24,7 @@ const buildESQuery = (query, rest, facetOperator) => {
           ["title^4", "keywords^3", "description^2", "*^1"],
           query
         )
+        .fuzziness("AUTO")
         .zeroTermsQuery("all"),
       esb.boolQuery()[facetOperator](queries),
     ]);
