@@ -1,3 +1,4 @@
+const executeTransaction = require("@diva/common/utils/executeTransaction");
 const {
   entitiesMessagesProducer,
   dataNetworkMessagesProducer,
@@ -5,20 +6,6 @@ const {
 const dataNetworkService = require("../services/DataNetworkService");
 
 const getAffectedFieldsFromDelta = (delta = {}) => Object.keys(delta);
-
-const executeTransaction = async (operations = [], onFailure = () => {}) => {
-  let operationsData = {};
-  try {
-    for (const op of operations) {
-      const opData = await op(operationsData);
-      operationsData = { ...operationsData, ...opData };
-    }
-    return operationsData;
-  } catch (e) {
-    await onFailure(operationsData);
-    throw e;
-  }
-};
 
 const createSingleEntity = async (service, entity, actorId, entityType) =>
   executeTransaction(
@@ -157,7 +144,12 @@ module.exports = class EntityController {
           () => this.service.updateById(id, req.body, actorId),
           async ({ upsert }) =>
             upsert
-              ? { nodeId: await this.dataNetwrokService.createNode(id) }
+              ? {
+                  nodeId: await this.dataNetwrokService.createNode(
+                    id,
+                    this.service.entityType
+                  ),
+                }
               : {},
           ({ delta, upsert }) =>
             entitiesMessagesProducer.produce(
