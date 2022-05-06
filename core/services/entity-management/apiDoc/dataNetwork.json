@@ -52,6 +52,25 @@
               "type": "boolean",
               "default": false
             }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of edges per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "gives next page",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {

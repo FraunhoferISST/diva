@@ -1,6 +1,8 @@
 const _ = require("lodash");
 const Neo4jConnector = require("@diva/common/databases/Neo4jConnector");
 const generateUuid = require("@diva/common/utils/generateUuid");
+const { encodeCursor, decodeCursor } = require("@diva/common/api/cursor");
+
 const {
   nodeNotFoundError,
   edgeNotFoundError,
@@ -136,12 +138,29 @@ class DataNetworkService {
     throw edgeNotFoundError;
   }
 
-  async getEdges({ from, edgeTypes, to = null }, bidirectional = false) {
+  async getEdges(
+    { from, edgeTypes, to = null, pageSize, cursor },
+    bidirectional = false
+  ) {
     const relationshipTypes = edgeTypes ? `r:${edgeTypes.join("|")}` : "r";
     const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
     const toNode = `m ${to ? `{ entityId: '${to}' }` : ""}`;
+
+    let limitStr = "";
+    let page = 0;
+    let limit = pageSize;
+    if (!cursor) {
+      limitStr = `SKIP ${page} LIMIT ${limit}`;
+    }
+    if (cursor) {
+      const decodedCursor = JSON.parse(decodeCursor(cursor));
+      page = decodedCursor.page;
+      limit = decodedCursor.pageSize;
+      limitStr = `SKIP ${page * limit} LIMIT ${limit}`;
+    }
+
     return executeSession(
-      `MATCH (n {entityId: '${from}'}) ${relationship} (${toNode}) RETURN startNode(r) as from, r, endNode(r) as to, count(r) as count`
+      `MATCH (n {entityId: '${from}'}) ${relationship} (${toNode}) RETURN startNode(r) as from, r, endNode(r) as to, count(r) as count ${limitStr}`
     ).then(({ records }) => ({
       collection:
         records?.map(({ _fields }) => ({
@@ -154,7 +173,12 @@ class DataNetworkService {
           },
         })) ?? [],
       total: 0,
-      cursor: "",
+      cursor: encodeCursor(
+        JSON.stringify({
+          page: page + 1,
+          pageSize: limit,
+        })
+      ),
     }));
   }
 
