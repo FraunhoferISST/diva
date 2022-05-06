@@ -1,9 +1,13 @@
 <template>
   <data-viewer :loading="loading" :error="error">
     <div v-if="recentEntities.length > 0">
-      <div v-for="entity in recentEntities" :key="entity.id">
-        <entity-mini-card :entity="entity" />
-      </div>
+      <v-container fluid class="pa-0">
+        <v-row dense>
+          <v-col cols="12" v-for="entity in recentEntities" :key="entity.id">
+            <entity-mini-card :entity="entity" />
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
     <no-data-state v-else />
   </data-viewer>
