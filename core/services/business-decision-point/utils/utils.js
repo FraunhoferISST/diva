@@ -43,7 +43,7 @@ const hasMatch = (definition, data) =>
       substitutedValue,
       new RegExp(substitutedValue).test(dataValue)
     );
-    return new RegExp(substitutedValue).test(dataValue);
+    return new RegExp(substitutedValue).test(dataValue); // TODO
   });
 
 const conditionsRulesHandlerMap = {
@@ -58,7 +58,7 @@ const conditionsRulesHandlerMap = {
     } = await session
       .run(substituteTemplate(query, data))
       .finally(() => session.close());
-    return ruleMet;
+    return ruleMet; // TODO
   },
   inputData: async (query, data) => hasMatch(query, data),
   mongo: async (query, data, collection) => {

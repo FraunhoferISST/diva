@@ -3,6 +3,18 @@ const { logger } = require("@diva/common/logger");
 const { isConditionMet, getMatchingBusinessAssets } = require("../utils/utils");
 const { mongoDBConnector } = require("../utils/dbConnectors");
 
+const createProjection = (includedFields, excludedFields) => {
+  if (includedFields.length === 0) {
+    return Object.fromEntries(excludedFields.map((field) => [field, 0]));
+  }
+
+  return Object.fromEntries(
+    includedFields
+      .filter((n) => !excludedFields.includes(n))
+      .map((field) => [field, 1])
+  );
+};
+
 class PoliciesService {
   constructor() {
     this.policies = [];
@@ -30,48 +42,74 @@ class PoliciesService {
   async enforcePolicies(req) {
     const matchingPolicies = getMatchingBusinessAssets(req.body, this.policies);
 
+    const includes = [];
     const excludes = [];
     let provisionalDecision = false;
 
     await Promise.all(
       matchingPolicies.map(async (policy) => {
         const singleDecision = await isConditionMet(policy.condition, req.body);
-        if (singleDecision === true) {
+        if (singleDecision) {
+          if (Array.isArray(policy.includes)) {
+            includes.push(...policy.includes);
+          }
           if (Array.isArray(policy.excludes)) {
-            excludes.push({
-              priority: policy.priority,
-              fields: policy.excludes,
-            });
+            excludes.push(...policy.excludes);
           }
           provisionalDecision = true;
         }
       })
     );
 
-    if (provisionalDecision === false) {
+    if (!provisionalDecision) {
       return {
         decision: provisionalDecision,
       };
     }
 
     const payload = {};
-    const mergedExcludes = this.mergeExcludes(excludes);
+    const uniqueIncludes = [...new Set(includes)];
+    const uniqueExcludes = [...new Set(excludes)];
+    const projection = createProjection(uniqueIncludes, uniqueExcludes);
+    const includedFields = [];
+    const excludedFields = [];
 
     switch (req.body.method) {
       case "GET":
-        payload.projections = {};
-        mergedExcludes.forEach((excluded) => {
-          payload.projections[excluded] = 0;
-        });
+        payload.projection = projection;
         break;
+      case "POST":
+      case "PUT":
       case "PATCH":
-        provisionalDecision = mergedExcludes.every((excluded) => {
-          if (_.has(req.body.body, excluded)) {
-            payload.message = `Not allowed to patch field '${excluded}'`;
-            return false;
+        for (const [key, value] of Object.entries(projection)) {
+          if (value === 0) {
+            excludedFields.push(key);
           }
-          return true;
-        });
+          if (value === 1) {
+            includedFields.push(key);
+          }
+        }
+
+        if (includedFields.length > 0) {
+          provisionalDecision = Object.keys(req.body.body).every(
+            (patchField) => {
+              if (!includedFields.includes(patchField)) {
+                payload.message = `Not allowed to patch field '${patchField}'`;
+                return false;
+              }
+              return true;
+            }
+          );
+        } else {
+          provisionalDecision = excludedFields.every((excluded) => {
+            if (_.has(req.body.body, excluded)) {
+              payload.message = `Not allowed to patch field '${excluded}'`;
+              return false;
+            }
+            return true;
+          });
+        }
+
         break;
       default:
         break;
@@ -81,49 +119,6 @@ class PoliciesService {
       decision: provisionalDecision,
       payload,
     };
-  }
-
-  mergeExcludes(excludes) {
-    const sortedExcludes = excludes.sort((a, b) => a.priority - b.priority);
-
-    let mergedExcludes = [];
-    let prevPriority = -1;
-
-    sortedExcludes.forEach((currentExcludes) => {
-      const filteredExcludes = [];
-      const notExcludes = [];
-      currentExcludes.fields.forEach((exclude) => {
-        if (exclude.startsWith("!")) {
-          notExcludes.push(exclude.substring(1));
-        } else {
-          filteredExcludes.push(exclude);
-        }
-      });
-
-      if (currentExcludes.priority > prevPriority) {
-        if (notExcludes.includes("*")) {
-          mergedExcludes = [];
-        } else {
-          mergedExcludes = [
-            ...new Set([
-              ...mergedExcludes.filter((field) => !notExcludes.includes(field)),
-              ...filteredExcludes.filter(
-                (field) => !notExcludes.includes(field)
-              ),
-            ]),
-          ];
-        }
-      } else if (!notExcludes.includes("*")) {
-        mergedExcludes = [
-          ...new Set([
-            ...mergedExcludes,
-            ...filteredExcludes.filter((field) => !notExcludes.includes(field)),
-          ]),
-        ];
-      }
-      prevPriority = currentExcludes.priority;
-    });
-    return mergedExcludes;
   }
 }
 

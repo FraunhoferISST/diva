@@ -43,7 +43,6 @@ module.exports = [
         },
       ],
     },
-    excludes: [],
   },
   // Images GET Policy
   {
@@ -137,11 +136,12 @@ module.exports = [
               // normal users can not put admin role
               "body.roles": "^((?!admin).)*$",
             },
+            // negation: true,
           },
         },
       ],
     },
-    excludes: [],
+    includes: ["email", "username", "roles", "groups"],
   },
   {
     id: "policy:uuid:a229c1a9-9371-4d84-89b7-81b662250c7d",
