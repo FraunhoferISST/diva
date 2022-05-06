@@ -44,20 +44,19 @@ const indexExists = async (index) =>
     })
     .then(({ statusCode }) => statusCode < 300);
 
-const deleteOrphanIndecies = async () => {
+const deleteOrphanIndices = async () => {
   const { body } = await esConnector.client.indices.get({
     index: "entities-*",
     flatSettings: true,
   });
-  const indecies = [];
-  for (const [key, value] of Object.entries(body)) {
-    indecies.push(parseInt(key.split("-")[1], 10));
+  const indices = [];
+  for (const [key] of Object.entries(body)) {
+    indices.push(parseInt(key.split("-")[1], 10));
   }
-  indecies.sort((a, b) => a - b);
-  indecies.shift();
-  indecies.forEach(async (index) => {
-    // eslint-disable-next-line no-await-in-loop
-    await esConnector.client.indices.delete({
+  indices.sort((a, b) => a - b);
+  indices.shift();
+  indices.forEach((index) => {
+    esConnector.client.indices.delete({
       index: `entities-${index}`,
     });
   });
@@ -72,9 +71,9 @@ class ConnectorService {
     }
     await mongoConnector.connect();
 
-    // Check if there is more then one entities index
+    // Check if there is more than one entities index
     // This could happen if service crashed on reindex
-    deleteOrphanIndecies();
+    return deleteOrphanIndices();
   }
 
   async index(
@@ -124,7 +123,7 @@ class ConnectorService {
         ...esSettings,
         mappings,
         aliases: {
-          entity: {},
+          entities: {},
         },
       },
     });
@@ -167,7 +166,7 @@ class ConnectorService {
         index: "entities-*",
         flatSettings: true,
       });
-      for (const [key, value] of Object.entries(body)) {
+      for (const [key] of Object.entries(body)) {
         if (indexName !== key) {
           // eslint-disable-next-line no-await-in-loop
           await esConnector.client.indices.delete({

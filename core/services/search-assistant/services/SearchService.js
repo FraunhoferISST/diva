@@ -44,6 +44,7 @@ const buildFacetsAggregation = (facets) => {
 
 class SearchService {
   async init() {
+    this.index = "entities";
     this.esConnector = new ElasticsearchConnector();
     return this.esConnector.connect();
   }
@@ -89,7 +90,7 @@ class SearchService {
     }
 
     const { body } = await this.esConnector.client.search({
-      index: "entities",
+      index: this.index,
       body: searchRequestBody,
     });
 
@@ -97,7 +98,7 @@ class SearchService {
 
     const total = (
       await this.esConnector.client.count({
-        index: "entities",
+        index: this.index,
         body: countRequestBody,
       })
     ).body.count;
