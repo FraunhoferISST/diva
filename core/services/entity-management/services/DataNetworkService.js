@@ -55,7 +55,7 @@ class DataNetworkService {
   }
 
   async createNode(entityId, entityType) {
-    if (await this.edgeExists(entityId)) {
+    if (await this.nodeExists(entityId)) {
       throw nodeAlreadyExistsError;
     }
     return executeSession(

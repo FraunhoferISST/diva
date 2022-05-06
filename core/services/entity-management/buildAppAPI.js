@@ -98,12 +98,12 @@ module.exports = async (server) => {
   const router = express.Router();
 
   await mongoDbConnector.connect();
+  await dataNetworkService.init();
   await asyncapisService.init();
   await asyncapisService.loadDefault();
   await schemataService.init();
   await schemataService.loadDefault();
   await jsonSchemaValidator.init([await schemataService.resolveEntitySchema()]);
-  await dataNetworkService.init();
   await entitiesMessagesProducer.init(
     entitiesTopic,
     serviceName,
@@ -133,6 +133,23 @@ module.exports = async (server) => {
       entity.service ?? createEntityService(entityType, collection);
     await service.init().then(async () => {
       await service.loadDefault();
+      (defaultEntities[collection] ?? []).map(({ id }) =>
+        dataNetworkService
+          .createNode(id, entityType)
+          .then(() =>
+            dataNetworkService.createEdge({
+              from: serviceId,
+              to: id,
+              edgeType: "isCreatorOf",
+            })
+          )
+          .catch((e) => {
+            if (e?.code === 409) {
+              return true;
+            }
+            throw e;
+          })
+      );
       (defaultEntities[collection] ?? []).map(({ id }) =>
         entitiesMessagesProducer.produce(id, serviceId, "create")
       );
