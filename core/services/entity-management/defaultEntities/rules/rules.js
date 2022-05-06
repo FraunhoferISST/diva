@@ -53,7 +53,7 @@ module.exports = [
     actions: [
       {
         headers: {
-          "x-diva": "{ actorId: {{payload.actor.id}} }",
+          "x-diva": { actorId: "{{payload.actor.id}}" },
         },
         method: "POST",
         endpoint: "{{entity-management}}/edges",
