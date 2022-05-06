@@ -40,28 +40,49 @@ const indexExists = async (index) =>
   esConnector.client.indices
     .exists({
       index,
+      allow_no_indices: false,
     })
     .then(({ statusCode }) => statusCode < 300);
 
-class ConnectorService {
-  constructor() {
-    this.isIndexing = false;
+const deleteOrphanIndecies = async () => {
+  const { body } = await esConnector.client.indices.get({
+    index: "entities-*",
+    flatSettings: true,
+  });
+  const indecies = [];
+  for (const [key, value] of Object.entries(body)) {
+    indecies.push(parseInt(key.split("-")[1], 10));
   }
+  indecies.sort((a, b) => a - b);
+  indecies.shift();
+  indecies.forEach(async (index) => {
+    // eslint-disable-next-line no-await-in-loop
+    await esConnector.client.indices.delete({
+      index: `entities-${index}`,
+    });
+  });
+};
 
+class ConnectorService {
   async init() {
     await esConnector.connect();
     await neo4jConnector.connect();
-    if (!(await indexExists("entities"))) {
-      await this.createIndex("entities");
+    if (!(await indexExists("entities-*"))) {
+      await this.createIndex(`entities-${Date.now()}`);
     }
-    return mongoConnector.connect();
+    await mongoConnector.connect();
+
+    // Check if there is more then one entities index
+    // This could happen if service crashed on reindex
+    deleteOrphanIndecies();
   }
 
   async index(id, { dbName = "divaDb", collection = "entities" } = {}) {
     let entity = await getEntity(dbName, collection, id);
     if (entity) {
       entity = sanitizeIndexBody(entity);
-      // TODO: on each event we currently just reindex the entity with all edges to ged rid of the possible race conditions. This however doesn't scale and may have performance issues!
+      // On each event we currently just reindex the entity with all edges to ged rid of the possible race conditions.
+      // This however doesn't scale and may have performance issues!
       for (const type of edgesTypes) {
         entity[type] = [];
       }
@@ -99,6 +120,9 @@ class ConnectorService {
       body: {
         ...esSettings,
         mappings,
+        aliases: {
+          entity: {},
+        },
       },
     });
   }
@@ -117,11 +141,36 @@ class ConnectorService {
       };
       // send PUT
       return esConnector.client.indices.putMapping({
-        index,
+        index: `${index}-*`,
         body: subMapping,
       });
-    } else if ( type === "delete" ) {
-      // TODO
+    }
+    if (type === "delete") {
+      const indexName = `entities-${Date.now()}`;
+      // Create new index with new mappings, settings, alias
+      await this.createIndex(indexName);
+      // Batch process mongodb entities into new index
+      const cursor = mongoConnector.client
+        .db("divaDb")
+        .collection("entities")
+        .find({}, { projection: { _id: 0, id: 1 } });
+      cursor.forEach((doc) => {
+        // index document
+        this.index(doc.id, { collection: indexName });
+      });
+      // Delete old entities index
+      const { body } = await esConnector.client.indices.get({
+        index: "entities-*",
+        flatSettings: true,
+      });
+      for (const [key, value] of Object.entries(body)) {
+        if (indexName !== key) {
+          // eslint-disable-next-line no-await-in-loop
+          await esConnector.client.indices.delete({
+            index: key,
+          });
+        }
+      }
     }
   }
 }
