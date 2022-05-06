@@ -25,10 +25,7 @@
         "title": "The Email Schema ",
         "examples": [
           "muster@mann.de"
-        ],
-        "_elasticsearch": {
-          "type": "keyword"
-        }
+        ]
       }
     }
   }

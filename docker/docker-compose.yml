@@ -192,6 +192,8 @@ services:
       KAFKA_CONSUMER_TOPICS: "[\"entity.events\", \"datanetwork.events\"]"
     ports:
       - ${ELASTICSEARCH_CONNECTOR_PORT}:${ELASTICSEARCH_CONNECTOR_PORT}
+    networks:
+      - core
 
   search-assistant:
     image: ${REGISTRY}search-assistant:0.2.0

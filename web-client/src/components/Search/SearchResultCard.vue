@@ -8,13 +8,15 @@
               :size="40"
               :entity-id="doc.id || ''"
               :image-id="doc.entityIcon || ''"
-              :entity-title="doc.title || doc.username"
+              :entity-title="doc.title || doc.username || 'Some entity'"
             />
           </div>
           <div class="search-card-info-container">
             <h1 class="search-card-title">
               <span v-if="highlightedTitle" v-html="highlightedTitle"></span>
-              <span v-else>{{ doc.title || doc.username }}</span>
+              <span v-else>{{
+                doc.title || doc.username || "Some entity"
+              }}</span>
             </h1>
             <div class="search-card-meta-container mt-1">
               <div>
@@ -45,7 +47,7 @@
           />
           <v-container fluid class="pa-0 mt-4">
             <v-row dense>
-              <v-col cols="12" sm="3">
+              <v-col cols="12" sm="6" lg="3">
                 <div class="search-card-timestamps d-flex">
                   <info-block-title>Created</info-block-title>
                   <info-block-value>
@@ -53,7 +55,7 @@
                   </info-block-value>
                 </div>
               </v-col>
-              <v-col cols="12" sm="3">
+              <v-col cols="12" sm="6" lg="3">
                 <div class="search-card-timestamps d-flex">
                   <info-block-title>Modified</info-block-title>
                   <info-block-value>
@@ -133,9 +135,9 @@ export default {
   transition: 0.5s;
   cursor: pointer;
   overflow: hidden;
-  border-bottom: 2px solid $bg-card_secondary;
+  //border-bottom: 2px solid $bg-card_secondary;
   &:hover {
-    //background-color: $bg_card_secondary;
+    background-color: #f8f8f8;
   }
 }
 

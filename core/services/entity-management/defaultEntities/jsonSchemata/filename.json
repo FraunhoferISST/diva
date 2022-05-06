@@ -29,9 +29,6 @@
           "foo.txt"
         ],
         "pattern": "^(.*)$",
-        "_elasticsearch": {
-          "type": "keyword"
-        },
         "_ui": {
           "view": "profiling",
           "position": 0,

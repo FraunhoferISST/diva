@@ -134,19 +134,15 @@ module.exports = class EntityController {
   async patchById(req, res, next) {
     try {
       const { id } = req.params;
-      const { delta } = await this.service.patchById(
-        id,
-        req.body,
-        req.headers.diva.actorId
-      );
+      const { actorId } = req.headers.diva;
+      await executeTransaction([
+        () => this.service.patchById(id, req.body, actorId),
+        ({ delta }) =>
+          entitiesMessagesProducer.produce(id, actorId, "update", [], {
+            affectedFields: this.getAffectedFieldsFromDelta(delta),
+          }),
+      ]);
       res.status(200).send();
-      entitiesMessagesProducer.produce(
-        id,
-        req.headers.diva.headers,
-        "update",
-        [],
-        { affectedFields: this.getAffectedFieldsFromDelta(delta) }
-      );
     } catch (err) {
       return next(err);
     }

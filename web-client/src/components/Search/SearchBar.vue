@@ -1,52 +1,72 @@
 <template>
-  <div class="search-bar-container px-3" :class="{ interacted: interacted }">
-    <div
-      class="search-bar-image d-flex justify-center"
-      :class="{ interacted: interacted }"
-    >
-      <fade-out-in>
-        <img
-          id="diva-typo"
-          alt="DIVA"
-          width="200"
-          :src="require('@/assets/diva_logo_typo.svg')"
-          v-if="!interacted"
-        />
-      </fade-out-in>
-    </div>
-    <div class="d-flex justify-center">
-      <v-form
-        class="full-width"
-        style="max-width: 700px"
-        @submit.prevent="onInput"
+  <div class="search-bar-container">
+    <v-container class="pa-4 pa-md-16 pb-8 pb-md-8">
+      <h1 class="search-bar-title">Discover your catalog</h1>
+      <!--    <p>Some description here</p>-->
+      <div class="mt-4 mt-md-10">
+        <v-form @submit.prevent="onInput">
+          <v-text-field
+            :dense="$vuetify.breakpoint.smAndDown"
+            hide-details
+            :loading="loading"
+            label="Search by Title, Description, Filename etc."
+            outlined
+            flat
+            rounded
+            autofocus
+            full-width
+            v-model="computedInput"
+          />
+        </v-form>
+      </div>
+      <div
+        class="search-bar-stats pt-10 px-0 py-0 d-flex justify-space-between align-center"
       >
-        <v-text-field
-          hide-details
-          :loading="loading"
-          label="Explore your catalog"
-          outlined
-          flat
-          rounded
-          autofocus
-          :dense="interacted"
-          full-width
-          v-model="computedInput"
-        />
-      </v-form>
-    </div>
+        <div class="d-flex align-center">
+          <v-btn
+            small
+            icon
+            class="mr-3 d-block d-md-none"
+            color="primary"
+            @click="() => $emit('toggleFacets')"
+          >
+            <v-icon small> filter_list </v-icon>
+          </v-btn>
+          <span class="search-bar-total">
+            {{ total }} Item{{ total > 1 ? "s" : "" }}
+          </span>
+        </div>
+        <div>
+          <v-select
+            v-model="computedSortBy"
+            dense
+            rounded
+            flat
+            hide-details
+            :items="sortByItems"
+            item-text="title"
+            item-value="field"
+            label="Sort by"
+            solo
+          ></v-select>
+        </div>
+      </div>
+    </v-container>
   </div>
 </template>
 
 <script>
 import { Debouncer } from "@/utils/utils";
 const searchDebouncer = new Debouncer();
-
-import FadeOutIn from "@/components/Transitions/FadeOutIn";
 export default {
   name: "SearchBar",
-  components: { FadeOutIn },
+  components: {},
   props: {
     input: {
+      type: String,
+      required: true,
+    },
+    sortBy: {
       type: String,
       required: true,
     },
@@ -54,15 +74,27 @@ export default {
       type: Boolean,
       default: false,
     },
-    interacted: {
-      type: Boolean,
-      default: false,
-    },
-    totalSearchResults: {
+    total: {
       type: Number,
       default: 0,
     },
   },
+  data: () => ({
+    sortByItems: [
+      {
+        title: "Relevance",
+        field: "_score",
+      },
+      {
+        title: "Last created",
+        field: "createdAt",
+      },
+      {
+        title: "Last modified",
+        field: "modifiedAt",
+      },
+    ],
+  }),
   computed: {
     computedInput: {
       get() {
@@ -71,6 +103,14 @@ export default {
       set(val) {
         this.onInput();
         return this.$emit("update:input", val);
+      },
+    },
+    computedSortBy: {
+      get() {
+        return this.sortBy;
+      },
+      set(val) {
+        return this.$emit("update:sortBy", val);
       },
     },
   },
@@ -84,21 +124,25 @@ export default {
 
 <style scoped lang="scss">
 .search-bar-container {
-  background-color: white;
-  border-bottom: 2px solid $bg_card_secondary;
-  padding: 60px 0;
-  &.interacted {
-    margin-bottom: 0;
-    padding: 10px 0;
-  }
+  background-color: $bg_card_secondary;
 }
-.search-bar-image {
-  transition: 0.3s;
-  height: 65px;
-  margin-bottom: 20px;
-  &.interacted {
-    height: 0;
-    margin-bottom: 0;
+.search-bar-title {
+  font-family: $font_header;
+  letter-spacing: 0.07rem;
+  display: block;
+  font-size: 3rem !important;
+  font-weight: bolder;
+  opacity: 0.9;
+}
+.search-bar-total {
+  min-width: 80px;
+  font-family: Montserrat;
+  font-weight: bolder;
+  font-size: 1rem;
+}
+@media screen and (max-width: 959px) {
+  .search-bar-title {
+    font-size: 2.2rem !important;
   }
 }
 </style>

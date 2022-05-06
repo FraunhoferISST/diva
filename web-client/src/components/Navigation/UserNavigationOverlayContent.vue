@@ -18,18 +18,16 @@
                 </v-col>
                 <v-col cols="12">
                   <data-viewer :loading="loading" :error="error">
-                    <v-col cols="12">
-                      <v-row dense v-if="recentLikes.length > 0">
-                        <v-col
-                          cols="12"
-                          v-for="entity in recentLikes.filter((l) => l)"
-                          :key="entity.id"
-                        >
-                          <entity-mini-card :entity="entity" />
-                        </v-col>
-                      </v-row>
-                      <no-data-state v-else text="No likes sofar" />
-                    </v-col>
+                    <v-row dense v-if="recentLikes.length > 0">
+                      <v-col
+                        cols="12"
+                        v-for="entity in recentLikes.filter((l) => l)"
+                        :key="entity.id"
+                      >
+                        <entity-mini-card :entity="entity" />
+                      </v-col>
+                    </v-row>
+                    <no-data-state v-else text="No likes sofar" />
                   </data-viewer>
                 </v-col>
               </v-row>
@@ -106,6 +104,7 @@ import EntityAvatar from "@/components/Entity/EntityAvatar";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useRequest } from "@/composables/request";
 import { useApi } from "@/composables/api";
+import { ref } from "@vue/composition-api";
 
 export default {
   name: "UserNavigationOverlayContent",
@@ -119,50 +118,52 @@ export default {
     LogoutButton,
   },
   setup() {
-    const { getEntityApiById } = useApi();
+    const recentLikes = ref([]);
+    const { getEntityApiById, datanetwork } = useApi();
     const { request, loading, error } = useRequest();
     const { user, recentlyViewed } = useUser();
-    return {
-      request,
-      loading,
-      error,
-      user,
-      recentlyViewed,
-      getEntityApiById,
-    };
-  },
-  data: () => ({
-    recentLikes: [],
-  }),
-  methods: {
-    fetchRecentLikes() {
-      return this.request(
-        this.$api.datanetwork
+
+    const fetchRecentLikes = () => {
+      return request(
+        datanetwork
           .getEdges({
-            from: this.user.id,
+            from: user.value.id,
             edgeTypes: "likes",
           })
           .then(async ({ data: { collection } }) =>
             Promise.all(
               collection.map((edge) => {
-                return this.getEntityApiById(edge.to.entityId)
+                return getEntityApiById(edge.to.entityId)
                   .getByIdIfExists(edge.to.entityId, {
                     fields:
                       "id, title, entityType, username, mimeType, entityIcon",
                   })
-                  .then(({ data }) => data)
-                  .catch(() => {
-                    /*just ignore it*/
-                  });
+                  .then(({ data }) => data);
               })
             )
           )
-          .then((recentLikes) => (this.recentLikes = recentLikes))
+          .then(
+            (fetchedRecentLikes) => (recentLikes.value = fetchedRecentLikes)
+          )
+          .catch(() => {
+            /*just ignore it*/
+          })
       );
-    },
+    };
+
+    return {
+      loading,
+      error,
+      user,
+      recentlyViewed,
+      recentLikes,
+      fetchRecentLikes,
+    };
   },
   mounted() {
-    this.fetchRecentLikes();
+    if (this.$vuetify.breakpoint.smAndUp) {
+      this.fetchRecentLikes();
+    }
   },
 };
 </script>

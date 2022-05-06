@@ -60,7 +60,7 @@ const createResources = async (sensorResources, actorId, { req, res }) => {
       throw requestCanceledError;
     }
     const { data } = await axios.post(ENTITY_MANAGEMENT_URL, chunk, {
-      headers: { "x-actorid": actorId },
+      headers: { "x-diva": JSON.stringify({ actorId }) },
     });
     results.push(...data);
     if (res) {

@@ -14,8 +14,8 @@ export const useSearch = () => {
   ) =>
     request(
       searchCall(q, { pageSize, cursor, ...params }).then(
-        ({ data: { collection, cursor, total } }) => {
-          data.value = { collection, cursor, total };
+        ({ data: { collection, cursor, total, facets } }) => {
+          data.value = { collection, cursor, total, facets };
           _cursor.value = cursor;
           _total.value = total;
           return data.value;

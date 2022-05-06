@@ -8,7 +8,7 @@ router.post("/import", async (req, res, next) => {
     const { createAsset, assetId, streamResponse } = req.query;
     const result = await urbanPulseService.import(
       req.body,
-      req.headers["x-actorid"],
+      req.headers.diva.actorId,
       streamResponse ? { req, res } : {},
       createAsset,
       assetId

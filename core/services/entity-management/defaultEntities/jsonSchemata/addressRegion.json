@@ -28,9 +28,6 @@
           "position": 2,
           "type": "text",
           "fallbackValue": ""
-        },
-        "_elasticsearch": {
-          "type": "keyword"
         }
       }
     }

@@ -41,7 +41,7 @@
         ],
         "pattern": "^(.*)$",
         "_elasticsearch": {
-          "type": "keyword"
+          "type": "text"
         },
         "_ui": {
           "view": "overview",

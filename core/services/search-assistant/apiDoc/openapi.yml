@@ -16,7 +16,7 @@ paths:
     get:
       tags:
         - search
-      summary: Global search over all Elasticsearch Indecies
+      summary: Global search over all Elasticsearch Indices
       description: Send a query term in URL parameter `q` and get a result set in return. The search response contains
         a `collection` array that can contain any known entity like resource, asset or user. To fetch the next page you can use a `cursor`
         that is included in the response if there is a next page.
@@ -72,6 +72,19 @@ paths:
               - "must"
               - "should"
               - "mustNot"
+        - name: sortBy
+          in: query
+          description: Defines the field to sort by
+          example: "modifiedAt"
+          required: false
+          explode: false
+          allowReserved: true
+          schema:
+            type: string
+            enum:
+              - "modifiedAt"
+              - "createdAt"
+              - "_score"
       responses:
         "200":
           description: Search result

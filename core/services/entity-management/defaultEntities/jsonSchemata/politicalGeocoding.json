@@ -34,7 +34,7 @@
           "Municipality"
         ],
         "_elasticsearch": {
-          "type": "text"
+          "type": "keyword"
         },
         "_ui": {
           "view": "overview",

@@ -22,9 +22,6 @@
         "examples": [
           "+49 150 1111 2222"
         ],
-        "_elasticsearch": {
-          "type": "keyword"
-        },
         "_ui": {
           "view": "overview",
           "position": 3,

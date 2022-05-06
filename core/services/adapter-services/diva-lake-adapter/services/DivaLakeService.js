@@ -52,20 +52,20 @@ const generateFileResourceSchema = (file, uniqueFingerprint, mimeType) => ({
   mimeType,
 });
 
-const createResource = async (resourceSchema, actorid) =>
+const createResource = async (resourceSchema, actorId) =>
   axios
     .post(ENTITY_MANAGEMENT_URL, resourceSchema, {
-      headers: { "x-actorid": actorid },
+      headers: { "x-diva": JSON.stringify({ actorId }) },
     })
     .then(({ data }) => data)
     .catch((e) => {
       throw e?.response?.data || e;
     });
 
-const deleteResource = async (resourceId, actorid) =>
+const deleteResource = async (resourceId, actorId) =>
   axios
     .delete(`${ENTITY_MANAGEMENT_URL}/${resourceId}`, {
-      headers: { "x-actorid": actorid },
+      headers: { "x-diva": JSON.stringify({ actorId }) },
     })
     .catch((e) => {
       throw e?.response?.data || e;

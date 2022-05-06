@@ -7,7 +7,7 @@ router.post("/import", async (req, res, next) => {
   try {
     const result = await divaLakeResourceService.import(
       req.files[0],
-      req.headers["x-actorid"]
+      req.headers.diva.actorId
     );
     res.status(201).send(result);
   } catch (e) {
