@@ -4,7 +4,6 @@ module.exports = [
     title: "Connect creator with the created node",
     isActive: true,
     isEditable: true,
-    priority: 1,
     scope: {
       channel: "entity.events",
       "payload.type": "create",
@@ -43,7 +42,6 @@ module.exports = [
     title: "Connect a review with the corresponding entity on review creation",
     isActive: true,
     isEditable: true,
-    priority: 1,
     scope: {
       channel: "entity.events",
       "payload.attributedTo[0].object.id":
@@ -83,7 +81,6 @@ module.exports = [
     title: "Delete review if corresponding entity was deleted",
     isActive: true,
     isEditable: true,
-    priority: 0,
     scope: {
       channel: "datanetwork.events",
       "payload.type": "delete",
@@ -124,7 +121,6 @@ module.exports = [
     title: "Trigger Similarity Hash DAG when Keywords change",
     isActive: true,
     isEditable: true,
-    priority: 0,
     scope: {
       channel: "entity.events",
       "payload.type": "update",

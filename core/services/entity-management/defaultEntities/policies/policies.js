@@ -4,7 +4,6 @@ module.exports = [
     id: "policy:uuid:8e37acca-7dd7-4d93-aecd-924acf678e8d",
     title: "Allow everything for entity-management (DEV only)",
     isActive: true,
-    priority: 1,
     scope: {
       "headers.serviceName": "entity-management",
       path: "^.+$",
@@ -20,7 +19,6 @@ module.exports = [
     title: "Admin Power Right for Entity-Management",
     isActive: true,
     isEditable: false,
-    priority: 1,
     scope: {
       "headers.serviceName": "entity-management",
       path: "^.+$",
@@ -66,7 +64,6 @@ module.exports = [
     id: "policy:uuid:274cf188-98f5-40b0-8e3c-fb9ee75e43c7",
     title: "Creator of resource can perform GET",
     isActive: true,
-    priority: 1,
     scope: {
       "headers.serviceName": "entity-management",
       path: "^/resources/resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
@@ -398,7 +395,6 @@ module.exports = [
   {
     id: "policy:uuid:66a0b4e8-f477-4c14-b846-631c1961d692
     title: "Owner of resource can perform GET",
-    priority: 1,
     scope: {
       "headers.serviceName": "entity-management",
       path: "^/resources/resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
@@ -418,7 +414,6 @@ module.exports = [
   },
   {
     title: "User can GET resource if both entities are part of asset",
-    priority: 1,
     scope: {
       "headers.serviceName": "entity-management",
       path: "^/resources/resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
@@ -438,7 +433,6 @@ module.exports = [
   },
   {
     title: "Creator of resource can perform PATCH",
-    priority: 1,
     scope: {
       "headers.serviceName": "entity-management",
       path: "^/resources/resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
