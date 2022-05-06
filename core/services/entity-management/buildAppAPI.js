@@ -134,7 +134,7 @@ module.exports = async (server) => {
     await service.init().then(async () => {
       await service.loadDefault();
       (defaultEntities[collection] ?? []).map(({ id }) =>
-        entitiesMessagesProducer.produce(id, serviceId)
+        entitiesMessagesProducer.produce(id, serviceId, "create")
       );
     });
     const controller = entity?.controller ?? createEntityController(service);
