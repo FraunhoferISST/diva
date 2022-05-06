@@ -17,10 +17,12 @@
           temporary
           v-if="$vuetify.breakpoint.smAndDown"
         >
-          <search-facets
-            :facets.sync="facets"
-            :facets-operator.sync="facetsOperator"
-          />
+          <div class="pb-16">
+            <search-facets
+              :facets.sync="facets"
+              :facets-operator.sync="facetsOperator"
+            />
+          </div>
         </v-navigation-drawer>
         <search-facets
           v-else
