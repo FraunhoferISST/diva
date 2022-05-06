@@ -158,7 +158,29 @@ module.exports = [
       ],
     },
   },
-
+  {
+    id: "policy:uuid:468db289-3ebf-4f93-8d64-d56117875267",
+    title: "Allow users to create reviews",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/reviews/?$",
+      method: "POST",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+      ],
+    },
+  },
   // Users | Login:
   {
     id: "policy:uuid:132e0f2e-19a6-4e61-b42f-e5033322b1ec",
