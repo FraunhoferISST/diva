@@ -29,7 +29,7 @@ const substituteTemplate = (template, data) => {
   return substitutedTemplate;
 };
 
-const hasMatch = (definition, data) =>
+const hasMatch = (definition, negation, data) =>
   Object.entries(definition).every(([key, value]) => {
     const substitutedValue = templatePattern.test(value)
       ? substituteTemplate(value, data)
@@ -43,11 +43,12 @@ const hasMatch = (definition, data) =>
       substitutedValue,
       new RegExp(substitutedValue).test(dataValue)
     );
-    return new RegExp(substitutedValue).test(dataValue);
+    const result = new RegExp(substitutedValue).test(dataValue);
+    return negation ? !result : result;
   });
 
 const conditionsRulesHandlerMap = {
-  cypher: async (query, data) => {
+  cypher: async (query, negation, data) => {
     const session = neo4jConnector.client.session();
     const {
       records: [
@@ -58,21 +59,31 @@ const conditionsRulesHandlerMap = {
     } = await session
       .run(substituteTemplate(query, data))
       .finally(() => session.close());
-    return ruleMet;
+    return negation ? !ruleMet : ruleMet;
   },
-  inputData: async (query, data) => hasMatch(query, data),
-  mongo: async (query, data, collection) => {
+  inputData: async (query, negation, data) => hasMatch(query, negation, data),
+  mongo: async (query, negation, data, collection) => {
     const substitutedQuery = substituteTemplate(query, data);
-    return mongoDBConnector.collections[collection ?? "entities"].find(
+    const result = mongoDBConnector.collections[collection ?? "entities"].find(
       JSON.parse(substitutedQuery)
     );
+    return negation ? !result : result;
   },
 };
 
 const isSubConditionRuleMet = async (conditionRule, data) => {
   const conditionRuleType = Object.keys(conditionRule)[0];
-  const { query, collection } = conditionRule[conditionRuleType];
-  return conditionsRulesHandlerMap[conditionRuleType](query, data, collection);
+  const {
+    query,
+    negation = false,
+    collection,
+  } = conditionRule[conditionRuleType];
+  return conditionsRulesHandlerMap[conditionRuleType](
+    query,
+    negation,
+    data,
+    collection
+  );
 };
 
 const isConditionMet = async (condition, data) => {
@@ -96,7 +107,7 @@ const getMatchingBusinessAssets = (data, assets) => {
   const matchingAssets = [];
   for (const asset of assets) {
     const { scope } = asset;
-    if (hasMatch(scope, data)) {
+    if (hasMatch(scope, false, data)) {
       matchingAssets.push(asset);
     }
   }

@@ -52,6 +52,9 @@
                       "properties": {
                         "query": {
                           "type": "string"
+                        },
+                        "negation": {
+                          "type": "boolean"
                         }
                       }
                     },
@@ -61,9 +64,21 @@
                         "query": {
                           "type": "string"
                         },
+                        "negation": {
+                          "type": "boolean"
+                        },
                         "collection": {
                           "type": "string"
                         }
+                      }
+                    },
+                    "inputData": {
+                      "type": "object",
+                      "query": {
+                        "type": "string"
+                      },
+                      "negation": {
+                        "type": "boolean"
                       }
                     }
                   }
@@ -81,6 +96,9 @@
                       "properties": {
                         "query": {
                           "type": "string"
+                        },
+                        "negation": {
+                          "type": "boolean"
                         }
                       }
                     },
@@ -90,9 +108,21 @@
                         "query": {
                           "type": "string"
                         },
+                        "negation": {
+                          "type": "boolean"
+                        },
                         "collection": {
                           "type": "string"
                         }
+                      }
+                    },
+                    "inputData": {
+                      "type": "object",
+                      "query": {
+                        "type": "string"
+                      },
+                      "negation": {
+                        "type": "boolean"
                       }
                     }
                   }

@@ -47,14 +47,14 @@ const cleanUpEntity = (entity) => {
   return cleanEntity;
 };
 
-const createProjectionObject = (projectionQuery, excludes) => {
+const createProjectionObject = (projectionQuery, policyProjection) => {
   const projectionObject = {};
   if (projectionQuery) {
     for (const field of projectionQuery.split(",")) {
       projectionObject[field.trim()] = 1;
     }
   }
-  return { ...projectionObject, ...excludes };
+  return { ...projectionObject, ...policyProjection };
 };
 
 const createNextPageQuery = (id) => ({ _id: { $lt: ObjectId(id) } });
@@ -222,7 +222,7 @@ class EntityService {
           {
             projection: createProjectionObject(
               fields,
-              policyPayload.projections
+              policyPayload.projection
             ),
           }
         )
