@@ -77,7 +77,10 @@ class ConnectorService {
     deleteOrphanIndecies();
   }
 
-  async index(id, { dbName = "divaDb", collection = "entities" } = {}) {
+  async index(
+    id,
+    { dbName = "divaDb", collection = "entities", index = "entities" } = {}
+  ) {
     let entity = await getEntity(dbName, collection, id);
     if (entity) {
       entity = sanitizeIndexBody(entity);
@@ -91,7 +94,7 @@ class ConnectorService {
         entity[edge.type].push(edge.entityId);
       }
       await esConnector.client.index({
-        index: collection,
+        index,
         id: entity.id,
         body: entity,
       });
@@ -153,10 +156,11 @@ class ConnectorService {
       const cursor = mongoConnector.client
         .db("divaDb")
         .collection("entities")
-        .find({}, { projection: { _id: 0, id: 1 } });
+        .find({}, { projection: { _id: 0, id: 1 } })
+        .limit(0);
       cursor.forEach((doc) => {
         // index document
-        this.index(doc.id, { collection: indexName });
+        this.index(doc.id, { index: indexName });
       });
       // Delete old entities index
       const { body } = await esConnector.client.indices.get({
