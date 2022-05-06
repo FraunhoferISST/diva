@@ -78,7 +78,6 @@ module.exports = [
         },
       ],
     },
-    excludes: [],
   },
   {
     id: "policy:uuid:cd0400c9-ed81-4f41-a6a2-ebc1f3cef834",
@@ -111,7 +110,6 @@ module.exports = [
         },
       ],
     },
-    excludes: [],
   },
 
   // Users | Login:
@@ -136,7 +134,6 @@ module.exports = [
               // normal users can not put admin role
               "body.roles": "^((?!admin).)*$",
             },
-            // negation: true,
           },
         },
       ],
@@ -221,7 +218,6 @@ module.exports = [
         },
       ],
     },
-    excludes: [],
   },
   {
     id: "policy:uuid:4dd56f09-2d57-4671-8527-0b0ea9a5a0f2",
@@ -251,7 +247,6 @@ module.exports = [
         },
       ],
     },
-    excludes: [],
   },
 
   // System entities
@@ -410,7 +405,6 @@ module.exports = [
         },
       ],
     },
-    excludes: [],
   },
   {
     title: "User can GET resource if both entities are part of asset",
@@ -429,7 +423,6 @@ module.exports = [
         },
       ],
     },
-    excludes: [],
   },
   {
     title: "Creator of resource can perform PATCH",
