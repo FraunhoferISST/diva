@@ -119,12 +119,12 @@ module.exports = [
   },
   {
     id: "policy:uuid:2eff6696-ecec-4381-96dc-720b9b700edf",
-    title: "Allows normal users to GET list of entities",
+    title: "Allows users and services to GET list of entities",
     isActive: true,
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/[a-zA-Z0-9]+/?[a-zA-Z0-9/]*",
+      path: "^/[a-zA-Z0-9]+/?[a-zA-Z0-9-/]*$",
       method: "GET",
     },
     condition: {
@@ -383,6 +383,7 @@ module.exports = [
         {
           inputData: {
             query: {
+              // history of the user
               "headers.diva.actorId": "{{query.attributedTo}}",
             },
           },
