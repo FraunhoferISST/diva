@@ -65,6 +65,7 @@ export function useEntity(
   };
   const patch = (patch, updateData = false) => {
     patchLoading.value = true;
+    patchError.value = false;
     return entityApi
       .patch(id, patch)
       .then(() => {

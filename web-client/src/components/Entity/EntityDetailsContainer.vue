@@ -11,6 +11,7 @@
       <data-viewer :loading="loading" :updating="updating" :error="error">
         <template v-if="data">
           <div class="entity-details-overview">
+            <entity-controls :show.sync="showControls" :entity="data" />
             <v-container ref="overviewContainer" class="pa-0 pt-0 pb-0">
               <v-expand-transition>
                 <v-container
@@ -72,42 +73,13 @@
                         </div>
                       </div>
                       <div>
-                        <v-menu left bottom rounded="lg" min-width="200">
-                          <template #activator="{ on, attrs }">
-                            <v-btn
-                              color="primary"
-                              icon
-                              v-bind="attrs"
-                              v-on="on"
-                            >
-                              <v-icon> more_vert </v-icon>
-                            </v-btn>
-                          </template>
-
-                          <v-list dense>
-                            <v-list-item
-                              v-if="isAdmin"
-                              @click="showFieldCreationDialog"
-                            >
-                              <v-list-item-icon>
-                                <v-icon dense color="primary"> add </v-icon>
-                              </v-list-item-icon>
-                              <v-list-item-content>
-                                <v-list-item-title>
-                                  Add New field
-                                </v-list-item-title>
-                              </v-list-item-content>
-                            </v-list-item>
-                            <v-list-item @click="showConfirmationDialog">
-                              <v-list-item-icon>
-                                <v-icon dense color="error">delete</v-icon>
-                              </v-list-item-icon>
-                              <v-list-item-content>
-                                <v-list-item-title>Delete</v-list-item-title>
-                              </v-list-item-content>
-                            </v-list-item>
-                          </v-list>
-                        </v-menu>
+                        <v-btn
+                          color="primary"
+                          icon
+                          @click="showControls = true"
+                        >
+                          <v-icon> more_vert </v-icon>
+                        </v-btn>
                       </div>
                     </div>
                     <div
@@ -154,24 +126,6 @@
           </div>
         </template>
       </data-viewer>
-      <confirmation-dialog :show.sync="confirmationDialog">
-        <v-alert text color="error">
-          Are you sure you want to delete this entity? All corresponding data
-          will be removed and can no longer be restored!
-        </v-alert>
-        <template #confirm>
-          <v-btn text rounded color="error" @click="deleteEnt">
-            Delete entity
-          </v-btn>
-          <v-snackbar text color="error" v-model="snackbar" absolute>
-            {{ message }}
-          </v-snackbar>
-        </template>
-      </confirmation-dialog>
-      <entity-field-creation-dialog
-        :show.sync="fieldCreationDialog"
-        :scope="schemaScope"
-      />
       <entity-event-snackbar
         top
         fixed
@@ -217,10 +171,12 @@ import { computed, ref } from "@vue/composition-api";
 import { useUser } from "@/composables/user";
 import ConfirmationDialog from "@/components/Base/ConfirmationDialog";
 import EntityFieldCreationDialog from "@/components/Entity/EntityFieldCreationDialog";
+import EntityControls from "@/components/Entity/EntityControls";
 
 export default {
   name: "EntityDetailsContainer",
   components: {
+    EntityControls,
     EntityFieldCreationDialog,
     ConfirmationDialog,
     EntityEventSnackbar,
@@ -248,6 +204,7 @@ export default {
     const fieldCreationDialog = ref(false);
     const menu = ref(false);
     const tab = ref("");
+    const showControls = ref(false);
 
     const { addRecentlyViewed, isAdmin } = useUser();
     const { emit } = useBus();
@@ -294,6 +251,7 @@ export default {
       });
     };
     return {
+      showControls,
       confirmationDialog,
       fieldCreationDialog,
       tab,
