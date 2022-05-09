@@ -13,6 +13,10 @@ module.exports = [
     excludes: [],
   }, */
 
+  /*
+   * Entity-Management
+   */
+
   // Admin Policies
   {
     id: "policy:uuid:f70c72b9-62f6-4a01-a6ee-d0d7bcbfaf31",
@@ -21,7 +25,29 @@ module.exports = [
     isEditable: false,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^.+$",
+      path: "^/[a-zA-Z0-9]+/?$",
+      method: "(GET|POST|OPTIONS)",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.realm_access.roles": '("admin")',
+            },
+          },
+        },
+      ],
+    },
+  },
+  {
+    id: "policy:uuid:c269f6ae-d5ad-4522-952e-244d0f10ac1e",
+    title: "Admin Power Right for Entity-Management",
+    isActive: true,
+    isEditable: false,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/[a-zA-Z0-9]+/[a-zA-Z0-9]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}.*",
       method: "(GET|PUT|POST|PATCH|DELETE|OPTIONS)",
     },
     condition: {
@@ -60,28 +86,8 @@ module.exports = [
 
   // Entities: Standard DIVA Policies
   {
-    id: "policy:uuid:274cf188-98f5-40b0-8e3c-fb9ee75e43c7",
-    title: "Creator of resource can perform GET",
-    isActive: true,
-    scope: {
-      "headers.serviceName": "entity-management",
-      path: "^/resources/resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
-      method: "GET",
-    },
-    condition: {
-      and: [
-        {
-          cypher: {
-            query:
-              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})<-[e:isCreatorOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(e)>0) as ruleMet",
-          },
-        },
-      ],
-    },
-  },
-  {
     id: "policy:uuid:cd0400c9-ed81-4f41-a6a2-ebc1f3cef834",
-    title: "Allows normal users to see not private entities",
+    title: "Allows logged in users to see not private entities",
     isActive: true,
     isEditable: true,
     scope: {
@@ -118,7 +124,7 @@ module.exports = [
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/[a-zA-Z0-9]+/?.*",
+      path: "^/[a-zA-Z0-9]+/?[a-zA-Z0-9/]*",
       method: "GET",
     },
     condition: {
@@ -128,7 +134,7 @@ module.exports = [
             query: {
               // means actually user is logged in
               "headers.diva.actorId":
-                "user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+                "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
             },
           },
         },
@@ -136,13 +142,59 @@ module.exports = [
     },
   },
   {
-    id: "policy:uuid:468db289-3ebf-4f93-8d64-d56117875266",
-    title: "Allow anybody to create entities",
+    id: "policy:uuid:7648d3e8-b686-453a-b32f-c4a4081ffff0",
+    title:
+      "Creators, internal service and owners can view, edit and delete owned entities",
     isActive: true,
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/resources/?$",
+      path: "^/((?!.*users.*)[a-zA-Z0-9]+)/[a-zA-Z0-9]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}.*",
+      method: "(GET|PUT|PATCH|POST|DELETE)",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              // means actually user is logged in
+              "headers.diva.actorId":
+                "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+      ],
+      or: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId": "{{params.id}}",
+            },
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{params.id}}'})<-[r:isOwnerOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(r)>0) as ruleMet",
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{params.id}}'})<-[r:isCreatorOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(r)>0) as ruleMet",
+          },
+        },
+      ],
+    },
+  },
+  {
+    id: "policy:uuid:468db289-3ebf-4f93-8d64-d56117875266",
+    title: "Allow anybody to create entities (excluding users)",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/((?!.*users.*)[a-zA-Z0-9]+)/?$",
       method: "POST",
     },
     condition: {
@@ -152,29 +204,6 @@ module.exports = [
             query: {
               "headers.diva.actorId":
                 "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
-            },
-          },
-        },
-      ],
-    },
-  },
-  {
-    id: "policy:uuid:468db289-3ebf-4f93-8d64-d56117875267",
-    title: "Allow users to create reviews",
-    isActive: true,
-    isEditable: true,
-    scope: {
-      "headers.serviceName": "entity-management",
-      path: "^/reviews/?$",
-      method: "POST",
-    },
-    condition: {
-      and: [
-        {
-          inputData: {
-            query: {
-              "headers.diva.actorId":
-                "user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
             },
           },
         },
@@ -191,7 +220,7 @@ module.exports = [
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/?$",
       method: "PUT",
     },
     condition: {
@@ -211,14 +240,14 @@ module.exports = [
   },
   {
     id: "policy:uuid:a229c1a9-9371-4d84-89b7-81b662250c7d",
-    title: "User can execute PATCH on itself (excluding admin role)",
+    title: "User can execute PATCH on itself (excluding roles and groups)",
     description:
-      "THe policy allows an user to edit own data, excepting roles and groups",
+      "The policy allows an user to edit own data, excepting roles and groups",
     isActive: true,
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/?$",
       method: "PATCH",
     },
     condition: {
@@ -242,7 +271,7 @@ module.exports = [
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/?$",
       method: "DELETE",
     },
     condition: {
@@ -288,132 +317,8 @@ module.exports = [
       ],
     },
   },
-  {
-    id: "policy:uuid:4dd56f09-2d57-4671-8527-0b0ea9a5a0f2",
-    title: "Logged in clients can filter users by email",
-    description:
-      "Required for login to check if user already exists by given email",
-    isActive: true,
-    isEditable: true,
-    scope: {
-      "headers.serviceName": "entity-management",
-      path: "^/users/?$",
-      method: "GET",
-    },
-    condition: {
-      and: [
-        {
-          inputData: {
-            query: {
-              "headers.diva.actorId":
-                "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
-              // must contain email as query
-              "query.email": ".+",
-              // force the request to contain at most email and id as projection
-              "query.fields": "email(,id)?",
-            },
-          },
-        },
-      ],
-    },
-  },
-
-  // System entities
-  {
-    id: "policy:uuid:c5b6881f-c0ab-49be-9a4c-a77fb23dd2ee",
-    title: "Request schemata by scope",
-    isActive: true,
-    isEditable: false,
-    scope: {
-      "headers.serviceName": "entity-management",
-      path: "/scopedSchemata/?$",
-      method: "POST",
-    },
-    condition: {
-      and: [
-        {
-          inputData: {
-            query: {
-              "headers.diva.actorId":
-                "^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
-            },
-          },
-        },
-      ],
-    },
-  },
-  {
-    id: "policy:uuid:99a75ace-e761-4f9b-8eeb-137da37c7b5c",
-    title: "Allow only ESC to fetch resolved schemata",
-    isActive: true,
-    isEditable: false,
-    scope: {
-      "headers.serviceName": "entity-management",
-      path: "/resolvedSchemata/entity/?$",
-      method: "GET",
-    },
-    condition: {
-      and: [
-        {
-          inputData: {
-            query: {
-              "headers.diva.actorId":
-                "service:uuid:0a777e67-5ed7-4f1e-82d3-2078a7643ebd",
-            },
-          },
-        },
-      ],
-    },
-  },
-  {
-    id: "policy:uuid:87df1872-e685-4ee6-8ca0-001609a40e36",
-    title: "Allow internal services to request AsyncAPI specification ",
-    isActive: true,
-    isEditable: false,
-    scope: {
-      "headers.serviceName": "entity-management",
-      path: "/asyncapis/byName/(asyncapi|datanetwork-api|event-emitter-api)/?$",
-      method: "GET",
-    },
-    condition: {
-      and: [
-        {
-          inputData: {
-            query: {
-              "headers.diva.actorId":
-                "^service:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
-            },
-          },
-        },
-      ],
-    },
-  },
 
   // Edges
-  {
-    id: "policy:uuid:62d1bc96-31ca-4fbc-89a1-0cef12e20c73",
-    title:
-      "Logged in users and internal services can perform operations on edges",
-    isActive: true,
-    isEditable: true,
-    scope: {
-      "headers.serviceName": "entity-management",
-      path: "^/edges/?$",
-      method: "(GET|POST)",
-    },
-    condition: {
-      and: [
-        {
-          inputData: {
-            query: {
-              "headers.diva.actorId":
-                "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
-            },
-          },
-        },
-      ],
-    },
-  },
   {
     id: "policy:uuid:4293491e-ecc5-4f79-9ba9-baf0c9c4de11",
     title:
@@ -423,7 +328,7 @@ module.exports = [
     scope: {
       "headers.serviceName": "entity-management",
       path: "^/edges/edge:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/?$",
-      method: "(GET|POST|PATCH|PUT)",
+      method: "(GET|POST|PATCH|PUT|DELETE|OPTIONS)",
     },
     condition: {
       and: [
@@ -436,18 +341,69 @@ module.exports = [
           },
         },
         {
-          mongo: {
+          inputData: {
             query: {
-              id: "{{body.to.id}}",
-              isEditable: true,
+              "query.edgeType": "isCreatorOf",
             },
+            negation: true,
+          },
+        },
+      ],
+    },
+  },
+
+  /*
+   * History-Assistant
+   */
+
+  {
+    id: "policy:uuid:90a7c721-a555-44e4-bc86-0eea73783c83",
+    title: "History assistant policy",
+    description:
+      "Allows user see the entity history if they are allowed to se the corresponding entity",
+    isActive: true,
+    isEditable: false,
+    scope: {
+      "headers.serviceName": "history-assistant",
+      path: "^/histories/?$",
+      method: "GET",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+      ],
+      or: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId": "{{query.attributedTo}}",
+            },
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{query.attributedTo}}'})<-[r:isOwnerOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(r)>0) as ruleMet",
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{query.attributedTo}}'})<-[r:isCreatorOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(r)>0) as ruleMet",
           },
         },
         {
           mongo: {
             query: {
-              id: "{{body.from.id}}",
-              isEditable: true,
+              id: "{{query.attributedTo}}",
+              isPrivate: { $ne: true },
             },
           },
         },
@@ -456,68 +412,29 @@ module.exports = [
   },
 
   /*
+   * Other services, request are not limited
+   */
+
   {
-    id: "policy:uuid:66a0b4e8-f477-4c14-b846-631c1961d692
-    title: "Owner of resource can perform GET",
+    id: "policy:uuid:3c6a7bf2-0528-41fa-9d21-183ff36ba9fb",
+    title: "Allow request to other services",
+    isActive: true,
+    isEditable: false,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/resources/resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
-      method: "GET",
+      path: "^/[a-zA-Z0-9]+/?$",
+      method: "(GET|POST|OPTIONS)",
     },
     condition: {
       and: [
         {
-          cypher: {
-            query:
-              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})<-[e:isOwnerOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(e)>0) as ruleMet",
+          inputData: {
+            query: {
+              "headers.diva.realm_access.roles": '("admin")',
+            },
           },
         },
       ],
     },
   },
-  {
-    title: "User can GET resource if both entities are part of asset",
-    scope: {
-      "headers.serviceName": "entity-management",
-      path: "^/resources/resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
-      method: "GET",
-    },
-    condition: {
-      and: [
-        {
-          cypher: {
-            query:
-              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})-[:isPartOf]->(a:asset)<-[:isPartOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(a)>0) as ruleMet",
-          },
-        },
-      ],
-    },
-  },
-  {
-    title: "Creator of resource can perform PATCH",
-    scope: {
-      "headers.serviceName": "entity-management",
-      path: "^/resources/resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
-      method: "PATCH",
-    },
-    condition: {
-      and: [
-        {
-          cypher: {
-            query:
-              "MATCH (r:resource {entityId:'{{path||resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$}}'})<-[e:isCreatorOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(e)>0) as ruleMet",
-          },
-        },
-      ],
-    },
-    excludes: [
-      "entityType",
-      "resourceType",
-      "id",
-      "createdAt",
-      "modifiedAt",
-      "creatorId",
-    ],
-  },
-  */
 ];
