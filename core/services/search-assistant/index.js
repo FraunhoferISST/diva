@@ -16,9 +16,9 @@ const server = new Server(port);
 log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 
 server.initBasicMiddleware();
-server.addMiddleware("/search", searchRouter);
 server.addOpenApiValidatorMiddleware();
 server.addPolicyValidatorMiddleware();
+server.addMiddleware("/search", searchRouter);
 
 server
   .boot()

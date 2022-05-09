@@ -16,8 +16,8 @@ log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 
 server.initBasicMiddleware();
 server.addOpenApiValidatorMiddleware();
-server.addMiddleware("/", adapterRouter);
 server.addPolicyValidatorMiddleware();
+server.addMiddleware("/", adapterRouter);
 
 server
   .boot()
