@@ -141,13 +141,13 @@ class Server {
   }
 
   addPolicyValidatorMiddleware() {
-    if (POLICY_MIDDLEWARE === "active") {
-      log.info(`✅ Setting up Policy validation middleware`);
-      this.addMiddleware(policyRulesMiddleware);
-    } else {
+    if (POLICY_MIDDLEWARE === "inactive") {
       log.info(
         `🚫 Policy validation middleware has been deactivated by .env-flag`
       );
+    } else {
+      log.info(`✅ Setting up Policy validation middleware`);
+      this.addMiddleware(policyRulesMiddleware);
     }
   }
 

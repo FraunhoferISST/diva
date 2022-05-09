@@ -18,8 +18,9 @@ const server = new Server(port);
 log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 
 server.initBasicMiddleware();
-server.addMiddleware("/histories", historiesRouter);
 server.addOpenApiValidatorMiddleware();
+server.addPolicyValidatorMiddleware();
+server.addMiddleware("/histories", historiesRouter);
 
 server
   .boot()

@@ -11,7 +11,7 @@
   >
     <v-container fluid class="pa-0">
       <card>
-        <v-container fluid slot="body" class="pa-0">
+        <v-container fluid class="pa-0">
           <v-btn icon @click="computedShow = false">
             <v-icon color="error" small> close </v-icon>
           </v-btn>

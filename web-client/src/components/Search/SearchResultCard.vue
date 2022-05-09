@@ -109,6 +109,7 @@ export default {
       return [
         this.doc.entityType,
         this.doc.resourceType,
+        this.doc.serviceType,
         this.doc.assetType,
         this.doc.mimeType,
       ]

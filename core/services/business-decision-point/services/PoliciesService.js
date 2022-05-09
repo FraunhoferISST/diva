@@ -49,6 +49,12 @@ class PoliciesService {
     await Promise.all(
       matchingPolicies.map(async (policy) => {
         const singleDecision = await isConditionMet(policy.condition, req.body);
+        logger.info("Ensuring matched policy", {
+          policyId: policy.id,
+          title: policy.title,
+          scope: policy.scope,
+          decision: singleDecision,
+        });
         if (singleDecision) {
           if (Array.isArray(policy.includes)) {
             includes.push(...policy.includes);

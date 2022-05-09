@@ -15,7 +15,7 @@
                 :[field.propertyName]="field.value"
                 :is="field._ui.component"
                 :id="id"
-                :editable="field.isPatchable"
+                :editable="!!field.isPatchable"
               />
               <entity-field
                 v-else
@@ -99,6 +99,10 @@ export default {
           }))
           .map((schemaEntity) => ({
             ...schemaEntity,
+            isPatchable:
+              schemaEntity.isPatchable &&
+              !data.value.isArchived &&
+              data.value.isEditable,
             value:
               data.value[schemaEntity.propertyName] ??
               schemaEntity.schema.default ??
