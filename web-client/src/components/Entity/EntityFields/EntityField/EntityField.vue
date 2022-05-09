@@ -19,7 +19,7 @@
         </template>
         <template #value>
           <field-editor
-            :editable="field.isPatchable"
+            :editable="!!field.isPatchable"
             :data="{ [field.propertyName]: value }"
             :on-save="patchAndMutate"
           >

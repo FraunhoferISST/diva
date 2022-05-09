@@ -169,16 +169,12 @@ import DataViewer from "@/components/DataFetchers/DataViewer";
 import EntityEventSnackbar from "@/components/Entity/EntityEventSnackbar";
 import { computed, ref } from "@vue/composition-api";
 import { useUser } from "@/composables/user";
-import ConfirmationDialog from "@/components/Base/ConfirmationDialog";
-import EntityFieldCreationDialog from "@/components/Entity/EntityFieldCreationDialog";
 import EntityControls from "@/components/Entity/EntityControls";
 
 export default {
   name: "EntityDetailsContainer",
   components: {
     EntityControls,
-    EntityFieldCreationDialog,
-    ConfirmationDialog,
     EntityEventSnackbar,
     DataViewer,
     EntityMedia,
@@ -199,7 +195,7 @@ export default {
     },
   },
   emits: ["reload"],
-  setup(props, { root }) {
+  setup(props) {
     const confirmationDialog = ref(false);
     const fieldCreationDialog = ref(false);
     const menu = ref(false);
@@ -225,22 +221,11 @@ export default {
         timeout: reloadInstantly ? 2000 : 10000,
       });
     };
-    const {
-      load,
-      loading,
-      error,
-      data,
-      reload,
-      updating,
-      eventData,
-      title,
-      deleteEntity,
-      deleteLoading,
-      deleteError,
-    } = useEntity(props.id, {
-      reactive: true,
-      onEvent,
-    });
+    const { load, loading, error, data, reload, updating, eventData, title } =
+      useEntity(props.id, {
+        reactive: true,
+        onEvent,
+      });
     load().then(() => addRecentlyViewed(data.value));
     const reloadEntity = () => {
       emit("reload");
@@ -264,8 +249,6 @@ export default {
       timeout,
       message,
       snackbar,
-      deleteError,
-      deleteLoading,
       title,
       isAdmin,
       eventData: computed(() => eventData.value ?? {}),
@@ -273,6 +256,7 @@ export default {
         [
           data.value.entityType,
           data.value.resourceType,
+          data.value.serviceType,
           data.value.systemEntityType,
           data.value.assetType,
           data.value.mimeType,
@@ -280,33 +264,8 @@ export default {
           .filter((t) => t)
           .map((t) => (t.length > 40 ? `${t.slice(0, 40)}...` : t))
       ),
-      schemaScope: computed(() => [
-        !data.value
-          ? []
-          : Object.entries({
-              mimeType: data.value.mimeType,
-              resourceType: data.value.resourceType,
-              systemEntityType: data.value.systemEntityType,
-              assetType: data.value.assetType,
-              entityType: data.value.entityType,
-            })
-              .map(([key, value]) => ({ key: key, value: value }))
-              .filter(({ value }) => value)[0],
-      ]),
       showSnackbar,
-      deleteEnt: () =>
-        deleteEntity().then(() => {
-          if (deleteError.value) {
-            showSnackbar(deleteError.value, { color: "error" });
-          } else {
-            showSnackbar("Entity deleted", { color: "success" });
-            confirmationDialog.value = false;
-            setTimeout(() => root.$router.push({ name: "search" }), 1000);
-          }
-        }),
       reloadEntity,
-      showConfirmationDialog: () => (confirmationDialog.value = true),
-      showFieldCreationDialog: () => (fieldCreationDialog.value = true),
     };
   },
   data: () => ({

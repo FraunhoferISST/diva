@@ -43,8 +43,8 @@
                 </template>
               </v-list-item>
             </v-list>
-            <v-divider v-if="!isAdmin"></v-divider>
-            <v-list two-line subheader v-if="!isAdmin" class="pb-0">
+            <v-divider v-if="isAdmin"></v-divider>
+            <v-list two-line subheader v-if="isAdmin" class="pb-0">
               <v-list-item
                 @click="showFieldCreationDialog"
                 class="py-2 px-md-10"
@@ -207,11 +207,9 @@ export default {
       showSnackbar,
       visibilitySettings,
       patchVisibility: (item, position, val) => {
-        console.log(val);
         return patch({
           [item.property]: val,
         }).then(() => {
-          console.log(patchError.value);
           if (patchError.value) {
             visibilitySettings.value = visibilitySettings.value[
               position
