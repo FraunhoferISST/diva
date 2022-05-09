@@ -37,12 +37,6 @@ const hasMatch = (definition, negation, data) =>
     const dataValue = _.isArray(_.get(data, key))
       ? JSON.stringify(_.get(data, key))
       : _.get(data, key);
-    console.log(
-      key,
-      dataValue,
-      substitutedValue,
-      new RegExp(substitutedValue).test(dataValue)
-    );
     const result = new RegExp(substitutedValue).test(dataValue);
     return negation ? !result : result;
   });

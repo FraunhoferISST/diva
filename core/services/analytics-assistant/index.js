@@ -18,6 +18,7 @@ log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 server.initBasicMiddleware();
 server.addOpenApiValidatorMiddleware();
 server.addMiddleware("/analytics", analyticsRouter);
+server.addPolicyValidatorMiddleware();
 
 server
   .boot()
