@@ -22,6 +22,7 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import { useApi } from "@/composables/api";
+import { ref } from "@vue/composition-api";
 
 export default {
   name: "EntityImagesUpload",
@@ -32,15 +33,14 @@ export default {
     },
   },
   setup(props) {
+    const uploader = ref(null);
     const { imageUrl, entityApi } = useApi(props.entityId);
     return {
       imageUrl,
       entityApi,
+      uploader,
     };
   },
-  data: () => ({
-    uploader: null,
-  }),
   mounted() {
     FilePond.registerPlugin(FilePondPluginImagePreview);
     FilePond.registerPlugin(FilePondPluginFileValidateType);
@@ -62,7 +62,10 @@ export default {
         process: (fieldName, file, metadata, load, error) => {
           this.entityApi
             .uploadImage(this.entityId, file)
-            .then(({ data }) => load(data))
+            .then(({ data }) => {
+              this.$emit("uploaded", data);
+              return load(data);
+            })
             .catch((e) => error(e));
           return {};
         },

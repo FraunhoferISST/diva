@@ -40,17 +40,14 @@
                       >Use as banner</v-btn
                     >
                     <v-divider class="my-2"></v-divider>
-                    <v-btn text icon>
-                      <v-icon> photo_size_select_small </v-icon>
-                    </v-btn>
                     <v-btn
                       text
-                      icon
+                      rounded
                       color="red"
-                      class="ml-4"
                       @click="() => showDeletionDialog(image.id)"
                     >
-                      <v-icon> delete </v-icon>
+                      <v-icon left> delete </v-icon>
+                      Delete
                     </v-btn>
                   </div>
                 </v-overlay>
@@ -116,7 +113,7 @@ export default {
       required: true,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const { show, message, color, snackbar } = useSnackbar();
     const { request, loading, error } = useRequest();
     const { entityCollection, buildImageUrl, entityApi } = useApi(
@@ -141,24 +138,32 @@ export default {
     const useAsIcon = (imageId) =>
       handlePromiseError(
         request(
-          entityApi.patch(props.entity.id, {
-            entityIcon: imageId,
-          })
+          entityApi
+            .patch(props.entity.id, {
+              entityIcon: imageId,
+            })
+            .then(() => emit("entityIconChanged", imageId))
         )
       );
 
     const useAsBanner = (imageId) =>
       handlePromiseError(
         request(
-          entityApi.patch(props.entity.id, {
-            entityBanner: imageId,
-          })
+          entityApi
+            .patch(props.entity.id, {
+              entityBanner: imageId,
+            })
+            .then(() => emit("entityBannerChanged", imageId))
         )
       );
 
     const deleteImage = () =>
       handlePromiseError(
-        request(entityApi.deleteImage(props.entity.id, imageIdToDelete.value))
+        request(
+          entityApi
+            .deleteImage(props.entity.id, imageIdToDelete.value)
+            .then(() => emit("imageDeleted", imageIdToDelete.value))
+        )
       );
 
     return {

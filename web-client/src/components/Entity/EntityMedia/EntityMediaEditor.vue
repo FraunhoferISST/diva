@@ -1,5 +1,10 @@
 <template>
-  <v-dialog class="media-editor-dialog" v-model="computedOpen" max-width="1100">
+  <v-dialog
+    scrollable
+    class="media-editor-dialog"
+    v-model="computedOpen"
+    max-width="1100"
+  >
     <card>
       <div class="media-editor-banner d-flex justify-center">
         <v-img
@@ -39,10 +44,19 @@
           <v-container fluid>
             <v-row>
               <v-col cols="12">
-                <entity-images-upload :entity-id="entity.id" />
+                <entity-images-upload
+                  :entity-id="entity.id"
+                  @uploaded="onImageUpload"
+                />
               </v-col>
             </v-row>
-            <entity-images-viewer class="mt-5" :entity="entity" />
+            <entity-images-viewer
+              class="mt-5"
+              :entity="entity"
+              @entityIconChanged="onEntityIconChange"
+              @entityBannerChanged="onEntityBannerChange"
+              @imageDeleted="onImageDeleted"
+            />
           </v-container>
         </v-tab-item>
         <v-tab-item>
@@ -51,41 +65,19 @@
           </v-container>
         </v-tab-item>
       </v-tabs-items>
-
-      <v-snackbar
-        rounded
-        text
-        v-model="snackbar"
-        :timeout="6000"
-        absolute
-        :color="snackbarColor"
-      >
-        <span>
-          <b>{{ snackbarMsg }}</b>
-        </span>
-      </v-snackbar>
-      <confirmation-dialog :show.sync="confirmationDialog">
-        You are sure you want to delete your account?
-        <template #confirm>
-          <div class="d-flex justify-end">
-            <v-btn text rounded color="error" :loading="isLoading">
-              Delete account
-            </v-btn>
-          </div>
-        </template>
-      </confirmation-dialog>
     </card>
   </v-dialog>
 </template>
 
 <script>
-import ConfirmationDialog from "@/components/Base/ConfirmationDialog";
 import Card from "@/components/Base/Card";
-import imageUrl from "@/utils/imageUrl";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
 import EntityImagesUpload from "@/components/Entity/EntityMedia/EntityImagesUpload";
 import EntityImagesViewer from "@/components/Entity/EntityMedia/EntityImagesViewer";
 import EntityVideosViewer from "@/components/Entity/EntityMedia/EntityVideosViewer";
+import { useApi } from "@/composables/api";
+import { useBus } from "@/composables/bus";
+import { computed } from "@vue/composition-api";
 
 export default {
   name: "EntityMediaEditor",
@@ -95,7 +87,6 @@ export default {
     EntityImagesUpload,
     EntityAvatar,
     Card,
-    ConfirmationDialog,
   },
   props: {
     open: {
@@ -107,13 +98,24 @@ export default {
       required: true,
     },
   },
+  setup(props) {
+    const { emit } = useBus();
+    const { buildImageUrl, entityCollection } = useApi(props.entity.id);
+    return {
+      onImageUpload: (imageId) => emit("imageUploaded", imageId),
+      onEntityIconChange: (imageId) => emit("entityIconChanged", imageId),
+      onEntityBannerChange: (imageId) => emit("entityBannerChanged", imageId),
+      onImageDeleted: (imageId) => emit("imageDeleted", imageId),
+      bannerImageUrl: computed(() =>
+        buildImageUrl(
+          entityCollection,
+          props.entity.id,
+          props.entity.entityBanner
+        )
+      ),
+    };
+  },
   data: () => ({
-    confirmationDialog: false,
-    snackbar: false,
-    snackbarMsg: "",
-    snackbarColor: "",
-    image: "",
-    isLoading: false,
     tab: "1",
     tabs: [
       {
@@ -132,12 +134,6 @@ export default {
       set(val) {
         this.$emit("update:open", val);
       },
-    },
-    bannerImageUrl() {
-      return imageUrl(this.entity.id, this.entity.entityBanner);
-    },
-    iconImageUrl() {
-      return imageUrl(this.entity.id, this.entity.entityIcon);
     },
   },
 };

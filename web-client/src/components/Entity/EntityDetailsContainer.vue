@@ -203,7 +203,7 @@ export default {
     const showControls = ref(false);
 
     const { addRecentlyViewed, isAdmin } = useUser();
-    const { emit } = useBus();
+    const { emit, on } = useBus();
     const {
       color,
       show: showSnackbar,
@@ -227,6 +227,16 @@ export default {
         onEvent,
       });
     load().then(() => addRecentlyViewed(data.value));
+    on("imageUploaded", (imageId) => data.value.entityImages.push(imageId));
+    on("entityIconChanged", (imageId) => (data.value.entityIcon = imageId));
+    on("entityBannerChanged", (imageId) => (data.value.entityBanner = imageId));
+    on(
+      "imageDeleted",
+      (imageId) =>
+        (data.value.entityImages = (data.value.entityImages ?? []).filter(
+          (imgId) => imageId !== imgId
+        ))
+    );
     const reloadEntity = () => {
       emit("reload");
       reload().then(() => {
