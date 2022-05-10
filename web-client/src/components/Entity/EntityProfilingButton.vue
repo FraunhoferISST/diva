@@ -39,6 +39,8 @@ import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useRequest } from "@/composables/request";
 import { useSnackbar } from "@/composables/snackbar";
 import { useUser } from "@/composables/user";
+import { useApi } from "@/composables/api";
+import { ref } from "@vue/composition-api";
 export default {
   name: "EntityProfilingButton",
   components: { DataViewer },
@@ -48,8 +50,11 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
+    const profilingInitiated = ref(false);
+    const profilingExists = ref(false);
     const { request, loading, error } = useRequest();
+    const { profiling } = useApi();
     const {
       request: profileReq,
       loading: profileLoading,
@@ -57,56 +62,39 @@ export default {
     } = useRequest();
     const { snackbar, show, color, message } = useSnackbar();
     const { user } = useUser();
+
+    request(
+      profiling
+        .exists({ entityId: props.id })
+        .then(() => (profilingExists.value = true))
+        .catch(() => (profilingExists.value = false))
+    );
+
     return {
-      request,
+      profilingInitiated,
+      profilingExists,
       loading,
       error,
       user,
       snackbar,
-      show,
       color,
       message,
       profileError,
       profileLoading,
-      profileReq,
+      runProfiling: () =>
+        profileReq(profiling.run({ entityId: props.id })).then(() => {
+          if (profileError.value) {
+            return show(
+              `${
+                profileError.value?.response?.data?.message ??
+                profileError.value
+              }. Please try again later`,
+              { color: "error" }
+            );
+          }
+          profilingInitiated.value = true;
+        }),
     };
-  },
-  data: () => ({
-    profilingInitiated: false,
-    profilingExists: false,
-  }),
-  methods: {
-    runProfiling() {
-      return this.profileReq(
-        this.$api.profiling.run({ entityId: this.id }).then(() => {
-          this.profilingInitiated = true;
-          this.show("Profiling initiated");
-        })
-      ).then(() => {
-        if (this.profileError) {
-          this.show(
-            `${
-              this.profileError?.response?.data?.message ??
-              this.profileError.toString()
-            }. Please try again later`,
-            { color: "error" }
-          );
-        }
-      });
-    },
-    checkProfiling() {
-      return this.request(
-        this.$api.profiling
-          .exists({ entityId: this.id })
-          .then(() => (this.profilingExists = true))
-          .catch(() => {
-            this.profilingExists = false;
-          })
-      );
-    },
-  },
-  mounted() {
-    this.checkProfiling();
   },
 };
 </script>
