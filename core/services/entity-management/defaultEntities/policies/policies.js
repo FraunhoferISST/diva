@@ -20,11 +20,11 @@ module.exports = [
   // Admin Policies
   {
     id: "policy:uuid:f70c72b9-62f6-4a01-a6ee-d0d7bcbfaf31",
-    title: "Admin Power Right for Entity-Management",
+    title: "Admin Power Right",
     isActive: true,
     isEditable: false,
     scope: {
-      "headers.serviceName": "entity-management",
+      "headers.serviceName": ".*",
       path: "^/[a-zA-Z0-9]+/?$",
       method: "(GET|POST|OPTIONS)",
     },
@@ -42,11 +42,11 @@ module.exports = [
   },
   {
     id: "policy:uuid:c269f6ae-d5ad-4522-952e-244d0f10ac1e",
-    title: "Admin Power Right for Entity-Management",
+    title: "Admin Power Right",
     isActive: true,
     isEditable: false,
     scope: {
-      "headers.serviceName": "entity-management",
+      "headers.serviceName": ".*",
       path: "^/[a-zA-Z0-9]+/[a-zA-Z0-9]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}.*",
       method: "(GET|PUT|POST|PATCH|DELETE|OPTIONS)",
     },
@@ -413,16 +413,69 @@ module.exports = [
   },
 
   /*
+   * Profiling-Assistant
+   */
+
+  {
+    id: "policy:uuid:98cfcec2-8e58-4503-b4e6-494f6131c273",
+    title: "Profiling assistant policy",
+    description:
+      "Allows admins, creators, owners and internal services to trigger profiling",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "profiling-assistant",
+      path: "^/profiling/run/?(/[a-zA-Z-_]+/?)*$",
+      method: "POST",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+      ],
+      or: [
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{body.entityId}}'})<-[r:isOwnerOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(r)>0) as ruleMet",
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{body.entityId}}'})<-[r:isCreatorOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(r)>0) as ruleMet",
+          },
+        },
+        {
+          mongo: {
+            query: {
+              id: "{{body.diva.actorId}}",
+              serviceType: "faas",
+            },
+          },
+        },
+      ],
+    },
+  },
+
+  /*
    * Other services, request are not limited
    */
 
   {
     id: "policy:uuid:3c6a7bf2-0528-41fa-9d21-183ff36ba9fb",
-    title: "Allow request to other services",
+    title: "Logged in users have access to other services",
     isActive: true,
-    isEditable: false,
+    isEditable: true,
     scope: {
-      "headers.serviceName": "entity-management",
+      "headers.serviceName":
+        "(analytics-assistant|diva-lake-adapter|urban-pulse-adapter|search-assistant)",
       path: "^/[a-zA-Z0-9]+/?$",
       method: "(GET|POST|OPTIONS)",
     },
