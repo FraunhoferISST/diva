@@ -484,7 +484,8 @@ module.exports = [
         {
           inputData: {
             query: {
-              "headers.diva.realm_access.roles": '("admin")',
+              "headers.diva.actorId":
+                "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
             },
           },
         },
