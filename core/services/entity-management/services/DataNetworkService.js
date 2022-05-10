@@ -149,7 +149,7 @@ class DataNetworkService {
     bidirectional = false,
   }) {
     const fromNode = `n${fromNodeType ? `:${fromNodeType}` : ""} ${
-      to ? `{ entityId: '${from}' }` : ""
+      from ? `{ entityId: '${from}' }` : ""
     }`;
     const relationshipTypes = edgeTypes ? `r:${edgeTypes.join("|")}` : "r";
     const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
