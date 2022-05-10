@@ -138,6 +138,12 @@ class DataNetworkService {
     throw edgeNotFoundError;
   }
 
+  count(query) {
+    return executeSession(query).then(
+      ({ records }) => records[0]?._fields[0]?.low ?? 0
+    );
+  }
+
   async getEdges({
     from,
     edgeTypes,
@@ -157,21 +163,21 @@ class DataNetworkService {
       to ? `{ entityId: '${to}' }` : ""
     }`;
 
-    let limitStr = "";
-    let page = 0;
+    let limitStr = `LIMIT ${pageSize}`;
+    let page = 1;
     let limit = pageSize;
-    if (!cursor) {
-      limitStr = `SKIP ${page} LIMIT ${limit}`;
-    }
-    if (cursor) {
+    const count = await this.count(
+      `MATCH (${fromNode}) ${relationship} (${toNode}) RETURN count(r)`
+    );
+    if (cursor && count > pageSize) {
       const decodedCursor = JSON.parse(decodeCursor(cursor));
       page = decodedCursor.page;
       limit = decodedCursor.pageSize;
-      limitStr = `SKIP ${page * limit} LIMIT ${limit}`;
+      limitStr = `SKIP ${(page - 1) * limit} LIMIT ${limit}`;
     }
 
     return executeSession(
-      `MATCH (${fromNode}) ${relationship} (${toNode}) RETURN startNode(r) as from, r, endNode(r) as to, count(r) as count ${limitStr}`
+      `MATCH (${fromNode}) ${relationship} (${toNode}) RETURN startNode(r) as from, r, endNode(r) as to ${limitStr}`
     ).then(({ records }) => ({
       collection:
         records?.map(({ _fields }) => ({
@@ -183,13 +189,16 @@ class DataNetworkService {
             ..._fields[1].properties,
           },
         })) ?? [],
-      total: 0,
-      cursor: encodeCursor(
-        JSON.stringify({
-          page: page + 1,
-          pageSize: limit,
-        })
-      ),
+      total: count,
+      cursor:
+        page * limit < count
+          ? encodeCursor(
+              JSON.stringify({
+                page: page + 1,
+                pageSize: limit,
+              })
+            )
+          : null,
     }));
   }
 
