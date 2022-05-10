@@ -63,6 +63,7 @@ export const useUser = () => {
           ...user.value,
           ...loggedInUser,
           ...data,
+          username: loggedInUser.username,
           roles: data.roles,
           isLoggedIn: true,
         };

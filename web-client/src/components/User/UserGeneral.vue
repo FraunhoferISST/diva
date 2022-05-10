@@ -39,6 +39,7 @@
                     :field-schema="{
                       title: 'Username',
                       propertyName: 'username',
+                      isPatchable: true,
                       schema: {
                         properties: {
                           username: {

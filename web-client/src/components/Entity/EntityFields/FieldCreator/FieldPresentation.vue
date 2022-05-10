@@ -96,13 +96,13 @@ export default {
             view: "overview",
           },
         },
-        {
+        /*{
           title: "Profiling page",
           description: "Entity profiling page",
           value: {
             view: "profiling",
           },
-        },
+        },*/
       ],
       view,
       computedPresentation,

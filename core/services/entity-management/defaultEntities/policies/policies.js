@@ -476,7 +476,7 @@ module.exports = [
     scope: {
       "headers.serviceName":
         "(analytics-assistant|diva-lake-adapter|urban-pulse-adapter|search-assistant)",
-      path: "^/[a-zA-Z0-9]+/?$",
+      path: "^/.+",
       method: "(GET|POST|OPTIONS)",
     },
     condition: {
