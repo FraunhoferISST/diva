@@ -203,6 +203,7 @@ services:
       <<: *cors-env
       <<: *log-level-env
       <<: *policies-env
+      <<: *business-decision-point-env
       NODE_ENV: production
       PORT: ${SEARCH_ASSISTANT_PORT}
     restart: always
@@ -222,6 +223,7 @@ services:
       <<: *cors-env
       <<: *log-level-env
       <<: *policies-env
+      <<: *business-decision-point-env
       NODE_ENV: production
       PORT: ${ANALYTIC_ASSISTANT_PORT}
     restart: always
@@ -369,6 +371,7 @@ services:
       <<: *log-level-env
       <<: *entity-management-env
       <<: *policies-env
+      <<: *business-decision-point-env
       NODE_ENV: development
       PORT: ${DIVALAKE_ADAPTER_PORT}
       DIVA_LAKE_HOST: diva-lake
@@ -397,6 +400,7 @@ services:
       <<: *log-level-env
       <<: *entity-management-env
       <<: *policies-env
+      <<: *business-decision-point-env
       PORT: ${URBAN_PULSE_ADAPTER_PORT}
 
   # ####################################################################################################################
