@@ -5,6 +5,7 @@ import ResourceSample from "@/components/Resource/Sample/ResourceSample";
 import AssetRelations from "@/components/Asset/AssetRelations/AssetRelations.vue";
 //Users
 import UserGeneral from "@/components/User/UserGeneral/";
+import UserActivities from "@/components/User/UserActivities/";
 //Entity common views
 import EntityCosts from "@/components/Entity/EntityCommonComponents/Costs/EntityCosts";
 import EntityHistory from "@/components/Entity/EntityCommonComponents/History/EntityHistory";
@@ -175,8 +176,8 @@ const usersConfig = entityRoutesFactory({
       name: "user_details_history",
     },
     {
-      title: "Collections",
-      icon: "add",
+      title: "Activities",
+      icon: "bolt",
       name: "user_details_collections",
     },
   ],
@@ -185,7 +186,7 @@ const usersConfig = entityRoutesFactory({
 usersConfig.children.push({
   path: "collections",
   name: "user_details_collections",
-  component: AssetRelations,
+  component: UserActivities,
   props: true,
 });
 
