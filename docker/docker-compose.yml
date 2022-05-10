@@ -271,6 +271,7 @@ services:
       <<: *log-level-env
       <<: *cors-env
       <<: *policies-env
+      <<: *business-decision-point-env
       NODE_ENV: production
       PORT: ${PROFILING_ASSISTANT_PORT}
     restart: always
