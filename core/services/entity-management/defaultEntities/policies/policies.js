@@ -425,7 +425,7 @@ module.exports = [
     isEditable: true,
     scope: {
       "headers.serviceName": "profiling-assistant",
-      path: "^/profiling/run/?(/[a-zA-Z-_]+/?)*$",
+      path: "(^/profiling/run/?(/[a-zA-Z-_]+/?)*$|^/profiling/exists/?$)",
       method: "POST",
     },
     condition: {
