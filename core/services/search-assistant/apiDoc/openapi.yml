@@ -85,6 +85,15 @@ paths:
               - "modifiedAt"
               - "createdAt"
               - "_score"
+        # required undocumented filter parameters (entityType=resource...)
+        - in: query
+          name: filters
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+          style: form
+          explode: true
       responses:
         "200":
           description: Search result
