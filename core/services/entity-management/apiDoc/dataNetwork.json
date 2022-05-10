@@ -71,6 +71,24 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "fromNodeType",
+            "in": "query",
+            "description": "The specific type of the node (e.g, user, resource, review)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "toNodeType",
+            "in": "query",
+            "description": "The specific type of the node (e.g, user, resource, review)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {

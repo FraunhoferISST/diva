@@ -138,13 +138,24 @@ class DataNetworkService {
     throw edgeNotFoundError;
   }
 
-  async getEdges(
-    { from, edgeTypes, to = null, pageSize, cursor },
-    bidirectional = false
-  ) {
+  async getEdges({
+    from,
+    edgeTypes,
+    to = null,
+    pageSize,
+    cursor = false,
+    fromNodeType,
+    toNodeType,
+    bidirectional = false,
+  }) {
+    const fromNode = `n${fromNodeType ? `:${fromNodeType}` : ""} ${
+      to ? `{ entityId: '${from}' }` : ""
+    }`;
     const relationshipTypes = edgeTypes ? `r:${edgeTypes.join("|")}` : "r";
     const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
-    const toNode = `m ${to ? `{ entityId: '${to}' }` : ""}`;
+    const toNode = `m${toNodeType ? `:${toNodeType}` : ""} ${
+      to ? `{ entityId: '${to}' }` : ""
+    }`;
 
     let limitStr = "";
     let page = 0;
@@ -160,7 +171,7 @@ class DataNetworkService {
     }
 
     return executeSession(
-      `MATCH (n {entityId: '${from}'}) ${relationship} (${toNode}) RETURN startNode(r) as from, r, endNode(r) as to, count(r) as count ${limitStr}`
+      `MATCH (${fromNode}) ${relationship} (${toNode}) RETURN startNode(r) as from, r, endNode(r) as to, count(r) as count ${limitStr}`
     ).then(({ records }) => ({
       collection:
         records?.map(({ _fields }) => ({

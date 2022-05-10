@@ -8,17 +8,11 @@ class DataNetworkController {
 
   async getEdges(req, res, next) {
     try {
-      const { from, edgeTypes, to, pageSize, cursor = false } = req.query;
-      const result = await this.service.getEdges(
-        {
-          from,
-          edgeTypes: edgeTypes ? edgeTypes.split(",") : null,
-          to,
-          pageSize,
-          cursor,
-        },
-        req.query.bidirectional
-      );
+      const { edgeTypes, ...rest } = req.query;
+      const result = await this.service.getEdges({
+        edgeTypes: edgeTypes ? edgeTypes.split(",") : null,
+        ...rest,
+      });
       res.status(200).json(result);
     } catch (e) {
       next(e);
