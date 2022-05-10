@@ -23,9 +23,6 @@
 </template>
 
 <script>
-import { useEntity } from "@/composables/entity";
-import { useUser } from "@/composables/user";
-import { useSnackbar } from "@/composables/snackbar";
 import { ref } from "@vue/composition-api";
 import UserActivitiesList from "@/components/User/UserActivitiesList";
 
@@ -40,7 +37,7 @@ export default {
       required: true,
     },
   },
-  setup(props) {
+  setup() {
     const tabs = ref([
       {
         title: "Likes",
@@ -68,19 +65,9 @@ export default {
       },
     ]);
     const tab = ref(0);
-    const { show, message, color, snackbar } = useSnackbar();
-    const { loading, error, data } = useEntity(props.id);
-    const { user } = useUser();
     return {
-      loading,
       tabs,
       tab,
-      error,
-      data,
-      user,
-      message,
-      color,
-      snackbar,
     };
   },
 };

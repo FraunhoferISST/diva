@@ -1,19 +1,23 @@
 <template>
   <data-viewer :loading="loading" :error="error">
-    <v-container fluid class="px-0">
+    <v-container fluid class="px-0 relative">
       <v-row v-if="activityEntities.length === 0">
-        <v-col>
+        <v-col cols="12">
           <no-data-state />
         </v-col>
       </v-row>
       <v-row dense v-else>
+        <v-col cols="12" class="py-3">
+          {{ totalActivityEntities }} in total
+        </v-col>
         <v-col
           cols="12"
           md="6"
           v-for="entity in activityEntities"
           :key="entity.id"
+          class="d-flex"
         >
-          <entity-mini-card :entity="entity" />
+          <entity-mini-card class="fill-height full-width" :entity="entity" />
         </v-col>
       </v-row>
       <v-row dense class="mt-6" v-if="cursor">
@@ -31,6 +35,11 @@
           </v-btn>
         </v-col>
       </v-row>
+      <v-snackbar fixed bottom text v-model="snackbar" :color="color">
+        <b>
+          {{ message }}
+        </b>
+      </v-snackbar>
     </v-container>
   </data-viewer>
 </template>
@@ -86,27 +95,25 @@ export default {
           ...(cursor ? { cursor: cursor.value } : {}),
           ...(props.entityType ? { toNodeType: props.entityType } : {}),
         })
-        .then(async ({ data: { collection, ...rest } }) => {
-          return {
-            ...rest,
-            collection: await Promise.all(
-              collection.map(({ to: { entityId } }) => {
-                return getEntityApiById(entityId)
-                  .getByIdIfExists(entityId)
-                  .then(({ data }) => data)
-                  .catch((e) => {
-                    if (e?.response?.data?.code === 403) {
-                      return {
-                        id: entityId,
-                        isPrivate: true,
-                      };
-                    }
-                    throw e;
-                  });
-              })
-            ),
-          };
-        });
+        .then(async ({ data: { collection, ...rest } }) => ({
+          ...rest,
+          collection: await Promise.all(
+            collection.map(({ to: { entityId } }) => {
+              return getEntityApiById(entityId)
+                .getByIdIfExists(entityId)
+                .then(({ data }) => data)
+                .catch((e) => {
+                  if (e?.response?.data?.code === 403) {
+                    return {
+                      id: entityId,
+                      isPrivate: true,
+                    };
+                  }
+                  throw e;
+                });
+            })
+          ),
+        }));
 
     request(
       loadActivityEntities().then(({ collection, total, cursor: c }) => {
@@ -123,13 +130,26 @@ export default {
       error,
       nextPagLoading,
       nextPageError,
+      message,
+      snackbar,
+      color,
       loadNextPage: () =>
         nextPagReq(
           loadActivityEntities().then(({ collection, cursor: c }) => {
             activityEntities.value.push(...collection);
             cursor.value = c;
           })
-        ),
+        ).then(() => {
+          if (nextPageError.value) {
+            show(
+              nextPageError.value.response?.data?.message ??
+                nextPageError.value,
+              {
+                color: "error",
+              }
+            );
+          }
+        }),
     };
   },
 };

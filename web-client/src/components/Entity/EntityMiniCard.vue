@@ -1,6 +1,6 @@
 <template>
   <entity-details-link :id="entity.id" target="_self">
-    <div class="entity-mini-card-container pa-3">
+    <div class="entity-mini-card-container pa-3 full-width fill-height">
       <entity-avatar
         :entity-id="entity.id"
         :image-id="entity.entityIcon"

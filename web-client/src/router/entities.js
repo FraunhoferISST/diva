@@ -178,14 +178,14 @@ const usersConfig = entityRoutesFactory({
     {
       title: "Activities",
       icon: "bolt",
-      name: "user_details_collections",
+      name: "user_details_activities",
     },
   ],
 });
 //User specific routes
 usersConfig.children.push({
-  path: "collections",
-  name: "user_details_collections",
+  path: "activities",
+  name: "user_details_activities",
   component: UserActivities,
   props: true,
 });
