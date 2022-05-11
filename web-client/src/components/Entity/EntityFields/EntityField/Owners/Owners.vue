@@ -98,6 +98,7 @@ export default {
             from: props.id,
             edgeTypes: "isOwnerOf",
             bidirectional: true,
+            fromNodeType: "user",
           })
           .then(async ({ data: { collection } }) => {
             loadedOwners.value = (
@@ -113,6 +114,15 @@ export default {
                         fields: "id, email, username, entityIcon",
                       })
                       .then(({ data }) => ({ ...data, edgeId }))
+                      .catch((e) => {
+                        if (e?.response?.data?.code === 403) {
+                          return {
+                            edgeId,
+                            userId,
+                          };
+                        }
+                        throw e;
+                      })
                 )
               )
             ).filter((owner) => owner);

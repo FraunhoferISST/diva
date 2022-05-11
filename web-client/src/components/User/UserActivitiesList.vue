@@ -1,47 +1,50 @@
 <template>
-  <data-viewer :loading="loading" :error="error">
-    <v-container fluid class="px-0 relative">
-      <v-row v-if="activityEntities.length === 0">
-        <v-col cols="12">
-          <no-data-state />
-        </v-col>
-      </v-row>
-      <v-row dense v-else>
-        <v-col cols="12" class="py-3">
-          {{ totalActivityEntities }} in total
-        </v-col>
-        <v-col
-          cols="12"
-          md="6"
-          v-for="entity in activityEntities"
-          :key="entity.id"
-          class="d-flex"
-        >
-          <entity-mini-card class="fill-height full-width" :entity="entity" />
-        </v-col>
-      </v-row>
-      <v-row dense class="mt-6" v-if="cursor">
-        <v-col cols="12" class="text-center">
-          <v-btn
-            text
-            light
-            small
-            color="primary"
-            rounded
-            :loading="nextPagLoading"
-            @click="loadNextPage"
+  <div>
+    <slot :totalActivityEntities="totalActivityEntities"></slot>
+    <data-viewer :loading="loading" :error="error">
+      <v-container fluid class="px-0 relative pt-0">
+        <v-row v-if="activityEntities.length === 0" class="mt-3">
+          <v-col cols="12">
+            <no-data-state />
+          </v-col>
+        </v-row>
+        <v-row dense v-else class="mt-3">
+          <v-col cols="12" class="py-3" v-if="showCounter">
+            {{ totalActivityEntities }} in total
+          </v-col>
+          <v-col
+            cols="12"
+            :md="fullWidth ? '12' : '6'"
+            v-for="entity in activityEntities"
+            :key="entity.id"
+            class="d-flex"
           >
-            load more
-          </v-btn>
-        </v-col>
-      </v-row>
-      <v-snackbar fixed bottom text v-model="snackbar" :color="color">
-        <b>
-          {{ message }}
-        </b>
-      </v-snackbar>
-    </v-container>
-  </data-viewer>
+            <entity-mini-card class="fill-height full-width" :entity="entity" />
+          </v-col>
+        </v-row>
+        <v-row dense class="mt-6" v-if="cursor && !(maxItems >= 0)">
+          <v-col cols="12" class="text-center">
+            <v-btn
+              text
+              light
+              small
+              color="primary"
+              rounded
+              :loading="nextPagLoading"
+              @click="loadNextPage"
+            >
+              load more
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-snackbar fixed bottom text v-model="snackbar" :color="color">
+          <b>
+            {{ message }}
+          </b>
+        </v-snackbar>
+      </v-container>
+    </data-viewer>
+  </div>
 </template>
 
 <script>
@@ -73,6 +76,17 @@ export default {
       type: String,
       default: "",
     },
+    showCounter: {
+      type: Boolean,
+      default: true,
+    },
+    fullWidth: {
+      type: Boolean,
+      default: false,
+    },
+    maxItems: {
+      type: Number,
+    },
   },
   setup(props) {
     const activityEntities = ref([]);
@@ -91,7 +105,7 @@ export default {
         .getEdges({
           from: props.id,
           edgeTypes: props.activity,
-          pageSize: 20,
+          pageSize: props.maxItems ?? 20,
           ...(cursor ? { cursor: cursor.value } : {}),
           ...(props.entityType ? { toNodeType: props.entityType } : {}),
         })

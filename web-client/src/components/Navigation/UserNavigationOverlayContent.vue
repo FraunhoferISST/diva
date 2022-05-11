@@ -7,29 +7,29 @@
             <v-col cols="12" lg="6">
               <v-row>
                 <v-col cols="12">
-                  <custom-header text="Recent likes">
-                    <span> Recent likes </span>
-                    <template #info v-if="recentLikes.length > 0">
-                      <entity-details-link :id="user.id">
-                        view all
-                      </entity-details-link>
+                  <user-activities-list
+                    :id="user.id"
+                    activity="likes"
+                    :show-counter="false"
+                    full-width
+                    :max-items="5"
+                  >
+                    <template #default="{ totalActivityEntities }">
+                      <custom-header class="mb-6">
+                        <span> Recent likes </span>
+                        <template #info v-if="totalActivityEntities > 0">
+                          <entity-details-link
+                            :id="user.id"
+                            postfix="/activities"
+                          >
+                            view all {{ totalActivityEntities }}
+                          </entity-details-link>
+                        </template>
+                      </custom-header>
                     </template>
-                  </custom-header>
+                  </user-activities-list>
                 </v-col>
-                <v-col cols="12">
-                  <data-viewer :loading="loading" :error="error">
-                    <v-row dense v-if="recentLikes.length > 0">
-                      <v-col
-                        cols="12"
-                        v-for="entity in recentLikes.filter((l) => l)"
-                        :key="entity.id"
-                      >
-                        <entity-mini-card :entity="entity" />
-                      </v-col>
-                    </v-row>
-                    <no-data-state v-else text="No likes sofar" />
-                  </data-viewer>
-                </v-col>
+                <v-col cols="12"> </v-col>
               </v-row>
             </v-col>
             <v-col cols="12" lg="6">
@@ -101,15 +101,12 @@ import EntityMiniCard from "@/components/Entity/EntityMiniCard";
 import NoDataState from "@/components/Base/NoDataState";
 import { useUser } from "@/composables/user";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
-import DataViewer from "@/components/DataFetchers/DataViewer";
-import { useRequest } from "@/composables/request";
-import { useApi } from "@/composables/api";
-import { ref } from "@vue/composition-api";
+import UserActivitiesList from "@/components/User/UserActivitiesList";
 
 export default {
   name: "UserNavigationOverlayContent",
   components: {
-    DataViewer,
+    UserActivitiesList,
     EntityAvatar,
     NoDataState,
     EntityMiniCard,
@@ -118,52 +115,11 @@ export default {
     LogoutButton,
   },
   setup() {
-    const recentLikes = ref([]);
-    const { getEntityApiById, datanetwork } = useApi();
-    const { request, loading, error } = useRequest();
     const { user, recentlyViewed } = useUser();
-
-    const fetchRecentLikes = () => {
-      return request(
-        datanetwork
-          .getEdges({
-            from: user.value.id,
-            edgeTypes: "likes",
-          })
-          .then(async ({ data: { collection } }) =>
-            Promise.all(
-              collection.map((edge) => {
-                return getEntityApiById(edge.to.entityId)
-                  .getByIdIfExists(edge.to.entityId, {
-                    fields:
-                      "id, title, entityType, username, mimeType, entityIcon",
-                  })
-                  .then(({ data }) => data);
-              })
-            )
-          )
-          .then(
-            (fetchedRecentLikes) => (recentLikes.value = fetchedRecentLikes)
-          )
-          .catch(() => {
-            /*just ignore it*/
-          })
-      );
-    };
-
     return {
-      loading,
-      error,
       user,
       recentlyViewed,
-      recentLikes,
-      fetchRecentLikes,
     };
-  },
-  mounted() {
-    if (this.$vuetify.breakpoint.smAndUp) {
-      this.fetchRecentLikes();
-    }
   },
 };
 </script>
