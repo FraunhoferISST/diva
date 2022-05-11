@@ -132,32 +132,34 @@ class AnalyticsService {
     }
   }
 
-  async resourceGetAvgRating(resourceId) {
-    let res = "";
-    try {
-      res = await esConnector.client.search({
-        index: "entities",
-        size: 0,
-        body: {
-          query: {
-            term: {
-              attributedTo: {
-                value: resourceId,
-                boost: 1.0,
+  async getAvgRating(id) {
+    const res = await esConnector.client.search({
+      index: "entities",
+      size: 0,
+      body: {
+        query: {
+          bool: {
+            must: [
+              {
+                match: {
+                  attributedTo: id,
+                },
               },
-            },
-          },
-          aggs: {
-            avgRating: {
-              avg: { field: "rating" },
-            },
+              {
+                match: {
+                  entityType: "review",
+                },
+              },
+            ],
           },
         },
-      });
-    } catch (e) {
-      throw new Error(e);
-    }
-
+        aggs: {
+          avgRating: {
+            avg: { field: "rating" },
+          },
+        },
+      },
+    });
     return res.body.aggregations?.avgRating.value;
   }
 }

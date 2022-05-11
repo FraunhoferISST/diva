@@ -18,7 +18,7 @@ paths:
 
   /analytics/distributionOfEntities:
     parameters:
-      - $ref: "#/components/parameters/actoridParam"
+      - $ref: "#/components/parameters/divaHeader"
     get:
       tags:
         - Global Metrics
@@ -37,7 +37,7 @@ paths:
 
   /analytics/distributionOfResourceTypes:
     parameters:
-      - $ref: "#/components/parameters/actoridParam"
+      - $ref: "#/components/parameters/divaHeader"
     get:
       tags:
         - Resource Metrics
@@ -56,7 +56,7 @@ paths:
 
   /analytics/distributionOfResourceMimeTypes:
     parameters:
-      - $ref: "#/components/parameters/actoridParam"
+      - $ref: "#/components/parameters/divaHeader"
     get:
       tags:
         - Resource Metrics
@@ -74,15 +74,16 @@ paths:
         '5XX':
           $ref: "#/components/responses/Error"
 
-  /analytics/resources/{resourceId}/rating:
+  /analytics/entities/{id}/rating:
     parameters:
-      - $ref: "#/components/parameters/actoridParam"
+      - $ref: "#/components/parameters/divaHeader"
+      - $ref: "#/components/parameters/entityIdParam"
     get:
       tags:
         - Resource Metrics
       summary: Returns the average rating of a resource
       description: Returns the average rating of a resource calculated on reviews, empty response is returned, if
-        no reviews are availible.
+        no reviews are available.
       responses:
         '200':
           description: OK
@@ -105,13 +106,6 @@ components:
       type: string
       example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
       pattern: "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-
-    ResourceId:
-      title: Resource ID
-      description: Unique identifier of an entity
-      type: string
-      example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
-      pattern: "^resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
 
     Error:
       type: object
@@ -149,20 +143,18 @@ components:
 
   parameters:
 
-    actoridParam:
+    divaHeader:
       in: header
-      description: The id of the origin that produces action/message. Can be a user or service
-      name: x-actorid
+      description: The system specific stringified object whit relevant data like actorId, token etc.
+      name: x-diva
+      required: true
       schema:
         type: string
-        minLength: 1
-        pattern: "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-      required: true
 
-    resourceIdParam:
+    entityIdParam:
       in: path
       description: Existing identifier of the resource that should be used by the operation
-      name: resourceId
+      name: id
       schema:
-        $ref: "#/components/schemas/ResourceId"
+        $ref: "#/components/schemas/EntityId"
       required: true  

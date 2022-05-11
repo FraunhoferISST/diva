@@ -148,12 +148,6 @@ export default {
         property: "isPrivate",
       },
       {
-        title: "Editable",
-        description: "All metadata becomes read only",
-        value: !!props.entity.isEditable,
-        property: "isEditable",
-      },
-      {
         title: "Archived",
         description: "Mark the the entity as archived",
         value: !!props.entity.isArchived,

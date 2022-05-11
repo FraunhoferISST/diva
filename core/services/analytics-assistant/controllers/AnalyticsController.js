@@ -30,10 +30,10 @@ class AnalyticsController {
     }
   }
 
-  async resourceGetAvgRating(req, res, next) {
+  async getAvgRating(req, res, next) {
     try {
-      const { resourceId } = req.params;
-      const result = await analyticsService.resourceGetAvgRating(resourceId);
+      const { id } = req.params;
+      const result = await analyticsService.getAvgRating(id);
       res.status(200).send(`${result}`);
     } catch (err) {
       return next(err);

@@ -16,9 +16,6 @@ router.get(
   "/distributionOfResourceMimeTypes",
   AnalyticsController.resourceMimeTypeDistribution
 );
-router.get(
-  "/resources/:resourceId/rating",
-  AnalyticsController.resourceGetAvgRating
-);
+router.get("/entities/:id/rating", AnalyticsController.getAvgRating);
 
 module.exports = router;
