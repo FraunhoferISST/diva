@@ -63,7 +63,7 @@ module.exports = [
           mongo: {
             query: {
               id: "{{params.id}}",
-              isEditable: { $ne: false },
+              isEditable: true,
             },
           },
         },
