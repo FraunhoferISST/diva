@@ -25,8 +25,8 @@
           />
         </div>
       </div>
-      <v-container fluid class="mb-4">
-        <v-tabs
+      <!--      <v-container fluid class="mb-4">
+        &lt;!&ndash;        <v-tabs
           height="50px"
           centered
           background-color="transparent"
@@ -37,7 +37,7 @@
           <v-tab v-for="tab in tabs" :key="tab.title">
             {{ tab.title }}
           </v-tab>
-        </v-tabs>
+        </v-tabs>&ndash;&gt;
       </v-container>
       <v-tabs-items v-model="tab">
         <v-tab-item>
@@ -64,7 +64,24 @@
             <entity-videos-viewer :entity="entity" />
           </v-container>
         </v-tab-item>
-      </v-tabs-items>
+      </v-tabs-items>-->
+      <v-container fluid class="mt-16 pt-16">
+        <v-row>
+          <v-col cols="12">
+            <entity-images-upload
+              :entity-id="entity.id"
+              @uploaded="onImageUpload"
+            />
+          </v-col>
+        </v-row>
+        <entity-images-viewer
+          class="mt-5"
+          :entity="entity"
+          @entityIconChanged="onEntityIconChange"
+          @entityBannerChanged="onEntityBannerChange"
+          @imageDeleted="onImageDeleted"
+        />
+      </v-container>
     </card>
   </v-dialog>
 </template>
@@ -74,7 +91,9 @@ import Card from "@/components/Base/Card";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
 import EntityImagesUpload from "@/components/Entity/EntityMedia/EntityImagesUpload";
 import EntityImagesViewer from "@/components/Entity/EntityMedia/EntityImagesViewer";
+/*
 import EntityVideosViewer from "@/components/Entity/EntityMedia/EntityVideosViewer";
+*/
 import { useApi } from "@/composables/api";
 import { useBus } from "@/composables/bus";
 import { computed } from "@vue/composition-api";
@@ -82,7 +101,7 @@ import { computed } from "@vue/composition-api";
 export default {
   name: "EntityMediaEditor",
   components: {
-    EntityVideosViewer,
+    /*EntityVideosViewer,*/
     EntityImagesViewer,
     EntityImagesUpload,
     EntityAvatar,
