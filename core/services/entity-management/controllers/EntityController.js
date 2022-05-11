@@ -194,6 +194,7 @@ module.exports = class EntityController {
               await this.dataNetwrokService.getEdges({
                 from: id,
                 bidirectional: true,
+                pageSize: -1,
               });
             return { edges };
           },
@@ -204,7 +205,7 @@ module.exports = class EntityController {
           ({ edges }) =>
             edges.forEach((edge) =>
               dataNetworkMessagesProducer.produce(
-                edge.id,
+                edge.properties.id,
                 actorId,
                 "delete",
                 [edge.from.entityId, edge.to.entityId],
@@ -228,7 +229,10 @@ module.exports = class EntityController {
             await this.service.insert(entityToDelete);
           }
           if (deletedNodeId) {
-            await this.dataNetwrokService.createNode(entityToDelete.id);
+            await this.dataNetwrokService.createNode(
+              entityToDelete.id,
+              this.service.entityType
+            );
           }
         }
       );
