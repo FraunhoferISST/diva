@@ -35,6 +35,12 @@
         ],
         "_elasticsearch": {
           "type": "byte"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 3,
+          "type": "number",
+          "fallbackValue": 0
         }
       }
     }

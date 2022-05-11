@@ -72,7 +72,13 @@
         </v-snackbar>
       </template>
       <template #confirm>
-        <v-btn text rounded color="error" @click="deleteReview">
+        <v-btn
+          text
+          rounded
+          color="error"
+          @click="deleteReview"
+          :loading="loading"
+        >
           Delete review
         </v-btn>
       </template>

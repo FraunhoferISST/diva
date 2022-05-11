@@ -103,6 +103,10 @@ export default {
           reviews
             .create({
               reviewText: reviewText.value,
+              title:
+                reviewText.value.length > 150
+                  ? `${reviewText.value.slice(0, 150)}...`
+                  : reviewText.value,
               rating: rating.value,
               attributedTo: props.id,
               creatorId: user.value.id,

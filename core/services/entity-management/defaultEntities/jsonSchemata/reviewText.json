@@ -32,6 +32,13 @@
         "_elasticsearch": {
           "type": "text",
           "analyzer": "standard"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 2,
+          "type": "textArea",
+          "fullWidth": true,
+          "fallbackValue": ""
         }
       }
     }
