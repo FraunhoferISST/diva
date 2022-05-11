@@ -148,7 +148,7 @@ class DataNetworkService {
     from,
     edgeTypes,
     to = null,
-    pageSize,
+    pageSize = 30,
     cursor = false,
     fromNodeType,
     toNodeType,

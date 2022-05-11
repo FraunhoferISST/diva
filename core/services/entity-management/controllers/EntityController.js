@@ -191,7 +191,10 @@ module.exports = class EntityController {
             ),
           async () => {
             const { collection: edges } =
-              await this.dataNetwrokService.getEdges({ from: id }, true);
+              await this.dataNetwrokService.getEdges({
+                from: id,
+                bidirectional: true,
+              });
             return { edges };
           },
           async () =>
