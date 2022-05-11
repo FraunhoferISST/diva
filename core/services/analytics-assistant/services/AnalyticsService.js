@@ -132,7 +132,7 @@ class AnalyticsService {
     }
   }
 
-  async getAvgRating(id) {
+  async getReviewsStats(id) {
     const res = await esConnector.client.search({
       index: "entities",
       size: 0,
@@ -154,13 +154,42 @@ class AnalyticsService {
           },
         },
         aggs: {
+          values: {
+            filters: {
+              filters: {
+                totalReviews: {
+                  bool: {
+                    must: [
+                      {
+                        match: {
+                          attributedTo:
+                            "resource:uuid:4ce1fa1a-d409-493c-8440-edd98c0bbee1",
+                        },
+                      },
+                      {
+                        match: {
+                          entityType: "review",
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          },
           avgRating: {
-            avg: { field: "rating" },
+            avg: {
+              field: "rating",
+            },
           },
         },
       },
     });
-    return res.body.aggregations?.avgRating.value;
+    return {
+      avgRating: res.body.aggregations?.avgRating.value,
+      reviewsCount:
+        res.body.aggregations?.values?.buckets?.totalReviews?.doc_count,
+    };
   }
 }
 

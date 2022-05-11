@@ -74,23 +74,33 @@ paths:
         '5XX':
           $ref: "#/components/responses/Error"
 
-  /analytics/entities/{id}/rating:
+  /analytics/entities/{id}/reviews:
     parameters:
       - $ref: "#/components/parameters/divaHeader"
       - $ref: "#/components/parameters/entityIdParam"
     get:
       tags:
-        - Resource Metrics
-      summary: Returns the average rating of a resource
-      description: Returns the average rating of a resource calculated on reviews, empty response is returned, if
-        no reviews are available.
+        - Entity reviews metrics
+      summary: Returns the entity reviews statistics
+      description: Returns the average rating of an entity calculated on reviews and the total number of reviews for the given entity,
+        empty response is returned, if no reviews are available.
       responses:
         '200':
           description: OK
           content:
-            text/plain:
+            application/json:
               schema:
-                type: number
+                type: object
+                additionalProperties: false
+                properties:
+                  avgRating:
+                    type: number
+                    title: Average rating
+                    description: Average entity rating
+                  reviewsCount:
+                    type: number
+                    title: Number of reviews
+                    description: Number of written reviews for the given entity
         '4XX':
           $ref: "#/components/responses/Error"
         '5XX':

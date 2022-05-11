@@ -16,6 +16,6 @@ router.get(
   "/distributionOfResourceMimeTypes",
   AnalyticsController.resourceMimeTypeDistribution
 );
-router.get("/entities/:id/rating", AnalyticsController.getAvgRating);
+router.get("/entities/:id/reviews", AnalyticsController.getReviewsStats);
 
 module.exports = router;
