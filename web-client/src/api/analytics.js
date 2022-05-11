@@ -6,5 +6,5 @@ export default {
     axios.get("/analytics/distributionOfResourceMimeTypes"),
   distributionOfResourceTypes: () =>
     axios.get("/analytics/distributionOfResourceTypes"),
-  averageRating: (id) => axios.get(`/analytics/entities/${id}/rating`),
+  averageRating: (id) => axios.get(`/analytics/entities/${id}/reviews`),
 };

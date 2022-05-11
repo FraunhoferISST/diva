@@ -60,9 +60,6 @@
         </template>
       </review-form>
     </div>
-    <v-snackbar text :color="color" v-model="snackbar" absolute>
-      {{ message }}
-    </v-snackbar>
     <confirmation-dialog
       v-if="userIsAuthor"
       :show.sync="showConfirmationDialog"
@@ -70,6 +67,9 @@
       <template>
         Are you sure you want to delete your review? The changes cannot be
         rolled back!
+        <v-snackbar text :color="color" v-model="snackbar" absolute>
+          {{ message }}
+        </v-snackbar>
       </template>
       <template #confirm>
         <v-btn text rounded color="error" @click="deleteReview">
@@ -126,29 +126,27 @@ export default {
       enableEditMode: () => (isEditMode.value = true),
       disableEditMode: () => (isEditMode.value = false),
       patchReview: (reviewData) =>
-        request(reviewsApi.patch(props.review.id, reviewData))
-          .then(() => {
-            if (error.value) {
-              show(error.value.response?.data?.message ?? error.value, {
-                color: "error",
-              });
-            }
-          })
-          .then(() => emit("patch", { ...props.review, ...reviewData }))
-          .then(() => (isEditMode.value = false))
-          .then(() => (showConfirmationDialog.value = false)),
+        request(reviewsApi.patch(props.review.id, reviewData)).then(() => {
+          if (error.value) {
+            return show(error.value.response?.data?.message ?? error.value, {
+              color: "error",
+            });
+          }
+          emit("patch", { ...props.review, ...reviewData });
+          isEditMode.value = false;
+          showConfirmationDialog.value = false;
+        }),
       deleteReview: () =>
-        request(reviewsApi.delete(props.review.id))
-          .then(() => {
-            if (error.value) {
-              show(error.value.response?.data?.message ?? error.value, {
-                color: "error",
-              });
-            }
-          })
-          .then(() => emit("delete", props.review))
-          .then(() => (isEditMode.value = false))
-          .then(() => (showConfirmationDialog.value = false)),
+        request(reviewsApi.delete(props.review.id)).then(() => {
+          if (error.value) {
+            return show(error.value.response?.data?.message ?? error.value, {
+              color: "error",
+            });
+          }
+          emit("delete", props.review);
+          isEditMode.value = false;
+          showConfirmationDialog.value = false;
+        }),
     };
   },
 };

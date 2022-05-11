@@ -22,14 +22,7 @@
                     <div class="d-flex justify-center align-center flex-column">
                       <entity-media :entity="{ ...data, title }" />
                       <div class="pt-2">
-                        <v-rating
-                          color="orange"
-                          readonly
-                          small
-                          dense
-                          :value="data.rating"
-                        >
-                        </v-rating>
+                        <entity-rating :id="data.id" />
                       </div>
                     </div>
                   </div>
@@ -170,10 +163,12 @@ import EntityEventSnackbar from "@/components/Entity/EntityEventSnackbar";
 import { computed, ref } from "@vue/composition-api";
 import { useUser } from "@/composables/user";
 import EntityControls from "@/components/Entity/EntityControls";
+import EntityRating from "@/components/Entity/EntityRating";
 
 export default {
   name: "EntityDetailsContainer",
   components: {
+    EntityRating,
     EntityControls,
     EntityEventSnackbar,
     DataViewer,

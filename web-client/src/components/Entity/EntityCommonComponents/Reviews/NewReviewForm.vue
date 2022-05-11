@@ -16,7 +16,7 @@
               hide-details
               label="Your Comment"
               placeholder=""
-              v-model="review"
+              v-model="reviewText"
               outlined
               class="resource-desc-edit"
               :rows="5"
@@ -42,18 +42,19 @@
                   min-width="200px"
                   rounded
                   color="primary"
-                  @click="send"
+                  @click="() => createReview()"
+                  :disabled="!rating || !reviewText"
                   :loading="loading"
                 >
-                  send
+                  Send
                 </v-btn>
               </v-col>
             </v-row>
           </v-col>
         </v-row>
       </fade-in>
-      <v-snackbar text color="error" v-model="snackbar" absolute>
-        {{ snackbarText }}
+      <v-snackbar text :color="color" v-model="snackbar" absolute>
+        {{ message }}
       </v-snackbar>
     </div>
   </div>
@@ -62,6 +63,10 @@
 <script>
 import FadeIn from "@/components/Transitions/FadeIn";
 import { useUser } from "@/composables/user";
+import { useSnackbar } from "@/composables/snackbar";
+import { useApi } from "@/composables/api";
+import { useRequest } from "@/composables/request";
+import { ref } from "@vue/composition-api";
 
 export default {
   name: "NewReviewForm",
@@ -73,71 +78,54 @@ export default {
       type: String,
       required: true,
     },
-    showForm: {
-      type: Boolean,
-      default: false,
-    },
   },
-  setup() {
+  setup(props) {
+    const showForm = ref(true);
+    const reviewText = ref("");
+    const rating = ref(null);
+    const { snackbar, message, color, show } = useSnackbar();
+    const { request, loading, error } = useRequest();
+    const { reviews } = useApi(props.id);
     const { user } = useUser();
     return {
       user,
+      snackbar,
+      message,
+      color,
+      rating,
+      reviewText,
+      showForm,
+      loading,
+      error,
+      show,
+      createReview: () => {
+        request(
+          reviews
+            .create({
+              reviewText: reviewText.value,
+              rating: rating.value,
+              attributedTo: props.id,
+              creatorId: user.value.id,
+            })
+            .then(() => show("Thanks for your opinion", { color: "success" }))
+            .then(() =>
+              setTimeout(() => {
+                showForm.value = false;
+              }, 1500)
+            )
+        ).then(() => {
+          if (error.value) {
+            show(error.value?.response?.data?.message ?? error.value, {
+              color: "error",
+            });
+          }
+        });
+      },
     };
   },
-  data: () => ({
-    snackbar: false,
-    snackbarText: false,
-    expanded: true,
-    review: "",
-    rating: 0,
-    created: new Date(),
-    loading: false,
-    done: false,
-  }),
   computed: {
     currentBreakPoint() {
       return this.$vuetify.breakpoint;
-    },
-  },
-  methods: {
-    send() {
-      if (!this.review || !this.rating) {
-        this.showSnackbar();
-        return;
-      }
-      this.snackbar = false;
-      this.loading = true;
-      return this.$api.reviews
-        .create({
-          attributedTo: this.id,
-          rating: this.rating,
-          reviewText: this.review,
-          creatorId: this.user.id,
-        })
-        .then(() => {
-          setTimeout(() => {
-            this.done = true;
-          }, 1000);
-        })
-        .catch((e) => {
-          this.showSnackbar(
-            e?.response?.data?.message ||
-              "Some error occurred. Please try again"
-          );
-        })
-        .finally(() => {
-          setTimeout(() => {
-            this.loading = false;
-          }, 1000);
-        });
-    },
-    showSnackbar(msg) {
-      this.snackbar = true;
-      this.snackbarText =
-        msg ||
-        `Please provide ${!this.comment ? "Comment" : ""} ${
-          !this.comment && !this.rating ? "and" : ""
-        } ${!this.rating ? "Rating" : ""}`;
     },
   },
 };
