@@ -97,7 +97,7 @@ export default {
     const offsetTop = ref(0);
     const facetsDrawer = ref(false);
     const facets = ref([]);
-    const facetsOperator = ref("Should");
+    const facetsOperator = ref("Must");
     const sortBy = ref("_score");
     const items = ref([]);
     const pageSize = ref(30);

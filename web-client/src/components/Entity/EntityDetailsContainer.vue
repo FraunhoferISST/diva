@@ -20,16 +20,55 @@
                 >
                   <div class="pt-3 pt-md-12">
                     <div class="d-flex justify-center align-center flex-column">
-                      <entity-media :entity="{ ...data, title }" />
-                      <div class="pt-2">
-                        <v-rating
-                          color="orange"
-                          readonly
-                          small
-                          dense
-                          :value="data.rating"
+                      <div class="relative">
+                        <entity-media :entity="{ ...data, title }" />
+                        <v-tooltip
+                          bottom
+                          :open-delay="600"
+                          v-if="data.isArchived"
                         >
-                        </v-rating>
+                          <template #activator="{ on, attrs }">
+                            <v-icon
+                              dense
+                              class="entity-archived-icon"
+                              color="primary"
+                              dark
+                              v-bind="attrs"
+                              v-on="on"
+                            >
+                              archive
+                            </v-icon>
+                          </template>
+                          <span>
+                            Entity is archived. Depending on the system policies
+                            the data can be read only.
+                          </span>
+                        </v-tooltip>
+                        <v-tooltip
+                          bottom
+                          :open-delay="600"
+                          v-if="data.isPrivate"
+                        >
+                          <template #activator="{ on, attrs }">
+                            <v-icon
+                              class="entity-private-icon"
+                              color="primary"
+                              dark
+                              v-bind="attrs"
+                              v-on="on"
+                              dense
+                            >
+                              lock
+                            </v-icon>
+                          </template>
+                          <span>
+                            Entity is private. The access to the data can be
+                            restricted trough the policies
+                          </span>
+                        </v-tooltip>
+                      </div>
+                      <div class="pt-2">
+                        <entity-rating :id="data.id" />
                       </div>
                     </div>
                   </div>
@@ -170,10 +209,12 @@ import EntityEventSnackbar from "@/components/Entity/EntityEventSnackbar";
 import { computed, ref } from "@vue/composition-api";
 import { useUser } from "@/composables/user";
 import EntityControls from "@/components/Entity/EntityControls";
+import EntityRating from "@/components/Entity/EntityRating";
 
 export default {
   name: "EntityDetailsContainer",
   components: {
+    EntityRating,
     EntityControls,
     EntityEventSnackbar,
     DataViewer,
@@ -346,6 +387,20 @@ export default {
   }
 }
 
+.entity-archived-icon,
+.entity-private-icon {
+  padding: 4px;
+  border-radius: 20px;
+  background-color: white;
+  position: absolute;
+  right: 0;
+}
+.entity-private-icon {
+  bottom: 0px;
+}
+.entity-archived-icon {
+  top: 0;
+}
 @media screen and (max-width: 959px) {
   .entity-details-overview-container {
     display: block;

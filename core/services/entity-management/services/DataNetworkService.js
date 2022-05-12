@@ -148,7 +148,7 @@ class DataNetworkService {
     from,
     edgeTypes,
     to = null,
-    pageSize,
+    pageSize = 30,
     cursor = false,
     fromNodeType,
     toNodeType,
@@ -163,7 +163,7 @@ class DataNetworkService {
       to ? `{ entityId: '${to}' }` : ""
     }`;
 
-    let limitStr = `LIMIT ${pageSize}`;
+    let limitStr = pageSize < 0 ? "" : `LIMIT ${pageSize}`;
     let page = 1;
     let limit = pageSize;
     const count = await this.count(

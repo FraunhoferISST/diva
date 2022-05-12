@@ -22,6 +22,10 @@
     {
       "key": "entityType",
       "value": "service"
+    },
+    {
+      "key": "entityType",
+      "value": "review"
     }
   ],
   "schema": {

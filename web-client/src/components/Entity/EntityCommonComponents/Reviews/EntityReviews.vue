@@ -1,11 +1,12 @@
 <template>
   <section id="reviews">
     <v-container fluid class="pa-0">
-      <v-row class="mb-16">
+      <v-row dense class="mb-16">
+        <v-col cols="12" class="d-flex justify-center">
+          <entity-rating :id="id" :dense="false" />
+        </v-col>
         <v-col cols="12">
-          <rating-overview :id="id" :itemCount="reviewsCount">
-            <new-review-form :id="id" :show-form="showForm" />
-          </rating-overview>
+          <new-review-form :id="id" />
         </v-col>
       </v-row>
       <v-row class="mt-12">
@@ -44,7 +45,6 @@
 </template>
 
 <script>
-import RatingOverview from "@/components/Entity/EntityCommonComponents/Reviews/RatingOverview";
 import ReviewCard from "@/components/Entity/EntityCommonComponents/Reviews/ReviewCard";
 import FadeIn from "@/components/Transitions/FadeIn";
 import NoDataState from "@/components/Base/NoDataState";
@@ -55,16 +55,17 @@ import { useBus } from "@/composables/bus";
 import { useUser } from "@/composables/user";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useApi } from "@/composables/api";
+import EntityRating from "@/components/Entity/EntityRating";
 
 export default {
   name: "EntityReviews",
   components: {
+    EntityRating,
     DataViewer,
     Observer,
     NoDataState,
     FadeIn,
     ReviewCard,
-    RatingOverview,
     NewReviewForm,
   },
   props: {
@@ -95,7 +96,6 @@ export default {
   },
   data: () => ({
     reviews: [],
-    showForm: true,
   }),
   computed: {
     reviewsCount() {
@@ -119,9 +119,6 @@ export default {
       }
     },
     loadFirstPage() {
-      /* this.userAlreadyWroteReview().then(
-        (wroteReview) => (this.showForm = wroteReview)
-      );*/
       return this.request(
         this.loadPage(null).then(({ cursor, collection }) => {
           this.reviews = collection;
@@ -137,7 +134,6 @@ export default {
           ...(cursor ? { cursor } : {}),
         })
         .then(async ({ data: { collection, cursor } }) => {
-          /*this.showForm = !(await this.userAlreadyWroteReview());*/
           const creatorsGroups = collection.reduce((group, entry) => {
             const { creatorId } = entry;
             const collectionName = this.getCollectionNameById(creatorId);
