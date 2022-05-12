@@ -163,6 +163,15 @@ module.exports = [
             },
           },
         },
+        {
+          mongo: {
+            query: {
+              id: "{{params.id}}",
+              isArchived: { $ne: true },
+              isEditable: true,
+            },
+          },
+        },
       ],
       or: [
         {
@@ -186,6 +195,60 @@ module.exports = [
         },
       ],
     },
+  },
+  {
+    id: "policy:uuid:3e2b5de1-9477-4ddc-abe0-08ce870a5754",
+    title: "Creators, internal service and owners can change isArchived status",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/[a-zA-Z0-9]+/[a-zA-Z0-9]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}.*",
+      method: "(PATCH|POST)",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+        {
+          mongo: {
+            query: {
+              id: "{{params.id}}",
+              isArchived: true,
+              isEditable: true,
+            },
+          },
+        },
+      ],
+      or: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId": "{{params.id}}",
+            },
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{params.id}}'})<-[r:isOwnerOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(r)>0) as ruleMet",
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{params.id}}'})<-[r:isCreatorOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(r)>0) as ruleMet",
+          },
+        },
+      ],
+    },
+    includes: ["isArchived"],
   },
   {
     id: "policy:uuid:468db289-3ebf-4f93-8d64-d56117875266",
