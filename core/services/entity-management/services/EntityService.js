@@ -255,6 +255,7 @@ class EntityService {
 
   async updateById(id, entity, actorId) {
     const updatedEntity = cleanUpEntity({
+      isEditable: true,
       ...entity,
       id,
       modifiedAt: new Date().toISOString(),
