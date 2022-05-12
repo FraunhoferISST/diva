@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production POLICY_MIDDLEWARE=active node index.js",
-    "dev": "NODE_ENV=development POLICY_MIDDLEWARE=inactive nodemon index.js",
+    "dev": "NODE_ENV=development POLICY_MIDDLEWARE=active nodemon index.js",
     "eslint-fix": "eslint --fix . --ext .js",
     "build:alpine": "pkg --config package.json -t node16-alpine-x64 --output index-alpine index.js",
     "build:linux": "pkg --config package.json -t node16-linux-x64 --output index-linux index.js",
