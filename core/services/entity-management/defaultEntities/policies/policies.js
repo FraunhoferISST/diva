@@ -64,6 +64,7 @@ module.exports = [
             query: {
               id: "{{params.id}}",
               isEditable: true,
+              isArchived: { $ne: true },
             },
           },
         },
@@ -144,7 +145,7 @@ module.exports = [
   {
     id: "policy:uuid:7648d3e8-b686-453a-b32f-c4a4081ffff0",
     title:
-      "Creators, internal service and owners can view, edit and delete owned entities",
+      "Creators, internal services and owners can view, edit and delete owned entities",
     isActive: true,
     isEditable: true,
     scope: {
@@ -198,7 +199,8 @@ module.exports = [
   },
   {
     id: "policy:uuid:3e2b5de1-9477-4ddc-abe0-08ce870a5754",
-    title: "Creators, internal service and owners can change isArchived status",
+    title:
+      "Admins, Creators, internal service and owners can change isArchived status",
     isActive: true,
     isEditable: true,
     scope: {
@@ -227,6 +229,13 @@ module.exports = [
         },
       ],
       or: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.realm_access.roles": '("admin")',
+            },
+          },
+        },
         {
           inputData: {
             query: {

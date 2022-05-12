@@ -1,6 +1,9 @@
 <template>
-  <entity-details-link :id="entity.id" target="_self">
-    <div class="entity-mini-card-container pa-3 full-width fill-height">
+  <component :is="wrapperComponent" :id="entity.id" target="_self">
+    <div
+      class="entity-mini-card-container pa-3 full-width fill-height"
+      :class="{ interactive: visible }"
+    >
       <entity-avatar
         :entity-id="entity.id"
         :image-id="entity.entityIcon"
@@ -8,9 +11,13 @@
       />
       <div>
         <div>
-          <custom-header class="" :text="entityTitle" />
+          <custom-header class="" :text="entityTitle" v-if="entityTitle" />
+          <span
+            class="entity-mini-card-title-placeholder d-block pa-2 mt-2"
+            v-else-if="!visible"
+          ></span>
         </div>
-        <div>
+        <div v-if="visible">
           <v-chip
             class="mr-2"
             x-small
@@ -22,9 +29,15 @@
             {{ tag }}
           </v-chip>
         </div>
+        <div v-else>
+          <v-alert color="warning" text dense class="mb-0 mt-2">
+            According to the system policies you have no rights to view this
+            entity
+          </v-alert>
+        </div>
       </div>
     </div>
-  </entity-details-link>
+  </component>
 </template>
 
 <script>
@@ -38,11 +51,18 @@ export default {
       type: Object,
       required: true,
     },
+    visible: {
+      type: Boolean,
+      default: true,
+    },
   },
   components: { EntityDetailsLink, CustomHeader, EntityAvatar },
   computed: {
+    wrapperComponent() {
+      return this.visible ? "EntityDetailsLink" : "div";
+    },
     entityTitle() {
-      return this.entity.title || this.entity.username || "Entity";
+      return this.entity.title || this.entity.username;
     },
     entityTags() {
       return [
@@ -66,9 +86,15 @@ export default {
   grid-template-columns: 32px 1fr;
   grid-gap: 16px;
   @include border-radius;
-  cursor: pointer;
-  &:hover {
-    background-color: $bg_card_secondary;
+  &.interactive {
+    cursor: pointer;
+    &:hover {
+      background-color: $bg_card_secondary;
+    }
   }
+}
+.entity-mini-card-title-placeholder {
+  @include border-radius-half;
+  background-color: $bg_card_secondary;
 }
 </style>

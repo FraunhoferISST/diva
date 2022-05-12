@@ -19,7 +19,11 @@
             :key="entity.id"
             class="d-flex"
           >
-            <entity-mini-card class="fill-height full-width" :entity="entity" />
+            <entity-mini-card
+              class="fill-height full-width"
+              :entity="entity"
+              :visible="entity.visible"
+            />
           </v-col>
         </v-row>
         <v-row dense class="mt-6" v-if="cursor && !(maxItems >= 0)">
@@ -120,7 +124,7 @@ export default {
                   if (e?.response?.data?.code === 403) {
                     return {
                       id: entityId,
-                      isPrivate: true,
+                      visible: false,
                     };
                   }
                   throw e;

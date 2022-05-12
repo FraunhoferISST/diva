@@ -24,7 +24,7 @@ export default {
     },
     entityTitle: {
       type: String,
-      default: "Entity",
+      default: "",
     },
     imageId: {
       type: String,
