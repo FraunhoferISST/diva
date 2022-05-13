@@ -1,6 +1,6 @@
 <template>
   <section id="asset-graph">
-    <relations-network slot="body" :id="id" height="700px" />
+    <relations-network :id="id" height="700px" />
   </section>
 </template>
 

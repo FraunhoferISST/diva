@@ -56,6 +56,10 @@ import { capFirstCharacter } from "@/utils/utils";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useBus } from "@/composables/bus";
+import { useRequest } from "@/composables/request";
+import { useApi } from "@/composables/api";
+import { useEntity } from "@/composables/entity";
+import { ref } from "@vue/composition-api";
 const bgColorMap = {
   resource: "#336FFCFF",
   asset: "#4d4cac",
@@ -81,8 +85,58 @@ export default {
       default: "400",
     },
   },
-  setup() {
+  setup(props) {
+    const rootAsset = ref({
+      id: props.id,
+    });
+    const {
+      load,
+      data,
+      loading: entityLoading,
+      error: entityError,
+    } = useEntity(props.id);
+    const { request, loading, error } = useRequest();
+    const { datanetwork, getEntityApiById } = useApi();
     const { on } = useBus();
+    const loadNetwork = datanetwork
+      .getEdges({
+        from: props.id,
+        edgeTypes: "isPartOf",
+        bidirectional: true,
+      })
+      .then(({ data: { collection } }) => {
+        const promises = collection.map(
+          // remember: entity - isPartOf -> asset, so from contains the entity id
+          ({ id: edgeId, from: { entityId } }) => {
+            return getEntityApiById(entityId)
+              .getByIdIfExists(entityId, {
+                fields: "id,title,entityType,username",
+              })
+              .then((response) => ({
+                id: response?.data?.id ?? entityId,
+                title: response?.data?.title ?? response?.data?.username,
+                entityType: response?.data?.entityType,
+                edgeId,
+              }))
+              .catch((e) => {
+                if (e?.response?.data?.code === 403) {
+                  return {
+                    id: entityId,
+                    edgeId,
+                    visible: false,
+                  };
+                }
+                throw e;
+              });
+          }
+        );
+        return Promise.all(promises);
+      });
+
+    load({
+      fields: "id,title,entityType,assetType",
+    }).then(() => (rootAsset.value = data.value));
+
     return {
       on,
     };
@@ -190,32 +244,12 @@ export default {
             fields: "id,title,entityType",
           })
         )?.data;
-        const linkedEntities = await this.$api.datanetwork
-          .getEdges({
-            from: this.id,
-            edgeTypes: "isPartOf",
-            bidirectional: true,
-          })
-          .then(({ data: { collection } }) => {
-            const promises = collection.map(
-              // remember: entity - isPartOf -> asset, so from contains the entity id
-              ({ id: edgeId, from: { entityId } }) => {
-                const entityType = entityId.slice(0, entityId.indexOf(":"));
-                const api = this.$api[`${entityType}s`];
-                return api
-                  .getByIdIfExists(entityId, {
-                    fields: "id,title,entityType,username",
-                  })
-                  .then((response) => ({
-                    id: response?.data?.id ?? entityId,
-                    title: response?.data?.title ?? response?.data?.username,
-                    entityType: response?.data?.entityType,
-                    edgeId,
-                  }));
-              }
-            );
-            return Promise.all(promises);
-          });
+        const linkedEntities = await this.$api.datanetwork.getEdges({
+          from: this.id,
+          edgeTypes: "isPartOf",
+          bidirectional: true,
+        });
+
         this.entities = [
           {
             ...rootAsset,
