@@ -1,18 +1,4 @@
 module.exports = [
-  // Development
-  /* {
-    id: "policy:uuid:8e37acca-7dd7-4d93-aecd-924acf678e8d",
-    title: "Allow everything for entity-management (DEV only)",
-    isActive: true,
-    scope: {
-      "headers.serviceName": "entity-management",
-      path: "^.+$",
-      method: "(GET|PUT|POST|PATCH|DELETE)",
-    },
-    condition: true,
-    excludes: [],
-  }, */
-
   /*
    * Entity-Management
    */
@@ -41,6 +27,28 @@ module.exports = [
     },
   },
   {
+    id: "policy:uuid:5a835445-b8d8-445a-ba2e-666d1e221405",
+    title: "Admin Power Right",
+    isActive: true,
+    isEditable: false,
+    scope: {
+      "headers.serviceName": ".*",
+      path: "^/[a-zA-Z0-9]+/[a-zA-Z0-9]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}.*",
+      method: "GET",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.realm_access.roles": '("admin")',
+            },
+          },
+        },
+      ],
+    },
+  },
+  {
     id: "policy:uuid:c269f6ae-d5ad-4522-952e-244d0f10ac1e",
     title: "Admin Power Right",
     isActive: true,
@@ -48,7 +56,7 @@ module.exports = [
     scope: {
       "headers.serviceName": ".*",
       path: "^/[a-zA-Z0-9]+/[a-zA-Z0-9]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}.*",
-      method: "(GET|PUT|POST|PATCH|DELETE|OPTIONS)",
+      method: "(PUT|POST|PATCH|DELETE|OPTIONS)",
     },
     condition: {
       and: [
@@ -125,7 +133,7 @@ module.exports = [
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/[a-zA-Z0-9]+/?[a-zA-Z0-9-/]*$",
+      path: "^/((?!.*reviews.*)[a-zA-Z0-9]+)/?[a-zA-Z0-9-/]*$",
       method: "GET",
     },
     condition: {
@@ -261,12 +269,12 @@ module.exports = [
   },
   {
     id: "policy:uuid:468db289-3ebf-4f93-8d64-d56117875266",
-    title: "Allow anybody to create entities (excluding users)",
+    title: "Allow anybody to create entities (excluding users and reviews)",
     isActive: true,
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/((?!.*users.*)[a-zA-Z0-9]+)/?$",
+      path: "^/((?!.*users|reviews.*)[a-zA-Z0-9]+)/?$",
       method: "POST",
     },
     condition: {
@@ -277,6 +285,115 @@ module.exports = [
               "headers.diva.actorId":
                 "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
             },
+          },
+        },
+      ],
+    },
+  },
+  {
+    id: "policy:uuid:75ebeed6-9eac-4a07-aab7-6cd7785058df",
+    title: "View reviews",
+    description:
+      "The policy allows to view reviews only for the entities that the actor also has access to",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/reviews/?$",
+      method: "GET",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+      ],
+      or: [
+        {
+          mongo: {
+            query: {
+              id: "{{query.attributedTo}}",
+              isPrivate: { $ne: true },
+            },
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{params.id}}'})<-[r:isOwnerOf]-(:user {entityId:'{{query.attributedTo}}'}) RETURN (count(r)>0) as ruleMet",
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{params.id}}'})<-[r:isCreatorOf]-(:user {entityId:'{{query.attributedTo}}'}) RETURN (count(r)>0) as ruleMet",
+          },
+        },
+      ],
+    },
+  },
+  {
+    id: "policy:uuid:7d4e97d6-56e0-45a6-91a5-3bb585d1e586",
+    title: "Publish reviews",
+    description:
+      "The actors are allowed to publish reviews for entities to that they have access and these entities are not archived",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/reviews/?$",
+      method: "POST",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+        {
+          mongo: {
+            query: {
+              id: "{{body.attributedTo}}",
+              isArchived: { $ne: true },
+            },
+          },
+        },
+        // use haven't written a review yet for a particular entity
+        {
+          cypher: {
+            query:
+              "match (:user {entityId: '{{headers.diva.actorId}}'})-[:isCreatorOf]-> (r:review)-[:isReviewOf]-> (e {entityId: '{{body.attributedTo}}'}) return count(r) < 1 as ruleMet",
+          },
+        },
+      ],
+      or: [
+        {
+          mongo: {
+            query: {
+              id: "{{body.attributedTo}}",
+              isPrivate: { $ne: true },
+            },
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{params.id}}'})<-[r:isOwnerOf]-(:user {entityId:'{{query.attributedTo}}'}) RETURN (count(r)>0) as ruleMet",
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{params.id}}'})<-[r:isCreatorOf]-(:user {entityId:'{{query.attributedTo}}'}) RETURN (count(r)>0) as ruleMet",
           },
         },
       ],

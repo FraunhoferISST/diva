@@ -52,8 +52,8 @@ module.exports = {
     "Entity images limit exceeded. Entity can not have more than 15 images",
     406
   ),
-  policyForbiddenError: customErrorFactory(
-    "PolicyValidationError",
+  AccessDeniedError: customErrorFactory(
+    "AccessDeniedError",
     "There is no policy that allows the current request",
     403
   ),

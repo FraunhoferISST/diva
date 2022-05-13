@@ -90,8 +90,7 @@ class PoliciesService {
         for (const [key, value] of Object.entries(projection)) {
           if (value === 0) {
             excludedFields.push(key);
-          }
-          if (value === 1) {
+          } else if (value === 1) {
             includedFields.push(key);
           }
         }
