@@ -9,6 +9,8 @@ const workDir = require("../utils/workDir");
 
 const NODE_ENV = process.env.NODE_ENV || "development";
 const POLICY_MIDDLEWARE = process.env.POLICY_MIDDLEWARE || "active";
+const BUSINESS_DECISION_POINT_URL =
+  process.env.BUSINESS_DECISION_POINT_URL || "http://localhost:3001/";
 
 const SERVICE_NAME = require(path.join(`${workDir}`, "/package.json")).name;
 
@@ -31,7 +33,7 @@ const {
   isCustomError,
   isOpenAPISpecValidationError,
   createOpenAPIValidationError,
-  policyForbiddenError,
+  AccessDeniedError,
 } = require("../Error");
 
 const errorHandler = (err, _req, res, next) => {
@@ -49,13 +51,9 @@ const errorHandler = (err, _req, res, next) => {
 };
 
 const policyRulesMiddleware = async (req, res, next) => {
-  const BUSINESS_DECISION_POINT_URL =
-    process.env.BUSINESS_DECISION_POINT_URL || "http://localhost:3001/";
-
   req.headers.serviceName = SERVICE_NAME;
-
-  try {
-    const { data } = await axios.post(
+  return axios
+    .post(
       urljoin(BUSINESS_DECISION_POINT_URL, "enforcePolicies"),
       {
         headers: req.headers,
@@ -70,28 +68,31 @@ const policyRulesMiddleware = async (req, res, next) => {
           "x-diva": JSON.stringify({ actorId: req.headers.diva.actorId }),
         },
       }
-    );
-
-    if (data.decision === true) {
-      req.policyPayload = data.payload;
-      next();
-    } else {
-      // TODO: maybe include payload messages into error message
-      throw policyForbiddenError;
-    }
-  } catch (error) {
-    if (error?.response?.status >= 500) {
-      next(
-        createError({
-          type: "PoliciesServiceUnavailable",
-          message: `Couldn't ensure policies: ${error.toString()}`,
-          code: error.status ?? 500,
-        })
-      );
-    } else {
-      next(error);
-    }
-  }
+    )
+    .then(({ data }) => {
+      if (data.decision === true) {
+        req.policyPayload = data.payload;
+        next();
+      } else {
+        throw createError({
+          ...AccessDeniedError,
+          ...(data.message ? { errors: { message: data.message } } : {}),
+        });
+      }
+    })
+    .catch((e) => {
+      if (e?.code === 403) {
+        next(e);
+      } else {
+        next(
+          createError({
+            type: "PoliciesServiceUnavailable",
+            message: `Couldn't ensure policies: ${e.toString()}`,
+            code: e.status ?? 500,
+          })
+        );
+      }
+    });
 };
 
 class Server {
