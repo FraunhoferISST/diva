@@ -9,6 +9,7 @@ import Search from "@/views/Search.vue";
 import entities from "@/router/entities";
 import create from "@/router/create";
 import dashboard from "@/router/dashboard";
+import network from "@/router/network";
 
 Vue.use(Router);
 
@@ -30,6 +31,7 @@ const router = new Router({
         create,
         ...entities,
         dashboard,
+        network,
       ],
     },
     {
