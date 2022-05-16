@@ -70,11 +70,6 @@ export default {
         icon: "dashboard",
         text: "Dashboard",
       },
-      {
-        route: "/datanetwork",
-        icon: "lan",
-        text: "Data Network",
-      },
     ],
   }),
   computed: {

@@ -12,6 +12,7 @@ import EntityHistory from "@/components/Entity/EntityCommonComponents/History/En
 import EntityReviews from "@/components/Entity/EntityCommonComponents/Reviews/EntityReviews";
 import EntityDetails from "@/views/EntityDetails";
 import EntityGeneral from "@/components/Entity/EntityCommonComponents/General/EntityGeneral";
+import EntityDataNetwork from "@/components/DataNetwork/EntityDataNetwork";
 
 const ASSET_PREFIX = "asset";
 const RESOURCE_PREFIX = "resource";
@@ -35,6 +36,12 @@ const entityCommonRoutes = (prefix = ENTITY_PREFIX) => [
     path: "reviews",
     name: `${prefix}_details_reviews`,
     component: EntityReviews,
+    props: true,
+  },
+  {
+    path: "datanetwork",
+    name: `${prefix}_details_datanetwork`,
+    component: EntityDataNetwork,
     props: true,
   },
 ];
@@ -149,6 +156,11 @@ const assetConfig = entityRoutesFactory({
       title: "Relations",
       icon: "timeline",
       name: "asset_details_relations",
+    },
+    {
+      title: "Data Network",
+      icon: "timeline",
+      name: "asset_details_datanetwork",
     },
   ],
 });

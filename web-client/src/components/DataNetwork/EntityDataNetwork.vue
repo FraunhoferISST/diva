@@ -1,79 +1,102 @@
 <template>
-  <data-network
-    :edges="edgesDataSet"
-    :nodes="nodesDataSet"
-    @click="eventHandler"
-    @doubleClick="eventHandler"
-    @oncontext="eventHandler"
-    @hold="eventHandler"
-    @release="eventHandler"
-    @select="eventHandler"
-    @selectEdge="eventHandler"
-    @selectNode="selectNodeEventHandler"
-    @deselectNode="eventHandler"
-    @deselectEdge="eventHandler"
-    @dragStart="eventHandler"
-    @dragging="eventHandler"
-    @dragEnd="eventHandler"
-    @hoverNode="eventHandler"
-    @blurNode="eventHandler"
-    @hoverEdge="eventHandler"
-    @blurEdge="eventHandler"
-    @zoom="eventHandler"
-    @showPopup="eventHandler"
-    @hidePopup="eventHandler"
-    @startStabilizing="eventHandler"
-    @stabilizationProgress="eventHandler"
-    @stabilizationIterationsDone="eventHandler"
-    @stabilized="eventHandler"
-    @resize="eventHandler"
-    @initRedraw="eventHandler"
-    @beforeDrawing="eventHandler"
-    @afterDrawing="eventHandler"
-    @animationFinished="eventHandler"
-    @configChange="eventHandler"
-  ></data-network>
+  <div class="datanetwork">
+    <data-network
+      :edges="edgesDataView"
+      :nodes="nodesDataView"
+      @click="eventHandler"
+      @doubleClick="eventHandler"
+      @oncontext="eventHandler"
+      @hold="eventHandler"
+      @release="eventHandler"
+      @select="eventHandler"
+      @selectEdge="eventHandler"
+      @selectNode="selectNodeEventHandler"
+      @deselectNode="eventHandler"
+      @deselectEdge="eventHandler"
+      @dragStart="eventHandler"
+      @dragging="eventHandler"
+      @dragEnd="eventHandler"
+      @hoverNode="eventHandler"
+      @blurNode="eventHandler"
+      @hoverEdge="eventHandler"
+      @blurEdge="eventHandler"
+      @zoom="eventHandler"
+      @showPopup="eventHandler"
+      @hidePopup="eventHandler"
+      @startStabilizing="eventHandler"
+      @stabilizationProgress="eventHandler"
+      @stabilizationIterationsDone="eventHandler"
+      @stabilized="eventHandler"
+      @resize="eventHandler"
+      @initRedraw="eventHandler"
+      @beforeDrawing="eventHandler"
+      @afterDrawing="eventHandler"
+      @animationFinished="eventHandler"
+      @configChange="eventHandler"
+    ></data-network>
+  </div>
 </template>
 
 <script>
 import DataNetwork from "@/components/DataNetwork/DataNetwork";
 import { useApi } from "@/composables/api";
 import { useRequest } from "@/composables/request";
-import { ref, reactive, onMounted } from "@vue/composition-api";
-import { useUser } from "@/composables/user";
+import { reactive, onMounted } from "@vue/composition-api";
 import { DataSet, DataView } from "vis-data/esnext";
 import randomColor from "@/utils/colors";
 import paginator from "@/utils/paginator";
+import entityTypeById from "@/utils/entityTypeById";
 
-const testUuid = "user:uuid:303efeef-6b75-41c7-b23a-1829db17eb19";
 const nodeColors = randomColor(100);
 
+const entityColorMap = {
+  resource: nodeColors[0],
+  asset: nodeColors[1],
+  user: nodeColors[2],
+  service: nodeColors[3],
+  review: nodeColors[4],
+};
+
 export default {
-  name: "DataNetworkView",
+  name: "EntityDataNetwork",
   components: {
     DataNetwork,
   },
   props: {
-    rootId: {
+    id: {
       type: String,
-      required: false,
+      required: true,
     },
     preloadDepth: {
       type: Number,
-      default: 0,
+      default: 1,
     },
   },
   methods: {
     eventHandler(data) {
-      // console.log(data);
+      console.log(data);
     },
   },
   setup(props) {
     const nodesDataSet = reactive(new DataSet());
+    const nodesDataView = reactive(
+      new DataView(nodesDataSet, {
+        filter: (item) => {
+          return true;
+        },
+      })
+    );
     const edgesDataSet = reactive(new DataSet());
+    const edgesDataView = reactive(
+      new DataView(edgesDataSet, {
+        filter: (item) => {
+          return true;
+        },
+      })
+    );
+
     const { datanetwork, getEntityApiById } = useApi();
-    const { request, loading, error } = useRequest();
-    const { user } = useUser();
+    const { loading, error } = useRequest();
 
     const resolveNode = (id) =>
       getEntityApiById(id)
@@ -84,11 +107,14 @@ export default {
           }
         });
 
-    resolveNode(props.rootId ?? user.value.id).then((response) => {
+    resolveNode(props.id).then((response) => {
       if (response?.data) {
         nodesDataSet.update({
           id: response.data.id,
           label: response.data.title || response.data.username,
+          color: {
+            background: entityColorMap[entityTypeById(response.data.id)],
+          },
           level: 0,
         });
       }
@@ -117,8 +143,12 @@ export default {
         }
         const resolvedNodes = await Promise.all(
           collection.map((edge) => {
-            if (nodesDataSet.get(edge.to.entityId) === null) {
-              return resolveNode(edge.to.entityId);
+            const nodeIdToResolve =
+              entityId === edge.from.entityId
+                ? edge.to.entityId
+                : edge.from.entityId;
+            if (nodesDataSet.get(nodeIdToResolve) === null) {
+              return resolveNode(nodeIdToResolve);
             }
           })
         );
@@ -128,6 +158,10 @@ export default {
             .map((node) => ({
               id: node.data.id,
               label: node.data.title || node.data.username,
+              color: {
+                background: entityColorMap[entityTypeById(node.data.id)],
+              },
+              level,
             }))
         );
         for (const resolvedNode of resolvedNodes.filter((node) => node)) {
@@ -140,14 +174,16 @@ export default {
 
     onMounted(async () => {
       if (props.preloadDepth) {
-        await requestSubGraph(user.value.id, 1);
+        await requestSubGraph(props.id, 1);
       }
     });
 
     return {
       requestSubGraph,
       nodesDataSet,
+      nodesDataView,
       edgesDataSet,
+      edgesDataView,
       loading,
       error,
       selectNodeEventHandler: async (data) => {
@@ -162,4 +198,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+div.datanetwork {
+  height: 70vh;
+  width: 100%;
+  border: 2px solid #f0f4f9;
+  @include border-radius;
+  position: relative;
+}
+</style>
