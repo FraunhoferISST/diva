@@ -43,8 +43,21 @@ import { ref, reactive, onMounted } from "@vue/composition-api";
 import { DataSet, DataView } from "vis-data/esnext";
 import randomColor from "@/utils/colors";
 
-const testUuid = "user:uuid:dd7a9c22-bc5a-4c2a-9503-0dc41c4af77d";
+const testUuid = "user:uuid:303efeef-6b75-41c7-b23a-1829db17eb19";
 const nodeColors = randomColor(100);
+/*physics: {
+  stabilization: false,
+      barnesHut: {
+    gravitationalConstant: -30000,
+        springConstant: 0.04,
+        springLength: 0.5,
+  },
+},
+interaction: {
+  tooltipDelay: 200,
+      hideEdgesOnDrag: true,
+      hideEdgesOnZoom: true,
+},*/
 
 export default {
   name: "DataNetworkView",
