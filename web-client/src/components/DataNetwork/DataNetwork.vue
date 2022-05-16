@@ -9,7 +9,8 @@
 </template>
 
 <script>
-import { DataSet, DataView, Network } from "vis-network/dist/vis-network.min";
+import { Network } from "vis-network/esnext";
+import { DataSet, DataView } from "vis-data/esnext";
 import randomColor from "@/utils/colors";
 
 const arrayDiff = (arr1, arr2) => arr1.filter((x) => arr2.indexOf(x) === -1);
@@ -129,45 +130,17 @@ export default {
         labelHighlightBold: false,
       },
       physics: {
-        enabled: true,
+        stabilization: false,
         barnesHut: {
-          theta: 0.5,
-          gravitationalConstant: -2500,
-          centralGravity: 0.3,
-          springLength: 200,
-          springConstant: 0.04,
-          damping: 0.09,
-          avoidOverlap: 0,
+          gravitationalConstant: -40000,
+          springConstant: 0.08,
+          springLength: 100,
         },
-        maxVelocity: 50,
-        minVelocity: 0.1,
-        solver: "barnesHut",
-        stabilization: {
-          enabled: true,
-          iterations: 1000,
-          updateInterval: 100,
-          onlyDynamicEdges: false,
-          fit: true,
-        },
-        timestep: 0.5,
-        adaptiveTimestep: true,
-        wind: { x: 0, y: 0 },
       },
+      interaction: { tooltipDelay: 200, hideEdgesOnDrag: true },
     },
   }),
   watch: {
-    nodes: {
-      deep: true,
-      handler(nodes) {
-        this.network.setData({ nodes, edges: this.edges });
-      },
-    },
-    edges: {
-      deep: true,
-      handler(edges) {
-        this.network.setData({ edges, nodes: this.nodes });
-      },
-    },
     options: {
       deep: true,
       handler(o) {
