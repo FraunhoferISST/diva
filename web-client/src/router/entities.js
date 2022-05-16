@@ -110,6 +110,11 @@ const resourceConfig = entityRoutesFactory({
       icon: "question_answer",
       name: "resource_details_reviews",
     },
+    {
+      title: "Data Network",
+      icon: "timeline",
+      name: "resource_details_datanetwork",
+    },
   ],
 });
 //Resource specific routes
@@ -191,6 +196,11 @@ const usersConfig = entityRoutesFactory({
       title: "Activities",
       icon: "bolt",
       name: "user_details_activities",
+    },
+    {
+      title: "Data Network",
+      icon: "timeline",
+      name: "user_details_datanetwork",
     },
   ],
 });

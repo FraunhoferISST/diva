@@ -57,6 +57,16 @@ const entityColorMap = {
   review: nodeColors[4],
 };
 
+const createNodeObject = (entityData, level) => ({
+  id: entityData.id,
+  label: entityData.title || entityData.username,
+  title: entityData.entityType,
+  color: {
+    background: entityColorMap[entityTypeById(entityData.id)],
+  },
+  level,
+});
+
 export default {
   name: "EntityDataNetwork",
   components: {
@@ -74,7 +84,7 @@ export default {
   },
   methods: {
     eventHandler(data) {
-      console.log(data);
+      //console.log(data);
     },
   },
   setup(props) {
@@ -109,14 +119,7 @@ export default {
 
     resolveNode(props.id).then((response) => {
       if (response?.data) {
-        nodesDataSet.update({
-          id: response.data.id,
-          label: response.data.title || response.data.username,
-          color: {
-            background: entityColorMap[entityTypeById(response.data.id)],
-          },
-          level: 0,
-        });
+        nodesDataSet.update(createNodeObject(response.data, 0));
       }
     });
 
@@ -155,14 +158,7 @@ export default {
         nodesDataSet.update(
           resolvedNodes
             .filter((node) => node)
-            .map((node) => ({
-              id: node.data.id,
-              label: node.data.title || node.data.username,
-              color: {
-                background: entityColorMap[entityTypeById(node.data.id)],
-              },
-              level,
-            }))
+            .map((node) => createNodeObject(node.data, level))
         );
         for (const resolvedNode of resolvedNodes.filter((node) => node)) {
           if (level < props.preloadDepth) {
