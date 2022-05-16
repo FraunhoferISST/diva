@@ -2,7 +2,7 @@
   <v-autocomplete
     dense
     class="custom-autocomplete"
-    v-model="computedOwners"
+    v-model="selected"
     :loading="loading"
     :items="searchResult"
     :search-input.sync="searchInput"
@@ -16,7 +16,7 @@
     hide-details
     small-chips
     cache-items
-    item-text="username"
+    item-text="title"
     item-value="id"
     clearable
     deletable-chips
@@ -54,11 +54,9 @@
         />
       </v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title>
-          {{ data.item.title || data.item.username }}
-        </v-list-item-title>
+        <v-list-item-title>{{ data.item.username }}</v-list-item-title>
         <v-list-item-subtitle>
-          {{ data.item.entityType }}
+          {{ data.item.email }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </template>
@@ -72,43 +70,35 @@ import { computed, ref } from "@vue/composition-api";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 
 export default {
-  name: "OwnerEdit",
+  name: "EntitiesSearch",
   inheritAttrs: false,
   components: { EntityDetailsLink, EntityAvatar },
   props: {
-    owners: {
-      type: Array,
-      required: true,
+    query: {
+      type: Object,
+      default: () => ({}),
     },
   },
-  setup(props, { emit }) {
+  setup(props) {
     const { search, data, loading, error } = useSearch();
     const searchInput = ref("");
-    const computedOwners = computed({
-      get() {
-        return props.owners;
-      },
-      set(value) {
-        return emit("update:owners", value);
-      },
-    });
+    const selected = ref([]);
     return {
       loading,
       error,
       searchInput,
-      computedOwners,
+      selected,
       searchResult: computed(() => [
-        ...computedOwners.value,
         ...(data.value?.collection ?? []).map(({ doc }) => doc),
       ]),
-      searchEntities: (input) =>
-        search(input, { pageSize: 30, ...props.query }),
       removeSelected(item) {
-        const deleteIndex = computedOwners.value.findIndex(
+        const deleteIndex = selected.value.findIndex(
           ({ id }) => item.id === id
         );
-        computedOwners.value.splice(deleteIndex, 1);
+        selected.value.splice(deleteIndex, 1);
       },
+      searchEntities: (input) =>
+        search(input, { pageSize: 30, ...props.query }),
     };
   },
 };

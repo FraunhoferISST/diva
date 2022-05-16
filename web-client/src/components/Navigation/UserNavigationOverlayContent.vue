@@ -7,9 +7,9 @@
             <v-col cols="12" lg="6">
               <v-row>
                 <v-col cols="12">
-                  <user-activities-list
+                  <network-edges-list
                     :id="user.id"
-                    activity="likes"
+                    edgeTypes="likes"
                     :show-counter="false"
                     full-width
                     :max-items="5"
@@ -27,7 +27,7 @@
                         </template>
                       </custom-header>
                     </template>
-                  </user-activities-list>
+                  </network-edges-list>
                 </v-col>
                 <v-col cols="12"> </v-col>
               </v-row>
@@ -101,12 +101,12 @@ import EntityMiniCard from "@/components/Entity/EntityMiniCard";
 import NoDataState from "@/components/Base/NoDataState";
 import { useUser } from "@/composables/user";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
-import UserActivitiesList from "@/components/User/UserActivitiesList";
+import NetworkEdgesList from "@/components/Base/NetworkEdgesList";
 
 export default {
   name: "UserNavigationOverlayContent",
   components: {
-    UserActivitiesList,
+    NetworkEdgesList,
     EntityAvatar,
     NoDataState,
     EntityMiniCard,

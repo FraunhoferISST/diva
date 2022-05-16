@@ -2,7 +2,7 @@
 import ResourceProfiling from "@/components/Resource/Profiling/ResourceProfiling";
 import ResourceSample from "@/components/Resource/Sample/ResourceSample";
 //Assets
-import AssetRelations from "@/components/Asset/AssetRelations/AssetRelations.vue";
+import AssetRelations from "@/components/Asset/AssetRelations/AssetEntities.vue";
 //Users
 import UserGeneral from "@/components/User/UserGeneral/";
 import UserActivities from "@/components/User/UserActivities/";

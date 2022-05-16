@@ -19,11 +19,13 @@
             :key="entity.id"
             class="d-flex"
           >
-            <entity-mini-card
-              class="fill-height full-width"
-              :entity="entity"
-              :visible="entity.visible"
-            />
+            <slot name="item" :item="entity">
+              <entity-mini-card
+                class="fill-height full-width"
+                :entity="entity"
+                :visible="entity.visible"
+              />
+            </slot>
           </v-col>
         </v-row>
         <v-row dense class="mt-6" v-if="cursor && !(maxItems >= 0)">
@@ -61,7 +63,7 @@ import EntityMiniCard from "@/components/Entity/EntityMiniCard";
 import NoDataState from "@/components/Base/NoDataState";
 
 export default {
-  name: "UserActivitiesList",
+  name: "NetworkEdgesList",
   components: {
     NoDataState,
     EntityMiniCard,
@@ -72,7 +74,7 @@ export default {
       type: String,
       required: true,
     },
-    activity: {
+    edgeTypes: {
       type: String,
       required: true,
     },
@@ -108,7 +110,7 @@ export default {
       datanetwork
         .getEdges({
           from: props.id,
-          edgeTypes: props.activity,
+          edgeTypes: props.edgeTypes,
           pageSize: props.maxItems ?? 20,
           ...(cursor ? { cursor: cursor.value } : {}),
           ...(props.entityType ? { toNodeType: props.entityType } : {}),
@@ -143,7 +145,6 @@ export default {
     return {
       activityEntities,
       totalActivityEntities,
-      cursor,
       loading,
       error,
       nextPagLoading,
@@ -151,6 +152,7 @@ export default {
       message,
       snackbar,
       color,
+      cursor,
       loadNextPage: () =>
         nextPagReq(
           loadActivityEntities().then(({ collection, cursor: c }) => {

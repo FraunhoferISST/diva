@@ -29,9 +29,9 @@
           :facets.sync="facets"
           :facets-operator.sync="facetsOperator"
         />
-        <data-viewer :loading="loading" :error="error">
+        <data-viewer :loading="false" :error="error">
           <search-result v-if="items.length > 0" :items="items" />
-          <div v-else class="text-center">
+          <div v-else-if="!loading" class="text-center">
             <p class="ma-0 pa-16 pb-3 text-center">
               <span class="d-inline-block" style="max-width: 400px">
                 {{ emptyResultText }}
@@ -210,11 +210,7 @@ export default {
   mounted() {
     if (this.$route.query.term) {
       this.term = this.$route.query.term;
-      this.interacted = true;
       return this.loadFirstSearchPage();
-    }
-    if (this.$store.state.search.term) {
-      this.interacted = true;
     }
     this.loadFirstSearchPage();
   },
