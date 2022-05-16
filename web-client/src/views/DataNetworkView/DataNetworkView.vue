@@ -40,112 +40,108 @@ import DataNetwork from "@/components/DataNetwork/DataNetwork";
 import { useApi } from "@/composables/api";
 import { useRequest } from "@/composables/request";
 import { ref, reactive, onMounted } from "@vue/composition-api";
+import { useUser } from "@/composables/user";
 import { DataSet, DataView } from "vis-data/esnext";
 import randomColor from "@/utils/colors";
+import paginator from "@/utils/paginator";
 
 const testUuid = "user:uuid:303efeef-6b75-41c7-b23a-1829db17eb19";
 const nodeColors = randomColor(100);
-/*physics: {
-  stabilization: false,
-      barnesHut: {
-    gravitationalConstant: -30000,
-        springConstant: 0.04,
-        springLength: 0.5,
-  },
-},
-interaction: {
-  tooltipDelay: 200,
-      hideEdgesOnDrag: true,
-      hideEdgesOnZoom: true,
-},*/
 
 export default {
   name: "DataNetworkView",
   components: {
     DataNetwork,
   },
+  props: {
+    rootId: {
+      type: String,
+      required: false,
+    },
+    preloadDepth: {
+      type: Number,
+      default: 0,
+    },
+  },
   methods: {
     eventHandler(data) {
       // console.log(data);
     },
   },
-  setup() {
+  setup(props) {
     const nodesDataSet = reactive(new DataSet());
     const edgesDataSet = reactive(new DataSet());
     const { datanetwork, getEntityApiById } = useApi();
     const { request, loading, error } = useRequest();
-    const requestSubGraph = async (entityId) => {
-      await request(
-        datanetwork
-          .getEdges({ from: entityId, bidirectional: true, pageSize: 200 })
-          .then(async (res) => {
-            for (const edge of res.data.collection) {
-              if (edgesDataSet.get(edge.properties.id) === null) {
-                try {
-                  edgesDataSet.update({
-                    id: edge.properties.id,
-                    from: edge.from.entityId,
-                    to: edge.to.entityId,
-                    label: edge.edgeType,
-                    title: edge.edgeType,
-                  });
-                } catch (e) {
-                  //console.log(e);
-                }
-              }
+    const { user } = useUser();
 
-              if (nodesDataSet.get(edge.from.entityId) === null) {
-                const resolvedFromNode = await getEntityApiById(
-                  edge.from.entityId
-                )
-                  .getByIdIfExists(edge.from.entityId)
-                  .catch((e) => {
-                    if (e?.response?.status === 403) {
-                      return null;
-                    }
-                  });
-                if (resolvedFromNode !== null) {
-                  try {
-                    nodesDataSet.update({
-                      id: resolvedFromNode.data.id,
-                      label:
-                        resolvedFromNode.data.title ||
-                        resolvedFromNode.data.username,
-                    });
-                  } catch (e) {
-                    //
-                  }
-                }
-              }
+    const resolveNode = (id) =>
+      getEntityApiById(id)
+        .getByIdIfExists(id)
+        .catch((e) => {
+          if (e?.response?.status === 403) {
+            return null;
+          }
+        });
 
-              if (nodesDataSet.get(edge.to.entityId) === null) {
-                const resolvedToNode = await getEntityApiById(edge.to.entityId)
-                  .getByIdIfExists(edge.to.entityId)
-                  .catch((e) => {
-                    if (e?.response?.status === 403) {
-                      return null;
-                    }
-                  });
-                if (resolvedToNode !== null) {
-                  try {
-                    nodesDataSet.update({
-                      id: resolvedToNode.data.id,
-                      label:
-                        resolvedToNode.data.title ||
-                        resolvedToNode.data.username,
-                    });
-                  } catch (e) {
-                    //
-                  }
-                }
-              }
+    resolveNode(props.rootId ?? user.value.id).then((response) => {
+      if (response?.data) {
+        nodesDataSet.update({
+          id: response.data.id,
+          label: response.data.title || response.data.username,
+          level: 0,
+        });
+      }
+    });
+
+    const requestSubGraph = async (entityId, level) => {
+      for await (const { collection } of paginator(
+        datanetwork.getEdges,
+        {
+          from: entityId,
+          bidirectional: true,
+        },
+        10
+      )) {
+        for (const edge of collection) {
+          if (edgesDataSet.get(edge.properties.id) === null) {
+            edgesDataSet.update({
+              id: edge.properties.id,
+              from: edge.from.entityId,
+              to: edge.to.entityId,
+              label: edge.edgeType,
+              title: edge.edgeType,
+              level,
+            });
+          }
+        }
+        const resolvedNodes = await Promise.all(
+          collection.map((edge) => {
+            if (nodesDataSet.get(edge.to.entityId) === null) {
+              return resolveNode(edge.to.entityId);
             }
           })
-      );
+        );
+        nodesDataSet.update(
+          resolvedNodes
+            .filter((node) => node)
+            .map((node) => ({
+              id: node.data.id,
+              label: node.data.title || node.data.username,
+            }))
+        );
+        for (const resolvedNode of resolvedNodes.filter((node) => node)) {
+          if (level < props.preloadDepth) {
+            await requestSubGraph(resolvedNode.data.id, level + 1);
+          }
+        }
+      }
     };
 
     onMounted(async () => {
-      await requestSubGraph(testUuid);
+      if (props.preloadDepth) {
+        await requestSubGraph(user.value.id, 1);
+      }
     });
 
     return {
@@ -155,7 +151,11 @@ export default {
       loading,
       error,
       selectNodeEventHandler: async (data) => {
-        await requestSubGraph(data.nodes[0]);
+        const nodeData = nodesDataSet.get(data.nodes[0]);
+        if (!nodeData.loaded) {
+          await requestSubGraph(data.nodes[0], nodeData.level + 1);
+          nodesDataSet.update({ ...nodeData, loaded: true });
+        }
       },
     };
   },
