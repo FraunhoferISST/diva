@@ -11,7 +11,7 @@
       @select="eventHandler"
       @selectEdge="eventHandler"
       @selectNode="selectNodeEventHandler"
-      @deselectNode="eventHandler"
+      @deselectNode="deselectNodeEventHandler"
       @deselectEdge="eventHandler"
       @dragStart="eventHandler"
       @dragging="eventHandler"
@@ -34,6 +34,12 @@
       @animationFinished="eventHandler"
       @configChange="eventHandler"
     ></data-network>
+    <v-btn color="primary" v-if="selectedNodeId" @click="clickRequestSubGraph">
+      Load Subgraph
+    </v-btn>
+    <v-btn color="primary" v-if="selectedNodeId" @click="clickNavigateToEntity">
+      Navigate to Entity
+    </v-btn>
   </div>
 </template>
 
@@ -41,11 +47,12 @@
 import DataNetwork from "@/components/DataNetwork/DataNetwork";
 import { useApi } from "@/composables/api";
 import { useRequest } from "@/composables/request";
-import { reactive, onMounted } from "@vue/composition-api";
+import { ref, reactive, onMounted } from "@vue/composition-api";
 import { DataSet, DataView } from "vis-data/esnext";
 import randomColor from "@/utils/colors";
 import paginator from "@/utils/paginator";
 import entityTypeById from "@/utils/entityTypeById";
+import routeHelper from "@/utils/routeHelper";
 
 const nodeColors = randomColor(100);
 
@@ -87,7 +94,7 @@ export default {
       //console.log(data);
     },
   },
-  setup(props) {
+  setup(props, { root }) {
     const nodesDataSet = reactive(new DataSet());
     const nodesDataView = reactive(
       new DataView(nodesDataSet, {
@@ -104,6 +111,8 @@ export default {
         },
       })
     );
+
+    const selectedNodeId = ref("");
 
     const { datanetwork, getEntityApiById } = useApi();
     const { loading, error } = useRequest();
@@ -180,14 +189,31 @@ export default {
       nodesDataView,
       edgesDataSet,
       edgesDataView,
+      selectedNodeId,
       loading,
       error,
+      clickRequestSubGraph: async () => {
+        const nodeData = nodesDataSet.get(selectedNodeId.value);
+        if (!nodeData.loaded) {
+          await requestSubGraph(selectedNodeId.value, nodeData.level + 1);
+          nodesDataSet.update({
+            ...nodeData,
+            loaded: true,
+          });
+        }
+      },
       selectNodeEventHandler: async (data) => {
         const nodeData = nodesDataSet.get(data.nodes[0]);
-        if (!nodeData.loaded) {
-          await requestSubGraph(data.nodes[0], nodeData.level + 1);
-          nodesDataSet.update({ ...nodeData, loaded: true });
-        }
+        selectedNodeId.value = nodeData.id;
+      },
+      deselectNodeEventHandler: async () => {
+        selectedNodeId.value = "";
+      },
+      clickNavigateToEntity: async () => {
+        const path = routeHelper(selectedNodeId.value);
+        const route = root.$router.resolve({ path });
+        window.open(route.href);
+        //root.$router.push({ path });
       },
     };
   },
