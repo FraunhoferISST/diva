@@ -38,6 +38,11 @@ export default {
           icon: "question_answer",
           name: "entity_details_reviews",
         },
+        {
+          title: "Data Network",
+          icon: "insights",
+          name: "entity_details_datanetwork",
+        },
       ],
     },
   },
