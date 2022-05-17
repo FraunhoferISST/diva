@@ -23,6 +23,16 @@ export default (path) => ({
     return entities.filter((entity) => entity);
   },
   getByIdIfExists: (id, query) => getByIdIfExists(id, query, path),
+  getByIdIgnoringErrors: (
+    id,
+    { query = {}, errorsToIgnore = [404, 403], onIgnoredError = () => {} } = {}
+  ) =>
+    axios.get(`${path}/${id}`, { params: query }).catch((e) => {
+      if (errorsToIgnore.includes(e?.response?.status)) {
+        return onIgnoredError(e);
+      }
+      throw e;
+    }),
   update: (id, data) => axios.put(`${path}/${id}`, data),
   create: (data) => axios.post(path, data),
   patch: (id, patch) => axios.patch(`${path}/${id}`, patch),

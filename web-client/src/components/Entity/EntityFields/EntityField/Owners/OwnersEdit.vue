@@ -22,7 +22,7 @@
     deletable-chips
     multiple
     return-object
-    @update:search-input="() => searchUsers(searchInput)"
+    @update:search-input="() => searchEntities(searchInput)"
   >
     <template #selection="data">
       <v-chip
@@ -54,9 +54,11 @@
         />
       </v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title>{{ data.item.username }}</v-list-item-title>
+        <v-list-item-title>
+          {{ data.item.title || data.item.username }}
+        </v-list-item-title>
         <v-list-item-subtitle>
-          {{ data.item.email }}
+          {{ data.item.entityType }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </template>
@@ -99,8 +101,8 @@ export default {
         ...computedOwners.value,
         ...(data.value?.collection ?? []).map(({ doc }) => doc),
       ]),
-      searchUsers: (input) =>
-        search(input, { pageSize: 50, entityType: "user" }),
+      searchEntities: (input) =>
+        search(input, { pageSize: 30, ...props.query }),
       removeSelected(item) {
         const deleteIndex = computedOwners.value.findIndex(
           ({ id }) => item.id === id

@@ -119,7 +119,12 @@ export default {
             )
         ).then(() => {
           if (error.value) {
-            show(error.value?.response?.data?.message ?? error.value, {
+            let msg = error.value?.response?.data?.message ?? error.value;
+            if (error.value?.response?.data?.code === 403) {
+              msg =
+                "According to system entities your not allowed to create a review";
+            }
+            show(msg, {
               color: "error",
             });
           }

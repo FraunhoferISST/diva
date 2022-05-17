@@ -2,7 +2,7 @@
 import ResourceProfiling from "@/components/Resource/Profiling/ResourceProfiling";
 import ResourceSample from "@/components/Resource/Sample/ResourceSample";
 //Assets
-import AssetRelations from "@/components/Asset/AssetRelations/AssetRelations.vue";
+import AssetEntities from "@/components/Asset/AssetEntities.vue";
 //Users
 import UserGeneral from "@/components/User/UserGeneral/";
 import UserActivities from "@/components/User/UserActivities/";
@@ -146,17 +146,17 @@ const assetConfig = entityRoutesFactory({
       name: "asset_details_reviews",
     },
     {
-      title: "Relations",
-      icon: "timeline",
-      name: "asset_details_relations",
+      title: "Entities",
+      icon: "topic",
+      name: "asset_details_entities",
     },
   ],
 });
 //Asset specific routes
 assetConfig.children.push({
-  path: "relations",
-  name: "asset_details_relations",
-  component: AssetRelations,
+  path: "entities",
+  name: "asset_details_entities",
+  component: AssetEntities,
   props: true,
 });
 
