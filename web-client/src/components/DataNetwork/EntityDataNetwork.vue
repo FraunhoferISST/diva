@@ -1,5 +1,15 @@
 <template>
   <div class="datanetwork">
+    <v-progress-linear
+      v-model="dataNetworkLoadingProcess"
+      :active="dataNetworkLoading"
+      :indeterminate="dataNetworkPreLoading"
+      :query="true"
+      height="5"
+      absolute
+      top
+      color="primary"
+    ></v-progress-linear>
     <data-network
       :edges="edgesDataView"
       :nodes="nodesDataView"
@@ -34,12 +44,30 @@
       @animationFinished="eventHandler"
       @configChange="eventHandler"
     ></data-network>
-    <v-btn color="primary" v-if="selectedNodeId" @click="clickRequestSubGraph">
-      Load Subgraph
-    </v-btn>
-    <v-btn color="primary" v-if="selectedNodeId" @click="clickNavigateToEntity">
-      Navigate to Entity
-    </v-btn>
+    <v-container>
+      <v-row>
+        <v-col cols="12" sm="4" md="3" lg="2">
+          <v-btn
+            color="primary"
+            block
+            v-if="selectedNodeId"
+            @click="clickRequestSubGraph"
+          >
+            Load Subgraph
+          </v-btn>
+        </v-col>
+        <v-col cols="12" sm="4" md="3" lg="2">
+          <v-btn
+            color="primary"
+            block
+            v-if="selectedNodeId"
+            @click="clickNavigateToEntity"
+          >
+            Navigate to Entity
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -86,7 +114,7 @@ export default {
     },
     preloadDepth: {
       type: Number,
-      default: 1,
+      default: 0,
     },
   },
   methods: {
@@ -113,6 +141,10 @@ export default {
     );
 
     const selectedNodeId = ref("");
+    const dataNetworkLoading = ref(false);
+    const dataNetworkPreLoading = ref(false);
+    const dataNetworkLoadingProcess = ref(0);
+    const pageSize = ref(10);
 
     const { datanetwork, getEntityApiById } = useApi();
     const { loading, error } = useRequest();
@@ -133,14 +165,17 @@ export default {
     });
 
     const requestSubGraph = async (entityId, level) => {
-      for await (const { collection } of paginator(
+      let page = 0;
+
+      for await (const { collection, total } of paginator(
         datanetwork.getEdges,
         {
           from: entityId,
           bidirectional: true,
         },
-        10
+        pageSize.value
       )) {
+        dataNetworkPreLoading.value = false;
         for (const edge of collection) {
           if (edgesDataSet.get(edge.properties.id) === null) {
             edgesDataSet.update({
@@ -169,6 +204,12 @@ export default {
             .filter((node) => node)
             .map((node) => createNodeObject(node.data, level))
         );
+
+        dataNetworkLoadingProcess.value = Math.ceil(
+          (pageSize.value * page * 100) / total
+        );
+
+        page += 1;
         for (const resolvedNode of resolvedNodes.filter((node) => node)) {
           if (level < props.preloadDepth) {
             await requestSubGraph(resolvedNode.data.id, level + 1);
@@ -190,16 +231,29 @@ export default {
       edgesDataSet,
       edgesDataView,
       selectedNodeId,
+      dataNetworkLoading,
+      dataNetworkPreLoading,
+      dataNetworkLoadingProcess,
       loading,
       error,
       clickRequestSubGraph: async () => {
-        const nodeData = nodesDataSet.get(selectedNodeId.value);
-        if (!nodeData.loaded) {
-          await requestSubGraph(selectedNodeId.value, nodeData.level + 1);
-          nodesDataSet.update({
-            ...nodeData,
-            loaded: true,
-          });
+        try {
+          dataNetworkLoading.value = true;
+          dataNetworkPreLoading.value = true;
+          const nodeData = nodesDataSet.get(selectedNodeId.value);
+          if (!nodeData.loaded) {
+            await requestSubGraph(selectedNodeId.value, nodeData.level + 1);
+            nodesDataSet.update({
+              ...nodeData,
+              loaded: true,
+            });
+          }
+        } catch (e) {
+          console.log(e);
+        } finally {
+          dataNetworkLoading.value = false;
+          dataNetworkPreLoading.value = false;
+          dataNetworkLoadingProcess.value = 0;
         }
       },
       selectNodeEventHandler: async (data) => {
@@ -225,7 +279,6 @@ div.datanetwork {
   height: 70vh;
   width: 100%;
   border: 2px solid #f0f4f9;
-  @include border-radius;
   position: relative;
 }
 </style>
