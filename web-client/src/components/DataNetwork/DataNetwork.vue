@@ -125,18 +125,6 @@ export default {
     on(event, callback) {
       this.network.on(event, callback);
     },
-    off(event, callback) {
-      this.network.off(event, callback);
-    },
-    once(event, callback) {
-      this.network.once(event, callback);
-    },
-    enableEditMode() {
-      this.network.enableEditMode();
-    },
-    disableEditMode() {
-      this.network.disableEditMode();
-    },
   },
   mounted() {
     const container = this.$refs.visualization;
