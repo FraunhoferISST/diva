@@ -115,17 +115,6 @@ export default {
     // See here for more: https://github.com/almende/vis/issues/2524
     this.network = null;
   },
-  methods: {
-    destroy() {
-      this.network.destroy();
-    },
-    setOptions(options) {
-      this.network.setOptions(options);
-    },
-    on(event, callback) {
-      this.network.on(event, callback);
-    },
-  },
   mounted() {
     const container = this.$refs.visualization;
     this.network = new Network(
