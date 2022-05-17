@@ -12,6 +12,7 @@ import EntityHistory from "@/components/Entity/EntityCommonComponents/History/En
 import EntityReviews from "@/components/Entity/EntityCommonComponents/Reviews/EntityReviews";
 import EntityDetails from "@/views/EntityDetails";
 import EntityGeneral from "@/components/Entity/EntityCommonComponents/General/EntityGeneral";
+import EntityDataNetwork from "@/components/DataNetwork/EntityDataNetwork";
 
 const ASSET_PREFIX = "asset";
 const RESOURCE_PREFIX = "resource";
@@ -35,6 +36,12 @@ const entityCommonRoutes = (prefix = ENTITY_PREFIX) => [
     path: "reviews",
     name: `${prefix}_details_reviews`,
     component: EntityReviews,
+    props: true,
+  },
+  {
+    path: "datanetwork",
+    name: `${prefix}_details_datanetwork`,
+    component: EntityDataNetwork,
     props: true,
   },
 ];
@@ -103,6 +110,11 @@ const resourceConfig = entityRoutesFactory({
       icon: "question_answer",
       name: "resource_details_reviews",
     },
+    {
+      title: "Data Network",
+      icon: "timeline",
+      name: "resource_details_datanetwork",
+    },
   ],
 });
 //Resource specific routes
@@ -150,6 +162,11 @@ const assetConfig = entityRoutesFactory({
       icon: "topic",
       name: "asset_details_entities",
     },
+    {
+      title: "Data Network",
+      icon: "insights",
+      name: "asset_details_datanetwork",
+    },
   ],
 });
 //Asset specific routes
@@ -179,6 +196,11 @@ const usersConfig = entityRoutesFactory({
       title: "Activities",
       icon: "bolt",
       name: "user_details_activities",
+    },
+    {
+      title: "Data Network",
+      icon: "timeline",
+      name: "user_details_datanetwork",
     },
   ],
 });

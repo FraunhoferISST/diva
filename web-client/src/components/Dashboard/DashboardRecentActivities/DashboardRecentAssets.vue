@@ -24,7 +24,7 @@ export default {
   components: { EntityMiniCard, DataViewer, NoDataState },
   setup() {
     const { search, data, loading, error } = useSearch();
-    search("asset", { pageSize: 5, entityType: "asset" });
+    search("asset", { pageSize: 5, entityType: "asset", sortBy: "createdAt" });
     return {
       loading,
       error,

@@ -202,9 +202,10 @@ class DataNetworkService {
     }));
   }
 
-  async edgeExists(from, to, edgeType) {
+  async edgeExists(from, to, edgeType, bidirectional = false) {
+    const relationship = `-[r:${edgeType}]-${bidirectional ? "" : ">"}`;
     const { records } = await executeSession(
-      `MATCH (from {entityId: "${from}"}) -[r: ${edgeType}]- (to {entityId: "${to}"}) RETURN r`
+      `MATCH (from {entityId: "${from}"}) ${relationship} (to {entityId: "${to}"}) RETURN r`
     );
     return records.length > 0;
   }
