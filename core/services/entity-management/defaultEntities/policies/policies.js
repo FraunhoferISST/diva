@@ -72,7 +72,6 @@ module.exports = [
             query: {
               id: "{{params.id}}",
               isEditable: true,
-              isArchived: { $ne: true },
             },
           },
         },
