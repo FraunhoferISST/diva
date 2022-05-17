@@ -23,7 +23,11 @@ const patchData = async () => {
       urljoin(ENTITY_MANAGEMENT_URL, entityPath, entityId),
       parsed,
       {
-        headers: { "x-actorid": process.env.ACTOR_ID },
+        headers: {
+          "x-diva": JSON.stringify({
+            actorId: process.env.ACTOR_ID,
+          }),
+        },
       }
     );
   }
