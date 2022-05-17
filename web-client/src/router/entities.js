@@ -164,7 +164,7 @@ const assetConfig = entityRoutesFactory({
     },
     {
       title: "Data Network",
-      icon: "timeline",
+      icon: "insights",
       name: "asset_details_datanetwork",
     },
   ],

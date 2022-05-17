@@ -1,86 +1,72 @@
 <template>
-  <div class="datanetwork">
-    <v-progress-linear
-      v-model="dataNetworkLoadingProcess"
-      :active="dataNetworkLoading"
-      :indeterminate="dataNetworkPreLoading"
-      :query="true"
-      height="5"
-      absolute
-      top
-      color="primary"
-    ></v-progress-linear>
-    <data-network
-      :edges="edgesDataView"
-      :nodes="nodesDataView"
-      @click="eventHandler"
-      @doubleClick="eventHandler"
-      @oncontext="eventHandler"
-      @hold="eventHandler"
-      @release="eventHandler"
-      @select="eventHandler"
-      @selectEdge="eventHandler"
-      @selectNode="selectNodeEventHandler"
-      @deselectNode="deselectNodeEventHandler"
-      @deselectEdge="eventHandler"
-      @dragStart="eventHandler"
-      @dragging="eventHandler"
-      @dragEnd="eventHandler"
-      @hoverNode="eventHandler"
-      @blurNode="eventHandler"
-      @hoverEdge="eventHandler"
-      @blurEdge="eventHandler"
-      @zoom="eventHandler"
-      @showPopup="eventHandler"
-      @hidePopup="eventHandler"
-      @startStabilizing="eventHandler"
-      @stabilizationProgress="eventHandler"
-      @stabilizationIterationsDone="eventHandler"
-      @stabilized="eventHandler"
-      @resize="eventHandler"
-      @initRedraw="eventHandler"
-      @beforeDrawing="eventHandler"
-      @afterDrawing="eventHandler"
-      @animationFinished="eventHandler"
-      @configChange="eventHandler"
-    ></data-network>
-    <v-container>
-      <v-row>
-        <v-col cols="12" sm="4" md="3" lg="2">
-          <v-btn
-            color="primary"
-            block
-            v-if="selectedNodeId"
-            @click="clickRequestSubGraph"
-          >
-            Load Subgraph
-          </v-btn>
-        </v-col>
-        <v-col cols="12" sm="4" md="3" lg="2">
-          <v-btn
-            color="primary"
-            block
-            v-if="selectedNodeId"
-            @click="clickNavigateToEntity"
-          >
-            Navigate to Entity
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+  <data-viewer :loading="loading" :error="error">
+    <div class="datanetwork-container relative">
+      <v-snackbar v-model="snackbar" :color="color" absolute top>
+        <b>
+          {{ message }}
+        </b>
+      </v-snackbar>
+      <div class="datanetwork">
+        <v-progress-linear
+          v-model="dataNetworkLoadingProcess"
+          :active="dataNetworkLoading"
+          :indeterminate="dataNetworkPreLoading"
+          :query="true"
+          height="5"
+          rounded
+          absolute
+          top
+          color="primary"
+        ></v-progress-linear>
+        <data-network
+          :edges="edgesDataView"
+          :nodes="nodesDataView"
+          @selectNode="selectNodeEventHandler"
+          @deselectNode="deselectNodeEventHandler"
+        ></data-network>
+      </div>
+      <v-container v-if="selectedNodeId" fluid class="pa-0 pt-3">
+        <v-row class="d-flex justify-end">
+          <v-col cols="12" sm="4" md="3" lg="2" v-if="selectedNodeId !== id">
+            <v-btn
+              color="primary"
+              rounded
+              text
+              block
+              @click="clickNavigateToEntity"
+            >
+              Navigate to Entity
+            </v-btn>
+          </v-col>
+          <v-col cols="12" sm="4" md="3" lg="2">
+            <v-btn
+              color="primary"
+              class="gprimary"
+              rounded
+              block
+              @click="clickRequestSubGraph"
+            >
+              Load Subgraph
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
+  </data-viewer>
 </template>
 
 <script>
 import DataNetwork from "@/components/DataNetwork/DataNetwork";
 import { useApi } from "@/composables/api";
 import { useRequest } from "@/composables/request";
+import { useSnackbar } from "@/composables/snackbar";
 import { ref, reactive, onMounted } from "@vue/composition-api";
 import { DataSet, DataView } from "vis-data/esnext";
 import randomColor from "@/utils/colors";
 import paginator from "@/utils/paginator";
 import entityTypeById from "@/utils/entityTypeById";
 import routeHelper from "@/utils/routeHelper";
+import DataViewer from "@/components/DataFetchers/DataViewer";
 
 const nodeColors = randomColor(100);
 
@@ -105,6 +91,7 @@ const createNodeObject = (entityData, level) => ({
 export default {
   name: "EntityDataNetwork",
   components: {
+    DataViewer,
     DataNetwork,
   },
   props: {
@@ -117,16 +104,11 @@ export default {
       default: 0,
     },
   },
-  methods: {
-    eventHandler(data) {
-      //console.log(data);
-    },
-  },
   setup(props, { root }) {
     const nodesDataSet = reactive(new DataSet());
     const nodesDataView = reactive(
       new DataView(nodesDataSet, {
-        filter: (item) => {
+        filter: (/*item*/) => {
           return true;
         },
       })
@@ -134,7 +116,7 @@ export default {
     const edgesDataSet = reactive(new DataSet());
     const edgesDataView = reactive(
       new DataView(edgesDataSet, {
-        filter: (item) => {
+        filter: (/*item*/) => {
           return true;
         },
       })
@@ -147,7 +129,8 @@ export default {
     const pageSize = ref(10);
 
     const { datanetwork, getEntityApiById } = useApi();
-    const { loading, error } = useRequest();
+    const { snackbar, message, color, show } = useSnackbar();
+    const { request, loading, error } = useRequest();
 
     const resolveNode = (id) =>
       getEntityApiById(id)
@@ -156,13 +139,16 @@ export default {
           if (e?.response?.status === 403) {
             return null;
           }
+          throw e;
         });
 
-    resolveNode(props.id).then((response) => {
-      if (response?.data) {
-        nodesDataSet.update(createNodeObject(response.data, 0));
-      }
-    });
+    request(
+      resolveNode(props.id).then((response) => {
+        if (response?.data) {
+          nodesDataSet.update(createNodeObject(response.data, 0));
+        }
+      })
+    );
 
     const requestSubGraph = async (entityId, level) => {
       let page = 0;
@@ -225,7 +211,9 @@ export default {
     });
 
     return {
-      requestSubGraph,
+      snackbar,
+      message,
+      color,
       nodesDataSet,
       nodesDataView,
       edgesDataSet,
@@ -236,6 +224,7 @@ export default {
       dataNetworkLoadingProcess,
       loading,
       error,
+      requestSubGraph,
       clickRequestSubGraph: async () => {
         try {
           dataNetworkLoading.value = true;
@@ -249,7 +238,7 @@ export default {
             });
           }
         } catch (e) {
-          console.log(e);
+          show(e?.response?.data?.message || e, { color: "error" });
         } finally {
           dataNetworkLoading.value = false;
           dataNetworkPreLoading.value = false;
@@ -267,7 +256,6 @@ export default {
         const path = routeHelper(selectedNodeId.value);
         const route = root.$router.resolve({ path });
         window.open(route.href);
-        //root.$router.push({ path });
       },
     };
   },
@@ -276,7 +264,9 @@ export default {
 
 <style scoped lang="scss">
 div.datanetwork {
-  height: 70vh;
+  @include border-radius;
+  overflow: hidden;
+  height: calc(100vh - 315px);
   width: 100%;
   border: 2px solid #f0f4f9;
   position: relative;
