@@ -1,25 +1,29 @@
 <template>
   <div>
-    <slot :totalActivityEntities="totalActivityEntities"></slot>
+    <slot
+      :totalNetworkEntitiesCount="totalNetworkEntitiesCount"
+      :load="load"
+      :entities="entitiesList"
+    ></slot>
     <data-viewer :loading="loading" :error="error">
       <v-container fluid class="px-0 relative pt-0">
-        <v-row v-if="activityEntities.length === 0" class="mt-3">
+        <v-row v-if="entitiesList.length === 0" class="mt-3">
           <v-col cols="12">
             <no-data-state />
           </v-col>
         </v-row>
         <v-row dense v-else class="mt-3">
           <v-col cols="12" class="py-3" v-if="showCounter">
-            {{ totalActivityEntities }} in total
+            {{ totalNetworkEntitiesCount }} in total
           </v-col>
           <v-col
             cols="12"
             :md="fullWidth ? '12' : '6'"
-            v-for="entity in activityEntities"
+            v-for="entity in entitiesList"
             :key="entity.id"
             class="d-flex"
           >
-            <slot name="item" :item="entity">
+            <slot name="item" :entity="entity" :load="load">
               <entity-mini-card
                 class="fill-height full-width"
                 :entity="entity"
@@ -63,7 +67,7 @@ import EntityMiniCard from "@/components/Entity/EntityMiniCard";
 import NoDataState from "@/components/Base/NoDataState";
 
 export default {
-  name: "NetworkEdgesList",
+  name: "NetworkNodesList",
   components: {
     NoDataState,
     EntityMiniCard,
@@ -86,6 +90,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    bidirectional: {
+      type: Boolean,
+      default: false,
+    },
     fullWidth: {
       type: Boolean,
       default: false,
@@ -95,9 +103,9 @@ export default {
     },
   },
   setup(props) {
-    const activityEntities = ref([]);
+    const entitiesList = ref([]);
     const cursor = ref(null);
-    const totalActivityEntities = ref(0);
+    const totalNetworkEntitiesCount = ref(0);
     const { show, message, color, snackbar } = useSnackbar();
     const { datanetwork, getEntityApiById } = useApi();
     const { request, loading, error } = useRequest();
@@ -106,45 +114,51 @@ export default {
       loading: nextPagLoading,
       error: nextPageError,
     } = useRequest();
-    const loadActivityEntities = () =>
+    const loadNetworkEntities = (_cursor = cursor.value) =>
       datanetwork
         .getEdges({
           from: props.id,
           edgeTypes: props.edgeTypes,
           pageSize: props.maxItems ?? 20,
-          ...(cursor ? { cursor: cursor.value } : {}),
+          bidirectional: props.bidirectional,
+          ...(_cursor ? { cursor: cursor.value } : {}),
           ...(props.entityType ? { toNodeType: props.entityType } : {}),
         })
         .then(async ({ data: { collection, ...rest } }) => ({
           ...rest,
           collection: await Promise.all(
-            collection.map(({ to: { entityId } }) => {
-              return getEntityApiById(entityId)
-                .getByIdIfExists(entityId)
-                .then(({ data }) => data)
-                .catch((e) => {
-                  if (e?.response?.data?.code === 403) {
-                    return {
-                      id: entityId,
+            collection.map(
+              ({
+                to: { entityId: toEntityId },
+                from: { entityId: fromEntityId },
+                properties: { id: edgeId },
+              }) => {
+                const toId =
+                  toEntityId === props.id ? fromEntityId : toEntityId;
+                return getEntityApiById(toId)
+                  .getByIdIgnoringErrors(toId, {
+                    onIgnoredError: () => ({
+                      id: toId,
                       visible: false,
-                    };
-                  }
-                  throw e;
-                });
-            })
+                    }),
+                  })
+                  .then((response) => ({ ...(response?.data ?? {}), edgeId }));
+              }
+            )
           ),
         }));
-
-    request(
-      loadActivityEntities().then(({ collection, total, cursor: c }) => {
-        activityEntities.value = collection;
-        totalActivityEntities.value = total;
-        cursor.value = c;
-      })
-    );
+    const load = () =>
+      request(
+        loadNetworkEntities("").then(({ collection, total, cursor: c }) => {
+          entitiesList.value = collection;
+          totalNetworkEntitiesCount.value = total;
+          cursor.value = c;
+        })
+      );
+    load();
     return {
-      activityEntities,
-      totalActivityEntities,
+      entitiesList,
+      totalNetworkEntitiesCount,
       loading,
       error,
       nextPagLoading,
@@ -153,10 +167,11 @@ export default {
       snackbar,
       color,
       cursor,
+      load,
       loadNextPage: () =>
         nextPagReq(
-          loadActivityEntities().then(({ collection, cursor: c }) => {
-            activityEntities.value.push(...collection);
+          loadNetworkEntities().then(({ collection, cursor: c }) => {
+            entitiesList.value.push(...collection);
             cursor.value = c;
           })
         ).then(() => {

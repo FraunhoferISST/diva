@@ -12,7 +12,7 @@
 
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="tab in tabs" :key="tab.title">
-        <network-edges-list
+        <network-nodes-list
           :id="id"
           :edgeTypes="tab.activity"
           :entity-type="tab.entityType"
@@ -24,12 +24,12 @@
 
 <script>
 import { ref } from "@vue/composition-api";
-import NetworkEdgesList from "@/components/Base/NetworkEdgesList";
+import NetworkNodesList from "@/components/Base/NetworkNodesList";
 
 export default {
   name: "UserActivities",
   components: {
-    NetworkEdgesList,
+    NetworkNodesList,
   },
   props: {
     id: {

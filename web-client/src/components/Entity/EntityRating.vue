@@ -14,6 +14,8 @@
         :legend="!!formattedRating"
         line-mode="in 5"
         :determinate="loading"
+        font-size="2.5rem"
+        font-color="black"
       >
         <template #legend-caption>
           <v-rating

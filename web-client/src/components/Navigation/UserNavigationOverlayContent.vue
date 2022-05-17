@@ -7,27 +7,27 @@
             <v-col cols="12" lg="6">
               <v-row>
                 <v-col cols="12">
-                  <network-edges-list
+                  <network-nodes-list
                     :id="user.id"
                     edgeTypes="likes"
                     :show-counter="false"
                     full-width
                     :max-items="5"
                   >
-                    <template #default="{ totalActivityEntities }">
+                    <template #default="{ totalNetworkEntitiesCount }">
                       <custom-header class="mb-6">
                         <span> Recent likes </span>
-                        <template #info v-if="totalActivityEntities > 0">
+                        <template #info v-if="totalNetworkEntitiesCount > 0">
                           <entity-details-link
                             :id="user.id"
                             postfix="/activities"
                           >
-                            view all {{ totalActivityEntities }}
+                            view all {{ totalNetworkEntitiesCount }}
                           </entity-details-link>
                         </template>
                       </custom-header>
                     </template>
-                  </network-edges-list>
+                  </network-nodes-list>
                 </v-col>
                 <v-col cols="12"> </v-col>
               </v-row>
@@ -101,12 +101,12 @@ import EntityMiniCard from "@/components/Entity/EntityMiniCard";
 import NoDataState from "@/components/Base/NoDataState";
 import { useUser } from "@/composables/user";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
-import NetworkEdgesList from "@/components/Base/NetworkEdgesList";
+import NetworkNodesList from "@/components/Base/NetworkNodesList";
 
 export default {
   name: "UserNavigationOverlayContent",
   components: {
-    NetworkEdgesList,
+    NetworkNodesList,
     EntityAvatar,
     NoDataState,
     EntityMiniCard,
