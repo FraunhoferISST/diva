@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-inline-block">
     <slot :logout="logout">
       <v-btn
         color="error"

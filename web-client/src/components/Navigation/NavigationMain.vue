@@ -1,6 +1,10 @@
 <template>
   <nav id="navigation-main">
-    <div id="navigation-main-items" class="d-flex justify-space-between">
+    <div
+      id="navigation-main-items"
+      class="d-flex justify-space-between"
+      v-if="user && user.id && user.isLoggedIn"
+    >
       <div class="d-flex">
         <router-link to="/">
           <div class="diva-logo">
