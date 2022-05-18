@@ -3,6 +3,23 @@ const { decodeCursor, encodeCursor } = require("@diva/common/api/cursor");
 
 const ElasticsearchConnector = require("@diva/common/databases/ElasticsearchConnector");
 
+const allowedFields = [
+  "id",
+  "title",
+  "resourceType",
+  "entityType",
+  "mimeType",
+  "assetType",
+  "serviceType",
+  "systemEntityType",
+  "username",
+  "email",
+  "keywords",
+  "createdAt",
+  "modifiedAt",
+  "roles",
+];
+
 const buildESQuery = (query, rest, facetsOperator) => {
   const queries = [];
 
@@ -72,6 +89,9 @@ class SearchService {
     const searchRequestBody = esb
       .requestBodySearch()
       .query(esQuery)
+      .source({
+        includes: allowedFields,
+      })
       .sort(esb.sort(sortBy === "relevance" ? "_score" : sortBy, "desc"))
       .highlight(
         esb.highlight().fields(["*"]).preTags("<b>", "*").postTags("</b>", "*")
