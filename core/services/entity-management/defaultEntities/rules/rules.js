@@ -100,7 +100,7 @@ module.exports = [
     actions: [
       {
         headers: {
-          "x-diva": "{ actorId: {{payload.actor.id}} }",
+          "x-diva": { actorId: "{{payload.actor.id}}" },
         },
         method: "DELETE",
         endpoint:
@@ -130,7 +130,7 @@ module.exports = [
     actions: [
       {
         headers: {
-          "x-diva": "{ actorId: {{payload.actor.id}} }",
+          "x-diva": { actorId: "{{serviceId}}" },
         },
         method: "POST",
         endpoint: "{{profiling-assistant}}/profiling/run/keywords_similarity",
