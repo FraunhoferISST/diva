@@ -17,7 +17,7 @@
           color="error"
           class="text-center ma-0"
         >
-          Ups, something went wrong with our log in service. <br />
+          Something went wrong with our log in service. <br />
           {{ errorMessage }}<br />
           <logout-button small class="mt-2 mr-3" />
           <v-btn

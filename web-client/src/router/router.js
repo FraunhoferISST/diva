@@ -5,6 +5,7 @@ import Router from "vue-router";
 import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
 import Search from "@/views/Search.vue";
+import NotFound from "@/views/NotFound.vue";
 
 import entities from "@/router/entities";
 import create from "@/router/create";
@@ -37,6 +38,7 @@ const router = new Router({
       name: "login",
       component: Login,
     },
+    { path: "*", component: NotFound },
   ],
   mode: "history",
 });

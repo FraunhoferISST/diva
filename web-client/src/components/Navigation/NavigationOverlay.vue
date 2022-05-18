@@ -1,7 +1,7 @@
 <template>
   <div class="navigation-overlay-container" :class="{ open: open }">
     <v-expand-transition>
-      <div v-if="open">
+      <div v-if="open" v-click-outside="() => open && close()">
         <div class="d-flex justify-end pa-4">
           <v-btn color="red" icon @click="close">
             <v-icon color="red"> close </v-icon>

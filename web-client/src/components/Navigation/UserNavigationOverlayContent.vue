@@ -86,7 +86,7 @@
             </div>
           </v-col>
           <v-col cols="12" class="mt-4">
-            <logout-button block />
+            <logout-button class="d-block" block />
           </v-col>
         </v-row>
       </v-col>

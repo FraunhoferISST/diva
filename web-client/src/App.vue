@@ -18,7 +18,7 @@
             color="error"
             class="text-center ma-0"
           >
-            Ups, something went wrong with our authentication server. <br />
+            Something went wrong with our authentication server. <br />
             {{ error }}<br />
             <v-btn
               class="mt-2"
