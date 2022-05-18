@@ -28,7 +28,6 @@ x-airflow-common:
     AIRFLOW_CONN_MINIO: s3://${DIVA_LAKE_USERNAME}:${DIVA_LAKE_PASSWORD}@diva-lake:${DIVALAKE_PORT}?host=http://diva-lake:${DIVALAKE_PORT}
     <<: *mongodb-env
     AIRFLOW_VAR_ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
-    AIRFLOW_VAR_DATANETWORK_ASSISTANT_URL: http://datanetwork-assistant:${DATANETWORK_ASSISTANT_PORT}
   volumes:
     - ${AIRFLOW_DAGS}:/opt/airflow/dags
     - ${AIRFLOW_PLUGINS}:/opt/airflow/plugins
