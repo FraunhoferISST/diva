@@ -10,12 +10,18 @@
         :entity-title="entityTitle"
       />
       <div>
-        <div>
-          <custom-header class="" :text="entityTitle" v-if="entityTitle" />
+        <div class="d-flex justify-space-between align-center">
+          <custom-header
+            class=""
+            :text="entityTitle"
+            v-if="entityTitle"
+            style="font-size: 1.05rem !important"
+          />
           <span
-            class="entity-mini-card-title-placeholder d-block pa-2 mt-2"
+            class="entity-mini-card-title-placeholder d-block pa-2 mt-2 full-width"
             v-else-if="!visible"
           ></span>
+          <entity-like-button small :id="entity.id" class="pl-3" />
         </div>
         <div v-if="visible">
           <v-chip
@@ -44,6 +50,7 @@
 import EntityAvatar from "@/components/Entity/EntityAvatar";
 import CustomHeader from "@/components/Base/CustomHeader";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
+import EntityLikeButton from "@/components/Entity/EntityLikeButton";
 export default {
   name: "EntityMiniCard",
   props: {
@@ -56,7 +63,12 @@ export default {
       default: true,
     },
   },
-  components: { EntityDetailsLink, CustomHeader, EntityAvatar },
+  components: {
+    EntityLikeButton,
+    EntityDetailsLink,
+    CustomHeader,
+    EntityAvatar,
+  },
   computed: {
     wrapperComponent() {
       return this.visible ? "EntityDetailsLink" : "div";

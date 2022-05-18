@@ -6,8 +6,14 @@
         :like="likeEntity"
         :dislike="dislikeEntity"
       >
-        <v-btn color="red" icon :loading="toggleLoading" @click="toggleLike">
-          <v-icon color="red">
+        <v-btn
+          color="red"
+          icon
+          :loading="toggleLoading"
+          @click.stop.prevent="toggleLike"
+          v-bind="$attrs"
+        >
+          <v-icon color="red" v-bind="$attrs">
             {{ isLikedByUser ? "favorite" : "favorite_border" }}
           </v-icon>
         </v-btn>
