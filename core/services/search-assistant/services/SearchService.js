@@ -20,12 +20,9 @@ const buildESQuery = (query, rest, facetsOperator) => {
     .boolQuery()
     .must([
       esb
-        .multiMatchQuery(
-          ["title^4", "keywords^3", "description^2", "*^1"],
-          query
-        )
+        .multiMatchQuery(["*"], query)
         .fuzziness("AUTO")
-        .zeroTermsQuery("all"),
+        .zeroTermsQuery(query ? "none" : "all"),
       esb.boolQuery()[facetsOperator](queries),
     ])
     .mustNot(esb.termQuery("entityType", "review"));
