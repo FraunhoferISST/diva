@@ -163,33 +163,40 @@
               </v-container>
             </div>
           </div>
+          <entity-event-snackbar
+            top
+            fixed
+            :message="message"
+            :snackbar.sync="snackbar"
+            :color="color"
+            :timeout="timeout"
+          >
+            <v-btn
+              class="ml-4"
+              v-if="!eventData.reloadInstantly"
+              text
+              small
+              color="white"
+              :loading="updating"
+              @click="reloadEntity"
+            >
+              Load changes
+            </v-btn>
+          </entity-event-snackbar>
+          <v-container class="pa-0 pt-0 pb-12">
+            <v-container class="entity-details-views-container pa-3 pa-md-12">
+              <slot> </slot>
+            </v-container>
+          </v-container>
+        </template>
+        <template #error="{ errorMessage, errorCode }">
+          <entity-details-container-access-error
+            :id="id"
+            :error-message="errorMessage"
+            :error-code="errorCode"
+          />
         </template>
       </data-viewer>
-      <entity-event-snackbar
-        top
-        fixed
-        :message="message"
-        :snackbar.sync="snackbar"
-        :color="color"
-        :timeout="timeout"
-      >
-        <v-btn
-          class="ml-4"
-          v-if="!eventData.reloadInstantly"
-          text
-          small
-          color="white"
-          :loading="updating"
-          @click="reloadEntity"
-        >
-          Load changes
-        </v-btn>
-      </entity-event-snackbar>
-      <v-container class="pa-0 pt-0 pb-12">
-        <v-container class="entity-details-views-container pa-3 pa-md-12">
-          <slot> </slot>
-        </v-container>
-      </v-container>
     </v-container>
   </section>
 </template>
@@ -210,10 +217,12 @@ import { computed, ref } from "@vue/composition-api";
 import { useUser } from "@/composables/user";
 import EntityControls from "@/components/Entity/EntityControls";
 import EntityRating from "@/components/Entity/EntityRating";
+import EntityDetailsContainerAccessError from "@/components/Entity/EntityDetailsContainerAccessError";
 
 export default {
   name: "EntityDetailsContainer",
   components: {
+    EntityDetailsContainerAccessError,
     EntityRating,
     EntityControls,
     EntityEventSnackbar,

@@ -17,7 +17,13 @@
         width="2"
       ></v-progress-circular>
       <div key="error" v-else-if="error">
-        <slot name="error">
+        <slot
+          name="error"
+          :error="error"
+          :loading="loading"
+          :errorMessage="errorMessage"
+          :errorCode="errorCode"
+        >
           <v-alert dense text color="error" class="text-center ma-0">
             <p class="text-center ma-0">
               {{ errorMessage || "Some error occurred while loading data" }}
@@ -66,10 +72,20 @@ export default {
           this.error?.response?.data?.message ??
           this.error?.message ??
           this.error.toString() ??
-          "Somme error occurred"
+          "Somme unexpected error occurred!"
         );
       }
       return "";
+    },
+    errorCode() {
+      if (this.error) {
+        return (
+          this.error?.response?.data?.code ??
+          this.error?.response?.status ??
+          null
+        );
+      }
+      return null;
     },
   },
 };

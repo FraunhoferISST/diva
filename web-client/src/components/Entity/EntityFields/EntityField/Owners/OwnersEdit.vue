@@ -102,7 +102,7 @@ export default {
         ...(data.value?.collection ?? []).map(({ doc }) => doc),
       ]),
       searchEntities: (input) =>
-        search(input, { pageSize: 30, ...props.query }),
+        search(input, { pageSize: 30, ...props.query, entityType: "user" }),
       removeSelected(item) {
         const deleteIndex = computedOwners.value.findIndex(
           ({ id }) => item.id === id

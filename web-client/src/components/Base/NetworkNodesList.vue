@@ -142,7 +142,11 @@ export default {
                       visible: false,
                     }),
                   })
-                  .then((response) => ({ ...(response?.data ?? {}), edgeId }));
+                  .then((response) => ({
+                    id: toId,
+                    ...(response?.data ?? response ?? {}),
+                    edgeId,
+                  }));
               }
             )
           ),

@@ -98,7 +98,7 @@ export default {
             from: props.id,
             edgeTypes: "isOwnerOf",
             bidirectional: true,
-            fromNodeType: "user",
+            toNodeType: "user",
           })
           .then(async ({ data: { collection } }) => {
             loadedOwners.value = (

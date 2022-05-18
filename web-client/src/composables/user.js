@@ -72,10 +72,12 @@ export const useUser = () => {
       .finally(() => (loading.value = false));
   };
   const addRecentlyViewed = (entity) => {
-    const alreadyViewedIds = recentlyViewed.value.map(({ id }) => id);
-    if (!alreadyViewedIds.includes(entity.id)) {
-      recentlyViewed.value.unshift(entity);
-      recentlyViewed.value.splice(10);
+    if (entity) {
+      const alreadyViewedIds = recentlyViewed.value.map(({ id }) => id);
+      if (!alreadyViewedIds.includes(entity.id)) {
+        recentlyViewed.value.unshift(entity);
+        recentlyViewed.value.splice(10);
+      }
     }
   };
   const logout = () => {
