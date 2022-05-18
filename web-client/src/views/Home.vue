@@ -50,7 +50,7 @@ import NavigationMain from "@/components/Navigation/NavigationMain";
 import { useUser } from "@/composables/user";
 import keycloak from "@/api/keycloak";
 import LoadingStateOverlay from "@/components/Base/LoadingStateOverlay";
-import { computed } from "@vue/composition-api";
+import { computed, ref } from "@vue/composition-api";
 import LogoutButton from "@/components/Navigation/LogoutButton";
 
 export default {
@@ -62,14 +62,18 @@ export default {
     RouterTransition,
   },
   setup() {
-    const { login, loading, error } = useUser();
+    const loading = ref(true);
+    const { login, error } = useUser();
     const user = keycloak.getUser();
-    login(user);
+    login(user).then(() => (loading.value = false));
     return {
       loading,
       error,
       user,
-      loginUser: () => login(user),
+      loginUser: () => {
+        loading.value = true;
+        return login(user).then(() => (loading.value = false));
+      },
       errorMessage: computed(
         () => error.value?.response?.data?.message ?? error.value
       ),
