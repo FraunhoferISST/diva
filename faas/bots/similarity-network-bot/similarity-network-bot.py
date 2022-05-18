@@ -4,6 +4,7 @@ import pybktree
 import collections
 import requests
 import time
+import json
 
 # env and fixed variables
 MONGODB_URI = os.getenv('MONGODB_URI', "mongodb://admin:admin@localhost:27017/")
@@ -12,7 +13,7 @@ COLLECTION_NAME = os.getenv('COLLECTION_NAME', "entities")
 ENTITY_MANAGEMENT_URL = os.getenv(
     'ENTITY_MANAGEMENT_URL', "http://localhost:3000")
 SERVICE_ID = "service:uuid:f144b46a-6dfe-4dac-8fbc-611622e57394"
-HEADERS = {"x-diva": str({"actorId": SERVICE_ID})}
+HEADERS = {"x-diva": json.dumps({"actorId": SERVICE_ID})}
 
 HASH_FIELD = os.getenv('HASH_FIELD', "keywordsSimilarityHash")
 EDGE_TYPE = os.getenv('EDGE_TYPE', "keywordsSimilarity")
