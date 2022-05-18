@@ -16,8 +16,10 @@ default_args = {
 with DAG('similarity_network_bot', default_args=default_args, schedule_interval='* * * * *', max_active_runs=1, catchup=False) as dag:
     profiling_args = {
         "MONGODB_URI": Variable.get("mongodb_uri"),
-        "DATANETWORK_ASSISTANT_URL": Variable.get("datanetwork_assistant_url")
+        "ENTITY_MANAGEMENT_URL": Variable.get("entity_management_url")
     }
+
+    print(profiling_args)
 
     similarity_network_keywords_bot_task = DockerOperator(
         task_id='similarity-network-keywords-bot',
