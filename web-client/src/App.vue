@@ -2,12 +2,12 @@
   <v-app app>
     <v-main>
       <div
-        v-if="authenticating"
+        v-if="authenticating || error"
         class="fill-height d-flex align-center justify-center"
       >
         <div class="text-center">
           <div v-if="!error" style="height: 100px">
-            <loading-state-overlay v-if="loading"> </loading-state-overlay>
+            <loading-state-overlay> </loading-state-overlay>
             <p>{{ message }}</p>
           </div>
           <v-alert
@@ -43,47 +43,25 @@
 import RouterTransition from "@/components/Transitions/RouterTransition";
 import keycloak from "@/api/keycloak";
 import LoadingStateOverlay from "@/components/Base/LoadingStateOverlay";
-import { useUser } from "@/composables/user";
 export default {
   name: "app",
   components: {
     LoadingStateOverlay,
     RouterTransition,
   },
-  setup() {
-    const { login, error: userError, user } = useUser();
-    return {
-      login,
-      user,
-      userError,
-    };
-  },
   data: () => ({
-    message: "Preparing the journey",
-    loading: true,
+    message: "Connecting to authentication service...",
     authenticating: true,
     error: "",
   }),
   methods: {
     authenticate() {
-      this.loading = true;
       this.authenticating = true;
       keycloak
         .init()
         .then(async (authenticated) => {
-          if (authenticated) {
-            const user = keycloak.getUser();
-            await this.login(user);
-            if (this.userError) {
-              throw this.userError;
-            }
-            if (this.$route.name === "login") {
-              this.$router.push("/");
-            }
-            this.authenticating = false;
-          } else {
-            this.authenticating = false;
-            this.$router.push({ name: "login" });
+          if (!authenticated) {
+            return this.$router.push({ name: "login" });
           }
         })
         .catch((e) => {
@@ -91,7 +69,7 @@ export default {
           this.error = error ?? "Failed to initialize authentication";
         })
         .finally(() => {
-          this.loading = false;
+          this.authenticating = false;
         });
     },
   },

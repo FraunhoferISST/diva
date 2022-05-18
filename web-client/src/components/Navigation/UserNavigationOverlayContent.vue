@@ -15,7 +15,9 @@
                     :max-items="5"
                   >
                     <template #default="{ totalNetworkEntitiesCount }">
-                      <custom-header class="mb-6">
+                      <custom-header
+                        :class="{ 'mb-5': totalNetworkEntitiesCount }"
+                      >
                         <span> Recent likes </span>
                         <template #info v-if="totalNetworkEntitiesCount > 0">
                           <entity-details-link
@@ -29,7 +31,6 @@
                     </template>
                   </network-nodes-list>
                 </v-col>
-                <v-col cols="12"> </v-col>
               </v-row>
             </v-col>
             <v-col cols="12" lg="6">

@@ -28,8 +28,8 @@ const updateToken = () =>
 
 export default {
   kc,
-  login: kc.login,
-  register: kc.register,
+  login: () => kc.login({ redirectUri: window.location.origin }),
+  register: () => kc.register({ redirectUri: window.location.origin }),
   logout: kc.logout,
   verifyToken: kc.isTokenExpired,
   init: () =>
