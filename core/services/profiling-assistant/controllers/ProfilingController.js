@@ -5,7 +5,7 @@ class ProfilingController {
     try {
       const result = await profilingService.run(
         req.body.entityId,
-        req.headers["x-actorid"]
+        req.headers.diva.actorId
       );
       res.status(200).json(result.data);
     } catch (e) {
@@ -20,7 +20,7 @@ class ProfilingController {
       const result = await profilingService.runDag(
         dag,
         body,
-        req.headers["x-actorid"]
+        req.headers.diva.actorId
       );
       res.status(200).json(result.data);
     } catch (e) {
