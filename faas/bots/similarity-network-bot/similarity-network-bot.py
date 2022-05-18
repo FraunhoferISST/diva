@@ -4,7 +4,6 @@ import pybktree
 import collections
 import requests
 import time
-import json
 
 # env and fixed variables
 MONGODB_URI = os.getenv('MONGODB_URI', "mongodb://admin:admin@localhost:27017/")
@@ -13,7 +12,7 @@ COLLECTION_NAME = os.getenv('COLLECTION_NAME', "entities")
 ENTITY_MANAGEMENT_URL = os.getenv(
     'ENTITY_MANAGEMENT_URL', "http://localhost:3000")
 SERVICE_ID = "service:uuid:f144b46a-6dfe-4dac-8fbc-611622e57394"
-HEADERS = {"x-diva": json.encoder({ "actorId": SERVICE_ID })}
+HEADERS = {"x-diva": str({"actorId": SERVICE_ID})}
 
 HASH_FIELD = os.getenv('HASH_FIELD', "keywordsSimilarityHash")
 EDGE_TYPE = os.getenv('EDGE_TYPE', "keywordsSimilarity")
@@ -21,14 +20,16 @@ THRESHOLD = int(os.getenv('THRESHOLD', "100"))
 
 Dataset = collections.namedtuple('Dataset', 'hash id')
 
+
 # build BK Tree with a list of datasets
 def build_bk_tree(dataset_list):
     def item_distance(x, y):
         return pybktree.hamming_distance(x.hash, y.hash)
+
     return pybktree.BKTree(item_distance, dataset_list)
 
-def delete_outdated_similarity_edges(entity_id, similar_fingerprints):
 
+def delete_outdated_similarity_edges(entity_id, similar_fingerprints):
     # get existing similarity edges for current entity
     payload = {"from": entity_id, "bidirectional": "true",
                "edgeTypes": EDGE_TYPE}
@@ -48,8 +49,8 @@ def delete_outdated_similarity_edges(entity_id, similar_fingerprints):
         requests.delete(ENTITY_MANAGEMENT_URL + "/edges/" +
                         edge["properties"]["id"], headers=HEADERS)
 
-def upsert_similarity_edges(entity_id, similar_fingerprints):
 
+def upsert_similarity_edges(entity_id, similar_fingerprints):
     # get existing similarity edges for current entity
     payload = {"from": entity_id, "bidirectional": "true",
                "edgeTypes": EDGE_TYPE}
@@ -89,11 +90,13 @@ def upsert_similarity_edges(entity_id, similar_fingerprints):
                 "score": fingerprint[0]
             }, headers=HEADERS)
 
+
 def process(entities, similarity_hash_tree):
     for entity in entities:
         similar_fingerprints = similarity_hash_tree.find(entity, THRESHOLD)
         delete_outdated_similarity_edges(entity[1], similar_fingerprints)
         upsert_similarity_edges(entity[1], similar_fingerprints)
+
 
 # connect to mongodb
 myclient = pymongo.MongoClient(MONGODB_URI)
@@ -109,10 +112,10 @@ for entity in mycol.find({HASH_FIELD: {"$exists": True}}, {"_id": 0, "id": 1, HA
         Dataset(int(entity[HASH_FIELD], 16), entity["id"]))
 similarity_hash_tree = build_bk_tree(working_data)
 end_time_bk_tree = time.time()
-print('🕓 It took {:5.3f}s to build bk tree structure'.format(end_time_bk_tree-start_time_bk_tree))
+print('🕓 It took {:5.3f}s to build bk tree structure'.format(end_time_bk_tree - start_time_bk_tree))
 
 print("🔍 Search and process similarities...")
 start_time_process = time.time()
 process(working_data, similarity_hash_tree)
 end_time_process = time.time()
-print('🕓 It took {:5.3f}s to search and process similarities'.format(end_time_process-start_time_process))
+print('🕓 It took {:5.3f}s to search and process similarities'.format(end_time_process - start_time_process))
