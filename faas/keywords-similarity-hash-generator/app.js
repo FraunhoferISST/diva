@@ -22,7 +22,7 @@ const patchEntity = async (entityId, keywordsSimilarityHash) => {
     await axios.patch(
       urljoin(
         ENTITY_MANAGEMENT_URL,
-        `${entityId.substr(0, entityId.indexOf(":"))}s`,
+        `${entityId.slice(0, entityId.indexOf(":"))}s`,
         entityId
       ),
       {
@@ -71,8 +71,9 @@ const analyze = async () => {
 
 analyze()
   .then(() => {
-    console.log("🎉 Succesfully calculated keywords similarity hash!");
+    console.log("🎉 Successfully calculated keywords similarity hash!");
   })
   .catch((err) => {
     console.error(err);
+    process.exit(1)
   });
