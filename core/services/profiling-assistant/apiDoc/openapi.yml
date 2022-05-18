@@ -12,7 +12,7 @@ tags:
 paths:
   /profiling/exists:
     parameters:
-      - $ref: "#/components/parameters/actoridParam"
+      - $ref: "#/components/parameters/divaHeader"
     post:
       tags:
         - profiling
@@ -48,7 +48,7 @@ paths:
 
   /profiling/run:
     parameters:
-      - $ref: "#/components/parameters/actoridParam"
+      - $ref: "#/components/parameters/divaHeader"
     post:
       tags:
         - profiling
@@ -84,7 +84,7 @@ paths:
 
   /profiling/run/{dag}:
     parameters:
-      - $ref: "#/components/parameters/actoridParam"
+      - $ref: "#/components/parameters/divaHeader"
     post:
       tags:
         - profiling
@@ -158,7 +158,7 @@ components:
 
   responses:
     Success:
-      description: Succesful
+      description: Successful
     DAGNotFoundError:
       description: DAG for Resource does not exist
       content:
@@ -185,12 +185,10 @@ components:
             $ref: "#/components/schemas/Error"
     
   parameters:
-    actoridParam:
+    divaHeader:
       in: header
-      description: The id of the origin that requests the API. Can be a user or service.
-      name: x-actorid
+      description: The system specific stringified object whit relevant data like actorId, token etc.
+      name: x-diva
+      required: true
       schema:
         type: string
-        minLength: 1
-        pattern: "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
-      required: true
