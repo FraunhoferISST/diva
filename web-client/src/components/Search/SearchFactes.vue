@@ -6,7 +6,6 @@
     >
       <div v-if="computedFacets.length > 0">
         <div class="mb-6">
-          <!--          <custom-header> Operator </custom-header>-->
           <div class="d-flex justify-center">
             <switch-slider
               :options="[

@@ -111,7 +111,8 @@ export default {
     const { datanetwork } = useApi();
     const removeFromAsset = (edgeId, reloadListMethod) => {
       return request(datanetwork.deleteEdgeById(edgeId)).then(() => {
-        const unacceptableError = error.value && error.value?.status !== 404;
+        const unacceptableError =
+          error.value && error.value?.response?.status !== 404;
         if (unacceptableError) {
           show(error.value, { color: "error" });
         } else {
@@ -134,7 +135,8 @@ export default {
             edgeType: "isPartOf",
           })
         ).then(() => {
-          const unacceptableError = error.value && error.value?.status !== 409;
+          const unacceptableError =
+            error.value && error.value?.response?.status !== 409;
           if (unacceptableError) {
             show(error.value, { color: "error" });
           } else {

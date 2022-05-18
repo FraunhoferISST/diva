@@ -146,7 +146,6 @@ export default {
     facets: {
       handler() {
         this.loadFirstSearchPage(this.term, this.facets);
-        //this.setRouteParams(this.term, this.facets);
       },
       deep: true,
     },

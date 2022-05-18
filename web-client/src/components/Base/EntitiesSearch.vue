@@ -6,6 +6,23 @@
   >
     <v-fade-transition>
       <div class="search-items-list-container" v-if="menu">
+        <div class="px-4">
+          <v-chip-group
+            @change="onEntityTypesChange"
+            multiple
+            v-model="selectedEntityTypes"
+            active-class="primary--text"
+          >
+            <v-chip
+              x-small
+              v-for="type in entityTypes"
+              :key="type"
+              :value="type"
+            >
+              {{ type }}
+            </v-chip>
+          </v-chip-group>
+        </div>
         <div class="search-items-list">
           <v-list v-if="searchResult.length > 0">
             <v-list-item v-for="(item, index) in searchResult" :key="index">
@@ -119,15 +136,23 @@ export default {
     const { search, data, loading, error, cursor, loadNextPage } = useSearch();
     const menu = ref(false);
     const searchInput = ref("");
-    const selected = ref([]);
+    const entityTypes = ref(["resource", "user", "asset", "service"]);
+    const selectedEntityTypes = ref([...entityTypes.value]);
     const searchEntities = () =>
-      search(searchInput.value, { pageSize: 20, ...props.query });
+      search(searchInput.value, {
+        pageSize: 20,
+        ...props.query,
+        ...(selectedEntityTypes.value.length > 0
+          ? { entityType: selectedEntityTypes.value.join(",") }
+          : {}),
+      });
     searchEntities();
     return {
       loading,
       error,
       searchInput,
-      selected,
+      entityTypes,
+      selectedEntityTypes,
       menu,
       cursor,
       searchResult: computed(() => [
@@ -137,6 +162,7 @@ export default {
       closeMenu: () => (menu.value = false),
       loadNextPage,
       onInput: () => searchDebouncer.debounce(searchEntities),
+      onEntityTypesChange: () => searchDebouncer.debounce(searchEntities),
       updateEntity: (index, entity) =>
         data.value.collection.splice(index, 1, entity),
       getEntityTags: (entity) =>
@@ -164,7 +190,7 @@ export default {
   position: absolute;
   left: 0;
   top: -14px;
-  padding-top: 68px;
+  padding-top: 58px;
   z-index: 10;
   box-shadow: 0 0.7px 2.2px rgba(0, 0, 0, 0.011),
     0 1.7px 5.3px rgba(0, 0, 0, 0.016), 0 3.1px 10px rgba(0, 0, 0, 0.02),

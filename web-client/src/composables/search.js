@@ -11,10 +11,7 @@ export const useSearch = () => {
   const _q = ref("");
   const _pageSize = ref(30);
   const _params = ref({});
-  const search = (
-    q,
-    { pageSize = 30, cursor = _cursor.value, ...params } = {}
-  ) =>
+  const search = (q, { pageSize = 30, cursor = null, ...params } = {}) =>
     request(
       searchCall(q, { pageSize, cursor, ...params }).then(
         ({ data: { collection, cursor, total, facets } }) => {
