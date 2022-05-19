@@ -10,6 +10,7 @@ import NotFound from "@/views/NotFound.vue";
 import entities from "@/router/entities";
 import create from "@/router/create";
 import dashboard from "@/router/dashboard";
+import destroy from "@/router/destroy";
 
 Vue.use(Router);
 
@@ -31,6 +32,7 @@ const router = new Router({
         create,
         ...entities,
         dashboard,
+        destroy,
       ],
     },
     {

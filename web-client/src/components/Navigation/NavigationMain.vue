@@ -74,6 +74,11 @@ export default {
         icon: "dashboard",
         text: "Dashboard",
       },
+      {
+        route: "/destroy-phase",
+        icon: "mdi-delete",
+        text: "Destroy Phase",
+      },
     ],
   }),
   computed: {
