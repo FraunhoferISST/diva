@@ -84,20 +84,6 @@ export default {
     },
   },
   setup(props, { emit }) {
-    const sortByItems = ref([
-      {
-        title: "Relevance",
-        field: "_score",
-      },
-      {
-        title: "Last create",
-        field: "createdAt",
-      },
-      {
-        title: "Last modified",
-        field: "modifiedAt",
-      },
-    ]);
     const computedFacetsOperator = computed({
       get: () => props.facetsOperator,
       set: (val) => emit("update:facetsOperator", val),
@@ -148,7 +134,6 @@ export default {
       searchError,
       computedFacets,
       computedFacetsOperator,
-      sortByItems,
     };
   },
 };

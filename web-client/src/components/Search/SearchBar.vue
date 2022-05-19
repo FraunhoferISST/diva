@@ -86,7 +86,7 @@ export default {
         field: "_score",
       },
       {
-        title: "Last created",
+        title: "Recently created",
         field: "createdAt",
       },
       {
