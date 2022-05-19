@@ -1,7 +1,7 @@
 <template>
   <div class="observer">
-    <div v-if="state.loading" class="d-flex justify-center py-4">
-      <slot>
+    <div v-if="state.loading" class="d-flex justify-center">
+      <slot :changeState="changeState">
         <vue-ellipse-progress
           :progress="0"
           loading
@@ -10,15 +10,15 @@
         />
       </slot>
     </div>
-    <div v-if="state.error" class="d-flex justify-center py-4">
-      <slot name="error">
+    <div v-if="state.error" class="d-flex justify-center">
+      <slot name="error" :changeState="changeState">
         <v-alert dense text color="error">
           Some error occurred while loading data
         </v-alert>
       </slot>
     </div>
     <div v-if="state.completed && !state.error">
-      <slot name="completed"> </slot>
+      <slot name="completed" :changeState="changeState"> </slot>
     </div>
   </div>
 </template>
@@ -46,12 +46,13 @@ export default {
       this.createObserver();
     },
   },
+
   methods: {
     createObserver() {
       this.observer = new IntersectionObserver(([entry]) => {
         if (entry && entry.isIntersecting) {
           if (!this.state.completed) {
-            this.$emit("intersect", this.state);
+            this.$emit("intersect", this.state, this.changeState);
           }
         }
       });
@@ -59,6 +60,9 @@ export default {
     },
     destroyObserver() {
       this.observer.disconnect();
+    },
+    changeState({ loading, error, completed } = this.state) {
+      this.state = { loading, error, completed };
     },
   },
   mounted() {

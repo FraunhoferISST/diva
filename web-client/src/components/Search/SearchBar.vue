@@ -36,7 +36,7 @@
             {{ total }} Item{{ total > 1 ? "s" : "" }}
           </span>
         </div>
-        <div>
+        <div style="max-width: 220px; min-width: 10px; overflow: hidden">
           <v-select
             v-model="computedSortBy"
             dense

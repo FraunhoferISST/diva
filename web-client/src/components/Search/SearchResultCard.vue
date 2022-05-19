@@ -11,27 +11,30 @@
               :entity-title="doc.title || doc.username || 'Some entity'"
             />
           </div>
-          <div class="search-card-info-container">
-            <h1 class="search-card-title">
-              <span v-if="highlightedTitle" v-html="highlightedTitle"></span>
-              <span v-else>{{
-                doc.title || doc.username || "Some entity"
-              }}</span>
-            </h1>
-            <div class="search-card-meta-container mt-1">
-              <div>
-                <v-chip
-                  class="my-0 mr-2 font-weight-bold"
-                  label
-                  color="#eff3f7"
-                  x-small
-                  v-for="label in labels"
-                  :key="label"
-                >
-                  {{ label }}
-                </v-chip>
+          <div class="search-card-info-container d-flex justify-space-between">
+            <div>
+              <h1 class="search-card-title">
+                <span v-if="highlightedTitle" v-html="highlightedTitle"></span>
+                <span v-else>
+                  {{ doc.title || doc.username || "Some entity" }}
+                </span>
+              </h1>
+              <div class="search-card-meta-container mt-1">
+                <div>
+                  <v-chip
+                    class="my-0 mr-2 font-weight-bold"
+                    label
+                    color="#eff3f7"
+                    x-small
+                    v-for="label in labels"
+                    :key="label"
+                  >
+                    {{ label }}
+                  </v-chip>
+                </div>
               </div>
             </div>
+            <entity-like-button :id="doc.id" class="pl-3" />
           </div>
         </div>
         <div class="search-card-content">
@@ -78,10 +81,12 @@ import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import DateDisplay from "@/components/Base/DateDisplay";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
 import MarkdownViewer from "@/components/Base/MarkdownViewer";
+import EntityLikeButton from "@/components/Entity/EntityLikeButton";
 
 export default {
   name: "SearchResultCard",
   components: {
+    EntityLikeButton,
     MarkdownViewer,
     EntityAvatar,
     DateDisplay,
@@ -217,7 +222,7 @@ export default {
 
 @media screen and (max-width: 599px) {
   .search-card-title {
-    @include font-style(1rem, $font_body, normal, $font_primary_color);
+    @include font-style(1.1rem, $font_body, normal, $font_primary_color);
   }
 }
 </style>
