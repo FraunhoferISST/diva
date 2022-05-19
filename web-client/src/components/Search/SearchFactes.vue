@@ -66,7 +66,6 @@
 import { useSchema } from "@/composables/schema";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useSearch } from "@/composables/search";
-import { computed, ref } from "@vue/composition-api";
 import CustomHeader from "@/components/Base/CustomHeader";
 import NoDataState from "@/components/Base/NoDataState";
 import SwitchSlider from "@/components/Base/SwitchSlider";
