@@ -22,7 +22,7 @@
               <custom-header text="Issued from" />
             </v-col>
             <v-col cols="12">
-              <actor-card :actor="creator">
+              <actor-card :actor="creator" :visible="creator.visible">
                 <date-display
                   v-if="historyLog.createdAt"
                   :date="historyLog.createdAt || ''"

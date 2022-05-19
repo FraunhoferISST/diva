@@ -101,7 +101,22 @@ export default {
           const creators = (
             await Promise.all(
               Object.entries(creatorsGroups).map(([collectionName, ids]) =>
-                api[collectionName].getManyById(ids)
+                api[collectionName].getManyById(
+                  ids,
+                  {
+                    fields: "id,title,username,entityType,email,serviceType",
+                  },
+                  {
+                    onIgnoredError: (e, id) => {
+                      if (e?.response?.data?.code === 403) {
+                        return {
+                          id,
+                          visible: false,
+                        };
+                      }
+                    },
+                  }
+                )
               )
             )
           ).flat();
