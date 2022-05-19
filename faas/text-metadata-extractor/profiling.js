@@ -7,9 +7,9 @@ const mapResultProperties = (metadata) => {
   if (metadata["Content-Encoding"])
     result.characterEncoding = metadata["Content-Encoding"];
   if (metadata["dcterms:created"])
-    result.fileCreated = metadata["dcterms:created"];
+    result.fileCreatedAt = metadata["dcterms:created"];
   if (metadata["dcterms:modified"])
-    result.fileModified = metadata["dcterms:modified"];
+    result.fileModifiedAt = metadata["dcterms:modified"];
   if (metadata["Last-Save-Date"])
     result.fileLastSaveDate = metadata["Last-Save-Date"];
   if (metadata["pdf:docinfo:creator_tool"])
