@@ -11,12 +11,11 @@
       />
       <div>
         <div class="d-flex justify-space-between align-center">
-          <custom-header
-            class=""
-            :text="entityTitle"
-            v-if="entityTitle"
-            style="font-size: 1.05rem !important"
-          />
+          <div v-if="entityTitle" style="flex: 1; width: 1px">
+            <h2 class="entity-mini-card-title">
+              {{ entityTitle }}
+            </h2>
+          </div>
           <span
             class="entity-mini-card-title-placeholder d-block pa-2 mt-2 full-width"
             v-else-if="!visible"
@@ -104,6 +103,12 @@ export default {
       background-color: $bg_card_secondary;
     }
   }
+}
+.entity-mini-card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  @include font-style(1.1rem, $font_header, normal, $font_primary_color);
 }
 .entity-mini-card-title-placeholder {
   @include border-radius-half;
