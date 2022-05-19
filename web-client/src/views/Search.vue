@@ -109,7 +109,7 @@ export default {
           facets.value.filter(({ selected }) => selected.length > 0).length > 0
       ),
       searchResult: computed(() => data.value?.collection ?? []),
-      onObserverIntersection: (_, changeStateMethod) => {
+      onObserverIntersection: (changeStateMethod) => {
         if (cursor.value) {
           changeStateMethod({ loading: true });
           loadNextPage().then(() => {

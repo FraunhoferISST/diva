@@ -56,6 +56,8 @@ import { useUser } from "@/composables/user";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useApi } from "@/composables/api";
 import EntityRating from "@/components/Entity/EntityRating";
+import { onMounted, ref } from "@vue/composition-api/dist/vue-composition-api";
+import { computed } from "@vue/composition-api";
 
 export default {
   name: "EntityReviews",
@@ -74,69 +76,24 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
+    const cursor = ref(null);
+    const reviews = ref([]);
     const { request, error, loading } = useRequest();
-    const {
-      reviews: reviewsApi,
-      getEntityApiById,
-      getCollectionNameById,
-    } = useApi();
+    const { reviews: reviewsApi, getCollectionNameById, api } = useApi();
     const { on } = useBus();
     const { user } = useUser();
-    return {
-      error,
-      loading,
-      user,
-      reviewsApi,
-      on,
-      getEntityApiById,
-      getCollectionNameById,
-      request,
-    };
-  },
-  data: () => ({
-    reviews: [],
-  }),
-  computed: {
-    reviewsCount() {
-      return this.reviews.length;
-    },
-  },
-  methods: {
-    loadNextPage(observerState) {
-      if (this.cursor) {
-        observerState.loading = true;
-        this.loadPage()
-          .then(({ collection, cursor }) => {
-            this.reviews.push(...collection);
-            this.cursor = cursor;
-          })
-          .catch((e) => {
-            observerState.error = true;
-            throw e;
-          })
-          .finally(() => (observerState.loading = false));
-      }
-    },
-    loadFirstPage() {
-      return this.request(
-        this.loadPage(null).then(({ cursor, collection }) => {
-          this.reviews = collection;
-          this.cursor = cursor;
-        })
-      );
-    },
-    async loadPage(cursor = this.cursor) {
-      return this.reviewsApi
+    const loadPage = (_cursor = cursor.value) =>
+      reviewsApi
         .get({
-          pageSize: 30,
-          attributedTo: this.id,
-          ...(cursor ? { cursor } : {}),
+          pageSize: 50,
+          attributedTo: props.id,
+          ...(_cursor ? { _cursor } : {}),
         })
-        .then(async ({ data: { collection, cursor } }) => {
+        .then(async ({ data: { collection, cursor: c } }) => {
           const creatorsGroups = collection.reduce((group, entry) => {
             const { creatorId } = entry;
-            const collectionName = this.getCollectionNameById(creatorId);
+            const collectionName = getCollectionNameById(creatorId);
             group[collectionName] = group[collectionName] ?? [];
             group[collectionName].push(creatorId);
             return group;
@@ -144,30 +101,59 @@ export default {
           const creators = (
             await Promise.all(
               Object.entries(creatorsGroups).map(([collectionName, ids]) =>
-                this.$api[collectionName].getManyById(ids)
+                api[collectionName].getManyById(ids)
               )
             )
           ).flat();
-          const reviewsWithCreators = collection.map((review) => ({
-            ...review,
-            creator: creators.find(({ id }) => id === review.creatorId),
+          const reviewsWithCreators = collection.map((entry) => ({
+            ...entry,
+            creator: creators.find(({ id }) => id === entry.creatorId) ?? {},
           }));
           return {
             collection: reviewsWithCreators,
-            cursor,
+            cursor: c,
           };
         });
-    },
-    onPatch(index, review) {
-      this.reviews.splice(index, 1, review);
-    },
-    onDelete(index) {
-      this.reviews.splice(index, 1);
-    },
-  },
-  mounted() {
-    this.loadFirstPage();
-    this.on("reload", () => this.loadFirstPage());
+    const loadFirstPage = () =>
+      request(
+        loadPage(null).then(({ collection, cursor: c }) => {
+          reviews.value = collection;
+          cursor.value = c;
+        })
+      );
+    onMounted(() => {
+      loadFirstPage();
+      on("reload", loadFirstPage);
+    });
+    return {
+      reviews,
+      error,
+      loading,
+      user,
+      reviewsCount: computed(() => reviews.value.length),
+      loadNextPage: (changeStateMethod) => {
+        if (cursor.value) {
+          changeStateMethod({ loading: true });
+          loadPage()
+            .then(({ collection, cursor: c }) => {
+              reviews.value.push(...collection);
+              cursor.value = c;
+              if (!cursor.value) {
+                changeStateMethod({ completed: true });
+              }
+            })
+            .catch((e) => {
+              changeStateMethod({ error: true, loading: false });
+              throw e;
+            })
+            .finally(() => changeStateMethod({ loading: false }));
+        }
+      },
+      onPatch: (index, review) => {
+        reviews.value.splice(index, 1, review);
+      },
+      onDelete: (index) => reviews.value.splice(index, 1),
+    };
   },
 };
 </script>

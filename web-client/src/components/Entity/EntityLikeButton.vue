@@ -39,6 +39,8 @@ import { useRequest } from "@/composables/request";
 import { useSnackbar } from "@/composables/snackbar";
 import { ref } from "@vue/composition-api";
 import { useApi } from "@/composables/api";
+import { onMounted } from "@vue/composition-api/dist/vue-composition-api";
+import { useBus } from "@/composables/bus";
 
 export default {
   name: "EntityLikeButton",
@@ -56,6 +58,7 @@ export default {
   setup(props) {
     const isLikedByUser = ref(false);
     const likeEdge = ref(null);
+    const { on } = useBus();
     const { request, loading, error } = useRequest();
     const { datanetwork } = useApi();
     const {
@@ -65,7 +68,8 @@ export default {
     } = useRequest();
     const { snackbar, show, color, message } = useSnackbar();
     const { user } = useUser();
-    const likeEntity = (props) =>
+
+    const likeEntity = () =>
       datanetwork
         .createEdge({
           from: user.value.id,
@@ -78,28 +82,40 @@ export default {
             id: newEdgeId,
           };
         });
+
     const dislikeEntity = () =>
       datanetwork
         .deleteEdgeById(likeEdge.value.id)
         .then(() => (isLikedByUser.value = false))
         .then(() => (likeEdge.value = null));
-    request(
-      datanetwork
-        .getEdges({
-          from: user.value.id,
-          edgeTypes: "likes",
-          to: props.id,
-        })
-        .then(({ data }) => {
-          if (data.collection.length > 0) {
-            isLikedByUser.value = true;
-            likeEdge.value = {
-              ...data.collection[0],
-              id: data.collection[0]?.properties?.id,
-            };
-          }
-        })
-    );
+
+    const checkIfIsLikedByUser = () =>
+      request(
+        datanetwork
+          .getEdges({
+            from: user.value.id,
+            edgeTypes: "likes",
+            to: props.id,
+          })
+          .then(({ data }) => {
+            isLikedByUser.value = data.collection.length > 0;
+            if (data.collection.length > 0) {
+              likeEdge.value = {
+                ...data.collection[0],
+                id: data.collection[0]?.properties?.id,
+              };
+            } else {
+              likeEdge.value = null;
+            }
+          })
+      );
+
+    checkIfIsLikedByUser();
+
+    onMounted(() => {
+      on("reload", checkIfIsLikedByUser);
+    });
+
     return {
       loading,
       error,

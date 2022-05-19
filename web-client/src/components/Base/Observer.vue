@@ -52,7 +52,7 @@ export default {
       this.observer = new IntersectionObserver(([entry]) => {
         if (entry && entry.isIntersecting) {
           if (!this.state.completed) {
-            this.$emit("intersect", this.state, this.changeState);
+            this.$emit("intersect", this.changeState);
           }
         }
       });
