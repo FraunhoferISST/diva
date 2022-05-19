@@ -10,28 +10,61 @@
               :image-id="doc.entityIcon || ''"
               :entity-title="doc.title || doc.username || 'Some entity'"
             />
-          </div>
-          <div class="search-card-info-container">
-            <h1 class="search-card-title">
-              <span v-if="highlightedTitle" v-html="highlightedTitle"></span>
-              <span v-else>{{
-                doc.title || doc.username || "Some entity"
-              }}</span>
-            </h1>
-            <div class="search-card-meta-container mt-1">
-              <div>
-                <v-chip
-                  class="my-0 mr-2 font-weight-bold"
-                  label
-                  color="#eff3f7"
-                  x-small
-                  v-for="label in labels"
-                  :key="label"
+            <v-tooltip
+              max-width="300"
+              bottom
+              :open-delay="600"
+              v-if="doc.isPrivate || !userHasAccess"
+            >
+              <template #activator="{ on, attrs }">
+                <v-icon
+                  class="entity-private-icon"
+                  :color="userHasAccess ? 'primary' : 'error'"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                  small
                 >
-                  {{ label }}
-                </v-chip>
+                  lock
+                </v-icon>
+              </template>
+              <span>
+                {{
+                  !userHasAccess
+                    ? "Access to this entity is restricted for you by system policies"
+                    : "Entity is private"
+                }}
+              </span>
+            </v-tooltip>
+          </div>
+          <div class="search-card-info-container d-flex justify-space-between">
+            <div style="min-width: 0">
+              <h1 class="search-card-title">
+                <span v-if="highlightedTitle" v-html="highlightedTitle"></span>
+                <span v-else>
+                  {{ doc.title || doc.username || "Some entity" }}
+                </span>
+              </h1>
+              <div class="search-card-meta-container mt-1">
+                <div>
+                  <v-chip
+                    class="my-0 mr-2 font-weight-bold"
+                    label
+                    color="#eff3f7"
+                    x-small
+                    v-for="label in labels"
+                    :key="label"
+                  >
+                    {{ label }}
+                  </v-chip>
+                </div>
               </div>
             </div>
+            <entity-like-button
+              :id="doc.id"
+              class="pl-3"
+              v-if="userHasAccess"
+            />
           </div>
         </div>
         <div class="search-card-content">
@@ -78,10 +111,13 @@ import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import DateDisplay from "@/components/Base/DateDisplay";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
 import MarkdownViewer from "@/components/Base/MarkdownViewer";
-
+import EntityLikeButton from "@/components/Entity/EntityLikeButton";
+import { useApi } from "@/composables/api";
+import { ref } from "@vue/composition-api";
 export default {
   name: "SearchResultCard",
   components: {
+    EntityLikeButton,
     MarkdownViewer,
     EntityAvatar,
     DateDisplay,
@@ -94,6 +130,16 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  setup(props) {
+    const userHasAccess = ref(true);
+    const { entityApi } = useApi(props.data.doc.id);
+    entityApi
+      .getById(props.data.doc.id, { fields: "id" })
+      .catch((e) => (userHasAccess.value = !(e?.response?.data?.code === 403)));
+    return {
+      userHasAccess,
+    };
   },
   computed: {
     highlightedTitle() {
@@ -215,9 +261,18 @@ export default {
   gap: 10px;
 }
 
+.entity-private-icon {
+  padding: 4px;
+  border-radius: 20px;
+  background-color: white;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 @media screen and (max-width: 599px) {
   .search-card-title {
-    @include font-style(1rem, $font_body, normal, $font_primary_color);
+    @include font-style(1.1rem, $font_body, normal, $font_primary_color);
   }
 }
 </style>

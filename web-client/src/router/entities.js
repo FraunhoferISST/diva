@@ -14,6 +14,16 @@ import EntityDetails from "@/views/EntityDetails";
 import EntityGeneral from "@/components/Entity/EntityCommonComponents/General/EntityGeneral";
 import EntityDataNetwork from "@/components/DataNetwork/EntityDataNetwork";
 
+import defaultEntityDetailsRoutes from "@/utils/defaultEntityDetailsRoutes";
+
+const generateDefaultEntityDetailsRoutes = (prefix = "entity", filterBy = []) =>
+  defaultEntityDetailsRoutes
+    .map(({ name, ...rest }) => ({
+      ...rest,
+      name: `${name.replace("entity", prefix)}`,
+    }))
+    .filter(({ title }) => !filterBy.includes(title));
+
 const ASSET_PREFIX = "asset";
 const RESOURCE_PREFIX = "resource";
 const USER_PREFIX = "user";
@@ -51,7 +61,7 @@ const entityRoutesFactory = ({
   prefix = ENTITY_PREFIX,
   startView = EntityDetails,
   generalView = EntityGeneral,
-  routes = undefined,
+  routes = defaultEntityDetailsRoutes,
 } = {}) => {
   return {
     path: `${collection}/:id`,
@@ -80,11 +90,7 @@ const resourceConfig = entityRoutesFactory({
   collection: "resources",
   prefix: RESOURCE_PREFIX,
   routes: [
-    {
-      title: "Overview",
-      icon: "short_text",
-      name: "resource_details_general",
-    },
+    ...generateDefaultEntityDetailsRoutes(RESOURCE_PREFIX),
     {
       title: "Costs",
       icon: "attach_money",
@@ -99,21 +105,6 @@ const resourceConfig = entityRoutesFactory({
       title: "Sample",
       icon: "description",
       name: "resource_details_sample",
-    },
-    {
-      title: "History",
-      icon: "history",
-      name: "resource_details_history",
-    },
-    {
-      title: "Reviews",
-      icon: "question_answer",
-      name: "resource_details_reviews",
-    },
-    {
-      title: "Data Network",
-      icon: "timeline",
-      name: "resource_details_datanetwork",
     },
   ],
 });
@@ -137,35 +128,16 @@ const assetConfig = entityRoutesFactory({
   collection: "assets",
   prefix: ASSET_PREFIX,
   routes: [
-    {
-      title: "General",
-      icon: "short_text",
-      name: "asset_details_general",
-    },
+    ...generateDefaultEntityDetailsRoutes(ASSET_PREFIX),
     {
       title: "Costs",
       icon: "attach_money",
       name: "asset_details_costs",
     },
     {
-      title: "History",
-      icon: "history",
-      name: "asset_details_history",
-    },
-    {
-      title: "Reviews",
-      icon: "question_answer",
-      name: "asset_details_reviews",
-    },
-    {
       title: "Entities",
       icon: "topic",
       name: "asset_details_entities",
-    },
-    {
-      title: "Data Network",
-      icon: "insights",
-      name: "asset_details_datanetwork",
     },
   ],
 });
@@ -182,25 +154,11 @@ const usersConfig = entityRoutesFactory({
   prefix: USER_PREFIX,
   generalView: UserGeneral,
   routes: [
-    {
-      title: "Overview",
-      icon: "short_text",
-      name: "user_details_general",
-    },
-    {
-      title: "History",
-      icon: "history",
-      name: "user_details_history",
-    },
+    ...generateDefaultEntityDetailsRoutes(USER_PREFIX, ["Reviews"]),
     {
       title: "Activities",
       icon: "bolt",
       name: "user_details_activities",
-    },
-    {
-      title: "Data Network",
-      icon: "timeline",
-      name: "user_details_datanetwork",
     },
   ],
 });

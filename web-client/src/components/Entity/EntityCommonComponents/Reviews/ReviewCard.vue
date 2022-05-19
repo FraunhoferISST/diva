@@ -1,7 +1,11 @@
 <template>
   <div class="comment">
     <div class="comment-header d-flex justify-space-between align-center">
-      <actor-card dense :actor="review.creator">
+      <actor-card
+        dense
+        :actor="review.creator"
+        :visible="review.creator.visible"
+      >
         <template #info>
           <div class="d-flex align-center">
             <v-rating
@@ -134,7 +138,7 @@ export default {
       patchReview: (reviewData) =>
         request(reviewsApi.patch(props.review.id, reviewData)).then(() => {
           if (error.value) {
-            return show(error.value.response?.data?.message ?? error.value, {
+            return show(error.value?.response?.data?.message ?? error.value, {
               color: "error",
             });
           }
@@ -145,7 +149,7 @@ export default {
       deleteReview: () =>
         request(reviewsApi.delete(props.review.id)).then(() => {
           if (error.value) {
-            return show(error.value.response?.data?.message ?? error.value, {
+            return show(error.value?.response?.data?.message ?? error.value, {
               color: "error",
             });
           }

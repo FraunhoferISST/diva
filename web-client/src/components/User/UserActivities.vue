@@ -1,14 +1,16 @@
 <template>
   <section id="user-activities">
-    <v-tabs v-model="tab" background-color="white" show-arrows>
-      <v-tabs-slider></v-tabs-slider>
-      <v-tab v-for="(tab, i) in tabs" :key="i">
-        <v-icon small class="mr-md-2">
-          {{ tab.icon }}
-        </v-icon>
-        <span class="d-none d-md-inline">{{ tab.title }}</span>
-      </v-tab>
-    </v-tabs>
+    <v-container fluid class="pa-0">
+      <v-tabs v-model="tab" background-color="white" show-arrows>
+        <v-tabs-slider></v-tabs-slider>
+        <v-tab v-for="(tab, i) in tabs" :key="i">
+          <v-icon small class="mr-md-2">
+            {{ tab.icon }}
+          </v-icon>
+          <span class="d-none d-md-inline">{{ tab.title }}</span>
+        </v-tab>
+      </v-tabs>
+    </v-container>
 
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="tab in tabs" :key="tab.title">

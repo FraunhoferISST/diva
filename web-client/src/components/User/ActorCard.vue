@@ -50,6 +50,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    visible: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup() {
     const { user } = useUser();
@@ -65,12 +69,12 @@ export default {
       if (this.user.id === this.actorId) {
         return "You";
       }
-      return (
-        this.actor.username ??
-        this.actor.serviceName ??
-        this.actor.title ??
-        "N/A"
-      );
+      return !this.visible
+        ? "Actor with Restricted access"
+        : this.actor.username ??
+            this.actor.serviceName ??
+            this.actor.title ??
+            "N/A";
     },
     imageId() {
       return this.actor.entityIcon ?? "";

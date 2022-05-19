@@ -6,7 +6,7 @@
         :sort-by.sync="sortBy"
         :loading="loading"
         :total="total"
-        @input="loadFirstSearchPage"
+        @input="() => searchEntities(term)"
         @toggleFacets="facetsDrawer = !facetsDrawer"
       />
       <div class="search-container">
@@ -30,7 +30,7 @@
           :facets-operator.sync="facetsOperator"
         />
         <data-viewer :loading="false" :error="error">
-          <search-result v-if="items.length > 0" :items="items" />
+          <search-result v-if="searchResult.length > 0" :items="searchResult" />
           <div v-else-if="!loading" class="text-center">
             <p class="ma-0 pa-16 pb-3 text-center">
               <span class="d-inline-block" style="max-width: 400px">
@@ -49,27 +49,17 @@
               <v-icon class="ml-2" dense> add </v-icon>
             </v-btn>
           </div>
+          <observer
+            class="py-4"
+            v-if="searchResult.length > 0"
+            @intersect="onObserverIntersection"
+          >
+            <template #completed>
+              <p class="ma-0 text-center">All results loaded</p>
+            </template>
+          </observer>
         </data-viewer>
       </div>
-      <observer
-        v-if="items.length > 0 && !loading"
-        style="height: 1px"
-        @intersect="loadNextPage"
-      >
-        <template #error>
-          <v-alert dense text color="error">
-            Some error occurred while loading data!
-            <p class="text-center mb-0 mt-1">
-              <v-btn x-small rounded color="primary" @click="loadNextPage">
-                Try again
-              </v-btn>
-            </p>
-          </v-alert>
-        </template>
-        <template #completed>
-          <p class="text-center py-10">All results loaded</p>
-        </template>
-      </observer>
     </v-container>
   </section>
 </template>
@@ -99,9 +89,9 @@ export default {
     const facets = ref([]);
     const facetsOperator = ref("Must");
     const sortBy = ref("_score");
-    const items = ref([]);
-    const pageSize = ref(30);
-    const { search, data, loading, error, cursor, total } = useSearch();
+    const pageSize = ref(10);
+    const { search, loadNextPage, data, loading, error, cursor, total } =
+      useSearch();
     return {
       pageSize,
       loading,
@@ -109,7 +99,6 @@ export default {
       cursor,
       data,
       total,
-      items,
       facets,
       facetsDrawer,
       offsetTop,
@@ -120,6 +109,17 @@ export default {
           facets.value.filter(({ selected }) => selected.length > 0).length > 0
       ),
       searchResult: computed(() => data.value?.collection ?? []),
+      onObserverIntersection: (changeStateMethod) => {
+        if (cursor.value) {
+          changeStateMethod({ loading: true });
+          loadNextPage().then(() => {
+            changeStateMethod({ loading: false });
+            if (!cursor.value) {
+              changeStateMethod({ completed: true });
+            }
+          });
+        }
+      },
       searchEntities: (input) =>
         search(input, {
           pageSize: pageSize.value,
@@ -134,18 +134,19 @@ export default {
           facetsOperator: camelCase(facetsOperator.value.trim()),
           sortBy: sortBy.value,
         }),
+      loadNextPage,
     };
   },
   watch: {
     facetsOperator() {
-      this.loadFirstSearchPage(this.term, this.facets);
+      this.searchEntities(this.term);
     },
     sortBy() {
-      this.loadFirstSearchPage(this.term, this.facets);
+      this.searchEntities(this.term);
     },
     facets: {
       handler() {
-        this.loadFirstSearchPage(this.term, this.facets);
+        this.searchEntities(this.term);
       },
       deep: true,
     },
@@ -172,7 +173,7 @@ export default {
     },
   },
   methods: {
-    setRouteParams(/*facets = []*/) {
+    setRouteParams() {
       this.$router.replace({
         name: "search",
         query: {
@@ -183,35 +184,12 @@ export default {
     onScroll(e) {
       this.offsetTop = e.target.scrollTop;
     },
-    loadNextPage(observerState) {
-      if (this.cursor) {
-        observerState.loading = true;
-        this.loadSearchPage().then(() => {
-          observerState.loading = false;
-          if (!this.cursor) {
-            observerState.completed = true;
-          }
-        });
-      }
-    },
-    loadFirstSearchPage(facets = []) {
-      this.cursor = null;
-      return this.searchEntities(this.term.trim(), facets).then(
-        () => (this.items = this.searchResult)
-      );
-    },
-    loadSearchPage() {
-      return this.searchEntities(this.term.trim(), this.facets).then(() =>
-        this.items.push(...this.searchResult)
-      );
-    },
   },
   mounted() {
     if (this.$route.query.term) {
       this.term = this.$route.query.term;
-      return this.loadFirstSearchPage();
     }
-    this.loadFirstSearchPage();
+    this.searchEntities(this.term);
   },
 };
 </script>
@@ -223,6 +201,7 @@ export default {
 .search-container {
   display: grid;
   grid-template-columns: 380px 1fr;
+  padding-bottom: 100px;
 }
 @media screen and (max-width: 1263px) {
   .search-container {

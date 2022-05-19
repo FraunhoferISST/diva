@@ -18,6 +18,7 @@ export const useApi = (id = null) => {
     imageUrl = buildImageUrl(entityCollection, id);
   }
   return {
+    api,
     entityApi,
     entityCollection,
     imageUrl,

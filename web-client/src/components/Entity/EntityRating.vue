@@ -118,7 +118,7 @@ export default {
           reviewsCount.value = rc;
         });
     request(loadRating());
-    on("reload", () => setTimeout(reloadReq(loadRating()), 2000));
+    on("reload", () => setTimeout(() => reloadReq(loadRating()), 2000));
     return {
       emptyColorFill,
       avgRating,

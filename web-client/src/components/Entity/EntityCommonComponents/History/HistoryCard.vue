@@ -7,7 +7,11 @@
       ></div>
       <div class="history-card">
         <div class="history-info-container d-flex justify-space-between">
-          <actor-card :actor="data.creator" dense>
+          <actor-card
+            :actor="data.creator"
+            dense
+            :visible="data.creator.visible"
+          >
             <span class="ml-3">
               {{ actionType }}
             </span>

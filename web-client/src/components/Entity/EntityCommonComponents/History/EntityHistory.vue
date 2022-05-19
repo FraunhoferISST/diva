@@ -8,18 +8,18 @@
       <data-viewer :loading="loading" :error="error">
         <template>
           <v-container fluid class="pa-0">
-            <v-row v-if="history.length > 0">
+            <v-row v-if="historyEntries.length > 0">
               <v-col
                 cols="12"
-                v-for="(historyLog, i) in history"
+                v-for="(historyLog, i) in historyEntries"
                 :key="historyLog.id"
               >
                 <history-card
                   :data="historyLog"
-                  :last="i === history.length - 1"
+                  :last="i === historyEntries.length - 1"
                   :first="i === 0"
                   :position="i"
-                  :count="history.length"
+                  :count="historyEntries.length"
                   @selected="selectHistoryLog(historyLog)"
                 />
               </v-col>
@@ -45,6 +45,7 @@ import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useRequest } from "@/composables/request";
 import { useBus } from "@/composables/bus";
 import { useApi } from "@/composables/api";
+import { onMounted, ref } from "@vue/composition-api";
 
 export default {
   name: "EntityHistory",
@@ -62,61 +63,26 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
+    const cursor = ref(null);
+    const historyEntries = ref([]);
+    const selectedLog = ref({});
+    const showDetails = ref(false);
     const { request, error, loading } = useRequest();
-    const { getEntityApiById, getCollectionNameById } = useApi();
+    const { history, getCollectionNameById, api } = useApi();
     const { on } = useBus();
-    return {
-      error,
-      loading,
-      on,
-      getEntityApiById,
-      getCollectionNameById,
-      request,
-    };
-  },
-  data: () => ({
-    selectedLog: {},
-    showDetails: false,
-    history: [],
-    cursor: "",
-  }),
-  methods: {
-    loadNextPage(observerState) {
-      if (this.cursor) {
-        observerState.loading = true;
-        this.loadPage()
-          .then(({ collection, cursor }) => {
-            this.history.push(...collection);
-            this.cursor = cursor;
-          })
-          .catch((e) => {
-            observerState.error = true;
-            throw e;
-          })
-          .finally(() => (observerState.loading = false));
-      }
-    },
-    loadFirstPage() {
-      return this.request(
-        this.loadPage(null).then(({ collection, cursor }) => {
-          this.history = collection;
-          this.cursor = cursor;
-        })
-      );
-    },
-    loadPage(cursor = this.cursor) {
-      return this.$api.history
+    const loadPage = (_cursor = cursor.value) =>
+      history
         .getHistories({
           pageSize: 50,
-          attributedTo: this.id,
+          attributedTo: props.id,
           humanReadable: true,
-          ...(cursor ? { cursor } : {}),
+          ...(_cursor ? { _cursor } : {}),
         })
-        .then(async ({ data: { collection, cursor } }) => {
+        .then(async ({ data: { collection, cursor: c } }) => {
           const creatorsGroups = collection.reduce((group, entry) => {
             const { creatorId } = entry;
-            const collectionName = this.getCollectionNameById(creatorId);
+            const collectionName = getCollectionNameById(creatorId);
             group[collectionName] = group[collectionName] ?? [];
             group[collectionName].push(creatorId);
             return group;
@@ -124,7 +90,22 @@ export default {
           const creators = (
             await Promise.all(
               Object.entries(creatorsGroups).map(([collectionName, ids]) =>
-                this.$api[collectionName].getManyById(ids)
+                api[collectionName].getManyById(
+                  ids,
+                  {
+                    fields: "id,title,username,entityType,email,serviceType",
+                  },
+                  {
+                    onIgnoredError: (e, id) => {
+                      if (e?.response?.data?.code === 403) {
+                        return {
+                          id,
+                          visible: false,
+                        };
+                      }
+                    },
+                  }
+                )
               )
             )
           ).flat();
@@ -134,18 +115,52 @@ export default {
           }));
           return {
             collection: historiesWithCreators,
-            cursor,
+            cursor: c,
           };
         });
-    },
-    selectHistoryLog(log) {
-      this.selectedLog = log;
-      this.showDetails = true;
-    },
-  },
-  mounted() {
-    this.loadFirstPage();
-    this.on("reload", this.loadFirstPage);
+
+    const loadFirstPage = () =>
+      request(
+        loadPage(null).then(({ collection, cursor: c }) => {
+          historyEntries.value = collection;
+          cursor.value = c;
+        })
+      );
+
+    onMounted(() => {
+      loadFirstPage();
+      on("reload", loadFirstPage);
+    });
+
+    return {
+      historyEntries,
+      selectedLog,
+      showDetails,
+      error,
+      loading,
+      loadNextPage: (changeStateMethod) => {
+        if (cursor.value) {
+          changeStateMethod({ loading: true });
+          loadPage()
+            .then(({ collection, cursor: c }) => {
+              history.value.push(...collection);
+              cursor.value = c;
+              if (!cursor.value) {
+                changeStateMethod({ completed: true });
+              }
+            })
+            .catch((e) => {
+              changeStateMethod({ error: true, loading: false });
+              throw e;
+            })
+            .finally(() => changeStateMethod({ loading: false }));
+        }
+      },
+      selectHistoryLog: (log) => {
+        selectedLog.value = log;
+        showDetails.value = true;
+      },
+    };
   },
 };
 </script>

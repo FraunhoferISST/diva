@@ -1,11 +1,7 @@
 <template>
   <div class="relative">
     <data-viewer :loading="loading" :error="error">
-      <slot
-        :toggleLike="toggleLike"
-        :like="likeEntity"
-        :dislike="dislikeEntity"
-      >
+      <slot :toggleLike="toggleLike">
         <v-btn
           color="red"
           icon
@@ -41,6 +37,10 @@ import { useUser } from "@/composables/user";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useRequest } from "@/composables/request";
 import { useSnackbar } from "@/composables/snackbar";
+import { ref } from "@vue/composition-api";
+import { useApi } from "@/composables/api";
+import { onMounted } from "@vue/composition-api/dist/vue-composition-api";
+import { useBus } from "@/composables/bus";
 
 export default {
   name: "EntityLikeButton",
@@ -50,9 +50,17 @@ export default {
       type: String,
       required: true,
     },
+    ignoreErrors: {
+      type: Boolean,
+      default: false,
+    },
   },
-  setup() {
+  setup(props) {
+    const isLikedByUser = ref(false);
+    const likeEdge = ref(null);
+    const { on } = useBus();
     const { request, loading, error } = useRequest();
+    const { datanetwork } = useApi();
     const {
       request: toggleReq,
       loading: toggleLoading,
@@ -60,86 +68,83 @@ export default {
     } = useRequest();
     const { snackbar, show, color, message } = useSnackbar();
     const { user } = useUser();
+
+    const likeEntity = () =>
+      datanetwork
+        .createEdge({
+          from: user.value.id,
+          edgeType: "likes",
+          to: props.id,
+        })
+        .then(({ data: newEdgeId }) => {
+          isLikedByUser.value = true;
+          likeEdge.value = {
+            id: newEdgeId,
+          };
+        });
+
+    const dislikeEntity = () =>
+      datanetwork
+        .deleteEdgeById(likeEdge.value.id)
+        .then(() => (isLikedByUser.value = false))
+        .then(() => (likeEdge.value = null));
+
+    const checkIfIsLikedByUser = () =>
+      request(
+        datanetwork
+          .getEdges({
+            from: user.value.id,
+            edgeTypes: "likes",
+            to: props.id,
+          })
+          .then(({ data }) => {
+            isLikedByUser.value = data.collection.length > 0;
+            if (data.collection.length > 0) {
+              likeEdge.value = {
+                ...data.collection[0],
+                id: data.collection[0]?.properties?.id,
+              };
+            } else {
+              likeEdge.value = null;
+            }
+          })
+      );
+
+    checkIfIsLikedByUser();
+
+    onMounted(() => {
+      on("reload", checkIfIsLikedByUser);
+    });
+
     return {
-      request,
       loading,
       error,
-      user,
       snackbar,
-      show,
       color,
       message,
       toggleError,
       toggleLoading,
-      toggleReq,
-    };
-  },
-  data: () => ({
-    isLikedByUser: false,
-    likeEdge: null,
-  }),
-  methods: {
-    toggleLike() {
-      let promise = null;
-      if (this.isLikedByUser) {
-        promise = this.dislikeEntity();
-      } else {
-        promise = this.likeEntity();
-      }
-      return this.toggleReq(promise).then(() => {
-        if (this.toggleError) {
-          this.show(
-            `${
-              this.toggleError?.response?.data?.message ??
-              this.toggleError.toString()
-            }. Please try again later`,
-            { color: "error" }
-          );
+      isLikedByUser,
+      show,
+      toggleLike: () => {
+        let promise = null;
+        if (isLikedByUser.value) {
+          promise = dislikeEntity();
+        } else {
+          promise = likeEntity();
         }
-      });
-    },
-    likeEntity() {
-      return this.$api.datanetwork
-        .createEdge({
-          from: this.user.id,
-          edgeType: "likes",
-          to: this.id,
-        })
-        .then(({ data: newEdgeId }) => {
-          this.isLikedByUser = true;
-          this.likeEdge = {
-            id: newEdgeId,
-          };
+        return toggleReq(promise).then(() => {
+          if (toggleError.value) {
+            show(
+              `${
+                toggleError.value?.response?.data?.message ?? toggleError.value
+              }. Please try again later`,
+              { color: "error" }
+            );
+          }
         });
-    },
-    dislikeEntity() {
-      return this.$api.datanetwork
-        .deleteEdgeById(this.likeEdge.id)
-        .then(() => (this.isLikedByUser = false))
-        .then(() => (this.likeEdge = null));
-    },
-    checkIfIsLikedByUser() {
-      return this.request(
-        this.$api.datanetwork
-          .getEdges({
-            from: this.user.id,
-            edgeTypes: "likes",
-            to: this.id,
-          })
-          .then(({ data }) => {
-            if (data.collection.length > 0) {
-              this.isLikedByUser = true;
-              this.likeEdge = {
-                ...data.collection[0],
-                id: data.collection[0]?.properties?.id,
-              };
-            }
-          })
-      );
-    },
-  },
-  mounted() {
-    this.checkIfIsLikedByUser();
+      },
+    };
   },
 };
 </script>

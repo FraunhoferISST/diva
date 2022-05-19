@@ -10,7 +10,15 @@
     },
     {
       "key": "mimeType",
+      "value": "text/plain"
+    },
+    {
+      "key": "mimeType",
       "value": "application/x-sas-data"
+    },
+    {
+      "key": "mimeType",
+      "value": "application/pdf"
     },
     {
       "key": "mimeType",
