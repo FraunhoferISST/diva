@@ -251,7 +251,7 @@ services:
       <<: *policies-env
       NODE_ENV: production
       PORT: ${HISTORY_ASSISTANT_PORT}
-      IGNORE_FIELDS: "[\"modified\"]"
+      IGNORE_FIELDS: "[\"modifiedAt\"]"
     restart: always
     depends_on:
       - documentstore
