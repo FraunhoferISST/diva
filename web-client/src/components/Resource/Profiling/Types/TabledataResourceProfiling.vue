@@ -41,7 +41,11 @@
         <custom-header>Schema</custom-header>
       </v-col>
       <v-col cols="12">
-        <csv-network v-if="schema.length > 1" :nodes="schema" height="620" />
+        <table-data-network
+          v-if="schema.length > 1"
+          :nodes="schema"
+          height="620"
+        />
         <no-data-state v-else slot="body"></no-data-state>
       </v-col>
     </v-row>
@@ -60,27 +64,14 @@
         </v-row>
       </v-col>
     </v-row>
-    <!--    <v-row>
-      <v-col cols="12">
-        <card header="Estimated personal data privacy">
-          <personal-data-evaluation
-            v-if="data.personalData"
-            slot="body"
-            :data="data.personalData"
-          />
-          <no-data-state v-else slot="body"></no-data-state>
-        </card>
-      </v-col>
-    </v-row>-->
   </v-container>
 </template>
 
 <script>
-import CsvNetwork from "@/components/Charts/CsvNetwork";
+import TableDataNetwork from "@/components/Charts/TableDataNetwork";
 import NoDataState from "@/components/Base/NoDataState";
 import TableDataProfilingTable from "@/components/Tables/TableDataProfilingTable";
 import ProgressCircle from "@/components/Charts/ProgressCircle";
-// import PersonalDataEvaluation from "@/components/Resource/Profiling/Common/PersonalDataEvaluation";
 import MetaData from "@/components/Resource/Profiling/Common/MetaData";
 import CustomHeader from "@/components/Base/CustomHeader";
 
@@ -89,11 +80,10 @@ export default {
   components: {
     CustomHeader,
     MetaData,
-    /*PersonalDataEvaluation,*/
     ProgressCircle,
     TableDataProfilingTable,
     NoDataState,
-    CsvNetwork,
+    TableDataNetwork,
   },
   props: {
     data: {

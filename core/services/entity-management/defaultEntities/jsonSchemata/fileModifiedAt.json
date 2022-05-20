@@ -1,7 +1,7 @@
 {
   "id": "schema:uuid:5aec03cd-ab62-4d8b-acec-41ca50ef1415",
   "title": "Last modified",
-  "schemaName": "fileModified",
+  "schemaName": "fileModifiedAt",
   "description": "Date the file was modified",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
@@ -17,7 +17,7 @@
     "type": "object",
     "title": "Last modified",
     "properties": {
-      "fileModified": {
+      "fileModifiedAt": {
         "type": "string",
         "title": "Last modified",
         "description": "Date the file was modified",

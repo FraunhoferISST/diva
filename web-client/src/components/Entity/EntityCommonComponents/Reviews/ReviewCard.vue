@@ -1,7 +1,11 @@
 <template>
   <div class="comment">
     <div class="comment-header d-flex justify-space-between align-center">
-      <actor-card dense :actor="review.creator">
+      <actor-card
+        dense
+        :actor="review.creator"
+        :visible="review.creator.visible"
+      >
         <template #info>
           <div class="d-flex align-center">
             <v-rating
@@ -67,7 +71,13 @@
       <template>
         Are you sure you want to delete your review? The changes cannot be
         rolled back!
-        <v-snackbar text :color="color" v-model="snackbar" absolute>
+        <v-snackbar
+          text
+          :color="color"
+          v-model="snackbar"
+          absolute
+          v-if="showConfirmationDialog"
+        >
           {{ message }}
         </v-snackbar>
       </template>
@@ -83,6 +93,16 @@
         </v-btn>
       </template>
     </confirmation-dialog>
+    <v-snackbar
+      text
+      :color="color"
+      v-model="snackbar"
+      absolute
+      top
+      v-if="!showConfirmationDialog"
+    >
+      {{ message }}
+    </v-snackbar>
   </div>
 </template>
 
@@ -134,7 +154,7 @@ export default {
       patchReview: (reviewData) =>
         request(reviewsApi.patch(props.review.id, reviewData)).then(() => {
           if (error.value) {
-            return show(error.value.response?.data?.message ?? error.value, {
+            return show(error.value?.response?.data?.message ?? error.value, {
               color: "error",
             });
           }
@@ -145,7 +165,7 @@ export default {
       deleteReview: () =>
         request(reviewsApi.delete(props.review.id)).then(() => {
           if (error.value) {
-            return show(error.value.response?.data?.message ?? error.value, {
+            return show(error.value?.response?.data?.message ?? error.value, {
               color: "error",
             });
           }

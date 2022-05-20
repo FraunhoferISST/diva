@@ -134,21 +134,12 @@ module.exports = async (server) => {
     await service.init().then(async () => {
       await service.loadDefault();
       (defaultEntities[collection] ?? []).map(({ id }) =>
-        dataNetworkService
-          .createNode(id, entityType)
-          .then(() =>
-            dataNetworkService.createEdge({
-              from: serviceId,
-              to: id,
-              edgeType: "isCreatorOf",
-            })
-          )
-          .catch((e) => {
-            if (e?.code === 409) {
-              return true;
-            }
-            throw e;
-          })
+        dataNetworkService.createNode(id, entityType).catch((e) => {
+          if (e?.code === 409) {
+            return true;
+          }
+          throw e;
+        })
       );
       (defaultEntities[collection] ?? []).map(({ id }) =>
         entitiesMessagesProducer.produce(id, serviceId, "create")

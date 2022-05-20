@@ -1,22 +1,16 @@
 <template>
-  <network
-    class="network"
-    ref="network"
-    :nodes="normalizedNodes"
-    :edges="edges"
-    :options="options"
-    :events="['click']"
-  >
-  </network>
+  <div class="table-data-network" :style="{ height: `${height}px` }">
+    <data-network :nodes="normalizedNodes" :edges="edges" :options="options" />
+  </div>
 </template>
 
 <script>
-import { Network } from "vue2vis";
 import vars from "@/styles/vars.scss";
+import DataNetwork from "@/components/DataNetwork/DataNetwork";
 
 export default {
-  name: "CsvNetwork",
-  components: { Network },
+  name: "TableDataNetwork",
+  components: { DataNetwork },
   props: {
     nodes: {
       type: Array,
@@ -38,21 +32,6 @@ export default {
           hover: false,
           tooltipDelay: 300,
         },
-        /*layout: {
-          randomSeed: undefined,
-          improvedLayout:true,
-          hierarchical: {
-            enabled:true,
-            levelSeparation: 150,
-            nodeSpacing: 100,
-            treeSpacing: 200,
-            blockShifting: true,
-            edgeMinimization: true,
-            parentCentralization: true,
-            direction: 'UD',        // UD, DU, LR, RL
-            sortMethod: 'hubsize'   // hubsize, directed
-          }
-        },*/
         physics: {
           enabled: true,
           barnesHut: {
@@ -172,15 +151,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.vis-tooltip {
-  padding: 5px;
-  @include gradient-success;
-  position: absolute;
-  z-index: 100 !important;
-  top: 0;
-  left: 0;
-  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.2);
+.table-data-network {
   @include border-radius;
-  @include font-style(1rem, $font_body, bold, rgba($bg_card, 1));
+  overflow: hidden;
+  border: 2px solid #f0f4f9;
+  position: relative;
 }
 </style>
