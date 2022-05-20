@@ -1,61 +1,103 @@
 <template>
   <entity-details-link :id="doc.id" target="_blank">
-    <div class="search-card-container fill-height d-flex pa-10">
+    <div class="search-card-container fill-height d-flex py-8 pa-3 pa-md-10">
       <div class="search-card">
         <div class="search-card-header">
           <div class="search-card-icon d-flex">
-            <user-avatar
+            <entity-avatar
               :size="40"
-              v-if="doc.entityIcon"
+              :entity-id="doc.id || ''"
               :image-id="doc.entityIcon || ''"
+              :entity-title="doc.title || doc.username || 'Some entity'"
             />
-            <identicon
-              v-else
-              class="card-icon"
-              :hash="doc.uniqueFingerprint || doc.id"
-              :options="{ size: 40 }"
-            />
-          </div>
-          <div class="search-card-info-container">
-            <h1 class="search-card-title">
-              <span v-if="highlightedTitle" v-html="highlightedTitle"></span>
-              <span v-else>{{ doc.title || doc.username }}</span>
-            </h1>
-            <div class="search-card-meta-container mt-1">
-              <div>
-                <v-chip
-                  class="my-0 mr-2 font-weight-bold"
-                  label
-                  color="#eff3f7"
-                  x-small
-                  v-for="label in labels"
-                  :key="label"
+            <v-tooltip
+              max-width="300"
+              bottom
+              :open-delay="600"
+              v-if="doc.isPrivate || !userHasAccess"
+            >
+              <template #activator="{ on, attrs }">
+                <v-icon
+                  class="entity-private-icon"
+                  :color="userHasAccess ? 'primary' : 'error'"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                  small
                 >
-                  {{ label }}
-                </v-chip>
+                  lock
+                </v-icon>
+              </template>
+              <span>
+                {{
+                  !userHasAccess
+                    ? "Access to this entity is restricted for you by system policies"
+                    : "Entity is private"
+                }}
+              </span>
+            </v-tooltip>
+          </div>
+          <div class="search-card-info-container d-flex justify-space-between">
+            <div style="min-width: 0">
+              <h1 class="search-card-title">
+                <span v-if="highlightedTitle" v-html="highlightedTitle"></span>
+                <span v-else>
+                  {{ doc.title || doc.username || "Some entity" }}
+                </span>
+              </h1>
+              <div class="search-card-meta-container mt-1">
+                <div>
+                  <v-chip
+                    class="my-0 mr-2 font-weight-bold"
+                    label
+                    color="#eff3f7"
+                    x-small
+                    v-for="label in labels"
+                    :key="label"
+                  >
+                    {{ label }}
+                  </v-chip>
+                </div>
               </div>
             </div>
+            <entity-like-button
+              :id="doc.id"
+              class="pl-3"
+              v-if="userHasAccess"
+            />
           </div>
         </div>
-        <div class="search-card-content mt-4">
-          <div class="search-card-keywords" v-if="keywords.length > 0">
+        <div class="search-card-content">
+          <div class="search-card-keywords mt-4" v-if="keywords.length > 0">
             <v-chip class="mr-1" x-small v-for="(tag, i) in keywords" :key="i">
               {{ tag }}
             </v-chip>
           </div>
-          <p class="search-card-description ma-0 mt-2" v-if="doc.description">
-            {{ description }}
-          </p>
-          <div class="search-card-timestamps d-flex mt-3">
-            <info-block-title>Created</info-block-title>
-            <info-block-value>
-              <date-display :date="doc.created" />
-            </info-block-value>
-            <info-block-title class="ml-2">Modified</info-block-title>
-            <info-block-value>
-              <date-display :date="doc.modified" />
-            </info-block-value>
-          </div>
+          <markdown-viewer
+            class="search-card-description ma-0 mt-2"
+            v-if="doc.description"
+            :markdown="description"
+          />
+          <v-container fluid class="pa-0 mt-4">
+            <v-row dense>
+              <v-col cols="12" sm="6" lg="3">
+                <div class="search-card-timestamps d-flex">
+                  <info-block-title>Created</info-block-title>
+                  <info-block-value>
+                    <date-display :date="doc.createdAt" />
+                  </info-block-value>
+                </div>
+              </v-col>
+              <v-col cols="12" sm="6" lg="3">
+                <div class="search-card-timestamps d-flex">
+                  <info-block-title>Modified</info-block-title>
+                  <info-block-value>
+                    <date-display :date="doc.modifiedAt" />
+                  </info-block-value>
+                </div>
+              </v-col>
+            </v-row>
+          </v-container>
         </div>
       </div>
     </div>
@@ -63,28 +105,41 @@
 </template>
 
 <script>
-import Identicon from "@/components/Base/Identicon";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import DateDisplay from "@/components/Base/DateDisplay";
-import UserAvatar from "@/components/User/UserAvatar";
-
+import EntityAvatar from "@/components/Entity/EntityAvatar";
+import MarkdownViewer from "@/components/Base/MarkdownViewer";
+import EntityLikeButton from "@/components/Entity/EntityLikeButton";
+import { useApi } from "@/composables/api";
+import { ref } from "@vue/composition-api";
 export default {
   name: "SearchResultCard",
   components: {
-    UserAvatar,
+    EntityLikeButton,
+    MarkdownViewer,
+    EntityAvatar,
     DateDisplay,
     InfoBlockValue,
     InfoBlockTitle,
     EntityDetailsLink,
-    Identicon,
   },
   props: {
     data: {
       type: Object,
       required: true,
     },
+  },
+  setup(props) {
+    const userHasAccess = ref(true);
+    const { entityApi } = useApi(props.data.doc.id);
+    entityApi
+      .getById(props.data.doc.id, { fields: "id" })
+      .catch((e) => (userHasAccess.value = !(e?.response?.data?.code === 403)));
+    return {
+      userHasAccess,
+    };
   },
   computed: {
     highlightedTitle() {
@@ -100,6 +155,7 @@ export default {
       return [
         this.doc.entityType,
         this.doc.resourceType,
+        this.doc.serviceType,
         this.doc.assetType,
         this.doc.mimeType,
       ]
@@ -109,9 +165,8 @@ export default {
         );
     },
     description() {
-      return this.doc.description.length > 300
-        ? `${this.doc.description.slice(0, 300)}... `
-        : this.doc.description;
+      const desc = this.doc.description ?? "";
+      return desc.length > 250 ? `${desc.slice(0, 250)}... ` : desc;
     },
     keywords() {
       return (this.doc.keywords ?? []).slice(0, 25);
@@ -127,10 +182,9 @@ export default {
   transition: 0.5s;
   cursor: pointer;
   overflow: hidden;
-  background-color: $bg_card;
-  border-radius: 8px;
+  //border-bottom: 2px solid $bg-card_secondary;
   &:hover {
-    box-shadow: 0 0 15px 10px rgba(black, 0.05);
+    background-color: #f8f8f8;
   }
 }
 
@@ -207,9 +261,18 @@ export default {
   gap: 10px;
 }
 
+.entity-private-icon {
+  padding: 4px;
+  border-radius: 20px;
+  background-color: white;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 @media screen and (max-width: 599px) {
   .search-card-title {
-    @include font-style(1rem, $font_body, normal, $font_primary_color);
+    @include font-style(1.1rem, $font_body, normal, $font_primary_color);
   }
 }
 </style>

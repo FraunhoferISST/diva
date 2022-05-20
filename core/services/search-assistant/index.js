@@ -1,6 +1,6 @@
 const Server = require("@diva/common/api/expressServer");
 const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const searchRouter = require("./routes/search");
 const searchService = require("./services/SearchService");
 const serviceName = require("./package.json").name;
@@ -16,8 +16,9 @@ const server = new Server(port);
 log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 
 server.initBasicMiddleware();
-server.addMiddleware("/search", searchRouter);
 server.addOpenApiValidatorMiddleware();
+server.addPolicyValidatorMiddleware();
+server.addMiddleware("/search", searchRouter);
 
 server
   .boot()

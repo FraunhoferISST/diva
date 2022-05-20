@@ -1,0 +1,25 @@
+{
+  "id": "schema:uuid:389d583a-1a25-4130-acbf-1c3fba531051",
+  "title": "Publisher",
+  "schemaName": "creatorId",
+  "description": "The person who created this entity (deprecated)",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": false,
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Publisher",
+    "properties": {
+      "creatorId": {
+        "type": "string",
+        "title": "Publisher",
+        "description": "The person who created this entity",
+        "examples": [
+          "user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
+        ],
+        "pattern": "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      }
+    }
+  }
+}

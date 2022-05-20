@@ -1,0 +1,39 @@
+{
+  "id": "schema:uuid:dcf2084b-4087-4c30-bc73-c3f28867362c",
+  "title": "PDF version",
+  "schemaName": "pdfVersion",
+  "description": "Version of the PDF compiler",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "application/pdf"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "pdfVersion",
+    "properties": {
+      "pdfVersion": {
+        "type": "string",
+        "title": "pdfVersion",
+        "description": "Version of the PDF compiler",
+        "default": "",
+        "minLength": 1,
+        "examples": [
+          "1.4"
+        ],
+        "pattern": "^(.*)$",
+        "_ui": {
+          "view": "profiling",
+          "position": 3,
+          "type": "text",
+          "fallbackValue": "false"
+        }
+      }
+    }
+  }
+}

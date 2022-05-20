@@ -1,50 +1,41 @@
 <template>
-  <data-fetcher :fetch-method="fetchRecentAddedEntities">
-    <div v-if="computedRecentEntities.length > 0">
-      <div
-        class="my-4 ellipsis"
-        v-for="entity in computedRecentEntities"
-        :key="entity.id"
-      >
-        <entity-details-link :id="entity.id">
-          {{ entity.title }}
-        </entity-details-link>
-        <span
-          class="d-block font-weight-bold"
-          style="color: gray; font-size: 0.8rem"
-          >{{ entity.created }}</span
-        >
-      </div>
+  <data-viewer :loading="loading" :error="error">
+    <div v-if="recentEntities.length > 0">
+      <v-container fluid class="pa-0">
+        <v-row dense>
+          <v-col cols="12" v-for="entity in recentEntities" :key="entity.id">
+            <entity-mini-card :entity="entity" />
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
     <no-data-state v-else />
-  </data-fetcher>
+  </data-viewer>
 </template>
 
 <script>
-import DataFetcher from "@/components/DataFetchers/DataFetcher";
-import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import NoDataState from "@/components/Base/NoDataState";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useSearch } from "@/composables/search";
+import { computed } from "@vue/composition-api";
+import EntityMiniCard from "@/components/Entity/EntityMiniCard";
 export default {
   name: "DashboardRecentResources",
-  components: { NoDataState, EntityDetailsLink, DataFetcher },
-  data: () => ({
-    recentEntities: [],
-  }),
-  computed: {
-    computedRecentEntities() {
-      return this.recentEntities.filter((entity) => !!entity.title);
-    },
-  },
-  methods: {
-    async fetchRecentAddedEntities() {
-      return this.$api.search("resource", 10).then(
-        ({ data: { collection } }) =>
-          (this.recentEntities = collection
-            .map(({ doc }) => doc)
-            .filter(({ entityType }) => entityType === "resource")
-            .slice(0, 5))
-      );
-    },
+  components: { EntityMiniCard, DataViewer, NoDataState },
+  setup() {
+    const { search, data, loading, error } = useSearch();
+    search("resource", {
+      pageSize: 5,
+      entityType: "resource",
+      sortBy: "createdAt",
+    });
+    return {
+      loading,
+      error,
+      recentEntities: computed(() =>
+        (data.value?.collection ?? []).map(({ doc }) => doc)
+      ),
+    };
   },
 };
 </script>

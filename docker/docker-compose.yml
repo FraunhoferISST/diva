@@ -6,14 +6,21 @@
 
 version: '3.9'
 
+x-extra-hosts: &extra-hosts
+  extra_hosts:
+    - diva:${DOCKER_IP:-172.17.0.1}
+
 x-mongodb-env: &mongodb-env
   MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@documentstore:${MONGODB_PORT}
+
+x-policies-env: &policies-env
+  POLICY_MIDDLEWARE: ${POLICY_MIDDLEWARE}
 
 x-log-level-env: &log-level-env
   SYSTEM_LOG_LEVEL: ${SYSTEM_LOG_LEVEL}
 
-x-schema-registry-env: &schema-registry-env
-  SCHEMA_REGISTRY_URL: http://schema-registry:${SCHEMA_REGISTRY_PORT}/
+x-entity-management-env: &entity-management-env
+  ENTITY_MANAGEMENT_URL: http://${DIVA_HOST:-entity-management}:${ENTITY_MANAGEMENT_PORT}/
 
 x-cors-env: &cors-env
   CORS_ALLOW_ORIGIN: "*"
@@ -35,22 +42,20 @@ x-kafka-env: &kafka-env
   KAFKA_URL: broker:${KAFKA_PORT}
 
 x-business-decision-point-env: &business-decision-point-env
-  BUSINESS_DECISION_POINT_URL: http://business-decision-point:${BUSINESS_DECISION_POINT}
+  BUSINESS_DECISION_POINT_URL: http://${DIVA_HOST:-business-decision-point}:${BUSINESS_DECISION_POINT_PORT}
 
 x-base-core-service-env: &base-core-service-env
   <<: *mongodb-env
-  <<: *schema-registry-env
   <<: *kafka-env
   <<: *cors-env
   <<: *business-decision-point-env
   <<: *log-level-env
+  <<: *policies-env
 
 x-base-core-service: &base-core-service
   depends_on:
     - documentstore
     - broker
-    - schema-registry
-    - business-decision-point
   networks:
     - core
   restart: always
@@ -66,7 +71,7 @@ services:
 
   web-client:
     container_name: web-client
-    image: ${REGISTRY}web-client:18.32.4
+    image: ${REGISTRY}web-client:19.0.0
     ports:
       - ${WEB_CLIENT_PORT}:80
     restart: always
@@ -109,12 +114,16 @@ services:
   
   entity-management:
     <<: *base-core-service
+    <<: *extra-hosts
     image: ${REGISTRY}entity-management:1.0.0
     container_name: entity-management
     depends_on:
-      - business-decision-point
+      - broker
+      - documentstore
+      - neo4j
     environment:
       <<: *base-core-service-env
+      <<: *neo4j-env
       PORT: ${ENTITY_MANAGEMENT_PORT}
     ports:
       - ${ENTITY_MANAGEMENT_PORT}:${ENTITY_MANAGEMENT_PORT}
@@ -167,6 +176,7 @@ services:
 
   elasticsearch-connector:
     <<: *base-core-service
+    <<: *extra-hosts
     image: ${REGISTRY}elasticsearch-connector:0.2.7
     container_name: elasticsearch-connector
     depends_on:
@@ -176,20 +186,26 @@ services:
       - neo4j
     environment:
       <<: *base-core-service-env
+      <<: *entity-management-env
       <<: *elasticsearch-env
       <<: *neo4j-env
       PORT: ${ELASTICSEARCH_CONNECTOR_PORT}
       KAFKA_CONSUMER_TOPICS: "[\"entity.events\", \"datanetwork.events\"]"
     ports:
       - ${ELASTICSEARCH_CONNECTOR_PORT}:${ELASTICSEARCH_CONNECTOR_PORT}
+    networks:
+      - core
 
   search-assistant:
-    image: ${REGISTRY}search-assistant:0.1.3
+    <<: *extra-hosts
+    image: ${REGISTRY}search-assistant:0.2.0
     container_name: search-assistant
     environment:
       <<: *elasticsearch-env
       <<: *cors-env
       <<: *log-level-env
+      <<: *policies-env
+      <<: *business-decision-point-env
       NODE_ENV: production
       PORT: ${SEARCH_ASSISTANT_PORT}
     restart: always
@@ -202,40 +218,22 @@ services:
       - core
 
   analytics-assistant:
+    <<: *extra-hosts
     image: ${REGISTRY}analytics-assistant:2.0.3
     container_name: analytics-assistant
     environment:
       <<: *elasticsearch-env
       <<: *cors-env
       <<: *log-level-env
+      <<: *policies-env
+      <<: *business-decision-point-env
       NODE_ENV: production
       PORT: ${ANALYTIC_ASSISTANT_PORT}
     restart: always
     depends_on:
       - elasticsearch
-      - business-decision-point
     ports:
       - ${ANALYTIC_ASSISTANT_PORT}:${ANALYTIC_ASSISTANT_PORT}
-    networks:
-      - core
-
-  datanetwork-assistant:
-    image: ${REGISTRY}datanetwork-assistant:0.1.1
-    container_name: datanetwork-assistant
-    environment:
-      <<: *neo4j-env
-      <<: *cors-env
-      <<: *schema-registry-env
-      <<: *log-level-env
-      NODE_ENV: production
-      PORT: ${DATANETWORK_ASSISTANT}
-    restart: always
-    depends_on:
-      - neo4j
-      - broker
-      - business-decision-point
-    ports:
-      - ${DATANETWORK_ASSISTANT}:${DATANETWORK_ASSISTANT}
     networks:
       - core
 
@@ -244,17 +242,19 @@ services:
   # ####################################################################################################################
 
   history-assistant:
+    <<: *extra-hosts
     image: ${REGISTRY}history-assistant:0.1.3
     container_name: history-assistant
     environment:
       <<: *base-core-service-env
+      <<: *entity-management-env
+      <<: *policies-env
       NODE_ENV: production
       PORT: ${HISTORY_ASSISTANT_PORT}
       IGNORE_FIELDS: "[\"modified\"]"
     restart: always
     depends_on:
       - documentstore
-      - business-decision-point
     ports:
       - ${HISTORY_ASSISTANT_PORT}:${HISTORY_ASSISTANT_PORT}
     networks:
@@ -265,6 +265,7 @@ services:
   # ####################################################################################################################
 
   profiling-assistant:
+    <<: *extra-hosts
     image: ${REGISTRY}profiling-assistant:1.1.0
     container_name: profiling-assistant
     environment:
@@ -272,12 +273,13 @@ services:
       <<: *airflow-env
       <<: *log-level-env
       <<: *cors-env
+      <<: *policies-env
+      <<: *business-decision-point-env
       NODE_ENV: production
       PORT: ${PROFILING_ASSISTANT_PORT}
     restart: always
     depends_on:
       - documentstore
-      - business-decision-point
     ports:
       - ${PROFILING_ASSISTANT_PORT}:${PROFILING_ASSISTANT_PORT}
     networks:
@@ -332,26 +334,6 @@ services:
 
 
   # ####################################################################################################################
-  # Schema Registry Services
-  # ####################################################################################################################
-
-  schema-registry:
-    image: ${REGISTRY}schema-registry:1.0.2
-    hostname: schema-registry
-    container_name: schema-registry
-    restart: always
-    depends_on:
-      - business-decision-point
-    networks:
-      - core
-    ports:    
-      - ${SCHEMA_REGISTRY_PORT}:${SCHEMA_REGISTRY_PORT}
-    environment:
-      <<: *log-level-env
-      <<: *cors-env
-      PORT: ${SCHEMA_REGISTRY_PORT}
-
-  # ####################################################################################################################
   # DIVA Lake Services
   # ####################################################################################################################
 
@@ -366,6 +348,7 @@ services:
     environment:
       <<: *log-level-env
       <<: *cors-env
+      <<: *policies-env
       MINIO_ACCESS_KEY: ${DIVA_LAKE_USERNAME}
       MINIO_SECRET_KEY: ${DIVA_LAKE_PASSWORD}
     entrypoint: sh
@@ -374,6 +357,7 @@ services:
       - core
 
   diva-lake-adapter:
+    <<: *extra-hosts
     image: ${REGISTRY}diva-lake-adapter:0.5.0
     container_name: diva-lake-adapter
     restart: always
@@ -381,18 +365,16 @@ services:
       - core
     ports:
       - ${DIVALAKE_ADAPTER_PORT}:${DIVALAKE_ADAPTER_PORT}
-    depends_on:
-      - entity-management
-      - business-decision-point
     environment:
       <<: *mongodb-env
       <<: *kafka-env
-      <<: *schema-registry-env
       <<: *cors-env
       <<: *log-level-env
+      <<: *entity-management-env
+      <<: *policies-env
+      <<: *business-decision-point-env
       NODE_ENV: development
       PORT: ${DIVALAKE_ADAPTER_PORT}
-      ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
       DIVA_LAKE_HOST: diva-lake
       DIVA_LAKE_PORT: ${DIVALAKE_PORT}
       DIVA_LAKE_USERNAME: ${DIVA_LAKE_USERNAME}
@@ -404,6 +386,7 @@ services:
   # ####################################################################################################################
 
   urban-pulse-adapter:
+    <<: *extra-hosts
     image: ${REGISTRY}urban-pulse-adapter:0.2.2
     container_name: urban-pulse-adapter
     restart: always
@@ -411,44 +394,42 @@ services:
       - core
     ports:
       - ${URBAN_PULSE_ADAPTER_PORT}:${URBAN_PULSE_ADAPTER_PORT}
-    depends_on:
-      - entity-management
-      - business-decision-point
     environment:
       <<: *cors-env
       <<: *log-level-env
+      <<: *entity-management-env
+      <<: *policies-env
+      <<: *business-decision-point-env
       PORT: ${URBAN_PULSE_ADAPTER_PORT}
-      ENTITY_MANAGEMENT_URL: http://entity-management:${ENTITY_MANAGEMENT_PORT}
 
   # ####################################################################################################################
   # Event Emitter Service
   # ####################################################################################################################
 
   event-emitter:
+    <<: *extra-hosts
     image: ${REGISTRY}event-emitter:0.2.1
     container_name: event-emitter
+    restart: always
     depends_on:
       - broker
-      - schema-registry
     ports:
       - ${EVENT_EMITTER_PORT}:${EVENT_EMITTER_PORT}
     networks:
       - core
     environment:
-      <<: *schema-registry-env
       <<: *kafka-env
       <<: *cors-env
       <<: *log-level-env
+      <<: *entity-management-env
       PORT: ${EVENT_EMITTER_PORT}
-      ASYNCAPI_SPECIFICATION: asyncapi
-      EVENT_EMITTER_SPECIFICATION: event-emitter-api
-      KAFKA_TOPICS: "[\"entity.events\", \"datanetwork.events\"]"
 
   # ####################################################################################################################
   # Business Decision Point Service
   # ####################################################################################################################
 
   business-decision-point:
+    <<: *extra-hosts
     image: ${REGISTRY}business-decision-point:0.1.1
     container_name: business-decision-point
     restart: always
@@ -456,31 +437,34 @@ services:
       - documentstore
       - neo4j
     ports:
-      - ${BUSINESS_DECISION_POINT}:${BUSINESS_DECISION_POINT}
+      - ${BUSINESS_DECISION_POINT_PORT}:${BUSINESS_DECISION_POINT_PORT}
     networks:
       - core
     environment:
-      <<: *base-core-service-env
+      <<: *cors-env
+      <<: *mongodb-env
       <<: *neo4j-env
-      PORT: ${BUSINESS_DECISION_POINT}
-      SERVICES_URLS: "datanetwork-assistant::http://datanetwork-assistant:3012,entity-management::http://entity-management:3000,profiling-assistant::http://profiling-assistant:3011"
+      PORT: ${BUSINESS_DECISION_POINT_PORT}
+      POLICY_MIDDLEWARE: "false"
+      SERVICES_URLS: "entity-management::http://${DIVA_HOST:-entity-management}:3000,profiling-assistant::http://${DIVA_HOST:-profiling-assistant}:3011"
 
   # ####################################################################################################################
   # Business Rules Executor Service
   # ####################################################################################################################
 
   business-rules-executor:
+    <<: *extra-hosts
     image: ${REGISTRY}business-rules-executor:1.0.0
     container_name: business-rules-executor
     depends_on:
       - broker
-      - business-decision-point
     restart: always
     networks:
       - core
     environment:
+      <<: *entity-management-env
+      <<: *policies-env
       <<: *kafka-env
-      <<: *schema-registry-env
       <<: *business-decision-point-env
 
   # ####################################################################################################################
@@ -491,6 +475,7 @@ services:
     image: neo4j:4.3.7-community
     hostname: neo4j
     container_name: neo4j
+    restart: always
     ports:
       - "${NEO4J_PORT}:7474"
       - "${NEO4J_BOLT_PORT}:7687"

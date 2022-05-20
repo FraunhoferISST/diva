@@ -1,6 +1,7 @@
 {
   "name": "urban-pulse-adapter",
   "version": "0.2.3",
+  "serviceId": "service:uuid:97e167f0-cb9d-4442-90e2-ac4da940d9ae",
   "description": "",
   "keywords": [
     "Urban Pulse",
@@ -21,10 +22,10 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
+    "url": "https://github.com/FraunhoferISST/diva/tree/main/core/services/adapter-services/urban-pulse-adapter"
   },
   "dependencies": {
-    "@diva/common": "2.3.0",
+    "@diva/common": "3.1.2",
     "axios": "^0.21.1",
     "url-join": "^4.0.1"
   },

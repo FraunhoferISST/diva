@@ -40,14 +40,14 @@ const runGetTests = (entityType = "resource") => {
   it("applies projection correctly", async function () {
     const res = await this.request.runRequest(
       this.request.makeBaseRequest(
-        `/${collectionName}?fields=creatorId,created`
+        `/${collectionName}?fields=creatorId,createdAt`
       )
     );
     const entity = res.body.collection[0];
     expect(res.statusCode).to.equal(200);
     expect(entity).to.be.an("object");
     expect(entity).to.have.property("creatorId");
-    expect(entity).to.have.property("created");
+    expect(entity).to.have.property("createdAt");
   });
   it("applies page size correctly", async function () {
     const {

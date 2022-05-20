@@ -1,0 +1,47 @@
+{
+  "id": "schema:uuid:652f00bc-a156-4ffc-8f99-11462fe77fbb",
+  "title": "JSON Schema scope",
+  "schemaName": "jsonSchemaScope",
+  "description": "Defines the API request scope to which the rule applies",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "systemEntityType",
+      "value": "schema"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "JSON Schema scope",
+    "_elasticsearch": {
+      "enabled": false
+    },
+    "properties": {
+      "scope": {
+        "type": "array",
+        "title": "JSON Schema scope",
+        "description": "Defines to which (sub-)entity the schema applies. If not specified, the schema is included as the root property of an entity",
+        "items": {
+          "type": "object",
+          "required": [
+            "key",
+            "value"
+          ],
+          "properties": {
+            "key": {
+              "type": "string",
+              "title": "Entity field name"
+            },
+            "value": {
+              "type": ["string", "array", "boolean", "number"],
+              "title": "Entity field value"
+            }
+          }
+        }
+      }
+    }
+  }
+}

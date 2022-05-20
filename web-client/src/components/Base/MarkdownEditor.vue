@@ -3,12 +3,12 @@
     <switch-slider
       class="md-editor-container-controls"
       :options="[
-        { label: 'vertical', icon: 'border_vertical' },
-        { label: 'tab', icon: 'view_stream' },
+        { title: 'vertical', icon: 'border_vertical' },
+        { title: 'tab', icon: 'view_stream' },
       ]"
-      :size="30"
+      :size="40"
       mini
-      inverse
+      hide-title
       :selected.sync="viewMode"
     />
     <div ref="mdeditor"></div>

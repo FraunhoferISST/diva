@@ -16,8 +16,7 @@ The service is responsible for managing the metadata about entities.
 | NODE_ENV            | development                           | sets the mode in which the service runs                                                     |
 | PORT                | 3000                                  | sets the port allocated by the service                                                      |
 | MONGODB_URI         | mongodb://admin:admin@localhost:27017 | MongoDB connection URI                                                                      |
-| KAFKA_URL           | broker:9092                           ||
-| SCHEMA_REGISTRY_URL | http://localhost:3010/                | URL of the schema registry where the `entity` JSON schema and `asyncapi` schema are located |
+| KAFKA_URL           | broker:9092                           |                                                                                             |
 
 ## Setting up for Development
 
@@ -37,7 +36,7 @@ npm run dev
 
 ### Docker
 
-Use docker-compose to start the service in a container, build new service image and push the image to the GitLab docker registry.
+Use docker-compose to start the service in a container, build new service image and push the image to the GitHub docker registry.
 
 Pull the image:
 

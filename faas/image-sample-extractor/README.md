@@ -1,7 +1,6 @@
 # Image Sample Extractor 🖼️
 
-[![version](https://img.shields.io/badge/image--sample--extractor-3.0.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/image-sample-extractor)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/image-sample-extractor/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/image-sample-extractor/-/commits/master)
+![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Fimage-sample-extractor%2Fpackage.json)
 
 This service gets an image file as input and generates a `base64` encoded thumbnail as output.
 The produced JSON result is written to the output file.
@@ -45,4 +44,4 @@ INPUT_FILE=test.jpg OUTPUT_FILE=test_output.json node app.js
 
 ## License
 
-Copyright © Fraunhofer ISST 2021
+Copyright © Fraunhofer ISST 2022

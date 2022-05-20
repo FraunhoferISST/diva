@@ -1,7 +1,15 @@
-const DbConnectors = require("@diva/common/databases/MongoDBConnector");
+const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
 const Neo4jConnector = require("@diva/common/databases/Neo4jConnector");
 
-const mongoDBConnector = new DbConnectors("divaDb", ["entities"]);
+const {
+  DIVA_DB_NAME,
+  collectionsNames: { ENTITY_COLLECTION_NAME, SYSTEM_ENTITY_COLLECTION_NAME },
+} = require("./constants");
+
+const mongoDBConnector = new MongoDBConnector(DIVA_DB_NAME, [
+  ENTITY_COLLECTION_NAME,
+  SYSTEM_ENTITY_COLLECTION_NAME,
+]);
 const neo4jConnector = new Neo4jConnector();
 module.exports = {
   mongoDBConnector,

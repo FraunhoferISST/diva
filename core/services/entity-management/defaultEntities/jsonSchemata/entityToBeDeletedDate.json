@@ -1,0 +1,34 @@
+{
+  "id": "schema:uuid:0d47f346-8105-46e9-90cd-f6ca4e853b06",
+  "title": "To be deleted date",
+  "schemaName": "entityToBeDeletedDate",
+  "description": "Date of when this entity should be deleted",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "To be deleted date",
+    "properties": {
+      "entityToBeDeletedDate": {
+        "type": "string",
+        "title": "To be deleted date",
+        "description": "Date of when this entity should be deleted",
+        "examples": [
+          "2024-08-01T00:00:00Z"
+        ],
+        "format": "date-time",
+        "_elasticsearch": {
+          "type": "date"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 7,
+          "type": "date",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

@@ -1,8 +1,8 @@
 const express = require("express");
-const policiesRulesController = require("../controllers/PoliciesController");
+const policiesController = require("../controllers/PoliciesController");
 
 const router = express.Router();
 
-router.post("/enforcePolicies", policiesRulesController.enforcePolicies);
+router.post("/enforcePolicies", policiesController.enforcePolicies);
 
 module.exports = router;

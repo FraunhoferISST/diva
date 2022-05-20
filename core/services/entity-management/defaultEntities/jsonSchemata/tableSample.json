@@ -1,0 +1,47 @@
+{
+  "id": "schema:uuid:f5f73a78-9c1a-4fd2-8058-208126530aa5",
+  "title": "Array of Sample Rows",
+  "schemaName": "tableSample",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "text/csv"
+    },
+    {
+      "key": "mimeType",
+      "value": "application/x-sas-data"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Sample rows of a table",
+    "properties": {
+      "tableSample": {
+        "type": "array",
+        "title": "Array of Sample Rows",
+        "description": "An Array that contains the example rows of an table",
+        "minItems": 0,
+        "maxItems": 20,
+        "items": {
+          "type": "array",
+          "title": "Sample Cell",
+          "description": "A sample cell",
+          "items": {
+            "type": "string",
+            "title": "Element",
+            "description": "One element of a row",
+            "pattern": "^(.*)$"
+          }
+        },
+        "_ui": {
+          "view": "sample",
+          "position": 1,
+          "component": "TBD"
+        }
+      }
+    }
+  }
+}

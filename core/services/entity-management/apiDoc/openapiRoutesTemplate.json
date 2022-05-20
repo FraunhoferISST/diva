@@ -4,6 +4,9 @@
       "parameters": [
         {
           "$ref": "#/components/parameters/actoridParam"
+        },
+        {
+          "$ref": "#/components/parameters/divaHeader"
         }
       ],
       "post": {
@@ -87,6 +90,42 @@
             }
           },
           {
+            "name": "schemaName",
+            "in": "query",
+            "description": "Name of the system entity",
+            "required": false,
+            "explode": true,
+            "example": "asyncapi",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "specName",
+            "in": "query",
+            "description": "Name of the system entity",
+            "required": false,
+            "explode": true,
+            "example": "asyncapi",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "systemEntityType",
+            "in": "query",
+            "description": "Type of the system entity",
+            "required": false,
+            "explode": true,
+            "example": "schema",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "attributedTo",
             "in": "query",
             "description": "Filter by attributedTo attribute",
@@ -156,6 +195,9 @@
         },
         {
           "$ref": "#/components/parameters/actoridParam"
+        },
+        {
+          "$ref": "#/components/parameters/divaHeader"
         }
       ],
       "get": {
@@ -300,6 +342,9 @@
       "parameters": [
         {
           "$ref": "#/components/parameters/actoridParam"
+        },
+        {
+          "$ref": "#/components/parameters/divaHeader"
         }
       ],
       "post": {

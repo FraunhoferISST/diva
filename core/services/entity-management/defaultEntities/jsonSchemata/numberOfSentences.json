@@ -1,0 +1,46 @@
+{
+  "id": "schema:uuid:9b50a521-4dbd-4d11-bf80-613d4af70b5b",
+  "title": "Number of Sentences",
+  "schemaName": "numberOfSentences",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "text/csv"
+    },
+    {
+      "key": "mimeType",
+      "value": "application/x-sas-data"
+    },
+    {
+      "key": "mimeType",
+      "value": "text/plain"
+    },
+    {
+      "key": "mimeType",
+      "value": "application/pdf"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Number of Sentences",
+    "properties": {
+      "numberOfSentences": {
+        "type": "integer",
+        "title": "Number of Sentences",
+        "description": "Number of sentences in a text",
+        "default": 0,
+        "minimum": 0,
+        "examples": [
+          22856,
+          572557
+        ],
+        "_elasticsearch": {
+          "type": "unsigned_long"
+        }
+      }
+    }
+  }
+}

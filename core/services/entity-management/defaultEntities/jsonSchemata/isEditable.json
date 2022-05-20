@@ -1,0 +1,20 @@
+{
+  "id": "schema:uuid:812b9a88-4bf8-4cc5-9089-5e4c861663d9",
+  "title": "Is editable",
+  "schemaName": "isEditable",
+  "description": "The flag marks entities which meta data can be edited",
+  "systemEntityType": "schema",
+  "isPatchable": true,
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "properties": {
+      "isEditable": {
+        "type": "boolean",
+        "title": "Is editable",
+        "description": "The flag marks entities which meta data can be edited",
+        "default": false
+      }
+    }
+  }
+}

@@ -1,27 +1,22 @@
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const EntityService = require("./EntityService");
+const {
+  entityTypes: { USER },
+} = require("../utils/constants");
 
-const createUser = async (userData, actorId) => {
-  const id = generateUuid("user");
-  return {
-    ...userData,
-    id,
-    entityType: "user",
-    creatorId: actorId || id,
-  };
-};
+const createUser = (userData) => ({
+  ...userData,
+  id: userData.id || generateUuid("user"),
+  entityType: "user",
+});
 
 class UsersService extends EntityService {
   async init() {
     await super.init();
-    await this.collection.createIndex(
-      { email: 1 },
-      { unique: true, partialFilterExpression: { entityType: this.entityType } }
-    );
   }
 
   async create(user, actorId) {
-    const newUser = await createUser(user, actorId);
+    const newUser = createUser(user);
     return super.create(newUser, actorId || newUser.id);
   }
 
@@ -41,8 +36,8 @@ class UsersService extends EntityService {
         actorId
       );
     }
-    return super.updateById(id, await createUser(user), actorId);
+    return super.updateById(id, createUser(user), actorId);
   }
 }
 
-module.exports = new UsersService("user");
+module.exports = new UsersService(USER);

@@ -1,14 +1,15 @@
 {
   "name": "entity-management",
   "version": "1.0.0",
+  "serviceId": "service:uuid:f1bfc29c-6cda-4e38-b5ef-1c6ba8134ff3",
   "description": "Manages metadata of entities and publishes CRUD events to kafka",
   "repository": {
     "url": "https://github.com/FraunhoferISST/diva"
   },
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development nodemon index.js",
+    "start": "NODE_ENV=production POLICY_MIDDLEWARE=active node index.js",
+    "dev": "NODE_ENV=development POLICY_MIDDLEWARE=active nodemon index.js",
     "eslint-fix": "eslint --fix . --ext .js",
     "build:alpine": "pkg --config package.json -t node16-alpine-x64 --output index-alpine index.js",
     "build:linux": "pkg --config package.json -t node16-linux-x64 --output index-linux index.js",
@@ -17,8 +18,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "2.3.0",
-    "swagger-ui-dist": "^4.4.1"
+    "@apidevtools/json-schema-ref-parser": "^9.0.9",
+    "@diva/common": "3.1.2",
+    "glob": "^7.2.0",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",
@@ -27,7 +30,8 @@
   "pkg": {
     "assets": [
       "package.json",
-      "apiDoc"
+      "apiDoc",
+      "defaultEntities"
     ]
   }
 }

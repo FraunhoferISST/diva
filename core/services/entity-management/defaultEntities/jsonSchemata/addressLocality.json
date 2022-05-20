@@ -1,0 +1,35 @@
+{
+  "id": "schema:uuid:ee456241-229d-46a0-bf74-9898655ece76",
+  "title": "Address Locality",
+  "schemaName": "addressLocality",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "user"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Address Locality",
+    "properties": {
+      "addressLocality": {
+        "type": "string",
+        "title": "Address Locality",
+        "examples": [
+          "Dortmund",
+          "New York"
+        ],
+        "_ui": {
+          "view": "overview",
+          "position": 1,
+          "type": "text",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

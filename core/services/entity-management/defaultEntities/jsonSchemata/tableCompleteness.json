@@ -1,0 +1,39 @@
+{
+  "id": "schema:uuid:c93f16a3-443e-47d7-9e85-d5221f7453d1",
+  "title": "Table data completeness",
+  "schemaName": "tableCompleteness",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "text/csv"
+    },
+    {
+      "key": "mimeType",
+      "value": "application/x-sas-data"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Number of Columns of a Table",
+    "properties": {
+      "tableCompleteness": {
+        "type": "number",
+        "title": "Table data completeness",
+        "description": "The portion of complete fields in percent",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 1,
+        "examples": [
+          1,
+          0.4
+        ],
+        "_elasticsearch": {
+          "type": "float"
+        }
+      }
+    }
+  }
+}

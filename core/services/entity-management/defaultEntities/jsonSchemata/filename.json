@@ -1,0 +1,42 @@
+{
+  "id": "schema:uuid:873c858e-f57f-435f-9702-5e5e3799b924",
+  "title": "Filename",
+  "schemaName": "filename",
+  "description": "Filename of the resource",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "file"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Filename",
+    "required": [
+      "filename"
+    ],
+    "properties": {
+      "filename": {
+        "type": "string",
+        "title": "Filename",
+        "description": "filename of the resource",
+        "default": "",
+        "examples": [
+          "foo.txt"
+        ],
+        "pattern": "^(.*)$",
+        "_ui": {
+          "view": "profiling",
+          "position": 0,
+          "fullWidth": true,
+          "type": "text",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

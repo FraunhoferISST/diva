@@ -5,47 +5,31 @@
         class="history-card-connector-container"
         :class="{ 'without-connector': hideConnector }"
       ></div>
-      <div class="">
-        <div class="history-card">
-          <div class="history-info-container">
-            <user-avatar
-              :image-id="creatorImageId"
-              :size="36"
-              :user-id="creatorId"
-            />
-            <div class="d-flex justify-space-between">
-              <h6
-                class="history-card-title d-flex align-center"
-                style="height: 100%"
-              >
-                <entity-details-link
-                  v-if="creatorExists"
-                  class="mr-1"
-                  :id="data.creator.id"
-                >
-                  {{ userName }}
-                </entity-details-link>
-                <span v-else class="history-card-title-creator mr-1">
-                  {{ userName }}
-                </span>
-                {{ actionType }}
-                <span class="history-card-title-divider mx-2"></span>
-                <date-display :date="data.created" />
-              </h6>
-              <v-btn icon color="primary" @click="emitSelect">
-                <v-icon small>more_vert</v-icon>
-              </v-btn>
-            </div>
-          </div>
-
-          <div class="history-payload mt-2" v-if="data.human.length > 0">
-            <history-changes :changes="data.human" :minified="true" />
-          </div>
-          <no-data-state class="mt-2" v-else>
-            Probably the update has not produced any data changes and differs
-            only in the time stamp of the last update
-          </no-data-state>
+      <div class="history-card">
+        <div class="history-info-container d-flex justify-space-between">
+          <actor-card
+            :actor="data.creator"
+            dense
+            :visible="data.creator.visible"
+          >
+            <span class="ml-3">
+              {{ actionType }}
+            </span>
+            <dot-divider class="mx-3" />
+            <date-display :date="data.createdAt" />
+          </actor-card>
+          <v-btn icon color="primary" @click="emitSelect">
+            <v-icon small>more_vert</v-icon>
+          </v-btn>
         </div>
+
+        <div class="history-payload mt-2" v-if="data.human.length > 0">
+          <history-changes :changes="data.human" :minified="true" />
+        </div>
+        <no-data-state style="height: unset" class="mt-2" v-else>
+          Probably the update has not produced any data changes and differs only
+          in the time stamp of the last update
+        </no-data-state>
       </div>
     </div>
   </fade-in>
@@ -53,20 +37,20 @@
 
 <script>
 import FadeIn from "@/components/Transitions/FadeIn";
-import UserAvatar from "@/components/User/UserAvatar";
 import DateDisplay from "@/components/Base/DateDisplay";
 import HistoryChanges from "@/components/Entity/EntityCommonComponents/History/HistoryChanges";
 import NoDataState from "@/components/Base/NoDataState";
-import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
+import ActorCard from "@/components/User/ActorCard";
+import DotDivider from "@/components/Base/DotDivider";
 
 export default {
   name: "HistoryCard",
   components: {
-    EntityDetailsLink,
+    DotDivider,
+    ActorCard,
     NoDataState,
     HistoryChanges,
     DateDisplay,
-    UserAvatar,
     FadeIn,
   },
   props: {
@@ -86,6 +70,10 @@ export default {
       type: Number,
       required: true,
     },
+    position: {
+      type: Number,
+      required: true,
+    },
   },
   computed: {
     user() {
@@ -94,12 +82,6 @@ export default {
     creatorExists() {
       return !!this.data?.creator?.username;
     },
-    userName() {
-      if (this.user.id === this.data.creator?.id) {
-        return "You";
-      }
-      return this.data.creator?.username || "N/A";
-    },
     creatorImageId() {
       return this.data.creator?.entityIcon || "";
     },
@@ -107,7 +89,8 @@ export default {
       return this.data.creator?.id || "";
     },
     actionType() {
-      return this.data.delta.id ? "created" : "updated";
+      // dirty hack to identify "created" event as it always the first history entry (rendered at the bottom)
+      return this.position === this.count - 1 ? "created" : "updated";
     },
     hideConnector() {
       return this.last || this.count === 1;
@@ -143,7 +126,7 @@ export default {
     position: absolute;
     width: 2px;
     height: 115%;
-    background-color: #dedfff;
+    background-color: $bg_card_secondary;
     top: 35px;
     left: 0;
     right: 0;
@@ -153,10 +136,10 @@ export default {
     content: "";
     display: inline-block;
     width: 16px;
-    border: 2px solid $bg_primary;
+    border: 2px solid $bg_card;
     border-radius: 50%;
     height: 16px;
-    background-color: #dedfff;
+    background-color: $bg_card_secondary;
     position: absolute;
     left: 0;
     right: 0;

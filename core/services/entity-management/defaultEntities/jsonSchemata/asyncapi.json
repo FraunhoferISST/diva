@@ -1,0 +1,33 @@
+{
+  "id": "schema:uuid:594c16ec-2357-4442-80e2-67ce87dbff2c",
+  "title": "Specification definition",
+  "schemaName": "asyncapi",
+  "description": "The specification encoded as string",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "systemEntityType",
+      "value": "asyncapi"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Schema definition",
+    "required": [
+      "asyncapi"
+    ],
+    "properties": {
+      "asyncapi": {
+        "type": "string",
+        "title": "AsyncAPI definition",
+        "description": "The specification encoded as string",
+        "_elasticsearch": {
+          "enabled": false
+        }
+      }
+    }
+  }
+}

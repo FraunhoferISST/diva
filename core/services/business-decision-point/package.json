@@ -1,11 +1,12 @@
 {
   "name": "business-decision-point",
   "version": "0.1.1",
+  "serviceId": "service:uuid:037ca2aa-571b-4b8a-9eed-7f344cc28447",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development nodemon index.js",
+    "dev": "NODE_ENV=development DIVA_HOST=diva nodemon index.js",
     "eslint-fix": "eslint --fix . --ext .js",
     "build:alpine": "pkg --config package.json -t node16-alpine-x64 --output index-alpine index.js",
     "build:linux": "pkg -t node16-linux-x64 index.js",
@@ -14,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "2.3.0",
+    "@diva/common": "3.1.2",
     "lodash": "^4.17.21",
     "mongodb": "^4.1.2"
   },

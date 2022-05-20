@@ -1,6 +1,7 @@
 {
   "name": "text-language-guesser",
   "version": "2.0.0",
+  "serviceId": "service:uuid:2c2455be-4865-431b-9e0f-d8f256109788",
   "private": true,
   "scripts": {
     "start": "node app.js",

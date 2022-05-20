@@ -1,5 +1,5 @@
 const { Kafka } = require("kafkajs");
-const generateUuid = require("../generateUuid");
+const generateUuid = require("../utils/generateUuid");
 const { logger: log } = require("../logger");
 const retry = require("../utils/retrier");
 
@@ -13,7 +13,7 @@ class KafkaConnector {
       brokers: [this.URL],
       retry: {
         initialRetryTime: 100,
-        retries: 8,
+        retries: 3,
       },
     });
   }
@@ -34,6 +34,7 @@ class KafkaConnector {
     const consumer = this.kafka.consumer({
       clientId: generateUuid(serviceName),
       groupId: serviceName,
+      sessionTimeout: 15000,
       retry: {
         initialRetryTime: 1000,
         retries: 5,

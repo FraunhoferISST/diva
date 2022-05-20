@@ -1,6 +1,7 @@
 {
   "name": "business-rules-executor",
   "version": "1.0.0",
+  "serviceId": "service:uuid:0354104d-550d-40a7-81ab-587ff4c5633a",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "2.3.0",
+    "@diva/common": "3.1.2",
     "axios": "^0.26.0",
     "lodash": "^4.17.21",
     "mongodb": "^4.1.2",

@@ -1,0 +1,60 @@
+{
+  "id": "schema:uuid:cf2a62cf-254c-414f-a0be-0523328544a2",
+  "title": "The Schema of a table",
+  "schemaName": "tableSchema",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "text/csv"
+    },
+    {
+      "key": "mimeType",
+      "value": "application/x-sas-data"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "The Schema of a table",
+    "properties": {
+      "tableSchema": {
+        "type": "array",
+        "title": "Column list",
+        "description": "The column headers of the resource",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "title": "Columnheader objects",
+          "description": "the unique id and name of a column",
+          "required": [
+            "id",
+            "name"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "title": "Id of Column",
+              "default": "",
+              "examples": [
+                "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855#1#col1"
+              ],
+              "_elasticsearch": {
+                "type": "keyword"
+              }
+            },
+            "name": {
+              "type": "string",
+              "title": "Name of Column",
+              "default": "",
+              "examples": [
+                "col1"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

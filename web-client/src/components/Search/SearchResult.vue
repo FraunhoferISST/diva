@@ -1,33 +1,34 @@
 <template>
-  <v-col cols="12">
-    <fade-in>
-      <v-row>
-        <v-col cols="12" v-for="(item, i) in searchResult" :key="i">
-          <fade-in>
-            <search-result-card class="fill-height" :key="i" :data="item" />
-          </fade-in>
-        </v-col>
-      </v-row>
-    </fade-in>
-  </v-col>
+  <v-container fluid class="search-result-container pl-0 pr-0 pt-0">
+    <search-result-card
+      class="d-block"
+      v-for="item in items"
+      :key="item.doc.id"
+      :data="item"
+    />
+  </v-container>
 </template>
 
 <script>
 import SearchResultCard from "@/components/Search/SearchResultCard";
-import FadeIn from "@/components/Transitions/FadeIn";
 
 export default {
   name: "SearchResult",
-  components: { FadeIn, SearchResultCard },
+  components: { SearchResultCard },
   props: {
-    searchResult: {
+    items: {
       type: Array,
       required: true,
     },
-    list: {
+    loading: {
       type: Boolean,
       default: false,
     },
   },
 };
 </script>
+<style lang="scss">
+.search-result-container {
+  background-color: white;
+}
+</style>

@@ -1,6 +1,6 @@
 const Server = require("@diva/common/api/expressServer");
 const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const adapterRouter = require("./routes/adapter");
 const divaLakeService = require("./services/DivaLakeService");
 const eventsHandlerService = require("./services/EventsHandlerService");
@@ -18,6 +18,7 @@ log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 
 server.initBasicMiddleware();
 server.addOpenApiValidatorMiddleware();
+server.addPolicyValidatorMiddleware();
 server.addMiddleware("/", adapterRouter);
 
 server

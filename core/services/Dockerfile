@@ -4,7 +4,7 @@
 # "entity-management" or "adapter-services/dsc-adapter"
 #
 # Usage: in "core/" execute
-# docker build --build-arg SERVICE_NAME=entity-management -t um-test . -f ./services/Dockerfile
+# docker build --build-arg SERVICE_NAME=entity-management -t ghcr.io/fraunhoferisst/diva/um-test . -f ./services/Dockerfile
 # ######################################################################################################################
 
 

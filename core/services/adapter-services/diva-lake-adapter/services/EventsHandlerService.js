@@ -2,14 +2,19 @@ const messageConsumer = require("@diva/common/messaging/MessageConsumer");
 const { minioConnector } = require("../utils/MinIoConnector");
 const { name: serviceName } = require("../package.json");
 
-const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
-  ? JSON.parse(process.env.KAFKA_CONSUMER_TOPICS)
-  : ["entity.events"];
+const KAFKA_CONSUMER_TOPICS = [
+  {
+    topic: "entity.events",
+    spec: {
+      name: "asyncapi",
+    },
+  },
+];
 
 class EventsHandlerService {
   async init() {
     await messageConsumer.init(
-      KAFKA_CONSUMER_TOPICS.map((topic) => ({ topic, spec: "asyncapi" })),
+      KAFKA_CONSUMER_TOPICS,
       `${serviceName}-consumer`
     );
     await minioConnector;

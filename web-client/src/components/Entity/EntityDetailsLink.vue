@@ -11,18 +11,22 @@ export default {
       type: String,
       required: true,
     },
+    postfix: {
+      type: String,
+      default: "",
+    },
   },
   computed: {
     route() {
       switch (true) {
         case this.id.startsWith("asset"):
-          return `/assets/${this.id}`;
+          return `/assets/${this.id}${this.postfix}`;
         case this.id.startsWith("resource"):
-          return `/resources/${this.id}`;
+          return `/resources/${this.id}${this.postfix}`;
         case this.id.startsWith("user"):
-          return `/users/${this.id}`;
+          return `/users/${this.id}${this.postfix}`;
         default:
-          return `/resources/${this.id}`;
+          return `/entities/${this.id}${this.postfix}`;
       }
     },
   },

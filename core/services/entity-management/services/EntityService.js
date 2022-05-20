@@ -4,18 +4,21 @@ const {
   createPatchDelta,
 } = require("@diva/common/createHistoryEntry");
 const { decodeCursor, encodeCursor } = require("@diva/common/api/cursor");
+const { logger } = require("@diva/common/logger");
 const {
   entityAlreadyExistsError,
   entityNotFoundError,
   imagesLimitError,
 } = require("@diva/common/Error");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const { mongoDbConnector } = require("../utils/mongoDbConnector");
 const entityImagesService = require("./EntityImagesService");
 const {
   collectionsNames: { ENTITY_COLLECTION_NAME, HISTORIES_COLLECTION_NAME },
+  entityTypes: { ENTITY },
 } = require("../utils/constants");
+const { serviceId } = require("../package.json");
 
 const ENTITY_ROOT_SCHEMA = process.env.ENTITY_ROOT_SCHEMA || "entity";
 
@@ -44,14 +47,14 @@ const cleanUpEntity = (entity) => {
   return cleanEntity;
 };
 
-const createProjectionObject = (projectionQuery) => {
+const createProjectionObject = (projectionQuery, policyProjection) => {
   const projectionObject = {};
   if (projectionQuery) {
     for (const field of projectionQuery.split(",")) {
       projectionObject[field.trim()] = 1;
     }
   }
-  return projectionObject;
+  return { ...projectionObject, ...policyProjection };
 };
 
 const createNextPageQuery = (id) => ({ _id: { $lt: ObjectId(id) } });
@@ -77,10 +80,16 @@ const createSearchQuery = (searchParams) =>
 
 class EntityService {
   /**
-   * @param entityType - the type of the entity, (e.g. resource, user, etc.)
+   * @param {String} entityType - the type of the entity, (e.g. resource, user, etc.)
+   * @param {String} collectionName - the name of the mongo entity collection name (e.g. entities, etc.), defaults to "entities"
    */
-  constructor(entityType) {
+  constructor(
+    entityType,
+    { collectionName = ENTITY_COLLECTION_NAME, defaultEntities = [] } = {}
+  ) {
     this.entityType = entityType;
+    this.collectionName = collectionName;
+    this.defaultEntities = defaultEntities;
     /**
      * @type {{}} - primary MongoDb entity collection (users, resources...)
      */
@@ -93,9 +102,11 @@ class EntityService {
       "attributedTo",
       "title",
       "entityType",
+      "systemEntityType",
       "creatorId",
       "email",
       "username",
+      "schemaName",
     ];
   }
 
@@ -104,9 +115,38 @@ class EntityService {
    */
   async init() {
     await entityImagesService.init();
-    this.collection = mongoDbConnector.collections[ENTITY_COLLECTION_NAME];
+    this.collection = mongoDbConnector.collections[this.collectionName];
     this.historyCollection =
       mongoDbConnector.collections[HISTORIES_COLLECTION_NAME];
+  }
+
+  loadDefault() {
+    logger.info(
+      `Loading ${this.defaultEntities.length} default entities from type ${
+        this.systemEntityType ?? this.entityType
+      }`
+    );
+    return Promise.all(
+      this.defaultEntities.map((entity) =>
+        this.replace(entity.id, entity)
+          .then(() =>
+            this.historyCollection.insertOne(
+              createHistoryEntity(
+                entity.id,
+                createPatchDelta({}, entity),
+                serviceId
+              )
+            )
+          )
+          .catch((e) => {
+            // already loaded, ignore
+            if (e.code === 409) {
+              return true;
+            }
+            throw e;
+          })
+      )
+    );
   }
 
   validate(entity) {
@@ -117,40 +157,42 @@ class EntityService {
     return rest;
   }
 
-  async create(entity, actorId) {
-    const newEntity = cleanUpEntity({
+  createEntityObject(entity = {}) {
+    const entityType = this.entityType ?? entity.entityType;
+    return cleanUpEntity({
+      id: generateUuid(this.entityType ?? ENTITY), // the id can be overwritten by concrete implementation
+      isEditable: true, // can be also overwritten
       ...entity,
-      id: generateUuid(this.entityType),
-      entityType: this.entityType,
-      created: new Date().toISOString(),
-      modified: new Date().toISOString(),
-      creatorId: actorId,
+      entityType,
+      createdAt: new Date().toISOString(),
+      modifiedAt: new Date().toISOString(),
       entityImages: null,
     });
+  }
+
+  async create(entity, actorId) {
+    const newEntity = this.createEntityObject(entity);
     this.validate(newEntity);
     await this.insert(newEntity);
     const delta = await this.createHistoryEntry({}, newEntity, actorId);
     return { id: newEntity.id, delta };
   }
 
-  async get(query) {
-    const { cursor, pageSize = 30, fields } = query;
+  async get(queryParams, dbQuery = {}) {
+    const { cursor, pageSize = 30, fields } = queryParams;
     const searchQueryParams = extractFilterQueryParams(
       this.filterParams,
-      query
+      queryParams
     );
     const parsedPageSize = parseInt(pageSize, 10);
-    let dbQuery = {};
-    if (cursor) {
-      const prevId = decodeCursor(cursor);
-      dbQuery = createNextPageQuery(prevId);
-    }
+    const query = {
+      entityType: this.entityType,
+      ...createSearchQuery(searchQueryParams),
+      ...dbQuery,
+      ...(cursor ? createNextPageQuery(decodeCursor(cursor)) : {}),
+    };
     const collection = await this.collection
-      .find({
-        entityType: this.entityType,
-        ...createSearchQuery(searchQueryParams),
-        ...dbQuery,
-      })
+      .find(query)
       .project(createProjectionObject(fields))
       .sort({ _id: -1 })
       .limit(parsedPageSize)
@@ -165,19 +207,24 @@ class EntityService {
     }
     return {
       collectionSize: collection.length,
-      collection: collection.map((e) => this.sanitizeEntity(e, query)),
+      collection: collection.map((e) => this.sanitizeEntity(e, queryParams)),
       cursor: nextCursor,
-      total: await this.count(),
+      total: await this.count(query),
     };
   }
 
-  async getById(id, query = {}) {
+  async getById(id, query = {}, policyPayload = {}) {
     const { fields } = query;
     if (await this.entityExists(id)) {
       return this.sanitizeEntity(
         await this.collection.findOne(
           { id },
-          { projection: createProjectionObject(fields) }
+          {
+            projection: createProjectionObject(
+              fields,
+              policyPayload.projection
+            ),
+          }
         )
       );
     }
@@ -208,9 +255,10 @@ class EntityService {
 
   async updateById(id, entity, actorId) {
     const updatedEntity = cleanUpEntity({
+      isEditable: true,
       ...entity,
       id,
-      modified: new Date().toISOString(),
+      modifiedAt: new Date().toISOString(),
     });
     if (await this.entityExists(id)) {
       this.validate(updatedEntity);
@@ -226,11 +274,11 @@ class EntityService {
       );
       return { delta };
     }
-    updatedEntity.created = new Date().toISOString();
+    updatedEntity.createdAt = new Date().toISOString();
     this.validate(updatedEntity);
     await this.insert(updatedEntity);
     const delta = await this.createHistoryEntry({}, updatedEntity, actorId);
-    return { delta };
+    return { upsert: true, delta };
   }
 
   async patchById(id, patch, actorId) {
@@ -245,8 +293,8 @@ class EntityService {
         id,
         entityType: existingEntity.entityType,
         creatorId: existingEntity.creatorId,
-        created: existingEntity.created,
-        modified: new Date().toISOString(),
+        createdAt: existingEntity.createdAt,
+        modifiedAt: new Date().toISOString(),
         entityImages: existingEntity.entityImages,
       });
       this.validate(updatedEntity);
@@ -288,24 +336,29 @@ class EntityService {
     return this.historyCollection.insertOne(historyEntry).then(() => delta);
   }
 
-  count() {
-    return this.collection.countDocuments({});
+  count(query = {}) {
+    return this.collection.countDocuments(query);
   }
 
   async addImage(id, imageFile, actorId) {
     const { entityImages } = await this.getById(id, { fields: "entityImages" });
     if (entityImages?.length >= 15) {
+      // TODO: this should be handled through a policy
       throw imagesLimitError;
     }
     const newImageId = await entityImagesService.addImage(imageFile);
-    this.collection.updateOne(
+    await this.collection.updateOne(
       { id },
       { $addToSet: { entityImages: newImageId } }
     );
-    return this.patchById(id, {}, actorId)
+    return this.patchById(id, { entityImages }, actorId)
       .then(() => newImageId)
       .catch(async (e) => {
-        await entityImagesService.deleteImageById(newImageId);
+        this.collection.updateOne(
+          { id },
+          { $pull: { entityImages: newImageId } }
+        );
+        entityImagesService.deleteImageById(newImageId);
         throw e;
       });
   }

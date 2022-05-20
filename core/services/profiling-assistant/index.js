@@ -1,6 +1,6 @@
 const Server = require("@diva/common/api/expressServer");
 const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const profilingRouter = require("./routes/profiling");
 const profilingService = require("./services/ProfilingService");
 const serviceName = require("./package.json").name;
@@ -17,6 +17,7 @@ log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 
 server.initBasicMiddleware();
 server.addOpenApiValidatorMiddleware();
+server.addPolicyValidatorMiddleware();
 server.addMiddleware("/profiling", profilingRouter);
 
 server

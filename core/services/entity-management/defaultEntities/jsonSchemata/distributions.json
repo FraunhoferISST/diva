@@ -1,0 +1,205 @@
+{
+  "id": "schema:uuid:35287d72-be64-4149-b141-f9191ec7e3a8",
+  "title": "Distribution Properties",
+  "schemaName": "distributions",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Distribution Properties Schema",
+    "properties": {
+      "distributions": {
+        "title": "Distributions",
+        "description": "Distributions specifies the sources from which e.g. a resource or an asset can be requested. This will only apply on technical things like data behind HTTP, a file, Urban-Pulse sensor or platform, Hadoop, etc.",
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "allOf": [
+            {
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "title": "Distribution Type",
+                  "description": "Specific type of the resource source",
+                  "enum": [
+                    "httpGetBasicAuth",
+                    "divaLake",
+                    "ipfs"
+                  ],
+                  "_elasticsearch": {
+                    "type": "keyword"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "httpGetBasicAuth"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "httpGetBasicAuth"
+                ],
+                "properties": {
+                  "httpGetBasicAuth": {
+                    "title": "Distribution Type: httpGetBasicAuth",
+                    "description": "Will be set, if the Distribution can be reached using HTTP-GET with Basic Auth",
+                    "type": "object",
+                    "required": [
+                      "url",
+                      "username",
+                      "password"
+                    ],
+                    "properties": {
+                      "url": {
+                        "type": "string",
+                        "format": "uri",
+                        "title": "Distribution URL",
+                        "description": "URL of the resource source",
+                        "minLength": 1,
+                        "_elasticsearch": {
+                          "type": "keyword"
+                        }
+                      },
+                      "username": {
+                        "type": "string",
+                        "title": "Login Username",
+                        "description": "Login credentials username",
+                        "_elasticsearch": {
+                          "type": "keyword"
+                        }
+                      },
+                      "password": {
+                        "type": "string",
+                        "title": "Login Password",
+                        "description": "Login credentials password",
+                        "_elasticsearch": {
+                          "type": "keyword"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "divaLake"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "divaLake"
+                ],
+                "properties": {
+                  "divaLake": {
+                    "title": "Distribution Type: divaLake",
+                    "description": "Will be set, if the Distribution can be reached using the internal DIVA Lake",
+                    "type": "object",
+                    "required": [
+                      "url",
+                      "port",
+                      "username",
+                      "password"
+                    ],
+                    "properties": {
+                      "url": {
+                        "type": "string",
+                        "title": "Distribution URL",
+                        "description": "URL of the resource source",
+                        "minLength": 1,
+                        "_elasticsearch": {
+                          "type": "keyword"
+                        }
+                      },
+                      "port": {
+                        "type": "integer",
+                        "title": "Distribution Port",
+                        "description": "Port of the resource source",
+                        "minimum": 80,
+                        "maximum": 65535,
+                        "_elasticsearch": {
+                          "type": "integer"
+                        }
+                      },
+                      "username": {
+                        "type": "string",
+                        "title": "Login Username",
+                        "description": "Login credentials username",
+                        "_elasticsearch": {
+                          "type": "keyword"
+                        }
+                      },
+                      "password": {
+                        "type": "string",
+                        "title": "Login Password",
+                        "description": "Login credentials password",
+                        "_elasticsearch": {
+                          "type": "keyword"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "ipfs"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "ipfs"
+                ],
+                "properties": {
+                  "ipfs": {
+                    "title": "Distribution Type: IPFS",
+                    "description": "Will be set, if the Distribution can be reached using IPFS P2P Network",
+                    "type": "object",
+                    "required": [
+                      "hash"
+                    ],
+                    "properties": {
+                      "hash": {
+                        "type": "string",
+                        "title": "Distribution Hash",
+                        "description": "Hash of the resource source"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

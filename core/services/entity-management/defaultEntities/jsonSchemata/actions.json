@@ -1,0 +1,79 @@
+{
+  "id": "schema:uuid:bc5ff46a-449a-4335-9cb4-e7eb562252e6",
+  "title": "Rule actions",
+  "schemaName": "actions",
+  "description": "Rule actions to execute. Actions are executed as HTTP requests",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "systemEntityType",
+      "value": "rule"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Rule actions",
+    "properties": {
+      "actions": {
+        "type": "array",
+        "title": "Rule actions",
+        "description": "Rule actions to execute. Actions are executed as HTTP requests",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "title": "Action",
+          "description": "Rule action",
+          "required": [
+            "headers",
+            "method"
+          ],
+          "properties": {
+            "headers": {
+              "title": "Request headers",
+              "description": "Headers that should be added to the action request",
+              "type": "object"
+            },
+            "body": {
+              "title": "Request body",
+              "description": "Data that should be supplied within the action request",
+              "type": "object"
+            },
+            "method": {
+              "title": "Request method",
+              "description": "Action request HTTP method",
+              "type": "string",
+              "enum": [
+                "GET",
+                "POST",
+                "PATCH",
+                "DELETE",
+                "PUT"
+              ]
+            },
+            "ignoreErrors": {
+              "type": "array",
+              "title": "Ignore errors",
+              "description": "Errors that can be ignored on action execution",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "statusCode": {
+                    "title": "Error HTTP code",
+                    "description": "Error HTTP code that can be ignored",
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "_elasticsearch": {
+          "enabled": false
+        }
+      }
+    }
+  }
+}

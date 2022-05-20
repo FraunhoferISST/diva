@@ -1,7 +1,6 @@
 # Image Caption Generator 🖼️
 
-[![version](https://img.shields.io/badge/image--caption--generator-2.0.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/image-caption-generator)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/image-caption-generator/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/image-caption-generator/-/commits/master)
+![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Fimage-caption-generator%2Fpackage.json)
 
 This service gets an image file as input and provides the generic image caption as output.
 The produced JSON result is written to the output file.
@@ -28,4 +27,4 @@ Environment variables:
 
 ## License
 
-Copyright © Fraunhofer ISST 2021
+Copyright © Fraunhofer ISST 2022

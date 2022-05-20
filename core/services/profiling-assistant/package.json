@@ -1,6 +1,7 @@
 {
   "name": "profiling-assistant",
   "version": "1.1.0",
+  "serviceId": "service:uuid:94bad1a7-2631-42f5-8a2d-1002efb995d0",
   "description": "A service helping in triggering profilings using airflow 1.10",
   "main": "index.js",
   "scripts": {
@@ -12,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
+    "url": "https://github.com/FraunhoferISST/diva/tree/main/core/services/profiling-assistant"
   },
   "keywords": [
     "profiling",
@@ -21,7 +22,7 @@
   "author": "dtebernum",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "2.3.0",
+    "@diva/common": "3.1.2",
     "axios": "^0.26.0",
     "url-join": "^4.0.1"
   },

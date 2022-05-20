@@ -1,7 +1,6 @@
 # Text Statistican 🧬
 
-[![version](https://img.shields.io/badge/text--statistican-2.0.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/drm)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/text-statistican/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/text-statistican/-/commits/master)
+![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Ftext-statistican%2Fpackage.json)
 
 A simple service to extract statistical metrics from a text file.
 

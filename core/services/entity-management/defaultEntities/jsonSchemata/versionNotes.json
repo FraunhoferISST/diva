@@ -1,0 +1,54 @@
+{
+  "id": "schema:uuid:41f32073-9b3b-44ce-bd2b-58d55e1b48ce",
+  "title": "Version notes",
+  "schemaName": "versionNotes",
+  "description": "A string describing the version of the entity",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    },
+    {
+      "key": "entityType",
+      "value": "service"
+    },
+    {
+      "key": "entityType",
+      "value": "systemEntity"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Version notes",
+    "properties": {
+      "versionNotes": {
+        "type": "string",
+        "title": "Version notes",
+        "description": "A string describing the version of the entity",
+        "default": "",
+        "examples": [
+          "This is a new release with awesome features"
+        ],
+        "pattern": "^(.*)$",
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 4,
+          "type": "text",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

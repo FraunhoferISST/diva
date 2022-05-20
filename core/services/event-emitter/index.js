@@ -1,4 +1,4 @@
-const generateUuid = require("@diva/common/generateUuid");
+const generateUuid = require("@diva/common/utils/generateUuid");
 const messageConsumer = require("@diva/common/messaging/MessageConsumer");
 const { setLoggerDefaultMeta, log } = require("./utils/logger");
 const serviceName = require("./package.json").name;
@@ -8,10 +8,6 @@ const serviceId = generateUuid("service");
 
 setLoggerDefaultMeta({ serviceId });
 
-const KAFKA_TOPICS = process.env.KAFKA_TOPICS
-  ? JSON.parse(process.env.KAFKA_TOPICS)
-  : ["entity.events", "datanetwork.events"];
-const ASYNCAPI_SPECIFICATION = process.env.ASYNCAPI_SPECIFICATION || "asyncapi";
 const NODE_ENV = process.env.NODE_ENV || "development";
 
 const onMessage = async (message) => {
@@ -28,7 +24,20 @@ const boot = async () => {
   log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 
   await messageConsumer.init(
-    KAFKA_TOPICS.map((topic) => ({ topic, spec: ASYNCAPI_SPECIFICATION })),
+    [
+      {
+        topic: "entity.events",
+        spec: {
+          name: "asyncapi",
+        },
+      },
+      {
+        topic: "datanetwork.events",
+        spec: {
+          name: "datanetwork-api",
+        },
+      },
+    ],
     serviceName
   );
   await messageConsumer.consume(onMessage);

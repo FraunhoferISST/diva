@@ -52,8 +52,7 @@ export default {
     renderMap() {
       this.map = L.map("location-map", {
         center: L.GeoJSON.coordsToLatLng([
-          7.400397062301635,
-          51.49351838098325,
+          7.400397062301635, 51.49351838098325,
         ]),
         edit: this.editable,
         zoom: this.zoom,
@@ -140,6 +139,7 @@ export default {
 
 <style scoped lang="scss">
 .location-map {
+  @include border-radius;
   width: 100%;
   z-index: 0;
 }

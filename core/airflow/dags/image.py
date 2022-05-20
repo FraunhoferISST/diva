@@ -29,7 +29,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
         image='ghcr.io/fraunhoferisst/diva/image-caption-generator:2.0.0',
         api_version='auto',
         auto_remove=True,
-        s3_input_key="{{ dag_run.conf['uniqueFingerprint'] }}",
+        s3_input_key="{{ dag_run.conf['entityId'] }}",
         environment={
             'IBM_HOST': 'profiling-image-caption-generator-ibm',
             'IBM_PORT ': 5000
@@ -44,7 +44,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
         image='ghcr.io/fraunhoferisst/diva/image-object-detection:2.0.0',
         api_version='auto',
         auto_remove=True,
-        s3_input_key="{{ dag_run.conf['uniqueFingerprint'] }}",
+        s3_input_key="{{ dag_run.conf['entityId'] }}",
         environment={
             'IBM_HOST': 'profiling-image-object-detection-ibm',
             'IBM_PORT ': 5000
@@ -59,7 +59,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
         image='ghcr.io/fraunhoferisst/diva/image-metadata-extractor:2.0.0',
         api_version='auto',
         auto_remove=True,
-        s3_input_key="{{ dag_run.conf['uniqueFingerprint'] }}",
+        s3_input_key="{{ dag_run.conf['entityId'] }}",
         docker_url="unix://var/run/docker.sock",
         network_mode="diva_workflows",
         bucket='file-lake'
@@ -81,7 +81,7 @@ with DAG('image', default_args=default_args, schedule_interval=None, catchup=Fal
         image='ghcr.io/fraunhoferisst/diva/image-text-extractor:3.0.0',
         api_version='auto',
         auto_remove=True,
-        s3_input_key="{{ dag_run.conf['uniqueFingerprint'] }}",
+        s3_input_key="{{ dag_run.conf['entityId'] }}",
         docker_url="unix://var/run/docker.sock",
         network_mode="diva_workflows",
         bucket='file-lake'

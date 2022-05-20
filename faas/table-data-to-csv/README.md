@@ -1,7 +1,6 @@
 # Table Data to CSV Converter 🔄
 
-[![version](https://img.shields.io/badge/table--data--to--csv-1.0.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-to-csv)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-to-csv/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-to-csv/-/commits/master)
+![GitHub](https://img.shields.io/badge/version-v1.0.0-green)
 
 The service converts a given table data file to a `.csv` file.
 

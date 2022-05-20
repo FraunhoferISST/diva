@@ -2,12 +2,12 @@
   <v-app app>
     <v-main>
       <div
-        v-if="authenticating"
+        v-if="authenticating || error"
         class="fill-height d-flex align-center justify-center"
       >
         <div class="text-center">
           <div v-if="!error" style="height: 100px">
-            <loading-state-overlay v-if="loading"> </loading-state-overlay>
+            <loading-state-overlay> </loading-state-overlay>
             <p>{{ message }}</p>
           </div>
           <v-alert
@@ -18,7 +18,7 @@
             color="error"
             class="text-center ma-0"
           >
-            Ups, something went wrong with our authentication server. <br />
+            Something went wrong with our authentication server. <br />
             {{ error }}<br />
             <v-btn
               class="mt-2"
@@ -50,54 +50,26 @@ export default {
     RouterTransition,
   },
   data: () => ({
-    message: "Preparing the journey",
-    loading: true,
+    message: "Connecting to authentication service...",
     authenticating: true,
     error: "",
   }),
-  computed: {
-    user() {
-      return this.$store.state.user;
-    },
-  },
   methods: {
     authenticate() {
-      this.loading = true;
-      this.error = "";
       this.authenticating = true;
       keycloak
         .init()
         .then(async (authenticated) => {
-          if (authenticated) {
-            const user = keycloak.getUser();
-            await this.$store.dispatch("login", user).catch(async (e) => {
-              if (e?.response?.data?.code === 409) {
-                const {
-                  data: { collection },
-                } = await this.$api.users.get({
-                  email: user.email,
-                });
-                const conflictingUser = collection[0];
-                await this.$api.users.delete(conflictingUser.id);
-                return this.$store.dispatch("login", user);
-              }
-              throw e;
-            });
-            if (this.$route.name === "login") {
-              this.$router.push("/");
-            }
-            this.authenticating = false;
-          } else {
-            this.authenticating = false;
-            this.$router.push({ name: "login" });
+          if (!authenticated) {
+            return this.$router.push({ name: "login" });
           }
         })
         .catch((e) => {
-          const error = e?.error || e?.response?.data?.message || e.toString();
+          const error = e?.error || e?.response?.data?.message || e;
           this.error = error ?? "Failed to initialize authentication";
         })
         .finally(() => {
-          this.loading = false;
+          this.authenticating = false;
         });
     },
   },
@@ -117,7 +89,7 @@ export default {
   "styles/tabs", "styles/date-picker";
 html {
   font-size: 14px !important;
-  overflow-y: auto !important;
+  //overflow-y: auto !important;
 }
 
 #app {
@@ -128,7 +100,6 @@ html {
   font-family: Quicksand;
   color: $font_secondary_color;
   font-weight: bold;
-  min-width: 768px;
 }
 body {
   font-family: $font_body;

@@ -15,6 +15,8 @@
     </div>
     <!--<div class="dash-divider" v-if="header"></div>-->
     <div class="card-body">
+      <slot></slot>
+      <!-- LEGACY SLOT      -->
       <slot name="body"></slot>
     </div>
     <div class="divider" v-if="footer"></div>
@@ -59,7 +61,7 @@ export default {
 .card {
   transition: 0.3s;
   width: 100%;
-  height: 100%;
+  //height: 100%;
   background-color: $bg_card;
   position: relative;
   display: grid;

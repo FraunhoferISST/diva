@@ -1,7 +1,6 @@
 # Table Data Schema Extractor 📤
 
-[![version](https://img.shields.io/badge/table--data--schema--extractor-2.0.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-schema-extractor)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-schema-extractor/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-schema-extractor/-/commits/master)
+![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Ftable-data-schema-extractor%2Fpackage.json)
 
 This service gets a table data file with mimeType `text/csv` as input, extracts its content and provides the column headers as `.json` file output.
 

@@ -1,7 +1,6 @@
 # Text Keyword Extractor 🔑
 
-[![version](https://img.shields.io/badge/text--keyword--extractor-4.1.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/text-keyword-extractor)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/text-keyword-extractor/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/text-keyword-extractor/-/commits/master)
+![GitHub](https://img.shields.io/badge/version-v4.1.0-green)
 
 A simple service to extract keywords from a text file.
 
@@ -79,12 +78,6 @@ tagger = ClassifierBasedGermanTagger(train=train_sents)
 print(accuracy = tagger.evaluate(test_sents))
 ```
 
-## Developer
-
-|**Daniel Tebernum**|
-|:---:|
-|[![Daniel Tebernum](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3566/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/dtebernum)|
-
 ## License
 
-Copyright © Fraunhofer ISST 2021
+Copyright © Fraunhofer ISST 2022

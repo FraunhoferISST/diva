@@ -16,6 +16,7 @@ env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
   IMAGE_NAME: diva-airflow
   SERVICE_PATH: core/airflow
+  DIVA_DOCKERFILE_PATH: core/airflow/Dockerfile
 
 jobs:
   build-and-push-image:
@@ -25,7 +26,6 @@ jobs:
       packages: write
 
     steps:
-      - uses: ./composite/action.yml
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -51,6 +51,7 @@ jobs:
         uses: docker/build-push-action@7f9d37fa544684fb73bfe4835ed7214c255ce02b
         with:
           context: ${{ env.SERVICE_PATH }}
-          push: true
+          file: ${{ env.DIVA_DOCKERFILE_PATH }}
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

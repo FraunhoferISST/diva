@@ -1,0 +1,50 @@
+{
+  "id": "schema:uuid:f15d6655-553d-4821-9383-3d917c1baf88",
+  "title": "Keywords",
+  "schemaName": "keywords",
+  "description": "Keywords which tag the entity",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Keywords",
+    "properties": {
+      "keywords": {
+        "type": "array",
+        "title": "Keywords",
+        "description": "Keywords which tag the entity",
+        "default": [],
+        "items": {
+          "uniqueItems": true,
+          "type": "string",
+          "title": "Items",
+          "description": "A keyword",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 2,
+          "type": "select",
+          "allowCustom": true,
+          "fullWidth": true,
+          "multiple": true,
+          "fallbackValue": []
+        }
+      }
+    }
+  }
+}

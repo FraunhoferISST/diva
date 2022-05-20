@@ -1,19 +1,19 @@
 <template>
-  <v-row v-bind="$attrs">
-    <v-col cols="12" class="pb-1">
+  <div>
+    <div class="pb-1">
       <slot name="title">
         <info-block-title>
           {{ title }}
           <slot name="info"></slot>
         </info-block-title>
       </slot>
-    </v-col>
-    <v-col cols="12" class="pt-1 info-block-value">
+    </div>
+    <div class="pt-1 info-block-value">
       <slot name="value">
         <info-block-value>{{ value }}</info-block-value>
       </slot>
-    </v-col>
-  </v-row>
+    </div>
+  </div>
 </template>
 
 <script>

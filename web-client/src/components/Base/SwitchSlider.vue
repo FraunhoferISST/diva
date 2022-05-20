@@ -1,18 +1,18 @@
 <template>
   <div
-    class="c-switch-container"
+    class="switch-container"
     :style="{ width: `${size * options.length}px` }"
     :class="{
-      inverse: inverse,
-      large: large,
-      small: small,
-      mini: mini,
-      round: round,
+      inverse,
+      large,
+      small,
+      mini,
+      round,
     }"
   >
-    <div class="c-switch">
+    <div class="switch">
       <span
-        class="c-switch-indicator"
+        class="switch-indicator shadow-sm"
         :style="{
           backgroundColor: bg,
           width: `${indicatorWidth}%`,
@@ -21,19 +21,27 @@
       ></span>
       <label
         :style="{ color: color }"
-        :class="{ active: option.label === selected }"
+        :class="{ active: (option.title || option) === computedSelected }"
         v-for="option in options"
-        :key="option.label"
+        :key="option.title || option"
       >
-        <input type="radio" :value="option.label" v-model="computedSelected" />
+        <input
+          type="radio"
+          :checked="(option.title || option) === computedSelected"
+          :value="option.title || option"
+          v-model="computedSelected"
+          @change="emitClick"
+        />
         <v-icon
-          :color="option.label === selected ? 'white' : ''"
-          :small="small"
-          :x-small="mini"
+          small
           v-if="option.icon"
-          >{{ option.icon }}</v-icon
+          :color="
+            (option.title || option) === computedSelected ? 'white' : 'primary'
+          "
         >
-        <span v-else>{{ option.label }}</span>
+          {{ option.icon }}
+        </v-icon>
+        <span class="d-inline ml-1" v-if="!hideTitle">{{ option.title }}</span>
       </label>
     </div>
   </div>
@@ -42,13 +50,11 @@
 <script>
 export default {
   name: "SwitchSlider",
+  emits: ["update:selected"],
   props: {
+    selected: String,
     options: {
       type: Array,
-      required: true,
-    },
-    selected: {
-      type: String,
       required: true,
     },
     size: {
@@ -73,7 +79,7 @@ export default {
     },
     bg: {
       type: String,
-      default: "#2d68fc",
+      default: "#4d7bff",
     },
     color: {
       type: String,
@@ -83,39 +89,47 @@ export default {
       type: Boolean,
       default: true,
     },
+    hideTitle: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     computedSelected: {
       get() {
         return this.selected;
       },
-      set(value) {
-        this.$emit("update:selected", value);
+      set(val) {
+        this.$emit("update:selected", val);
       },
     },
     selectedIndex() {
-      if (!this.selected) return 0;
-      return this.options.findIndex(({ label }) => label === this.selected);
+      return this.options.findIndex(
+        (option) => (option.title || option) === this.selected
+      );
     },
     indicatorWidth() {
       return 100 / this.options.length;
+    },
+  },
+  methods: {
+    emitClick() {
+      this.$nextTick(() => this.$emit("select", this.selectedIndex));
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.c-switch-container {
-  @include border-radius-half();
-  padding: 5px;
-  background-color: $bg_primary;
-  height: 40px;
-  box-shadow: 0 0.07em 0.1em -0.1em rgba(#000, 0.2) inset,
-    0 0.05em 0.08em -0.01em rgba(#fff, 0.5);
+.switch-container {
+  padding: 4px;
+  background-color: white;
+  height: 32px;
+  box-shadow: inset 0 0 2px 1px rgba(0, 0, 0, 0.1);
   &.round {
     border-radius: 30px;
     label,
-    .c-switch-indicator {
+    .switch-indicator {
       border-radius: 30px;
     }
   }
@@ -138,22 +152,21 @@ export default {
     height: 54px;
   }
 }
-.c-switch {
+.switch {
   position: relative;
   display: flex;
   border-radius: 50px;
   height: 100%;
-  .c-switch-indicator {
-    @include border-radius-half();
+  .switch-indicator {
     height: 100%;
     transition: 0.3s;
     display: block;
     flex: 1;
     left: 0;
-    background-color: white;
+    background-color: #265cff;
     position: absolute;
     &.inverse {
-      background-color: $bg_primary;
+      background-color: white;
     }
   }
   input {
@@ -164,7 +177,6 @@ export default {
   }
   label {
     transition: 0.3s;
-    @include font-style(0.9rem, $font_body, bold, $font_primary_color);
     cursor: pointer;
     font-size: 0.9rem;
     position: relative;
@@ -175,13 +187,17 @@ export default {
     justify-content: center;
     align-items: center;
     height: 100%;
-    @include border-radius-half();
     &:hover {
       background-color: rgba(#2d68fc, 0.1);
     }
     &.active {
       color: white;
     }
+  }
+}
+.dark {
+  .switch-container {
+    background-color: #22272e;
   }
 }
 </style>

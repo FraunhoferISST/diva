@@ -1,0 +1,49 @@
+{
+  "id": "schema:uuid:55e31f19-cad9-45be-b1f3-3de30caa5bfd",
+  "title": "Entity gallery",
+  "schemaName": "entityGallery",
+  "description": "The collection of images sources as entity gallery",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Entity gallery",
+    "properties": {
+      "entityGallery": {
+        "type": "array",
+        "title": "Entity gallery",
+        "description": "The collection of images sources as entity gallery",
+        "items": {
+          "anyOf": [
+            {
+              "type": "string",
+              "title": "Image URL",
+              "description": "The host URL of the image",
+              "format": "uri",
+              "examples": [
+                "https://image-host.com/my-image"
+              ],
+              "_elasticsearch": {
+                "type": "keyword"
+              }
+            },
+            {
+              "type": "string",
+              "title": "Image id",
+              "description": "The id of the uploaded image",
+              "examples": [
+                "image:uuid:67d4acaa-00e0-4a00-8b61-15abe20e1413"
+              ],
+              "pattern": "^image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+              "_elasticsearch": {
+                "type": "keyword"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

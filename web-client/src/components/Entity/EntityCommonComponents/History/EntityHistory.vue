@@ -1,24 +1,25 @@
 <template>
-  <section id="history" class="pb-12">
+  <section id="history">
     <entity-history-details
       :history-log="selectedLog"
       :show.sync="showDetails"
     />
-    <v-container fluid>
-      <reactive-data-fetcher :fetch-method="fetchInitialHistory" :id="id">
+    <v-container fluid class="pa-0">
+      <data-viewer :loading="loading" :error="error">
         <template>
           <v-container fluid class="pa-0">
-            <v-row v-if="history.length > 0">
+            <v-row v-if="historyEntries.length > 0">
               <v-col
                 cols="12"
-                v-for="(historyLog, i) in history"
+                v-for="(historyLog, i) in historyEntries"
                 :key="historyLog.id"
               >
                 <history-card
                   :data="historyLog"
-                  :last="i === history.length - 1"
+                  :last="i === historyEntries.length - 1"
                   :first="i === 0"
-                  :count="history.length"
+                  :position="i"
+                  :count="historyEntries.length"
                   @selected="selectHistoryLog(historyLog)"
                 />
               </v-col>
@@ -27,30 +28,37 @@
               <v-col cols="12"> <no-data-state /></v-col>
             </v-row>
           </v-container>
+          <observer
+            @intersect="loadNextPage"
+            v-if="historyEntries.length > 0"
+          />
         </template>
-      </reactive-data-fetcher>
-      <observer @intersect="loadNextPage" />
+      </data-viewer>
     </v-container>
   </section>
 </template>
 
 <script>
-import ReactiveDataFetcher from "@/components/DataFetchers/ReactiveDataFetcher";
 import HistoryCard from "@/components/Entity/EntityCommonComponents/History/HistoryCard";
 import NoDataState from "@/components/Base/NoDataState";
 import EntityHistoryDetails from "@/components/Entity/EntityCommonComponents/History/EntityHistoryDetails";
 import InfiniteScroll from "@/components/Mixins/infiniteScroll";
 import Observer from "@/components/Base/Observer";
+import DataViewer from "@/components/DataFetchers/DataViewer";
+import { useRequest } from "@/composables/request";
+import { useBus } from "@/composables/bus";
+import { useApi } from "@/composables/api";
+import { onMounted, ref } from "@vue/composition-api";
 
 export default {
   name: "EntityHistory",
   mixins: [InfiniteScroll],
   components: {
+    DataViewer,
     Observer,
     EntityHistoryDetails,
     NoDataState,
     HistoryCard,
-    ReactiveDataFetcher,
   },
   props: {
     id: {
@@ -58,66 +66,105 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    selectedLog: {},
-    showDetails: false,
-    history: [],
-    cursor: "",
-  }),
-  methods: {
-    loadNextPage(observerState) {
-      if (this.cursor) {
-        this.loadPage(observerState, this.fetchHistory()).then(
-          ({ collection, cursor }) => {
-            this.history.push(...collection);
-            this.cursor = cursor;
-          }
-        );
-      }
-    },
-    fetchInitialHistory() {
-      return this.fetchHistory().then(({ collection, cursor }) => {
-        this.history = collection;
-        this.cursor = cursor;
-      });
-    },
-    fetchHistory() {
-      return this.$api.history
+  setup(props) {
+    const cursor = ref(null);
+    const historyEntries = ref([]);
+    const selectedLog = ref({});
+    const showDetails = ref(false);
+    const { request, error, loading } = useRequest();
+    const { history, getCollectionNameById, api } = useApi();
+    const { on } = useBus();
+    const loadPage = (_cursor = cursor.value) =>
+      history
         .getHistories({
           pageSize: 50,
-          attributedTo: this.id,
+          attributedTo: props.id,
           humanReadable: true,
-          ...(this.cursor ? { cursor: this.cursor } : {}),
+          ...(_cursor ? { cursor: _cursor } : {}),
         })
-        .then(async ({ data: { collection, cursor } }) => {
-          const creators = await this.$api.users.getManyById(
-            collection.map(({ creatorId }) => creatorId)
-          );
+        .then(async ({ data: { collection, cursor: c } }) => {
+          const creatorsGroups = collection.reduce((group, entry) => {
+            const { creatorId } = entry;
+            const collectionName = getCollectionNameById(creatorId);
+            group[collectionName] = group[collectionName] ?? [];
+            group[collectionName].push(creatorId);
+            return group;
+          }, {});
+          const creators = (
+            await Promise.all(
+              Object.entries(creatorsGroups).map(([collectionName, ids]) =>
+                api[collectionName].getManyById(
+                  ids,
+                  {
+                    fields: "id,title,username,entityType,email,serviceType",
+                  },
+                  {
+                    onIgnoredError: (e, id) => {
+                      if (e?.response?.data?.code === 403) {
+                        return {
+                          id,
+                          visible: false,
+                        };
+                      }
+                    },
+                  }
+                )
+              )
+            )
+          ).flat();
           const historiesWithCreators = collection.map((entry) => ({
             ...entry,
-            creator: creators.find(({ id }) => id === entry.creatorId),
+            creator: creators.find(({ id }) => id === entry.creatorId) ?? {},
           }));
           return {
             collection: historiesWithCreators,
-            cursor,
+            cursor: c,
           };
         });
-    },
-    async getCreator(historyLog) {
-      // TODO: is this case still possible?
-      if (historyLog.creatorId.startsWith("service:")) {
-        return { username: "Internal service" };
-      }
-      return (
-        await this.$api.users
-          .getByIdIfExists(historyLog.creatorId)
-          .catch(() => null)
-      )?.data;
-    },
-    selectHistoryLog(log) {
-      this.selectedLog = log;
-      this.showDetails = true;
-    },
+
+    const loadFirstPage = () =>
+      request(
+        loadPage(null).then(({ collection, cursor: c }) => {
+          historyEntries.value = collection;
+          cursor.value = c;
+        })
+      );
+
+    onMounted(() => {
+      loadFirstPage();
+      on("reload", loadFirstPage);
+    });
+
+    return {
+      historyEntries,
+      selectedLog,
+      showDetails,
+      error,
+      loading,
+      cursor,
+      loadNextPage: (changeStateMethod) => {
+        if (cursor.value) {
+          changeStateMethod({ loading: true });
+          loadPage()
+            .then(({ collection, cursor: c }) => {
+              changeStateMethod({ loading: false });
+              historyEntries.value.push(...collection);
+              cursor.value = c;
+              if (!cursor.value) {
+                changeStateMethod({ completed: true });
+              }
+            })
+            .catch((e) => {
+              changeStateMethod({ error: true, loading: false });
+              throw e;
+            });
+        }
+      },
+      selectHistoryLog: (log) => {
+        selectedLog.value = log;
+        showDetails.value = true;
+      },
+    };
   },
 };
 </script>

@@ -1,4 +1,6 @@
-const domainRules = require("../static/businessRules");
+const { logger } = require("@diva/common/logger");
+const { mongoDBConnector } = require("../utils/dbConnectors");
+
 const {
   substituteTemplate,
   isConditionMet,
@@ -6,13 +8,21 @@ const {
 } = require("../utils/utils");
 const servicesURLsMap = require("../utils/servicesURLs");
 
-const prepareAction = (action, message) =>
-  JSON.parse(
+const prepareAction = (action, message) => {
+  const substitutedAction = JSON.parse(
     substituteTemplate(JSON.stringify(action), {
       ...message,
       ...servicesURLsMap,
     })
   );
+  return {
+    ...substitutedAction,
+    headers: {
+      ...substitutedAction.headers,
+      "x-diva": JSON.stringify(substitutedAction.headers["x-diva"]),
+    },
+  };
+};
 
 const getRuleActions = async (rule, message) => {
   if (await isConditionMet(rule.condition, message)) {
@@ -23,12 +33,26 @@ const getRuleActions = async (rule, message) => {
 
 class BusinessRulesService {
   constructor() {
-    this.rules = domainRules;
+    this.rules = [];
   }
 
   async init() {
-    // TODO: load rules from DB
-    return true;
+    this.collection = mongoDBConnector.collections.systemEntities;
+    return this.cacheRules();
+  }
+
+  async cacheRules() {
+    this.rules = await this.collection
+      .find({ systemEntityType: "rule", isActive: true })
+      .toArray();
+
+    if (this.rules.length === 0) {
+      logger.warn(
+        "🚫 No rules found in DB! Admin should check whether this is desired!"
+      );
+    } else {
+      logger.info(`✅ Loaded ${this.rules.length} rules`);
+    }
   }
 
   async requestRulesActions(message) {
