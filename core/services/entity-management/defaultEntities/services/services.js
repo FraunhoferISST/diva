@@ -9,6 +9,22 @@ module.exports = [
     serviceType: "internal",
     entityType: "service",
   },
+  {
+    title: "Business Decision Point",
+    description: "Manages policies and rules",
+    serviceName: "business-decision-point",
+    id: "service:uuid:037ca2aa-571b-4b8a-9eed-7f344cc28447",
+    serviceType: "internal",
+    entityType: "service",
+  },
+  {
+    title: "Business Rules Executor",
+    description: "Executes business rules on messages",
+    serviceName: "business-rules-executor",
+    id: "service:uuid:0354104d-550d-40a7-81ab-587ff4c5633a",
+    serviceType: "internal",
+    entityType: "service",
+  },
   // FaaS Bots
   {
     title: "Similarity Network Bot",
