@@ -34,6 +34,7 @@ class KafkaConnector {
     const consumer = this.kafka.consumer({
       clientId: generateUuid(serviceName),
       groupId: serviceName,
+      sessionTimeout: 15000,
       retry: {
         initialRetryTime: 1000,
         retries: 5,
