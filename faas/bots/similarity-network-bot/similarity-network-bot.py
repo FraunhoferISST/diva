@@ -36,6 +36,9 @@ def delete_outdated_similarity_edges(entity_id, similar_fingerprints):
                "edgeTypes": EDGE_TYPE}
     res = requests.get(ENTITY_MANAGEMENT_URL + "/edges",
                        params=payload, headers=HEADERS).json()
+    if "code" in res and res["code"] >= 400:
+        print("Error occurred!", res)
+        raise Exception(res)
 
     # Delete existing edges if there is no similarity anymore
     for edge in res["collection"]:
@@ -57,6 +60,10 @@ def upsert_similarity_edges(entity_id, similar_fingerprints):
                "edgeTypes": EDGE_TYPE}
     res = requests.get(ENTITY_MANAGEMENT_URL + "/edges",
                        params=payload, headers=HEADERS).json()
+
+    if "code" in res and res["code"] >= 400:
+        print("Error occurred!", res)
+        raise Exception(res)
 
     for fingerprint in similar_fingerprints:
         if entity_id == fingerprint[1][1]:
