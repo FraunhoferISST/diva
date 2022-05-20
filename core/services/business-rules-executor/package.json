@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "3.1.1",
+    "@diva/common": "3.1.2",
     "axios": "^0.26.0",
     "lodash": "^4.17.21",
     "mongodb": "^4.1.2",
