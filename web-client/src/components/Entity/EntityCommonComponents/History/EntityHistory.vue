@@ -28,9 +28,12 @@
               <v-col cols="12"> <no-data-state /></v-col>
             </v-row>
           </v-container>
+          <observer
+            @intersect="loadNextPage"
+            v-if="historyEntries.length > 0"
+          />
         </template>
       </data-viewer>
-      <observer @intersect="loadNextPage" />
     </v-container>
   </section>
 </template>
@@ -77,7 +80,7 @@ export default {
           pageSize: 50,
           attributedTo: props.id,
           humanReadable: true,
-          ...(_cursor ? { _cursor } : {}),
+          ...(_cursor ? { cursor: _cursor } : {}),
         })
         .then(async ({ data: { collection, cursor: c } }) => {
           const creatorsGroups = collection.reduce((group, entry) => {
@@ -138,12 +141,14 @@ export default {
       showDetails,
       error,
       loading,
+      cursor,
       loadNextPage: (changeStateMethod) => {
         if (cursor.value) {
           changeStateMethod({ loading: true });
           loadPage()
             .then(({ collection, cursor: c }) => {
-              history.value.push(...collection);
+              changeStateMethod({ loading: false });
+              historyEntries.value.push(...collection);
               cursor.value = c;
               if (!cursor.value) {
                 changeStateMethod({ completed: true });
@@ -152,8 +157,7 @@ export default {
             .catch((e) => {
               changeStateMethod({ error: true, loading: false });
               throw e;
-            })
-            .finally(() => changeStateMethod({ loading: false }));
+            });
         }
       },
       selectHistoryLog: (log) => {

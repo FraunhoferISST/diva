@@ -71,7 +71,13 @@
       <template>
         Are you sure you want to delete your review? The changes cannot be
         rolled back!
-        <v-snackbar text :color="color" v-model="snackbar" absolute>
+        <v-snackbar
+          text
+          :color="color"
+          v-model="snackbar"
+          absolute
+          v-if="showConfirmationDialog"
+        >
           {{ message }}
         </v-snackbar>
       </template>
@@ -87,6 +93,16 @@
         </v-btn>
       </template>
     </confirmation-dialog>
+    <v-snackbar
+      text
+      :color="color"
+      v-model="snackbar"
+      absolute
+      top
+      v-if="!showConfirmationDialog"
+    >
+      {{ message }}
+    </v-snackbar>
   </div>
 </template>
 
