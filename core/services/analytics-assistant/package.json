@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISST",
   "dependencies": {
-    "@diva/common": "3.1.3"
+    "@diva/common": "3.1.4"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",
