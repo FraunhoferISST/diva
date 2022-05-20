@@ -36,11 +36,11 @@
                 />
               </v-col>
             </fade-in>
+            <observer @intersect="loadNextPage" v-if="reviews.length > 0" />
           </template>
         </data-viewer>
       </v-row>
     </v-container>
-    <observer @intersect="loadNextPage" />
   </section>
 </template>
 
@@ -88,7 +88,7 @@ export default {
         .get({
           pageSize: 50,
           attributedTo: props.id,
-          ...(_cursor ? { _cursor } : {}),
+          ...(_cursor ? { cursor: _cursor } : {}),
         })
         .then(async ({ data: { collection, cursor: c } }) => {
           const creatorsGroups = collection.reduce((group, entry) => {
@@ -151,6 +151,7 @@ export default {
           changeStateMethod({ loading: true });
           loadPage()
             .then(({ collection, cursor: c }) => {
+              changeStateMethod({ loading: false });
               reviews.value.push(...collection);
               cursor.value = c;
               if (!cursor.value) {
@@ -160,8 +161,7 @@ export default {
             .catch((e) => {
               changeStateMethod({ error: true, loading: false });
               throw e;
-            })
-            .finally(() => changeStateMethod({ loading: false }));
+            });
         }
       },
       onPatch: (index, review) => {
