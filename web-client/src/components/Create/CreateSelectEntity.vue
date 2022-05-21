@@ -57,12 +57,13 @@ export default {
         color: "alternative",
         routeName: "create_asset",
       },
-      /*{
-        title: "Add new process",
-        description: "We will define this in the future",
+      {
+        title: "Add new service",
+        description: "Add a new service that is available in your company",
         icon: "resource.svg",
-        route: "resource",
+        routeName: "create_service",
       },
+      /*
       {
         title: "Add new entity",
         description: "We will define this in the future",
