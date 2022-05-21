@@ -25,7 +25,7 @@
     "url": "https://github.com/FraunhoferISST/diva/tree/main/core/services/adapter-services/urban-pulse-adapter"
   },
   "dependencies": {
-    "@diva/common": "3.1.2",
+    "@diva/common": "3.1.4",
     "axios": "^0.21.1",
     "url-join": "^4.0.1"
   },

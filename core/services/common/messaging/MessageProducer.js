@@ -1,7 +1,11 @@
+const path = require("path");
 const KafkaConnector = require("./KafkaConnector");
 const generateUuid = require("../utils/generateUuid");
 const MessagesValidator = require("./MessagesValidator");
 const { logger: log } = require("../logger");
+const workDir = require("../utils/workDir");
+
+const SERVICE_ID = require(path.join(`${workDir}`, "/package.json")).serviceId;
 
 const ASYNCAPI_SPECIFICATION = "asyncapi";
 
@@ -14,7 +18,7 @@ const creatMessage = (
 ) => ({
   schemaId: spec,
   serviceName,
-  serviceId: generateUuid("service"),
+  serviceId: SERVICE_ID,
   messageId: generateUuid("message"),
   messageName,
   payload: {

@@ -32,7 +32,6 @@ class KafkaConnector {
 
   async createConsumer(serviceName, topics, onMessage) {
     const consumer = this.kafka.consumer({
-      clientId: generateUuid(serviceName),
       groupId: serviceName,
       sessionTimeout: 15000,
       retry: {
@@ -41,12 +40,7 @@ class KafkaConnector {
       },
     });
 
-    await consumer.connect();
-    const promises = topics.map((topic) =>
-      consumer.subscribe({ topic, fromBeginning: true })
-    );
-    await Promise.all(promises);
-    await consumer.run({
+    const runConfig = {
       autoCommit: true,
       eachMessage: ({ topic, message, partition }) =>
         retry(() => onMessage(message, topic))
@@ -68,7 +62,22 @@ class KafkaConnector {
             );
             throw e;
           }),
-    });
+    };
+
+    const { CRASH, STOP } = consumer.events;
+    [CRASH, STOP].forEach((event) =>
+      consumer.on(event, async (e) => {
+        log.error("Kafka connection error!", e);
+        process.exit(1);
+      })
+    );
+
+    await consumer.connect();
+    const promises = topics.map((topic) =>
+      consumer.subscribe({ topic, fromBeginning: true })
+    );
+    await Promise.all(promises);
+    await consumer.run(runConfig);
     log.info(
       `✅ Message consumer ready on "${this.URL}" for topics: ${JSON.stringify(
         topics

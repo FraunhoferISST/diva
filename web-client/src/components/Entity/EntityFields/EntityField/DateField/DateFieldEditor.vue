@@ -8,7 +8,7 @@
       offset-y
       min-width="auto"
     >
-      <template v-slot:activator="{ on, attrs }">
+      <template #activator="{ on, attrs }">
         <v-combobox
           outlined
           dense
@@ -55,7 +55,7 @@ export default {
         return this.value;
       },
       set(value) {
-        this.$emit("update:value", value);
+        this.$emit("update:value", new Date(value).toISOString());
       },
     },
   },

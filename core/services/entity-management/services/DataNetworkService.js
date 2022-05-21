@@ -140,7 +140,7 @@ class DataNetworkService {
 
   count(query) {
     return executeSession(query).then(
-      ({ records }) => records[0]?._fields[0]?.low ?? 0
+      ({ records }) => records[0]?._fields[0] ?? 0
     );
   }
 
