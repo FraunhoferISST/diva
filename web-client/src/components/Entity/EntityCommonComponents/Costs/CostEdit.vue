@@ -70,8 +70,8 @@ export default {
       handler() {
         this.$emit("update:costsData", {
           value: parseFloat(this.data.value),
-          period: this.data.period ?? "",
-          currency: this.data.currency,
+          period: this.data.period || null,
+          currency: this.data.currency || null,
         });
       },
     },
