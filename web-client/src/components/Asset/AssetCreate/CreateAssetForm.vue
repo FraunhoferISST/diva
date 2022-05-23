@@ -104,7 +104,6 @@ export default {
         .create({
           title: this.title,
           assetType: "generic",
-          entities: [],
         })
         .then(({ data: id }) => {
           this.$router.push({
