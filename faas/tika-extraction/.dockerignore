@@ -1,6 +1,5 @@
 .git
 .gitignore
+Dockerfile
 README.md
-setenv
-samples
 bom.json
