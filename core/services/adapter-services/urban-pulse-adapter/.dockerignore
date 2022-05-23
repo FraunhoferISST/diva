@@ -57,3 +57,6 @@ jspm_packages/
 
 # Tests
 test
+
+# SBOM
+bom.json

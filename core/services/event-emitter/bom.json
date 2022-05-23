@@ -1,0 +1,65 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.3",
+  "serialNumber": "urn:uuid:fd550473-07ba-446b-9503-fdd33f5089aa",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2022-05-23T08:41:24.042Z",
+    "tools": [
+      {
+        "vendor": "CycloneDX",
+        "name": "Node.js module",
+        "version": "3.9.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "pkg:npm/event-emitter@0.2.1",
+      "name": "event-emitter",
+      "version": "0.2.1",
+      "description": "A microservice for delivering events to a client",
+      "licenses": [
+        {
+          "license": {
+            "name": "ISST"
+          }
+        }
+      ],
+      "purl": "pkg:npm/event-emitter@0.2.1",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/FraunhoferISST/diva/tree/main/core/services/event-emitter"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40diva/common@3.1.4",
+      "group": "@diva",
+      "name": "common",
+      "version": "3.1.4",
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40diva/common@3.1.4"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:npm/%40diva/common@3.1.4"
+    },
+    {
+      "ref": "pkg:npm/event-emitter@0.2.1",
+      "dependsOn": [
+        "pkg:npm/%40diva/common@3.1.4"
+      ]
+    }
+  ]
+}

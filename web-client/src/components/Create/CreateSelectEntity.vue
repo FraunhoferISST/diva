@@ -14,7 +14,7 @@
         <v-row>
           <v-col
             cols="12"
-            md="6"
+            :md="item.fullWidth ? 12 : 6"
             class="d-flex"
             v-for="item in items"
             :key="item.title"
@@ -62,6 +62,7 @@ export default {
         description: "Add a new service that is available in your company",
         icon: "resource.svg",
         routeName: "create_service",
+        fullWidth: true,
       },
       {
         title: "Add new Destroy Claim",

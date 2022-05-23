@@ -6,11 +6,14 @@
         v-if="costs.internalCosts || costs.externalCost"
         class="pa-0"
       >
-        <v-row>
+        <v-row class="mb-2">
           <v-col cols="12">
             <custom-header text="Internal costs" />
           </v-col>
+        </v-row>
+        <v-row dense>
           <v-col
+            class="d-flex"
             cols="12"
             sm="12"
             md="12"
@@ -20,6 +23,7 @@
             :key="costType"
           >
             <field-editor
+              class="full-width"
               :data="{
                 [costType]: costs.internalCosts[costType],
               }"
@@ -27,7 +31,7 @@
             >
               <template #view="{ state }">
                 <cost-card
-                  :title="state[costType].title"
+                  :title="costs.internalCosts[costType].title"
                   :costs-data="state[costType]"
                 />
               </template>

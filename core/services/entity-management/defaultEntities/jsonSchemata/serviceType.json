@@ -2,7 +2,7 @@
   "id": "schema:uuid:d1097016-16c4-4022-abde-187e021b0aac",
   "title": "Service type",
   "schemaName": "serviceType",
-  "isPatchable": false,
+  "isPatchable": true,
   "scope": [
     {
       "key": "entityType",
@@ -22,14 +22,21 @@
         "type": "string",
         "title": "Service Type",
         "description": "The general type of the service",
-        "enum": [
-          "generic",
-          "app",
-          "plugin",
-          "api",
-          "internal",
-          "faas"
-        ]
+        "_ui": {
+          "view": "overview",
+          "position": 3,
+          "type": "select",
+          "allowCustom": true,
+          "options": [
+            "generic",
+            "app",
+            "plugin",
+            "api",
+            "internal",
+            "faas"
+          ],
+          "fallbackValue": ""
+        }
       }
     }
   }

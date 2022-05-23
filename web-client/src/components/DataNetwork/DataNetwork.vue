@@ -10,6 +10,7 @@
 
 <script>
 import { Network } from "vis-network/esnext";
+import "vis-network/styles/vis-network.min.css";
 import { DataSet, DataView } from "vis-data/esnext";
 
 export default {

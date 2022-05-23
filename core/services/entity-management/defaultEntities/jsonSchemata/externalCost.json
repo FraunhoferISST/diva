@@ -14,10 +14,11 @@
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
     "title": "External Costs",
-    "definitions": {
-      "cost": {
-        "title": "Costs",
-        "type": "object",
+    "properties": {
+      "externalCost": {
+        "title": "External Costs",
+        "description": "External cost of a resource",
+        "default": "0.00",
         "properties": {
           "value": {
             "title": "Value",
@@ -40,7 +41,7 @@
             "type": "string",
             "title": "Currency",
             "description": "The currency for the costs",
-            "examples": [
+            "enum": [
               "$",
               "€"
             ],
@@ -76,20 +77,6 @@
         "required": [
           "value",
           "currency"
-        ]
-      }
-    },
-    "properties": {
-      "externalCost": {
-        "allOf": [
-          {
-            "$ref": "#/definitions/cost"
-          },
-          {
-            "title": "External Costs",
-            "description": "External cost of a resource",
-            "default": "0.00"
-          }
         ]
       }
     }

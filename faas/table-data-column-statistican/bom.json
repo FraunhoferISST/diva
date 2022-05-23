@@ -1,0 +1,1492 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.3",
+  "serialNumber": "urn:uuid:976bb970-21ef-4aa2-a912-ef0110dbf184",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2022-05-23T08:34:16.734Z",
+    "tools": [
+      {
+        "vendor": "CycloneDX",
+        "name": "Node.js module",
+        "version": "3.9.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "pkg:npm/table-data-column-statistican@3.0.0",
+      "name": "table-data-column-statistican",
+      "version": "3.0.0",
+      "description": "![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Ftable-data-column-statistican%2Fpackage.json)",
+      "purl": "pkg:npm/table-data-column-statistican@3.0.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/csv-sniffer@0.1.1",
+      "author": "R. Cijvat",
+      "name": "csv-sniffer",
+      "version": "0.1.1",
+      "description": "Takes a sample of CSV text and tries to guess newline character, col delimiter, quote character, and whether or not the first row in the file contains labels",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "d641017728004615767b6dce89ce2076efb0f0b7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/csv-sniffer@0.1.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/MonetDB/npm-csv-sniffer#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/MonetDB/npm-csv-sniffer/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/MonetDB/npm-csv-sniffer.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/fast-csv@4.3.6",
+      "author": "Doug Martin",
+      "name": "fast-csv",
+      "version": "4.3.6",
+      "description": "CSV parser and writer",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "d91352a6ec30b0918fd1fac6b0e9936fda1417e5641523384b22d30e0c1fd9c8875936ab3749504c2f85d9ffede49f508d6f9ceb954520002ef391acbcc22eb3"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/fast-csv@4.3.6",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://c2fo.github.com/fast-csv"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/C2FO/fast-csv/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/C2FO/fast-csv.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40fast-csv/format@4.3.5",
+      "author": "doug-martin",
+      "group": "@fast-csv",
+      "name": "format",
+      "version": "4.3.5",
+      "description": "fast-csv formatting module",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "f22467e9017723c024efc94d01af86765e4c24904ce6f4478af16d31151620d75ebcda34d0aece5f14b63ec85ac0b2937a357089e2253e62b96252eeeb0e2ef0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40fast-csv/format@4.3.5",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://c2fo.github.com/fast-csv/packages/format"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/C2FO/fast-csv/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/C2FO/fast-csv.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40types/node@14.14.41",
+      "group": "@types",
+      "name": "node",
+      "version": "14.14.41",
+      "description": "TypeScript definitions for Node.js",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "76e79129f6892f8453b526bb6d67932b533e547f869ecef7a02833bd87c7672c110a83d277c1245c12f4999f6e9cf4ef7819fe0fda616416b1bb3a708d6916d2"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40types/node@14.14.41",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.escaperegexp@4.1.2",
+      "author": "John-David Dalton",
+      "name": "lodash.escaperegexp",
+      "version": "4.1.2",
+      "description": "The lodash method `_.escapeRegExp` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "64762c48618082518ac3df4ccf5d5886dae20347"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.escaperegexp@4.1.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.isboolean@3.0.3",
+      "author": "John-David Dalton",
+      "name": "lodash.isboolean",
+      "version": "3.0.3",
+      "description": "The lodash method `_.isBoolean` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "6c2e171db2a257cd96802fd43b01b20d5f5870f6"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.isboolean@3.0.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.isequal@4.5.0",
+      "author": "John-David Dalton",
+      "name": "lodash.isequal",
+      "version": "4.5.0",
+      "description": "The Lodash method `_.isEqual` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.isequal@4.5.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.isfunction@3.0.9",
+      "author": "John-David Dalton",
+      "name": "lodash.isfunction",
+      "version": "3.0.9",
+      "description": "The Lodash method `_.isFunction` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "022ad7363d79b9120c30f8a19e42270788b734779be2206d360f56456b8ada8df54be78fc303660cf6932f7a3b75327e5573598a6eeb16ce2bc4de18535a1427"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.isfunction@3.0.9",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.isnil@4.0.0",
+      "author": "John-David Dalton",
+      "name": "lodash.isnil",
+      "version": "4.0.0",
+      "description": "The lodash method `_.isNil` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "49e28cd559013458c814c5479d3c663a21bfaa6c"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.isnil@4.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40fast-csv/parse@4.3.6",
+      "author": "doug-martin",
+      "group": "@fast-csv",
+      "name": "parse",
+      "version": "4.3.6",
+      "description": "fast-csv parsing package",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "b91b0b624b2aa5b0e659a4a6cef25cb80a5211edfcfba35064152cb80c8c64aa87c47d20d7070982c294bcddd60bcb5ec1aa858c130c1ab907982f93ee4f0bbc"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40fast-csv/parse@4.3.6",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://c2fo.github.com/fast-csv/packages/parse"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/C2FO/fast-csv/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/C2FO/fast-csv.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.groupby@4.6.0",
+      "author": "John-David Dalton",
+      "name": "lodash.groupby",
+      "version": "4.6.0",
+      "description": "The lodash method `_.groupBy` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "0b08a1dcf68397c397855c3239783832df7403d1"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.groupby@4.6.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.isundefined@3.0.1",
+      "author": "John-David Dalton",
+      "name": "lodash.isundefined",
+      "version": "3.0.1",
+      "description": "The modern build of lodash’s `_.isUndefined` as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "23ef3d9535565203a66cefd5b830f848911afb48"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.isundefined@3.0.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.uniq@4.5.0",
+      "author": "John-David Dalton",
+      "name": "lodash.uniq",
+      "version": "4.5.0",
+      "description": "The lodash method `_.uniq` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "d0225373aeb652adc1bc82e4945339a842754773"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.uniq@4.5.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/fs-extra@9.1.0",
+      "author": "JP Richardson",
+      "name": "fs-extra",
+      "version": "9.1.0",
+      "description": "fs-extra contains methods that aren't included in the vanilla Node.js fs package. Such as recursive mkdir, copy, and remove.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "85c8376667a94b7d3fec1485a91be8a370ce310bbb223ab13b99c20edfb333d5d68dbdf75a0ef388d4fe42fa9bb9cdfe816a733b4d89b9b5729361b866fa3539"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/fs-extra@9.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jprichardson/node-fs-extra"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jprichardson/node-fs-extra/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jprichardson/node-fs-extra.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/at-least-node@1.0.0",
+      "author": "Ryan Zimmerman",
+      "name": "at-least-node",
+      "version": "1.0.0",
+      "description": "Lightweight Node.js version sniffing/comparison",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "faafedec492fd440d8da5e8675ae8b2e25f5e2b53d4d5db459ade87de426c0f1596ce328f435eb2db3a315a69c9645ca5a27486a8a7000e6d00eac16b46523aa"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/at-least-node@1.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/RyanZim/at-least-node#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/RyanZim/at-least-node/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/RyanZim/at-least-node.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/graceful-fs@4.2.6",
+      "name": "graceful-fs",
+      "version": "4.2.6",
+      "description": "A drop-in replacement for fs, making various improvements.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9d39c9e76f296eac586a78690d8b22e1177c30079a040ebbf91675d023359b76d30151440dc77902e0386ba5b9624199d623571f3673f13e9304a2de06e36b89"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/graceful-fs@4.2.6",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/isaacs/node-graceful-fs#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/isaacs/node-graceful-fs/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/isaacs/node-graceful-fs.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/jsonfile@6.1.0",
+      "author": "JP Richardson",
+      "name": "jsonfile",
+      "version": "6.1.0",
+      "description": "Easily read/write JSON files.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e5d8277563ab8984a6e5c9d86893616a52cd0ca3aa170c8307faebd44f59b067221af28fb3c476c5818269cb9fdf3e8ad58283cf5f367ddf9f637727de932a5d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/jsonfile@6.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jprichardson/node-jsonfile#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jprichardson/node-jsonfile/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/jprichardson/node-jsonfile.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/universalify@2.0.0",
+      "author": "Ryan Zimmerman",
+      "name": "universalify",
+      "version": "2.0.0",
+      "description": "Make a callback- or promise-based function support both promises and callbacks.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "84066c2aaed8cb5d59bb50c4d0ecd68f0ee79cb6662596130d96721051d9754855f05907e4c09fa14d5731ac57a2fa725b99eae6c70faaad190cff59ca5d38a1"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/universalify@2.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/RyanZim/universalify#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/RyanZim/universalify/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/RyanZim/universalify.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/is-number@7.0.0",
+      "author": "Jon Schlinkert",
+      "name": "is-number",
+      "version": "7.0.0",
+      "description": "Returns true if a number or string value is a finite number. Useful for regex matches, parsing, user input, etc.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e350a27e483a7bc4f2952a5db53a5e2d532abd20445734edb47bc4443ef8d7ea6767c00dbf4d34e0c44be3740a3c394af5c1af369e8d6566540656c65d8c719e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/is-number@7.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jonschlinkert/is-number"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jonschlinkert/is-number/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jonschlinkert/is-number.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/is-string@1.0.5",
+      "author": "Jordan Harband",
+      "name": "is-string",
+      "version": "1.0.5",
+      "description": "Is this value a JS String object or primitive? This module works cross-realm/iframe, and despite ES6 @@toStringTag.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "6ee63a54d463850322175a960e8ba5a199506d18433c279bc314a3c4c8f181e9984f8e9831dd8d474fc7f9f06111f597e00ff0f53049fa897ea24a8928513abd"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/is-string@1.0.5",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/ljharb/is-string#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/ljharb/is-string/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/ljharb/is-string.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/jstat@1.9.4",
+      "author": "Trevor Norris",
+      "name": "jstat",
+      "version": "1.9.4",
+      "description": "Statistical Library for JavaScript",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "2224cf948ee972bb2ae351290f3ae08650357e1882f465f136a3b8939a20b23b0cd5701643ccc4487fdb66c1312d5810b18a5713eedcd759046dbbb14cb52925"
+        }
+      ],
+      "purl": "pkg:npm/jstat@1.9.4",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://github.com/jstat/jstat"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jstat/jstat/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/jstat/jstat.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.omitby@4.6.0",
+      "author": "John-David Dalton",
+      "name": "lodash.omitby",
+      "version": "4.6.0",
+      "description": "The lodash method `_.omitBy` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "5c15ff4754ad555016b53c041311e8f079204791"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.omitby@4.6.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/tmp-promise@3.0.2",
+      "author": "Benjamin Gruenbaum and Collaborators.",
+      "name": "tmp-promise",
+      "version": "3.0.2",
+      "description": "The tmp package with promises support and disposers.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3b208b00a5351f30632fa12fde0c547ab6893656cd8a78268bc22b1c712c607f0b4e612e86f61faaf867d85fe37be9a37f8379f14999f7a38c132d496a7482a4"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/tmp-promise@3.0.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/benjamingr/tmp-promise#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/benjamingr/tmp-promise/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/benjamingr/tmp-promise.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/tmp@0.2.1",
+      "author": "KARASZI István",
+      "name": "tmp",
+      "version": "0.2.1",
+      "description": "Temporary file and directory creator",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "efa49486d7ea4762239fec6595c2393f5a326a79c73470720fcd16d6ae38ee05379a9f46f4f4a919d5a68d43874433e21d869c224eba5bbb9b0d3b8f177044b5"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/tmp@0.2.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://github.com/raszi/node-tmp"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "http://github.com/raszi/node-tmp/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/raszi/node-tmp.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/rimraf@3.0.2",
+      "author": "Isaac Z. Schlueter",
+      "name": "rimraf",
+      "version": "3.0.2",
+      "description": "A deep deletion module for node (like `rm -rf`)",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "25990931990018514f3f662a5d95cf6cc94c060b31cc4f082ece253085ffda8d0bf54070f4efd8de8eb0170fe2f582daa5c5095b0a9b8b791dc483dd0bad9320"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/rimraf@3.0.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/isaacs/rimraf#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/isaacs/rimraf/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/isaacs/rimraf.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/glob@7.1.3",
+      "author": "Isaac Z. Schlueter",
+      "name": "glob",
+      "version": "7.1.3",
+      "description": "a little globber",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "bdc7ee888c6880b5780e51811c850ec08d086eb27c1d63dce0c53b1f3be219e361a3f5090df8ba079a77b07796210d0a188534269c62e591f17a641f2e4900c1"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/glob@7.1.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/isaacs/node-glob#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/isaacs/node-glob/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/isaacs/node-glob.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/fs.realpath@1.0.0",
+      "author": "Isaac Z. Schlueter",
+      "name": "fs.realpath",
+      "version": "1.0.0",
+      "description": "Use node's fs.realpath, but fall back to the JS implementation if the native one fails",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "1504ad2523158caa40db4a2787cb01411994ea4f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/fs.realpath@1.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/isaacs/fs.realpath#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/isaacs/fs.realpath/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/isaacs/fs.realpath.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/inflight@1.0.6",
+      "author": "Isaac Z. Schlueter",
+      "name": "inflight",
+      "version": "1.0.6",
+      "description": "Add callbacks to requests in flight to avoid async duplication",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "49bd6331d7d02d0c09bc910a1075ba8165b56df9"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/inflight@1.0.6",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/isaacs/inflight"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/isaacs/inflight/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/npm/inflight.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/once@1.4.0",
+      "author": "Isaac Z. Schlueter",
+      "name": "once",
+      "version": "1.4.0",
+      "description": "Run a function exactly one time",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "583b1aa775961d4b113ac17d9c50baef9dd76bd1"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/once@1.4.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/isaacs/once#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/isaacs/once/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/isaacs/once.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/wrappy@1.0.2",
+      "author": "Isaac Z. Schlueter",
+      "name": "wrappy",
+      "version": "1.0.2",
+      "description": "Callback wrapping utility",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/wrappy@1.0.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/npm/wrappy"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/npm/wrappy/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/npm/wrappy.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/inherits@2.0.3",
+      "name": "inherits",
+      "version": "2.0.3",
+      "description": "Browser-friendly inheritance fully compatible with standard node.js inherits()",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "633c2c83e3da42a502f52466022480f4208261de"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/inherits@2.0.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/isaacs/inherits#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/isaacs/inherits/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/isaacs/inherits.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/minimatch@3.0.4",
+      "author": "Isaac Z. Schlueter",
+      "name": "minimatch",
+      "version": "3.0.4",
+      "description": "a glob matcher in javascript",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "c891d5404872a8f2d44e0b7d07cdcf5eee96debc7832fbc7bd252f4e8a20a70a060ce510fb20eb4741d1a2dfb23827423bbbb8857de959fb7a91604172a87450"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/minimatch@3.0.4",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/isaacs/minimatch#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/isaacs/minimatch/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/isaacs/minimatch.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/brace-expansion@1.1.11",
+      "author": "Julian Gruber",
+      "name": "brace-expansion",
+      "version": "1.1.11",
+      "description": "Brace expansion as known from sh/bash",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "882b8f1c3160ac75fb1f6bc423fe71a73d3bcd21c1d344e9ba0aa1998b5598c3bae75f260ae44ca0e60595d101974835f3bb9fa3375a1e058a71815beb5a8688"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/brace-expansion@1.1.11",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/juliangruber/brace-expansion"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/juliangruber/brace-expansion/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/juliangruber/brace-expansion.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/balanced-match@1.0.0",
+      "author": "Julian Gruber",
+      "name": "balanced-match",
+      "version": "1.0.0",
+      "description": "Match balanced character pairs, like \"{\" and \"}\"",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "89b4d199ab2bee49de164ea02b89ce462d71b767"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/balanced-match@1.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/juliangruber/balanced-match"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/juliangruber/balanced-match/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/juliangruber/balanced-match.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/concat-map@0.0.1",
+      "author": "James Halliday",
+      "name": "concat-map",
+      "version": "0.0.1",
+      "description": "concatenative mapdashery",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "d8a96bd77fd68df7793a73036a3ba0d5405d477b"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/concat-map@0.0.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/substack/node-concat-map#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/substack/node-concat-map/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/substack/node-concat-map.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/path-is-absolute@1.0.1",
+      "author": "Sindre Sorhus",
+      "name": "path-is-absolute",
+      "version": "1.0.1",
+      "description": "Node.js 0.12 path.isAbsolute() ponyfill",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/path-is-absolute@1.0.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/sindresorhus/path-is-absolute#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/sindresorhus/path-is-absolute/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/sindresorhus/path-is-absolute.git"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:npm/csv-sniffer@0.1.1"
+    },
+    {
+      "ref": "pkg:npm/%40types/node@14.14.41"
+    },
+    {
+      "ref": "pkg:npm/lodash.escaperegexp@4.1.2"
+    },
+    {
+      "ref": "pkg:npm/lodash.isboolean@3.0.3"
+    },
+    {
+      "ref": "pkg:npm/lodash.isequal@4.5.0"
+    },
+    {
+      "ref": "pkg:npm/lodash.isfunction@3.0.9"
+    },
+    {
+      "ref": "pkg:npm/lodash.isnil@4.0.0"
+    },
+    {
+      "ref": "pkg:npm/%40fast-csv/format@4.3.5",
+      "dependsOn": [
+        "pkg:npm/%40types/node@14.14.41",
+        "pkg:npm/lodash.escaperegexp@4.1.2",
+        "pkg:npm/lodash.isboolean@3.0.3",
+        "pkg:npm/lodash.isequal@4.5.0",
+        "pkg:npm/lodash.isfunction@3.0.9",
+        "pkg:npm/lodash.isnil@4.0.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/lodash.groupby@4.6.0"
+    },
+    {
+      "ref": "pkg:npm/lodash.isundefined@3.0.1"
+    },
+    {
+      "ref": "pkg:npm/lodash.uniq@4.5.0"
+    },
+    {
+      "ref": "pkg:npm/%40fast-csv/parse@4.3.6",
+      "dependsOn": [
+        "pkg:npm/lodash.groupby@4.6.0",
+        "pkg:npm/lodash.isundefined@3.0.1",
+        "pkg:npm/lodash.uniq@4.5.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/fast-csv@4.3.6",
+      "dependsOn": [
+        "pkg:npm/%40fast-csv/format@4.3.5",
+        "pkg:npm/%40fast-csv/parse@4.3.6"
+      ]
+    },
+    {
+      "ref": "pkg:npm/at-least-node@1.0.0"
+    },
+    {
+      "ref": "pkg:npm/graceful-fs@4.2.6"
+    },
+    {
+      "ref": "pkg:npm/universalify@2.0.0"
+    },
+    {
+      "ref": "pkg:npm/jsonfile@6.1.0",
+      "dependsOn": [
+        "pkg:npm/universalify@2.0.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/fs-extra@9.1.0",
+      "dependsOn": [
+        "pkg:npm/at-least-node@1.0.0",
+        "pkg:npm/graceful-fs@4.2.6",
+        "pkg:npm/jsonfile@6.1.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/is-number@7.0.0"
+    },
+    {
+      "ref": "pkg:npm/is-string@1.0.5"
+    },
+    {
+      "ref": "pkg:npm/jstat@1.9.4"
+    },
+    {
+      "ref": "pkg:npm/lodash.omitby@4.6.0"
+    },
+    {
+      "ref": "pkg:npm/fs.realpath@1.0.0"
+    },
+    {
+      "ref": "pkg:npm/wrappy@1.0.2"
+    },
+    {
+      "ref": "pkg:npm/once@1.4.0",
+      "dependsOn": [
+        "pkg:npm/wrappy@1.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/inflight@1.0.6",
+      "dependsOn": [
+        "pkg:npm/once@1.4.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/inherits@2.0.3"
+    },
+    {
+      "ref": "pkg:npm/balanced-match@1.0.0"
+    },
+    {
+      "ref": "pkg:npm/concat-map@0.0.1"
+    },
+    {
+      "ref": "pkg:npm/brace-expansion@1.1.11",
+      "dependsOn": [
+        "pkg:npm/balanced-match@1.0.0",
+        "pkg:npm/concat-map@0.0.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/minimatch@3.0.4",
+      "dependsOn": [
+        "pkg:npm/brace-expansion@1.1.11"
+      ]
+    },
+    {
+      "ref": "pkg:npm/path-is-absolute@1.0.1"
+    },
+    {
+      "ref": "pkg:npm/glob@7.1.3",
+      "dependsOn": [
+        "pkg:npm/fs.realpath@1.0.0",
+        "pkg:npm/inflight@1.0.6",
+        "pkg:npm/inherits@2.0.3",
+        "pkg:npm/minimatch@3.0.4",
+        "pkg:npm/path-is-absolute@1.0.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/rimraf@3.0.2",
+      "dependsOn": [
+        "pkg:npm/glob@7.1.3"
+      ]
+    },
+    {
+      "ref": "pkg:npm/tmp@0.2.1",
+      "dependsOn": [
+        "pkg:npm/rimraf@3.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/tmp-promise@3.0.2",
+      "dependsOn": [
+        "pkg:npm/tmp@0.2.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/table-data-column-statistican@3.0.0",
+      "dependsOn": [
+        "pkg:npm/csv-sniffer@0.1.1",
+        "pkg:npm/fast-csv@4.3.6",
+        "pkg:npm/fs-extra@9.1.0",
+        "pkg:npm/is-number@7.0.0",
+        "pkg:npm/is-string@1.0.5",
+        "pkg:npm/jstat@1.9.4",
+        "pkg:npm/lodash.omitby@4.6.0",
+        "pkg:npm/tmp-promise@3.0.2"
+      ]
+    }
+  ]
+}

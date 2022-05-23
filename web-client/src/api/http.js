@@ -1,5 +1,8 @@
 import axios from "axios";
+import axiosRetry from "axios-retry";
 import api from "@/api/index";
+
+axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay });
 
 let endpoint = process.env.VUE_APP_API_GATEWAY_URL || "http://localhost:8000";
 const JWTToken = localStorage.getItem("jwt");
