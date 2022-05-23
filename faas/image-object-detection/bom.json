@@ -1,0 +1,481 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.3",
+  "serialNumber": "urn:uuid:674d51c8-995c-47b9-9b9d-f263e1401ac3",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2022-05-23T08:30:06.409Z",
+    "tools": [
+      {
+        "vendor": "CycloneDX",
+        "name": "Node.js module",
+        "version": "3.9.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "pkg:npm/image-object-detection@2.0.0",
+      "name": "image-object-detection",
+      "version": "2.0.0",
+      "description": "![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Fimage-object-detection%2Fpackage.json)",
+      "purl": "pkg:npm/image-object-detection@2.0.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/fs-extra@9.1.0",
+      "author": "JP Richardson",
+      "name": "fs-extra",
+      "version": "9.1.0",
+      "description": "fs-extra contains methods that aren't included in the vanilla Node.js fs package. Such as recursive mkdir, copy, and remove.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "85c8376667a94b7d3fec1485a91be8a370ce310bbb223ab13b99c20edfb333d5d68dbdf75a0ef388d4fe42fa9bb9cdfe816a733b4d89b9b5729361b866fa3539"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/fs-extra@9.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jprichardson/node-fs-extra"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jprichardson/node-fs-extra/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jprichardson/node-fs-extra.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/at-least-node@1.0.0",
+      "author": "Ryan Zimmerman",
+      "name": "at-least-node",
+      "version": "1.0.0",
+      "description": "Lightweight Node.js version sniffing/comparison",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "faafedec492fd440d8da5e8675ae8b2e25f5e2b53d4d5db459ade87de426c0f1596ce328f435eb2db3a315a69c9645ca5a27486a8a7000e6d00eac16b46523aa"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/at-least-node@1.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/RyanZim/at-least-node#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/RyanZim/at-least-node/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/RyanZim/at-least-node.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/graceful-fs@4.2.6",
+      "name": "graceful-fs",
+      "version": "4.2.6",
+      "description": "A drop-in replacement for fs, making various improvements.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9d39c9e76f296eac586a78690d8b22e1177c30079a040ebbf91675d023359b76d30151440dc77902e0386ba5b9624199d623571f3673f13e9304a2de06e36b89"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/graceful-fs@4.2.6",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/isaacs/node-graceful-fs#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/isaacs/node-graceful-fs/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/isaacs/node-graceful-fs.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/jsonfile@6.1.0",
+      "author": "JP Richardson",
+      "name": "jsonfile",
+      "version": "6.1.0",
+      "description": "Easily read/write JSON files.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e5d8277563ab8984a6e5c9d86893616a52cd0ca3aa170c8307faebd44f59b067221af28fb3c476c5818269cb9fdf3e8ad58283cf5f367ddf9f637727de932a5d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/jsonfile@6.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jprichardson/node-jsonfile#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jprichardson/node-jsonfile/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/jprichardson/node-jsonfile.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/universalify@2.0.0",
+      "author": "Ryan Zimmerman",
+      "name": "universalify",
+      "version": "2.0.0",
+      "description": "Make a callback- or promise-based function support both promises and callbacks.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "84066c2aaed8cb5d59bb50c4d0ecd68f0ee79cb6662596130d96721051d9754855f05907e4c09fa14d5731ac57a2fa725b99eae6c70faaad190cff59ca5d38a1"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/universalify@2.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/RyanZim/universalify#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/RyanZim/universalify/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/RyanZim/universalify.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/needle@2.6.0",
+      "author": "Tomás Pollak",
+      "name": "needle",
+      "version": "2.6.0",
+      "description": "The leanest and most handsome HTTP client in the Nodelands.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "28a61dcdae2178cb047d2583ed53d4233df35f65c3c0ec97d9dfa079be2fac4459313e51314eae8e3683f88e58af9e2e671436c3a5d14c084705b482ca8bd906"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/needle@2.6.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/tomas/needle#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/tomas/needle/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/tomas/needle.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/debug@3.2.7",
+      "author": "TJ Holowaychuk",
+      "name": "debug",
+      "version": "3.2.7",
+      "description": "small debugging utility",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "76813076f9b83c278ae0add140dd990b60585016b1c0b0110aa666323b45f1ae7527645bd31a559681519c2383c2a8e9c270286a8e297a537c97744976fde045"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/debug@3.2.7",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/visionmedia/debug#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/visionmedia/debug/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/visionmedia/debug.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/ms@2.1.3",
+      "name": "ms",
+      "version": "2.1.3",
+      "description": "Tiny millisecond conversion utility",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "b0690fc7e56332d980e8c5f6ee80381411442c50996784b85ea7863970afebcb53fa36f7be4fd1c9a2963f43d32b25ad98b48cd1bf9a7544c4bdbb353c4687db"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/ms@2.1.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/vercel/ms#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/vercel/ms/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/vercel/ms.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/iconv-lite@0.4.24",
+      "author": "Alexander Shtuchkin",
+      "name": "iconv-lite",
+      "version": "0.4.24",
+      "description": "Convert character encodings in pure javascript.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "bf73179d901cbe7cb091350466898801cb657bb4575de79d391df5c3097b565ca85cee108bd6abbd27a73505a77b54dc4708422f51f02c8db56c4a9da63f3fac"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/iconv-lite@0.4.24",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/ashtuchkin/iconv-lite"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/ashtuchkin/iconv-lite/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/ashtuchkin/iconv-lite.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/safer-buffer@2.1.2",
+      "author": "Nikita Skovoroda",
+      "name": "safer-buffer",
+      "version": "2.1.2",
+      "description": "Modern Buffer API polyfill without footguns",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "619a372bcd920fb462ca2d04d4440fa232f3ee4a5ea6749023d2323db1c78355d75debdbe5d248eeda72376003c467106c71bbbdcc911e4d1c6f0a9c42b894b6"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/safer-buffer@2.1.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/ChALkeR/safer-buffer#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/ChALkeR/safer-buffer/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/ChALkeR/safer-buffer.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/sax@1.2.4",
+      "author": "Isaac Z. Schlueter",
+      "name": "sax",
+      "version": "1.2.4",
+      "description": "An evented streaming XML parser in JavaScript",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "36a543bfd4e900d523166d0df2e3391b12f7e9480a8bdfdab59c3ec7b6059d0f1c9301462ab978c57e325adadecb75099b99cfd6451b9d880ba29a963524615b"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/sax@1.2.4",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/isaacs/sax-js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/isaacs/sax-js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/isaacs/sax-js.git"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:npm/at-least-node@1.0.0"
+    },
+    {
+      "ref": "pkg:npm/graceful-fs@4.2.6"
+    },
+    {
+      "ref": "pkg:npm/universalify@2.0.0"
+    },
+    {
+      "ref": "pkg:npm/jsonfile@6.1.0",
+      "dependsOn": [
+        "pkg:npm/universalify@2.0.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/fs-extra@9.1.0",
+      "dependsOn": [
+        "pkg:npm/at-least-node@1.0.0",
+        "pkg:npm/graceful-fs@4.2.6",
+        "pkg:npm/jsonfile@6.1.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/ms@2.1.3"
+    },
+    {
+      "ref": "pkg:npm/debug@3.2.7",
+      "dependsOn": [
+        "pkg:npm/ms@2.1.3"
+      ]
+    },
+    {
+      "ref": "pkg:npm/safer-buffer@2.1.2"
+    },
+    {
+      "ref": "pkg:npm/iconv-lite@0.4.24",
+      "dependsOn": [
+        "pkg:npm/safer-buffer@2.1.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/sax@1.2.4"
+    },
+    {
+      "ref": "pkg:npm/needle@2.6.0",
+      "dependsOn": [
+        "pkg:npm/debug@3.2.7",
+        "pkg:npm/iconv-lite@0.4.24",
+        "pkg:npm/sax@1.2.4"
+      ]
+    },
+    {
+      "ref": "pkg:npm/image-object-detection@2.0.0",
+      "dependsOn": [
+        "pkg:npm/fs-extra@9.1.0",
+        "pkg:npm/needle@2.6.0"
+      ]
+    }
+  ]
+}

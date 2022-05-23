@@ -1,0 +1,4992 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.3",
+  "serialNumber": "urn:uuid:b36a6156-1a2b-4ba1-8afc-9ed1dca2a3bb",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2022-05-23T08:36:45.872Z",
+    "tools": [
+      {
+        "vendor": "CycloneDX",
+        "name": "Node.js module",
+        "version": "3.9.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "pkg:npm/text-language-guesser@2.0.0",
+      "name": "text-language-guesser",
+      "version": "2.0.0",
+      "description": "![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Ftext-language-guesser%2Fpackage.json)",
+      "purl": "pkg:npm/text-language-guesser@2.0.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/fs-extra@9.1.0",
+      "author": "JP Richardson",
+      "name": "fs-extra",
+      "version": "9.1.0",
+      "description": "fs-extra contains methods that aren't included in the vanilla Node.js fs package. Such as recursive mkdir, copy, and remove.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "85c8376667a94b7d3fec1485a91be8a370ce310bbb223ab13b99c20edfb333d5d68dbdf75a0ef388d4fe42fa9bb9cdfe816a733b4d89b9b5729361b866fa3539"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/fs-extra@9.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jprichardson/node-fs-extra"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jprichardson/node-fs-extra/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jprichardson/node-fs-extra.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/at-least-node@1.0.0",
+      "author": "Ryan Zimmerman",
+      "name": "at-least-node",
+      "version": "1.0.0",
+      "description": "Lightweight Node.js version sniffing/comparison",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "faafedec492fd440d8da5e8675ae8b2e25f5e2b53d4d5db459ade87de426c0f1596ce328f435eb2db3a315a69c9645ca5a27486a8a7000e6d00eac16b46523aa"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/at-least-node@1.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/RyanZim/at-least-node#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/RyanZim/at-least-node/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/RyanZim/at-least-node.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/graceful-fs@4.2.3",
+      "name": "graceful-fs",
+      "version": "4.2.3",
+      "description": "A drop-in replacement for fs, making various improvements.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "6b7d151019b83c4771d5d441ecc14aec17a37a3bc2bc1ae89db2e386dfac1ee1988fc3c7b3b33fe59fabb79970e79d6f67bc9f4c28f856ecb2de6489cad0d645"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/graceful-fs@4.2.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/isaacs/node-graceful-fs#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/isaacs/node-graceful-fs/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/isaacs/node-graceful-fs.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/jsonfile@6.1.0",
+      "author": "JP Richardson",
+      "name": "jsonfile",
+      "version": "6.1.0",
+      "description": "Easily read/write JSON files.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e5d8277563ab8984a6e5c9d86893616a52cd0ca3aa170c8307faebd44f59b067221af28fb3c476c5818269cb9fdf3e8ad58283cf5f367ddf9f637727de932a5d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/jsonfile@6.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jprichardson/node-jsonfile#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jprichardson/node-jsonfile/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/jprichardson/node-jsonfile.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/universalify@2.0.0",
+      "author": "Ryan Zimmerman",
+      "name": "universalify",
+      "version": "2.0.0",
+      "description": "Make a callback- or promise-based function support both promises and callbacks.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "84066c2aaed8cb5d59bb50c4d0ecd68f0ee79cb6662596130d96721051d9754855f05907e4c09fa14d5731ac57a2fa725b99eae6c70faaad190cff59ca5d38a1"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/universalify@2.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/RyanZim/universalify#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/RyanZim/universalify/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/RyanZim/universalify.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/jstring@1.3.0",
+      "author": "Ivan Matvieiev",
+      "name": "jstring",
+      "version": "1.3.0",
+      "description": "A Node.js library, designed to simplify work with string validation and sanitization.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "556c278f9bbd2ae91ddc586bd99ea8ac80393391"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/jstring@1.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/imatveev/jstring#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/imatveev/jstring/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/imatveev/jstring.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/node-nlp@4.22.1",
+      "author": "Jesus Seijas",
+      "name": "node-nlp",
+      "version": "4.22.1",
+      "description": "Library for NLU (Natural Language Understanding) done in Node.js",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "a1f3710af303d6f6c171fd9960ba8a4d5895d515ec3d1ab0562509aab758ef22edd98fb44d3de954907950870ba5271fd11c49a43bbd937f4d01b2c09ac9addb"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/node-nlp@4.22.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/builtin-duckling@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "builtin-duckling",
+      "version": "4.22.0",
+      "description": "Builtin Named Entity Recognition with Duckling",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e2bf803a6977f9bf29c02af5c33041914ec0246f9b01294cb81fbe19550cb81ee519c58a7617910d7ca13ff694814475961cbabd0cb47c1accaeb6c65ee3cbc8"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/builtin-duckling@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/core@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "core",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "2fb41be643fefd927b5b28e8962d6793e490bef318d01bae2df60b36f276bca2f7b4c9ab49d60125c5e1826387111394ea37f82c5818f15c01a454ec44957dee"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/core@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/builtin-microsoft@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "builtin-microsoft",
+      "version": "4.22.0",
+      "description": "Builtin Named Entity Recognition with Microsoft Recognizers",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e09b4fcbb3b9701d1ecfbf8cab2b0f280588f1264c90f765f86337e318a268bb2ee12b6df1f39c8ac195b952d13624a2589f668d8762b07d7d508c9451e7adae"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/builtin-microsoft@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40microsoft/recognizers-text-suite@1.3.0",
+      "author": "Microsoft Corp.",
+      "group": "@microsoft",
+      "name": "recognizers-text-suite",
+      "version": "1.3.0",
+      "description": "recognizers-text-suite provides robust recognition and resolution of numbers, units, date/time, and more; expressed in multiple languages.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "baa1b8bf3cb93760a605a788367cb46cb7671a9d230db4f59a83682c2f988a6dc6f241ce53d9690dfc00e9537a1d361a0cce7ce7848d304ccb8c9752d533c54f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40microsoft/recognizers-text-suite@1.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/Microsoft/Recognizers-Text#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Microsoft/Recognizers-Text/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Microsoft/Recognizers-Text.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40microsoft/recognizers-text-data-types-timex-expression@1.3.0",
+      "author": "Microsoft",
+      "group": "@microsoft",
+      "name": "recognizers-text-data-types-timex-expression",
+      "version": "1.3.0",
+      "description": "Support for TIMEX-based representation of datetime entities",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "4441d45e63142358cbddbf6ff9a49dccac4bc5175e8ec7e0f4c7184716372d6d06bb851bc03ed0f8aea6b52a38d1cc20f2e87a7e257d198f210ee2971c7e9d54"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40microsoft/recognizers-text-data-types-timex-expression@1.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/Microsoft/Recognizers-Text#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Microsoft/Recognizers-Text/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Microsoft/Recognizers-Text.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40microsoft/recognizers-text@1.3.0",
+      "author": "Microsoft Corp.",
+      "group": "@microsoft",
+      "name": "recognizers-text",
+      "version": "1.3.0",
+      "description": "recognizers-text provides base classes for robust recognition and resolution of text entities.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "d20521b52ff4a9217abde0773a5bb9e48b89d12930838bb521b257f4a163d5078af33e9cc3af7fa7adfb20f0f63605cb9570b2d8712a2ef516fe681b0e9deb5a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40microsoft/recognizers-text@1.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/Microsoft/Recognizers-Text#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Microsoft/Recognizers-Text/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Microsoft/Recognizers-Text.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40microsoft/recognizers-text-number@1.3.0",
+      "author": "Microsoft Corp.",
+      "group": "@microsoft",
+      "name": "recognizers-text-number",
+      "version": "1.3.0",
+      "description": "recognizers-text-number provides robust recognition and resolution of numbers expressed in multiple languages.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "295171bda5d6f44ed492e1741180a086f0a7d2ef8de4bedb05778fe08281e9f5e441de86019f73340d8071d9bd949cc247172c05815b44b71132b3c7c006b7db"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40microsoft/recognizers-text-number@1.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/Microsoft/Recognizers-Text#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Microsoft/Recognizers-Text/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Microsoft/Recognizers-Text.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/bignumber.js@7.2.1",
+      "author": "Michael Mclaughlin",
+      "name": "bignumber.js",
+      "version": "7.2.1",
+      "description": "A library for arbitrary-precision decimal and non-decimal arithmetic",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "4b85f3064e6c301f9171bfcb35ca735ebe7b5514f1800bda0040c0975030471dbb8f4d214fce0ee8e92d784eeef1407736e69aca0091ac4a6aa31e2e0ceadb75"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/bignumber.js@7.2.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/MikeMcl/bignumber.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/MikeMcl/bignumber.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/MikeMcl/bignumber.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.escaperegexp@4.1.2",
+      "author": "John-David Dalton",
+      "name": "lodash.escaperegexp",
+      "version": "4.1.2",
+      "description": "The lodash method `_.escapeRegExp` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "64762c48618082518ac3df4ccf5d5886dae20347"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.escaperegexp@4.1.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.sortby@4.7.0",
+      "author": "John-David Dalton",
+      "name": "lodash.sortby",
+      "version": "4.7.0",
+      "description": "The lodash method `_.sortBy` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.sortby@4.7.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.trimend@4.5.1",
+      "author": "John-David Dalton",
+      "name": "lodash.trimend",
+      "version": "4.5.1",
+      "description": "The lodash method `_.trimEnd` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "12804437286b98cad8996b79414e11300114082f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.trimend@4.5.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40microsoft/recognizers-text-number-with-unit@1.3.0",
+      "author": "Microsoft Corp.",
+      "group": "@microsoft",
+      "name": "recognizers-text-number-with-unit",
+      "version": "1.3.0",
+      "description": "recognizers-text-number-with-unit provides robust recognition and resolution of numbers with units expressed in multiple languages.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "171043d5940bbebe1cfacb15caa5236e583e8b6d466f322c0c41dde555a89f9c20fb6aabaa2c6598fd665ec5c6fa2191577aaa7990ad4c576a930277316868bc"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40microsoft/recognizers-text-number-with-unit@1.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/Microsoft/Recognizers-Text#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Microsoft/Recognizers-Text/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Microsoft/Recognizers-Text.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.last@3.0.0",
+      "author": "John-David Dalton",
+      "name": "lodash.last",
+      "version": "3.0.0",
+      "description": "The modern build of lodash’s `_.last` as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "242f663112dd4c6e63728c60a3c909d1bdadbd4c"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.last@3.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.max@4.0.1",
+      "author": "John-David Dalton",
+      "name": "lodash.max",
+      "version": "4.0.1",
+      "description": "The lodash method `_.max` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "8735566c618b35a9f760520b487ae79658af136a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.max@4.0.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40microsoft/recognizers-text-date-time@1.3.0",
+      "author": "Microsoft Corp.",
+      "group": "@microsoft",
+      "name": "recognizers-text-date-time",
+      "version": "1.3.0",
+      "description": "recognizers-text provides robust recognition and resolution of date/time expressed in multiple languages.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "6e0c384d2ef6ea6693839dcce924111d03b3387d336b4ce60569e71a8d3041d6c37caf9b82ae5a783483e24fc7857bdf90e0facf345ddfeb46dc3ab2a7f90569"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40microsoft/recognizers-text-date-time@1.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/Microsoft/Recognizers-Text#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Microsoft/Recognizers-Text/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Microsoft/Recognizers-Text.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.isequal@4.5.0",
+      "author": "John-David Dalton",
+      "name": "lodash.isequal",
+      "version": "4.5.0",
+      "description": "The Lodash method `_.isEqual` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.isequal@4.5.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.tonumber@4.0.3",
+      "author": "John-David Dalton",
+      "name": "lodash.tonumber",
+      "version": "4.0.3",
+      "description": "The lodash method `_.toNumber` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "0b96b31b35672793eb7f5a63ee791f1b9e9025d9"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.tonumber@4.0.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40microsoft/recognizers-text-sequence@1.3.0",
+      "author": "Microsoft Corp.",
+      "group": "@microsoft",
+      "name": "recognizers-text-sequence",
+      "version": "1.3.0",
+      "description": "recognizers-text-sequence provides robust recognition and resolution of series entities like phone numbers, URLs, and e-mail and IP addresses.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "2d767d01a90296b74f55f1298422451138f0ea7f30fcbc16d58a23f5929c188f4f1af1fa451fa1692e06499b8778c84469c99a6b7364cc3f88e38a9822fca6f1"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40microsoft/recognizers-text-sequence@1.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/Microsoft/Recognizers-Text#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Microsoft/Recognizers-Text/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Microsoft/Recognizers-Text.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/grapheme-splitter@1.0.4",
+      "author": "Orlin Georgiev",
+      "name": "grapheme-splitter",
+      "version": "1.0.4",
+      "description": "A JavaScript library that breaks strings into their individual user-perceived characters. It supports emojis!",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "6f3879d035bd9133ccd344fccb8a3cbd083cf438bda0b2552d6fca68e1885c958ffe2a8237a58a6246cd385d38bc52c987072961487dc9d87ffb9be93aa57861"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/grapheme-splitter@1.0.4",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/orling/grapheme-splitter"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/orling/grapheme-splitter/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/orling/grapheme-splitter.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40microsoft/recognizers-text-choice@1.3.0",
+      "author": "Microsoft Corp.",
+      "group": "@microsoft",
+      "name": "recognizers-text-choice",
+      "version": "1.3.0",
+      "description": "recognizers-text-choice provides recognition of Boolean (yes/no) answers expressed in multiple languages, as well as base classes to support lists of alternative choices.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "2362d000927d4c9b61258599373a28243ebee4a524afe1fe9b9e17a6363ebca8d1f350cf54550bfd2599572bfe702ede78f170ac3bf78149e45d84be2e9d2198"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40microsoft/recognizers-text-choice@1.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/Microsoft/Recognizers-Text#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Microsoft/Recognizers-Text/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Microsoft/Recognizers-Text.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/core-loader@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "core-loader",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "41de748f86fd8ec904c286d9c7ad3d5f0cff0e71e85f42ba9b9b6897e6b7117ba57318bbd36bf22b748e3efaea0b5243d2da20859c975655bd8234d4d4b46530"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/core-loader@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/request@4.21.1",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "request",
+      "version": "4.21.1",
+      "description": "Request",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "ca826d596d160a215116152df454638a01d8ea7cb383876739aaf0aa6c7636d1cfef788fd2a35f225c58dee3689109617dd962037eb86fd9081d10080c5baee7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/request@4.21.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/http-proxy-agent@4.0.1",
+      "author": "Nathan Rajlich",
+      "name": "http-proxy-agent",
+      "version": "4.0.1",
+      "description": "An HTTP(s) proxy `http.Agent` implementation for HTTP",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "934cdd360a964c603a69e211569bdf5686f87cbe767537da7a1ca583463852f4b24af3aafd8f813b23eb82952b03b1f296abd4f2f2191ac46e5e6b29b245744e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/http-proxy-agent@4.0.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/TooTallNate/node-http-proxy-agent#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/TooTallNate/node-http-proxy-agent/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/TooTallNate/node-http-proxy-agent.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40tootallnate/once@1.1.2",
+      "author": "Nathan Rajlich",
+      "group": "@tootallnate",
+      "name": "once",
+      "version": "1.1.2",
+      "description": "Creates a Promise that waits for a single event",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "45bcc9be5373991ab97373b4f548a97ae5e7a38b40d4513a8a43a3c592b4b6ec55bf7e35da5eb8979b755b9a63e3eac9abdbe9926fe4c22474eda6579ec28fc7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40tootallnate/once@1.1.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/TooTallNate/once#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/TooTallNate/once/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/TooTallNate/once.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/agent-base@6.0.2",
+      "author": "Nathan Rajlich",
+      "name": "agent-base",
+      "version": "6.0.2",
+      "description": "Turn a function into an `http.Agent` instance",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "45937035c945efe312ffc6c383bd1a9a0df6772799199c620ee42667128b025423af78c6c8bc7ee0a924e7c50eec3d90760148402a2fb92b991129dee911ba5d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/agent-base@6.0.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/TooTallNate/node-agent-base#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/TooTallNate/node-agent-base/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/TooTallNate/node-agent-base.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/debug@4.3.1",
+      "author": "TJ Holowaychuk",
+      "name": "debug",
+      "version": "4.3.1",
+      "description": "small debugging utility",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "76813076f9b83c278ae0add140dd990b60585016b1c0b0110aa666323b45f1ae7527645bd31a559681519c2383c2a8e9c270286a8e297a537c97744976fde045"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/debug@4.3.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/visionmedia/debug#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/visionmedia/debug/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/visionmedia/debug.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/ms@2.1.2",
+      "name": "ms",
+      "version": "2.1.2",
+      "description": "Tiny millisecond conversion utility",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "b0690fc7e56332d980e8c5f6ee80381411442c50996784b85ea7863970afebcb53fa36f7be4fd1c9a2963f43d32b25ad98b48cd1bf9a7544c4bdbb353c4687db"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/ms@2.1.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/zeit/ms#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/zeit/ms/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/zeit/ms.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/https-proxy-agent@5.0.0",
+      "author": "Nathan Rajlich",
+      "name": "https-proxy-agent",
+      "version": "5.0.0",
+      "description": "An HTTP(s) proxy `http.Agent` implementation for HTTPS",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "124626e4170a50689dbb1cd2b77129a64a3e3e2356344a5ae324a4f6f4c2eb00ec4095bdac749af94846349a11629edbcfa1edd5e69121ae90689a8ee6b0856c"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/https-proxy-agent@5.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/TooTallNate/node-https-proxy-agent#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/TooTallNate/node-https-proxy-agent/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/TooTallNate/node-https-proxy-agent.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/emoji@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "emoji",
+      "version": "4.22.0",
+      "description": "emoji",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "be85c0f29b804a14dee5393d2ae0a54b781a20a6cd0ef01f3ac7ff54230dbd2e26db99e2503546f730ab0d5f8a2c0014436409930d0966540499648c4861f514"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/emoji@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/evaluator@4.21.1",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "evaluator",
+      "version": "4.21.1",
+      "description": "Evaluator",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "bffbafe259630619a82c1089189d085e1dedb988ddad042864b874a12c0ef056d5b38ba07d27e4acbc2941431737d7e1768ccf3e80a0f438abea7e7140306c01"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/evaluator@4.21.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/escodegen@2.0.0",
+      "name": "escodegen",
+      "version": "2.0.0",
+      "description": "ECMAScript code generator",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9a61cacacfc2f01154188f8c01635c498a0e4582cc74fce3ae49ddd9573e6d4b233796d772bf0486b341f944ea7cbd72dc8f5ce1fc368a182d30f40b051890c7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-2-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:npm/escodegen@2.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://github.com/estools/escodegen"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/estools/escodegen/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/estools/escodegen.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/estraverse@5.2.0",
+      "name": "estraverse",
+      "version": "5.2.0",
+      "description": "ECMAScript JS AST traversal functions",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "dfd9e729f7d6cfcc4dd4153fd9cefd9fd9c1f470f3a349e2614ab1eb1caa527ca8027432c96a4e4dd6447a209c87c041bb9d79b78c29f599a055f5619fd101a7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-2-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:npm/estraverse@5.2.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/estools/estraverse"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/estools/estraverse/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/estools/estraverse.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/esutils@2.0.3",
+      "name": "esutils",
+      "version": "2.0.3",
+      "description": "utility box for ECMAScript language tools",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "915b1ca97938382a7af126747648042958baffc8a3df4d0a0564c9ab7d8ffdd61e5934b02b8d56c93c5a94dd5e46603967d514fcb5fd0fb1564a657d480631ea"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-2-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:npm/esutils@2.0.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/estools/esutils"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/estools/esutils/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/estools/esutils.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/esprima@4.0.1",
+      "author": "Ariya Hidayat",
+      "name": "esprima",
+      "version": "4.0.1",
+      "description": "ECMAScript parsing infrastructure for multipurpose analysis",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "786b85170ed4a5d6be838a7e407be75b44724d7fd255e2410ccfe00ad30044ed1c2ee4f61dc10a9d33ef86357a6867aaac207fb1b368a742acce6d23b1a594e0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-2-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:npm/esprima@4.0.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://esprima.org"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jquery/esprima/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jquery/esprima.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/optionator@0.8.3",
+      "author": "George Zahariev",
+      "name": "optionator",
+      "version": "0.8.3",
+      "description": "option parsing and help generation",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "f885bda4009d9375d69a64d71bc9b7ba919426cb795d11b3c4c4635f302e2755e720536f7e18e322e6240efcac9cf43bab3a95ccbb7bf010abba7b6a4615906c"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/optionator@0.8.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/gkz/optionator"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/gkz/optionator/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/gkz/optionator.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/prelude-ls@1.1.2",
+      "author": "George Zahariev",
+      "name": "prelude-ls",
+      "version": "1.1.2",
+      "description": "prelude.ls is a functionally oriented utility library. It is powerful and flexible. Almost all of its functions are curried. It is written in, and is the recommended base library for, LiveScript.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "21932a549f5e52ffd9a827f570e04be62a97da54"
+        }
+      ],
+      "purl": "pkg:npm/prelude-ls@1.1.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://preludels.com"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/gkz/prelude-ls/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/gkz/prelude-ls.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/deep-is@0.1.3",
+      "author": "Thorsten Lorenz",
+      "name": "deep-is",
+      "version": "0.1.3",
+      "description": "node's assert.deepEqual algorithm except for NaN being equal to NaN",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "b369d6fb5dbc13eecf524f91b070feedc357cf34"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/deep-is@0.1.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/thlorenz/deep-is#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/thlorenz/deep-is/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/thlorenz/deep-is.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/word-wrap@1.2.3",
+      "author": "Jon Schlinkert",
+      "name": "word-wrap",
+      "version": "1.2.3",
+      "description": "Wrap words to a specified length.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "1f3fe6acdc22b4d461fc7500b4cfd54ffe551feca00fa0d5ee660a640b473ab6ecf14ee5bcf4bac5fec424a305d2e5b52890a5d07ef4d60dd91aeb3e9ae139bd"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/word-wrap@1.2.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jonschlinkert/word-wrap"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jonschlinkert/word-wrap/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jonschlinkert/word-wrap.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/type-check@0.3.2",
+      "author": "George Zahariev",
+      "name": "type-check",
+      "version": "0.3.2",
+      "description": "type-check allows you to check the types of JavaScript values at runtime with a Haskell like type syntax.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "5884cab512cf1d355e3fb784f30804b2b520db72"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/type-check@0.3.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/gkz/type-check"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/gkz/type-check/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/gkz/type-check.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/levn@0.3.0",
+      "author": "George Zahariev",
+      "name": "levn",
+      "version": "0.3.0",
+      "description": "Light ECMAScript (JavaScript) Value Notation - human written, concise, typed, flexible",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "3b09924edf9f083c0490fdd4c0bc4421e04764ee"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/levn@0.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/gkz/levn"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/gkz/levn/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/gkz/levn.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/fast-levenshtein@2.0.6",
+      "author": "Ramesh Nair",
+      "name": "fast-levenshtein",
+      "version": "2.0.6",
+      "description": "Efficient implementation of Levenshtein algorithm  with locale-specific collator support.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "3d8a5c66883a16a30ca8643e851f19baa7797917"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/fast-levenshtein@2.0.6",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/hiddentao/fast-levenshtein#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/hiddentao/fast-levenshtein/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/hiddentao/fast-levenshtein.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-all@4.22.1",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-all",
+      "version": "4.22.1",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3178aee7b64c4a2996758fe666b257678ef83828c0e0b8c7ab3800285d235a9faa3a01a1277b26fc8d982a3ea8856bf6bd3ce5dc538a98391df303c2c7db64d2"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-all@4.22.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-ar@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-ar",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "ca42995ccb3961f47303083f05654a7c08d4ed106e70f3ad8e9fefbed08e504a58bd4c117a8ed6c5b46f9d4e068480045a0d135d3894e98d5313b2b041f4e65e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-ar@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-bn@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-bn",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5d5725622e57bee983119d2efdc6fd3d75bdfd83ec401363179dee4bae90c95c63fb941088a9986356144c6f95fdcb13108ab121f3e8c49811e96dbec3ef2939"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-bn@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-ca@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-ca",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "1994401cae89e4abff38c382ef3918b4e5f983f6730e828b777e5f20306d438a01f7a174aa7ab4d6b30e5e347c7f7f79af0c140aa0154bdbfd66277d38886182"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-ca@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-cs@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-cs",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "0ed8d6925ea049969a37d317e934bb8df7db310d8bb18a2267e3b3dd83e3dd567856ad1b24fbb430fb9d9889731e66b4e015b80ebb4873d25c68f61a65efe516"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-cs@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-da@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-da",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "7d085a7b815d2ed2b9be7ec5e01a10ef41974f7792cb89325b5268e5610f000d19c3e15f626dfcaf6bc5995de978e209bda7f11763ba8bde90f981319071e715"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-da@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-de@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-de",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "1821189758cbf5f32877d5419a2b9c11dd3a99f11cd4a18a3c40b073929e2dd7c0a00b19566e41cc33f1cb8a863fba3b5998301cb5cfa3402eaa6a85b93c4b85"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-de@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-el@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-el",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5a0c3a975ada63a971a8d33d256c1f1fb252b991106584e3d53d60e1b5a70b5806c6ade6e6fc07238f1bd103024fd69ce52f162ce22cdb25d71c9d916e191250"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-el@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-en@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-en",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "76dc33ff557a1e928122f6778930617d0edc8c60151a673483a9fcf07b019c3615d2cb9bcc202765c46bccde6bf560651e08ce30b5fbee4ea94d10ac991ebbab"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-en@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-en-min@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-en-min",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "926387e714d399470cd6110f25398dd2fe38269f5915b4a4ad2fb0f248d5eeb1611a142022f89f4f6a55701b914bb1e8ed14b04f610c4a4c91dc488ca218e10d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-en-min@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-es@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-es",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3bfd7a8a6095bb9856d5aee848df0eb7188de301edbf7ef691ad470671232f1ed5c4d5fa5d5522ca93a2cfb3f36b097985f3b0acc338f8b3662b9d793dede32a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-es@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-eu@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-eu",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5637ab952b44e0a7d8b7bc0bf4152c4222c6d2954c0c48e0ac2c98062357295d679d8048b4c8ab0548b147e1961ffa789d583c958015d4d21f36fb800f855bc0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-eu@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-fa@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-fa",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9d16b07ad8299546b01e71265d34ac6c93d4ceab6882240230ad9d0c10c044507189083eea751b8b8e9c1db5a8d5dca2b4dfe49b0b0598df568211f26113a2ad"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-fa@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-fi@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-fi",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "81dc2653151306ed0ad94207f79cc3548d87a6007592482fcb00ec4b195632e6aee2656a8d6678443491367cef63b6bd4e0f32ea22fd0f49a6426e827ed3cec4"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-fi@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-fr@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-fr",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "aa1a28a65577c11263be7257ca9b891ab6398ee4782e9b3d0370d0e83843a2a0c9ab7a3b7e1e29306f9ffe0684802cd9d79f6e7ce4d04a553453e76cf6f44e7a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-fr@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-ga@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-ga",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e81275920eaac0ab24f9de3ec0c3c160ded5f56b8a90a91948972c909e0512302eaafb6e41c698d47c8d2cafd7616eba3aac62f3a58c05cb1fdc009e5da49eef"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-ga@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-gl@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-gl",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "dc065372307bb528d01a390aa2dde96787ab7689200337bc912d0339d19d0dfae64816502ea7a724c8b4d883d8ea604d1f9dc9e635911f5e1ae3ed51f98c6a54"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-gl@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-hi@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-hi",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9e504f2784bf10e891e62c37e861aebfa87f6a74cf1cf6ca7782d8940ebb3882d6534df7cfdcef5be650d213aa7212f731300642976b2bd346d93cd31f11f410"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-hi@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-hu@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-hu",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "838ff402537e3e2b4fc344d65a455819c83b1b12db3dc3c3afdab6129aa1e451c88d6b91eeb0f292275bbc08ed218cad008fb1218b23c586d89b162e50504026"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-hu@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-hy@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-hy",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "ef4e980894c264de432d210b003b100bcb40d28285982d0d0573a546a189b532b93999ba99cadd856d0be36c098b3e2ebdb265271343092e6ba5d639844d0328"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-hy@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-id@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-id",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "84f1a30e2cf62d5b0eb6c081e9ff411e19389442ca992636a19486bfe2b6edcd0e577a63864df86ac2b6aa98251f160bd714028e007053c6dd789b1d8101ff96"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-id@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-it@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-it",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "80c6ec0658bc6653e60d62d7f1a35b3df213e4a74fe04bee3ebfab7d9241a1aa86f14d2af50fe0a41de89a3d014757313927f9d722d48fdd4e9a0d9ec93f67a6"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-it@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-ja@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-ja",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "4410389e845c888be33d8a695d618257b6b0da140eb4a506dd87defd85c787ccdc8bfba4516aa78f7ebe8c1c7c0b77cc61e8785f429334345fac433886c2c8dc"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-ja@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/kuromoji@0.1.2",
+      "author": "Takuya Asano",
+      "name": "kuromoji",
+      "version": "0.1.2",
+      "description": "JavaScript implementation of Japanese morphological analyzer",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5747547fe0b62e970f1178681cb300a29fdb3a1b75e83cabfa60e2204dfdc97defa9abbba7cd037bf92816aa624dc2f5cf375995cdf1b8767cbb98236117c569"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/kuromoji@0.1.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/takuyaa/kuromoji.js"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/takuyaa/kuromoji.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/takuyaa/kuromoji.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/async@2.6.3",
+      "author": "Caolan McMahon",
+      "name": "async",
+      "version": "2.6.3",
+      "description": "Higher-order functions and common patterns for asynchronous code",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "cdf96f96cd750c2cbe7505b34d6d9dcee8a5bfc6795ffa637e664e59b6ba4cd2150e6fb650368999748e5e56ac1ca7cd06cf28a37334693e747c31167ca6635e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/async@2.6.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://caolan.github.io/async/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/caolan/async/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/caolan/async.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash@4.17.21",
+      "author": "John-David Dalton",
+      "name": "lodash",
+      "version": "4.17.21",
+      "description": "Lodash modular utilities.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "bf690311ee7b95e713ba568322e3533f2dd1cb880b189e99d4edef13592b81764daec43e2c54c61d5c558dc5cfb35ecb85b65519e74026ff17675b6f8f916f4a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash@4.17.21",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/doublearray@0.0.2",
+      "author": "takuyaa",
+      "name": "doublearray",
+      "version": "0.0.2",
+      "description": "JavaScript implementation of Double-Array trie",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "63186fe8d34413276d3621f6aa0ec5f79e227ef9"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/doublearray@0.0.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/takuyaa/doublearray"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/takuyaa/doublearray/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/takuyaa/doublearray.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/zlibjs@0.3.1",
+      "author": "Yuta Imaya",
+      "name": "zlibjs",
+      "version": "0.3.1",
+      "description": "zlib, gzip and zip implementation in JavaScript",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "50197edb28a1c42ca659cc8b4e6a9ddd6d444554"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/zlibjs@0.3.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/imaya/zlib.js"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/imaya/zlib.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/imaya/zlib.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-ko@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-ko",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "68db3cbde263d1b85f502bfa5203dbc2c79438eacfc6c0853ca43d6f37d032edd9fee7934102d2376f49b24b71cf62f8346ff70f93481583059e22c5398f4c61"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-ko@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-lt@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-lt",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "c20e0884d50763ecf24cf14d1ee90f1133cdc9e87052a7bc8094b1f86bbd6a355cf57ae53153cfda79ad6ffa2ac3427649e978b943d3e0ca40d997a28f3f946b"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-lt@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-ms@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-ms",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5cfb14e5d761646c33478b35ea8e45dbde6374439a96cb5b7f42d9f78feb0ea6059f2fcdc51ee0724cb87d08a4363c2d37055a4bfa1d652a12dad13ebff2368b"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-ms@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-ne@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-ne",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "606630a6a1275697cdab3a838b286231bc9bd057159608e98a14939e47db01c005dfdc007cea1fc3d22c45ba2ba282bf74521bedb6e35def5d915c750c56346a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-ne@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-nl@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-nl",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "19fcab615e16ccab51346b24c4c505d0f26fe00e68c662060ab18b0a7b0a107b5df106b6bd98e437aff86b1ee2408023478622a0c2119e813ca4331fdbf70bd1"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-nl@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-no@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-no",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "412acabcf51ea8d9f45945054b4cdecec40558f3da81ed4dc7dd4254417f07de80485386db0cb0f9010f18310d47be9f47c7cb2bad4a668df6065b0e4fc21029"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-no@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-pl@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-pl",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8d3891758d3bed39047e792035bbabce236aca163435602e894eb61b71bb336c88215ecb3f8cf1c5bb7668a87b265604e7cc3f2781c1532f44e16d9ec71d15df"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-pl@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-pt@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-pt",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "12bc2b2ae54a0938754730b489de54642d3a0d9398c13908ec083042d77e2aa3ed9ecdae262c4c37c2ee83798db7c27bb26f3bd4d72f3e3d8062dba91b4b4563"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-pt@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-ro@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-ro",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "0c0cb3fd0413fa5f7ee1b73a7335fe98e488a7cb0fe3eb0e26688b020aab46212947a09bb46b86098facef89f7caa1862ad8b74d50fb568480863214878f52b3"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-ro@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-ru@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-ru",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "6bd1685d621eae7ecdce0ebe81f4b53eb5ed905fc9673af2acfbba773d899d10bf292b4e707e8ead6fdadbf4b327a4968ac8db499e66eeba25e17ef623d0c623"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-ru@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-sl@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-sl",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "f270a252fc5bd5bd958a457dcf787e50315453b8b0096343be3950e208546711becc0a9a46a0722aed38ac39c6124ea7e4a2ddb7ca307334673b101d941a5d17"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-sl@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-sr@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-sr",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "d6023be8e28b25f08b40a636b0f0360ed6c03e1a7382924e8b504e55d2d5686086d4247918c9a6d7c2e5602ff515111759ce2b0e8ac002fe28931744240bd739"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-sr@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-sv@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-sv",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "56d66dd40058f575a70f6b0df1f36abcf1ad4baafbea09b652f8fc8b359f354e2d153e23182536371b067fbb15db4fd92f012b05f1937cb9c28c9a5264d8678b"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-sv@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-ta@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-ta",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "20bdf2781f4275243a2b694db5bed2609fdfeb4e1d47b1721f815b66515c5057414c9e62e39ab615801c337033f28a17e2701002b2707e44edaf0ec1cc413ca9"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-ta@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-th@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-th",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "d9c5d39b7560aef322736c8dbd95d818a8275405ec118e3d2f4fc0b0657cf95aa504bd240475b1b1ca71ac484448b20014b0ed6fce96173346884520cbe72ade"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-th@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-tl@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-tl",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "65a4201d6537a62cad233d1f1b4fbcd7901fa4153a5f9e2be43d506d4c858e34a516b75aafc0e03a8ffce7be2489af7b394268a246fb478d8d9549768246b2c7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-tl@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-tr@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-tr",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "c5687bcd5c603e397f304918b4df42440e5969001aa9b4890deb4613f05717ab6ce58f0e3814cba150cfff3e5deeae6300072d6e9090ef861b937fbc26202044"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-tr@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-uk@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-uk",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "f9fbd6528dbb29c2a058be6f850af6ad894882ecec06dfe1af0eec67d17fdf7db3c5d5aec602ab0f590664bd38a926fa647878c32233f30b6b649ea4fc5e9dd8"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-uk@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/lang-zh@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "lang-zh",
+      "version": "4.22.0",
+      "description": "Core",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "28edbab1a4f3f3917eebfb9019f0a7b8e198be9fb73f444e2bdd7b482c2baa27a593d832807645c02de38f3d2822f000be1ff696cbd525cf702bf69b6ed60478"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/lang-zh@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/language@4.21.1",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "language",
+      "version": "4.21.1",
+      "description": "Language guesser",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "c5a1611f706155e3ebab69f48cbf66a76eed2db0ece66ff0e12ab49f3089cf5ffcaf61dae7d1574a676bf58e7f2ba25936ab1ee8e2d748dc51757f4ca3cc4a2d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/language@4.21.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/neural@4.21.1",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "neural",
+      "version": "4.21.1",
+      "description": "Neural Network",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "cf716047bef9bdadedd1b23e443a57fa30baa280c4106f0c667e2d855e48fa100731451850a4dd6502e9e8312528622469c86499b3bdb2481169eee843c89dd0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/neural@4.21.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/nlg@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "nlg",
+      "version": "4.22.0",
+      "description": "Natural Language Generation",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "46c2b6fc8cd5fc9ec845be71952e9d1affa1c22455c32519b740a16b4ca81c68dd7344240da7953b16cf3c47f3e08f771177a2d61f6bf806088ccb2a91ffc196"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/nlg@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/nlp@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "nlp",
+      "version": "4.22.0",
+      "description": "Natural Language Processing",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "91035ee08c793ef828bb43c4263f65ab1358bdc6bafa52a546f51d732e1aacd9c7acc95cb2ce5c268dcf096a308b918849e33cf68816d7b9dfca60fae13d4641"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/nlp@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/ner@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "ner",
+      "version": "4.22.0",
+      "description": "Named Entity Recognition",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "57e104993c3ce290ef268bd7414063367c6f9252475eec79ce027d870f08dcd6a2f6638274c87d228df1c1640b9bb1591c96643568b26704bf2c22a13cb4fb10"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/ner@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/language-min@4.21.1",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "language-min",
+      "version": "4.21.1",
+      "description": "Language guesser",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5ded88ac29ae76d735cadc4e7a434759a53054339ce4c78888ac9c3741cdf23cb1c66195d601008a854202cee44ef9db4dccbde6dc3ff70a913f0682e2e4075a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/language-min@4.21.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/similarity@4.21.1",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "similarity",
+      "version": "4.21.1",
+      "description": "Similarity",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "a5fb39d9e9f70df1ba4129286093b72eaf2dabd799e2cf2eb32171de793db0a396860d77b46a8cac5a4324c9e3a5d83263c644cce5bc6127391d78a1cf0eddad"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/similarity@4.21.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/nlu@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "nlu",
+      "version": "4.22.0",
+      "description": "Natural Language Understanding",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "958aee01cfad2db41ccbd4f86cc9d5f571af342461739d0e575c446cdec2bf00d9d25663cd37d25921f1a64b859c2a826c529fa614496880900bb86c6fad1e24"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/nlu@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/sentiment@4.22.0",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "sentiment",
+      "version": "4.22.0",
+      "description": "Sentiment Analysis",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "28f313a1a666fb025354bc6ee2103768c5872d53dad4f692108afab64789d73b656e4482f74fd6d13b36e6a117b7fc9adbedfc0312b9362ebeaf317b16044f8f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/sentiment@4.22.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/slot@4.21.1",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "slot",
+      "version": "4.21.1",
+      "description": "Slot filling manager",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "f8f54d16ecb0be3ffc6330b82b47955592b63169a37aa79b271cb23715c8c6595fe357f66b4e6c8a8f0217be67abe1f0c07fca31cd23c85655762b9c167913a5"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/slot@4.21.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40nlpjs/xtables@4.21.1",
+      "author": "Jesus Seijas",
+      "group": "@nlpjs",
+      "name": "xtables",
+      "version": "4.21.1",
+      "description": "Excel tables reader",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8e92aa33b5244d89b2c0160d4ec913c14d5427261041699f8f0fc7cebc1cbfff6ca1edd1e5cc14d7a3d5b0641021f963a9717a4a18a9ddd2467e5e542b19ef23"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40nlpjs/xtables@4.21.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/axa-group/nlp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axa-group/nlp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axa-group/nlp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/xlsx@0.16.9",
+      "author": "sheetjs",
+      "name": "xlsx",
+      "version": "0.16.9",
+      "description": "SheetJS Spreadsheet data parser and writer",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8318b523711ab18be0097d6f37da46caaf76d11a27e0d3bc3cd7e1ba80371e9aba63c7f41025e2cb838bacae106419e3d63c77403fbc16ae5867fde63d9e625f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/xlsx@0.16.9",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://sheetjs.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/SheetJS/js-xlsx/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/SheetJS/sheetjs.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/adler-32@1.2.0",
+      "author": "sheetjs",
+      "name": "adler-32",
+      "version": "1.2.0",
+      "description": "Pure-JS ADLER-32",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "6a3e6bf0a63900ba15652808cb15c6813d1a5f25"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/adler-32@1.2.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://sheetjs.com/opensource"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/SheetJS/js-adler32/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/SheetJS/js-adler32.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/printj@1.1.2",
+      "author": "sheetjs",
+      "name": "printj",
+      "version": "1.1.2",
+      "description": "Pure-JS printf",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "cc0d929a82dac59c80ad04ce3e3e4b5de711f916a07cf494e4ac35a8ffa391678d96babe789672636a12ebc494d59ffbfe6c97338968f7bd7a95a3850154ad09"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/printj@1.1.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://sheetjs.com/opensource"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/SheetJS/printj/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/SheetJS/printj.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/exit-on-epipe@1.0.1",
+      "author": "sheetjs",
+      "name": "exit-on-epipe",
+      "version": "1.0.1",
+      "description": "Cleanly exit process on EPIPE",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "876cf99ab44e4f171ee7a4bea67bc057cf74baeee5b3b7f5904bd51896f0d4e9451f7fe6949e5b917bb4291c96f78bf7ef3cc73e251de7988b9f70c0ed38d6a7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/exit-on-epipe@1.0.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/SheetJS/node-exit-on-epipe#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/SheetJS/node-exit-on-epipe/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/SheetJS/node-exit-on-epipe.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/cfb@1.2.0",
+      "author": "sheetjs",
+      "name": "cfb",
+      "version": "1.2.0",
+      "description": "Compound File Binary File Format extractor",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "b1732f1ec282202551dcd6aaf89e79e8af84c41a3d9f9d222a5e8b19aae59efb80db4df9b8c94603fa95adcd3042da30e4fd6f244c3d532aca2c26ed20acfe4d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/cfb@1.2.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://sheetjs.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/SheetJS/js-cfb/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/SheetJS/js-cfb.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/crc-32@1.2.0",
+      "author": "sheetjs",
+      "name": "crc-32",
+      "version": "1.2.0",
+      "description": "Pure-JS CRC-32",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "d6e0701f117e63fe321791b8f1fc272aae90b085e17a8af764b3d3f34c86055d68114c293e88e512141b58a570d55c1c4d0c8c1872b5fd73264e39a5b264d318"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/crc-32@1.2.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://sheetjs.com/opensource"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/SheetJS/js-crc32/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/SheetJS/js-crc32.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/codepage@1.14.0",
+      "author": "SheetJS",
+      "name": "codepage",
+      "version": "1.14.0",
+      "description": "pure-JS library to handle codepages",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "8cbe25481323559d7d307571b0fff91e7a1d2f99"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/codepage@1.14.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://sheetjs.com/opensource"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/SheetJS/js-codepage/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/SheetJS/js-codepage.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/commander@2.14.1",
+      "author": "TJ Holowaychuk",
+      "name": "commander",
+      "version": "2.14.1",
+      "description": "the complete solution for node.js command-line programs",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "c0f314b7a1671f6cb31bde5203a9b38d038429453768b683126cecd6d8bed44f61f82b2b66085196a10cfc42782ac72c4151bcb8d378b95ade51e4fcf9dae582"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/commander@2.14.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/tj/commander.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/tj/commander.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/tj/commander.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/commander@2.17.1",
+      "author": "TJ Holowaychuk",
+      "name": "commander",
+      "version": "2.17.1",
+      "description": "the complete solution for node.js command-line programs",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "c0f314b7a1671f6cb31bde5203a9b38d038429453768b683126cecd6d8bed44f61f82b2b66085196a10cfc42782ac72c4151bcb8d378b95ade51e4fcf9dae582"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/commander@2.17.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/tj/commander.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/tj/commander.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/tj/commander.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/fflate@0.3.11",
+      "author": "Arjun Barrett",
+      "name": "fflate",
+      "version": "0.3.11",
+      "description": "High performance (de)compression in an 8kB package",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "46be5095478637599b38795aa9c49830a5693db80bcb40164ff5b4107c40e8d188d76c8ed63a68ba2db3041bd4d86f36e25b4ce94b7c04581f1d20467e4992d0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/fflate@0.3.11",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/101arrowz/fflate#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/101arrowz/fflate/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/101arrowz/fflate.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/ssf@0.11.2",
+      "author": "sheetjs",
+      "name": "ssf",
+      "version": "0.11.2",
+      "description": "Format data using ECMA-376 spreadsheet Format Codes",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "fa275b9885e86044f8ee11fe77b75f9b67a974e3140e3a9c078eb8f2c4d9fadd89c28c8114bfe29ec2df07fada72b0e6b0a077762c2c0c0ebdea964c89e002e6"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/ssf@0.11.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://sheetjs.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/SheetJS/ssf/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/SheetJS/ssf.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/frac@1.1.2",
+      "author": "SheetJS",
+      "name": "frac",
+      "version": "1.1.2",
+      "description": "Rational approximation with bounded denominator",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "c3f5c17e489b693977603a804b07c352a9276b8676a7d7054abd5a1c3b745a83131029d17c13afd9602b95920b96a8169667489402d71a933600e8449395b720"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/frac@1.1.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://sheetjs.com/opensource"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/SheetJS/frac/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/SheetJS/frac.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/word@0.3.0",
+      "author": "sheetjs",
+      "name": "word",
+      "version": "0.3.0",
+      "description": "Word Processing Document library",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3842de63443ad4e5e97547d3a7ea30780fefb4b560e550ce5e1fb785edcf3732c61bfcb4a32952382d714558f4fa5e2f437b63fdb0751d51efd6871791071e14"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/word@0.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://wordjs.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/SheetJS/js-word/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/SheetJS/js-word.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/wmf@1.0.2",
+      "author": "sheetjs",
+      "name": "wmf",
+      "version": "1.0.2",
+      "description": "Windows MetaFile (WMF) parser",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "fe9f4aedb121d038fa59b5e0e091b4c6f2d098869dae77abd5b8b8e553094df9db547b1cef221a8d9ca84a82bad3f76d541b35d859ba5a4508e7fdd6015b0d33"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/wmf@1.0.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://sheetjs.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/SheetJS/js-wmf/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/SheetJS/js-wmf.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/source-map@0.6.1",
+      "author": "Nick Fitzgerald",
+      "name": "source-map",
+      "version": "0.6.1",
+      "description": "Generates and consumes source maps",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "52381aa6e99695b3219018334fb624739617513e3a17488abbc4865ead1b7303f9773fe1d0f963e9e9c9aa3cf565bab697959aa989eb55bc16396332177178ee"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:npm/source-map@0.6.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/mozilla/source-map"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/mozilla/source-map/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/mozilla/source-map.git"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:npm/at-least-node@1.0.0"
+    },
+    {
+      "ref": "pkg:npm/graceful-fs@4.2.3"
+    },
+    {
+      "ref": "pkg:npm/universalify@2.0.0"
+    },
+    {
+      "ref": "pkg:npm/jsonfile@6.1.0",
+      "dependsOn": [
+        "pkg:npm/universalify@2.0.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/fs-extra@9.1.0",
+      "dependsOn": [
+        "pkg:npm/at-least-node@1.0.0",
+        "pkg:npm/graceful-fs@4.2.3",
+        "pkg:npm/jsonfile@6.1.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/jstring@1.3.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/core@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/builtin-duckling@4.22.0",
+      "dependsOn": [
+        "pkg:npm/%40nlpjs/core@4.22.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40microsoft/recognizers-text-data-types-timex-expression@1.3.0"
+    },
+    {
+      "ref": "pkg:npm/%40microsoft/recognizers-text@1.3.0"
+    },
+    {
+      "ref": "pkg:npm/bignumber.js@7.2.1"
+    },
+    {
+      "ref": "pkg:npm/lodash.escaperegexp@4.1.2"
+    },
+    {
+      "ref": "pkg:npm/lodash.sortby@4.7.0"
+    },
+    {
+      "ref": "pkg:npm/lodash.trimend@4.5.1"
+    },
+    {
+      "ref": "pkg:npm/%40microsoft/recognizers-text-number@1.3.0",
+      "dependsOn": [
+        "pkg:npm/bignumber.js@7.2.1",
+        "pkg:npm/lodash.escaperegexp@4.1.2",
+        "pkg:npm/lodash.sortby@4.7.0",
+        "pkg:npm/lodash.trimend@4.5.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/lodash.last@3.0.0"
+    },
+    {
+      "ref": "pkg:npm/lodash.max@4.0.1"
+    },
+    {
+      "ref": "pkg:npm/%40microsoft/recognizers-text-number-with-unit@1.3.0",
+      "dependsOn": [
+        "pkg:npm/lodash.last@3.0.0",
+        "pkg:npm/lodash.max@4.0.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/lodash.isequal@4.5.0"
+    },
+    {
+      "ref": "pkg:npm/lodash.tonumber@4.0.3"
+    },
+    {
+      "ref": "pkg:npm/%40microsoft/recognizers-text-date-time@1.3.0",
+      "dependsOn": [
+        "pkg:npm/lodash.isequal@4.5.0",
+        "pkg:npm/lodash.tonumber@4.0.3"
+      ]
+    },
+    {
+      "ref": "pkg:npm/grapheme-splitter@1.0.4"
+    },
+    {
+      "ref": "pkg:npm/%40microsoft/recognizers-text-sequence@1.3.0",
+      "dependsOn": [
+        "pkg:npm/grapheme-splitter@1.0.4"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40microsoft/recognizers-text-choice@1.3.0"
+    },
+    {
+      "ref": "pkg:npm/%40microsoft/recognizers-text-suite@1.3.0",
+      "dependsOn": [
+        "pkg:npm/%40microsoft/recognizers-text-data-types-timex-expression@1.3.0",
+        "pkg:npm/%40microsoft/recognizers-text@1.3.0",
+        "pkg:npm/%40microsoft/recognizers-text-number@1.3.0",
+        "pkg:npm/%40microsoft/recognizers-text-number-with-unit@1.3.0",
+        "pkg:npm/%40microsoft/recognizers-text-date-time@1.3.0",
+        "pkg:npm/%40microsoft/recognizers-text-sequence@1.3.0",
+        "pkg:npm/%40microsoft/recognizers-text-choice@1.3.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/builtin-microsoft@4.22.0",
+      "dependsOn": [
+        "pkg:npm/%40microsoft/recognizers-text-suite@1.3.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40tootallnate/once@1.1.2"
+    },
+    {
+      "ref": "pkg:npm/ms@2.1.2"
+    },
+    {
+      "ref": "pkg:npm/debug@4.3.1",
+      "dependsOn": [
+        "pkg:npm/ms@2.1.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/agent-base@6.0.2",
+      "dependsOn": [
+        "pkg:npm/debug@4.3.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/http-proxy-agent@4.0.1",
+      "dependsOn": [
+        "pkg:npm/%40tootallnate/once@1.1.2",
+        "pkg:npm/agent-base@6.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/https-proxy-agent@5.0.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/request@4.21.1",
+      "dependsOn": [
+        "pkg:npm/http-proxy-agent@4.0.1",
+        "pkg:npm/https-proxy-agent@5.0.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/core-loader@4.22.0",
+      "dependsOn": [
+        "pkg:npm/%40nlpjs/request@4.21.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/emoji@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/estraverse@5.2.0"
+    },
+    {
+      "ref": "pkg:npm/esutils@2.0.3"
+    },
+    {
+      "ref": "pkg:npm/esprima@4.0.1"
+    },
+    {
+      "ref": "pkg:npm/prelude-ls@1.1.2"
+    },
+    {
+      "ref": "pkg:npm/deep-is@0.1.3"
+    },
+    {
+      "ref": "pkg:npm/word-wrap@1.2.3"
+    },
+    {
+      "ref": "pkg:npm/type-check@0.3.2"
+    },
+    {
+      "ref": "pkg:npm/levn@0.3.0"
+    },
+    {
+      "ref": "pkg:npm/fast-levenshtein@2.0.6"
+    },
+    {
+      "ref": "pkg:npm/optionator@0.8.3",
+      "dependsOn": [
+        "pkg:npm/prelude-ls@1.1.2",
+        "pkg:npm/deep-is@0.1.3",
+        "pkg:npm/word-wrap@1.2.3",
+        "pkg:npm/type-check@0.3.2",
+        "pkg:npm/levn@0.3.0",
+        "pkg:npm/fast-levenshtein@2.0.6"
+      ]
+    },
+    {
+      "ref": "pkg:npm/escodegen@2.0.0",
+      "dependsOn": [
+        "pkg:npm/estraverse@5.2.0",
+        "pkg:npm/esutils@2.0.3",
+        "pkg:npm/esprima@4.0.1",
+        "pkg:npm/optionator@0.8.3"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/evaluator@4.21.1",
+      "dependsOn": [
+        "pkg:npm/escodegen@2.0.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-ar@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-bn@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-ca@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-cs@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-da@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-de@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-el@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-en-min@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-en@4.22.0",
+      "dependsOn": [
+        "pkg:npm/%40nlpjs/lang-en-min@4.22.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-es@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-eu@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-fa@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-fi@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-fr@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-ga@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-gl@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-hi@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-hu@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-hy@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-id@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-it@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/lodash@4.17.21"
+    },
+    {
+      "ref": "pkg:npm/async@2.6.3",
+      "dependsOn": [
+        "pkg:npm/lodash@4.17.21"
+      ]
+    },
+    {
+      "ref": "pkg:npm/doublearray@0.0.2"
+    },
+    {
+      "ref": "pkg:npm/zlibjs@0.3.1"
+    },
+    {
+      "ref": "pkg:npm/kuromoji@0.1.2",
+      "dependsOn": [
+        "pkg:npm/async@2.6.3",
+        "pkg:npm/doublearray@0.0.2",
+        "pkg:npm/zlibjs@0.3.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-ja@4.22.0",
+      "dependsOn": [
+        "pkg:npm/kuromoji@0.1.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-ko@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-lt@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-ms@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-ne@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-nl@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-no@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-pl@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-pt@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-ro@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-ru@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-sl@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-sr@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-sv@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-ta@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-th@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-tl@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-tr@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-uk@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-zh@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/language@4.21.1"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/lang-all@4.22.1",
+      "dependsOn": [
+        "pkg:npm/%40nlpjs/lang-ar@4.22.0",
+        "pkg:npm/%40nlpjs/lang-bn@4.22.0",
+        "pkg:npm/%40nlpjs/lang-ca@4.22.0",
+        "pkg:npm/%40nlpjs/lang-cs@4.22.0",
+        "pkg:npm/%40nlpjs/lang-da@4.22.0",
+        "pkg:npm/%40nlpjs/lang-de@4.22.0",
+        "pkg:npm/%40nlpjs/lang-el@4.22.0",
+        "pkg:npm/%40nlpjs/lang-en@4.22.0",
+        "pkg:npm/%40nlpjs/lang-es@4.22.0",
+        "pkg:npm/%40nlpjs/lang-eu@4.22.0",
+        "pkg:npm/%40nlpjs/lang-fa@4.22.0",
+        "pkg:npm/%40nlpjs/lang-fi@4.22.0",
+        "pkg:npm/%40nlpjs/lang-fr@4.22.0",
+        "pkg:npm/%40nlpjs/lang-ga@4.22.0",
+        "pkg:npm/%40nlpjs/lang-gl@4.22.0",
+        "pkg:npm/%40nlpjs/lang-hi@4.22.0",
+        "pkg:npm/%40nlpjs/lang-hu@4.22.0",
+        "pkg:npm/%40nlpjs/lang-hy@4.22.0",
+        "pkg:npm/%40nlpjs/lang-id@4.22.0",
+        "pkg:npm/%40nlpjs/lang-it@4.22.0",
+        "pkg:npm/%40nlpjs/lang-ja@4.22.0",
+        "pkg:npm/%40nlpjs/lang-ko@4.22.0",
+        "pkg:npm/%40nlpjs/lang-lt@4.22.0",
+        "pkg:npm/%40nlpjs/lang-ms@4.22.0",
+        "pkg:npm/%40nlpjs/lang-ne@4.22.0",
+        "pkg:npm/%40nlpjs/lang-nl@4.22.0",
+        "pkg:npm/%40nlpjs/lang-no@4.22.0",
+        "pkg:npm/%40nlpjs/lang-pl@4.22.0",
+        "pkg:npm/%40nlpjs/lang-pt@4.22.0",
+        "pkg:npm/%40nlpjs/lang-ro@4.22.0",
+        "pkg:npm/%40nlpjs/lang-ru@4.22.0",
+        "pkg:npm/%40nlpjs/lang-sl@4.22.0",
+        "pkg:npm/%40nlpjs/lang-sr@4.22.0",
+        "pkg:npm/%40nlpjs/lang-sv@4.22.0",
+        "pkg:npm/%40nlpjs/lang-ta@4.22.0",
+        "pkg:npm/%40nlpjs/lang-th@4.22.0",
+        "pkg:npm/%40nlpjs/lang-tl@4.22.0",
+        "pkg:npm/%40nlpjs/lang-tr@4.22.0",
+        "pkg:npm/%40nlpjs/lang-uk@4.22.0",
+        "pkg:npm/%40nlpjs/lang-zh@4.22.0",
+        "pkg:npm/%40nlpjs/language@4.21.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/neural@4.21.1"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/nlg@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/language-min@4.21.1"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/similarity@4.21.1"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/ner@4.22.0",
+      "dependsOn": [
+        "pkg:npm/%40nlpjs/language-min@4.21.1",
+        "pkg:npm/%40nlpjs/similarity@4.21.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/nlu@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/sentiment@4.22.0"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/slot@4.21.1"
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/nlp@4.22.0",
+      "dependsOn": [
+        "pkg:npm/%40nlpjs/ner@4.22.0",
+        "pkg:npm/%40nlpjs/nlu@4.22.0",
+        "pkg:npm/%40nlpjs/sentiment@4.22.0",
+        "pkg:npm/%40nlpjs/slot@4.21.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/printj@1.1.2"
+    },
+    {
+      "ref": "pkg:npm/exit-on-epipe@1.0.1"
+    },
+    {
+      "ref": "pkg:npm/adler-32@1.2.0",
+      "dependsOn": [
+        "pkg:npm/printj@1.1.2",
+        "pkg:npm/exit-on-epipe@1.0.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/crc-32@1.2.0"
+    },
+    {
+      "ref": "pkg:npm/cfb@1.2.0",
+      "dependsOn": [
+        "pkg:npm/crc-32@1.2.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/commander@2.14.1"
+    },
+    {
+      "ref": "pkg:npm/codepage@1.14.0",
+      "dependsOn": [
+        "pkg:npm/commander@2.14.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/commander@2.17.1"
+    },
+    {
+      "ref": "pkg:npm/fflate@0.3.11"
+    },
+    {
+      "ref": "pkg:npm/frac@1.1.2"
+    },
+    {
+      "ref": "pkg:npm/ssf@0.11.2",
+      "dependsOn": [
+        "pkg:npm/frac@1.1.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/word@0.3.0"
+    },
+    {
+      "ref": "pkg:npm/wmf@1.0.2"
+    },
+    {
+      "ref": "pkg:npm/xlsx@0.16.9",
+      "dependsOn": [
+        "pkg:npm/adler-32@1.2.0",
+        "pkg:npm/cfb@1.2.0",
+        "pkg:npm/codepage@1.14.0",
+        "pkg:npm/commander@2.17.1",
+        "pkg:npm/fflate@0.3.11",
+        "pkg:npm/ssf@0.11.2",
+        "pkg:npm/word@0.3.0",
+        "pkg:npm/wmf@1.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40nlpjs/xtables@4.21.1",
+      "dependsOn": [
+        "pkg:npm/xlsx@0.16.9"
+      ]
+    },
+    {
+      "ref": "pkg:npm/node-nlp@4.22.1",
+      "dependsOn": [
+        "pkg:npm/%40nlpjs/builtin-duckling@4.22.0",
+        "pkg:npm/%40nlpjs/builtin-microsoft@4.22.0",
+        "pkg:npm/%40nlpjs/core-loader@4.22.0",
+        "pkg:npm/%40nlpjs/emoji@4.22.0",
+        "pkg:npm/%40nlpjs/evaluator@4.21.1",
+        "pkg:npm/%40nlpjs/lang-all@4.22.1",
+        "pkg:npm/%40nlpjs/neural@4.21.1",
+        "pkg:npm/%40nlpjs/nlg@4.22.0",
+        "pkg:npm/%40nlpjs/nlp@4.22.0",
+        "pkg:npm/%40nlpjs/xtables@4.21.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/source-map@0.6.1"
+    },
+    {
+      "ref": "pkg:npm/text-language-guesser@2.0.0",
+      "dependsOn": [
+        "pkg:npm/fs-extra@9.1.0",
+        "pkg:npm/jstring@1.3.0",
+        "pkg:npm/node-nlp@4.22.1",
+        "pkg:npm/source-map@0.6.1"
+      ]
+    }
+  ]
+}

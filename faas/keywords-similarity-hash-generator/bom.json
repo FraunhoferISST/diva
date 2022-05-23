@@ -1,0 +1,1723 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.3",
+  "serialNumber": "urn:uuid:67f5b01b-f51c-4d7f-b00b-d8f42437dcab",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2022-05-23T08:30:44.446Z",
+    "tools": [
+      {
+        "vendor": "CycloneDX",
+        "name": "Node.js module",
+        "version": "3.9.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "pkg:npm/keywords-similarity-hash-generator@0.1.0",
+      "name": "keywords-similarity-hash-generator",
+      "version": "0.1.0",
+      "purl": "pkg:npm/keywords-similarity-hash-generator@0.1.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/axios@0.26.0",
+      "author": "Matt Zabriskie",
+      "name": "axios",
+      "version": "0.26.0",
+      "description": "Promise based HTTP client for the browser and node.js",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "94aa062cc62d1ef16b3d5b77afe441329f67877e0dd0cf3311f096a9d599c7aa61ca7204850a80772769c810001b6d75ce5857f5182ed3c70e6a6cba5e31393a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/axios@0.26.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://axios-http.com"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axios/axios/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axios/axios.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/follow-redirects@1.14.8",
+      "author": "Ruben Verborgh",
+      "name": "follow-redirects",
+      "version": "1.14.8",
+      "description": "HTTP and HTTPS modules that follow redirects.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "d71d12f545491ec429ac57040bfaa737304b708c6c8c057dd397ff5244316dc942b284d695a70234ea506bf6a7a1d2e5dae68428585f58ebccd9083befed79cc"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/follow-redirects@1.14.8",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/follow-redirects/follow-redirects"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/follow-redirects/follow-redirects/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/follow-redirects/follow-redirects.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/binary-shannon-entropy@1.1.3",
+      "name": "binary-shannon-entropy",
+      "version": "1.1.3",
+      "description": "Calculate the shannon entropy of a buffer",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "0832edc58181195b7e956d9d9e40cba0ce4d384a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/binary-shannon-entropy@1.1.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/juliangruber/binary-shannon-entropy#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/juliangruber/binary-shannon-entropy/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/juliangruber/binary-shannon-entropy.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/bitset@5.1.1",
+      "author": "Robert Eisele",
+      "name": "bitset",
+      "version": "5.1.1",
+      "description": "A performance optimized infinite bit vector library",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "a0a691a7a9b35de749d4da68f3a3ca8567c37a523a1f1c49a3e8adf6701c041d072d5bd8569fb98baca3e834f985f160a3e4d2e53e7b3115adc3cce1c1d4ecde"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT OR GPL-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/bitset@5.1.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://www.xarg.org/2014/03/javascript-bit-array/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/infusion/bitset.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/infusion/bitset.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/fs-extra@10.0.1",
+      "author": "JP Richardson",
+      "name": "fs-extra",
+      "version": "10.0.1",
+      "description": "fs-extra contains methods that aren't included in the vanilla Node.js fs package. Such as recursive mkdir, copy, and remove.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "35b76854c66ca362ecae7fd0c0b5cecbaae6d2e7d8db310e2820f3251ff4901b1bd04eaa79dd0fde260af80b61dc17ef5c47aee09844b572e020bc79a6c51f6a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/fs-extra@10.0.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jprichardson/node-fs-extra"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jprichardson/node-fs-extra/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jprichardson/node-fs-extra.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/graceful-fs@4.2.9",
+      "name": "graceful-fs",
+      "version": "4.2.9",
+      "description": "A drop-in replacement for fs, making various improvements.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "36d371a947178295b688cadfa927d1ef71a5b77f4af812f05ac3ecf78c91eb7bf8e53d166de8fb79198be5c59fc0482a5e79a3429df36894ec85d456fea0b665"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/graceful-fs@4.2.9",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/isaacs/node-graceful-fs#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/isaacs/node-graceful-fs/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/isaacs/node-graceful-fs.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/jsonfile@6.1.0",
+      "author": "JP Richardson",
+      "name": "jsonfile",
+      "version": "6.1.0",
+      "description": "Easily read/write JSON files.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e5d8277563ab8984a6e5c9d86893616a52cd0ca3aa170c8307faebd44f59b067221af28fb3c476c5818269cb9fdf3e8ad58283cf5f367ddf9f637727de932a5d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/jsonfile@6.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jprichardson/node-jsonfile#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jprichardson/node-jsonfile/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/jprichardson/node-jsonfile.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/universalify@2.0.0",
+      "author": "Ryan Zimmerman",
+      "name": "universalify",
+      "version": "2.0.0",
+      "description": "Make a callback- or promise-based function support both promises and callbacks.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "84066c2aaed8cb5d59bb50c4d0ecd68f0ee79cb6662596130d96721051d9754855f05907e4c09fa14d5731ac57a2fa725b99eae6c70faaad190cff59ca5d38a1"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/universalify@2.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/RyanZim/universalify#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/RyanZim/universalify/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/RyanZim/universalify.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/hamming-distance@1.0.0",
+      "author": "Jonathan Ong",
+      "name": "hamming-distance",
+      "version": "1.0.0",
+      "description": "Calculate the hamming distance of two hex strings or buffers",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "39bfa46c61f39e87421e4035a1be4f725dd7b931"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/hamming-distance@1.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/math-utils/hamming-distance#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/math-utils/hamming-distance/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/math-utils/hamming-distance.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/mathjs@10.4.0",
+      "author": "Jos de Jong",
+      "name": "mathjs",
+      "version": "10.4.0",
+      "description": "Math.js is an extensive math library for JavaScript and Node.js. It features a flexible expression parser with support for symbolic computation, comes with a large set of built-in functions and constants, and offers an integrated solution to work with different data types like numbers, big numbers, complex numbers, fractions, units, and matrices.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "db356b2af391c317966dec30783e4d0f191380032faa4c263258c750f8433c9b57e2c18910beae8055d0379f7bae11fd446b67331373cfffa13c622bf54116ae"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/mathjs@10.4.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://mathjs.org"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/josdejong/mathjs/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/josdejong/mathjs.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40babel/runtime@7.17.7",
+      "author": "The Babel Team",
+      "group": "@babel",
+      "name": "runtime",
+      "version": "7.17.7",
+      "description": "babel's modular runtime helpers",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "2faaef1bd183c5a2e0163838d4afb962ff4e32b53df2c59ef9892673a143256ffebd864c85d38c2a4212833a6d31a1111ef4b6636970f4c0d19b6807865410a0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40babel/runtime@7.17.7",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://babel.dev/docs/en/next/babel-runtime"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/babel/babel/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/babel/babel.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/regenerator-runtime@0.13.9",
+      "author": "Ben Newman",
+      "name": "regenerator-runtime",
+      "version": "0.13.9",
+      "description": "Runtime for Regenerator-compiled generator and async functions.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "a77553f9c38483116c45103d5f896423513e936fc2b672ad53881cc7268252b7a294bfefa88e82759df0c55531dd439483e82750e41071123b066488eb9e8c60"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/regenerator-runtime@0.13.9",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/facebook/regenerator/tree/master/packages/runtime"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/complex.js@2.0.15",
+      "author": "Robert Eisele",
+      "name": "complex.js",
+      "version": "2.0.15",
+      "description": "A complex numbers library",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "80306f414f081b5dfd6414134a8daabc314ffa500d30696e33befd72c5ceafa9f2d4d52d037c245270858e50cd1ff9a80157d7b6f0a562de86d336ab15bb73e7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/complex.js@2.0.15",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/infusion/Complex.js"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/infusion/Complex.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/infusion/Complex.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/decimal.js@10.3.1",
+      "author": "Michael Mclaughlin",
+      "name": "decimal.js",
+      "version": "10.3.1",
+      "description": "An arbitrary-precision Decimal type for JavaScript.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "574a5f85fafcb2ecf23c63b1de79aae1a1ea69b7a15199fa0a1f64c85a55efd4c60d3585987a94a9775a6d1ed01eac73ad8a25178fad566261506e0e51183975"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/decimal.js@10.3.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/MikeMcl/decimal.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/MikeMcl/decimal.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/MikeMcl/decimal.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/escape-latex@1.2.0",
+      "author": "Dang Mai",
+      "name": "escape-latex",
+      "version": "1.2.0",
+      "description": "Escape LaTeX special characters with Javascript",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9d5e5a5565b52b4c04894204759e1eae41861fc983c46cb149ea8fcd136d58fedab5ac3efe894539bc3b86e8c55a556336c683170e5567937355222a4607d38b"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/escape-latex@1.2.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/dangmai/escape-latex#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/dangmai/escape-latex/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/dangmai/escape-latex.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/fraction.js@4.2.0",
+      "author": "Robert Eisele",
+      "name": "fraction.js",
+      "version": "4.2.0",
+      "description": "A rational number library",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3212ee2beda051c9d97bc64795a68836740b974c5120645f706936ca5f31a1001f1eb4ac2f7ad8bba14298176475b85cf443e5c321877b0691b2fc11309b4094"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/fraction.js@4.2.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://www.xarg.org/2014/03/rational-numbers-in-javascript/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/infusion/Fraction.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/infusion/Fraction.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/javascript-natural-sort@0.7.1",
+      "author": "Jim Palmer",
+      "name": "javascript-natural-sort",
+      "version": "0.7.1",
+      "description": "Natural Sort algorithm for Javascript - Version 0.7 - Released under MIT license",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "f9e2303d4507f6d74355a73664d1440fb5a0ef59"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/javascript-natural-sort@0.7.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/Bill4Time/javascript-natural-sort"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Bill4Time/javascript-natural-sort/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Bill4Time/javascript-natural-sort.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/seedrandom@3.0.5",
+      "author": "David Bau",
+      "name": "seedrandom",
+      "version": "3.0.5",
+      "description": "Seeded random number generator for Javascript.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "f0ec266e4954373c1ece31889e667ed9c950984c503efa26aa32fb2c5a8e62ab66bb1460418a8e0f7987694f8cbd99f914b51e57155f423c0b656fe7fc916eaa"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/seedrandom@3.0.5",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://davidbau.com/archives/2010/01/30/random_seeds_coded_hints_and_quintillions.html"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/davidbau/seedrandom/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/davidbau/seedrandom.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/tiny-emitter@2.1.0",
+      "author": "Scott Corgan",
+      "name": "tiny-emitter",
+      "version": "2.1.0",
+      "description": "A tiny (less than 1k) event emitter library",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "341e8393503dc6040f3281aa0b90955e7d76de05b2b5edb5e4e353e4fa796b4cade27944a0ed5959e0b0a6771a7a43c75ceeb48b8ee28459d93e244f8d132ae1"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/tiny-emitter@2.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/scottcorgan/tiny-emitter#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/scottcorgan/tiny-emitter/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/scottcorgan/tiny-emitter.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/typed-function@2.1.0",
+      "author": "Jos de Jong",
+      "name": "typed-function",
+      "version": "2.1.0",
+      "description": "Type checking for JavaScript functions",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "6dcb5020eab1da255b5860c63d6c089b5f1049ca6ed97466902d7d0fcad0185b2329282d7aafe8d614d9bc81bfc2e0eaf1f6a7a410eb2e42eaf9a10dffacb95d"
+        }
+      ],
+      "purl": "pkg:npm/typed-function@2.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/josdejong/typed-function"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/josdejong/typed-function/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/josdejong/typed-function.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/mongodb@4.3.1",
+      "author": "The MongoDB NodeJS Team",
+      "name": "mongodb",
+      "version": "4.3.1",
+      "description": "The official MongoDB driver for Node.js",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "b0d6bc00f48893eaf8c77d59c1cb4a8ee3d269e2aebd478d6ff7eeff707a751334d87a4482283b8531ccf00fcf2504e5c6e0bf2855a50e542386c93f4b8ded06"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/mongodb@4.3.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/mongodb/node-mongodb-native"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://jira.mongodb.org/projects/NODE/issues/"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/mongodb/node-mongodb-native.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/bson@4.6.1",
+      "author": "The MongoDB NodeJS Team",
+      "name": "bson",
+      "version": "4.6.1",
+      "description": "A bson parser for node.js and the browser",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "2352d0ec7cf9ce0c11e10aae8a52cd6706e13f0d00a71ee2ed7f6418c053b2a3dd9a5ff4dd0f4d06d0fd9edff5f5a863969864b50226ae775eaf1aa9cde5438f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/bson@4.6.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/mongodb/js-bson#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://jira.mongodb.org/projects/NODE/issues/"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/mongodb/js-bson.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/buffer@5.7.1",
+      "author": "Feross Aboukhadijeh",
+      "name": "buffer",
+      "version": "5.7.1",
+      "description": "Node.js Buffer API, for the browser",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "10773220f050e0148696f8c1d7a9392a0009dbb088b0763fd8906609145ea38f32f6b43731a533597dca56505ae14eccc97d361dd563d0aec2dd6681de3bbb15"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/buffer@5.7.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/feross/buffer"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/feross/buffer/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/feross/buffer.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/base64-js@1.5.1",
+      "author": "T. Jameson Little",
+      "name": "base64-js",
+      "version": "1.5.1",
+      "description": "Base64 encoding/decoding in pure JS",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "00aa5a6251e7f2de1255b3870b2f9be7e28a82f478bebb03f2f6efadb890269b3b7ca0d3923903af2ea38b4ad42630b49336cd78f2f0cf1abc8b2a68e35a9e58"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/base64-js@1.5.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/beatgammit/base64-js"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/beatgammit/base64-js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/beatgammit/base64-js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/ieee754@1.2.1",
+      "author": "Feross Aboukhadijeh",
+      "name": "ieee754",
+      "version": "1.2.1",
+      "description": "Read/write IEEE754 floating point numbers from/to a Buffer or array-like object",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "75ccaa843bd7d42e3a95765c56a0a92be16d31141574830debf0dfe63b36ce8b94b2a1bb23ab05c62b480beeca60adbd29d5ce2c776ef732f8b059e85509ea68"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:npm/ieee754@1.2.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/feross/ieee754#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/feross/ieee754/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/feross/ieee754.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/denque@2.0.1",
+      "author": "Invertase",
+      "name": "denque",
+      "version": "2.0.1",
+      "description": "The fastest javascript implementation of a double-ended queue. Used by the official Redis, MongoDB, MariaDB & MySQL libraries for Node.js and many other libraries. Maintains compatability with deque.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "b5f89673a0502d734ba4d891e6219dd0e72edcfdd5a717f3162aae6cb80c7e17cec3d5b2be0241778e820a5367f64dea7db8ef4ffff471fec0958457fceb2531"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/denque@2.0.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://docs.page/invertase/denque"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/invertase/denque/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/invertase/denque.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/mongodb-connection-string-url@2.4.2",
+      "name": "mongodb-connection-string-url",
+      "version": "2.4.2",
+      "description": "MongoDB connection strings, based on the WhatWG URL API",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "99951717a9d4cd15a4e49de1e3532c3efd77ba45a51f88ce31293a6acb557a867511b753272179237c312a4bea0403a856dccb83211852f0e3ac675c3e52a303"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/mongodb-connection-string-url@2.4.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/mongodb-js/mongodb-connection-string-url"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/mongodb-js/mongodb-connection-string-url/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/mongodb-js/mongodb-connection-string-url.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40types/whatwg-url@8.2.1",
+      "group": "@types",
+      "name": "whatwg-url",
+      "version": "8.2.1",
+      "description": "TypeScript definitions for whatwg-url",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "d98b9b135b238f989fc627af23919ed6c7246fd93f12beba1f247673edfe23a5435148354cb3dd6184c46d0f838d1912e274f130986059f49f3110f6b25d8461"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40types/whatwg-url@8.2.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/whatwg-url"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40types/node@17.0.18",
+      "group": "@types",
+      "name": "node",
+      "version": "17.0.18",
+      "description": "TypeScript definitions for Node.js",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "78a8f87ff06c37fa9c72e9598914ae8e8823be9e4efe4e25396e66df9368a6364cfd0c0b391d3be5af29256e610fe46d766d8368254f10d4ba2ad4909d40fa04"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40types/node@17.0.18",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/node"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40types/webidl-conversions@6.1.1",
+      "group": "@types",
+      "name": "webidl-conversions",
+      "version": "6.1.1",
+      "description": "TypeScript definitions for webidl-conversions",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5c06a109d4e156e0850d02d3ed1ecf93fbea78e6c534bdd8a91c85660f80a803ff5b5ff0df11da231b96ed6b3342a4db20138f45c22d609228bb78bf9a9a6edd"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40types/webidl-conversions@6.1.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/webidl-conversions"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/whatwg-url@11.0.0",
+      "author": "Sebastian Mayr",
+      "name": "whatwg-url",
+      "version": "11.0.0",
+      "description": "An implementation of the WHATWG URL Standard's URL API and parsing machinery",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "44a4fc1c4c4ca68631e2280c895318f3794de947884ca265050faf47ff1927c38275288ddd1c02abef601f4f97ce3d3ee48accea2e23ffa2eebf36d921080471"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/whatwg-url@11.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jsdom/whatwg-url#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jsdom/whatwg-url/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jsdom/whatwg-url.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/tr46@3.0.0",
+      "author": "Sebastian Mayr",
+      "name": "tr46",
+      "version": "3.0.0",
+      "description": "An implementation of the Unicode UTS #46: Unicode IDNA Compatibility Processing",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "97b16f7c01e5726ba5a7c92bf9f969419995c2dbbb9df455ecd66e8ed3743aa112f042f83b87b4aaaccbd030b9800bf1fd90bff6593aae1714c18be406706760"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/tr46@3.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jsdom/tr46#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jsdom/tr46/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jsdom/tr46.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/punycode@2.1.1",
+      "author": "Mathias Bynens",
+      "name": "punycode",
+      "version": "2.1.1",
+      "description": "A robust Punycode converter that fully complies to RFC 3492 and RFC 5891, and works on nearly all JavaScript platforms.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5d1b118dd7fe8f99a5fb2ffa18a1cf65bac5ffca766206b424fb5da93218d977b9a2124f0fdb1a0c924b3efa7df8d481a6b56f7af7576726e78f672ff0e11dd0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/punycode@2.1.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://mths.be/punycode"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/bestiejs/punycode.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/bestiejs/punycode.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/webidl-conversions@7.0.0",
+      "author": "Domenic Denicola",
+      "name": "webidl-conversions",
+      "version": "7.0.0",
+      "description": "Implements the WebIDL algorithms for converting to and from JavaScript values",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "57075d06e903ceeef5a1f7c0411f7be6e9c1206a9f299a4cfbc657eb24a4f27621568a39098699cb3b77601bd8b51b4ef9aa0696ac4f83f07cecd19567f7eeea"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-2-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:npm/webidl-conversions@7.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jsdom/webidl-conversions#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jsdom/webidl-conversions/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jsdom/webidl-conversions.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/socks@2.6.2",
+      "author": "Josh Glazebrook",
+      "name": "socks",
+      "version": "2.6.2",
+      "description": "Fully featured SOCKS proxy client supporting SOCKSv4, SOCKSv4a, and SOCKSv5. Includes Bind and Associate functionality.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "cc36611e165163d3f146bb91311ee43219dfdc8f210ece12ddff5179c7e71b1bdc04741c29c207fe851c1167dfb1f9755f1758940ee79e519b6d3bcfcfd0fc80"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/socks@2.6.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/JoshGlazebrook/socks/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/JoshGlazebrook/socks/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/JoshGlazebrook/socks.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/ip@1.1.5",
+      "author": "Fedor Indutny",
+      "name": "ip",
+      "version": "1.1.5",
+      "description": "[![](https://badge.fury.io/js/ip.svg)](https://www.npmjs.com/package/ip)",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "bdded70114290828c0a039e72ef25f5aaec4354a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/ip@1.1.5",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/indutny/node-ip"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/indutny/node-ip/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/indutny/node-ip.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/smart-buffer@4.2.0",
+      "author": "Josh Glazebrook",
+      "name": "smart-buffer",
+      "version": "4.2.0",
+      "description": "smart-buffer is a Buffer wrapper that adds automatic read & write offset tracking, string operations, data insertions, and more.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "f7884ad0787cacfa90976c577371ec681a0e5ca576d0c4e83e4717bf06c84962c4b3eeb8b01ab9905827da42431dbd4faf2f72acfd1dc6b088f5145c8bb4572a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/smart-buffer@4.2.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/JoshGlazebrook/smart-buffer/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/JoshGlazebrook/smart-buffer/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/JoshGlazebrook/smart-buffer.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/pearson@0.0.1",
+      "author": "BatikhSouri",
+      "name": "pearson",
+      "version": "0.0.1",
+      "description": "The Pearson hashing function for nodejs",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "75a0bddb28f02801da544bbc4d934597946d808e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/pearson@0.0.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/BatikhSouri/node-pearson-hash"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/BatikhSouri/node-pearson-hash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/BatikhSouri/node-pearson-hash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/url-join@4.0.1",
+      "author": "José F. Romaniello",
+      "name": "url-join",
+      "version": "4.0.1",
+      "description": "Join urls and normalize as in path.join.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8e4d7e40fe9926ac8e8ae108f4011641f8eefe70763f0e3aea46c0d0b1199631f029e32077d5ab0048041b18cf0c3dbe4cd6db6f7eeb4f28447eb0977ee2979c"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/url-join@4.0.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jfromaniello/url-join#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jfromaniello/url-join/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/jfromaniello/url-join.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/memory-pager@1.5.0",
+      "author": "Mathias Buus",
+      "name": "memory-pager",
+      "version": "1.5.0",
+      "description": "Access memory using small fixed sized buffers",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "652e01a78aff6687aaebe34b2693fed19ce6d2947cc21b463dfd5713128b24101ccc63274a2dc8b75e0e88d092b6342333a354d689234064b180464df1e0582a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/memory-pager@1.5.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/mafintosh/memory-pager"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/mafintosh/memory-pager/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/mafintosh/memory-pager.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/saslprep@1.0.3",
+      "author": "Dmitry Tsvettsikh",
+      "name": "saslprep",
+      "version": "1.0.3",
+      "description": "SASLprep: Stringprep Profile for User Names and Passwords, rfc4013.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "fcc63f3c431b9364ae639b1270e3708540ec576a7bed99e46ffab79d256cb6aff2433609387fc0ce1dbda7da092ec9772e74304af64329a803181b01c12a286a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/saslprep@1.0.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/reklatsmasters/saslprep#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/reklatsmasters/saslprep/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/reklatsmasters/saslprep.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/sparse-bitfield@3.0.3",
+      "author": "Mathias Buus",
+      "name": "sparse-bitfield",
+      "version": "3.0.3",
+      "description": "Bitfield that allocates a series of small buffers to support sparse bits without allocating a massive buffer",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "ff4ae6e68656056ba4b3e792ab3334d38273ca11"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/sparse-bitfield@3.0.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/mafintosh/sparse-bitfield"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/mafintosh/sparse-bitfield/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/mafintosh/sparse-bitfield.git"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:npm/follow-redirects@1.14.8"
+    },
+    {
+      "ref": "pkg:npm/axios@0.26.0",
+      "dependsOn": [
+        "pkg:npm/follow-redirects@1.14.8"
+      ]
+    },
+    {
+      "ref": "pkg:npm/binary-shannon-entropy@1.1.3"
+    },
+    {
+      "ref": "pkg:npm/bitset@5.1.1"
+    },
+    {
+      "ref": "pkg:npm/graceful-fs@4.2.9"
+    },
+    {
+      "ref": "pkg:npm/universalify@2.0.0"
+    },
+    {
+      "ref": "pkg:npm/jsonfile@6.1.0",
+      "dependsOn": [
+        "pkg:npm/universalify@2.0.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/fs-extra@10.0.1",
+      "dependsOn": [
+        "pkg:npm/graceful-fs@4.2.9",
+        "pkg:npm/jsonfile@6.1.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/hamming-distance@1.0.0"
+    },
+    {
+      "ref": "pkg:npm/regenerator-runtime@0.13.9"
+    },
+    {
+      "ref": "pkg:npm/%40babel/runtime@7.17.7",
+      "dependsOn": [
+        "pkg:npm/regenerator-runtime@0.13.9"
+      ]
+    },
+    {
+      "ref": "pkg:npm/complex.js@2.0.15"
+    },
+    {
+      "ref": "pkg:npm/decimal.js@10.3.1"
+    },
+    {
+      "ref": "pkg:npm/escape-latex@1.2.0"
+    },
+    {
+      "ref": "pkg:npm/fraction.js@4.2.0"
+    },
+    {
+      "ref": "pkg:npm/javascript-natural-sort@0.7.1"
+    },
+    {
+      "ref": "pkg:npm/seedrandom@3.0.5"
+    },
+    {
+      "ref": "pkg:npm/tiny-emitter@2.1.0"
+    },
+    {
+      "ref": "pkg:npm/typed-function@2.1.0"
+    },
+    {
+      "ref": "pkg:npm/mathjs@10.4.0",
+      "dependsOn": [
+        "pkg:npm/%40babel/runtime@7.17.7",
+        "pkg:npm/complex.js@2.0.15",
+        "pkg:npm/decimal.js@10.3.1",
+        "pkg:npm/escape-latex@1.2.0",
+        "pkg:npm/fraction.js@4.2.0",
+        "pkg:npm/javascript-natural-sort@0.7.1",
+        "pkg:npm/seedrandom@3.0.5",
+        "pkg:npm/tiny-emitter@2.1.0",
+        "pkg:npm/typed-function@2.1.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/base64-js@1.5.1"
+    },
+    {
+      "ref": "pkg:npm/ieee754@1.2.1"
+    },
+    {
+      "ref": "pkg:npm/buffer@5.7.1",
+      "dependsOn": [
+        "pkg:npm/base64-js@1.5.1",
+        "pkg:npm/ieee754@1.2.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/bson@4.6.1",
+      "dependsOn": [
+        "pkg:npm/buffer@5.7.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/denque@2.0.1"
+    },
+    {
+      "ref": "pkg:npm/%40types/node@17.0.18"
+    },
+    {
+      "ref": "pkg:npm/%40types/webidl-conversions@6.1.1"
+    },
+    {
+      "ref": "pkg:npm/%40types/whatwg-url@8.2.1",
+      "dependsOn": [
+        "pkg:npm/%40types/node@17.0.18",
+        "pkg:npm/%40types/webidl-conversions@6.1.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/punycode@2.1.1"
+    },
+    {
+      "ref": "pkg:npm/tr46@3.0.0",
+      "dependsOn": [
+        "pkg:npm/punycode@2.1.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/webidl-conversions@7.0.0"
+    },
+    {
+      "ref": "pkg:npm/whatwg-url@11.0.0",
+      "dependsOn": [
+        "pkg:npm/tr46@3.0.0",
+        "pkg:npm/webidl-conversions@7.0.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/mongodb-connection-string-url@2.4.2",
+      "dependsOn": [
+        "pkg:npm/%40types/whatwg-url@8.2.1",
+        "pkg:npm/whatwg-url@11.0.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/ip@1.1.5"
+    },
+    {
+      "ref": "pkg:npm/smart-buffer@4.2.0"
+    },
+    {
+      "ref": "pkg:npm/socks@2.6.2",
+      "dependsOn": [
+        "pkg:npm/ip@1.1.5",
+        "pkg:npm/smart-buffer@4.2.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/mongodb@4.3.1",
+      "dependsOn": [
+        "pkg:npm/bson@4.6.1",
+        "pkg:npm/denque@2.0.1",
+        "pkg:npm/mongodb-connection-string-url@2.4.2",
+        "pkg:npm/socks@2.6.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/pearson@0.0.1"
+    },
+    {
+      "ref": "pkg:npm/url-join@4.0.1"
+    },
+    {
+      "ref": "pkg:npm/memory-pager@1.5.0"
+    },
+    {
+      "ref": "pkg:npm/sparse-bitfield@3.0.3"
+    },
+    {
+      "ref": "pkg:npm/saslprep@1.0.3",
+      "dependsOn": [
+        "pkg:npm/sparse-bitfield@3.0.3"
+      ]
+    },
+    {
+      "ref": "pkg:npm/keywords-similarity-hash-generator@0.1.0",
+      "dependsOn": [
+        "pkg:npm/axios@0.26.0",
+        "pkg:npm/binary-shannon-entropy@1.1.3",
+        "pkg:npm/bitset@5.1.1",
+        "pkg:npm/fs-extra@10.0.1",
+        "pkg:npm/hamming-distance@1.0.0",
+        "pkg:npm/mathjs@10.4.0",
+        "pkg:npm/mongodb@4.3.1",
+        "pkg:npm/pearson@0.0.1",
+        "pkg:npm/url-join@4.0.1",
+        "pkg:npm/memory-pager@1.5.0",
+        "pkg:npm/saslprep@1.0.3"
+      ]
+    }
+  ]
+}

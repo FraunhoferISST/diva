@@ -1,0 +1,73 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.3",
+  "serialNumber": "urn:uuid:f94ca355-efd0-4b6e-a0a2-b7d54f9a2a7b",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2022-05-23T08:40:19.790Z",
+    "tools": [
+      {
+        "vendor": "CycloneDX",
+        "name": "Node.js module",
+        "version": "3.9.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "pkg:npm/entity-management@1.0.0",
+      "name": "entity-management",
+      "version": "1.0.0",
+      "description": "Manages metadata of entities and publishes CRUD events to kafka",
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/entity-management@1.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/FraunhoferISST/diva#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/FraunhoferISST/diva/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/FraunhoferISST/diva.git"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40diva/common@3.1.4",
+      "group": "@diva",
+      "name": "common",
+      "version": "3.1.4",
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40diva/common@3.1.4"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:npm/%40diva/common@3.1.4"
+    },
+    {
+      "ref": "pkg:npm/entity-management@1.0.0",
+      "dependsOn": [
+        "pkg:npm/%40diva/common@3.1.4"
+      ]
+    }
+  ]
+}

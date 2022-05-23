@@ -1,0 +1,91 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.4.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:2b978ec2-e105-44da-a2ce-2406c6303665",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2022-05-23T09:01:51.668925+00:00",
+    "tools": [
+      { "vendor": "CycloneDX", "name": "cyclonedx-bom", "version": "3.2.1" },
+      {
+        "vendor": "CycloneDX",
+        "name": "cyclonedx-python-lib",
+        "version": "2.4.0",
+        "externalReferences": [
+          {
+            "url": "https://github.com/CycloneDX/cyclonedx-python-lib/blob/main/CHANGELOG.md",
+            "type": "release-notes"
+          },
+          {
+            "url": "https://cyclonedx.github.io/cyclonedx-python-lib/",
+            "type": "documentation"
+          },
+          {
+            "url": "https://github.com/CycloneDX/cyclonedx-python-lib/issues",
+            "type": "issue-tracker"
+          },
+          {
+            "url": "https://github.com/CycloneDX/cyclonedx-python-lib/blob/main/LICENSE",
+            "type": "license"
+          },
+          {
+            "url": "https://github.com/CycloneDX/cyclonedx-python-lib",
+            "type": "vcs"
+          },
+          { "url": "https://cyclonedx.org", "type": "website" },
+          {
+            "url": "https://github.com/CycloneDX/cyclonedx-python-lib/actions",
+            "type": "build-system"
+          },
+          {
+            "url": "https://pypi.org/project/cyclonedx-python-lib/",
+            "type": "distribution"
+          }
+        ]
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "16cc5ec5-830c-4869-9842-d1341966af77",
+      "name": "spacy",
+      "version": "3.1.3",
+      "purl": "pkg:pypi/spacy@3.1.3"
+    },
+    {
+      "type": "library",
+      "bom-ref": "6eb752af-048f-402d-956a-46e904e92d80",
+      "name": "https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.1.0/en_core_web_md-3.1.0.tar.gz#egg=en_core_web_md",
+      "purl": "pkg:pypi/https://github.com/explosion/spacy-models/releases/download/en-core-web-md-3.1.0/en-core-web-md-3.1.0.tar.gz%23egg%3den-core-web-md"
+    },
+    {
+      "type": "library",
+      "bom-ref": "36d0b44a-0517-4b7b-a70f-f220a92c6cca",
+      "name": "progress",
+      "version": "1.6",
+      "purl": "pkg:pypi/progress@1.6"
+    },
+    {
+      "type": "library",
+      "bom-ref": "df5f7573-077a-4a2d-9814-acdeefa2e7ee",
+      "name": "langdetect",
+      "version": "1.0.9",
+      "purl": "pkg:pypi/langdetect@1.0.9"
+    },
+    {
+      "type": "library",
+      "bom-ref": "16dc6090-ea48-4968-b0ec-9807ee4fdda0",
+      "name": "https://github.com/explosion/spacy-models/releases/download/de_core_news_md-3.1.0/de_core_news_md-3.1.0.tar.gz#egg=de_core_news_md",
+      "purl": "pkg:pypi/https://github.com/explosion/spacy-models/releases/download/de-core-news-md-3.1.0/de-core-news-md-3.1.0.tar.gz%23egg%3dde-core-news-md"
+    }
+  ],
+  "dependencies": [
+    { "ref": "16cc5ec5-830c-4869-9842-d1341966af77", "dependsOn": [] },
+    { "ref": "6eb752af-048f-402d-956a-46e904e92d80", "dependsOn": [] },
+    { "ref": "36d0b44a-0517-4b7b-a70f-f220a92c6cca", "dependsOn": [] },
+    { "ref": "df5f7573-077a-4a2d-9814-acdeefa2e7ee", "dependsOn": [] },
+    { "ref": "16dc6090-ea48-4968-b0ec-9807ee4fdda0", "dependsOn": [] }
+  ]
+}
