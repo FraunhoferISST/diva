@@ -1,7 +1,6 @@
 const nodePath = require("path");
 const glob = require("glob");
 const fs = require("fs");
-const generateUuid = require("@diva/common/utils/generateUuid");
 const rules = require("./rules/rules");
 const policies = require("./policies/policies");
 const services = require("./services/services");
@@ -34,15 +33,19 @@ const schemata = glob
     schema: JSON.stringify(schemaEntity.schema),
     ...getEntityBasicData(),
   }));
-
+const asyncapisIds = [
+  "asyncapi:uuid:0714f37a-ed21-4631-b8fb-80ef65818d12",
+  "asyncapi:uuid:c6a88f62-fe8e-46d8-a1ed-1856a351f1d3",
+  "asyncapi:uuid:d8083e37-3a59-4a92-909d-d2e83dbac879",
+];
 const asyncapis = glob
   .sync(`${systemEntitiesPath}/asyncapi/**/*.*`)
-  .map((path) => ({
+  .map((path, i) => ({
     specName: nodePath.parse(path).name,
     title: nodePath.parse(path).name,
     asyncapi: fs.readFileSync(path).toString(),
     systemEntityType: ASYNCAPI,
-    id: generateUuid(ASYNCAPI),
+    id: asyncapisIds[i],
     entityType: SYSTEM_ENTITY,
     ...getEntityBasicData(),
   }));
