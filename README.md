@@ -12,7 +12,7 @@
 
 <br />
 
-![GitHub](https://img.shields.io/badge/diva-v4.0.0--beta.0-orange)
+![GitHub](https://img.shields.io/badge/diva-v4.0.0-grün)
 ![GitHub](https://img.shields.io/github/license/FraunhoferISST/diva)
 <br />
 
@@ -35,9 +35,14 @@
 
 ## Motivation
 
-This is an ongoing project of the _Digitization in Service Industries_ department of the **Fraunhofer ISST**. Data is getting more and more important to companies. By utilizing the right data, companies can get more productive and will be able to succeed their competitors. Thus, we believe it is time for a data management solution, that evaluates new innovative solutions to support companies in their daily work with data. This tool will grow day by day and we try our best to tackle data management challenges in companies.
+This is an ongoing project of the _Digitization in Service Industries_ department of the **Fraunhofer ISST**. 
+Data is getting more and more important to companies. By utilizing the right data, companies can get more productive and 
+will be able to succeed their competitors. Thus, we believe it is time for a data management solution, that evaluates new 
+innovative solutions to support companies in their daily work with data. This tool will grow day by day and we try our 
+best to tackle data management challenges in companies.
 
-We also use this tool as a playground for our students, where they can work out topics for their **bachelor** or **master thesis**. Even the PhD students profit from this tool as a platform for their **doctoral thesis**.
+We also use this tool as a playground for our students, where they can work out topics for their **bachelor** or **master thesis**. 
+Even the PhD students profit from this tool as a platform for their **doctoral thesis**.
 
 ## Features
 
@@ -95,7 +100,8 @@ Follow our [documentation](https://fraunhoferisst.github.io/diva-docs/) to learn
 
 ## Credits
 
-This project is developed by employees of [Fraunhofer ISST](https://www.isst.fraunhofer.de/). They put all their ❤ into this project to try out the latest **cutting edge** technologies.
+This project is developed by employees of [Fraunhofer ISST](https://www.isst.fraunhofer.de/). 
+They put all their ❤ into this project to try out the latest **cutting edge** technologies.
 
 ### Active People
 
