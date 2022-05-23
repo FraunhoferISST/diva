@@ -36,7 +36,7 @@
               </template>
               <user-link v-else :user="state.owners[0]" />
             </div>
-            <no-data-state v-else text="Assign data owners" />
+            <no-data-state v-else text="Assign owners" />
           </data-viewer>
         </template>
         <template #edit="{ setPatch, patch }">
