@@ -36,7 +36,7 @@ export default {
     kc
       .init({
         onLoad: "check-sso",
-        silentCheckSsoRedirectUri: window.location.href,
+        // silentCheckSsoRedirectUri: window.location.href,
       })
       .then((authenticated) => {
         setInterval(() => updateToken(), 60000);
