@@ -1,0 +1,188 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.3",
+  "serialNumber": "urn:uuid:9cd9cbcd-d949-400f-aa60-10ff5b620024",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2022-05-23T08:39:52.644Z",
+    "tools": [
+      {
+        "vendor": "CycloneDX",
+        "name": "Node.js module",
+        "version": "3.9.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "pkg:npm/elasticsearch-connector@0.2.7",
+      "author": "Sergej Atamantschuk",
+      "name": "elasticsearch-connector",
+      "version": "0.2.7",
+      "description": "This service looks for entity events. Updates are propagated to an elasticsearch instance.",
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/elasticsearch-connector@0.2.7",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/FraunhoferISST/diva/tree/main/core/services/elasticsearch-connector"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40diva/common@3.1.4",
+      "group": "@diva",
+      "name": "common",
+      "version": "3.1.4",
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40diva/common@3.1.4"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/axios@0.26.1",
+      "author": "Matt Zabriskie",
+      "name": "axios",
+      "version": "0.26.1",
+      "description": "Promise based HTTP client for the browser and node.js",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "7cfc1c5f812f9d21ee22708c22d1210069da4845d1063b7387d7ceb6c13a1351baa7bbe5ede7447997b5d501dfd7cfbafbd811e4f6ca57fb0628d683f1868c78"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/axios@0.26.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://axios-http.com"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axios/axios/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axios/axios.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/follow-redirects@1.14.9",
+      "author": "Ruben Verborgh",
+      "name": "follow-redirects",
+      "version": "1.14.9",
+      "description": "HTTP and HTTPS modules that follow redirects.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3100df8a105060c732cb97614432541dcc3b95bd8fbff4ee13ac4fd6fcab68bba43431ca6c3c4335a384dcd6c201d2900299e8f863d1ca8d58029f3dc828cae3"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/follow-redirects@1.14.9",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/follow-redirects/follow-redirects"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/follow-redirects/follow-redirects/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/follow-redirects/follow-redirects.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/url-join@4.0.1",
+      "author": "José F. Romaniello",
+      "name": "url-join",
+      "version": "4.0.1",
+      "description": "Join urls and normalize as in path.join.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8e4d7e40fe9926ac8e8ae108f4011641f8eefe70763f0e3aea46c0d0b1199631f029e32077d5ab0048041b18cf0c3dbe4cd6db6f7eeb4f28447eb0977ee2979c"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/url-join@4.0.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jfromaniello/url-join#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jfromaniello/url-join/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/jfromaniello/url-join.git"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:npm/%40diva/common@3.1.4"
+    },
+    {
+      "ref": "pkg:npm/follow-redirects@1.14.9"
+    },
+    {
+      "ref": "pkg:npm/axios@0.26.1",
+      "dependsOn": [
+        "pkg:npm/follow-redirects@1.14.9"
+      ]
+    },
+    {
+      "ref": "pkg:npm/url-join@4.0.1"
+    },
+    {
+      "ref": "pkg:npm/elasticsearch-connector@0.2.7",
+      "dependsOn": [
+        "pkg:npm/%40diva/common@3.1.4",
+        "pkg:npm/axios@0.26.1",
+        "pkg:npm/url-join@4.0.1"
+      ]
+    }
+  ]
+}

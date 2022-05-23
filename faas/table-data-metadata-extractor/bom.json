@@ -1,0 +1,236 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.3",
+  "serialNumber": "urn:uuid:14a66397-d794-4c31-9444-6ef1c57de22f",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2022-05-23T08:34:46.998Z",
+    "tools": [
+      {
+        "vendor": "CycloneDX",
+        "name": "Node.js module",
+        "version": "3.9.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "pkg:npm/table-data-metadata-extractor@3.0.0",
+      "name": "table-data-metadata-extractor",
+      "version": "3.0.0",
+      "description": "![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Ftable-data-metadata-extractor%2Fpackage.json)",
+      "purl": "pkg:npm/table-data-metadata-extractor@3.0.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/fs-extra@9.1.0",
+      "author": "JP Richardson",
+      "name": "fs-extra",
+      "version": "9.1.0",
+      "description": "fs-extra contains methods that aren't included in the vanilla Node.js fs package. Such as recursive mkdir, copy, and remove.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "85c8376667a94b7d3fec1485a91be8a370ce310bbb223ab13b99c20edfb333d5d68dbdf75a0ef388d4fe42fa9bb9cdfe816a733b4d89b9b5729361b866fa3539"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/fs-extra@9.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jprichardson/node-fs-extra"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jprichardson/node-fs-extra/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jprichardson/node-fs-extra.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/at-least-node@1.0.0",
+      "author": "Ryan Zimmerman",
+      "name": "at-least-node",
+      "version": "1.0.0",
+      "description": "Lightweight Node.js version sniffing/comparison",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "faafedec492fd440d8da5e8675ae8b2e25f5e2b53d4d5db459ade87de426c0f1596ce328f435eb2db3a315a69c9645ca5a27486a8a7000e6d00eac16b46523aa"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/at-least-node@1.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/RyanZim/at-least-node#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/RyanZim/at-least-node/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/RyanZim/at-least-node.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/graceful-fs@4.2.6",
+      "name": "graceful-fs",
+      "version": "4.2.6",
+      "description": "A drop-in replacement for fs, making various improvements.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9d39c9e76f296eac586a78690d8b22e1177c30079a040ebbf91675d023359b76d30151440dc77902e0386ba5b9624199d623571f3673f13e9304a2de06e36b89"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/graceful-fs@4.2.6",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/isaacs/node-graceful-fs#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/isaacs/node-graceful-fs/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/isaacs/node-graceful-fs.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/jsonfile@6.1.0",
+      "author": "JP Richardson",
+      "name": "jsonfile",
+      "version": "6.1.0",
+      "description": "Easily read/write JSON files.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e5d8277563ab8984a6e5c9d86893616a52cd0ca3aa170c8307faebd44f59b067221af28fb3c476c5818269cb9fdf3e8ad58283cf5f367ddf9f637727de932a5d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/jsonfile@6.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jprichardson/node-jsonfile#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jprichardson/node-jsonfile/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/jprichardson/node-jsonfile.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/universalify@2.0.0",
+      "author": "Ryan Zimmerman",
+      "name": "universalify",
+      "version": "2.0.0",
+      "description": "Make a callback- or promise-based function support both promises and callbacks.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "84066c2aaed8cb5d59bb50c4d0ecd68f0ee79cb6662596130d96721051d9754855f05907e4c09fa14d5731ac57a2fa725b99eae6c70faaad190cff59ca5d38a1"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/universalify@2.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/RyanZim/universalify#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/RyanZim/universalify/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/RyanZim/universalify.git"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:npm/at-least-node@1.0.0"
+    },
+    {
+      "ref": "pkg:npm/graceful-fs@4.2.6"
+    },
+    {
+      "ref": "pkg:npm/universalify@2.0.0"
+    },
+    {
+      "ref": "pkg:npm/jsonfile@6.1.0",
+      "dependsOn": [
+        "pkg:npm/universalify@2.0.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/fs-extra@9.1.0",
+      "dependsOn": [
+        "pkg:npm/at-least-node@1.0.0",
+        "pkg:npm/graceful-fs@4.2.6",
+        "pkg:npm/jsonfile@6.1.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/table-data-metadata-extractor@3.0.0",
+      "dependsOn": [
+        "pkg:npm/fs-extra@9.1.0"
+      ]
+    }
+  ]
+}

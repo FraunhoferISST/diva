@@ -1,0 +1,65 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.3",
+  "serialNumber": "urn:uuid:594ced8b-067a-4daf-aca8-cf13d44ec456",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2022-05-23T08:38:39.932Z",
+    "tools": [
+      {
+        "vendor": "CycloneDX",
+        "name": "Node.js module",
+        "version": "3.9.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "pkg:npm/diva-lake-adapter@0.5.0",
+      "name": "diva-lake-adapter",
+      "version": "0.5.0",
+      "description": "Adapter for our DIVA Lake",
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/diva-lake-adapter@0.5.0",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/FraunhoferISST/diva/tree/main/core/services/adapter-services/diva-lake-adapter"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40diva/common@3.1.4",
+      "group": "@diva",
+      "name": "common",
+      "version": "3.1.4",
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40diva/common@3.1.4"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:npm/%40diva/common@3.1.4"
+    },
+    {
+      "ref": "pkg:npm/diva-lake-adapter@0.5.0",
+      "dependsOn": [
+        "pkg:npm/%40diva/common@3.1.4"
+      ]
+    }
+  ]
+}
