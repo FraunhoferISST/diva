@@ -7,35 +7,25 @@
             <div class="create-form-forms pa-12">
               <slot></slot>
             </div>
-            <div class="create-form-action">
-              <colored-card
-                :padding="false"
-                :rounded="false"
-                class="full-width fill-height"
+            <div class="create-form-action d-flex align-center justify-center">
+              <div
+                class="text-center fill-height d-flex column wrap justify-center align-center"
               >
-                <template #body>
-                  <div
-                    class="text-center fill-height d-flex column wrap justify-center align-center"
-                  >
-                    <div class="action-content pa-2 pa-md-10 flex-grow-1">
-                      <div
-                        class="mb-3 hidden-sm-and-down d-flex justify-center"
-                      >
-                        <slot name="title"> </slot>
-                      </div>
-                      <p
-                        style="color: #dcdcdc"
-                        class="create-form-hint hidden-sm-and-down"
-                      >
-                        <slot name="hint"></slot>
-                      </p>
-                      <div>
-                        <slot name="import-button"></slot>
-                      </div>
-                    </div>
+                <div class="action-content pa-2 pa-md-10 flex-grow-1">
+                  <div class="mb-3 hidden-sm-and-down d-md-flex justify-center">
+                    <slot name="title"> </slot>
                   </div>
-                </template>
-              </colored-card>
+                  <p
+                    style="color: #dcdcdc"
+                    class="create-form-hint hidden-sm-and-down"
+                  >
+                    <slot name="hint"></slot>
+                  </p>
+                  <div>
+                    <slot name="import-button"></slot>
+                  </div>
+                </div>
+              </div>
             </div>
           </form>
         </v-col>
@@ -45,10 +35,9 @@
 </template>
 
 <script>
-import ColoredCard from "@/components/Base/ColoredCard";
 export default {
   name: "CreateFormContainer",
-  components: { ColoredCard },
+  components: {},
 };
 </script>
 
@@ -71,6 +60,7 @@ export default {
 }
 .create-form-action {
   grid-area: action;
+  background-color: rgba(54, 89, 255, 0.83);
 }
 .create-form-hint {
   color: white;
