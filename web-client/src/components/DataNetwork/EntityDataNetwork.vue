@@ -170,7 +170,7 @@ export default {
               from: edge.from.entityId,
               to: edge.to.entityId,
               label: edge.edgeType,
-              title: edge.edgeType,
+              title: JSON.stringify(edge.properties),
               level,
             });
           }
@@ -266,7 +266,7 @@ export default {
 <style scoped lang="scss">
 div.datanetwork {
   @include border-radius;
-  overflow: hidden;
+  //overflow: visible;
   height: calc(100vh - 315px);
   width: 100%;
   border: 2px solid #f0f4f9;
