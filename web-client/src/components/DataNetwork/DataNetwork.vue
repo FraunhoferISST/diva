@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import { Network } from "vis-network/esnext";
-import "vis-network/styles/vis-network.min.css";
-import { DataSet, DataView } from "vis-data/esnext";
+import { Network } from "vis-network/dist/vis-network.min";
+import "vis-network/dist/dist/vis-network.min.css";
+import { DataSet, DataView } from "vis-data/dist/umd";
 
 export default {
   name: "DataNetwork",

@@ -62,7 +62,7 @@ import { useApi } from "@/composables/api";
 import { useRequest } from "@/composables/request";
 import { useSnackbar } from "@/composables/snackbar";
 import { ref, reactive, onMounted } from "@vue/composition-api";
-import { DataSet, DataView } from "vis-data/esnext";
+import { DataSet, DataView } from "vis-data/dist/umd";
 import randomColor from "@/utils/colors";
 import paginator from "@/utils/paginator";
 import entityTypeById from "@/utils/entityTypeById";
