@@ -3,7 +3,6 @@ import App from "./App.vue";
 import router from "./router/router";
 import store from "./store";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
-import "vue2vis/dist/vue2vis.css";
 import VueEllipseProgress from "vue-ellipse-progress";
 import vuetify from "./plugins/vuetify";
 import api from "@/api/index";

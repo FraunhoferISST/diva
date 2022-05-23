@@ -44,6 +44,7 @@
               class="gprimary"
               rounded
               block
+              :disabled="dataNetworkLoading"
               @click="clickRequestSubGraph"
             >
               Load Subgraph
