@@ -7,6 +7,10 @@
     {
       "key": "entityType",
       "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
     }
   ],
   "systemEntityType": "schema",
