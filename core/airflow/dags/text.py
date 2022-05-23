@@ -63,7 +63,7 @@ with DAG('text', default_args=default_args, schedule_interval=None, catchup=Fals
 
     metadata = DivaLakeOperator(
         task_id='text-metadata-extractor',
-        image='ghcr.io/fraunhoferisst/diva/text-metadata-extractor:2.0.0',
+        image='ghcr.io/fraunhoferisst/diva/text-metadata-extractor:2.0.1',
         api_version='auto',
         auto_remove=True,
         docker_url="unix://var/run/docker.sock",
