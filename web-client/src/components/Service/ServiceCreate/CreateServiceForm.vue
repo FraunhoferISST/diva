@@ -4,12 +4,12 @@
       <v-container class="pa-0" fluid>
         <v-row>
           <v-col cols="12">
-            <custom-header text="Specify a title for the new asset" />
+            <custom-header text="Specify a title for the new service" />
           </v-col>
           <v-col cols="12">
             <v-text-field
               v-model="title"
-              label="Asset title"
+              label="Service title"
               outlined
               dense
               rounded
@@ -21,7 +21,7 @@
           </v-col>
           <v-col cols="12">
             <v-alert text dense type="info">
-              You will be redirected to a newly created asset
+              You will be redirected to a newly created service
             </v-alert>
           </v-col>
         </v-row>
@@ -46,14 +46,14 @@
     <template #title>
       <custom-header
         style="color: white; font-size: 2rem !important"
-        text="Create new asset"
+        text="Create new service"
       >
       </custom-header>
     </template>
     <template #hint>
       <span>
-        Simply add a title and create new asset. You can add more details later
-        and connect your existing resources together
+        Simply add a title and create a new service. You can add more details
+        later.
       </span>
     </template>
     <template #import-button>
@@ -66,9 +66,9 @@
         :disabled="!title"
         :loading="isLoading"
         type="submit"
-        @click.prevent="createAsset"
+        @click.prevent="createService"
       >
-        Create asset
+        Create Service
       </v-btn>
     </template>
   </create-form-container>
@@ -78,13 +78,13 @@
 import CustomHeader from "@/components/Base/CustomHeader";
 import CreateFormContainer from "@/components/Create/CreateFormContainer";
 export default {
-  name: "CreateAssetForm",
+  name: "CreateServiceForm",
   components: {
     CreateFormContainer,
     CustomHeader,
   },
   data: () => ({
-    title: "My new Asset",
+    title: "My new Service",
     snackbar: false,
     snackbarMsg: "",
     isLoading: false,
@@ -98,16 +98,16 @@ export default {
     },
   },
   methods: {
-    async createAsset() {
+    async createService() {
       this.isLoading = true;
-      this.$api.assets
+      this.$api.services
         .create({
           title: this.title,
-          assetType: "generic",
+          serviceType: "generic",
         })
         .then(({ data: id }) => {
           this.$router.push({
-            name: "assets",
+            name: "entities",
             params: { id },
           });
         })
