@@ -64,7 +64,7 @@ class EventsConsumerService {
     const actions = await requestActions(parsedMassage);
     for (const action of actions) {
       log.info("Executing rules actions", { action, message });
-      await retry(() => executeAction(action), 3, 50).catch((e) => {
+      await retry(() => executeAction(action), 1, 100, false).catch((e) => {
         log.error("Would not able to process action", {
           action,
           error: e.toString(),
