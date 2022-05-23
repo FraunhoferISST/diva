@@ -40,7 +40,7 @@
             "type": "string",
             "title": "Currency",
             "description": "The currency for the costs",
-            "examples": [
+            "enum": [
               "$",
               "€"
             ],
