@@ -32,7 +32,7 @@ with DAG('similarity_network_bot', default_args=default_args, schedule_interval=
             **profiling_args,
             "HASH_FIELD": "keywordsSimilarityHash",
             "EDGE_TYPE": "keywordsSimilarity",
-            "THRESHOLD": "100"
+            "THRESHOLD": "60"
         },
     )
 
