@@ -416,7 +416,7 @@ module.exports = [
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/?$",
+      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}.*",
       method: "PUT",
     },
     condition: {
@@ -435,6 +435,38 @@ module.exports = [
     includes: ["email", "username", "roles", "groups"],
   },
   {
+    id: "policy:uuid:4b5d6599-5a5b-4cab-904d-940dd5983278",
+    title: "User can add images",
+    description: "The policy allows the user to upload images",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/?$",
+      method: "POST",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId": "{{params.id}}",
+            },
+          },
+        },
+        {
+          mongo: {
+            query: {
+              id: "{{params.id}}",
+              isEditable: true,
+              isArchived: { $ne: true },
+            },
+          },
+        },
+      ],
+    },
+  },
+  {
     id: "policy:uuid:a229c1a9-9371-4d84-89b7-81b662250c7d",
     title: "User can execute PATCH on itself (excluding roles and groups)",
     description:
@@ -443,7 +475,7 @@ module.exports = [
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/?$",
+      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}.*",
       method: "PATCH",
     },
     condition: {
@@ -462,12 +494,13 @@ module.exports = [
   {
     id: "policy:uuid:57fc472b-57ef-4115-84e6-33d8ea1832be",
     title: "User can delete own DIVA account",
-    description: "The policy allows each user to delete it own account",
+    description:
+      "The policy allows each user to delete it own account and images",
     isActive: true,
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/?$",
+      path: "^/users/user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}.*",
       method: "DELETE",
     },
     condition: {
