@@ -151,14 +151,67 @@ module.exports = [
   },
   {
     id: "policy:uuid:7648d3e8-b686-453a-b32f-c4a4081ffff0",
-    title:
-      "Creators, internal services and owners can view, edit and delete owned entities",
+    title: "Creators, internal services and owners can view owned entities",
     isActive: true,
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
       path: "^/((?!.*users.*)[a-zA-Z0-9]+)/[a-zA-Z0-9]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}.*",
-      method: "(GET|PUT|PATCH|POST|DELETE)",
+      method: "GET",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              // means actually user is logged in
+              "headers.diva.actorId":
+                "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+      ],
+      or: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "service:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId": "{{params.id}}",
+            },
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{params.id}}'})<-[r:isOwnerOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(r)>0) as ruleMet",
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (e {entityId:'{{params.id}}'})<-[r:isCreatorOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(r)>0) as ruleMet",
+          },
+        },
+      ],
+    },
+  },
+  {
+    id: "policy:uuid:b7ed54d2-8080-47d9-a0b0-6d6103753f0e",
+    title:
+      "Creators, internal services and owners can edit and delete owned entities",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/((?!.*users.*)[a-zA-Z0-9]+)/[a-zA-Z0-9]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}.*",
+      method: "(PUT|PATCH|POST|DELETE)",
     },
     condition: {
       and: [

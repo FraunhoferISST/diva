@@ -1,9 +1,13 @@
 import pluralize from "pluralize";
+import urlJoin from "url-join";
 import api from "@/api/index";
 import entityTypeById from "@/utils/entityTypeById";
 
 const buildImageUrl = (collectionName, entityId, imageId = "") =>
-  `${api.endpoint}/${collectionName}/${entityId}/images/${imageId}`;
+  urlJoin(
+    `${api.endpoint}`,
+    `/${collectionName}/${entityId}/images/${imageId}`
+  );
 
 export const useApi = (id = null) => {
   let entityApi = null;
