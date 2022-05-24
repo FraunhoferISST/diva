@@ -128,23 +128,25 @@ class EntityService {
     );
     return Promise.all(
       this.defaultEntities.map((entity) =>
-        this.replace(entity.id, entity)
-          .then(() =>
-            this.historyCollection.insertOne(
-              createHistoryEntity(
-                entity.id,
-                createPatchDelta({}, entity),
-                serviceId
+        this.entityExists(entity.id).then(async (exists) => {
+          if (!exists) {
+            logger.info(
+              `Inserting ${this.systemEntityType ?? this.entityType} (${
+                entity.id
+              })`
+            );
+            return this.insert(entity).then(() =>
+              this.historyCollection.insertOne(
+                createHistoryEntity(
+                  entity.id,
+                  createPatchDelta({}, entity),
+                  serviceId
+                )
               )
-            )
-          )
-          .catch((e) => {
-            // already loaded, ignore
-            if (e.code === 409) {
-              return true;
-            }
-            throw e;
-          })
+            );
+          }
+          logger.info(`${this.entityType} (${entity.id}) already loaded`);
+        })
       )
     );
   }

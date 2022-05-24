@@ -1,11 +1,6 @@
 <template>
-  <v-dialog
-    scrollable
-    class="media-editor-dialog"
-    v-model="computedOpen"
-    max-width="1100"
-  >
-    <card>
+  <v-dialog class="media-editor-dialog" v-model="computedOpen" max-width="1100">
+    <card style="max-height: 90vh; overflow: auto">
       <div class="media-editor-banner d-flex justify-center">
         <v-img
           class="media-editor-banner-image"

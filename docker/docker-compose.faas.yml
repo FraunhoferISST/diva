@@ -9,7 +9,7 @@ services:
 
   text-metadata-extractor:
     container_name: text-metadata-extractor
-    image: ${REGISTRY}text-metadata-extractor:2.0.0
+    image: ${REGISTRY}text-metadata-extractor:2.0.1
   text-core-phrase-extractor:
     container_name: text-core-phrase-extractor
     image: ${REGISTRY}text-core-phrase-extractor:4.1.0

@@ -1,6 +1,6 @@
 module.exports = {
   productionSourceMap: false,
-  transpileDependencies: ["vuetify", /vis-/],
+  transpileDependencies: ["vuetify"],
   css: {
     loaderOptions: {
       scss: {
