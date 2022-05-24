@@ -18,6 +18,8 @@ const allowedFields = [
   "createdAt",
   "modifiedAt",
   "roles",
+  "isPrivate",
+  "isArchived",
 ];
 
 const buildESQuery = (query, rest, facetsOperator) => {
