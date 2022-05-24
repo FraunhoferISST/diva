@@ -1,5 +1,5 @@
 {
-  "name": "text-metadataextractor",
+  "name": "text-metadata-extractor",
   "version": "2.0.1",
   "serviceId": "service:uuid:5c1c1105-ba6c-40aa-b07d-77068b0bc974",
   "private": true,

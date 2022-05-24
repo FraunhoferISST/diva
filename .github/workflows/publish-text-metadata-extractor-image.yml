@@ -1,4 +1,4 @@
-name: Build and publish text-metadataextractor image
+name: Build and publish text-metadata-extractor image
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ on:
 
 env:
   REGISTRY: ghcr.io/fraunhoferisst/diva
-  IMAGE_NAME: text-metadataextractor
+  IMAGE_NAME: text-metadata-extractor
   DIVA_DOCKER_CONTEXT: faas/text-metadata-extractor
   DIVA_DOCKERFILE_PATH: faas/text-metadata-extractor/Dockerfile
   SERVICE_PATH: faas/text-metadata-extractor
