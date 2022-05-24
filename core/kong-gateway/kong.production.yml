@@ -99,7 +99,7 @@ services:
               allowed_iss: ["http://172.17.0.1:7000/auth/realms/diva-kc-realm"]
       - name: entities-route
         paths:
-          - '/(users|resources|reviews|service|assets|rules|schemata|asyncapis|policies)/*$'
+          - '/(users|resources|reviews|services|assets|rules|schemata|asyncapis|policies)/*$'
           - '/(users|resources|reviews|services|assets|rules|schemata|asyncapis|policies)/(user|resource|review|service|asset|rule|schema|policy|asyncapi):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
         methods:
           - POST
