@@ -359,7 +359,7 @@ module.exports = [
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/reviews/?$",
+      path: "^/reviews/?(\\?(.)*)*",
       method: "GET",
     },
     condition: {
@@ -385,13 +385,13 @@ module.exports = [
         {
           cypher: {
             query:
-              "MATCH (e {entityId:'{{params.id}}'})<-[r:isOwnerOf]-(:user {entityId:'{{query.attributedTo}}'}) RETURN (count(r)>0) as ruleMet",
+              "MATCH (e {entityId:'{{query.attributedTo}}'})<-[r:isOwnerOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(r)>0) as ruleMet",
           },
         },
         {
           cypher: {
             query:
-              "MATCH (e {entityId:'{{params.id}}'})<-[r:isCreatorOf]-(:user {entityId:'{{query.attributedTo}}'}) RETURN (count(r)>0) as ruleMet",
+              "MATCH (e {entityId:'{{query.attributedTo}}'})<-[r:isCreatorOf]-(:user {entityId:'{{headers.diva.actorId}}'}) RETURN (count(r)>0) as ruleMet",
           },
         },
       ],
