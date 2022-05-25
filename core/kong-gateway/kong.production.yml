@@ -100,7 +100,7 @@ services:
       - name: entities-route
         paths:
           - '/(users|resources|reviews|services|assets|rules|schemata|asyncapis|policies|destroyclaims)/*$'
-          - '/(users|resources|reviews|services|assets|rules|schemata|asyncapis|policies|destroyclaims)/(user|resource|review|service|asset|rule|schema|policy|asyncapi|destroyclaims):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
+          - '/(users|resources|reviews|services|assets|rules|schemata|asyncapis|policies|destroyclaims)/(user|resource|review|service|asset|rule|schema|policy|asyncapi|destroyclaim):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
         methods:
           - POST
           - GET
@@ -136,8 +136,8 @@ services:
           - DELETE
           - OPTIONS
         paths:
-          - '/(users|resources|reviews|services|assets|rules|schemata|asyncapis|policies|destroyclaims)/(user|resource|review|service|asset|rule|schema|policy|asyncapi|destroyclaims):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/*$'
-          - '/(users|resources|reviews|services|assets|rules|schemata|asyncapis|policies|destroyclaims)/(user|resource|review|service|asset|rule|schema|policy|asyncapi|destroyclaims):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
+          - '/(users|resources|reviews|services|assets|rules|schemata|asyncapis|policies|destroyclaims)/(user|resource|review|service|asset|rule|schema|policy|asyncapi|destroyclaim):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/*$'
+          - '/(users|resources|reviews|services|assets|rules|schemata|asyncapis|policies|destroyclaims)/(user|resource|review|service|asset|rule|schema|policy|asyncapi|destroyclaim):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
         protocols:
           - "http"
           - "https"
@@ -150,7 +150,7 @@ services:
         methods:
           - GET
         paths:
-          - '/(users|resources|reviews|services|assets|rules|schemata|asyncapis|policies|destroyclaims)/(user|resource|review|service|asset|rule|schema|policy|asyncapi|destroyclaims):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
+          - '/(users|resources|reviews|services|assets|rules|schemata|asyncapis|policies|destroyclaims)/(user|resource|review|service|asset|rule|schema|policy|asyncapi|destroyclaim):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
         protocols:
           - "http"
           - "https"
