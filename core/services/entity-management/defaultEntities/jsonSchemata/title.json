@@ -29,7 +29,7 @@
     },
     {
       "key": "entityType",
-      "value": "destroyClaim"
+      "value": "destroyclaim"
     }
   ],
   "schema": {

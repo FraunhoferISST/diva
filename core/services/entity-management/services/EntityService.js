@@ -154,7 +154,7 @@ class EntityService {
               })`
             );
 
-            return this.insert({ id: entity.id }, entity);
+            //return this.replace(entity.id, entity);
           }
 
           logger.info(`${this.entityType} (${entity.id}) already loaded`);
@@ -252,6 +252,7 @@ class EntityService {
       })
       .catch((err) => {
         if (err.code && err.code === 11000) {
+          console.log(entity);
           throw entityAlreadyExistsError;
         }
         throw err;

@@ -35,7 +35,7 @@ export default {
     },
     {
       component: CreateDestroyClaim,
-      path: "destroy-claim",
+      path: "destroyclaim",
       name: "create_destroy_claim",
     },
   ],
