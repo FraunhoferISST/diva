@@ -1,5 +1,5 @@
 const buildEsGeoShape = (entity) => {
-  if (typeof entity.location !== "undefined") {
+  if (entity?.location) {
     return {
       ...entity,
       location: {

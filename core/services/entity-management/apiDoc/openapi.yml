@@ -1,0 +1,1700 @@
+openapi: 3.0.0
+info:
+  description: Entity Management Service is responsible for all CRUD operations on entities
+  version: 1.0.0
+  title: Entity Management API
+tags:
+  - name: resources
+    description: CRUD operations for the resources
+  - name: assets
+    description: CRUD operations for the assets
+  - name: users
+    description: CRUD operations for the users
+  - name: services
+    description: CRUD operations for the services
+  - name: reviews
+    description: CRUD operations for the reviews
+paths:
+  /api:
+    get:
+      tags:
+        - api
+      summary: API documentation
+      description: In development mode this documentations is served on this route
+      responses:
+        '200':
+          content:
+            text/html: {}
+          description: ''
+  /resources:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    post:
+      tags:
+        - resources
+      summary: Create entity
+      description: >-
+        Create new entity with the provided data. The attributes of the entity
+        may vary depending on the `entityType`. The request body must contains
+        at least all the attributes defined in the request schema. This
+        operations supports bulk mode so that multiple entities can be created
+        with one request
+      requestBody:
+        $ref: '#/components/requestBodies/EntityCreate'
+      responses:
+        '201':
+          $ref: '#/components/responses/EntityCreateSuccess'
+        '207':
+          $ref: '#/components/responses/Multi'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    get:
+      tags:
+        - resources
+      summary: Get list of resources
+      description: >-
+        To get the list of resources you can specify projection with `fields`
+        parameter and set the page size with `pageSize`. Default page size is
+        **30**. The next page can be fetched by using `cursor` parameter. The
+        cursor to the next page will be included in the response body.
+      parameters:
+        - name: fields
+          in: query
+          description: Coma separated projection fields
+          example: title,entityType,description
+          required: false
+          explode: true
+          allowReserved: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          required: false
+          explode: true
+          example: aHVpXzYwMTkzZmJlZTM0NmZhODVkNTE4YzJlYg==
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          description: Page size
+          required: false
+          explode: true
+          example: 10
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  collectionSize:
+                    type: integer
+                  collection:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Entity'
+                  cursor:
+                    type: string
+                  total:
+                    type: number
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /resources/{id}:
+    parameters:
+      - $ref: '#/components/parameters/entityIdParam'
+      - $ref: '#/components/parameters/actoridParam'
+    get:
+      tags:
+        - resources
+      summary: Get entity by id
+      description: Projection can be specified with `fields` parameter
+      parameters:
+        - name: fields
+          in: query
+          description: Coma separated projection fields
+          required: false
+          explode: true
+          allowReserved: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/EntityResponse'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+        - resources
+      summary: Update entity
+      description: >-
+        Use this method, if you want to replace complete entity. New entity is
+        created if no entity with the provided `id` exists. Note that on this
+        operation **all** fields are replaced.
+      parameters:
+        - name: id
+          in: path
+          description: id of the resource
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/EntityUpdate'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '201':
+          description: Resource created
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - resources
+      summary: Patch entity
+      description: >-
+        Use this method to do a partial update of the entity. In the request
+        provided fields will be merged with the existing entity object. Merge is
+        always performed at the root level. Empty patches are not accepted
+      parameters:
+        - name: id
+          in: path
+          description: id of the entity
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/EntityPatch'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - resources
+      summary: Post entity (alias for PATCH)
+      description: >-
+        Use this method to do a partial updated of the entity document. In the
+        request provided fields will be merged with the existing entity object.
+      requestBody:
+        $ref: '#/components/requestBodies/EntityPatch'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - resources
+      summary: Delete entity
+      description: Delete existing entity by id
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /resources/{id}/images:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    post:
+      tags:
+        - resources
+      summary: Upload entity image
+      description: >-
+        An entity can have several images that you can use as the entity icon or
+        banner. The operation returns an image `id` that represents the uploaded
+        image. The image `id` can be set as `entityIcon` or `entityBanner` to be
+        displayed as banner or icon. One entity can have up to 15 images
+      parameters:
+        - name: id
+          in: path
+          description: Entity id
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        $ref: '#/components/requestBodies/Image'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /resources/{id}/images/{imageId}:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    get:
+      tags:
+        - resources
+      summary: Get entity image
+      description: >-
+        Get uploaded entity image by image `id`. You can obtain the image ID
+        from the corresponding user document
+      parameters:
+        - name: id
+          in: path
+          description: ID of the entity image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: imageId
+          in: path
+          description: Unique identifier of the image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/ImageId'
+      responses:
+        '200':
+          description: Success
+          content:
+            image/png:
+              schema:
+                description: User image as PNG
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                description: User image as JPG
+                type: string
+                format: binary
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - resources
+      summary: Delete entity image
+      description: Delete the uploaded entity image
+      parameters:
+        - name: id
+          in: path
+          description: ID of the entity
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: imageId
+          in: path
+          description: Unique identifier of the image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/ImageId'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /assets:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    post:
+      tags:
+        - assets
+      summary: Create entity
+      description: >-
+        Create new entity with the provided data. The attributes of the entity
+        may vary depending on the `entityType`. The request body must contains
+        at least all the attributes defined in the request schema. This
+        operations supports bulk mode so that multiple entities can be created
+        with one request
+      requestBody:
+        $ref: '#/components/requestBodies/EntityCreate'
+      responses:
+        '201':
+          $ref: '#/components/responses/EntityCreateSuccess'
+        '207':
+          $ref: '#/components/responses/Multi'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    get:
+      tags:
+        - assets
+      summary: Get list of assets
+      description: >-
+        To get the list of resources you can specify projection with `fields`
+        parameter and set the page size with `pageSize`. Default page size is
+        **30**. The next page can be fetched by using `cursor` parameter. The
+        cursor to the next page will be included in the response body.
+      parameters:
+        - name: fields
+          in: query
+          description: Coma separated projection fields
+          example: title,entityType,description
+          required: false
+          explode: true
+          allowReserved: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          required: false
+          explode: true
+          example: aHVpXzYwMTkzZmJlZTM0NmZhODVkNTE4YzJlYg==
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          description: Page size
+          required: false
+          explode: true
+          example: 10
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  collectionSize:
+                    type: integer
+                  collection:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Entity'
+                  cursor:
+                    type: string
+                  total:
+                    type: number
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /assets/{id}:
+    parameters:
+      - $ref: '#/components/parameters/useridParam'
+      - $ref: '#/components/parameters/actoridParam'
+    get:
+      tags:
+        - assets
+      summary: Get entity by id
+      description: Projection can be specified with `fields` parameter
+      parameters:
+        - name: id
+          in: path
+          description: The id of the entity to fetch
+          required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: Coma separated projection fields
+          required: false
+          explode: true
+          allowReserved: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/EntityResponse'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+        - assets
+      summary: Update entity
+      description: >-
+        Use this method, if you want to replace complete entity. New entity is
+        created if no entity with the provided `id` exists. Note that on this
+        operation **all** fields are replaced.
+      parameters:
+        - name: id
+          in: path
+          description: id of the resource
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/EntityUpdate'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '201':
+          description: Resource created
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - assets
+      summary: Patch entity
+      description: >-
+        Use this method to do a partial update of the entity. In the request
+        provided fields will be merged with the existing entity object. Merge is
+        always performed at the root level. Empty patches are not accepted
+      parameters:
+        - name: id
+          in: path
+          description: id of the entity
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/EntityPatch'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - assets
+      summary: Post entity (alias for PATCH)
+      description: >-
+        Use this method to do a partial updated of the entity document. In the
+        request provided fields will be merged with the existing entity object.
+      requestBody:
+        $ref: '#/components/requestBodies/EntityPatch'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - assets
+      summary: Delete entity
+      description: Delete existing entity by id
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /assets/{id}/images:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    post:
+      tags:
+        - assets
+      summary: Upload entity image
+      description: >-
+        An entity can have several images that you can use as the entity icon or
+        banner. The operation returns an image `id` that represents the uploaded
+        image. The image `id` can be set as `entityIcon` or `entityBanner` to be
+        displayed as banner or icon. One entity can have up to 15 images
+      parameters:
+        - name: id
+          in: path
+          description: Entity id
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        $ref: '#/components/requestBodies/Image'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /assets/{id}/images/{imageId}:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    get:
+      tags:
+        - assets
+      summary: Get entity image
+      description: >-
+        Get uploaded entity image by image `id`. You can obtain the image ID
+        from the corresponding user document
+      parameters:
+        - name: id
+          in: path
+          description: ID of the entity image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: imageId
+          in: path
+          description: Unique identifier of the image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/ImageId'
+      responses:
+        '200':
+          description: Success
+          content:
+            image/png:
+              schema:
+                description: User image as PNG
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                description: User image as JPG
+                type: string
+                format: binary
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - assets
+      summary: Delete entity image
+      description: Delete the uploaded entity image
+      parameters:
+        - name: id
+          in: path
+          description: ID of the entity
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: imageId
+          in: path
+          description: Unique identifier of the image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/ImageId'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /users:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    post:
+      tags:
+        - users
+      summary: Create entity
+      description: >-
+        Create new entity with the provided data. The attributes of the entity
+        may vary depending on the `entityType`. The request body must contains
+        at least all the attributes defined in the request schema. This
+        operations supports bulk mode so that multiple entities can be created
+        with one request
+      requestBody:
+        $ref: '#/components/requestBodies/EntityCreate'
+      responses:
+        '201':
+          $ref: '#/components/responses/EntityCreateSuccess'
+        '207':
+          $ref: '#/components/responses/Multi'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    get:
+      tags:
+        - users
+      summary: Get list of users
+      description: >-
+        To get the list of resources you can specify projection with `fields`
+        parameter and set the page size with `pageSize`. Default page size is
+        **30**. The next page can be fetched by using `cursor` parameter. The
+        cursor to the next page will be included in the response body.
+      parameters:
+        - name: fields
+          in: query
+          description: Coma separated projection fields
+          example: title,entityType,description
+          required: false
+          explode: true
+          allowReserved: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          required: false
+          explode: true
+          example: aHVpXzYwMTkzZmJlZTM0NmZhODVkNTE4YzJlYg==
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          description: Page size
+          required: false
+          explode: true
+          example: 10
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  collectionSize:
+                    type: integer
+                  collection:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Entity'
+                  cursor:
+                    type: string
+                  total:
+                    type: number
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /users/{id}:
+    parameters:
+      - $ref: '#/components/parameters/useridParam'
+      - $ref: '#/components/parameters/actoridParam'
+    get:
+      tags:
+        - users
+      summary: Get entity by id
+      description: Projection can be specified with `fields` parameter
+      parameters:
+        - name: id
+          in: path
+          description: The id of the entity to fetch
+          required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: Coma separated projection fields
+          required: false
+          explode: true
+          allowReserved: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/EntityResponse'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+        - users
+      summary: Update entity
+      description: >-
+        Use this method, if you want to replace complete entity. New entity is
+        created if no entity with the provided `id` exists. Note that on this
+        operation **all** fields are replaced.
+      parameters:
+        - name: id
+          in: path
+          description: id of the resource
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/EntityUpdate'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '201':
+          description: Resource created
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - users
+      summary: Patch entity
+      description: >-
+        Use this method to do a partial update of the entity. In the request
+        provided fields will be merged with the existing entity object. Merge is
+        always performed at the root level. Empty patches are not accepted
+      parameters:
+        - name: id
+          in: path
+          description: id of the entity
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/EntityPatch'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - users
+      summary: Post entity (alias for PATCH)
+      description: >-
+        Use this method to do a partial updated of the entity document. In the
+        request provided fields will be merged with the existing entity object.
+      requestBody:
+        $ref: '#/components/requestBodies/EntityPatch'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - users
+      summary: Delete entity
+      description: Delete existing entity by id
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /users/{id}/images:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    post:
+      tags:
+        - users
+      summary: Upload entity image
+      description: >-
+        An entity can have several images that you can use as the entity icon or
+        banner. The operation returns an image `id` that represents the uploaded
+        image. The image `id` can be set as `entityIcon` or `entityBanner` to be
+        displayed as banner or icon. One entity can have up to 15 images
+      parameters:
+        - name: id
+          in: path
+          description: Entity id
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        $ref: '#/components/requestBodies/Image'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /users/{id}/images/{imageId}:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    get:
+      tags:
+        - users
+      summary: Get entity image
+      description: >-
+        Get uploaded entity image by image `id`. You can obtain the image ID
+        from the corresponding user document
+      parameters:
+        - name: id
+          in: path
+          description: ID of the entity image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: imageId
+          in: path
+          description: Unique identifier of the image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/ImageId'
+      responses:
+        '200':
+          description: Success
+          content:
+            image/png:
+              schema:
+                description: User image as PNG
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                description: User image as JPG
+                type: string
+                format: binary
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - users
+      summary: Delete entity image
+      description: Delete the uploaded entity image
+      parameters:
+        - name: id
+          in: path
+          description: ID of the entity
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: imageId
+          in: path
+          description: Unique identifier of the image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/ImageId'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /services:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    post:
+      tags:
+        - services
+      summary: Create entity
+      description: >-
+        Create new entity with the provided data. The attributes of the entity
+        may vary depending on the `entityType`. The request body must contains
+        at least all the attributes defined in the request schema. This
+        operations supports bulk mode so that multiple entities can be created
+        with one request
+      requestBody:
+        $ref: '#/components/requestBodies/EntityCreate'
+      responses:
+        '201':
+          $ref: '#/components/responses/EntityCreateSuccess'
+        '207':
+          $ref: '#/components/responses/Multi'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    get:
+      tags:
+        - services
+      summary: Get list of services
+      description: >-
+        To get the list of resources you can specify projection with `fields`
+        parameter and set the page size with `pageSize`. Default page size is
+        **30**. The next page can be fetched by using `cursor` parameter. The
+        cursor to the next page will be included in the response body.
+      parameters:
+        - name: fields
+          in: query
+          description: Coma separated projection fields
+          example: title,entityType,description
+          required: false
+          explode: true
+          allowReserved: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          required: false
+          explode: true
+          example: aHVpXzYwMTkzZmJlZTM0NmZhODVkNTE4YzJlYg==
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          description: Page size
+          required: false
+          explode: true
+          example: 10
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  collectionSize:
+                    type: integer
+                  collection:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Entity'
+                  cursor:
+                    type: string
+                  total:
+                    type: number
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /services/{id}:
+    parameters:
+      - $ref: '#/components/parameters/useridParam'
+      - $ref: '#/components/parameters/actoridParam'
+    get:
+      tags:
+        - services
+      summary: Get entity by id
+      description: Projection can be specified with `fields` parameter
+      parameters:
+        - name: id
+          in: path
+          description: The id of the entity to fetch
+          required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: Coma separated projection fields
+          required: false
+          explode: true
+          allowReserved: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/EntityResponse'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+        - services
+      summary: Update entity
+      description: >-
+        Use this method, if you want to replace complete entity. New entity is
+        created if no entity with the provided `id` exists. Note that on this
+        operation **all** fields are replaced.
+      parameters:
+        - name: id
+          in: path
+          description: id of the resource
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/EntityUpdate'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '201':
+          description: Resource created
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - services
+      summary: Patch entity
+      description: >-
+        Use this method to do a partial update of the entity. In the request
+        provided fields will be merged with the existing entity object. Merge is
+        always performed at the root level. Empty patches are not accepted
+      parameters:
+        - name: id
+          in: path
+          description: id of the entity
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/EntityPatch'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - services
+      summary: Post entity (alias for PATCH)
+      description: >-
+        Use this method to do a partial updated of the entity document. In the
+        request provided fields will be merged with the existing entity object.
+      requestBody:
+        $ref: '#/components/requestBodies/EntityPatch'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - services
+      summary: Delete entity
+      description: Delete existing entity by id
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /services/{id}/images:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    post:
+      tags:
+        - services
+      summary: Upload entity image
+      description: >-
+        An entity can have several images that you can use as the entity icon or
+        banner. The operation returns an image `id` that represents the uploaded
+        image. The image `id` can be set as `entityIcon` or `entityBanner` to be
+        displayed as banner or icon. One entity can have up to 15 images
+      parameters:
+        - name: id
+          in: path
+          description: Entity id
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        $ref: '#/components/requestBodies/Image'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /services/{id}/images/{imageId}:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    get:
+      tags:
+        - services
+      summary: Get entity image
+      description: >-
+        Get uploaded entity image by image `id`. You can obtain the image ID
+        from the corresponding user document
+      parameters:
+        - name: id
+          in: path
+          description: ID of the entity image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: imageId
+          in: path
+          description: Unique identifier of the image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/ImageId'
+      responses:
+        '200':
+          description: Success
+          content:
+            image/png:
+              schema:
+                description: User image as PNG
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                description: User image as JPG
+                type: string
+                format: binary
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - services
+      summary: Delete entity image
+      description: Delete the uploaded entity image
+      parameters:
+        - name: id
+          in: path
+          description: ID of the entity
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: imageId
+          in: path
+          description: Unique identifier of the image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/ImageId'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /reviews:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    post:
+      tags:
+        - reviews
+      summary: Create entity
+      description: >-
+        Create new entity with the provided data. The attributes of the entity
+        may vary depending on the `entityType`. The request body must contains
+        at least all the attributes defined in the request schema. This
+        operations supports bulk mode so that multiple entities can be created
+        with one request
+      requestBody:
+        $ref: '#/components/requestBodies/EntityCreate'
+      responses:
+        '201':
+          $ref: '#/components/responses/EntityCreateSuccess'
+        '207':
+          $ref: '#/components/responses/Multi'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    get:
+      tags:
+        - reviews
+      summary: Get list of reviews
+      description: >-
+        To get the list of resources you can specify projection with `fields`
+        parameter and set the page size with `pageSize`. Default page size is
+        **30**. The next page can be fetched by using `cursor` parameter. The
+        cursor to the next page will be included in the response body.
+      parameters:
+        - name: fields
+          in: query
+          description: Coma separated projection fields
+          example: title,entityType,description
+          required: false
+          explode: true
+          allowReserved: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          required: false
+          explode: true
+          example: aHVpXzYwMTkzZmJlZTM0NmZhODVkNTE4YzJlYg==
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          description: Page size
+          required: false
+          explode: true
+          example: 10
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  collectionSize:
+                    type: integer
+                  collection:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Entity'
+                  cursor:
+                    type: string
+                  total:
+                    type: number
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /reviews/{id}:
+    parameters:
+      - $ref: '#/components/parameters/useridParam'
+      - $ref: '#/components/parameters/actoridParam'
+    get:
+      tags:
+        - reviews
+      summary: Get entity by id
+      description: Projection can be specified with `fields` parameter
+      parameters:
+        - name: id
+          in: path
+          description: The id of the entity to fetch
+          required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: Coma separated projection fields
+          required: false
+          explode: true
+          allowReserved: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/EntityResponse'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+        - reviews
+      summary: Update entity
+      description: >-
+        Use this method, if you want to replace complete entity. New entity is
+        created if no entity with the provided `id` exists. Note that on this
+        operation **all** fields are replaced.
+      parameters:
+        - name: id
+          in: path
+          description: id of the resource
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/EntityUpdate'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '201':
+          description: Resource created
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - reviews
+      summary: Patch entity
+      description: >-
+        Use this method to do a partial update of the entity. In the request
+        provided fields will be merged with the existing entity object. Merge is
+        always performed at the root level. Empty patches are not accepted
+      parameters:
+        - name: id
+          in: path
+          description: id of the entity
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/EntityPatch'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - reviews
+      summary: Post entity (alias for PATCH)
+      description: >-
+        Use this method to do a partial updated of the entity document. In the
+        request provided fields will be merged with the existing entity object.
+      requestBody:
+        $ref: '#/components/requestBodies/EntityPatch'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - reviews
+      summary: Delete entity
+      description: Delete existing entity by id
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /reviews/{id}/images:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    post:
+      tags:
+        - reviews
+      summary: Upload entity image
+      description: >-
+        An entity can have several images that you can use as the entity icon or
+        banner. The operation returns an image `id` that represents the uploaded
+        image. The image `id` can be set as `entityIcon` or `entityBanner` to be
+        displayed as banner or icon. One entity can have up to 15 images
+      parameters:
+        - name: id
+          in: path
+          description: Entity id
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        $ref: '#/components/requestBodies/Image'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+  /reviews/{id}/images/{imageId}:
+    parameters:
+      - $ref: '#/components/parameters/actoridParam'
+    get:
+      tags:
+        - reviews
+      summary: Get entity image
+      description: >-
+        Get uploaded entity image by image `id`. You can obtain the image ID
+        from the corresponding user document
+      parameters:
+        - name: id
+          in: path
+          description: ID of the entity image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: imageId
+          in: path
+          description: Unique identifier of the image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/ImageId'
+      responses:
+        '200':
+          description: Success
+          content:
+            image/png:
+              schema:
+                description: User image as PNG
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                description: User image as JPG
+                type: string
+                format: binary
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - reviews
+      summary: Delete entity image
+      description: Delete the uploaded entity image
+      parameters:
+        - name: id
+          in: path
+          description: ID of the entity
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: imageId
+          in: path
+          description: Unique identifier of the image
+          required: true
+          explode: true
+          schema:
+            $ref: '#/components/schemas/ImageId'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessEmpty'
+        4XX:
+          $ref: '#/components/responses/BadRequestError'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
+servers:
+  - url: http://localhost:3000
+components:
+  requestBodies:
+    EntityCreate:
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/EntityCreate'
+              - $ref: '#/components/schemas/EntityCreateBulk'
+    EntityUpdate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EntityCreate'
+    EntityPatch:
+      required: true
+      content:
+        application/json:
+          schema:
+            title: Patch body
+            description: >-
+              The body can be any attribute defined in the corresponding entity
+              JSON schema. The supplied attributes overwrite the existing
+            type: object
+            minProperties: 1
+    Image:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            title: Patch body
+            additionalProperties: false
+            description: >-
+              The body can be any attribute defined in the corresponding entity
+              JSON schema. The supplied attributes overwrite the existing
+            type: object
+            properties:
+              image:
+                type: string
+                format: binary
+          encoding:
+            image:
+              contentType: image/png, image/jpeg
+  schemas:
+    EntityCreate:
+      description: Minimal required attributes for entity creation
+      type: object
+      required:
+        - entityType
+      properties:
+        entityType:
+          type: string
+          title: Entity Type
+          description: The general type of the entity
+          minLength: 1
+          enum:
+            - resource
+            - user
+            - asset
+            - service
+            - review
+    EntityCreateBulk:
+      type: array
+      title: Entity create bulk request
+      description: Array of entities to create multiple entities in one bulk request
+      items:
+        $ref: '#/components/schemas/EntityCreate'
+    Entity:
+      title: General Entity Data
+      type: object
+      description: >-
+        The representation of an entity. For more details please refer to the
+        corresponding JSON schema
+      required:
+        - entityType
+        - id
+      additionalProperties: true
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+    Error:
+      type: object
+      title: Operation error
+      description: Error that can occur on request processing
+      required:
+        - type
+        - message
+        - code
+      properties:
+        type:
+          title: Error type
+          description: Futher error type information
+          type: string
+        message:
+          title: Error message
+          description: Details about error
+          type: string
+        code:
+          title: Error code
+          description: HTTP error code
+          type: number
+          format: int32
+          example: 409
+        errors:
+          title: Errors
+          description: >-
+            More error details that are reference in most case specification or
+            schema validation errors
+          type: array
+          items:
+            type: object
+    UserId:
+      title: User id
+      description: Unique user identifier
+      type: string
+      example: user:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189
+      pattern: >-
+        ^user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+    EntityId:
+      title: Entity id
+      description: Unique entity identifier
+      type: string
+      example: resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189
+      pattern: >-
+        (resource|user|asset|service|review):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+    ImageId:
+      title: Image id
+      description: Unique image identifier
+      type: string
+      example: image:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189
+      pattern: >-
+        image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+  responses:
+    Success:
+      description: Successful
+      content:
+        text/html:
+          schema:
+            type: string
+    SuccessEmpty:
+      description: Successful operation
+    Multi:
+      description: Multi-status response in case of a bulk request
+      content:
+        application/json:
+          schema:
+            title: Multi-status response
+            description: >-
+              Indicates the status for operation for each entity in a bulk
+              request
+            type: array
+            items:
+              type: object
+              required:
+                - statusCode
+                - uniqueFingerprint
+              properties:
+                statusCode:
+                  title: Status Code
+                  description: >-
+                    Status Code for single entity operation. Can be one of the
+                    codes that is returned for opeartion on a single entity
+                  type: integer
+                  example: 201
+                data:
+                  title: Operation data
+                  description: Data as a result of a single entity operation
+                  oneOf:
+                    - type: string
+                    - type: object
+                error:
+                  $ref: '#/components/schemas/Error'
+    EntityCreateSuccess:
+      description: Succesful entity creation retruns created entity id
+      content:
+        text/html:
+          schema:
+            $ref: '#/components/schemas/EntityId'
+    EntityResponse:
+      description: ENńtity data response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Entity'
+    UnexpectedError:
+      description: Internal service error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequestError:
+      description: >-
+        Error with status code 4XX indicating a wrong supplied parameters or
+        violation of the JSOn schema
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    actoridParam:
+      in: header
+      description: >-
+        The id of the origin that produces action/message. Can be an user or a
+        service
+      name: x-actorid
+      required: true
+      schema:
+        $ref: '#/components/schemas/UserId'
+    useridParam:
+      in: path
+      description: >-
+        The id of the origin that produces action/message. Can be a user or
+        service
+      name: id
+      schema:
+        $ref: '#/components/schemas/UserId'
+      required: true
+    entityIdParam:
+      in: path
+      description: The id of the entity
+      name: id
+      schema:
+        $ref: '#/components/schemas/EntityId'
+      required: true

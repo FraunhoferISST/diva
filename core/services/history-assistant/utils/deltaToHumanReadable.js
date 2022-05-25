@@ -1,7 +1,7 @@
 const _ = require("lodash");
 
 const IGNORE_FIELDS = (process.env.IGNORE_FIELDS &&
-  JSON.parse(process.env.IGNORE_FIELDS)) || ["modified"];
+  JSON.parse(process.env.IGNORE_FIELDS)) || ["modifiedAt"];
 
 /* Rule Checker */
 const isAddedValue = (v) => _.isArray(v) && v.length === 1;

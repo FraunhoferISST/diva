@@ -9,7 +9,7 @@ services:
 
   text-metadata-extractor:
     container_name: text-metadata-extractor
-    image: ${REGISTRY}text-metadata-extractor:2.0.0
+    image: ${REGISTRY}text-metadata-extractor:2.0.1
   text-core-phrase-extractor:
     container_name: text-core-phrase-extractor
     image: ${REGISTRY}text-core-phrase-extractor:4.1.0
@@ -28,6 +28,9 @@ services:
   text-personal-data-evaluation:
     container_name: personal-data-evaluation
     image: ${REGISTRY}text-personal-data-evaluation:3.0.0
+  text-similarity-hash-generator:
+    container_name: text-similarity-hash-generator
+    image: ${REGISTRY}text-similarity-hash-generator:0.1.0
 
   table-data-apriori-associations-extractor:
     container_name: table-data-apriori-associations-extractor
@@ -64,7 +67,21 @@ services:
     container_name: image-text-extractor
     image: ${REGISTRY}image-text-extractor:3.0.0
 
+  entity-management-sink:
+    container_name: entity-management-sink
+    image: ${REGISTRY}entity-management-sink:1.0.0
 
-  resource-management-sink:
-    container_name: resource-management-sink
-    image: ${REGISTRY}resource-management-sink:1.0.1
+  keywords-similarity-hash-generator:
+    container_name: keywords-similarity-hash-generator
+    image: ${REGISTRY}keywords-similarity-hash-generator:0.1.0
+
+  # DIVA Bots
+  entity-archive-bot:
+    container_name: entity-archive-bot
+    image: ${REGISTRY}entity-archive-bot:0.1.0
+  entity-delete-bot:
+    container_name: entity-delete-bot
+    image: ${REGISTRY}entity-delete-bot:0.1.0
+  similarity-network-bot:
+    container_name: similarity-network-bot
+    image: ${REGISTRY}similarity-network-bot:0.1.0  

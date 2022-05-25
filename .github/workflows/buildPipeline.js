@@ -7,9 +7,11 @@ const genericTemplate = fs.readFileSync("./templates/publish-generic-image.yml",
 const nodeTemplate = fs.readFileSync("./templates/publish-node-image.yml", "utf8");
 const pythonTemplate = fs.readFileSync("./templates/publish-python-image.yml", "utf8");
 
+const coreServicesBasePath = path.join(__dirname, `../../core/services/`)
 const coreServices = fs
-    .readdirSync("../../core/services")
-    .filter((dir) => !["adapter-services", "common", "eslint-config", "node_modules", "package.json", "package-lock.json", "Dockerfile"].includes(dir))
+    .readdirSync(coreServicesBasePath)
+    .filter(dir => fs.lstatSync(path.join(coreServicesBasePath,dir)).isDirectory())
+    .filter((dir) => !["adapter-services", "common", "node_modules", "eslint-config",].includes(dir))
     .map((dir) => ({
         name: require(path.join("../../core/services", dir, "package.json")).name,
         path: `core/services/${dir}`,
@@ -19,11 +21,12 @@ const coreServices = fs
         type: "node",
     }));
 
+const adapterServicesBasePath = path.join(__dirname, "../../core/services/adapter-services");
 const adapterServices = fs
-    .readdirSync("../../core/services/adapter-services")
+    .readdirSync(adapterServicesBasePath)
     .map((dir) => ({
         name: require(path.join(
-            "../../core/services/adapter-services",
+            adapterServicesBasePath,
             dir,
             "package.json"
         )).name,
@@ -34,8 +37,10 @@ const adapterServices = fs
         type: "node",
     }));
 
+const faasNodeServicesBasePath = path.join(__dirname, "../../faas");
 const faasNodeServices = fs
-    .readdirSync("../../faas")
+    .readdirSync(faasNodeServicesBasePath)
+    .filter(dir => fs.lstatSync(path.join(faasNodeServicesBasePath, dir)).isDirectory())
     .map((dir) => ({
         dir,
         contents: fs.readdirSync(path.join("../../faas", dir)),
@@ -50,11 +55,13 @@ const faasNodeServices = fs
         context: `faas/${dir}`,
     }));
 
+const faasPythonServicesBasePath = path.join(__dirname, "../../faas");
 const faasPythonServices = fs
-    .readdirSync("../../faas")
+    .readdirSync(faasPythonServicesBasePath)
+    .filter(dir => fs.lstatSync(path.join(faasNodeServicesBasePath, dir)).isDirectory())
     .map((dir) => ({
         dir,
-        contents: fs.readdirSync(path.join("../../faas", dir)),
+        contents: fs.readdirSync(path.join(faasPythonServicesBasePath, dir)),
     }))
     .filter(({ contents }) => contents.includes("setup.py"))
     .map(({ dir }) => ({
@@ -73,10 +80,10 @@ const services = [
     ...faasPythonServices,
     {
         name: "web-client",
-        path: "core/web-client",
-        dockerfile: "core/web-client/Dockerfile",
+        path: "web-client",
+        dockerfile: "web-client/Dockerfile",
         type: "node",
-        context: "core/web-client"
+        context: "web-client"
     },
     {
         name: "tika-extraction",

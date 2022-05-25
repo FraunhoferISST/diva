@@ -16,16 +16,13 @@ The OpenAPI 3.0 specification can be found in [apiDoc/openAPI.yml](./apiDoc/open
 
 The following environment variables can be passed to the service through deployment:
 
-|name|default|description|
-|---|---|---|
-|PORT|3006|set port, that this service exposes|
-|MONGODB_URI|mongodb://admin:admin@localhost:27017|MongoDB connection URI|
-|HISTORY_DB_NAME|historiesDb|MongoDB database name for histories|
-|HISTORY_COLLECTION_NAME|histories|MongoDB collection name for histories|
-|CORS_ALLOW_ORIGIN|*|set allowed origins|
-|SCHEMA_REGISTRY_URL|http://localhost:3010|endpoint of the schema registry|
-|HISTORY_ROOT_SCHEMA|history|name of the root schema for `history` entities|
-|IGNORE_FIELDS|["modified"]|fields to be ignored by the human readable output. To be added in dot notation e.g "ids.policy"|
+| name                | default                               | description                                                                                     |
+|---------------------|---------------------------------------|-------------------------------------------------------------------------------------------------|
+| PORT                | 3006                                  | set port, that this service exposes                                                             |
+| MONGODB_URI         | mongodb://admin:admin@localhost:27017 | MongoDB connection URI                                                                          |
+| SCHEMA_REGISTRY_URL | http://localhost:3010                 | MongoDB connection URI                                                                          |
+| CORS_ALLOW_ORIGIN   | *                                     | set allowed origins                                                                             |
+| IGNORE_FIELDS       | ["modified"]                          | fields to be ignored by the human readable output. To be added in dot notation e.g "ids.policy" |
 
 ## Setting up for Development
 
@@ -45,7 +42,7 @@ npm run start
 
 ### Docker
 
-Use docker-compose to start the service in a container, build new service image and push the image to the GitLab docker registry.
+Use docker-compose to start the service in a container, build new service image and push the image to the GitHub docker registry.
 
 Pull the image:
 

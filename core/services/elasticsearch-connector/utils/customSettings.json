@@ -1,0 +1,31 @@
+{
+  "settings": {
+    "max_ngram_diff":"3",
+    "analysis": {
+      "analyzer": {
+        "default": {
+          "type": "standard"
+        },
+        "default_search": {
+          "type": "standard"
+        },
+        "diva_analyzer": {
+          "tokenizer": "diva_tokenizer",
+          "filter": [
+            "lowercase",
+            "asciifolding",
+            "trim",
+            "stop"
+          ]
+        }
+      },
+      "tokenizer": {
+        "diva_tokenizer": {
+          "type": "ngram",
+          "max_gram": 5,
+          "min_gram": 3
+        }
+      }
+    }
+  }
+}

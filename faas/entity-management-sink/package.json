@@ -1,0 +1,23 @@
+{
+  "name": "entity-management-sink",
+  "version": "1.0.0",
+  "sessionId": "service:uuid:9ac1e8f9-cfe8-4ae4-81bc-07151c7c4978",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "eslint-fix": "eslint --fix *js"
+  },
+  "dependencies": {
+    "axios": "^0.26.0",
+    "fs-extra": "^10.0.0",
+    "url-join": "^4.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.5.1"
+  }
+}

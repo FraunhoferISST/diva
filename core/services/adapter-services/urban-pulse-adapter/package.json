@@ -1,6 +1,7 @@
 {
   "name": "urban-pulse-adapter",
-  "version": "0.2.2",
+  "version": "0.2.3",
+  "serviceId": "service:uuid:97e167f0-cb9d-4442-90e2-ac4da940d9ae",
   "description": "",
   "keywords": [
     "Urban Pulse",
@@ -14,17 +15,17 @@
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development node index.js",
     "eslint-fix": "eslint --fix . --ext .js",
-    "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
-    "build:linux": "pkg -t node14-linux-x64 index.js"
+    "build:alpine": "pkg --config package.json -t node16-alpine-x64 --output index-alpine index.js",
+    "build:linux": "pkg -t node16-linux-x64 index.js"
   },
   "author": "",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
+    "url": "https://github.com/FraunhoferISST/diva/tree/main/core/services/adapter-services/urban-pulse-adapter"
   },
   "dependencies": {
-    "@diva/common": "^1.2.0",
+    "@diva/common": "3.1.4",
     "axios": "^0.21.1",
     "url-join": "^4.0.1"
   },

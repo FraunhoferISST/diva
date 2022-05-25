@@ -1,0 +1,33 @@
+{
+  "id": "schema:uuid:62e903a7-8699-4a58-81fc-c2da91d31c63",
+  "title": "Entity Videos",
+  "schemaName": "entityVideos",
+  "description": "Visual representation of an entity",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Entity Videos",
+    "properties": {
+      "entityVideos": {
+        "type": "array",
+        "minItems": 0,
+        "title": "Entity Videos",
+        "description": "Visual representation of an entity",
+        "maxItems": 15,
+        "items": {
+          "type": "string",
+          "format": "uri",
+          "examples": [
+            "https://image-host.com"
+          ],
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}

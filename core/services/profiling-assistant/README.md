@@ -10,16 +10,14 @@ This service provides a way of triggering `airflow:2.x` workflows.
 
 ## Environment Variables
 
-|ENV Name|Default|Description|
-|---|---|---|
-|NODE_ENV|development|Set to *production* in production environment|
-|PORT|3011|Can be changed to your needs|
-|AIRFLOW_URL|http://localhost:9090|Endpoint where your `Airflow` instance lives|
-|_AIRFLOW_WWW_USER_USERNAME|airflow|Airflow username for login|
-|_AIRFLOW_WWW_USER_PASSWORD|airflow|Airflow password for login|
-|MONGODB_URI|mongodb://admin:admin@localhost:27017|MongoDB connection URI|
-|MONGO_RESOURCE_DB_NAME|resourcesDb|database name for resources|
-|MONGO_RESOURCE_COLLECTION_NAME|resources|collection name for resources|
+| ENV Name                   | Default                               | Description                                   |
+|----------------------------|---------------------------------------|-----------------------------------------------|
+| NODE_ENV                   | development                           | Set to *production* in production environment |
+| PORT                       | 3011                                  | Can be changed to your needs                  |
+| AIRFLOW_URL                | http://localhost:9090                 | Endpoint where your `Airflow` instance lives  |
+| _AIRFLOW_WWW_USER_USERNAME | airflow                               | Airflow username for login                    |
+| _AIRFLOW_WWW_USER_PASSWORD | airflow                               | Airflow password for login                    |
+| MONGODB_URI                | mongodb://admin:admin@localhost:27017 | MongoDB connection URI                        |
 
 ## Run Service
 

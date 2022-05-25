@@ -1,51 +1,22 @@
-const messageConsumer = require("@diva/common/messaging/MessageConsumer");
-const Connector = require("./Connector");
+const { setLoggerDefaultMeta, logger: log } = require("@diva/common/logger");
+const generateUuid = require("@diva/common/utils/generateUuid");
+const eventsHandlerService = require("./services/EventsHandlerService");
 const serviceName = require("./package.json").name;
-const { getDbByEntityId, getOperation, createIndex } = require("./utils/utils");
 
-const KAFKA_CONSUMER_TOPICS = process.env.KAFKA_CONSUMER_TOPICS
-  ? JSON.parse(process.env.KAFKA_CONSUMER_TOPICS)
-  : [
-      "resource.events",
-      "asset.events",
-      "user.events",
-      "review.events",
-      "service.events",
-    ];
+const serviceId = generateUuid("service");
 
-const onMessage = async (message) => {
-  try {
-    const parsedMassage = JSON.parse(message.value.toString());
-    const {
-      type,
-      object: { id },
-    } = parsedMassage.payload;
-    const mongoDbData = getDbByEntityId(id);
-    await getOperation(type)(mongoDbData, id);
-    console.info(`💬 Processed message type "${type}" for entity "${id}"`);
-  } catch (err) {
-    console.error(err);
-  }
-};
+setLoggerDefaultMeta({ serviceId });
+
+const NODE_ENV = process.env.NODE_ENV || "development";
+
+log.info(`✅ Booting ${serviceName} in ${NODE_ENV} mode`);
 
 (async () => {
   try {
-    await Connector.init();
-
-    const indicesMappings = KAFKA_CONSUMER_TOPICS.map((t) =>
-      createIndex(`${t.split(".")[0]}s`)
-    );
-
-    await Promise.all(indicesMappings);
-
-    await messageConsumer.init(
-      KAFKA_CONSUMER_TOPICS.map((topic) => ({ topic, spec: "asyncapi" })),
-      serviceName
-    );
-    await messageConsumer.consume(onMessage);
-
-    console.info("✅ Elasticsearch connector is running!");
+    await eventsHandlerService.init();
+    log.info(`✅ All components booted successfully 🚀`);
   } catch (e) {
+    log.error(`${e.message}`);
     process.exit(1);
   }
 })();

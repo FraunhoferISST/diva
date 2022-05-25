@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const hasha = require("hasha");
 const jsondiffpatch = require("jsondiffpatch");
-const generateUuid = require("./generateUuid");
+const generateUuid = require("./utils/generateUuid");
 
 const jdp = jsondiffpatch.create({
   objectHash(obj) {
@@ -21,14 +21,18 @@ const jdp = jsondiffpatch.create({
   cloneDiffValues: false,
 });
 
-const generateHistoryEntity = (oldObj, newObj, actorId) => ({
+const createPatchDelta = (oldObj, newObj) => jdp.diff(oldObj, newObj) || {};
+
+const createHistoryEntity = (attributedToId, delta, actorId) => ({
   id: generateUuid("history"),
-  created: new Date().toISOString(),
-  modified: new Date().toISOString(),
+  createdAt: new Date().toISOString(),
+  modifiedAt: new Date().toISOString(),
   creatorId: actorId,
   entityType: "history",
-  belongsTo: newObj.id,
-  delta: jdp.diff(oldObj, newObj) || {},
+  attributedTo: attributedToId,
+  delta,
 });
-
-module.exports = generateHistoryEntity;
+module.exports = {
+  createHistoryEntity,
+  createPatchDelta,
+};

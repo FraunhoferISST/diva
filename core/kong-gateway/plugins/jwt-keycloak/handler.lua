@@ -9,6 +9,16 @@ local validate_scope = require("kong.plugins.jwt-keycloak.validators.scope").val
 local validate_roles = require("kong.plugins.jwt-keycloak.validators.roles").validate_roles
 local validate_realm_roles = require("kong.plugins.jwt-keycloak.validators.roles").validate_realm_roles
 local validate_client_roles = require("kong.plugins.jwt-keycloak.validators.roles").validate_client_roles
+local random = math.random
+
+local function uuid()
+    local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    return string.gsub(template, '[xy]', function (c)
+        local v = (c == 'x') and random(0, 0xf) or random(8, 0xb)
+        return string.format('%x', v)
+    end)
+end
+local json = require("kong.plugins.jwt-keycloak.json")
 
 local re_gmatch = ngx.re.gmatch
 local req_set_header = ngx.req.set_header
@@ -399,15 +409,16 @@ function JwtKeycloakHandler:access(conf)
     local jwt = jwt_decoder:new(token)
     local claims = jwt.claims
 
+    claims.sessionId = uuid()
+
     for claim_key, claim_value in pairs(claims) do
-        local value = "user:uuid:" .. tostring(claim_value)
+        -- "sub" header holds the user id
         if claim_key == "sub" then
-            req_set_header("X-actorid", value )
-        else
-            req_set_header("X-" .. claim_key, value)
+            claims.actorId = "user:uuid:" .. tostring(claim_value)
+            req_set_header("X-actorid", "user:uuid:" .. tostring(claim_value))
         end
     end
-
+    req_set_header("x-diva",  json.encode(claims))
 end
 
 return JwtKeycloakHandler

@@ -1,18 +1,19 @@
 {
   "name": "search-assistant",
-  "version": "0.1.2",
+  "version": "0.2.0",
+  "serviceId": "service:uuid:284d6d0e-d796-430c-82e7-60f998c1d7b8",
   "description": "A service helping in doing search queries against elasticsearch",
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
     "eslint-fix": "eslint --fix . --ext .js",
-    "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
-    "build:linux": "pkg -t node14-linux-x64 index.js"
+    "build:alpine": "pkg --config package.json -t node16-alpine-x64 --output index-alpine index.js",
+    "build:linux": "pkg -t node16-linux-x64 index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
+    "url": "https://github.com/FraunhoferISST/diva/tree/main/core/services/search-assistant"
   },
   "keywords": [
     "elasticsearch",
@@ -22,7 +23,7 @@
   "author": "dtebernum",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.2.0",
+    "@diva/common": "3.1.4",
     "elastic-builder": "^2.15.0"
   },
   "devDependencies": {

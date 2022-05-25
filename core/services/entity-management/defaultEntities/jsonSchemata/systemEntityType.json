@@ -1,0 +1,39 @@
+{
+  "id": "schema:uuid:98199088-eb15-4533-945e-93080c04651d",
+  "title": "System entity type",
+  "schemaName": "systemEntityType",
+  "description": "The general type of the system entity",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": false,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "systemEntity"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "System entity type Type",
+    "required": [
+      "systemEntityType"
+    ],
+    "properties": {
+      "systemEntityType": {
+        "type": "string",
+        "title": "System entity type Type",
+        "description": "The general type of the system entity",
+        "enum": [
+          "policy",
+          "rule",
+          "schema",
+          "asyncapi"
+        ],
+        "_elasticsearch": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

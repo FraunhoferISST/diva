@@ -1,0 +1,34 @@
+{
+  "id": "schema:uuid:23382dff-6f1b-419f-acbd-0004da6b49c2",
+  "title": "To be archived date",
+  "schemaName": "entityToBeArchivedDate",
+  "description": "Date of when this entity should be archived",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "To be archived date",
+    "properties": {
+      "entityToBeArchivedDate": {
+        "type": "string",
+        "title": "To be archived date",
+        "description": "Date of when this entity should be archived",
+        "examples": [
+          "2023-08-01T00:00:00Z"
+        ],
+        "format": "date-time",
+        "_elasticsearch": {
+          "type": "date"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 7,
+          "type": "date",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

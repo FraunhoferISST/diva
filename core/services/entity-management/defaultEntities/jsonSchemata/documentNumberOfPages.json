@@ -1,0 +1,38 @@
+{
+  "id": "schema:uuid:af29ca8d-6574-46b9-9030-936f4cd394da",
+  "title": "Number of Pages",
+  "schemaName": "documentNumberOfPages",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "application/pdf"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Number of Pages",
+    "properties": {
+      "documentNumberOfPages": {
+        "type": "integer",
+        "title": "Number of Pages",
+        "description": "Number of pages in a document",
+        "default": 0,
+        "minimum": 0,
+        "examples": [
+          23,
+          89,
+          235
+        ],
+        "_ui": {
+          "view": "profiling",
+          "position": 3,
+          "type": "number",
+          "fallbackValue": 0
+        }
+      }
+    }
+  }
+}

@@ -20,7 +20,7 @@ cd docker
 ./up_core.sh
 ```
 
-The script starts all core services, profiling workflow engine, DSC and the web client application. It may take some 
+The script starts all core services, profiling workflow engine and the web client application. It may take some 
 time until all components are up and running. By default, the client should be available on `localhost:80`.
 
 ## Container and images management

@@ -1,0 +1,83 @@
+#app {
+  /* Custom date picker styling */
+  .v-picker__body {
+    background-color: white;
+  }
+  .v-picker__title {
+    background-color: unset;
+    color: black !important;
+    & .v-date-picker-title__year {
+      color: black !important;
+    }
+
+  }
+  .v-picker.v-card {
+    background-color: white;
+    @include border-radius();
+  }
+
+  .v-select-list .v-list {
+    background-color: $bg_card !important;
+    @include font-style(1.1rem, $font_body, bold, $font_primary_color);
+  }
+
+  .v-list__tile__title {
+    letter-spacing: 0.1rem;
+  }
+
+  .custom-autocomplete {
+    .v-input__slot {
+      background-color: $bg_hover;
+    }
+  }
+
+  /* Custom input fields styling */
+  .v-input {;
+    @include font-style(1.1rem, $font_body, bold, $font_primary_color);
+    &.glow {
+      transition: 0.3s;
+    }
+  }
+
+  .v-input--is-focused {
+    &.glow {
+      box-shadow: 0 0 0 2px rgba(106, 117, 255, 0.2);
+      background-color: rgba(106, 117, 255, 0.05) !important;
+    }
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: none;
+    margin: 0;
+  }
+
+  /*Custom menu*/
+  .custom-menu {
+    background-color: $bg_card;
+    @include border-radius();
+    overflow: hidden;
+    .v-list.theme--dark {
+      background-color: $bg_card;
+    }
+  }
+
+  .v-overflow-btn {
+    .v-input__slot {
+      border: none;
+      @include border-radius;
+    }
+    .v-label {
+      font-size: 0.9rem;
+    }
+  }
+
+  /*Switch input*/
+  .v-input--switch {
+    .v-label {
+      font-size: 1rem;
+    }
+  }
+}

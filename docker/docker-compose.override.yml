@@ -8,52 +8,18 @@ services:
 
   web-client:
     build:
-      context: ../core/web-client
+      context: ../web-client
 
   # ####################################################################################################################
-  # User Management Microservice
+  # Entity Management Microservice
   # ####################################################################################################################
-  user-management:
+  entity-management:
     restart: unless-stopped
     build:
       context: ../core
       dockerfile: ../core/services/Dockerfile
       args:
-        SERVICE_NAME: 'user-management'
-
-  # ####################################################################################################################
-  # Resource Management Microservice
-  # ####################################################################################################################
-  resource-management:
-    restart: unless-stopped
-    build:
-      context: ../core
-      dockerfile: ../core/services/Dockerfile
-      args:
-        SERVICE_NAME: 'resource-management'
-
-  # ####################################################################################################################
-  # Resource Management Microservice
-  # ####################################################################################################################
-  asset-management:
-    restart: unless-stopped
-    build:
-      context: ../core
-      dockerfile: ../core/services/Dockerfile
-      args:
-        SERVICE_NAME: 'asset-management'
-
-  # ####################################################################################################################
-  # SCHEMA REGISTRY
-  # ####################################################################################################################
-
-  schema-registry:
-    restart: unless-stopped
-    build:
-      context: ../core
-      dockerfile: ../core/services/Dockerfile
-      args:
-        SERVICE_NAME: 'schema-registry'
+        SERVICE_NAME: 'entity-management'
 
   # ####################################################################################################################
   # EVENT EMITTER SERVICE
@@ -67,27 +33,6 @@ services:
       args:
         SERVICE_NAME: 'event-emitter'
 
-  # ####################################################################################################################
-  # Reviews Management Microservice
-  # ####################################################################################################################
-  review-management:
-    restart: unless-stopped
-    build:
-      context: ../core
-      dockerfile: ../core/services/Dockerfile
-      args:
-        SERVICE_NAME: 'review-management'
-
-  # ####################################################################################################################
-  # Reviews Management Microservice
-  # ####################################################################################################################
-  service-management:
-    restart: unless-stopped
-    build:
-      context: ../core
-      dockerfile: ../core/services/Dockerfile
-      args:
-        SERVICE_NAME: 'service-management'
 
   # ####################################################################################################################
   # Elasticsearch Connector Nanoservice
@@ -99,17 +44,6 @@ services:
       dockerfile: ../core/services/Dockerfile
       args:
         SERVICE_NAME: 'elasticsearch-connector'
-
-  # ####################################################################################################################
-  # IDS Adapter Service
-  # ####################################################################################################################
-
-  dsc-adapter:
-    build:
-      context: ../core
-      dockerfile: ../core/services/Dockerfile
-      args:
-        SERVICE_NAME: 'adapter-services/dsc-adapter'
 
   # ####################################################################################################################
   # Urban Pulse Adapter Service
@@ -176,3 +110,25 @@ services:
       dockerfile: ../core/services/Dockerfile
       args:
         SERVICE_NAME: 'profiling-assistant'
+
+  # ####################################################################################################################
+  # business-decision-point
+  # ####################################################################################################################
+
+  business-decision-point:
+    build:
+      context: ../core
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'business-decision-point'
+
+  # ####################################################################################################################
+  # business-rules-executor
+  # ####################################################################################################################
+
+  business-rules-executor:
+    build:
+      context: ../core
+      dockerfile: ../core/services/Dockerfile
+      args:
+        SERVICE_NAME: 'business-rules-executor'

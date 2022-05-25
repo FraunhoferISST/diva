@@ -1,0 +1,35 @@
+{
+  "id": "schema:uuid:1c3f5444-7741-4faf-83b7-38fe4f99a7a5",
+  "title": "Address Region",
+  "schemaName": "addressRegion",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "user"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Address Region",
+    "properties": {
+      "addressRegion": {
+        "type": "string",
+        "title": "Address Region",
+        "examples": [
+          "NRW",
+          "TX"
+        ],
+        "_ui": {
+          "view": "overview",
+          "position": 2,
+          "type": "text",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

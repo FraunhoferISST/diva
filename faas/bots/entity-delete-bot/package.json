@@ -1,0 +1,24 @@
+{
+  "name": "entity-delete-bot",
+  "version": "0.1.0",
+  "serviceId": "service:uuid:8640d5de-91fe-486a-9378-b8350ede33a5",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "eslint-fix": "eslint --fix *js"
+  },
+  "dependencies": {
+    "axios": "^0.26.0",
+    "mongodb": "^4.3.1",
+    "url-join": "^4.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.24.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1"
+  }
+}

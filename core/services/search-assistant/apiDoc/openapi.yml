@@ -16,7 +16,7 @@ paths:
     get:
       tags:
         - search
-      summary: Global search over all Elasticsearch Indecies
+      summary: Global search over all Elasticsearch Indices
       description: Send a query term in URL parameter `q` and get a result set in return. The search response contains
         a `collection` array that can contain any known entity like resource, asset or user. To fetch the next page you can use a `cursor`
         that is included in the response if there is a next page.
@@ -49,7 +49,51 @@ paths:
           explode: false
           allowReserved: true
           schema:
-            type: string      
+            type: string
+        - name: facets
+          in: query
+          description: Facets for current query
+          example: "entityType,keywords"
+          required: false
+          explode: true
+          allowReserved: true
+          schema:
+            type: string
+        - name: facetsOperator
+          in: query
+          description: Facets Operator for current query (default "and")
+          example: "and"
+          required: false
+          explode: false
+          allowReserved: true
+          schema:
+            type: string
+            enum:
+              - "must"
+              - "should"
+              - "mustNot"
+        - name: sortBy
+          in: query
+          description: Defines the field to sort by
+          example: "modifiedAt"
+          required: false
+          explode: false
+          allowReserved: true
+          schema:
+            type: string
+            enum:
+              - "modifiedAt"
+              - "createdAt"
+              - "_score"
+        # required undocumented filter parameters (entityType=resource...)
+        - in: query
+          name: filters
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+          style: form
+          explode: true
       responses:
         "200":
           description: Search result
@@ -85,7 +129,7 @@ paths:
           $ref: "#/components/responses/UnexpectedError"
         "5XX":
           $ref: "#/components/responses/UnexpectedError"
-
+    
 components:
 
   schemas:

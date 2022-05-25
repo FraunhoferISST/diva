@@ -1,0 +1,34 @@
+{
+  "id": "schema:uuid:b166ebd6-dfbd-46d5-90b3-eee72981dd37",
+  "schemaName": "keywordsSimilarityHash",
+  "description": "256bit Hash in Hex that is used to calculate similarity between keywords",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "properties": {
+      "keywordsSimilarityHash": {
+        "type": "string",
+        "description": "256bit Hash in Hex that is used to calculate similarity between keywords",
+        "minLength": 64,
+        "maxLength": 64,
+        "examples": [
+          "7014004300020144902045244c145a8020110209005408081520802004021b06"
+        ]
+      }
+    }
+  },
+  "title": "keywordsSimilarityHash"
+}

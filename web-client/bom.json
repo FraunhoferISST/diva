@@ -1,0 +1,3027 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.3",
+  "serialNumber": "urn:uuid:9882740a-ded8-4e54-966f-281215e31499",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2022-05-23T08:19:27.945Z",
+    "tools": [
+      {
+        "vendor": "CycloneDX",
+        "name": "Node.js module",
+        "version": "3.9.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "pkg:npm/web-client@19.0.0",
+      "name": "web-client",
+      "version": "19.0.0",
+      "purl": "pkg:npm/web-client@19.0.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40toast-ui/editor@2.5.4",
+      "author": "NHN FE Development Lab",
+      "group": "@toast-ui",
+      "name": "editor",
+      "version": "2.5.4",
+      "description": "GFM  Markdown Wysiwyg Editor - Productive and Extensible",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5ecb9894f43185e73d7474111050228231387a71d2b86305ec3d1843ac16ee9866bacbc0bb416725f6543e3241a14fc62b3ed63f953a7ca53dfcffbc8fae43f0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40toast-ui/editor@2.5.4",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://ui.toast.com"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/nhn/tui.editor/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/nhn/tui.editor.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40types/codemirror@0.0.71",
+      "group": "@types",
+      "name": "codemirror",
+      "version": "0.0.71",
+      "description": "TypeScript definitions for CodeMirror",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "6f6a041279e8d4b20628c47bb8112caf8d1a9755228c5d47129467d3e61fd7138b976e2242007b0c1a5954c33bcb9e06e7008da1c943ad13bae44e8a1cf34edb"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40types/codemirror@0.0.71",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40types/tern@0.23.4",
+      "group": "@types",
+      "name": "tern",
+      "version": "0.23.4",
+      "description": "TypeScript definitions for tern",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "240530d625c63b5a9a5b010ecf14ca259ff927155e38df64bc667fa2c819689226067ca3ca7d1c8e8bcfb1fe8534b9b2198f15c3d0e85d908c95f3243301d15a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40types/tern@0.23.4",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/tern"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40types/estree@0.0.51",
+      "group": "@types",
+      "name": "estree",
+      "version": "0.0.51",
+      "description": "TypeScript definitions for ESTree AST specification",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "0ae3e053a7f7793fd780a28fa8a77f80b655d579af7f56b64793ce04e1906babaff36c6996cf3d1d4e7329e568c91f17cc777544634e95096f51edc21648d635"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40types/estree@0.0.51",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/estree"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/codemirror@5.65.1",
+      "author": "Marijn Haverbeke",
+      "name": "codemirror",
+      "version": "5.65.1",
+      "description": "Full-featured in-browser code editor",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "b3a69a73e0c3fb83b6bb568199dc6107bcb3d9753bb46dec9cec90d392b189f6a1cfb868c677f12111f1882484bf74d40b7f1d2151fc1be9591fd51649f190c4"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/codemirror@5.65.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://codemirror.net"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "http://github.com/codemirror/CodeMirror/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/codemirror/CodeMirror.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40vue/composition-api@1.4.9",
+      "author": "liximomo",
+      "group": "@vue",
+      "name": "composition-api",
+      "version": "1.4.9",
+      "description": "Provide logic composition capabilities for Vue.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "97a60e7a0e4b11799f3eacb102705a0afd45311c34386289e26ea7396466ea782de53b87723e59a0144df8b5e1dc9d2ee94af70b8540f9188a4fe334788b6bfe"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40vue/composition-api@1.4.9",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/vuejs/composition-api#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/vuejs/composition-api/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/vuejs/composition-api.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/axios@0.26.1",
+      "author": "Matt Zabriskie",
+      "name": "axios",
+      "version": "0.26.1",
+      "description": "Promise based HTTP client for the browser and node.js",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "7cfc1c5f812f9d21ee22708c22d1210069da4845d1063b7387d7ceb6c13a1351baa7bbe5ede7447997b5d501dfd7cfbafbd811e4f6ca57fb0628d683f1868c78"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/axios@0.26.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://axios-http.com"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/axios/axios/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/axios/axios.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/follow-redirects@1.14.9",
+      "author": "Ruben Verborgh",
+      "name": "follow-redirects",
+      "version": "1.14.9",
+      "description": "HTTP and HTTPS modules that follow redirects.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3100df8a105060c732cb97614432541dcc3b95bd8fbff4ee13ac4fd6fcab68bba43431ca6c3c4335a384dcd6c201d2900299e8f863d1ca8d58029f3dc828cae3"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/follow-redirects@1.14.9",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/follow-redirects/follow-redirects"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/follow-redirects/follow-redirects/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/follow-redirects/follow-redirects.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/axios-retry@3.2.5",
+      "author": "Rubén Norte",
+      "name": "axios-retry",
+      "version": "3.2.5",
+      "description": "Axios plugin that intercepts failed requests and retries them whenever posible.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "6bcba690a6df2244e260940bc77bf74f328cf394c6281f19418cf8cf0ca4b767e93bae13b1195486368f6806f77ea316097166d9885671df15e451c328ef5b48"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/axios-retry@3.2.5",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/softonic/axios-retry"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/softonic/axios-retry/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/softonic/axios-retry.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40babel/runtime@7.17.8",
+      "author": "The Babel Team",
+      "group": "@babel",
+      "name": "runtime",
+      "version": "7.17.8",
+      "description": "babel's modular runtime helpers",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "750a44a4ad0ef68ea58faa0fbb48110db6e793ee0b78794d701a6ca5fe8e973b771885f83f5956175812fa91cb0c595a26f6d1eaaee309f434f3303840906798"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40babel/runtime@7.17.8",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://babel.dev/docs/en/next/babel-runtime"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/babel/babel/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/babel/babel.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/regenerator-runtime@0.13.9",
+      "author": "Ben Newman",
+      "name": "regenerator-runtime",
+      "version": "0.13.9",
+      "description": "Runtime for Regenerator-compiled generator and async functions.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "a77553f9c38483116c45103d5f896423513e936fc2b672ad53881cc7268252b7a294bfefa88e82759df0c55531dd439483e82750e41071123b066488eb9e8c60"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/regenerator-runtime@0.13.9",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/facebook/regenerator/tree/master/packages/runtime"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/is-retry-allowed@2.2.0",
+      "author": "Sindre Sorhus",
+      "name": "is-retry-allowed",
+      "version": "2.2.0",
+      "description": "Check whether a request can be retried based on the `error.code`",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5d59bb2ce78ba535b88d5d7d4121f7f2f92cc31a0bb9df2c439ed8c095533d6762688f48f24784846169065b25c95b20750cb83a983c40e2dbf18460b3266242"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/is-retry-allowed@2.2.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/sindresorhus/is-retry-allowed#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/sindresorhus/is-retry-allowed/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/sindresorhus/is-retry-allowed.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/chart.js@2.9.4",
+      "name": "chart.js",
+      "version": "2.9.4",
+      "description": "Simple HTML5 charts using the canvas element.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "074eda033c5cae292300fc95fb4d63ec198ea71b50113c534a5436e8111827ede25246cd29a389fe70db4fa263caa631b1e33438dd7608e1d8754d9c4c88c2ec"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/chart.js@2.9.4",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://www.chartjs.org"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/chartjs/Chart.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/chartjs/Chart.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/chartjs-color@2.4.1",
+      "name": "chartjs-color",
+      "version": "2.4.1",
+      "description": "Color conversion and manipulation with CSS string support",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "85aa8e835f9879bcacfd3b3ff5b2e8fc1a9470e35039daff86812bd8b2d3465e82e4b5dcb54747c6c0987ef415839248c484eb7c23540ebe27b6a99093dfbfd3"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/chartjs-color@2.4.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/chartjs/chartjs-color#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/chartjs/chartjs-color/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/chartjs/chartjs-color.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/chartjs-color-string@0.6.0",
+      "author": "Heather Arthur",
+      "name": "chartjs-color-string",
+      "version": "0.6.0",
+      "description": "Parser and generator for CSS color strings",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "4c807938a9f584f26f3bb25cb5e5b8598ffadefe8ac0476deae75f9c313d882019832f95e12adb4b1a086d3c3fc645086a98c42381311ad0f4fba0f72b215dec"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/chartjs-color-string@0.6.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/chartjs/chartjs-color-string#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/chartjs/chartjs-color-string/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/chartjs/chartjs-color-string.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/color-name@1.1.4",
+      "author": "DY",
+      "name": "color-name",
+      "version": "1.1.4",
+      "description": "A list of color names and its values",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "74ecbedc0b96ddadb035b64722e319a537208c6b8b53fb812ffb9b71917d3976c3a3c7dfe0ef32569e417f479f4bcb84a18a39ab8171edd63d3a04065e002c40"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/color-name@1.1.4",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/colorjs/color-name"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/colorjs/color-name/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/colorjs/color-name.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/color-convert@1.9.3",
+      "author": "Heather Arthur",
+      "name": "color-convert",
+      "version": "1.9.3",
+      "description": "Plain color conversion functions",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "41f014b5dfaf15d02d150702f020b262dd5f616c52a8088ad9c483eb30c1f0dddca6c10102f471a7dcce1a0e86fd21c7258013f3cfdacff22e0c600bb0d55b1a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/color-convert@1.9.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/Qix-/color-convert#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Qix-/color-convert/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Qix-/color-convert.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/color-name@1.1.3",
+      "author": "DY",
+      "name": "color-name",
+      "version": "1.1.3",
+      "description": "A list of color names and its values",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "74ecbedc0b96ddadb035b64722e319a537208c6b8b53fb812ffb9b71917d3976c3a3c7dfe0ef32569e417f479f4bcb84a18a39ab8171edd63d3a04065e002c40"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/color-name@1.1.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/dfcreative/color-name"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/dfcreative/color-name/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/dfcreative/color-name.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/moment@2.29.1",
+      "author": "Iskren Ivov Chernev",
+      "name": "moment",
+      "version": "2.29.1",
+      "description": "Parse, validate, manipulate, and display dates",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9079a8c9b70f57c4aacb9f43c0d0d8dc979fafae252bf6f2fdd6b456215cb80e031f4bd083943a65ee558a6c647d03520be325b3f2b1e77b3b4e33f54611440d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/moment@2.29.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://momentjs.com"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/moment/moment/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/moment/moment.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/codejar@3.6.0",
+      "author": "Anton Medvedev",
+      "name": "codejar",
+      "version": "3.6.0",
+      "description": "An embeddable code editor for the browser",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "df488f91dcf8637776a9532930ab2f11112d7d4047e891ef5b66967a808147aec352866a4902c8bdc0252d666e4c6ee2ec3a272646c2aa406724f3e16e3f89eb"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/codejar@3.6.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://medv.io/codejar/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/antonmedv/codejar/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/antonmedv/codejar.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/core-js@3.21.0",
+      "name": "core-js",
+      "version": "3.21.0",
+      "description": "Standard library",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "614748ddf16ee1317fd96ca4436c734a24d076574b078295b8bf56780cb95ce35962de42ba7fdfa50bdcb6829b0a0bcf866cc00de7ac4e4fe3d91771efb01c29"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/core-js@3.21.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/zloirock/core-js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/zloirock/core-js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/zloirock/core-js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/countup.js@2.1.0",
+      "author": "@inorganik",
+      "name": "countup.js",
+      "version": "2.1.0",
+      "description": "Animates a numerical value by counting to it",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "55a9ccccb12392ddc7a7fb72e415e290cf2ce30137387e26d409c5ae8ed31d1f3a9d8191bc67c60a857eceb44972a4db662ed7d5e8242d221e50a0f3efee172c"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/countup.js@2.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/inorganik/countUp.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/inorganik/countUp.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/inorganik/countUp.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/date-fns@1.30.1",
+      "author": "Sasha Koss",
+      "name": "date-fns",
+      "version": "1.30.1",
+      "description": "Modern JavaScript date utility library",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8414950af4a6582f90ca960e6f3c0639df70a9d0e93adfb4c25d0a6d4f91faeb99052d6337c56c0f5b2cde2ad00e49d18f936fc624c5ea88ff9c346737f51037"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/date-fns@1.30.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/date-fns/date-fns#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/date-fns/date-fns/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/date-fns/date-fns.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/filepond@4.30.3",
+      "author": "PQINA",
+      "name": "filepond",
+      "version": "4.30.3",
+      "description": "FilePond, Where files go to stretch their bits.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "1b66f52c47bdd12ab6bc7d126030124c1faf554ef7e4d05cb7321a14f959b5bd78400822fc02fcf56c90e8b8537ea832acccae66eaf63bdc87026cd2d84f599c"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/filepond@4.30.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://pqina.nl/filepond/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/pqina/filepond/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/pqina/filepond.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/filepond-plugin-file-validate-type@1.2.6",
+      "author": "PQINA",
+      "name": "filepond-plugin-file-validate-type",
+      "version": "1.2.6",
+      "description": "File Type Validation Plugin for FilePond",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "dc9171a5be28e43e01b2c3ff0eb8e7d863e97a383f417cd4e1edff3eaf08bc826ea241f3f796faf913d8b2d43ee884ca44462ea7437c17f08efce41f85591482"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/filepond-plugin-file-validate-type@1.2.6",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://pqina.nl/filepond/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/pqina/filepond-plugin-file-validate-type/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/pqina/filepond-plugin-file-validate-type.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/filepond-plugin-image-preview@4.6.10",
+      "author": "PQINA",
+      "name": "filepond-plugin-image-preview",
+      "version": "4.6.10",
+      "description": "Image Preview Plugin for FilePond",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "0bb4394abfdde1141bda730d411f773a232df75387c69be62011a5f823b5759138ea5338f4d51f234f1dc849403b14ec943700f2901f8c51422a8d2c3586eb06"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/filepond-plugin-image-preview@4.6.10",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://pqina.nl/filepond/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/pqina/filepond-plugin-image-preview/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/pqina/filepond-plugin-image-preview.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/highlight.js@11.5.0",
+      "author": "Ivan Sagalaev",
+      "name": "highlight.js",
+      "version": "11.5.0",
+      "description": "Syntax highlighting with language autodetection.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "48ce960e3e7f0be55f218f2967ac96e976b4166d6d9e2615616616d50fc370c9c849916b0b7690019659140019b726ca36b188777a7f0cd6c54ed7135d781807"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:npm/highlight.js@11.5.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://highlightjs.org/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/highlightjs/highlight.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/highlightjs/highlight.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/keycloak-js@15.1.1",
+      "author": "Keycloak",
+      "name": "keycloak-js",
+      "version": "15.1.1",
+      "description": "Keycloak Adapter",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3cfbbbd167d22360965fb1a8179010e0792a6092d300e57fdb9c031bfffd4b94943a1a880f12a302fe8fe78872f272addbeac8645da4aa9bfb14d12604dd96e2"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/keycloak-js@15.1.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://www.keycloak.org"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/keycloak/keycloak/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/keycloak/keycloak.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/base64-js@1.3.1",
+      "author": "T. Jameson Little",
+      "name": "base64-js",
+      "version": "1.3.1",
+      "description": "Base64 encoding/decoding in pure JS",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "98b4388b640ed72b6f19615699c9e028efff257010b9e66fc042ad8e04053388c82b4914fb2b4c7e994bf23fa7e66b2939f8c7c28020fbdca16fb0700079b7ea"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/base64-js@1.3.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/beatgammit/base64-js"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/beatgammit/base64-js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/beatgammit/base64-js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/js-sha256@0.9.0",
+      "author": "Chen, Yi-Cyuan",
+      "name": "js-sha256",
+      "version": "0.9.0",
+      "description": "A simple SHA-256 / SHA-224 hash function for JavaScript supports UTF-8 encoding.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "b206b730787db2040ddbea49f55619fb52cfc173b1b812410399eb479fe87cf7ee889044da19e3b1a37cb1ef09ce73a618b376a78f4f7b953fb6d69f72cfdaa4"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/js-sha256@0.9.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/emn178/js-sha256"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/emn178/js-sha256/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/emn178/js-sha256.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/leaflet@1.7.1",
+      "name": "leaflet",
+      "version": "1.7.1",
+      "description": "JavaScript library for mobile-friendly interactive maps",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "ff1c0f10189db60ebd4371e5a8f754dc39eb5d03af414fc2087035b5c0d05733b09bdd583186882e3369ecbe046b0e59e2c39875b073ea4a16ca26e9a5df19ab"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-2-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:npm/leaflet@1.7.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://leafletjs.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Leaflet/Leaflet/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/Leaflet/Leaflet.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/leaflet-draw@1.0.4",
+      "name": "leaflet-draw",
+      "version": "1.0.4",
+      "description": "Vector drawing plugin for Leaflet",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "aec43ab1a40ee524f9023e97445ca5af9cef6ab5a0cd69eb838eb3435304384207b29a5d0bff219cdf2a32816f002b0fbd38a802ecacc9afd356da20d79b7201"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/leaflet-draw@1.0.4",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/Leaflet/Leaflet.draw#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Leaflet/Leaflet.draw/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Leaflet/Leaflet.draw.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.camelcase@4.3.0",
+      "author": "John-David Dalton",
+      "name": "lodash.camelcase",
+      "version": "4.3.0",
+      "description": "The lodash method `_.camelCase` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "b28aa6288a2b9fc651035c7711f65ab6190331a6"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.camelcase@4.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.clonedeep@4.5.0",
+      "author": "John-David Dalton",
+      "name": "lodash.clonedeep",
+      "version": "4.5.0",
+      "description": "The lodash method `_.cloneDeep` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "e23f3f9c4f8fbdde872529c1071857a086e5ccef"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.clonedeep@4.5.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lodash.debounce@4.0.8",
+      "author": "John-David Dalton",
+      "name": "lodash.debounce",
+      "version": "4.0.8",
+      "description": "The lodash method `_.debounce` exported as a module.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/lodash.debounce@4.0.8",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://lodash.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/lodash/lodash/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/lodash/lodash.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/material-design-icons-iconfont@6.5.0",
+      "author": "Material Design Authors, Jossef Harush",
+      "name": "material-design-icons-iconfont",
+      "version": "6.5.0",
+      "description": "Material Design Icons DX",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "226c521a75bba392274718292f5514b933e406c823cdd43c9bb6017b949d2dfca37dc6c8615487347cc169b94d115ba589174cf1e7daea6aa216db7c050c8cc0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/material-design-icons-iconfont@6.5.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://jossef.github.io/material-design-icons-iconfont/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jossef/material-design-icons-iconfont/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jossef/material-design-icons-iconfont.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/mitt@3.0.0",
+      "name": "mitt",
+      "version": "3.0.0",
+      "description": "Tiny 200b functional Event Emitter / pubsub.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "edd5f6ff5d084d5caa87868e49523d81d6a97beb7d976ffc4311eb166517bb8104529765c65e91b9d6543d9a1cfb3b98da19358fb5f156ba085486a7fe90ff49"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/mitt@3.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/developit/mitt"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/developit/mitt/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/developit/mitt.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/pluralize@8.0.0",
+      "author": "Blake Embrey",
+      "name": "pluralize",
+      "version": "8.0.0",
+      "description": "Pluralize and singularize any word",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "35cdc84f9c87cdf9537db8e0a967023e9a3b0da2b2e059e907497fcc2016d1373b8f1022baa4b11dab27b41dc3efcf3b2d2ac0f7790327d217a2fc49631c8b08"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/pluralize@8.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/blakeembrey/pluralize#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/blakeembrey/pluralize/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/blakeembrey/pluralize.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/randomcolor@0.6.2",
+      "author": "David Merfield",
+      "name": "randomcolor",
+      "version": "0.6.2",
+      "description": "A tiny script for generating attractive random colors",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "327e936f2629160c05b90f0a24aa9fddbaaa63d3b5cb7effd238122bfeb53d4c55e107c832fd3e2b68a8abc0df3a3901b25723c12cd17c80c45dfcc0f5a0b1ec"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "CC0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/randomcolor@0.6.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://randomcolor.lllllllllllllllll.com/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/davidmerfield/randomColor/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/davidmerfield/randomColor.git"
+        }
+      ]
+    },
+    {
+      "type": "framework",
+      "bom-ref": "pkg:npm/socket.io-client@4.4.1",
+      "name": "socket.io-client",
+      "version": "4.4.1",
+      "description": "Realtime application framework client",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3790bf2f97cb3616b93a377b61e6ffa6e29c3d659ca01fc0d3d7c48e336c83dd440d5af9b7093f384c8ee954fd7652d250d63ce4da56e8a06154cbda2ca437bd"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/socket.io-client@4.4.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/socketio/socket.io-client#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/socketio/socket.io-client/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/socketio/socket.io-client.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40socket.io/component-emitter@3.0.0",
+      "group": "@socket.io",
+      "name": "component-emitter",
+      "version": "3.0.0",
+      "description": "Event emitter",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "da94c6ba26c05c9b3000f26368a8acb61a92fcd38ae72a46e0b613ead1005744bf9b15b4cce22f62f18ad15f30f3e487c409babd13128ea49a9455de040aacf9"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40socket.io/component-emitter@3.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/socketio/emitter#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/socketio/emitter/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/socketio/emitter.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/backo2@1.0.2",
+      "name": "backo2",
+      "version": "1.0.2",
+      "description": "simple backoff based on segmentio/backo",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "31ab1ac8b129363463e35b3ebb69f4dfcfba7947"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/backo2@1.0.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/mokesmokes/backo#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/mokesmokes/backo/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/mokesmokes/backo.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/debug@4.3.3",
+      "author": "Josh Junon",
+      "name": "debug",
+      "version": "4.3.3",
+      "description": "Lightweight debugging utility for Node.js and the browser",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "ff3c70e7ebe1d537effb8427edae67b1b70928f692bc20e1a239fa14497dbeea702b6542483b44884b6aafc0c5b7360539dcfadcb064c5e73b0d8b9cda3a27e9"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/debug@4.3.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/debug-js/debug#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/debug-js/debug/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/debug-js/debug.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/ms@2.1.2",
+      "name": "ms",
+      "version": "2.1.2",
+      "description": "Tiny millisecond conversion utility",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "b0690fc7e56332d980e8c5f6ee80381411442c50996784b85ea7863970afebcb53fa36f7be4fd1c9a2963f43d32b25ad98b48cd1bf9a7544c4bdbb353c4687db"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/ms@2.1.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/zeit/ms#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/zeit/ms/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/zeit/ms.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/engine.io-client@6.1.1",
+      "name": "engine.io-client",
+      "version": "6.1.1",
+      "description": "Client for the realtime Engine",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "574e66983a388238a6616f851ae8e81a69a6c51683b2b56bec05c0dd921f6b4e0c58cd6339f65f530a2ed2836a84dc32fefa2d503bc60ede09038405e1ed1be2"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/engine.io-client@6.1.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/socketio/engine.io-client"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/socketio/engine.io-client/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/socketio/engine.io-client.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/engine.io-parser@5.0.3",
+      "name": "engine.io-parser",
+      "version": "5.0.3",
+      "description": "Parser for the client for the realtime Engine",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "06d431c05dbb5d436749a7d02ef0e2d1d43cb378ba560cd2a1030969ca4870636b95475f1d229b826de39a3095bd096e1b3ab0ba340c3c0a0c6a2de86124eeae"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/engine.io-parser@5.0.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/socketio/engine.io-parser"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/socketio/engine.io-parser/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/socketio/engine.io-parser.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40socket.io/base64-arraybuffer@1.0.2",
+      "author": "Niklas von Hertzen",
+      "group": "@socket.io",
+      "name": "base64-arraybuffer",
+      "version": "1.0.2",
+      "description": "Encode/decode base64 data into ArrayBuffers",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "74e94204a9c3c3889285a22c1ff6f1ba3293335f3ed93380b18cfe292735d409b7f07e2ae57c3c05bcfded961dad534cfae9b7a7bc3ce81bef99c9fdabee7e79"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40socket.io/base64-arraybuffer@1.0.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/socketio/base64-arraybuffer"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/socketio/base64-arraybuffer/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/socketio/base64-arraybuffer.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/has-cors@1.1.0",
+      "author": "Nathan Rajlich",
+      "name": "has-cors",
+      "version": "1.1.0",
+      "description": "Detects support for Cross-Origin Resource Sharing",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "5e474793f7ea9843d1bb99c23eef49ff126fff39"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/has-cors@1.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/component/has-cors#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/component/has-cors/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/component/has-cors.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/parseqs@0.0.6",
+      "author": "Gal Koren",
+      "name": "parseqs",
+      "version": "0.0.6",
+      "description": "Provides methods for parsing a query string into an object, and vice versa.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8de006ccc0db7d21c7034f7586bd2bdf57987d38a0fb6f60dc628a13f3cf6c443ae57d2598cc25128aa6873bb48b3b480f9b89a59b059543c33fc4e13cbeccf3"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/parseqs@0.0.6",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/get/querystring"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/get/querystring/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/get/querystring.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/parseuri@0.0.6",
+      "author": "Gal Koren",
+      "name": "parseuri",
+      "version": "0.0.6",
+      "description": "Method that parses a URI and returns an array of its components",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "0148de9fcb0090681aa3b532097e8086fd2020ad9f0012a6623bcfe319b2e4968abdc6d346e788a883c72c07eadf4c4975da92134df720e31448e30270add2a3"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/parseuri@0.0.6",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/get/parseuri"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/get/parseuri/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/get/parseuri.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/ws@8.2.3",
+      "author": "Einar Otto Stangvik",
+      "name": "ws",
+      "version": "8.2.3",
+      "description": "Simple to use, blazing fast and thoroughly tested websocket client and server for Node.js",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "c01ba88f5043a42e9943507b0d64016152e984f5a49bc8bd634ff761d1e31ca1e2a21389d70b3edce71c0d6b47f8fa02f43643e56393ac9bcd6d6be34ba25668"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/ws@8.2.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/websockets/ws"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/websockets/ws/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/websockets/ws.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/xmlhttprequest-ssl@2.0.0",
+      "author": "Michael de Wit",
+      "name": "xmlhttprequest-ssl",
+      "version": "2.0.0",
+      "description": "XMLHttpRequest for Node",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "40ac5547189100241c56e404605b08d61864acc96b5c73de81b6ddd729fd5073a647163eb22d769d0633ae2def6f3b7c55d4d346f8aa70ac5cca59456ace73d8"
+        }
+      ],
+      "purl": "pkg:npm/xmlhttprequest-ssl@2.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/mjwwit/node-XMLHttpRequest#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "http://github.com/mjwwit/node-XMLHttpRequest/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/mjwwit/node-XMLHttpRequest.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/yeast@0.1.2",
+      "author": "Arnout Kazemier",
+      "name": "yeast",
+      "version": "0.1.2",
+      "description": "Tiny but linear growing unique id generator",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/yeast@0.1.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/unshiftio/yeast"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/unshiftio/yeast/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/unshiftio/yeast.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/socket.io-parser@4.1.1",
+      "name": "socket.io-parser",
+      "version": "4.1.1",
+      "description": "socket.io protocol parser",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5124152d2903584e676dc63beb413174a689c4213ae6472c1bff24e450c6655571a43d6903b8400585d890252fc54b98621ffeb90c3437f7ef0737d3f28d3b28"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/socket.io-parser@4.1.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/socketio/socket.io-parser#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/socketio/socket.io-parser/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/socketio/socket.io-parser.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/url-join@4.0.1",
+      "author": "José F. Romaniello",
+      "name": "url-join",
+      "version": "4.0.1",
+      "description": "Join urls and normalize as in path.join.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8e4d7e40fe9926ac8e8ae108f4011641f8eefe70763f0e3aea46c0d0b1199631f029e32077d5ab0048041b18cf0c3dbe4cd6db6f7eeb4f28447eb0977ee2979c"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/url-join@4.0.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/jfromaniello/url-join#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jfromaniello/url-join/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/jfromaniello/url-join.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/vis-data@7.1.4",
+      "name": "vis-data",
+      "version": "7.1.4",
+      "description": "Manage unstructured data using DataSet. Add, update, and remove data, and listen for changes in the data.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "baccbe78f5f55e702b36f27905abd0a1ded846e190135a63165fa9bbb212eab0a89b6101a06d28d59cc2a9fde5e544ba316e7591890b47e79fc516e78f1365ef"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "(Apache-2.0 OR MIT)"
+          }
+        }
+      ],
+      "purl": "pkg:npm/vis-data@7.1.4",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://visjs.org/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/visjs/vis-data/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/visjs/vis-data.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/vis-network@9.1.2",
+      "name": "vis-network",
+      "version": "9.1.2",
+      "description": "A dynamic, browser-based visualization library.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "05d6a982e2a0eec93736f759683b0ced3eab361381173d3f17865273172d2b892547340f2d03d311c99b8a85da6613249205b29b3051de5142c4bd6af9e63203"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "(Apache-2.0 OR MIT)"
+          }
+        }
+      ],
+      "purl": "pkg:npm/vis-network@9.1.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://visjs.github.io/vis-network/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/visjs/vis-network/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/visjs/vis-network.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/vue@2.6.14",
+      "author": "Evan You",
+      "name": "vue",
+      "version": "2.6.14",
+      "description": "Reactive, component-oriented view layer for modern web interfaces.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "c76dbce25818be338c8f765aee4ab345c512c416e81eab60444db3968b35a9668ec9ee725261e7e362c1d76e7434904b47011c76b074251c323d310f85f42389"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/vue@2.6.14",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/vuejs/vue#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/vuejs/vue/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/vuejs/vue.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/vue-chartjs@3.5.1",
+      "author": "Jakub Juszczak",
+      "name": "vue-chartjs",
+      "version": "3.5.1",
+      "description": "Vue.js wrapper for chart.js for creating beautiful charts.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "7e8a1c41b27b16dbde202c5be0457942e569a3a77c0a6645980a29069a43206298f9eb0957c2098309845b445ec50871a9768bfc4d7135446c805158c8acd2fe"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/vue-chartjs@3.5.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://vue-chartjs.org"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/apertureless/vue-chartjs/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/apertureless/vue-chartjs.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40types/chart.js@2.9.35",
+      "group": "@types",
+      "name": "chart.js",
+      "version": "2.9.35",
+      "description": "TypeScript definitions for Chart.js",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "316c7fcd9961e301c16cce139b862c6726066f5fcb9138852c5c17fc55dbd04242bd75f6c564d11f0949d910001175b12eb39d68058ff2f16d2579f2fb80a913"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40types/chart.js@2.9.35",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/chart.js"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/vue-content-loader@0.2.3",
+      "author": "EGOIST",
+      "name": "vue-content-loader",
+      "version": "0.2.3",
+      "description": "SVG component to create placeholder loading, like Facebook cards loading.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "80994d11d5e4b871af827c98d2504cb2b4ac38c93e4d3a20e6e3408a5e4c48bbf4f1ffe613b0296a0d156afa7127a89e6f83f92758952842211c8e351d036af5"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/vue-content-loader@0.2.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/egoist/vue-content-loader#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/egoist/vue-content-loader/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/egoist/vue-content-loader.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/babel-helper-vue-jsx-merge-props@2.0.3",
+      "author": "Evan You",
+      "name": "babel-helper-vue-jsx-merge-props",
+      "version": "2.0.3",
+      "description": "babel helper for vue jsx spread.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "82c2e228aed0adbef36093608972a95db9716d5e5f7d2c11d1fe708643c0681011e1f862e9bc116715fdc0194873933fbfc08291751b5d92f837f9d213dedcaa"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/babel-helper-vue-jsx-merge-props@2.0.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/vuejs/babel-helper-vue-jsx-merge-props#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/vuejs/babel-helper-vue-jsx-merge-props/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/vuejs/babel-helper-vue-jsx-merge-props.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/vue-countup-v2@4.0.0",
+      "author": "xLsDg",
+      "name": "vue-countup-v2",
+      "version": "4.0.0",
+      "description": "A CountUp component for Vue",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5e329e1e8d67751949b57bc777a0757963a96eb24374d537add619c153efd989545dbbed86c053e249ace4573f9a7f517573eb317d87fe4b40010b4a8d6162b3"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/vue-countup-v2@4.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/xlsdg/vue-countup-v2"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/xlsdg/vue-countup-v2/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/xlsdg/vue-countup-v2.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/vue-ellipse-progress@1.3.1",
+      "author": "Sergej Atamantschuk",
+      "name": "vue-ellipse-progress",
+      "version": "1.3.1",
+      "description": "A Vue.js component to create beautiful animated circular progress bars",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "c3fe83cbf376caea705cb59c3357d908155c160ba9588afde66fcc7e221a1b10a30cbe2d40a162948fb69f97b460d87f910baec555e2b4705768a1b30c16a85b"
+        }
+      ],
+      "purl": "pkg:npm/vue-ellipse-progress@1.3.1",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://vue-ellipse-progress-demo.netlify.app/#/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/setaman/vue-ellipse-progress/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/setaman/vue-ellipse-progress.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/vue-json-pretty@1.8.2",
+      "author": "leezng",
+      "name": "vue-json-pretty",
+      "version": "1.8.2",
+      "description": "A JSON tree view component that is easy to use and also supports data selection.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "f036e0bf25e906b843741cf3f114def8f399f8723a9d26b7dc3aac3cc5a1324bf4bb401392583112b50cdd7451bd3cce43fd364a1d4b35627fae4a93a30dab6c"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/vue-json-pretty@1.8.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://leezng.github.io/vue-json-pretty"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/leezng/vue-json-pretty/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+ssh://git@github.com/leezng/vue-json-pretty.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/vue-router@3.5.3",
+      "author": "Evan You",
+      "name": "vue-router",
+      "version": "3.5.3",
+      "description": "Official router for Vue.js 2",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "1549482eb5b70c68ad4b687e5dac3c69136f193c2db9ac6b4643521d64e2cce7cb5227bbc2e6307b3799e7489f9519fc60f579931994d8b42ebb79ccfdbdd9b2"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/vue-router@3.5.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/vuejs/vue-router#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/vuejs/vue-router/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/vuejs/vue-router.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/vuetify@2.6.3",
+      "author": "John Leider",
+      "name": "vuetify",
+      "version": "2.6.3",
+      "description": "Vue Material Component Framework",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "65f8b3d83667a750efc6a19a4821aa1a3bf898f340bab249e57c32edbccdcc8c9218b9517653bc507e9a3569d281f680b0b3f7be8c5a7521839bab4a33c62cef"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/vuetify@2.6.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://vuetifyjs.com"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://issues.vuetifyjs.com"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/vuetifyjs/vuetify.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/vuex@3.6.2",
+      "author": "Evan You",
+      "name": "vuex",
+      "version": "3.6.2",
+      "description": "state management for Vue.js",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "1135b8e08a82801a55a26cb9db40d3e637fc9f4ce809a73eb315a79fe84c7bf0b36927a36ff795c36613a225d85fe131fc0b871e26b6f2f593ab882801ec456f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/vuex@3.6.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/vuejs/vuex#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/vuejs/vuex/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/vuejs/vuex.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40egjs/hammerjs@2.0.17",
+      "group": "@egjs",
+      "name": "hammerjs",
+      "version": "2.0.17",
+      "description": "A javascript library for multi-touch gestures",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5d0b198239b611c55489941fd755012507e665e126396f03a48d60b057a59fac3469ed228b874c40443492397a0eca5d597d5a198d7f968c979cfd094b4e9efc"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40egjs/hammerjs@2.0.17",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "http://naver.github.io/egjs"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/naver/hammer.js/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/naver/hammer.js.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40types/hammerjs@2.0.41",
+      "group": "@types",
+      "name": "hammerjs",
+      "version": "2.0.41",
+      "description": "TypeScript definitions for Hammer.js",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "7b05effdc781689a6b8a431cc4299653514ac8c010d97edaf46b66cf0f1f720da421e3c8d5cac444333cd7c5be5d8af1a9d04139d95fdab9b5dfb6d4f8196d08"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40types/hammerjs@2.0.41",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/hammerjs"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/component-emitter@1.3.0",
+      "name": "component-emitter",
+      "version": "1.3.0",
+      "description": "Event emitter",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "45ddec7ba401fac3b54f0a998ec710aeeae910f21f3b4ff26274a29fa43fac3de63aeb47bd4ac202126e6f7afdd2e35bf9211206e134418a01f7461d7dab6c46"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/component-emitter@1.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/component/emitter#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/component/emitter/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/component/emitter.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/keycharm@0.2.0",
+      "author": "Alex de Mulder",
+      "name": "keycharm",
+      "version": "0.2.0",
+      "description": "Simple, lightweight key-binding lib",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "fa6ea2e43b90a68028843d27f2075d35a8c3e6f9"
+        }
+      ],
+      "purl": "pkg:npm/keycharm@0.2.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/AlexDM0/keycharm#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/AlexDM0/keycharm/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/AlexDM0/keycharm.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/timsort@0.3.0",
+      "author": "Marco Ziccardi",
+      "name": "timsort",
+      "version": "0.3.0",
+      "description": "TimSort: Fast Sorting for Node.js",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "405411a8e7e6339fe64db9a234de11dc31e02bd4"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/timsort@0.3.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/mziccard/node-timsort"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/mziccard/node-timsort/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/mziccard/node-timsort.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/vis-util@5.0.3",
+      "author": "Alex de Mulder",
+      "name": "vis-util",
+      "version": "5.0.3",
+      "description": "utilitie collection for visjs",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "59ff524d4705ac3ccae3f66bec1e9ea56d8abe6dce44d585f968b0133d9da5fe5175690b5171526cb72e07cf27d56ead09d17054dfafdd5e3f5e69fd3de2f7f6"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "(Apache-2.0 OR MIT)"
+          }
+        }
+      ],
+      "purl": "pkg:npm/vis-util@5.0.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/visjs/vis-util"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/visjs/vis-util/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/visjs/vis-util.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/uuid@8.3.2",
+      "name": "uuid",
+      "version": "8.3.2",
+      "description": "RFC4122 (v1, v4, and v5) UUIDs",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "f8d62cd9078c5b2f865853849bdc679fa1c20e9d25ed0043ee697cccb52627ef77439345d0da1c12b9f09139175453625f7fdfa42e9a7d2f0385bfe0cfb47b7a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/uuid@8.3.2",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/uuidjs/uuid#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/uuidjs/uuid/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/uuidjs/uuid.git"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:npm/%40types/estree@0.0.51"
+    },
+    {
+      "ref": "pkg:npm/%40types/tern@0.23.4",
+      "dependsOn": [
+        "pkg:npm/%40types/estree@0.0.51"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40types/codemirror@0.0.71",
+      "dependsOn": [
+        "pkg:npm/%40types/tern@0.23.4"
+      ]
+    },
+    {
+      "ref": "pkg:npm/codemirror@5.65.1"
+    },
+    {
+      "ref": "pkg:npm/%40toast-ui/editor@2.5.4",
+      "dependsOn": [
+        "pkg:npm/%40types/codemirror@0.0.71",
+        "pkg:npm/codemirror@5.65.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40vue/composition-api@1.4.9"
+    },
+    {
+      "ref": "pkg:npm/follow-redirects@1.14.9"
+    },
+    {
+      "ref": "pkg:npm/axios@0.26.1",
+      "dependsOn": [
+        "pkg:npm/follow-redirects@1.14.9"
+      ]
+    },
+    {
+      "ref": "pkg:npm/regenerator-runtime@0.13.9"
+    },
+    {
+      "ref": "pkg:npm/%40babel/runtime@7.17.8",
+      "dependsOn": [
+        "pkg:npm/regenerator-runtime@0.13.9"
+      ]
+    },
+    {
+      "ref": "pkg:npm/is-retry-allowed@2.2.0"
+    },
+    {
+      "ref": "pkg:npm/axios-retry@3.2.5",
+      "dependsOn": [
+        "pkg:npm/%40babel/runtime@7.17.8",
+        "pkg:npm/is-retry-allowed@2.2.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/color-name@1.1.4"
+    },
+    {
+      "ref": "pkg:npm/chartjs-color-string@0.6.0",
+      "dependsOn": [
+        "pkg:npm/color-name@1.1.4"
+      ]
+    },
+    {
+      "ref": "pkg:npm/color-name@1.1.3"
+    },
+    {
+      "ref": "pkg:npm/color-convert@1.9.3",
+      "dependsOn": [
+        "pkg:npm/color-name@1.1.3"
+      ]
+    },
+    {
+      "ref": "pkg:npm/chartjs-color@2.4.1",
+      "dependsOn": [
+        "pkg:npm/chartjs-color-string@0.6.0",
+        "pkg:npm/color-convert@1.9.3"
+      ]
+    },
+    {
+      "ref": "pkg:npm/moment@2.29.1"
+    },
+    {
+      "ref": "pkg:npm/chart.js@2.9.4",
+      "dependsOn": [
+        "pkg:npm/chartjs-color@2.4.1",
+        "pkg:npm/moment@2.29.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/codejar@3.6.0"
+    },
+    {
+      "ref": "pkg:npm/core-js@3.21.0"
+    },
+    {
+      "ref": "pkg:npm/countup.js@2.1.0"
+    },
+    {
+      "ref": "pkg:npm/date-fns@1.30.1"
+    },
+    {
+      "ref": "pkg:npm/filepond@4.30.3"
+    },
+    {
+      "ref": "pkg:npm/filepond-plugin-file-validate-type@1.2.6"
+    },
+    {
+      "ref": "pkg:npm/filepond-plugin-image-preview@4.6.10"
+    },
+    {
+      "ref": "pkg:npm/highlight.js@11.5.0"
+    },
+    {
+      "ref": "pkg:npm/base64-js@1.3.1"
+    },
+    {
+      "ref": "pkg:npm/js-sha256@0.9.0"
+    },
+    {
+      "ref": "pkg:npm/keycloak-js@15.1.1",
+      "dependsOn": [
+        "pkg:npm/base64-js@1.3.1",
+        "pkg:npm/js-sha256@0.9.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/leaflet@1.7.1"
+    },
+    {
+      "ref": "pkg:npm/leaflet-draw@1.0.4"
+    },
+    {
+      "ref": "pkg:npm/lodash.camelcase@4.3.0"
+    },
+    {
+      "ref": "pkg:npm/lodash.clonedeep@4.5.0"
+    },
+    {
+      "ref": "pkg:npm/lodash.debounce@4.0.8"
+    },
+    {
+      "ref": "pkg:npm/material-design-icons-iconfont@6.5.0"
+    },
+    {
+      "ref": "pkg:npm/mitt@3.0.0"
+    },
+    {
+      "ref": "pkg:npm/pluralize@8.0.0"
+    },
+    {
+      "ref": "pkg:npm/randomcolor@0.6.2"
+    },
+    {
+      "ref": "pkg:npm/%40socket.io/component-emitter@3.0.0"
+    },
+    {
+      "ref": "pkg:npm/backo2@1.0.2"
+    },
+    {
+      "ref": "pkg:npm/ms@2.1.2"
+    },
+    {
+      "ref": "pkg:npm/debug@4.3.3",
+      "dependsOn": [
+        "pkg:npm/ms@2.1.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40socket.io/base64-arraybuffer@1.0.2"
+    },
+    {
+      "ref": "pkg:npm/engine.io-parser@5.0.3",
+      "dependsOn": [
+        "pkg:npm/%40socket.io/base64-arraybuffer@1.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/has-cors@1.1.0"
+    },
+    {
+      "ref": "pkg:npm/parseqs@0.0.6"
+    },
+    {
+      "ref": "pkg:npm/parseuri@0.0.6"
+    },
+    {
+      "ref": "pkg:npm/ws@8.2.3"
+    },
+    {
+      "ref": "pkg:npm/xmlhttprequest-ssl@2.0.0"
+    },
+    {
+      "ref": "pkg:npm/yeast@0.1.2"
+    },
+    {
+      "ref": "pkg:npm/engine.io-client@6.1.1",
+      "dependsOn": [
+        "pkg:npm/engine.io-parser@5.0.3",
+        "pkg:npm/has-cors@1.1.0",
+        "pkg:npm/parseqs@0.0.6",
+        "pkg:npm/parseuri@0.0.6",
+        "pkg:npm/ws@8.2.3",
+        "pkg:npm/xmlhttprequest-ssl@2.0.0",
+        "pkg:npm/yeast@0.1.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/socket.io-parser@4.1.1"
+    },
+    {
+      "ref": "pkg:npm/socket.io-client@4.4.1",
+      "dependsOn": [
+        "pkg:npm/%40socket.io/component-emitter@3.0.0",
+        "pkg:npm/backo2@1.0.2",
+        "pkg:npm/debug@4.3.3",
+        "pkg:npm/engine.io-client@6.1.1",
+        "pkg:npm/socket.io-parser@4.1.1"
+      ]
+    },
+    {
+      "ref": "pkg:npm/url-join@4.0.1"
+    },
+    {
+      "ref": "pkg:npm/vis-data@7.1.4"
+    },
+    {
+      "ref": "pkg:npm/vis-network@9.1.2"
+    },
+    {
+      "ref": "pkg:npm/vue@2.6.14"
+    },
+    {
+      "ref": "pkg:npm/%40types/chart.js@2.9.35"
+    },
+    {
+      "ref": "pkg:npm/vue-chartjs@3.5.1",
+      "dependsOn": [
+        "pkg:npm/%40types/chart.js@2.9.35"
+      ]
+    },
+    {
+      "ref": "pkg:npm/babel-helper-vue-jsx-merge-props@2.0.3"
+    },
+    {
+      "ref": "pkg:npm/vue-content-loader@0.2.3",
+      "dependsOn": [
+        "pkg:npm/babel-helper-vue-jsx-merge-props@2.0.3"
+      ]
+    },
+    {
+      "ref": "pkg:npm/vue-countup-v2@4.0.0"
+    },
+    {
+      "ref": "pkg:npm/vue-ellipse-progress@1.3.1"
+    },
+    {
+      "ref": "pkg:npm/vue-json-pretty@1.8.2"
+    },
+    {
+      "ref": "pkg:npm/vue-router@3.5.3"
+    },
+    {
+      "ref": "pkg:npm/vuetify@2.6.3"
+    },
+    {
+      "ref": "pkg:npm/vuex@3.6.2"
+    },
+    {
+      "ref": "pkg:npm/%40types/hammerjs@2.0.41"
+    },
+    {
+      "ref": "pkg:npm/%40egjs/hammerjs@2.0.17",
+      "dependsOn": [
+        "pkg:npm/%40types/hammerjs@2.0.41"
+      ]
+    },
+    {
+      "ref": "pkg:npm/component-emitter@1.3.0"
+    },
+    {
+      "ref": "pkg:npm/keycharm@0.2.0"
+    },
+    {
+      "ref": "pkg:npm/timsort@0.3.0"
+    },
+    {
+      "ref": "pkg:npm/vis-util@5.0.3"
+    },
+    {
+      "ref": "pkg:npm/uuid@8.3.2"
+    },
+    {
+      "ref": "pkg:npm/web-client@19.0.0",
+      "dependsOn": [
+        "pkg:npm/%40toast-ui/editor@2.5.4",
+        "pkg:npm/%40vue/composition-api@1.4.9",
+        "pkg:npm/axios@0.26.1",
+        "pkg:npm/axios-retry@3.2.5",
+        "pkg:npm/chart.js@2.9.4",
+        "pkg:npm/codejar@3.6.0",
+        "pkg:npm/core-js@3.21.0",
+        "pkg:npm/countup.js@2.1.0",
+        "pkg:npm/date-fns@1.30.1",
+        "pkg:npm/filepond@4.30.3",
+        "pkg:npm/filepond-plugin-file-validate-type@1.2.6",
+        "pkg:npm/filepond-plugin-image-preview@4.6.10",
+        "pkg:npm/highlight.js@11.5.0",
+        "pkg:npm/keycloak-js@15.1.1",
+        "pkg:npm/leaflet@1.7.1",
+        "pkg:npm/leaflet-draw@1.0.4",
+        "pkg:npm/lodash.camelcase@4.3.0",
+        "pkg:npm/lodash.clonedeep@4.5.0",
+        "pkg:npm/lodash.debounce@4.0.8",
+        "pkg:npm/material-design-icons-iconfont@6.5.0",
+        "pkg:npm/mitt@3.0.0",
+        "pkg:npm/pluralize@8.0.0",
+        "pkg:npm/randomcolor@0.6.2",
+        "pkg:npm/socket.io-client@4.4.1",
+        "pkg:npm/url-join@4.0.1",
+        "pkg:npm/vis-data@7.1.4",
+        "pkg:npm/vis-network@9.1.2",
+        "pkg:npm/vue@2.6.14",
+        "pkg:npm/vue-chartjs@3.5.1",
+        "pkg:npm/vue-content-loader@0.2.3",
+        "pkg:npm/vue-countup-v2@4.0.0",
+        "pkg:npm/vue-ellipse-progress@1.3.1",
+        "pkg:npm/vue-json-pretty@1.8.2",
+        "pkg:npm/vue-router@3.5.3",
+        "pkg:npm/vuetify@2.6.3",
+        "pkg:npm/vuex@3.6.2",
+        "pkg:npm/%40egjs/hammerjs@2.0.17",
+        "pkg:npm/component-emitter@1.3.0",
+        "pkg:npm/keycharm@0.2.0",
+        "pkg:npm/timsort@0.3.0",
+        "pkg:npm/vis-util@5.0.3",
+        "pkg:npm/uuid@8.3.2"
+      ]
+    }
+  ]
+}

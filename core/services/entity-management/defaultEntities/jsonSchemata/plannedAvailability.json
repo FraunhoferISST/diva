@@ -1,0 +1,47 @@
+{
+  "id": "schema:uuid:0283c69b-cd37-43f2-a8b9-ec93632f342a",
+  "title": "Planned Availability",
+  "schemaName": "plannedAvailability",
+  "description": "These availability levels indicate how long the document is planned to be available",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Planned Availability",
+    "properties": {
+      "plannedAvailability": {
+        "type": "string",
+        "title": "Planned Availability",
+        "description": "These availability levels indicate how long the document is planned to be available",
+        "minLength": 1,
+        "enum": [
+          "Temporary",
+          "Experimental",
+          "Available",
+          "Stable"
+        ],
+        "_elasticsearch": {
+          "type": "keyword"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 4,
+          "type": "select",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

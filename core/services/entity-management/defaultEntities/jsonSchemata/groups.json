@@ -1,0 +1,45 @@
+{
+  "id": "schema:uuid:3c46c85c-87e1-4020-963d-b465bb128966",
+  "title": "Groups",
+  "schemaName": "groups",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "description": "Predefined groups of an user. Can be only specified from admin in the Identity Management System",
+  "isPatchable": false,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "user"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Groups",
+    "properties": {
+      "groups": {
+        "type": "array",
+        "title": "Groups",
+        "description": "Predefined groups of an user. Can be only specified from admin in the Identity Management System",
+        "default": [],
+        "minItem": 0,
+        "items": {
+          "type": "string",
+          "title": "Group Items",
+          "description": "A group",
+          "_elasticsearch": {
+            "type": "keyword"
+          }
+        },
+        "_ui": {
+          "view": "overview",
+          "type": "select",
+          "multiple": true,
+          "options": [],
+          "allowCustom": true,
+          "fallbackValue": []
+        }
+      }
+    }  
+  }
+}

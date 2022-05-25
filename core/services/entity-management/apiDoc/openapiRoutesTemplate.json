@@ -1,0 +1,486 @@
+{
+  "paths": {
+    "/{collection}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/actoridParam"
+        },
+        {
+          "$ref": "#/components/parameters/divaHeader"
+        }
+      ],
+      "post": {
+        "tags": [
+          "{collection}"
+        ],
+        "summary": "Create entity",
+        "description": "Create new entity with the provided data. The attributes of the entity may vary depending on the `entityType`. The request body must contains at least all the attributes defined in the request schema. This operations supports bulk mode so that multiple entities can be created with one request",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/EntityCreate"
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/EntityCreateSuccess"
+          },
+          "207": {
+            "$ref": "#/components/responses/Multi"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "{collection}"
+        ],
+        "summary": "Get list of {collection}",
+        "description": "To get the list of resources you can specify projection with `fields` parameter and set the page size with `pageSize`. Default page size is **30**. The next page can be fetched by using `cursor` parameter. The cursor to the next page will be included in the response body.",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Coma separated projection fields",
+            "example": "title,entityType,description",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Pagination cursor",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "example": "aHVpXzYwMTkzZmJlZTM0NmZhODVkNTE4YzJlYg==",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Page size",
+            "required": false,
+            "explode": true,
+            "example": 10,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email of the user to filter by",
+            "required": false,
+            "explode": true,
+            "example": "example@email.con",
+            "allowReserved": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "schemaName",
+            "in": "query",
+            "description": "Name of the system entity",
+            "required": false,
+            "explode": true,
+            "example": "asyncapi",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "specName",
+            "in": "query",
+            "description": "Name of the system entity",
+            "required": false,
+            "explode": true,
+            "example": "asyncapi",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "systemEntityType",
+            "in": "query",
+            "description": "Type of the system entity",
+            "required": false,
+            "explode": true,
+            "example": "schema",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "attributedTo",
+            "in": "query",
+            "description": "Filter by attributedTo attribute",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "example": "resource:uuid:ad0016df-6b85-0465-0e85-9e3784d342e8",
+            "schema": {
+              "$ref": "#/components/schemas/EntityId"
+            }
+          },
+          {
+            "name": "creatorId",
+            "in": "query",
+            "description": "Filter by creatorId attribute",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "example": "user:uuid:ad0016df-6b85-0465-0e85-9e3784d342e8",
+            "schema": {
+              "type": "string",
+              "pattern": "user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "collectionSize": {
+                      "type": "integer"
+                    },
+                    "collection": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "cursor": {
+                      "type": "string"
+                    },
+                    "total": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    },
+    "/{collection}/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/entityIdParam"
+        },
+        {
+          "$ref": "#/components/parameters/actoridParam"
+        },
+        {
+          "$ref": "#/components/parameters/divaHeader"
+        }
+      ],
+      "get": {
+        "tags": [
+          "{collection}"
+        ],
+        "summary": "Get entity by id",
+        "description": "Projection can be specified with `fields` parameter",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Coma separated projection fields",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/EntityResponse"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "{collection}"
+        ],
+        "summary": "Update entity",
+        "description": "Use this method, if you want to replace complete entity. New entity is created if no entity with the provided `id` exists. Note that on this operation **all** fields are replaced.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the resource",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/EntityUpdate"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          },
+          "201": {
+            "description": "Resource created"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "{collection}"
+        ],
+        "summary": "Patch entity",
+        "description": "Use this method to do a partial update of the entity. In the request provided fields will be merged with the existing entity object. Merge is always performed at the root level. Empty patches are not accepted",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the entity",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/EntityPatch"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SuccessEmpty"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "{collection}"
+        ],
+        "summary": "Post entity (alias for PATCH)",
+        "description": "Use this method to do a partial updated of the entity document. In the request provided fields will be merged with the existing entity object.",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/EntityPatch"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SuccessEmpty"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "{collection}"
+        ],
+        "summary": "Delete entity",
+        "description": "Delete existing entity by id",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SuccessEmpty"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    },
+    "/{collection}/{id}/images": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/actoridParam"
+        },
+        {
+          "$ref": "#/components/parameters/divaHeader"
+        }
+      ],
+      "post": {
+        "tags": [
+          "{collection}"
+        ],
+        "summary": "Upload entity image",
+        "description": "An entity can have several images that you can use as the entity icon or banner. The operation returns an image `id` that represents the uploaded image. The image `id` can be set as `entityIcon` or `entityBanner` to be displayed as banner or icon. One entity can have up to 15 images",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Entity id",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/EntityId"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Image"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    },
+    "/{collection}/{id}/images/{imageId}": {
+      "get": {
+        "tags": [
+          "{collection}"
+        ],
+        "summary": "Get entity image",
+        "description": "Get uploaded entity image by image `id`. You can obtain the image ID from the corresponding user document",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the entity image",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/EntityId"
+            }
+          },
+          {
+            "name": "imageId",
+            "in": "path",
+            "description": "Unique identifier of the image",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/ImageId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "image/png": {
+                "schema": {
+                  "description": "User image as PNG",
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/jpeg": {
+                "schema": {
+                  "description": "User image as JPG",
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "{collection}"
+        ],
+        "summary": "Delete entity image",
+        "description": "Delete the uploaded entity image",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/actoridParam"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the entity",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/EntityId"
+            }
+          },
+          {
+            "name": "imageId",
+            "in": "path",
+            "description": "Unique identifier of the image",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/ImageId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SuccessEmpty"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    }
+  }
+}

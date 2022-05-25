@@ -1,0 +1,101 @@
+{
+  "id": "schema:uuid:d3c0683f-54d0-4ae9-9719-db8d87261e62",
+  "title": "Distribution Costs",
+  "schemaName": "internalDistributionCost",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Distribution Costs",
+    "definitions": {
+      "cost": {
+        "title": "Costs",
+        "type": "object",
+        "properties": {
+          "value": {
+            "title": "Value",
+            "description": "A value representing the cost numerically",
+            "type": [
+              "number",
+              "null"
+            ],
+            "examples": [
+              0.93,
+              1000,
+              285639572,
+              -3
+            ],
+            "_elasticsearch": {
+              "type": "float"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "The currency for the costs",
+            "enum": [
+              "$",
+              "€"
+            ],
+            "_elasticsearch": {
+              "type": "keyword"
+            }
+          },
+          "period": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "Period",
+            "description": "The period the costs occur",
+            "enum": [
+              "unlimited",
+              "monthly",
+              "quarterly",
+              "half-yearly",
+              "yearly",
+              ""
+            ],
+            "examples": [
+              "yearly",
+              "daily"
+            ],
+            "_elasticsearch": {
+              "type": "keyword"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value",
+          "currency"
+        ]
+      }
+    },
+    "properties": {
+      "internalDistributionCost": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/cost"
+          },
+          {
+            "title": "Distribution Costs",
+            "description": "Distribution cost of a resource",
+            "default": "0.00"
+          }
+        ]
+      }
+    }
+  }
+}

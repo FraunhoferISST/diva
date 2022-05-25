@@ -1,0 +1,618 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Entity Management Service is responsible for all CRUD operations on entities",
+    "version": "1.0.0",
+    "title": "Entity Management API"
+  },
+  "tags": [
+    {
+      "name": "edges",
+      "description": "Data Network requests"
+    },
+    {
+      "name": "nodes",
+      "description": "Data Network requests"
+    }
+  ],
+  "paths": {
+    "/api": {
+      "get": {
+        "tags": [
+          "api"
+        ],
+        "summary": "API documentation",
+        "description": "In development mode this documentations is served on this route",
+        "responses": {
+          "200": {
+            "content": {
+              "text/html": {
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/resolvedSchemata/{name}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/actoridParam"
+        },
+        {
+          "$ref": "#/components/parameters/divaHeader"
+        }
+      ],
+      "get": {
+        "tags": [
+          "schemata"
+        ],
+        "summary": "Get resolved schema by name",
+        "description": "Returns the resolved schema. Currently only root entity schema can be resolved",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the schema to resolve",
+            "required": true,
+            "explode": true,
+            "allowReserved": true,
+            "schema": {
+              "type": "string",
+              "example": "entity",
+              "enum": [
+                "entity"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resolved schema response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Resolved schema",
+                  "description": "Schema definition",
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    },
+    "/scopedSchemata": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/actoridParam"
+        },
+        {
+          "$ref": "#/components/parameters/divaHeader"
+        }
+      ],
+      "post": {
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Coma separated projection fields",
+            "example": "title,entityType,description",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Pagination cursor",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "example": "aHVpXzYwMTkzZmJlZTM0NmZhODVkNTE4YzJlYg==",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Page size",
+            "required": false,
+            "explode": true,
+            "example": 10,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email of the user to filter by",
+            "required": false,
+            "explode": true,
+            "example": "example@email.con",
+            "allowReserved": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "schemaName",
+            "in": "query",
+            "description": "Name of the system entity",
+            "required": false,
+            "explode": true,
+            "example": "asyncapi",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "specName",
+            "in": "query",
+            "description": "Name of the system entity",
+            "required": false,
+            "explode": true,
+            "example": "asyncapi",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "systemEntityType",
+            "in": "query",
+            "description": "Type of the system entity",
+            "required": false,
+            "explode": true,
+            "example": "schema",
+            "allowReserved": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "attributedTo",
+            "in": "query",
+            "description": "Filter by attributedTo attribute",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "example": "resource:uuid:ad0016df-6b85-0465-0e85-9e3784d342e8",
+            "schema": {
+              "$ref": "#/components/schemas/EntityId"
+            }
+          },
+          {
+            "name": "creatorId",
+            "in": "query",
+            "description": "Filter by creatorId attribute",
+            "required": false,
+            "explode": true,
+            "allowReserved": true,
+            "example": "user:uuid:ad0016df-6b85-0465-0e85-9e3784d342e8",
+            "schema": {
+              "type": "string",
+              "pattern": "user:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "tags": [
+          "schemata"
+        ],
+        "summary": "Get schemata by scope",
+        "description": "Returns that matches given scope. The scoped must be supplied as body object",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["scope"],
+                "properties": {
+                  "scope": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "collectionSize": {
+                      "type": "integer"
+                    },
+                    "collection": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "cursor": {
+                      "type": "string"
+                    },
+                    "total": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    },
+    "/asyncapis/byName/{name}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/actoridParam"
+        },
+        {
+          "$ref": "#/components/parameters/divaHeader"
+        }
+      ],
+      "get": {
+        "tags": [
+          "asyncapis"
+        ],
+        "summary": "Get specification by name",
+        "description": "Returns AsyncAPI specification by name. The result contains the specification itself as string, not the entity object!",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the specification",
+            "required": true,
+            "explode": true,
+            "allowReserved": true,
+            "schema": {
+              "type": "string",
+              "example": "asyncapi",
+              "enum": [
+                "asyncapi",
+                "datanetwork-api",
+                "event-emitter-api"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "requestBodies": {
+      "EntityCreate": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/EntityCreate"
+                },
+                {
+                  "$ref": "#/components/schemas/EntityCreateBulk"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "EntityUpdate": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EntityCreate"
+            }
+          }
+        }
+      },
+      "EntityPatch": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "Patch body",
+              "description": "The body can be any attribute defined in the corresponding entity JSON schema. The supplied attributes overwrite the existing",
+              "type": "object",
+              "minProperties": 1
+            }
+          }
+        }
+      },
+      "Image": {
+        "required": true,
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "title": "Patch body",
+              "additionalProperties": false,
+              "description": "The body can be any attribute defined in the corresponding entity JSON schema. The supplied attributes overwrite the existing",
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            },
+            "encoding": {
+              "image": {
+                "contentType": "image/png, image/jpeg"
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "EntityCreate": {
+        "description": "Minimal required attributes for entity creation",
+        "type": "object",
+        "properties": {
+          "entityType": {
+            "type": "string",
+            "title": "Entity Type",
+            "description": "The general type of the entity",
+            "minLength": 1
+          }
+        }
+      },
+      "EntityCreateBulk": {
+        "type": "array",
+        "title": "Entity create bulk request",
+        "description": "Array of entities to create multiple entities in one bulk request",
+        "items": {
+          "$ref": "#/components/schemas/EntityCreate"
+        }
+      },
+      "Entity": {
+        "title": "General Entity Data",
+        "type": "object",
+        "description": "The representation of an entity. For more details please refer to the corresponding JSON schema",
+        "required": [
+          "entityType",
+          "id"
+        ],
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/EntityId"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "title": "Operation error",
+        "description": "Error that can occur on request processing",
+        "required": [
+          "type",
+          "message",
+          "code"
+        ],
+        "properties": {
+          "type": {
+            "title": "Error type",
+            "description": "Futher error type information",
+            "type": "string"
+          },
+          "message": {
+            "title": "Error message",
+            "description": "Details about error",
+            "type": "string"
+          },
+          "code": {
+            "title": "Error code",
+            "description": "HTTP error code",
+            "type": "number",
+            "format": "int32",
+            "example": 409
+          },
+          "errors": {
+            "title": "Errors",
+            "description": "More error details that are reference in most case specification or schema validation errors",
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "ActorId": {
+        "title": "Actor id",
+        "description": "Unique actor identifier. Actor is represented by a user or a internal service",
+        "type": "string",
+        "example": "user:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189",
+        "pattern": "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      },
+      "EntityId": {
+        "title": "Entity id",
+        "description": "Unique entity identifier",
+        "type": "string",
+        "example": "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189",
+        "pattern": "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      },
+      "ImageId": {
+        "title": "Image id",
+        "description": "Unique image identifier",
+        "type": "string",
+        "example": "image:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189",
+        "pattern": "image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+      }
+    },
+    "responses": {
+      "Success": {
+        "description": "Successful",
+        "content": {
+          "text/html": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SuccessEmpty": {
+        "description": "Successful operation"
+      },
+      "Multi": {
+        "description": "Multi-status response in case of a bulk request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "Multi-status response",
+              "description": "Indicates the status for operation for each entity in a bulk request",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "statusCode",
+                  "uniqueFingerprint"
+                ],
+                "properties": {
+                  "statusCode": {
+                    "title": "Status Code",
+                    "description": "Status Code for single entity operation. Can be one of the codes that is returned for opeartion on a single entity",
+                    "type": "integer",
+                    "example": 201
+                  },
+                  "data": {
+                    "title": "Operation data",
+                    "description": "Data as a result of a single entity operation",
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "error": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "EntityCreateSuccess": {
+        "description": "Successful entity creation reruns created entity id",
+        "content": {
+          "text/html": {
+            "schema": {
+              "$ref": "#/components/schemas/EntityId"
+            }
+          }
+        }
+      },
+      "EntityResponse": {
+        "description": "Entity data response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Entity"
+            }
+          }
+        }
+      },
+      "UnexpectedError": {
+        "description": "Internal service error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "BadRequestError": {
+        "description": "Error with status code 4XX indicating a wrong supplied parameters or violation of the JSOn schema",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "divaHeader": {
+        "in": "header",
+        "description": "The system specific stringified object whit relevant data like actorId, token etc.",
+        "name": "x-diva",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "properties": {
+            "actorId": {
+              "$ref": "#/components/schemas/ActorId"
+            }
+          }
+        }
+      },
+      "actoridParam": {
+        "in": "header",
+        "description": "The id of the origin that produces action/message. Can be an user or a service (deprecated)",
+        "name": "x-actorid",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/ActorId"
+        }
+      },
+      "entityIdParam": {
+        "in": "path",
+        "description": "The id of the entity",
+        "name": "id",
+        "schema": {
+          "$ref": "#/components/schemas/EntityId"
+        },
+        "required": true
+      }
+    }
+  }
+}

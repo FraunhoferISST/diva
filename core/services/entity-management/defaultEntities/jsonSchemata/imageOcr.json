@@ -1,0 +1,29 @@
+{
+  "id": "schema:uuid:7b5e8a3b-ae5d-47ff-9ce8-c1940ab3d25d",
+  "title": "OCR of an Image",
+  "schemaName": "imageOcr",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "file"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "OCR of an Image",
+    "properties": {
+      "imageOcr": {
+        "type": "string",
+        "title": "Image OCR",
+        "description": "Detected text in an Image",
+        "examples": [
+          "This is some random detected text..."
+        ],
+        "pattern": "^(.*)$"
+      }
+    }
+  }
+}

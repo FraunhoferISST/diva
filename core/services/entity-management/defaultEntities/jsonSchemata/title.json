@@ -1,0 +1,63 @@
+{
+  "id": "schema:uuid:763cd767-bfb3-4f3d-8a60-11f27595d23f",
+  "title": "Title",
+  "schemaName": "title",
+  "description": "The title of the entity",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    },
+    {
+      "key": "entityType",
+      "value": "systemEntity"
+    },
+    {
+      "key": "entityType",
+      "value": "service"
+    },
+    {
+      "key": "entityType",
+      "value": "review"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Title",
+    "required": [
+      "title"
+    ],
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Title",
+        "description": "The title of the entity",
+        "examples": [
+          "Financial Report 2019",
+          "Data Destruction Process",
+          "Street Sign Training Data Asset"
+        ],
+        "pattern": "^(.*)$",
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "diva_analyzer"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 1,
+          "type": "text",
+          "fullWidth": true,
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

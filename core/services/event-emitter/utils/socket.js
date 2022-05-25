@@ -1,11 +1,10 @@
-const chalk = require("chalk");
 const io = require("socket.io")();
 const MessagesValidator = require("@diva/common/messaging/MessagesValidator");
+const { log } = require("./logger");
 
 const messagesValidator = new MessagesValidator();
 
-const EVENT_EMITTER_SPECIFICATION =
-  process.env.EVENT_EMITTER_SPECIFICATION || "event-emitter-api";
+const EVENT_EMITTER_SPECIFICATION = "event-emitter-api";
 const PORT = process.env.PORT || 3009;
 
 const DEFAULT_CHANNEL = "default";
@@ -16,7 +15,7 @@ const ENTITY_UNSUBSCRIBE_RESPONSE = "entityUnsubscribeResponse";
 const ENTITY_EVENT = "entityEvent";
 
 const connectionHandler = (client) => {
-  console.info(chalk.green(`🔌 Client "${client.id}" connected`));
+  log.info(`🔌 Client "${client.id}" connected`);
 
   client.on(ENTITY_SUBSCRIBE_REQUEST, (entityId) => {
     try {
@@ -39,7 +38,7 @@ const connectionHandler = (client) => {
         message: `🛑 Could not subscribed to "${entityId}" events`,
       });
 
-      console.error(`🛑 ${e}`);
+      log.error(`🛑 ${e}`);
     }
   });
 
@@ -67,12 +66,12 @@ const connectionHandler = (client) => {
         message: `🛑 Could not unsubscribed from "${entityId}" events`,
       });
 
-      console.error(`🛑 ${e.message} Message: ${JSON.stringify(entityId)}`);
+      log.error(`🛑 ${e.message} Message: ${JSON.stringify(entityId)}`);
     }
   });
 
   client.on("disconnect", () => {
-    console.info(chalk.yellow(`🔌 Client "${client.id}" disconnected`));
+    log.info(`🔌 Client "${client.id}" disconnected`);
   });
 };
 
@@ -96,19 +95,19 @@ const emitEntityEvent = (payload) => {
       });
     }
   } catch (e) {
-    console.error(`🛑 ${e.message} Message: ${JSON.stringify(payload)}`);
+    log.error(`🛑 ${e.message} Message: ${JSON.stringify(payload)}`);
   }
 };
 
 const bootSocket = async () => {
-  await messagesValidator.init([EVENT_EMITTER_SPECIFICATION]);
+  await messagesValidator.init([{ name: EVENT_EMITTER_SPECIFICATION }]);
   io.on("connection", connectionHandler);
   io.listen(PORT, {
     cors: {
-      origin: "*",
+      origin: process.env.CORS_ALLOW_ORIGIN || "*",
     },
   });
-  console.info(chalk.blue(`✅ Websocket listening on port ${PORT} 🌐`));
+  log.info(`✅ Websocket listening on port ${PORT} 🌐`);
 };
 
 module.exports = {

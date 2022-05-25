@@ -1,0 +1,39 @@
+{
+  "id": "schema:uuid:5aec03cd-ab62-4d8b-acec-41ca50ef1415",
+  "title": "Last modified",
+  "schemaName": "fileModifiedAt",
+  "description": "Date the file was modified",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "file"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Last modified",
+    "properties": {
+      "fileModifiedAt": {
+        "type": "string",
+        "title": "Last modified",
+        "description": "Date the file was modified",
+        "default": "",
+        "minLength": 1,
+        "examples": [
+          "2018-11-08T13:55:45Z"
+        ],
+        "format": "date-time",
+        "_ui": {
+          "view": "profiling",
+          "position": 2,
+          "type": "date",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

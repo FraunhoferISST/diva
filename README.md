@@ -12,8 +12,8 @@
 
 <br />
 
-[![version](https://img.shields.io/badge/diva-v3.3.1-green)](https://gitlab.cc-asp.fraunhofer.de/diva/drm)
-
+![GitHub](https://img.shields.io/badge/diva-v4.0.0-grün)
+![GitHub](https://img.shields.io/github/license/FraunhoferISST/diva)
 <br />
 
 <div align="center" style="text-align: center;">
@@ -35,9 +35,14 @@
 
 ## Motivation
 
-This is an ongoing project of the _Digitization in Service Industries_ department of the **Fraunhofer ISST**. Data is getting more and more important to companies. By utilizing the right data, companies can get more productive and will be able to succeed their competitors. Thus, we believe it is time for a data management solution, that evaluates new innovative solutions to support companies in their daily work with data. This tool will grow day by day and we try our best to tackle data management challenges in companies.
+This is an ongoing project of the _Digitization in Service Industries_ department of the **Fraunhofer ISST**. 
+Data is getting more and more important to companies. By utilizing the right data, companies can get more productive and 
+will be able to succeed their competitors. Thus, we believe it is time for a data management solution, that evaluates new 
+innovative solutions to support companies in their daily work with data. This tool will grow day by day and we try our 
+best to tackle data management challenges in companies.
 
-We also use this tool as a playground for our students, where they can work out topics for their **bachelor** or **master thesis**. Even the PhD students profit from this tool as a platform for their **doctoral thesis**.
+We also use this tool as a playground for our students, where they can work out topics for their **bachelor** or **master thesis**. 
+Even the PhD students profit from this tool as a platform for their **doctoral thesis**.
 
 ## Features
 
@@ -49,19 +54,14 @@ We also use this tool as a playground for our students, where they can work out 
 
 - __🐳__ __docker ready:__ all microservices and core components are docker ready so you can start them right out of the box.
 
-## Technologies and Frameworks used
+## Core Technologies and Frameworks used
 
 |Technology|Description|
 |----------|-------------|
-|[VueJS 2](https://vuejs.org/)|component based frontend solution for building robust apps|
-|[Vuetify](https://vuetifyjs.com/en/)|makes frontend beautiful|
 |[Kong](https://konghq.com/)|our API gateway that we use to route microservices|
 |[Kafka](https://kafka.apache.org/)|message log for microservice communication|
 |[node.js](https://nodejs.org/en/)|nice JavaScript platform for running server apps|
 |[Express Framework](https://expressjs.com/)|helps us building simple microservices|
-|[Apache Tika](https://tika.apache.org/)|if you need to take a look into heterogenous data, Tika is your solution|
-|[Python3](https://www.python.org/)|helps us doing data science and NLP (natural language processing)|
-|[Electron](https://electronjs.org/)|building desktop applications for Windows, OSX and Linux|
 |[Docker](https://www.docker.com/)|building and publishing images|
 |[Kubernetes](https://kubernetes.io/de/)|production-grade container orchestration|
 |[Airflow](https://airflow.apache.org/)|author, schedule and monitor workflows|
@@ -70,18 +70,24 @@ We also use this tool as a playground for our students, where they can work out 
 |[JSON Schema](https://json-schema.org/)|specification language to describe how an entity is build|
 |[MongoDB](https://github.com/mongodb/mongo)|our main document store that is the single source of truth when it comes to metadata|
 |[Elasticsearch](https://www.elastic.co/de/elasticsearch/)|our search index used to search for entities and make interesting aggregations|
-|[Kibana](https://www.elastic.co/de/kibana)|our window into `elasticsearch` for debugging|
-|[MinIO](https://min.io/)|our object store to save files uploaded by browser (aka `diva-lake`)|
-|[DataspaceConnector](https://www.dataspace-connector.io/)|our connection to the world of secure and sovereign data exchange|
 |[Keycloak](https://www.keycloak.org/)|Open Source Identity and Access Management|
+|[MinIO](https://min.io/)|our object store to save files uploaded by browser (aka `diva-lake`)|
+|[neo4j](https://neo4j.com/)|our graph database to store relations between entities more efficient|
+
+## Other Technologies and Frameworks used
+
+|Technology|Description|
+|----------|-------------|
+|[VueJS 2](https://vuejs.org/)|component based frontend solution for building robust apps|
+|[Vuetify](https://vuetifyjs.com/en/)|makes frontend beautiful|
+|[Apache Tika](https://tika.apache.org/)|if you need to take a look into heterogenous data, Tika is your solution|
+|[Python3](https://www.python.org/)|helps us doing data science and NLP (natural language processing)|
+|[Kibana](https://www.elastic.co/de/kibana)|our window into `elasticsearch` for debugging|
+|[Filebeat](https://www.elastic.co/de/beats/filebeat)|fills elasticsearch with logs produced in our microservices|
 
 ## Quick start
 
-> ⚠️ 
-> The project is currently being migrated to GitHub and we are in the reconstruction phase.
-> In parallel, we are putting a lot of effort into writing a comprehensive documentation for DIVA.
-
- The whole system can be bootstrapped in your deployment environment with Docker:
+The complete system can be quickly bootstrapped with Docker:
 ```sh
 cd docker
 # create .env and copy contents from .env.default to it
@@ -89,17 +95,24 @@ cp .env.default .env
 # execute the script to boot all necessary components
 ./up_core.sh
 ```
-
-In the [documentation](https://fraunhoferisst.github.io/diva-docs/) you will learn more about the configuration of DIVA, concepts and architecture!
+To better prepare for the production environment, some system settings must be tweaked.
+Follow our [documentation](https://fraunhoferisst.github.io/diva-docs/) to learn more about the configuration, concepts and the underlying architecture of DIVA!
 
 ## Credits
 
-This project is developed by employees of Fraunhofer ISST. They put all their ❤ into this project to try out the latest **cutting edge** technologies.
+This project is developed by employees of [Fraunhofer ISST](https://www.isst.fraunhofer.de/). 
+They put all their ❤ into this project to try out the latest **cutting edge** technologies.
 
-||||||
-|:---:|:---:|:---:|:---:|:---:|
-| **Daniel Tebernum** <br><br> [![Daniel Tebernum](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3566/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/dtebernum) | **Sergej Atamantschuk** <br><br> [![Sergej Atamantschuk](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3617/avatar.png?width=400)](https://github.com/Igelex) | **Dustin Chabrowski** <br><br> [![Dustin Chabrowski](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3563/avatar.png?width=400)](https://github.com/Duske) | **Julia Pampus** <br><br> [![Julia Pampus](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/4688/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/jpampus) | **Marcel Altendeitering** <br><br> [![Marcel Altendeitering](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3589/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/maltendeitering) |
-| **Josef Schneider** <br><br> [![Josef Schneider](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3735/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/jschneider) | **Andreas Roth** <br><br> [![Andreas Roth](https://gitlab.cc-asp.fraunhofer.de/uploads/-/system/user/avatar/3744/avatar.png?width=400)](https://gitlab.cc-asp.fraunhofer.de/aroth) |
+### Active People
+
+|**Daniel Tebernum** <br>(Lead)|**Sergej Atamantschuk** <br>(Lead)|**Anatoly Novohatny** <br><br>|**Janis Büse** <br><br>|
+|:---:|:---:|:---:|:---:|
+|[![Daniel Tebernum](https://avatars.githubusercontent.com/u/12967305?u=622c4a26340563d8675786b9b5358d6f5b88e2c7&v=4&s=128)](https://github.com/DaTebe) | [![Sergej Atamantschuk](https://avatars.githubusercontent.com/u/15034996?v=4&s=128)](https://github.com/setaman) | [![Anatoly Novohatny](https://avatars.githubusercontent.com/u/50167528?v=4&s=128)](https://github.com/anatoliynovo) | [![Janis Büse](https://avatars.githubusercontent.com/u/47151705?v=4&s=128)](https://github.com/jbuese)
+
+|**Dustin Chabrowski** <br>(Alumni)<br>|**Marcel Altendeitering** <br>(Alumni)<br>|**Julia Pampus** <br>(Alumni)<br>|
+|:---:|:---:|:---:|
+|[![Dustin Chabrowski](https://avatars.githubusercontent.com/u/5938056?v=4&s=128)](https://github.com/Duske) | [![Marcel Altendeitering](https://avatars.githubusercontent.com/u/19547410?v=4&s=128)](https://github.com/maltendeitering) | [![Julia Pampus](https://avatars.githubusercontent.com/u/72392527?v=4&s=128)](https://github.com/juliapampus)
 
 ## License
-Copyright © Fraunhofer ISST 2021
+
+Copyright © Fraunhofer ISST 2022

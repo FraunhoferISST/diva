@@ -1,11 +1,11 @@
 const { MongoClient, ObjectId } = require("mongodb");
-const chalk = require("chalk");
+const { logger: log } = require("../logger");
 
 const mongoURI =
   process.env.MONGODB_URI || "mongodb://admin:admin@localhost:27017";
 
 class MongoDBConnector {
-  constructor(databaseName = "", collectionsNames = [], URI = mongoURI) {
+  constructor(databaseName = "divaDb", collectionsNames = [], URI = mongoURI) {
     this.URI = URI;
     this.databaseName = databaseName;
     this.collectionsNames = collectionsNames;
@@ -16,6 +16,9 @@ class MongoDBConnector {
   }
 
   async connect() {
+    if (this.client?.topology.isConnected()) {
+      return true;
+    }
     this.client = new MongoClient(this.URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -30,10 +33,8 @@ class MongoDBConnector {
         this.database.collection(c),
       ]);
       this.collections = Object.fromEntries(collections);
-      console.info(
-        chalk.blue(
-          `✅ MongoDB ready: Connected to "${this.collectionsNames}" in "${this.databaseName}" database 💽`
-        )
+      log.info(
+        `✅ MongoDB ready: Connected to "${this.collectionsNames}" in "${this.databaseName}" database 💽`
       );
     }
     return this.client;

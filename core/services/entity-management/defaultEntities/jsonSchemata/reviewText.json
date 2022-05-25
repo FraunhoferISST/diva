@@ -1,0 +1,46 @@
+{
+  "id": "schema:uuid:194a2449-36bc-4df7-a410-b073959535e4",
+  "title": "Review text",
+  "schemaName": "reviewText",
+  "description": "Creators comment to the review",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "review"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Review text",
+    "required": [
+      "reviewText"
+    ],
+    "properties": {
+      "reviewText": {
+        "type": "string",
+        "title": "Review text",
+        "description": "Creators comment to the review",
+        "examples": [
+          "This resource was super helpful!",
+          "Awesome Data",
+          "The data owner should take more care of his data!"
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 2,
+          "type": "textArea",
+          "fullWidth": true,
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

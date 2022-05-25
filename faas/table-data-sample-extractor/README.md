@@ -1,7 +1,6 @@
 # Table Data Sample Extractor 📤
 
-[![version](https://img.shields.io/badge/table--data--sample--extractor-3.0.0-green)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-sample-extractor)
-[![pipeline status](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-sample-extractor/badges/master/pipeline.svg)](https://gitlab.cc-asp.fraunhofer.de/diva/faas/table-data-sample-extractor/-/commits/master)
+![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/FraunhoferISST/diva?color=green&filename=faas%2Ftable-data-sample-extractor%2Fpackage.json)
 
 This service gets a `text/csv` file as input and provides a sample of max 20 rows as output to give a possible user an insight into the data. The produced JSON result is written to the output file.
 

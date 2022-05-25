@@ -7,14 +7,9 @@ const {
   requestCanceledError,
 } = require("../util/errors");
 
-const RESOURCE_MANAGEMENT_URL = urljoin(
-  process.env.RESOURCE_MANAGEMENT_URL || "http://localhost:3000",
+const ENTITY_MANAGEMENT_URL = urljoin(
+  process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000",
   "resources"
-);
-
-const ASSET_MANAGEMENT_URL = urljoin(
-  process.env.ASSET_MANAGEMENT_URL || "http://localhost:3002",
-  "assets"
 );
 
 const sha256 = (x) =>
@@ -64,9 +59,8 @@ const createResources = async (sensorResources, actorId, { req, res }) => {
     if (requestCanceled) {
       throw requestCanceledError;
     }
-    console.log("Processing...");
-    const { data } = await axios.post(RESOURCE_MANAGEMENT_URL, chunk, {
-      headers: { "x-actorid": actorId },
+    const { data } = await axios.post(ENTITY_MANAGEMENT_URL, chunk, {
+      headers: { "x-diva": JSON.stringify({ actorId }) },
     });
     results.push(...data);
     if (res) {
@@ -137,13 +131,7 @@ const createSensorsObjects = async (importData, actorid) => {
 };
 
 class UrbanPulseResourceService {
-  async import(
-    importData,
-    actorid,
-    { req, res } = null,
-    createAsset = false,
-    assetId = null
-  ) {
+  async import(importData, actorid, { req, res } = null) {
     const sensorsObjects = await createSensorsObjects(importData, actorid);
     if (res) {
       res.writeHead(200, {
@@ -156,24 +144,6 @@ class UrbanPulseResourceService {
       });
     }
     return createResources(sensorsObjects, actorid, { req, res });
-  }
-
-  async createAsset(asset, actorid) {
-    return axios.post(
-      ASSET_MANAGEMENT_URL,
-      {
-        assetType: "urban-pulse",
-        urbanPulseUrl: asset.baseUrl,
-        distributions: [
-          generateHttpGetBasicAuthDistribution(
-            asset.baseUrl,
-            asset.username,
-            asset.password
-          ),
-        ],
-      },
-      { headers: { "x-actorid": actorid } }
-    );
   }
 }
 

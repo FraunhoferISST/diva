@@ -1,18 +1,19 @@
 {
   "name": "profiling-assistant",
-  "version": "1.0.3",
+  "version": "1.1.0",
+  "serviceId": "service:uuid:94bad1a7-2631-42f5-8a2d-1002efb995d0",
   "description": "A service helping in triggering profilings using airflow 1.10",
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
     "eslint-fix": "eslint --fix . --ext .js",
-    "build:alpine": "pkg --config package.json -t node14-alpine-x64 --output index-alpine index.js",
-    "build:linux": "pkg -t node14-linux-x64 index.js"
+    "build:alpine": "pkg --config package.json -t node16-alpine-x64 --output index-alpine index.js",
+    "build:linux": "pkg -t node16-linux-x64 index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.cc-asp.fraunhofer.de/diva/drm"
+    "url": "https://github.com/FraunhoferISST/diva/tree/main/core/services/profiling-assistant"
   },
   "keywords": [
     "profiling",
@@ -21,7 +22,9 @@
   "author": "dtebernum",
   "license": "ISC",
   "dependencies": {
-    "@diva/common": "^1.2.0"
+    "@diva/common": "3.1.4",
+    "axios": "^0.26.0",
+    "url-join": "^4.0.1"
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",

@@ -1,0 +1,54 @@
+{
+  "id": "schema:uuid:a0df23ee-75ef-45b0-ae56-015ca2b98837",
+  "title": "Text Character Encoding",
+  "schemaName": "characterEncoding",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "mimeType",
+      "value": "text/csv"
+    },
+    {
+      "key": "mimeType",
+      "value": "text/plain"
+    },
+    {
+      "key": "mimeType",
+      "value": "application/x-sas-data"
+    },
+    {
+      "key": "mimeType",
+      "value": "application/pdf"
+    },
+    {
+      "key": "mimeType",
+      "value": "text/csv"
+    }
+  ],
+  "systemEntityType": "schema",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Text Character Encoding",
+    "properties": {
+      "characterEncoding": {
+        "type": "string",
+        "title": "Charset",
+        "description": "The used character encoding of a text",
+        "default": "",
+        "minLength": 1,
+        "examples": [
+          "utf-8",
+          "ISO-8859-1"
+        ],
+        "pattern": "^(.*)$",
+        "_ui": {
+          "view": "profiling",
+          "position": 2,
+          "type": "text",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

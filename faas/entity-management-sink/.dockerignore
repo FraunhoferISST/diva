@@ -1,0 +1,6 @@
+.git
+.gitignore
+dist
+node_modules
+README.md
+bom.json

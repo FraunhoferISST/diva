@@ -3,14 +3,78 @@ const { decodeCursor, encodeCursor } = require("@diva/common/api/cursor");
 
 const ElasticsearchConnector = require("@diva/common/databases/ElasticsearchConnector");
 
+const allowedFields = [
+  "id",
+  "title",
+  "resourceType",
+  "entityType",
+  "mimeType",
+  "assetType",
+  "serviceType",
+  "systemEntityType",
+  "username",
+  "email",
+  "keywords",
+  "createdAt",
+  "modifiedAt",
+  "roles",
+  "isPrivate",
+  "isArchived",
+];
+
+const buildESQuery = (query, rest, facetsOperator) => {
+  const queries = [];
+
+  for (const [key, value] of Object.entries(rest)) {
+    const values = value.split(",");
+    const level2queries = [];
+    values.forEach((v) => {
+      level2queries.push(esb.termQuery(key, v));
+    });
+
+    queries.push(esb.boolQuery().should(level2queries));
+  }
+
+  return esb
+    .boolQuery()
+    .must([
+      esb
+        .multiMatchQuery(["*"], query)
+        .fuzziness("AUTO")
+        .zeroTermsQuery(query ? "none" : "all"),
+      esb.boolQuery()[facetsOperator](queries),
+    ])
+    .mustNot(esb.termQuery("entityType", "review"));
+};
+
+const buildFacetsAggregation = (facets) => {
+  let facetsAggs = {};
+  facets.forEach((f) => {
+    facetsAggs = {
+      ...facetsAggs,
+      ...esb.termsAggregation(f, f).order("_count", "desc").size(20).toJSON(),
+    };
+  });
+  return facetsAggs;
+};
+
 class SearchService {
   async init() {
-    this.elasticsearchConnector = new ElasticsearchConnector();
-    return this.elasticsearchConnector.connect();
+    this.index = "entities";
+    this.esConnector = new ElasticsearchConnector();
+    return this.esConnector.connect();
   }
 
   async searchAll(queryData) {
-    const { cursor, pageSize = 30, q = "" } = queryData;
+    const {
+      cursor,
+      pageSize = 30,
+      q = "",
+      facets = "",
+      facetsOperator = "must",
+      sortBy = "relevance",
+      ...rest
+    } = queryData;
     let query = q;
     let from = 0;
     const size = parseInt(pageSize, 10);
@@ -22,42 +86,39 @@ class SearchService {
         throw new Error(`🛑 Invalid cursor "${cursor}" provided`);
       }
     }
+    const esQuery = buildESQuery(query, rest, facetsOperator);
 
-    const requestBody = esb
+    const searchRequestBody = esb
       .requestBodySearch()
-      .query(
-        esb
-          .queryStringQuery(`${query}*`)
-          .fields(["title^4", "keywords^3", "description^2", "*^1"])
-          .fuzziness("AUTO")
-      )
-      .sort(esb.sort("_score", "desc"))
+      .query(esQuery)
+      .source({
+        includes: allowedFields,
+      })
+      .sort(esb.sort(sortBy === "relevance" ? "_score" : sortBy, "desc"))
       .highlight(
         esb.highlight().fields(["*"]).preTags("<b>", "*").postTags("</b>", "*")
       )
       .toJSON();
-    // requestBody._source = ["id", "entityType", "title", "keywords"];
-    requestBody.from = from;
-    requestBody.size = size;
 
-    const { body } = await this.elasticsearchConnector.client.search({
-      index: "*,-*kibana*",
-      body: requestBody,
+    searchRequestBody.from = from;
+    searchRequestBody.size = size;
+    if (facets !== "") {
+      searchRequestBody.aggregations = buildFacetsAggregation(
+        facets.split(",")
+      );
+    }
+
+    const { body } = await this.esConnector.client.search({
+      index: this.index,
+      body: searchRequestBody,
     });
 
-    const requestCountBody = esb
-      .requestBodySearch()
-      .query(
-        esb
-          .queryStringQuery(`${query}*`)
-          .fields(["title^4", "keywords^3", "description^2", "*^1"])
-          .fuzziness("AUTO")
-      );
+    const countRequestBody = esb.requestBodySearch().query(esQuery);
 
     const total = (
-      await this.elasticsearchConnector.client.count({
-        index: "*,-*kibana*",
-        body: requestCountBody,
+      await this.esConnector.client.count({
+        index: this.index,
+        body: countRequestBody,
       })
     ).body.count;
 
@@ -66,8 +127,11 @@ class SearchService {
       highlight: doc.highlight,
     }));
 
+    const facetsResult = body.aggregations;
+
     return {
       collection: result,
+      facets: facetsResult,
       cursor:
         total - from > pageSize
           ? encodeCursor(

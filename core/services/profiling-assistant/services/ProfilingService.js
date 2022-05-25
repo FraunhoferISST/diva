@@ -2,16 +2,15 @@ const axios = require("axios");
 const urljoin = require("url-join");
 const MongoDBConnector = require("@diva/common/databases/MongoDBConnector");
 const { getDag, buildAirflowConfig } = require("../utils/airflowHelper");
-const { resourceNotFoundError } = require("../utils/errors");
+const { entityNotFoundError } = require("../utils/errors");
 
 const AIRFLOW_URL = process.env.AIRFLOW_URL || "http://localhost:9090";
 const AIRFLOW_PATH = "api/v1/dags";
 const AIRFLOW_COMMAND = "dagRuns";
 const AIRFLOW_USERNAME = process.env._AIRFLOW_WWW_USER_USERNAME || "airflow";
 const AIRFLOW_PASSWORD = process.env._AIRFLOW_WWW_USER_PASSWORD || "airflow";
-const dbName = process.env.MONGO_RESOURCE_DB_NAME || "resourcesDb";
-const collectionName =
-  process.env.MONGO_RESOURCE_COLLECTION_NAME || "resources";
+const dbName = "divaDb";
+const collectionName = "entities";
 
 const authToken = Buffer.from(
   `${AIRFLOW_USERNAME}:${AIRFLOW_PASSWORD}`,
@@ -27,32 +26,41 @@ const axiosAirflow = axios.create({
 class ProfilingService {
   async init() {
     const mongoDbConnector = new MongoDBConnector(dbName, [collectionName]);
-    await mongoDbConnector.connect(dbName);
+    await mongoDbConnector.connect();
     this.collection = mongoDbConnector.collections[collectionName];
   }
 
-  getResourceById(id) {
+  getEntityById(id) {
     return this.collection.findOne({ id });
   }
 
-  async run(resourceId, actorId) {
-    const resource = await this.getResourceById(resourceId);
-    if (!resource) {
-      throw resourceNotFoundError;
+  async run(entityId, actorId) {
+    const entity = await this.getEntityById(entityId);
+    if (!entity) {
+      throw entityNotFoundError;
     }
-    const dag = getDag(resource);
+    const dag = getDag(entity);
     return axiosAirflow.post(
       urljoin(AIRFLOW_PATH, dag.title, AIRFLOW_COMMAND),
-      buildAirflowConfig(resource, actorId)
+      buildAirflowConfig(entity, actorId)
     );
   }
 
-  async exists(resourceId) {
-    const resource = await this.getResourceById(resourceId);
-    if (!resource) {
-      throw resourceNotFoundError;
+  async runDag(dag, body, actorId) {
+    return axiosAirflow.post(urljoin(AIRFLOW_PATH, dag, AIRFLOW_COMMAND), {
+      conf: {
+        ...body,
+        actorId,
+      },
+    });
+  }
+
+  async exists(entityId) {
+    const entity = await this.getEntityById(entityId);
+    if (!entity) {
+      throw entityNotFoundError;
     }
-    return getDag(resource);
+    return getDag(entity);
   }
 }
 

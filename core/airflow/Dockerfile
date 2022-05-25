@@ -1,4 +1,4 @@
-FROM apache/airflow:2.0.2
+FROM apache/airflow:2.3.0
 LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
 
 USER root

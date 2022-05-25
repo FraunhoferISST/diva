@@ -1,6 +1,7 @@
 const { Kafka } = require("kafkajs");
-const chalk = require("chalk");
-const generateUuid = require("../generateUuid");
+const generateUuid = require("../utils/generateUuid");
+const { logger: log } = require("../logger");
+const retry = require("../utils/retrier");
 
 const KAFKA_URL = process.env.KAFKA_URL || "broker:9092";
 
@@ -12,7 +13,7 @@ class KafkaConnector {
       brokers: [this.URL],
       retry: {
         initialRetryTime: 100,
-        retries: 8,
+        retries: 3,
       },
     });
   }
@@ -21,11 +22,7 @@ class KafkaConnector {
     const producer = this.kafka.producer();
 
     await producer.connect();
-    console.info(
-      chalk.blue(
-        `✅ Message producer ready on "${this.URL}" for "${topic}" topic`
-      )
-    );
+    log.info(`✅ Message producer ready on "${this.URL}" for "${topic}" topic`);
     return async (msg, key) =>
       producer.send({
         topic,
@@ -35,27 +32,56 @@ class KafkaConnector {
 
   async createConsumer(serviceName, topics, onMessage) {
     const consumer = this.kafka.consumer({
-      clientId: generateUuid(serviceName),
       groupId: serviceName,
+      sessionTimeout: 15000,
       retry: {
         initialRetryTime: 1000,
         retries: 5,
       },
     });
 
-    await consumer.connect();
-    const promises = topics.map((topic) => consumer.subscribe({ topic }));
-    await Promise.all(promises);
+    const runConfig = {
+      autoCommit: true,
+      eachMessage: ({ topic, message, partition }) =>
+        retry(() => onMessage(message, topic))
+          .then(() =>
+            log.info(`✅ Processed message on topic ${topic}`, {
+              topic,
+              partition,
+              offset: message.offset,
+            })
+          )
+          .catch((e) => {
+            log.error(
+              `❌ Error occurred while processing a message: ${e.toString()}`,
+              {
+                topic,
+                partition,
+                offset: message.offset,
+              }
+            );
+            throw e;
+          }),
+    };
 
-    await consumer.run({
-      eachMessage: ({ topic, message }) => onMessage(message, topic),
-    });
-    console.info(
-      chalk.blue(
-        `✅ Created consumer on "${this.URL}" for topics: ${JSON.stringify(
-          topics
-        )}`
-      )
+    const { CRASH, STOP } = consumer.events;
+    [CRASH, STOP].forEach((event) =>
+      consumer.on(event, async (e) => {
+        log.error("Kafka connection error!", e);
+        process.exit(1);
+      })
+    );
+
+    await consumer.connect();
+    const promises = topics.map((topic) =>
+      consumer.subscribe({ topic, fromBeginning: true })
+    );
+    await Promise.all(promises);
+    await consumer.run(runConfig);
+    log.info(
+      `✅ Message consumer ready on "${this.URL}" for topics: ${JSON.stringify(
+        topics
+      )}`
     );
   }
 }

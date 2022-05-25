@@ -1,14 +1,14 @@
 const express = require("express");
-const UrbanPulseService = require("../services/UrbanPulseService");
+const urbanPulseService = require("../services/UrbanPulseService");
 
 const router = express.Router();
 
 router.post("/import", async (req, res, next) => {
   try {
     const { createAsset, assetId, streamResponse } = req.query;
-    const result = await UrbanPulseService.import(
+    const result = await urbanPulseService.import(
       req.body,
-      req.headers["x-actorid"],
+      req.headers.diva.actorId,
       streamResponse ? { req, res } : {},
       createAsset,
       assetId
@@ -20,18 +20,6 @@ router.post("/import", async (req, res, next) => {
     }
   } catch (e) {
     return next(e?.response?.data || e);
-  }
-});
-
-router.post("/asset", async (req, res, next) => {
-  try {
-    const result = await UrbanPulseService.createAsset(
-      req.body,
-      req.headers["x-actorid"]
-    );
-    res.status(201).send(result);
-  } catch (e) {
-    return next(e);
   }
 });
 

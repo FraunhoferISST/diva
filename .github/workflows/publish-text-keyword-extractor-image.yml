@@ -3,12 +3,12 @@ name: Build and publish text-keyword-extractor image
 on:
   workflow_dispatch:
   push:
-    branches: ["master", "dev"]
+    branches: ["main", "dev"]
     paths:
       - "faas/text-keyword-extractor/**"
       - "!*.md"
   pull_request:
-    branches: ["master", "dev"]
+    branches: ["main", "dev"]
     paths:
       - "faas/text-keyword-extractor/**"
       - "!*.md"
@@ -30,7 +30,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: get-version
         id: package-version
@@ -38,7 +38,7 @@ jobs:
 
 
       - name: Log in to the Container registry
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -46,13 +46,13 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@a2e02890a0d28163b34ac2e4b575b9264a5ee3e2
+        uses: docker/metadata-action@69f6fc9d46f2f8bf0d5491e4aabe0bb8c6a4678a
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: ${{ steps.package-version.outputs.VERSION }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@a66e35b9cbcf4ad0ea91ffcaf7bbad63ad9e0229
+        uses: docker/build-push-action@e551b19e49efd4e98792db7592c17c09b89db8d8
         with:
           context: ${{ env.DIVA_DOCKER_CONTEXT }}
           file: ${{ env.DIVA_DOCKERFILE_PATH }}

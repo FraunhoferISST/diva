@@ -7,7 +7,9 @@ class MessageConsumer {
   /**
    * @param {Object[]} topics - array of objects including topic and corresponding AsyncAPI Specification
    * @param {string} topics[].topic - topic to listen on
-   * @param {string} topics[].spec - corresponding AsyncAPI Specification
+   * @param {Object} topics[].spec - corresponding AsyncAPI Specification
+   * @param {String} topics[].spec.name - specification name
+   * @param {Object} [topics[].spec.specification] - parsed AsyncAPI specification as object
    * @param serviceName
    * @returns {Promise<void>}
    */
@@ -29,11 +31,11 @@ class MessageConsumer {
         const { spec } = this.topics.find(
           ({ topic }) => topic === messageTopic
         );
-        messagesValidator.validate(spec, parsedMsg, {
+        messagesValidator.validate(spec.name, parsedMsg, {
           ...parsedMsg,
           operation: "publish",
         });
-        onMessage(message, messageTopic);
+        return onMessage(message, messageTopic);
       }
     );
   }

@@ -4,7 +4,7 @@ const esConnector = new ElasticsearchConnector();
 
 class AnalyticsService {
   async init() {
-    esConnector.connect();
+    return esConnector.connect();
   }
 
   async countDocumentsByIndex(indexSelection = "*") {
@@ -56,10 +56,14 @@ class AnalyticsService {
   async resourceTypeDistribution() {
     try {
       const res = await esConnector.client.search({
-        index: "resources",
+        index: "entities",
         size: 0,
         body: {
-          query: { match_all: {} },
+          query: {
+            match: {
+              entityType: "resource",
+            },
+          },
           aggs: {
             resourceTypeDistribution: {
               terms: { field: "resourceType" },
@@ -90,7 +94,7 @@ class AnalyticsService {
   async resourceMimeTypeDistribution() {
     try {
       const res = await esConnector.client.search({
-        index: "resources",
+        index: "entities",
         size: 0,
         body: {
           query: {
@@ -128,33 +132,64 @@ class AnalyticsService {
     }
   }
 
-  async resourceGetAvgRating(resourceId) {
-    let res = "";
-    try {
-      res = await esConnector.client.search({
-        index: "reviews",
-        size: 0,
-        body: {
-          query: {
-            term: {
-              belongsTo: {
-                value: resourceId,
-                boost: 1.0,
+  async getReviewsStats(id) {
+    const res = await esConnector.client.search({
+      index: "entities",
+      size: 0,
+      body: {
+        query: {
+          bool: {
+            must: [
+              {
+                match: {
+                  attributedTo: id,
+                },
+              },
+              {
+                match: {
+                  entityType: "review",
+                },
+              },
+            ],
+          },
+        },
+        aggs: {
+          values: {
+            filters: {
+              filters: {
+                totalReviews: {
+                  bool: {
+                    must: [
+                      {
+                        match: {
+                          attributedTo:
+                            "resource:uuid:4ce1fa1a-d409-493c-8440-edd98c0bbee1",
+                        },
+                      },
+                      {
+                        match: {
+                          entityType: "review",
+                        },
+                      },
+                    ],
+                  },
+                },
               },
             },
           },
-          aggs: {
-            avgRating: {
-              avg: { field: "rating" },
+          avgRating: {
+            avg: {
+              field: "rating",
             },
           },
         },
-      });
-    } catch (e) {
-      throw new Error(e);
-    }
-
-    return res.body.aggregations?.avgRating.value;
+      },
+    });
+    return {
+      avgRating: res.body.aggregations?.avgRating.value,
+      reviewsCount:
+        res.body.aggregations?.values?.buckets?.totalReviews?.doc_count,
+    };
   }
 }
 

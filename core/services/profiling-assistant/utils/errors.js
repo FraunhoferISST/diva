@@ -3,12 +3,12 @@ const { customErrorFactory } = require("@diva/common/Error");
 module.exports = {
   dagNotFoundError: customErrorFactory(
     "DAGNotFound",
-    "DAG for given resource id not found",
+    "DAG for given entity id not found",
     404
   ),
-  resourceNotFoundError: customErrorFactory(
-    "ResourceNotFound",
-    "Resource with given resource id not found",
+  entityNotFoundError: customErrorFactory(
+    "EntityNotFound",
+    "Entity with given id not found",
     404
   ),
 };
