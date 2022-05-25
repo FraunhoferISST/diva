@@ -319,6 +319,7 @@ export default {
           data.value.serviceType,
           data.value.systemEntityType,
           data.value.assetType,
+          data.value.destroyclaimType,
           data.value.mimeType,
         ]
           .filter((t) => t)
