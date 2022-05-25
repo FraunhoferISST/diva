@@ -21,6 +21,7 @@ const {
 const { serviceId } = require("../package.json");
 
 const ENTITY_ROOT_SCHEMA = process.env.ENTITY_ROOT_SCHEMA || "entity";
+const NODE_ENV = process.env.NODE_ENV || "production";
 
 const cleanUpEntity = (entity) => {
   let cleanEntity = {};
@@ -135,6 +136,7 @@ class EntityService {
                 entity.id
               })`
             );
+
             return this.insert(entity).then(() =>
               this.historyCollection.insertOne(
                 createHistoryEntity(
@@ -145,6 +147,16 @@ class EntityService {
               )
             );
           }
+          if (NODE_ENV === "development") {
+            logger.info(
+              `Replacing ${this.systemEntityType ?? this.entityType} (${
+                entity.id
+              })`
+            );
+
+            return this.insert({ id: entity.id }, entity);
+          }
+
           logger.info(`${this.entityType} (${entity.id}) already loaded`);
         })
       )
