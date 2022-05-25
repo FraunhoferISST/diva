@@ -85,6 +85,12 @@ const predefinedEntities = {
     service: null,
     entityType: entityTypes.REVIEW,
   },
+  folders: {
+    collection: "folders",
+    controller: null,
+    service: null,
+    entityType: "folder",
+  },
 };
 
 const createEntityService = (entityType, collectionName) =>

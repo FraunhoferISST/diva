@@ -26,6 +26,10 @@
     {
       "key": "entityType",
       "value": "review"
+    },
+    {
+      "key": "entityType",
+      "value": "folder"
     }
   ],
   "schema": {
