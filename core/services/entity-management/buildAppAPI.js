@@ -85,11 +85,11 @@ const predefinedEntities = {
     service: null,
     entityType: entityTypes.REVIEW,
   },
-  folders: {
-    collection: "folders",
+  [collectionsNames.DESTROY_CLAIM_COLLECTION_NAME]: {
+    collection: collectionsNames.DESTROY_CLAIM_COLLECTION_NAME,
     controller: null,
     service: null,
-    entityType: "folder",
+    entityType: entityTypes.DESTROY_CLAIM,
   },
 };
 

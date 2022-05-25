@@ -29,7 +29,7 @@
     },
     {
       "key": "entityType",
-      "value": "folder"
+      "value": "destroyClaim"
     }
   ],
   "schema": {
