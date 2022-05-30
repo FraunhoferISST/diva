@@ -358,7 +358,7 @@ services:
 
   diva-lake-adapter:
     <<: *extra-hosts
-    image: ${REGISTRY}diva-lake-adapter:0.5.0
+    image: ${REGISTRY}diva-lake-adapter:0.6.0
     container_name: diva-lake-adapter
     restart: always
     networks:

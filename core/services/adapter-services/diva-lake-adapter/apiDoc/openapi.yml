@@ -10,7 +10,7 @@ tags:
 paths:
   /import:
     parameters:
-      - $ref: "#/components/parameters/actorId"
+      - $ref: "#/components/parameters/divaHeader"
     post:
       tags:
         - import
@@ -31,13 +31,13 @@ paths:
           $ref: "#/components/responses/UnexpectedError"
   /download/{fileName}:
     parameters:
-      - $ref: "#/components/parameters/actorId"
+      - $ref: "#/components/parameters/divaHeader"
     get:
       tags:
         - download
       summary: Download a file from the DIVA Lake by name
-      description: Donwloads a file from the DIVA lake by `fileName` wich is a file hash. Files are always associated with a
-        resource, you can obtain the `fileName` from a corresponding resource as `uniqueFingerprint`.
+      description: Donwloads a file from the DIVA lake by `fileName`. Files are always associated with a
+        resource. There must be an `divaLake` distribution. You can obtain the `fileName` from a corresponding resource as `entityId`.
       operationId: download
       parameters:
         - name: fileName
@@ -46,8 +46,8 @@ paths:
           required: true
           schema:
             type: string
-            example: 3a0d32967309cbc44d377c0aa801e95bfbf50f48c103f288ce25cc1f4df30f9a
-            pattern: "^[A-Fa-f0-9]{64}$"
+            example: "resource:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
+            pattern: "^resource:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
       responses:
         "200":
           description: Success
@@ -84,7 +84,13 @@ components:
                 format: binary
 
   schemas:
-
+    ActorId: 
+      title: "Actor Id"
+      description: "Unique actor identifier. Actor is represented by a user or a internal service"
+      type: "string"
+      example: "user:uuid:asdsad4d1fcb08-b894-4bdf-b662-0f105d597189"
+      pattern: "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    
     ResourceId:
       title: ResourceId
       description: Unique resource identifier
@@ -172,12 +178,13 @@ components:
 
   parameters:
 
-    actorId:
-      in: header
-      description: The id of the origin that produces action/message. Can be a user or service
-      name: x-actorid
-      schema:
-        type: string
-        minLength: 1
-        pattern: "^(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    divaHeader: 
+      in: "header"
+      description: "The system specific stringified object whit relevant data like actorId, token etc."
+      name: "x-diva"
       required: true
+      schema: 
+        type: "string"
+        properties: 
+          actorId: 
+            $ref: "#/components/schemas/ActorId"

@@ -22,6 +22,9 @@ do
   echo "VUE_APP_REGISTER_AVAILABLE: ${VUE_APP_REGISTER_AVAILABLE}"
   sed -i 's|register_available|'$VUE_APP_REGISTER_AVAILABLE'|g' $file
 
+  echo "VUE_APP_DISABLE_PATCH: ${VUE_APP_DISABLE_PATCH}"
+  sed -i 's|patch_available|'$VUE_APP_DISABLE_PATCH'|g' $file
+
   echo "Hashing $file"
   hash=$(md5sum "$file" | cut -c1-8)
   echo "$hash"
