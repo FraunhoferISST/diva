@@ -25,7 +25,8 @@
           "review",
           "history",
           "service",
-          "systemEntity"
+          "systemEntity",
+          "folder"
         ],
         "_elasticsearch": {
           "type": "keyword"
