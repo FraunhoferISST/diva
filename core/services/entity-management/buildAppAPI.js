@@ -86,10 +86,10 @@ const predefinedEntities = {
     entityType: entityTypes.REVIEW,
   },
   folders: {
-    collection: "folders",
+    collection: collectionsNames.FOLDERS_COLLECTION_NAME,
     controller: null,
     service: null,
-    entityType: "folder",
+    entityType: entityTypes.FOLDER,
   },
 };
 
