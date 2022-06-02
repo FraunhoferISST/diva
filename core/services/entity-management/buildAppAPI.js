@@ -91,7 +91,7 @@ const predefinedEntities = {
     service: null,
     entityType: entityTypes.DESTROY_CLAIM,
   },
-  [collectionsNames.DESTROY_CLAIM_COLLECTION_NAME]: {
+  [collectionsNames.FOLDERS_COLLECTION_NAME]: {
     collection: collectionsNames.FOLDERS_COLLECTION_NAME,
     controller: null,
     service: null,
