@@ -5,6 +5,7 @@ const entityTypes = [
   "user",
   "review",
   "service",
+  "folder",
   "destroyclaim",
 ];
 export default {
