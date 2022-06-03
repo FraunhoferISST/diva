@@ -41,6 +41,7 @@ import Owners from "@/components/Entity/EntityFields/EntityField/Owners/Owners";
 import Licenses from "@/components/Entity/EntityFields/EntityField/Licenses/Licenses";
 import Location from "@/components/Entity/EntityFields/EntityField/Location/Location";
 import Languages from "@/components/Entity/EntityFields/EntityField/Languages/Languages";
+import DestroyclaimReasons from "@/components/Entity/EntityFields/EntityField/DestroyclaimReasons/DestroyclaimReasons";
 import { useEntity } from "@/composables/entity";
 import { computed } from "@vue/composition-api";
 import { useBus } from "@/composables/bus";
@@ -52,6 +53,7 @@ export default {
     DataViewer,
     Languages,
     Location,
+    DestroyclaimReasons,
     Licenses,
     Owners,
     EntityField,
