@@ -16,6 +16,7 @@
                 :is="field._ui.component"
                 :id="id"
                 :editable="!!field.isPatchable"
+                :field-schema="field"
               />
               <entity-field
                 v-else
