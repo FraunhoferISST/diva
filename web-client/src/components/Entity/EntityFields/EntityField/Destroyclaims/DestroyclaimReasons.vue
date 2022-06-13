@@ -186,7 +186,7 @@ import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 import { useEntity } from "@/composables/entity";
 import { useSnackbar } from "@/composables/snackbar";
-import DestroyclaimReasonEdit from "@/components/Entity/EntityFields/EntityField/DestroyclaimReasons/DestroyclaimReasonsEdit";
+import DestroyclaimReasonEdit from "@/components/Entity/EntityFields/EntityField/Destroyclaims/DestroyclaimReasonsEdit";
 
 export default {
   name: "DestroyclaimReasons",
@@ -252,7 +252,11 @@ export default {
       const updatedTemporalDestroyclaimReasons = [
         ...this.localDestroyclaimReasons,
       ];
-      updatedTemporalDestroyclaimReasons.splice(index, 1, patch.reason);
+      updatedTemporalDestroyclaimReasons.splice(
+        index,
+        1,
+        patch.destroyclaimReason
+      );
       return this.patch({
         destroyclaimReasons: updatedTemporalDestroyclaimReasons,
       }).then(() => {

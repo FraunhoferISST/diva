@@ -32,7 +32,7 @@
           "_ui": {
             "view": "overview",
             "position": 3,
-            "component": "Owners",
+            "component": "DestroyclaimRefersTo",
             "fallbackValue": []
           }
         }

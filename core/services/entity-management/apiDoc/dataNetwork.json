@@ -454,7 +454,8 @@
           "isReviewOf",
           "likes",
           "keywordsSimilarity",
-          "textContentSimilarity"
+          "textContentSimilarity",
+          "refersTo"
         ]
       }
     },
