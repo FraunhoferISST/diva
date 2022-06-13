@@ -1,5 +1,20 @@
 <template>
-  <info-block title="Owners">
+  <info-block :title="fieldSchema.title">
+    <template #title v-if="fieldSchema.description">
+      <info-block-title class="d-flex justify-space-between">
+        {{ fieldSchema.title }}
+        <template #info>
+          <v-tooltip top open-delay="600" max-width="400px">
+            <template #activator="{ on, attrs }">
+              <v-icon color="primary" dense v-bind="attrs" v-on="on">
+                info_outline
+              </v-icon>
+            </template>
+            <span>{{ fieldSchema.description }}</span>
+          </v-tooltip>
+        </template>
+      </info-block-title>
+    </template>
     <template #value>
       <field-editor
         :data="{ owners: loadedOwners }"
@@ -61,6 +76,7 @@ import { useBus } from "@/composables/bus";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import OwnersEdit from "@/components/Entity/EntityFields/EntityField/Owners/OwnersEdit";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
+import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import { ref } from "@vue/composition-api";
 
 export default {
@@ -68,6 +84,7 @@ export default {
   inheritAttrs: false,
   components: {
     InfoBlock,
+    InfoBlockTitle,
     OwnersEdit,
     DataViewer,
     FieldEditor,
@@ -82,6 +99,10 @@ export default {
     },
     editable: {
       type: Boolean,
+      required: true,
+    },
+    fieldSchema: {
+      type: Object,
       required: true,
     },
   },
