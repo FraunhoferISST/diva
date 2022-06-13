@@ -141,9 +141,9 @@
                       </info-block-value>
                     </div>
                   </div>
-                  <div class="destroyclaim-reason-info d-flex">
+                  <div class="destroyclaim-reason-info">
                     <info-block-value>Additional Information:</info-block-value>
-                    <div class="ellipsis">
+                    <div>
                       <info-block-value>
                         {{ state.destroyclaimReason.additionalInfoText || "-" }}
                       </info-block-value>
