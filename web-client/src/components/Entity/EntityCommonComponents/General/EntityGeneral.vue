@@ -42,6 +42,7 @@ import Owners from "@/components/Entity/EntityFields/EntityField/Owners/Owners";
 import Licenses from "@/components/Entity/EntityFields/EntityField/Licenses/Licenses";
 import Location from "@/components/Entity/EntityFields/EntityField/Location/Location";
 import Languages from "@/components/Entity/EntityFields/EntityField/Languages/Languages";
+import SingleRelation from "@/components/Entity/EntityFields/EntityField/SingleRelation/SingleRelation";
 import DestroyclaimRefersTo from "@/components/Entity/EntityFields/EntityField/Destroyclaims/DestroyclaimRefersTo";
 import DestroyclaimReasons from "@/components/Entity/EntityFields/EntityField/Destroyclaims/DestroyclaimReasons";
 import { useEntity } from "@/composables/entity";
@@ -55,6 +56,7 @@ export default {
     DataViewer,
     Languages,
     Location,
+    SingleRelation,
     DestroyclaimRefersTo,
     DestroyclaimReasons,
     Licenses,
