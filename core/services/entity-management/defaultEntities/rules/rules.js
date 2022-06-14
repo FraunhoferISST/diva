@@ -7,8 +7,7 @@ module.exports = [
     scope: {
       channel: "entity.events",
       "payload.type": "create",
-      "payload.object.id":
-        "(resource|asset|review|service|user|rule|policy|schema):.*",
+      "payload.object.id": "[a-zA-Z]+:.*",
     },
     condition: true,
     actions: [
