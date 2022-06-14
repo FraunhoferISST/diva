@@ -43,6 +43,7 @@ import Licenses from "@/components/Entity/EntityFields/EntityField/Licenses/Lice
 import Location from "@/components/Entity/EntityFields/EntityField/Location/Location";
 import Languages from "@/components/Entity/EntityFields/EntityField/Languages/Languages";
 import SingleRelation from "@/components/Entity/EntityFields/EntityField/SingleRelation/SingleRelation";
+import MultiRelation from "@/components/Entity/EntityFields/EntityField/MultiRelation/MultiRelation";
 import DestroyclaimRefersTo from "@/components/Entity/EntityFields/EntityField/Destroyclaims/DestroyclaimRefersTo";
 import DestroyclaimReasons from "@/components/Entity/EntityFields/EntityField/Destroyclaims/DestroyclaimReasons";
 import { useEntity } from "@/composables/entity";
@@ -57,6 +58,7 @@ export default {
     Languages,
     Location,
     SingleRelation,
+    MultiRelation,
     DestroyclaimRefersTo,
     DestroyclaimReasons,
     Licenses,
