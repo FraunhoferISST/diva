@@ -18,7 +18,7 @@
             "name": "from",
             "in": "query",
             "description": "The `id` of the entity for wich the relationships will be fetched",
-            "required": true,
+            "required": false,
             "allowReserved": true,
             "schema": {
               "$ref": "#/components/schemas/EntityId"
@@ -455,7 +455,8 @@
           "likes",
           "keywordsSimilarity",
           "textContentSimilarity",
-          "refersTo"
+          "refersTo",
+          "isPreviousVersionOf"
         ]
       }
     },

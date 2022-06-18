@@ -34,7 +34,9 @@
             "position": 3,
             "component": "SingleRelation",
             "SingleRelation": {
-              "entityType": "resource"
+              "entityType": "resource",
+              "edgeType": "isPreviousVersionOf",
+              "edgeDirection": "from"
             },
             "fallbackValue": []
           }

@@ -137,6 +137,7 @@ components:
                 - keywordsSimilarity
                 - textContentSimilarity
                 - refersTo
+                - isPreviousVersionOf
         attributedTo:
           title: Related entites
           description: The Array contains the id's of the entities that are related or referenced by the original event. For

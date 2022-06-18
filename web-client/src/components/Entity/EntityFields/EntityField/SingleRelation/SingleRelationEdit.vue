@@ -2,7 +2,7 @@
   <v-autocomplete
     dense
     class="custom-autocomplete"
-    v-model="computedEntities"
+    v-model="computedEntity"
     :loading="loading"
     :items="searchResult"
     :search-input.sync="searchInput"
@@ -14,23 +14,15 @@
     label="Select Entity"
     hide-selected
     hide-details
-    small-chips
     cache-items
     item-text="title"
     item-value="id"
     clearable
-    deletable-chips
-    multiple
     return-object
     @update:search-input="() => searchEntities(searchInput)"
   >
     <template #selection="data">
-      <v-chip
-        small
-        :input-value="data.selected"
-        close
-        @click:close="() => removeSelected(data.item)"
-      >
+      <v-chip small :input-value="data.selected">
         <entity-avatar
           :size="5"
           :image-id="data.item.entityIcon"
@@ -76,9 +68,8 @@ export default {
   inheritAttrs: false,
   components: { EntityDetailsLink, EntityAvatar },
   props: {
-    entities: {
-      type: Array,
-      required: true,
+    entity: {
+      type: Object,
     },
     entityType: {
       type: String,
@@ -88,21 +79,20 @@ export default {
   setup(props, { emit }) {
     const { search, data, loading, error } = useSearch();
     const searchInput = ref("");
-    const computedEntities = computed({
+    const computedEntity = computed({
       get() {
-        return props.entities;
+        return props.entity;
       },
       set(value) {
-        return emit("update:entities", value);
+        return emit("update:entity", value);
       },
     });
     return {
       loading,
       error,
       searchInput,
-      computedEntities,
+      computedEntity,
       searchResult: computed(() => [
-        ...computedEntities.value,
         ...(data.value?.collection ?? []).map(({ doc }) => doc),
       ]),
       searchEntities: (input) =>
@@ -111,12 +101,6 @@ export default {
           ...props.query,
           entityType: props.entityType,
         }),
-      removeSelected(item) {
-        const deleteIndex = computedEntities.value.findIndex(
-          ({ id }) => item.id === id
-        );
-        computedEntities.value.splice(deleteIndex, 1);
-      },
     };
   },
 };

@@ -153,6 +153,12 @@ export default {
         value: !!props.entity.isArchived,
         property: "isArchived",
       },
+      {
+        title: "Entity to be archived Date",
+        description: "A Date when this entity should be archived automatically",
+        value: !!props.entity.entityToBeArchivedDate,
+        property: "entityToBeArchivedDate",
+      },
     ]);
 
     const { isAdmin } = useUser();

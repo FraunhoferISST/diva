@@ -17,48 +17,22 @@
     </template>
     <template #value>
       <field-editor
-        :data="{ entities: loadedEntities }"
+        :data="{ entity: loadedEntity }"
         :on-save="(patch) => connectEntity(patch)"
       >
         <template #view="{ state }">
           <data-viewer :loading="loading" :error="error">
-            <div v-if="state.entities.length > 0">
-              <template v-if="state.entities.length > 1">
-                <div
-                  class="data-entity-avatar d-inline-block"
-                  v-for="entity in state.entities"
-                  :key="entity.id"
-                >
-                  <div
-                    style="width: 20px; overflow: visible; position: relative"
-                  >
-                    <div
-                      style="
-                        width: 36px;
-                        border-radius: 50%;
-                        padding: 2px;
-                        background-color: white;
-                      "
-                    >
-                      <entity-avatar
-                        :image-id="entity.entityIcon || ''"
-                        :entity-id="entity.id"
-                        :entity-title="entity.title"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </template>
-              <entity-link v-else :entity="state.entities[0]" />
+            <div v-if="state.entity">
+              <entity-link :entity="state.entity" />
             </div>
             <no-data-state v-else text="Assign entity" />
           </data-viewer>
         </template>
         <template #edit="{ setPatch, patch }">
           <single-relation-edit
-            :entities="patch.entities"
+            :entity="patch.entity"
             :entityType="fieldSchema._ui.SingleRelation.entityType"
-            @update:entities="(newValue) => setPatch({ entities: newValue })"
+            @update:entity="(newValue) => setPatch({ entity: newValue })"
           />
         </template>
       </field-editor>
@@ -69,7 +43,6 @@
 <script>
 import NoDataState from "@/components/Base/NoDataState";
 import EntityLink from "@/components/Base/EntityLink";
-import EntityAvatar from "@/components/Entity/EntityAvatar";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 import { useRequest } from "@/composables/request";
 import { useApi } from "@/composables/api";
@@ -89,7 +62,6 @@ export default {
     SingleRelationEdit,
     DataViewer,
     FieldEditor,
-    EntityAvatar,
     EntityLink,
     NoDataState,
   },
@@ -108,68 +80,68 @@ export default {
     },
   },
   setup(props) {
-    const loadedEntities = ref([]);
+    const loadedEntity = ref(null);
     const { on } = useBus();
     const { datanetwork, getEntityApiById } = useApi();
     const { loading, error, request } = useRequest();
 
-    const loadEntities = () =>
+    const loadEntity = () =>
       request(
         datanetwork
           .getEdges({
-            from: props.id,
-            edgeTypes: "refersTo",
-            bidirectional: true,
-            toNodeType: "resource",
+            to: props.id,
+            edgeTypes: props.fieldSchema._ui.SingleRelation.edgeType,
+            toNodeType: props.fieldSchema._ui.SingleRelation.entityType,
           })
           .then(async ({ data: { collection } }) => {
-            loadedEntities.value = (
-              await Promise.all(
-                collection.map(
-                  ({ to: { entityId }, properties: { id: edgeId } }) =>
-                    getEntityApiById(entityId)
-                      .getByIdIfExists(entityId, {
-                        fields: "id, title, username, entityIcon",
-                      })
-                      .then(({ data }) => ({ ...data, edgeId }))
-                      .catch((e) => {
-                        if (e?.response?.data?.code === 403) {
-                          return {
-                            edgeId,
-                            entityId,
-                          };
-                        }
-                        throw e;
-                      })
-                )
-              )
-            ).filter((entity) => entity);
+            if (collection.length > 0) {
+              let entityId = "";
+              const edgeId = collection[0].properties.id;
+              if (
+                props.fieldSchema._ui.SingleRelation.edgeDirection === "from"
+              ) {
+                entityId = collection[0].from.entityId;
+              } else {
+                entityId = collection[0].to.entityId; // SingleRelation -> there should only be one edge
+              }
+
+              loadedEntity.value = await getEntityApiById(entityId)
+                .getByIdIfExists(entityId, {
+                  fields: "id, title, username, entityIcon",
+                })
+                .then(({ data }) => ({ ...data, edgeId }))
+                .catch((e) => {
+                  if (e?.response?.data?.code === 403) {
+                    return {
+                      edgeId,
+                      entityId,
+                    };
+                  }
+                  throw e;
+                });
+            }
           })
       );
-    const connectEntity = ({ entities }) => {
-      const removedEntities = loadedEntities.value.filter(
-        ({ id }) => !entities.map((o) => o.id).includes(id)
-      );
+    const connectEntity = async ({ entity }) => {
+      const promises = [];
+      if (loadedEntity.value && loadedEntity.value.id) {
+        promises.push(
+          datanetwork.deleteEdgeById(loadedEntity.value.edgeId).catch((e) => {
+            if (e?.response?.data?.code === 404) {
+              return true;
+            }
+            throw e;
+          })
+        );
+      }
 
-      const newEntities = entities.filter(
-        ({ id }) => !loadedEntities.value.map((o) => o.id).includes(id)
-      );
-
-      const removePromises = removedEntities.map(({ edgeId }) =>
-        datanetwork.deleteEdgeById(edgeId).catch((e) => {
-          if (e?.response?.data?.code === 404) {
-            return true;
-          }
-          throw e;
-        })
-      );
-      return Promise.all([
-        ...newEntities.map(({ id }) =>
+      if (entity && entity.id) {
+        promises.push(
           datanetwork
             .createEdge({
-              from: props.id,
-              to: id,
-              edgeType: "refersTo",
+              to: props.id,
+              from: entity.id,
+              edgeType: props.fieldSchema._ui.SingleRelation.edgeType,
             })
             .catch((e) => {
               if (e?.response?.data?.code === 409) {
@@ -177,15 +149,16 @@ export default {
               }
               throw e;
             })
-        ),
-        ...removePromises,
-      ]);
+        );
+      }
+
+      return Promise.all(promises);
     };
 
-    on("reload", loadEntities);
-    loadEntities();
+    on("reload", loadEntity);
+    loadEntity();
     return {
-      loadedEntities,
+      loadedEntity,
       error,
       loading,
       connectEntity,
