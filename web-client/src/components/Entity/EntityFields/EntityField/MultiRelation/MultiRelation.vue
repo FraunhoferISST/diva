@@ -113,38 +113,57 @@ export default {
     const { datanetwork, getEntityApiById } = useApi();
     const { loading, error, request } = useRequest();
 
+    const query = {
+      edgeTypes: props.fieldSchema._ui.SingleRelation.edgeType,
+      toNodeType: props.fieldSchema._ui.SingleRelation.entityType,
+    };
+
+    if (props.fieldSchema._ui.SingleRelation.edgeDirection === "from") {
+      query.to = props.id;
+    } else {
+      query.from = props.id;
+    }
+
     const loadEntities = () =>
       request(
-        datanetwork
-          .getEdges({
-            from: props.id,
-            edgeTypes: "refersTo",
-            bidirectional: true,
-            toNodeType: "resource",
-          })
-          .then(async ({ data: { collection } }) => {
-            loadedEntities.value = (
-              await Promise.all(
-                collection.map(
-                  ({ to: { entityId }, properties: { id: edgeId } }) =>
-                    getEntityApiById(entityId)
-                      .getByIdIfExists(entityId, {
-                        fields: "id, title, username, entityIcon",
-                      })
-                      .then(({ data }) => ({ ...data, edgeId }))
-                      .catch((e) => {
-                        if (e?.response?.data?.code === 403) {
-                          return {
-                            edgeId,
-                            entityId,
-                          };
-                        }
-                        throw e;
-                      })
-                )
+        datanetwork.getEdges(query).then(async ({ data: { collection } }) => {
+          loadedEntities.value = (
+            await Promise.all(
+              collection.map(
+                ({
+                  to: { entityIdTo },
+                  from: { entityIdFrom },
+                  properties: { id: edgeId },
+                }) => {
+                  let entityId = "";
+
+                  if (
+                    props.fieldSchema._ui.SingleRelation.edgeDirection ===
+                    "from"
+                  ) {
+                    entityId = entityIdFrom;
+                  } else {
+                    entityId = entityIdTo; // SingleRelation -> there should only be one edge
+                  }
+                  return getEntityApiById(entityId)
+                    .getByIdIfExists(entityId, {
+                      fields: "id, title, username, entityIcon",
+                    })
+                    .then(({ data }) => ({ ...data, edgeId }))
+                    .catch((e) => {
+                      if (e?.response?.data?.code === 403) {
+                        return {
+                          edgeId,
+                          entityId,
+                        };
+                      }
+                      throw e;
+                    });
+                }
               )
-            ).filter((entity) => entity);
-          })
+            )
+          ).filter((entity) => entity);
+        })
       );
     const connectEntity = ({ entities }) => {
       const removedEntities = loadedEntities.value.filter(

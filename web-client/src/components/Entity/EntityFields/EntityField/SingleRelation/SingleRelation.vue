@@ -85,42 +85,45 @@ export default {
     const { datanetwork, getEntityApiById } = useApi();
     const { loading, error, request } = useRequest();
 
+    const query = {
+      edgeTypes: props.fieldSchema._ui.SingleRelation.edgeType,
+      toNodeType: props.fieldSchema._ui.SingleRelation.entityType,
+    };
+
+    if (props.fieldSchema._ui.SingleRelation.edgeDirection === "from") {
+      query.to = props.id;
+    } else {
+      query.from = props.id;
+    }
+
     const loadEntity = () =>
       request(
-        datanetwork
-          .getEdges({
-            to: props.id,
-            edgeTypes: props.fieldSchema._ui.SingleRelation.edgeType,
-            toNodeType: props.fieldSchema._ui.SingleRelation.entityType,
-          })
-          .then(async ({ data: { collection } }) => {
-            if (collection.length > 0) {
-              let entityId = "";
-              const edgeId = collection[0].properties.id;
-              if (
-                props.fieldSchema._ui.SingleRelation.edgeDirection === "from"
-              ) {
-                entityId = collection[0].from.entityId;
-              } else {
-                entityId = collection[0].to.entityId; // SingleRelation -> there should only be one edge
-              }
-
-              loadedEntity.value = await getEntityApiById(entityId)
-                .getByIdIfExists(entityId, {
-                  fields: "id, title, username, entityIcon",
-                })
-                .then(({ data }) => ({ ...data, edgeId }))
-                .catch((e) => {
-                  if (e?.response?.data?.code === 403) {
-                    return {
-                      edgeId,
-                      entityId,
-                    };
-                  }
-                  throw e;
-                });
+        datanetwork.getEdges(query).then(async ({ data: { collection } }) => {
+          if (collection.length > 0) {
+            let entityId = "";
+            const edgeId = collection[0].properties.id;
+            if (props.fieldSchema._ui.SingleRelation.edgeDirection === "from") {
+              entityId = collection[0].from.entityId;
+            } else {
+              entityId = collection[0].to.entityId; // SingleRelation -> there should only be one edge
             }
-          })
+
+            loadedEntity.value = await getEntityApiById(entityId)
+              .getByIdIfExists(entityId, {
+                fields: "id, title, username, entityIcon",
+              })
+              .then(({ data }) => ({ ...data, edgeId }))
+              .catch((e) => {
+                if (e?.response?.data?.code === 403) {
+                  return {
+                    edgeId,
+                    entityId,
+                  };
+                }
+                throw e;
+              });
+          }
+        })
       );
     const connectEntity = async ({ entity }) => {
       const promises = [];
