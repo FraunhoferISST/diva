@@ -122,6 +122,8 @@ export default {
                 }
                 throw e;
               });
+          } else {
+            loadedEntity.value = null;
           }
         })
       );

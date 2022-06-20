@@ -19,29 +19,31 @@
         <v-row>
           <v-col cols="12">
             <v-list subheader two-line three-line flat class="px-md-10">
-              <v-subheader>Visibility</v-subheader>
-              <v-list-item v-for="(item, i) in visibilitySettings" :key="i">
-                <template>
-                  <v-list-item-action>
-                    <v-switch
-                      dense
-                      inset
-                      hide-details
-                      v-model="item.value"
-                      color="primary"
-                      :loading="patchLoading"
-                      @change="(value) => patchVisibility(item, i, value)"
-                    />
-                  </v-list-item-action>
+              <v-subheader>Entity Options</v-subheader>
+              <div v-for="(item, i) in visibilitySettings" :key="i">
+                <v-list-item v-if="item.show">
+                  <template>
+                    <v-list-item-action>
+                      <v-switch
+                        dense
+                        inset
+                        hide-details
+                        v-model="item.value"
+                        color="primary"
+                        :loading="patchLoading"
+                        @change="(value) => patchVisibility(item, i, value)"
+                      />
+                    </v-list-item-action>
 
-                  <v-list-item-content>
-                    <v-list-item-title> {{ item.title }}</v-list-item-title>
-                    <v-list-item-subtitle>
-                      {{ item.description }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </template>
-              </v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title> {{ item.title }}</v-list-item-title>
+                      <v-list-item-subtitle>
+                        {{ item.description }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </template>
+                </v-list-item>
+              </div>
             </v-list>
             <v-divider v-if="isAdmin"></v-divider>
             <v-list two-line subheader v-if="isAdmin" class="pb-0">
@@ -77,6 +79,8 @@
                 </v-list-item-content>
               </v-list-item>
             </v-list>
+            <v-divider></v-divider>
+            HALLO
           </v-col>
         </v-row>
         <confirmation-dialog :show.sync="confirmationDialog">
@@ -134,6 +138,15 @@ export default {
     const confirmationDialog = ref(false);
     const fieldCreationDialog = ref(false);
     const showControls = ref(false);
+    const showIsPrivate = computed(() => {
+      return Object.keys(schema.value || {}).includes("isPrivate");
+    });
+    const showIsArchived = computed(() => {
+      return Object.keys(schema.value || {}).includes("isArchived");
+    });
+    const showIsActive = computed(() => {
+      return Object.keys(schema.value || {}).includes("isActive");
+    });
 
     const computedShow = computed({
       get: () => props.show,
@@ -146,18 +159,21 @@ export default {
         description: `Access to the private entities is restricted through the policies and is probably allowed only for the creators, owners and admins`,
         value: !!props.entity.isPrivate,
         property: "isPrivate",
+        show: showIsPrivate.value,
       },
       {
         title: "Archived",
         description: "Mark the the entity as archived",
         value: !!props.entity.isArchived,
         property: "isArchived",
+        show: showIsArchived.value,
       },
       {
-        title: "Entity to be archived Date",
-        description: "A Date when this entity should be archived automatically",
-        value: !!props.entity.entityToBeArchivedDate,
-        property: "entityToBeArchivedDate",
+        title: "Active",
+        description: "Set entity as active",
+        value: !!props.entity.isActive,
+        property: "isActive",
+        show: showIsActive.value,
       },
     ]);
 
@@ -170,13 +186,19 @@ export default {
       timeout,
     } = useSnackbar();
     const {
+      load,
       patch,
       patchLoading,
       patchError,
       deleteEntity,
       deleteLoading,
       deleteError,
-    } = useEntity(props.entity.id);
+      schema,
+    } = useEntity(props.entity.id, {
+      reactive: false,
+    });
+
+    load();
     return {
       showControls,
       confirmationDialog,
@@ -191,6 +213,7 @@ export default {
       computedShow,
       patchLoading,
       patchError,
+      schema,
       schemaScope: computed(() => [
         !props.entity
           ? []
@@ -204,6 +227,9 @@ export default {
               .map(([key, value]) => ({ key: key, value: value }))
               .filter(({ value }) => value)[0],
       ]),
+      showIsPrivate,
+      showIsArchived,
+      showIsActive,
       showSnackbar,
       visibilitySettings,
       patchVisibility: (item, position, val) => {
