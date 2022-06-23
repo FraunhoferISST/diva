@@ -20,6 +20,7 @@
           readonly
           v-bind="attrs"
           v-on="on"
+          :clearable="clearable"
         ></v-combobox>
       </template>
       <v-date-picker v-model="computedValue" no-title scrollable>
@@ -44,6 +45,10 @@ export default {
     title: {
       type: String,
       required: true,
+    },
+    clearable: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({

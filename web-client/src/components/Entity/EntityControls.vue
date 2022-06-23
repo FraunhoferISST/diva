@@ -80,7 +80,20 @@
               </v-list-item>
             </v-list>
             <v-divider></v-divider>
-            HALLO
+            <date-field-editor
+              v-if="showEntityToBeDeletedDate"
+              :title="entityToBeDeletedDateTitle"
+              :clearable="true"
+              property="entityToBeDeletedDate"
+              :value.sync="entityToBeDeletedDate"
+            />
+            <date-field-editor
+              v-if="showEntityToBeArchivedDate"
+              :title="entityToBeArchivedDateTitle"
+              :clearable="true"
+              property="entityToBeArchivedDate"
+              :value.sync="entityToBeArchivedDate"
+            />
           </v-col>
         </v-row>
         <confirmation-dialog :show.sync="confirmationDialog">
@@ -113,7 +126,12 @@
 import Card from "@/components/Base/Card";
 import ConfirmationDialog from "@/components/Base/ConfirmationDialog";
 import EntityFieldCreationDialog from "@/components/Entity/EntityFieldCreationDialog";
-import { computed, ref } from "@vue/composition-api/dist/vue-composition-api";
+import DateFieldEditor from "@/components/Entity/EntityFields/EntityField/DateField/DateFieldEditor";
+import {
+  computed,
+  ref,
+  watch,
+} from "@vue/composition-api/dist/vue-composition-api";
 import { useUser } from "@/composables/user";
 import { useSnackbar } from "@/composables/snackbar";
 import { useEntity } from "@/composables/entity";
@@ -123,6 +141,7 @@ export default {
     EntityFieldCreationDialog,
     ConfirmationDialog,
     Card,
+    DateFieldEditor,
   },
   props: {
     entity: {
@@ -134,10 +153,34 @@ export default {
       required: true,
     },
   },
+  watcher: {},
   setup(props, { emit, root }) {
+    const { isAdmin } = useUser();
+    const {
+      color,
+      show: showSnackbar,
+      message,
+      snackbar,
+      timeout,
+    } = useSnackbar();
+    const {
+      load,
+      patch,
+      patchLoading,
+      patchError,
+      deleteEntity,
+      deleteLoading,
+      deleteError,
+      schema,
+    } = useEntity(props.entity.id, {
+      reactive: false,
+    });
     const confirmationDialog = ref(false);
     const fieldCreationDialog = ref(false);
     const showControls = ref(false);
+    const entityToBeDeletedDate = ref("");
+    const entityToBeArchivedDate = ref("");
+
     const showIsPrivate = computed(() => {
       return Object.keys(schema.value || {}).includes("isPrivate");
     });
@@ -147,7 +190,18 @@ export default {
     const showIsActive = computed(() => {
       return Object.keys(schema.value || {}).includes("isActive");
     });
-
+    const showEntityToBeDeletedDate = computed(() => {
+      return Object.keys(schema.value || {}).includes("entityToBeDeletedDate");
+    });
+    const entityToBeDeletedDateTitle = computed(() => {
+      return schema?.value?.entityToBeDeletedDate?.title || "";
+    });
+    const showEntityToBeArchivedDate = computed(() => {
+      return Object.keys(schema.value || {}).includes("entityToBeArchivedDate");
+    });
+    const entityToBeArchivedDateTitle = computed(() => {
+      return schema?.value?.entityToBeArchivedDate?.title || "";
+    });
     const computedShow = computed({
       get: () => props.show,
       set: (val) => emit("update:show", val),
@@ -176,26 +230,25 @@ export default {
         show: showIsActive.value,
       },
     ]);
-
-    const { isAdmin } = useUser();
-    const {
-      color,
-      show: showSnackbar,
-      message,
-      snackbar,
-      timeout,
-    } = useSnackbar();
-    const {
-      load,
-      patch,
-      patchLoading,
-      patchError,
-      deleteEntity,
-      deleteLoading,
-      deleteError,
-      schema,
-    } = useEntity(props.entity.id, {
-      reactive: false,
+    watch(entityToBeDeletedDate, async (value) => {
+      patch({
+        entityToBeDeletedDate: value,
+      }).then(() => {
+        if (patchError.value) {
+          entityToBeDeletedDate.value = props.entity.entityToBeDeletedDate;
+          showSnackbar(patchError.value, { color: "error" });
+        }
+      });
+    });
+    watch(entityToBeArchivedDate, async (value) => {
+      patch({
+        entityToBeArchivedDate: value,
+      }).then(() => {
+        if (patchError.value) {
+          entityToBeArchivedDate.value = props.entity.entityToBeArchivedDate;
+          showSnackbar(patchError.value, { color: "error" });
+        }
+      });
     });
 
     load();
@@ -209,6 +262,10 @@ export default {
       snackbar,
       deleteError,
       deleteLoading,
+      entityToBeDeletedDate,
+      entityToBeArchivedDate,
+      entityToBeDeletedDateTitle,
+      entityToBeArchivedDateTitle,
       isAdmin,
       computedShow,
       patchLoading,
@@ -230,6 +287,8 @@ export default {
       showIsPrivate,
       showIsArchived,
       showIsActive,
+      showEntityToBeDeletedDate,
+      showEntityToBeArchivedDate,
       showSnackbar,
       visibilitySettings,
       patchVisibility: (item, position, val) => {
