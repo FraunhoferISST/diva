@@ -80,22 +80,50 @@
               </v-list-item>
             </v-list>
             <v-divider></v-divider>
-            <date-field-editor
-              class="data-field-editor"
-              v-if="showEntityToBeDeletedDate"
-              :title="entityToBeDeletedDateTitle"
-              :clearable="true"
-              property="entityToBeDeletedDate"
-              :value.sync="entityToBeDeletedDate"
-            />
-            <date-field-editor
-              class="data-field-editor"
-              v-if="showEntityToBeArchivedDate"
-              :title="entityToBeArchivedDateTitle"
-              :clearable="true"
-              property="entityToBeArchivedDate"
-              :value.sync="entityToBeArchivedDate"
-            />
+            <div class="ma-6">
+              <info-block-title class="mb-3 d-flex justify-space-between">
+                {{ entityToBeDeletedDateTitle }}
+                <template #info>
+                  <v-tooltip top open-delay="600" max-width="400px">
+                    <template #activator="{ on, attrs }">
+                      <v-icon color="primary" dense v-bind="attrs" v-on="on">
+                        info_outline
+                      </v-icon>
+                    </template>
+                    <span>{{ schema.entityToBeDeletedDate.description }}</span>
+                  </v-tooltip>
+                </template>
+              </info-block-title>
+              <date-field-editor
+                v-if="showEntityToBeDeletedDate"
+                :title="schema.entityToBeDeletedDate.title"
+                :clearable="true"
+                :property="schema.entityToBeDeletedDate.schemaName"
+                :value.sync="entityToBeDeletedDate"
+              />
+            </div>
+            <div class="ma-6">
+              <info-block-title class="mb-3 d-flex justify-space-between">
+                {{ entityToBeArchivedDateTitle }}
+                <template #info>
+                  <v-tooltip top open-delay="600" max-width="400px">
+                    <template #activator="{ on, attrs }">
+                      <v-icon color="primary" dense v-bind="attrs" v-on="on">
+                        info_outline
+                      </v-icon>
+                    </template>
+                    <span>{{ schema.entityToBeArchivedDate.description }}</span>
+                  </v-tooltip>
+                </template>
+              </info-block-title>
+              <date-field-editor
+                v-if="showEntityToBeArchivedDate"
+                :title="schema.entityToBeArchivedDate.title"
+                :clearable="true"
+                :property="schema.entityToBeArchivedDate.schemaName"
+                :value.sync="entityToBeArchivedDate"
+              />
+            </div>
           </v-col>
         </v-row>
         <confirmation-dialog :show.sync="confirmationDialog">
@@ -128,6 +156,7 @@
 import Card from "@/components/Base/Card";
 import ConfirmationDialog from "@/components/Base/ConfirmationDialog";
 import EntityFieldCreationDialog from "@/components/Entity/EntityFieldCreationDialog";
+import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import DateFieldEditor from "@/components/Entity/EntityFields/EntityField/DateField/DateFieldEditor";
 import {
   computed,
@@ -143,6 +172,7 @@ export default {
     EntityFieldCreationDialog,
     ConfirmationDialog,
     Card,
+    InfoBlockTitle,
     DateFieldEditor,
   },
   props: {
@@ -330,8 +360,5 @@ export default {
     0 1.7px 5.3px rgba(0, 0, 0, 0.016), 0 3.1px 10px rgba(0, 0, 0, 0.02),
     0 5.6px 17.9px rgba(0, 0, 0, 0.024), 0 10.4px 33.4px rgba(0, 0, 0, 0.029),
     0 25px 80px rgba(0, 0, 0, 0.04);
-}
-.data-field-editor{
-  margin: 20px;
 }
 </style>
