@@ -456,7 +456,8 @@
           "keywordsSimilarity",
           "textContentSimilarity",
           "refersTo",
-          "isPreviousVersionOf"
+          "isPreviousVersionOf",
+          "acquired"
         ]
       }
     },
