@@ -81,6 +81,7 @@
             </v-list>
             <v-divider></v-divider>
             <date-field-editor
+              class="data-field-editor"
               v-if="showEntityToBeDeletedDate"
               :title="entityToBeDeletedDateTitle"
               :clearable="true"
@@ -88,6 +89,7 @@
               :value.sync="entityToBeDeletedDate"
             />
             <date-field-editor
+              class="data-field-editor"
               v-if="showEntityToBeArchivedDate"
               :title="entityToBeArchivedDateTitle"
               :clearable="true"
@@ -178,8 +180,8 @@ export default {
     const confirmationDialog = ref(false);
     const fieldCreationDialog = ref(false);
     const showControls = ref(false);
-    const entityToBeDeletedDate = ref("");
-    const entityToBeArchivedDate = ref("");
+    const entityToBeDeletedDate = ref(props.entity.entityToBeDeletedDate);
+    const entityToBeArchivedDate = ref(props.entity.entityToBeArchivedDate);
 
     const showIsPrivate = computed(() => {
       return Object.keys(schema.value || {}).includes("isPrivate");
@@ -250,7 +252,6 @@ export default {
         }
       });
     });
-
     load();
     return {
       showControls,
@@ -329,5 +330,8 @@ export default {
     0 1.7px 5.3px rgba(0, 0, 0, 0.016), 0 3.1px 10px rgba(0, 0, 0, 0.02),
     0 5.6px 17.9px rgba(0, 0, 0, 0.024), 0 10.4px 33.4px rgba(0, 0, 0, 0.029),
     0 25px 80px rgba(0, 0, 0, 0.04);
+}
+.data-field-editor{
+  margin: 20px;
 }
 </style>
