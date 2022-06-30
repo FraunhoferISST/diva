@@ -329,12 +329,13 @@ module.exports = [
   },
   {
     id: "policy:uuid:468db289-3ebf-4f93-8d64-d56117875266",
-    title: "Allow anybody to create entities (excluding users and reviews)",
+    title:
+      "Allow anybody to create entities (excluding users, reviews, policies, rules and schemata)",
     isActive: true,
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/((?!.*users|reviews.*)[a-zA-Z0-9]+)/?$",
+      path: "^/((?!.*users|reviews|policies|rules|schemata.*)[a-zA-Z0-9]+)/?$",
       method: "POST",
     },
     condition: {
