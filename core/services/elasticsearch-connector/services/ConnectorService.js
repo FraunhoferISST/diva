@@ -5,8 +5,10 @@ const buildMappingFromJsonSchema = require("../utils/buildMappingFromJsonSchema"
 const esSettings = require("../utils/customSettings.json");
 const { sanitizeIndexBody } = require("../utils/sanitize");
 
+const { DIVA_DB_NAME } = require("../utils/constants");
+
 const esConnector = new ElasticsearchConnector();
-const mongoConnector = new MongoDBConnector("divaDb", ["entities"]);
+const mongoConnector = new MongoDBConnector(DIVA_DB_NAME, ["entities"]);
 const neo4jConnector = new Neo4jConnector();
 
 const edgesTypes = ["isCreatorOf", "isDataOwnerOf", "isPartOf"];
@@ -78,7 +80,7 @@ class ConnectorService {
 
   async index(
     id,
-    { dbName = "divaDb", collection = "entities", index = "entities" } = {}
+    { dbName = DIVA_DB_NAME, collection = "entities", index = "entities" } = {}
   ) {
     let entity = await getEntity(dbName, collection, id);
     if (entity) {
@@ -132,7 +134,7 @@ class ConnectorService {
   async reindex(schemaId, type, index = "entities") {
     if (type === "create") {
       // request schema from mongo to get property name
-      const entity = await getEntity("divaDb", "systemEntities", schemaId);
+      const entity = await getEntity(DIVA_DB_NAME, "systemEntities", schemaId);
       // build whole mapping
       const mappings = await buildMappingFromJsonSchema("entity");
       // extract sub mapping and build PUT body
@@ -153,7 +155,7 @@ class ConnectorService {
       await this.createIndex(indexName);
       // Batch process mongodb entities into new index
       const cursor = mongoConnector.client
-        .db("divaDb")
+        .db(DIVA_DB_NAME)
         .collection("entities")
         .find({}, { projection: { _id: 0, id: 1 } })
         .limit(0);
