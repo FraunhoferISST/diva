@@ -266,7 +266,7 @@ services:
 
   profiling-assistant:
     <<: *extra-hosts
-    image: ${REGISTRY}profiling-assistant:1.1.0
+    image: ${REGISTRY}profiling-assistant:1.1.1
     container_name: profiling-assistant
     environment:
       <<: *mongodb-env
