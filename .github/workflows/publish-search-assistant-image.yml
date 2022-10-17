@@ -53,7 +53,7 @@ jobs:
           tags: ${{ steps.package-version.outputs.current-version}}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@e551b19e49efd4e98792db7592c17c09b89db8d8
+        uses: docker/build-push-action@c56af957549030174b10d6867f20e78cfd7debc5
         with:
           context: ${{ env.DIVA_DOCKER_CONTEXT }}
           file: ${{ env.DIVA_DOCKERFILE_PATH }}
