@@ -1,6 +1,6 @@
 {
   "name": "elasticsearch-connector",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "serviceId": "service:uuid:0a777e67-5ed7-4f1e-82d3-2078a7643ebd",
   "description": "This service looks for entity events. Updates are propagated to an elasticsearch instance.",
   "repository": {

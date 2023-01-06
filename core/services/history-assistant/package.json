@@ -1,6 +1,6 @@
 {
   "name": "history-assistant",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "serviceId": "service:uuid:60f9b022-d3ef-40d1-bd80-24e10b03c86d",
   "description": "History Assistant service provides history data and human readable history",
   "main": "index.js",

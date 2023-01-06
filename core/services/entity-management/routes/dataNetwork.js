@@ -7,7 +7,10 @@ router.get(
   "/edges",
   dataNetworkController.getEdges.bind(dataNetworkController)
 );
-router.get("/edges/:id", dataNetworkController.getEdgeById);
+router.get(
+  "/edges/:id", 
+  dataNetworkController.getEdgeById.bind(dataNetworkController)
+);
 router.post(
   "/edges",
   dataNetworkController.createEdge.bind(dataNetworkController)
