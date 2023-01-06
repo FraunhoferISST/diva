@@ -11,4 +11,4 @@ else
   echo "using $ENV_FILE"
 fi
 echo "\n"
-docker-compose -f docker-compose.yml -f docker-compose.keycloak.yml --env-file $ENV_FILE down
+docker compose -f docker-compose.yml -f docker-compose.keycloak.yml --env-file $ENV_FILE down

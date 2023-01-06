@@ -7,4 +7,4 @@ else
   ENV_FILE=.env.default
   echo "using $ENV_FILE"
 fi
-docker-compose -f docker-compose.migration.yml --env-file $ENV_FILE up migration
+docker compose -f docker-compose.migration.yml --env-file $ENV_FILE up migration
