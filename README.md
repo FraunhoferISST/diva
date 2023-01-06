@@ -115,4 +115,4 @@ They put all their ❤ into this project to try out the latest **cutting edge** 
 
 ## License
 
-Copyright © Fraunhofer ISST 2022
+Copyright © Fraunhofer ISST 2023
