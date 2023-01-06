@@ -1,0 +1,38 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  labels:
+    io.kompose.service: {{ .Chart.Name | quote }}
+  name: {{ .Chart.Name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: {{ .Chart.Name | quote }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.network/core: "true"
+        io.kompose.service: {{ .Chart.Name | quote }}
+    spec:
+      initContainers:
+        {{- toYaml .Values.global.initContainerElasticsearch | nindent 8 }}
+      containers:
+        - env:
+            - name: "PORT"
+              value: {{ .Values.port | quote }} 
+            - name: ELASTICSEARCH_URL
+              {{- if .Values.global.elasticsearchUrl }}
+              value: {{ .Values.global.elasticsearchUrl | quote }}
+              {{- else }}
+              value: {{ required "please provide a elasticsearchUrl" .Values.elasticsearchUrl | quote }}
+              {{- end }}  
+          image: "ghcr.io/fraunhoferisst/diva/{{ .Chart.Name }}:{{ .Chart.AppVersion}}"
+          name: {{ .Chart.Name | quote }}
+          ports:
+            - containerPort: {{ .Values.port }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      restartPolicy: "Always"
+status: {}

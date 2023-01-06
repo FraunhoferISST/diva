@@ -1,0 +1,305 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kong-config
+data:
+  kong.yml: |
+    _format_version: "1.1"
+    services:
+
+    - name: "Event-Service"
+      url: "http://event-emitter"
+      path: "/socket.io"
+      routes:
+      - name: "event-route"
+        paths:
+        - "/events"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: true
+      plugins:
+      - name: "jwt-keycloak"
+        config:
+          allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+    - name: "Resource-Management"
+      url: "http://resource-management:3000"
+      path: "/resources"
+      routes:
+      - name: "resources-route"
+        paths:
+        - "/resources"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+      plugins:
+      - name: "jwt-keycloak"
+        config:
+          allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+    - name: "Asset-Management"
+      url: "http://asset-management:3002"
+      path: "/assets"
+      routes:
+      - name: "assets-route"
+        paths:
+        - "/assets"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+        plugins:
+        - name: "jwt-keycloak"
+          config:
+            allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+      
+      - name: "assetmanagement-route-images"
+        methods:
+        - POST
+        - PUT
+        - OPTIONS
+        - DELETE
+        paths:
+        - "/assetImages"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+        plugins:
+        - name: "jwt-keycloak"
+          config:
+            allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+      - name: "assetmanagement-route-get-images"
+        methods:
+        - GET
+        paths:
+        - "/assetImages"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+      plugins:
+      - name: "cors"
+
+    - name: "Reviews-Management"
+      url: "http://review-management:3003"
+      path: "/reviews"
+      routes:
+      - name: reviews-route
+        paths:
+        - "/reviews"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+      plugins:
+      - name: "jwt-keycloak"
+        config:
+          allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+    - name: "Service-Management"
+      url: "http://service-management:3004"
+      path: "/services"
+      routes:
+      - name: "services-route"
+        paths:
+        - "/services"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+        plugins:
+        - name: "jwt-keycloak"
+          config:
+            allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+      - name: "services-route-images"
+        methods:
+        - POST
+        - PUT
+        - GET
+        - DELETE
+        - OPTIONS
+        paths:
+          - "/serviceImages"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+        plugins:
+        - name: "jwt-keycloak"
+          config:
+            allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+      - name: "services-route-get-images"
+        methods:
+        - GET
+        paths:
+        - "/serviceImages"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+      plugins:
+      - name: "cors"
+
+    - name: "Search-Assistant"
+      url: "http://search-assistant:3005"
+      path: "/search"
+      routes:
+      - name: search-route
+        paths:
+        - "/search"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+      plugins:
+      - name: "jwt-keycloak"
+        config:
+          allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+    - name: "Profiling-Assistant"
+      url: "http://profiling-assistant:3011"
+      path: "/profiling"
+      routes:
+      - name: "profiling-route"
+        paths:
+        - "/profiling"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: true
+      plugins:
+      - name: "jwt-keycloak"
+        config:
+          allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+    - name: "History-Assistant"
+      url: "http://history-assistant:3006"
+      path: "/histories"
+      routes:
+      - name: "history-route"
+        paths:
+        - "/histories"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+      plugins:
+      - name: "jwt-keycloak"
+        config:
+          allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+    - name: "Analytics-Assistant"
+      url: "http://analytics-assistant:3007"
+      path: "/analytics"
+      routes:
+      - name: "analytics-route"
+        paths:
+        - "/analytics"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+      plugins:
+      - name: "jwt-keycloak"
+        config:
+          allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+    - name: "User-Management-Service"
+      url: "http://user-management:3001"
+      path: "/users"
+      routes:
+      - name: usermanagement-route
+        paths:
+        - "/users"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+        plugins:
+        - name: "jwt-keycloak"
+          config:
+            allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+      - name: usermanagement-route-images
+        methods:
+        - POST
+        - PUT
+        - OPTIONS
+        paths:
+        - "/userImages"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+        plugins:
+        - name: jwt-keycloak
+          config:
+            allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+      - name: usermanagement-route-get-images
+        methods:
+        - GET
+        paths:
+        - "/userImages"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false      
+      plugins:
+      - name: cors
+
+    - name: "Diva-Lake-Adapter"
+      url: "http://diva-lake-adapter:4001"
+      routes:
+      - name: diva-lake-adapter-route
+        paths:
+        - "/divaLakeAdapter"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: true
+        plugins:
+        - name: jwt-keycloak
+          config:
+            allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+    - name: "Urban-Pulse-Adapter"
+      url: "http://urban-pulse-adapter:4003"
+      routes:
+      - name: urban-pulse-adapter-route
+        paths:
+        - "/urbanPulseAdapter"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: true
+        plugins:
+        - name: jwt-keycloak
+          config:
+            allowed_iss: ["http://keycloak.local/auth/realms/diva-kc-realm"]
+
+    - name: "Schema-Registry"
+      url: "http://schema-registry:3010"
+      path: "/schemata"
+      routes:
+      - name: schema-registry-route
+        paths:
+        - "/schemata"
+        protocols:
+        - "http"
+        - "https"
+        strip_path: false
+
+    plugins:
+    - name: "cors"
+      config:
+        origins:
+        - "*"
+        preflight_continue: false
+        credentials: false

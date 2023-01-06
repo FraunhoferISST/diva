@@ -1,0 +1,185 @@
+# Default values for diva.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# DIVA Core
+global:
+  mongodbUrl: "mongodb://admin:admin@diva-documentstore-headless:27017"
+  schemaRegistryUrl: "http://schema-registry:3010"
+  kafkaUrl: "diva-broker-headless:9092"
+  elasticsearchUrl: "http://diva-elasticsearch-data:9200"
+  resourceManagementUrl: "http://resource-management:3000"
+  assetManagementUrl: "http://asset-management:3002"
+  divaLakeHost: "diva-lake"
+  divaLakePort: "9000"
+  divaLakeUsername: "minio_access"
+  divaLakePassword: "minio_secret"
+  apiGatewayUrl: "http://kong.local"
+  keycloakUrl: "http://keycloak.local/auth"
+  keycloakRealm: "diva-kc-realm"
+  airflowUrl: "http://airflow" # TODO
+  initContainerDocumentstore:
+    - name: wait-for-mongodb
+      image: curlimages/curl:latest
+      command: ["/bin/sh","-c"]
+      args: ["while [ $(curl -sw '%{http_code}' http://diva-documentstore-headless:27017 -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for our mongodb...'; done; echo 'Found mongodb' "]
+  initContainerElasticsearch: 
+    - name: wait-for-elasticsearch
+      image: curlimages/curl:latest
+      command: ["/bin/sh","-c"]
+      args: ["while [ $(curl -sw '%{http_code}' http://diva-elasticsearch-data:9200/_cluster/health?wait_for_status=green&timeout=50s -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for elasticsearch...'; done; echo 'Found elasticsearch' "]
+  initContainerDivaLake:
+    - name: wait-for-diva-lake
+      image: curlimages/curl:latest
+      command: ["/bin/sh","-c"]
+      args: ["while [ $(curl -sw '%{http_code}' http://diva-lake:9000/minio/health/live -o /dev/null) -ne 200 ]; do sleep 5; echo 'Waiting for diva-lake...'; done; echo 'Found diva-lake' "]
+  initContainerResourceManagement:
+    - name: wait-for-resource-management
+      image: curlimages/curl:latest
+      command: ["/bin/sh","-c"]
+      args: ["while [ $(curl -sw '%{http_code}' http://resource-management:3000/health -o /dev/null) -ne 404 ]; do sleep 5; echo 'Waiting for resource-management...'; done; echo 'Found resource-management' "]
+  initContainerAssetManagement:  
+    - name: wait-for-asset-management
+      image: curlimages/curl:latest
+      command: ["/bin/sh","-c"]
+      args: ["while [ $(curl -sw '%{http_code}' http://asset-management:3002/health -o /dev/null) -ne 404 ]; do sleep 5; echo 'Waiting for asset-management...'; done; echo 'Found asset-management' "]
+
+documentstore:
+  architecture: "replicaset"
+  auth:
+    rootUser: "admin"
+    rootPassword: "admin"
+
+broker:
+  provisioning:
+    topics: ["resource.events","asset.events","user.events","user.events","review.events"]
+
+lake:
+  auth:
+    rootUser: "minio_access"
+    rootPassword: "minio_secret"
+  defaultBuckets: "file-lake;analyze"
+  mode: "distributed" 
+  ingress:
+    enabled: true
+
+keycloak:
+  image:
+    registry: "ghcr.io"
+    repository: "fraunhoferisst/diva/diva-keycloak"
+    tag: "0.0.1"
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+  extraEnvVars:
+    - name: "KEYCLOAK_USER"
+      value: "admin"
+    - name: "KEYCLOAK_PASSWORD"
+      value: "admin"
+    - name: "KEYCLOAK_IMPORT"
+      value: "/tmp/default-realm.json"
+    - name: "KEYCLOAK_FRONTEND_URL"
+      value: "http://keycloak.local/auth"  
+
+kong:
+  image:
+    repository: "ghcr.io/fraunhoferisst/diva/diva-kong"
+    tag: "0.0.1"
+  env:
+    plugins: "cors, jwt-keycloak"
+    lua_package_path: "/plugins/?.lua"
+  ingressController:
+    enabled: false  
+  proxy:
+    tls:
+      enabled: false
+    ingress:
+      enabled: true
+      hostname: "kong.local"
+      path: "/"
+      annotations:
+        konghq.com/strip-path: "true"
+      ingressClassName: "nginx"  
+  dblessConfig:
+    configMap: "kong-config"
+

@@ -1,0 +1,45 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  labels:
+    io.kompose.service: {{ .Chart.Name | quote }}
+  name: {{ .Chart.Name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: {{ .Chart.Name | quote }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.network/core: "true"
+        io.kompose.service: {{ .Chart.Name | quote }}
+    spec:
+      initContainers:
+        {{- toYaml .Values.global.initContainerResourceManagement | nindent 8 }}
+        {{- toYaml .Values.global.initContainerAssetManagement | nindent 8 }}
+      containers:
+        - env:
+            - name: "PORT"
+              value: {{ .Values.port | quote }}
+            - name: "RESOURCE_MANAGEMENT_URL"
+              {{- if .Values.global.resourceManagementUrl }}
+              value: {{ .Values.global.resourceManagementUrl | quote }}
+              {{- else }}
+              value: {{ required "please provide resourceManagementUrl" .Values.resourceManagementUrl | quote }}
+              {{- end }}
+            - name: "ASSET_MANAGEMENT_URL"
+              {{- if .Values.global.assetManagementUrl }}
+              value: {{ .Values.global.assetManagementUrl | quote }}
+              {{- else }}
+              value: {{ required "please provide assetManagementUrl" .Values.assetManagementUrl | quote }}
+              {{- end }}
+          image: "ghcr.io/fraunhoferisst/diva/{{ .Chart.Name }}:{{ .Chart.AppVersion}}"
+          name: {{ .Chart.Name | quote }}
+          ports:
+            - containerPort: {{ .Values.port }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      restartPolicy: "Always"
+status: {}
