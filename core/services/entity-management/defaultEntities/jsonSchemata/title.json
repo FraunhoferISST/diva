@@ -30,6 +30,10 @@
     {
       "key": "entityType",
       "value": "folder"
+    },
+    {
+      "key": "entityType",
+      "value": "destroyclaim"
     }
   ],
   "schema": {

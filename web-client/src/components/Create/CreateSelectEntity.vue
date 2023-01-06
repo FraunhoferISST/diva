@@ -45,24 +45,30 @@ export default {
   data: () => ({
     items: [
       {
-        title: "Import new resources",
+        title: "Import new Resources",
         description: "Connect DIVA with you data sources or upload files",
         icon: "resource.svg",
         routeName: "create_resource",
       },
       {
-        title: "Create new asset",
+        title: "Create new Asset",
         description: "Connect your resources together",
         icon: "asset.svg",
         color: "alternative",
         routeName: "create_asset",
       },
       {
-        title: "Add new service",
+        title: "Add new Service",
         description: "Add a new service that is available in your company",
         icon: "resource.svg",
         routeName: "create_service",
         fullWidth: true,
+      },
+      {
+        title: "Add new Destroy Claim",
+        description: "Add a new destroy claim",
+        icon: "resource.svg",
+        routeName: "create_destroy_claim",
       },
       /*
       {

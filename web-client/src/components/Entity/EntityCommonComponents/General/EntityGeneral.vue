@@ -16,6 +16,7 @@
                 :is="field._ui.component"
                 :id="id"
                 :editable="!!field.isPatchable"
+                :field-schema="field"
               />
               <entity-field
                 v-else
@@ -41,6 +42,10 @@ import Owners from "@/components/Entity/EntityFields/EntityField/Owners/Owners";
 import Licenses from "@/components/Entity/EntityFields/EntityField/Licenses/Licenses";
 import Location from "@/components/Entity/EntityFields/EntityField/Location/Location";
 import Languages from "@/components/Entity/EntityFields/EntityField/Languages/Languages";
+import SingleRelation from "@/components/Entity/EntityFields/EntityField/SingleRelation/SingleRelation";
+import MultiRelation from "@/components/Entity/EntityFields/EntityField/MultiRelation/MultiRelation";
+import DestroyclaimRefersTo from "@/components/Entity/EntityFields/EntityField/Destroyclaims/DestroyclaimRefersTo";
+import DestroyclaimReasons from "@/components/Entity/EntityFields/EntityField/Destroyclaims/DestroyclaimReasons";
 import { useEntity } from "@/composables/entity";
 import { computed } from "@vue/composition-api";
 import { useBus } from "@/composables/bus";
@@ -52,6 +57,10 @@ export default {
     DataViewer,
     Languages,
     Location,
+    SingleRelation,
+    MultiRelation,
+    DestroyclaimRefersTo,
+    DestroyclaimReasons,
     Licenses,
     Owners,
     EntityField,

@@ -1,0 +1,78 @@
+{
+  "id": "schema:uuid:c4a31ddf-fbcf-44d3-959a-f004208165b8",
+  "title": "Destroyclaim Reasons",
+  "schemaName": "destroyclaimReasons",
+  "description": "Reasons why this destroy claim exists",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "destroyclaim"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Destroyclaim Reasons",
+    "properties": {
+      "destroyclaimReasons": {
+        "type": "array",
+        "title": "Destroyclaim Reasons",
+        "description": "Reasons why this destroy claim exists",
+        "items": {
+          "title": "Destroyclaim Reasons information",
+          "description": "Detailed information about each destroyclaim reasons",
+          "type": "object",
+          "required": [
+            "url"
+          ],
+          "properties": {
+            "url": {
+              "title": "Destroyclaim Reason URL",
+              "description": "A destroyclaim reason encoded using an URI",
+              "format": "uri",
+              "type": "string",
+              "examples": [
+                "https://fraunhoferisst.github.io/destroyclaims/docs/Why/Reasons/Data-Quality/why-data-quality-timeliness"
+              ],
+              "_elasticsearch": {
+                "type": "text"
+              }
+            },
+            "name": {
+              "title": "Destroyclaim Reason Name",
+              "description": "Descriptive destroyclaim reason name",
+              "examples": [
+                "Data Quality - Timeliness"
+              ],
+              "type": "string",
+              "_elasticsearch": {
+                "type": "text"
+              }
+            },
+            "additionalInfoText": {
+              "title": "Additional Info Text",
+              "description": "Give additional information about the destroyclaim reason",
+              "type": "string",
+              "examples": [
+                "Due to a technical error, incorrect sensor data was generated."
+              ],
+              "_elasticsearch": {
+                "type": "text"
+              }
+            }
+          }
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 7,
+          "component": "DestroyclaimReasons",
+          "fallbackValue": [],
+          "fullWidth": true
+        }
+      }
+    }
+  }
+}

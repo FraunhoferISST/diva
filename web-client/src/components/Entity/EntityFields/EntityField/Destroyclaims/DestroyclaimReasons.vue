@@ -17,10 +17,13 @@
     </template>
     <template #value>
       <no-data-state
-        v-if="!addMode && (!localLicenses || localLicenses.length === 0)"
+        v-if="
+          !addMode &&
+          (!localDestroyclaimReasons || localDestroyclaimReasons.length === 0)
+        "
       >
         <div>
-          No licenses specified <br />
+          No reason specified <br />
           <v-btn
             rounded
             text
@@ -29,7 +32,7 @@
             color="#2d68fc"
             @click="addMode = true"
           >
-            Add first license
+            Add first reason
             <v-icon small> add </v-icon>
           </v-btn>
         </div>
@@ -38,9 +41,11 @@
         <v-row>
           <v-col cols="12" class="pb-0">
             <v-row v-if="addMode" class="mb-1 relative">
-              <v-col cols="12" sm="12" md="6" lg="4" xl="4">
-                <div class="license-add-form">
-                  <license-edit :license.sync="newLicense">
+              <v-col cols="12" sm="12" md="6" lg="6" xl="6">
+                <div class="destroyclaim-reason-add-form">
+                  <destroyclaim-reason-edit
+                    :destroyclaimReason.sync="newDestroyclaimReason"
+                  >
                     <template>
                       <v-btn
                         rounded
@@ -58,14 +63,14 @@
                         small
                         depressed
                         color="primary"
-                        @click="addLicense"
-                        :disabled="!newLicense.url"
+                        @click="addDestroyclaimReason"
+                        :disabled="!newDestroyclaimReason.url"
                         :loading="loading"
                       >
-                        Add license
+                        Add destroyclaim reason
                       </v-btn>
                     </template>
-                  </license-edit>
+                  </destroyclaim-reason-edit>
                 </div>
               </v-col>
               <v-snackbar
@@ -88,7 +93,7 @@
               color="#2d68fc"
               @click="addMode = true"
             >
-              Add new license
+              Add new destroyclaim reason
               <v-icon small> add </v-icon>
             </v-btn>
           </v-col>
@@ -96,62 +101,63 @@
             cols="12"
             sm="12"
             md="6"
-            lg="4"
-            xl="4"
-            v-for="(license, i) in localLicenses"
-            :key="`${license.url}_${license.code}_${license.name}_${license.attributedByText}_${i}`"
+            lg="6"
+            xl="6"
+            v-for="(destroyclaimReason, i) in localDestroyclaimReasons"
+            :key="`${destroyclaimReason.url}_${destroyclaimReason.name}_${destroyclaimReason.additionalInfoText}_${i}`"
           >
             <field-editor
-              :data="{ license: { ...license } }"
-              :on-save="(editorPatch) => updateLicense(editorPatch, i)"
+              :data="{ destroyclaimReason: { ...destroyclaimReason } }"
+              :on-save="
+                (editorPatch) => updateDestroyclaimReason(editorPatch, i)
+              "
             >
               <template #view="{ state }">
-                <div class="license-card pa-3">
-                  <div class="license-info d-flex" v-if="state.license.name">
+                <div class="destroyclaim-reason-card pa-3">
+                  <div
+                    class="destroyclaim-reason-info d-flex"
+                    v-if="state.destroyclaimReason.name"
+                  >
                     <div class="ellipsis">
                       <info-block-value>
-                        <h1 class="license-title mb-2 ellipsis">
-                          {{ state.license.name }}
+                        <h1 class="destroyclaim-reason-title mb-2 ellipsis">
+                          {{ state.destroyclaimReason.name }}
                         </h1>
                       </info-block-value>
                     </div>
                   </div>
-                  <div class="license-info d-flex">
+                  <div class="destroyclaim-reason-info d-flex">
                     <info-block-value>URL:</info-block-value>
                     <div class="ellipsis">
                       <info-block-value>
                         <a
-                          class="general-license"
-                          :href="state.license.url"
+                          class="general-destroyclaim-reason"
+                          :href="state.destroyclaimReason.url"
                           target="_blank"
                           @click.stop="() => {}"
                         >
-                          {{ state.license.url }}
+                          {{ state.destroyclaimReason.url }}
                         </a>
                       </info-block-value>
                     </div>
                   </div>
-                  <div class="license-info d-flex">
-                    <info-block-value>License code:</info-block-value>
-                    <info-block-value>
-                      {{ state.license.code || "-" }}
-                    </info-block-value>
-                  </div>
-                  <div class="license-info d-flex">
-                    <info-block-value>Attributed by:</info-block-value>
-                    <div class="ellipsis">
+                  <div class="destroyclaim-reason-info">
+                    <info-block-value>Additional Information:</info-block-value>
+                    <div>
                       <info-block-value>
-                        {{ state.license.attributedByText || "-" }}
+                        {{ state.destroyclaimReason.additionalInfoText || "-" }}
                       </info-block-value>
                     </div>
                   </div>
                 </div>
               </template>
               <template #edit="{ setPatch, patch, disableEdit }">
-                <license-edit
-                  :license="patch.license"
-                  @update:license="setPatch({ license: $event })"
-                  @remove="() => removeLicense(i, disableEdit)"
+                <destroyclaim-reason-edit
+                  :destroyclaimReason="patch.destroyclaimReason"
+                  @update:destroyclaimReason="
+                    setPatch({ destroyclaimReason: $event })
+                  "
+                  @remove="() => removeDestroyclaimReason(i, disableEdit)"
                 />
                 <v-snackbar
                   absolute
@@ -180,17 +186,17 @@ import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 import { useEntity } from "@/composables/entity";
 import { useSnackbar } from "@/composables/snackbar";
-import LicenseEdit from "@/components/Entity/EntityFields/EntityField/Licenses/LicenseEdit";
+import DestroyclaimReasonEdit from "@/components/Entity/EntityFields/EntityField/Destroyclaims/DestroyclaimReasonsEdit";
 
 export default {
-  name: "Licenses",
+  name: "DestroyclaimReasons",
   inheritAttrs: false,
   components: {
-    LicenseEdit,
+    DestroyclaimReasonEdit,
     FieldEditor,
     InfoBlock,
-    InfoBlockValue,
     InfoBlockTitle,
+    InfoBlockValue,
     NoDataState,
   },
   props: {
@@ -198,7 +204,7 @@ export default {
       type: String,
       required: true,
     },
-    licenses: {
+    destroyclaimReasons: {
       type: Array,
       required: true,
     },
@@ -229,24 +235,31 @@ export default {
   },
   data() {
     return {
-      localLicenses: this.licenses,
-      newLicense: {
+      localDestroyclaimReasons: this.destroyclaimReasons,
+      newDestroyclaimReason: {
         url: "",
         name: "",
-        code: "",
-        attributedByText: "",
+        additionalInfoText: "",
       },
       addMode: false,
     };
   },
   methods: {
-    updateNewLicense({ license }) {
-      this.newLicense = license;
+    updateNewDestroyclaimReason({ reason }) {
+      this.newDestroyclaimReason = reason;
     },
-    updateLicense(patch, index) {
-      const updatedTemporalLicenses = [...this.localLicenses];
-      updatedTemporalLicenses.splice(index, 1, patch.license);
-      return this.patch({ licenses: updatedTemporalLicenses }).then(() => {
+    updateDestroyclaimReason(patch, index) {
+      const updatedTemporalDestroyclaimReasons = [
+        ...this.localDestroyclaimReasons,
+      ];
+      updatedTemporalDestroyclaimReasons.splice(
+        index,
+        1,
+        patch.destroyclaimReason
+      );
+      return this.patch({
+        destroyclaimReasons: updatedTemporalDestroyclaimReasons,
+      }).then(() => {
         if (this.patchError) {
           this.show(
             this.patchError?.response?.data?.message ?? this.patchError,
@@ -254,13 +267,17 @@ export default {
           );
           return;
         }
-        this.localLicenses = updatedTemporalLicenses;
+        this.localDestroyclaimReasons = updatedTemporalDestroyclaimReasons;
       });
     },
-    removeLicense(index, disableEdit) {
-      const updatedTemporalLicenses = [...this.localLicenses];
-      updatedTemporalLicenses.splice(index, 1);
-      return this.patch({ licenses: updatedTemporalLicenses }).then(() => {
+    removeDestroyclaimReason(index, disableEdit) {
+      const updatedTemporalDestroyclaimReasons = [
+        ...this.localDestroyclaimReasons,
+      ];
+      updatedTemporalDestroyclaimReasons.splice(index, 1);
+      return this.patch({
+        destroyclaimReasons: updatedTemporalDestroyclaimReasons,
+      }).then(() => {
         if (this.patchError) {
           this.show(
             this.patchError?.response?.data?.message ?? this.patchError,
@@ -269,54 +286,58 @@ export default {
           return;
         }
         disableEdit();
-        this.localLicenses = updatedTemporalLicenses;
+        this.localDestroyclaimReasons = updatedTemporalDestroyclaimReasons;
       });
     },
-    addLicense() {
-      const newTemporalLicenses = [this.newLicense, ...this.localLicenses];
-      this.patch({ licenses: newTemporalLicenses }).then(() => {
-        if (this.patchError) {
-          this.show(
-            this.patchError?.response?.data?.message ?? this.patchError,
-            { color: "error" }
-          );
-          return;
+    addDestroyclaimReason() {
+      const newTemporalDestroyclaimReasons = [
+        this.newDestroyclaimReason,
+        ...this.localDestroyclaimReasons,
+      ];
+      this.patch({ destroyclaimReasons: newTemporalDestroyclaimReasons }).then(
+        () => {
+          if (this.patchError) {
+            this.show(
+              this.patchError?.response?.data?.message ?? this.patchError,
+              { color: "error" }
+            );
+            return;
+          }
+          this.localDestroyclaimReasons = newTemporalDestroyclaimReasons;
+          this.addMode = false;
+          this.newDestroyclaimReason = {
+            url: "",
+            name: "",
+            additionalInfoText: "",
+          };
         }
-        this.localLicenses = newTemporalLicenses;
-        this.addMode = false;
-        this.newLicense = {
-          url: "",
-          name: "",
-          code: "",
-          attributedByText: "",
-        };
-      });
+      );
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.license-add-card {
+.destroyclaim-reason-add-card {
   min-height: 120px;
   border: 2px #5e94ff dashed;
   @include border-radius();
 }
-.license-add-form {
+.destroyclaim-reason-add-form {
   background-color: $bg_card_secondary;
   @include border-radius-half();
 }
-.license-card {
+.destroyclaim-reason-card {
   border: 2px solid $bg_card_secondary;
   @include border-radius();
 }
-.license-title {
+.destroyclaim-reason-title {
   font-size: 1rem !important;
 }
-.license-info {
+.destroyclaim-reason-info {
   gap: 15px;
 }
-.general-license {
+.general-destroyclaim-reason {
   transition: 0.3s;
   color: $c_accent_primary;
   &:hover {
