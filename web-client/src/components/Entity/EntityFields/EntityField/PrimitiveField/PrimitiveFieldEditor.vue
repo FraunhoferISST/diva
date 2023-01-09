@@ -33,16 +33,20 @@ export default {
     },
     type: {
       type: String,
-      default: "text",
-      validator: (val) => ["text", "number"].includes(val),
+      validator: (val) => {
+        return ["text", "number"].includes(val);
+      },
+      require: true,
     },
   },
   computed: {
     computedValue: {
       get() {
+        console.log(typeof this.value);
         return this.value;
       },
       set(value) {
+        console.log(typeof value);
         this.$emit(
           "update:value",
           this.type === "number" ? parseFloat(value) : value

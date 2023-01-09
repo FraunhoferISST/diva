@@ -25,7 +25,8 @@
         "enum": [
           "generic",
           "file",
-          "urbanPulseSensor"
+          "urbanPulseSensor",
+          "vmware:vm"
         ],
         "_elasticsearch": {
           "type": "keyword"

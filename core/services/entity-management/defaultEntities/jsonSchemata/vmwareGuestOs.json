@@ -1,0 +1,39 @@
+{
+  "id": "schema:uuid:ec21e8d9-93d4-43d9-896d-c29ca5a0946d",
+  "title": "VMWare Guest OS Schema",
+  "schemaName": "vmwareGuestOs",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "vmware:vm"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "VMWare Guest OS",
+    "properties": {
+      "vmwareGuestOs": {
+        "type": "string",
+        "title": "VMWare Guest OS",
+        "description": "The Guest OS installed inside the VMWare VM",
+        "examples": [
+          "Ubuntu 22.04 64-bit"
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "diva_analyzer"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 2,
+          "type": "text",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

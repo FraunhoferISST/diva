@@ -117,6 +117,8 @@ import SourceTypeCard from "@/components/Resource/Create/SourceSelection/SourceT
 import FileUploadSource from "@/components/Resource/Create/SourceSelection/SourceTypes/FileUploadSource";
 import GenericSource from "@/components/Resource/Create/SourceSelection/SourceTypes/GenericSource";
 import UrbanPulseSource from "@/components/Resource/Create/SourceSelection/SourceTypes/UrbanPulseSource";
+import VMWareSource from "@/components/Resource/Create/SourceSelection/SourceTypes/VMWareSource";
+
 import FadeIn from "@/components/Transitions/FadeIn";
 import ColoredCard from "@/components/Base/ColoredCard";
 import EntityCreationImportingOverlay from "@/components/Entity/EntityCreation/EntityCreationImportingOverlay";
@@ -133,6 +135,7 @@ export default {
     SourceTypeCard,
     FileUploadSource,
     UrbanPulseSource,
+    VMWareSource,
     GenericSource,
   },
   data: () => ({
@@ -163,6 +166,17 @@ export default {
         resources: [],
         component: UrbanPulseSource,
         icon: "dksr.jpg",
+        isReady: false,
+        totalCount: null,
+        processedCount: null,
+        onCreate: () => {},
+        onCancel: () => {},
+      },
+      {
+        title: "VMWare VM",
+        resources: [],
+        component: VMWareSource,
+        icon: "vmware.svg",
         isReady: false,
         totalCount: null,
         processedCount: null,
