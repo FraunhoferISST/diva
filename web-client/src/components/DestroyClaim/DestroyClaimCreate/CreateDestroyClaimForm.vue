@@ -104,6 +104,7 @@ export default {
         .create({
           title: this.title,
           destroyclaimType: "generic",
+          isActive: false,
         })
         .then(({ data: id }) => {
           this.$router.push({
