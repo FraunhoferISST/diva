@@ -12,6 +12,14 @@
                 label="VMWare VM name"
                 :value.sync="resource.title"
               />
+              <v-tooltip top open-delay="600" max-width="400px">
+                <template #activator="{ on, attrs }">
+                  <v-icon color="primary" large v-bind="attrs" v-on="on">
+                    info_outline
+                  </v-icon>
+                </template>
+                <span>should be the same name as used in the VM</span>
+              </v-tooltip>
             </div>
           </v-col>
           <v-col cols="6" :md="6">
@@ -20,6 +28,17 @@
                 label="VMWare VM uuid"
                 :value.sync="resource.vmwareUuid"
               />
+              <v-tooltip top open-delay="600" max-width="400px">
+                <template #activator="{ on, attrs }">
+                  <v-icon color="primary" large v-bind="attrs" v-on="on">
+                    info_outline
+                  </v-icon>
+                </template>
+                <span
+                  >UUID must look like this: 56 4d d1 4a 8e 46 d6 79-87 7c dc 0d
+                  d7 4f ef e9</span
+                >
+              </v-tooltip>
               <div class="pl-2" v-if="computedSource.resources.length > 1">
                 <v-btn icon color="error" @click="() => onRemoveTab(i)">
                   <v-icon small color="error"> close </v-icon>
