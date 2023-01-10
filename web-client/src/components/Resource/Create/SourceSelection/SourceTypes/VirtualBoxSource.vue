@@ -2,14 +2,14 @@
   <v-container class="pa-0 fluid">
     <v-row>
       <v-col cols="12">
-        <custom-header text="Specify Names and UUIDs for new VMWare VMs" />
+        <custom-header text="Specify Names and UUIDs for new VirtualBox VMs" />
       </v-col>
       <v-col cols="12">
         <v-row dense v-for="(resource, i) in computedSource.resources" :key="i">
           <v-col cols="6" :md="6">
             <div class="d-flex align-center pb-5">
               <source-text-input
-                label="VMWare VM name"
+                label="VirtualBox VM name"
                 :value.sync="resource.title"
               />
               <v-tooltip top open-delay="600" max-width="400px" v-if="i === 0">
@@ -25,8 +25,8 @@
           <v-col cols="6" :md="6">
             <div class="d-flex align-center">
               <source-text-input
-                label="VMWare VM uuid"
-                :value.sync="resource.vmwareUuid"
+                label="VirtualBox VM uuid"
+                :value.sync="resource.virtualboxUuid"
                 :rules="uuidValidationRules"
               />
               <v-tooltip top open-delay="600" max-width="400px" v-if="i === 0">
@@ -36,8 +36,8 @@
                   </v-icon>
                 </template>
                 <span
-                  >UUID must look like this: 56 4d d1 4a 8e 46 d6 79-87 7c dc 0d
-                  d7 4f ef e9</span
+                  >UUID must look like this:
+                  b5fc1451-3a72-4bc1-9ccd-81cc3d518628</span
                 >
               </v-tooltip>
               <div class="pl-2" v-if="computedSource.resources.length > 1">
@@ -68,7 +68,7 @@
 import CustomHeader from "@/components/Base/CustomHeader";
 import SourceTextInput from "@/components/Resource/Create/SourceSelection/SourceCreationFields/SourceTextInput";
 export default {
-  name: "VMWareSource",
+  name: "VirtualBoxSource",
   components: {
     SourceTextInput,
     CustomHeader,
@@ -80,10 +80,10 @@ export default {
     },
   },
   data: () => ({
-    vmwareVmResource: {
+    virtualboxVmResource: {
       title: "",
-      vmwareUuid: "",
-      resourceType: "vmware:vm",
+      virtualboxUuid: "",
+      resourceType: "virtualbox:vm",
       entityType: "resource",
       error: "",
       warning: "",
@@ -93,8 +93,8 @@ export default {
     uuidValidationRules: [
       (value) => {
         const pattern =
-          /^([0-9a-f]{2} ){7}[0-9a-f]{2}-[0-9a-f]{2} ([0-9a-f]{2} ){6}[0-9a-f]{2}$/g;
-        return pattern.test(value) || "Invalid VMWare UUID";
+          /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/g;
+        return pattern.test(value) || "Invalid VirtualBox UUID";
       },
     ],
   }),
@@ -124,9 +124,9 @@ export default {
           resource.imported = false;
           resource.warning = "";
           resource.error = "";
-          const { title, vmwareUuid, resourceType, entityType } = resource;
+          const { title, virtualboxUuid, resourceType, entityType } = resource;
           return this.$api.resources
-            .create({ title, vmwareUuid, resourceType, entityType })
+            .create({ title, virtualboxUuid, resourceType, entityType })
             .then(({ data }) => {
               resource.id = data;
               resource.imported = true;
@@ -144,7 +144,7 @@ export default {
       );
     },
     onAdd() {
-      this.computedSource.resources.push({ ...this.vmwareVmResource });
+      this.computedSource.resources.push({ ...this.virtualboxVmResource });
     },
     onRemoveTab(i) {
       this.computedSource.resources.splice(i, 1);
@@ -152,7 +152,7 @@ export default {
   },
   mounted() {
     this.computedSource.onCreate = this.create;
-    this.computedSource.resources = [{ ...this.vmwareVmResource }];
+    this.computedSource.resources = [{ ...this.virtualboxVmResource }];
   },
 };
 </script>

@@ -1,31 +1,31 @@
 {
   "id": "schema:uuid:ec21e8d9-93d4-43d9-896d-c29ca5a0946d",
-  "title": "VMWare UUID Schema",
-  "schemaName": "vmwareUuid",
+  "title": "VirtualBox UUID Schema",
+  "schemaName": "virtualboxUuid",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "isPatchable": true,
   "scope": [
     {
       "key": "resourceType",
-      "value": "vmware:vm"
+      "value": "virtualbox:vm"
     }
   ],
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "VMWare UUID",
+    "title": "VirtualBox UUID",
     "required": [
-      "vmwareUuid"
+      "virtualboxUuid"
     ],
     "properties": {
-      "vmwareUuid": {
+      "virtualboxUuid": {
         "type": "string",
-        "pattern": "^([0-9a-f]{2} ){7}[0-9a-f]{2}-[0-9a-f]{2} ([0-9a-f]{2} ){6}[0-9a-f]{2}$",
-        "title": "VMWare UUID",
-        "description": "The UUID of the VMWare VM",
+        "title": "VirtualBox UUID",
+        "description": "The UUID of the VirtualBox VM",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
         "examples": [
-          "56 4d d1 4a 8e 46 d6 79-87 7c dc 0d d7 4f ef e9"
+          "b5fc1451-3a72-4bc1-9ccd-81cc3d518628"
         ],
         "_elasticsearch": {
           "type": "text",

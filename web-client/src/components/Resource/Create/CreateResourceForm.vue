@@ -118,6 +118,7 @@ import FileUploadSource from "@/components/Resource/Create/SourceSelection/Sourc
 import GenericSource from "@/components/Resource/Create/SourceSelection/SourceTypes/GenericSource";
 import UrbanPulseSource from "@/components/Resource/Create/SourceSelection/SourceTypes/UrbanPulseSource";
 import VMWareSource from "@/components/Resource/Create/SourceSelection/SourceTypes/VMWareSource";
+import VirtualBoxSource from "@/components/Resource/Create/SourceSelection/SourceTypes/VirtualBoxSource";
 import FadeIn from "@/components/Transitions/FadeIn";
 import ColoredCard from "@/components/Base/ColoredCard";
 import EntityCreationImportingOverlay from "@/components/Entity/EntityCreation/EntityCreationImportingOverlay";
@@ -176,6 +177,17 @@ export default {
         resources: [],
         component: VMWareSource,
         icon: "vmware.svg",
+        isReady: false,
+        totalCount: null,
+        processedCount: null,
+        onCreate: () => {},
+        onCancel: () => {},
+      },
+      {
+        title: "VirtualBox VM",
+        resources: [],
+        component: VirtualBoxSource,
+        icon: "virtualbox.svg",
         isReady: false,
         totalCount: null,
         processedCount: null,
