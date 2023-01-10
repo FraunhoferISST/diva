@@ -11,10 +11,6 @@
     {
       "key": "entityType",
       "value": "asset"
-    },
-    {
-      "key": "entityType",
-      "value": "destroyclaim"
     }
   ],
   "systemEntityType": "schema",
