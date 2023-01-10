@@ -12,7 +12,7 @@
                 label="VMWare VM name"
                 :value.sync="resource.title"
               />
-              <v-tooltip top open-delay="600" max-width="400px">
+              <v-tooltip top open-delay="600" max-width="400px" v-if="i === 0">
                 <template #activator="{ on, attrs }">
                   <v-icon color="primary" large v-bind="attrs" v-on="on">
                     info_outline
@@ -27,8 +27,9 @@
               <source-text-input
                 label="VMWare VM uuid"
                 :value.sync="resource.vmwareUuid"
+                :rules="uuidValidationRules"
               />
-              <v-tooltip top open-delay="600" max-width="400px">
+              <v-tooltip top open-delay="600" max-width="400px" v-if="i === 0">
                 <template #activator="{ on, attrs }">
                   <v-icon color="primary" large v-bind="attrs" v-on="on">
                     info_outline
@@ -89,6 +90,13 @@ export default {
       imported: false,
       loading: true,
     },
+    uuidValidationRules: [
+      (value) => {
+        const pattern =
+          /^([0-9a-f]{2} ){7}[0-9a-f]{2}-[0-9a-f]{2} ([0-9a-f]{2} ){6}[0-9a-f]{2}$/g;
+        return pattern.test(value) || "Invalid VMWare UUID";
+      },
+    ],
   }),
   watch: {
     isReady() {
