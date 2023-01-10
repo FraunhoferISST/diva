@@ -1,31 +1,27 @@
 {
-  "id": "schema:uuid:ec21e8d9-93d4-43d9-896d-c29ca5a0946d",
-  "title": "VMWare UUID Schema",
-  "schemaName": "vmwareUuid",
+  "id": "schema:uuid:1c970c8c-0b6b-4849-bdfc-d67439bf763a",
+  "title": "Virtualbox Guest OS Schema",
+  "schemaName": "virtualboxGuestOs",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "isPatchable": true,
   "scope": [
     {
       "key": "resourceType",
-      "value": "vmware:vm"
+      "value": "virtualbox:vm"
     }
   ],
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "VMWare UUID",
-    "required": [
-      "vmwareUuid"
-    ],
+    "title": "Virtualbox Guest OS",
     "properties": {
-      "vmwareUuid": {
+      "virtualboxGuestOs": {
         "type": "string",
-        "pattern": "^([0-9a-f]{2} ){7}[0-9a-f]{2}-[0-9a-f]{2} ([0-9a-f]{2} ){6}[0-9a-f]{2}$",
-        "title": "VMWare UUID",
-        "description": "The UUID of the VMWare VM",
+        "title": "Virtualbox Guest OS",
+        "description": "The Guest OS installed inside the Virtualbox VM",
         "examples": [
-          "56 4d d1 4a 8e 46 d6 79-87 7c dc 0d d7 4f ef e9"
+          "Ubuntu 22.04 64-bit"
         ],
         "_elasticsearch": {
           "type": "text",

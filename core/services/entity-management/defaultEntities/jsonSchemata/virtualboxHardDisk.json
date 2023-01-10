@@ -1,0 +1,40 @@
+{
+    "id": "schema:uuid:6e30053b-6783-4d5f-b3e0-84a1a56aeeaf",
+    "title": "VirtualBox Hard Disk",
+    "schemaName": "virtualboxHardDisk",
+    "isPatchable": true,
+    "scope": [
+        {
+            "key": "resourceType",
+            "value": "virtualbox:vm"
+        }
+    ],
+    "systemEntityType": "schema",
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2019-09/schema",
+      "type": "object",
+      "title": "VirtualBox Hard Disk",
+      "properties": {
+        "virtualboxHardDisk": {
+          "type": "integer",
+          "title": "VirtualBox Hard Disk",
+          "description": "Memory of VM Hard Disk in GB",
+          "default": 0,
+          "minimum": 0,
+          "examples": [
+            1024,
+            16384
+          ],
+          "_elasticsearch": {
+            "type": "integer"
+          },
+          "_ui": {
+            "view": "overview",
+            "position": 2,
+            "type": "number",
+            "fallbackValue": ""
+          }
+        }
+      }
+    }
+  }

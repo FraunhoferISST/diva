@@ -26,7 +26,8 @@
           "generic",
           "file",
           "urbanPulseSensor",
-          "vmware:vm"
+          "vmware:vm",
+          "virtualbox:vm"
         ],
         "_elasticsearch": {
           "type": "keyword"
