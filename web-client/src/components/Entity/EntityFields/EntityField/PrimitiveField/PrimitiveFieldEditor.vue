@@ -34,7 +34,7 @@ export default {
     type: {
       type: String,
       validator: (val) => ["text", "number"].includes(val),
-      require: true,
+      required: true,
     },
   },
   computed: {
