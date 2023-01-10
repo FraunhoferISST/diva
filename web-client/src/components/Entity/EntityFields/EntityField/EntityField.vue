@@ -37,6 +37,7 @@
                 :property="field.propertyName"
                 :value="patch[field.propertyName]"
                 :title="field.title"
+                :type="field.type"
                 :options="field.options"
                 :allowCustom="field._ui.allowCustom"
                 :multiple="field._ui.multiple"
