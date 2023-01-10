@@ -62,7 +62,7 @@ export default {
         description: "Add a new service that is available in your company",
         icon: "resource.svg",
         routeName: "create_service",
-        fullWidth: true,
+        fullWidth: false,
       },
       {
         title: "Add new Destroy Claim",
