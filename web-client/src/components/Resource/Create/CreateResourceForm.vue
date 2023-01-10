@@ -118,7 +118,6 @@ import FileUploadSource from "@/components/Resource/Create/SourceSelection/Sourc
 import GenericSource from "@/components/Resource/Create/SourceSelection/SourceTypes/GenericSource";
 import UrbanPulseSource from "@/components/Resource/Create/SourceSelection/SourceTypes/UrbanPulseSource";
 import VMWareSource from "@/components/Resource/Create/SourceSelection/SourceTypes/VMWareSource";
-
 import FadeIn from "@/components/Transitions/FadeIn";
 import ColoredCard from "@/components/Base/ColoredCard";
 import EntityCreationImportingOverlay from "@/components/Entity/EntityCreation/EntityCreationImportingOverlay";
