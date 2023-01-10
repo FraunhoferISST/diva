@@ -21,6 +21,7 @@
     "properties": {
       "vmwareUuid": {
         "type": "string",
+        "pattern": "^([0-9a-f]{2} ){7}[0-9a-f]{2}-[0-9a-f]{2} ([0-9a-f]{2} ){6}[0-9a-f]{2}$",
         "title": "VMWare UUID",
         "description": "The UUID of the VMWare VM",
         "examples": [
