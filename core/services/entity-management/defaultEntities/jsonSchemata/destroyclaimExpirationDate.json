@@ -1,8 +1,8 @@
 {
   "id": "schema:uuid:23382dff-6f1b-419f-acbd-0004da6b49c2",
-  "title": "Destroy Claim Start Date",
-  "schemaName": "destroyclaimStartDate",
-  "description": "Date of when the destroyclaim should be applied",
+  "title": "Destroy Claim Expiration Date",
+  "schemaName": "destroyclaimExpirationDate",
+  "description": "Date of when the destroyclaim should expire",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "isPatchable": true,
@@ -15,12 +15,12 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Destroy Claim Start Date",
+    "title": "Destroy Claim Expiration Date",
     "properties": {
-      "destroyclaimStartDate": {
+      "destroyclaimExpirationDate": {
         "type": "string",
-        "title": "Destroy Claim Start Date",
-        "description": "Date of when the destroyclaim should be applied",
+        "title": "Destroy Claim Expiration Date",
+        "description": "Date of when the destroyclaim should expire",
         "examples": [
           "2023-08-01T00:00:00Z"
         ],
@@ -30,7 +30,7 @@
         },
         "_ui": {
           "view": "overview",
-          "position": 7,
+          "position": 5,
           "type": "date",
           "fallbackValue": ""
         }
