@@ -1,0 +1,43 @@
+{
+  "id": "schema:uuid:ec21e8d9-93d4-43d9-896d-c29ca5a0946d",
+  "title": "VirtualBox UUID Schema",
+  "schemaName": "virtualboxUuid",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "virtualbox:vm"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "VirtualBox UUID",
+    "required": [
+      "virtualboxUuid"
+    ],
+    "properties": {
+      "virtualboxUuid": {
+        "type": "string",
+        "title": "VirtualBox UUID",
+        "description": "The UUID of the VirtualBox VM",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$",
+        "examples": [
+          "b5fc1451-3a72-4bc1-9ccd-81cc3d518628"
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "diva_analyzer"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 2,
+          "type": "text",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

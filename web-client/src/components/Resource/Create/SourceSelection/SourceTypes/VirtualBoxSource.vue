@@ -2,14 +2,14 @@
   <v-container class="pa-0 fluid">
     <v-row>
       <v-col cols="12">
-        <custom-header text="Specify Names and UUIDs for new VMWare VMs" />
+        <custom-header text="Specify Names and UUIDs for new VirtualBox VMs" />
       </v-col>
       <v-col cols="12">
         <v-row dense v-for="(resource, i) in computedSource.resources" :key="i">
           <v-col cols="6" :md="6">
             <div class="d-flex align-center pb-5">
               <source-text-input
-                label="VMWare VM name"
+                label="VirtualBox VM name"
                 :value.sync="resource.title"
               />
             </div>
@@ -17,8 +17,8 @@
           <v-col cols="6" :md="6">
             <div class="d-flex align-center">
               <source-text-input
-                label="VMWare VM uuid"
-                :value.sync="resource.vmwareUuid"
+                label="VirtualBox VM uuid"
+                :value.sync="resource.virtualboxUuid"
               />
               <div class="pl-2" v-if="computedSource.resources.length > 1">
                 <v-btn icon color="error" @click="() => onRemoveTab(i)">
@@ -48,7 +48,7 @@
 import CustomHeader from "@/components/Base/CustomHeader";
 import SourceTextInput from "@/components/Resource/Create/SourceSelection/SourceCreationFields/SourceTextInput";
 export default {
-  name: "VMWareSource",
+  name: "VirtualBoxSource",
   components: {
     SourceTextInput,
     CustomHeader,
@@ -60,10 +60,10 @@ export default {
     },
   },
   data: () => ({
-    vmwareVmResource: {
+    virtualboxVmResource: {
       title: "",
-      vmwareUuid: "",
-      resourceType: "vmware:vm",
+      virtualboxUuid: "",
+      resourceType: "virtualbox:vm",
       entityType: "resource",
       error: "",
       warning: "",
@@ -97,9 +97,9 @@ export default {
           resource.imported = false;
           resource.warning = "";
           resource.error = "";
-          const { title, vmwareUuid, resourceType, entityType } = resource;
+          const { title, virtualboxUuid, resourceType, entityType } = resource;
           return this.$api.resources
-            .create({ title, vmwareUuid, resourceType, entityType })
+            .create({ title, virtualboxUuid, resourceType, entityType })
             .then(({ data }) => {
               resource.id = data;
               resource.imported = true;
@@ -117,7 +117,7 @@ export default {
       );
     },
     onAdd() {
-      this.computedSource.resources.push({ ...this.vmwareVmResource });
+      this.computedSource.resources.push({ ...this.virtualboxVmResource });
     },
     onRemoveTab(i) {
       this.computedSource.resources.splice(i, 1);
@@ -125,7 +125,7 @@ export default {
   },
   mounted() {
     this.computedSource.onCreate = this.create;
-    this.computedSource.resources = [{ ...this.vmwareVmResource }];
+    this.computedSource.resources = [{ ...this.virtualboxVmResource }];
   },
 };
 </script>

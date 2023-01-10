@@ -1,0 +1,40 @@
+{
+    "id": "schema:uuid:3fcf12cc-98ff-499b-a11f-58f42e72be63",
+    "title": "VirtualBox Processors Schema",
+    "schemaName": "virtualboxProcessors",
+    "isPatchable": true,
+    "scope": [
+        {
+            "key": "resourceType",
+            "value": "virtualbox:vm"
+        }
+    ],
+    "systemEntityType": "schema",
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2019-09/schema",
+      "type": "object",
+      "title": "VirtualBox Processors",
+      "properties": {
+        "virtualboxProcessors": {
+          "type": "integer",
+          "title": "VirtualBox Processors",
+          "description": "Number processor cores in VirtualBox VM",
+          "default": 0,
+          "minimum": 0,
+          "examples": [
+            2,
+            8
+          ],
+          "_elasticsearch": {
+            "type": "integer"
+          },
+          "_ui": {
+            "view": "overview",
+            "position": 2,
+            "type": "number",
+            "fallbackValue": ""
+          }
+        }
+      }
+    }
+  }
