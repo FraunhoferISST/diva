@@ -21,6 +21,10 @@
     },
     {
       "key": "entityType",
+      "value": "destroyclaim"
+    },
+    {
+      "key": "entityType",
       "value": "systemEntity"
     }
   ],
