@@ -31,44 +31,32 @@
       </v-col>
       <v-col cols="12">
         <v-combobox
-          v-model="url"
+          v-model="value"
           :items="destroyclaimReasonsList"
           hide-details="auto"
-          label="Destroyclaim Reason URL"
-          placeholder="Specify a destroyclaim reason URL"
+          label="Destroy Reason Value"
+          placeholder="Specify a Destroy Reason Value"
           clearable
           outlined
           hide-no-data
-          type="url"
+          type="text"
           required
           :rules="[(value) => !!value || 'required']"
-          @input="($event) => onSelect($event, 'url')"
+          @input="($event) => onSelect($event, 'value')"
           dense
-          item-text="url"
-          item-value="url"
+          item-text="value"
+          item-value="value"
         >
           <template #item="data">
             <template>
               <v-list-item-content>
                 <v-list-item-title>
-                  {{ truncateText(data.item.url) }}
+                  {{ truncateText(data.item.value) }}
                 </v-list-item-title>
               </v-list-item-content>
             </template>
           </template>
         </v-combobox>
-      </v-col>
-      <v-col cols="12">
-        <v-text-field
-          v-model="additionalInfoText"
-          label="Destroyclaim reason additional information"
-          outlined
-          dense
-          hide-details
-          clearable
-          @input="($event) => onEdit($event, 'additionalInfoText')"
-          background-color="transparent"
-        />
       </v-col>
       <v-col cols="12" class="d-flex justify-end">
         <slot>
@@ -83,7 +71,7 @@
 
 <script>
 export default {
-  name: "DestroyclaimReasonsEdit",
+  name: "DestroyReasonsEdit",
   inheritAttrs: false,
   components: {},
   props: {
@@ -94,54 +82,53 @@ export default {
   },
   data() {
     return {
-      url: this.destroyclaimReason.url,
+      value: this.destroyclaimReason.value,
       name: this.destroyclaimReason.name,
-      additionalInfoText: this.destroyclaimReason.additionalInfoText,
       destroyclaimReasonsList: [
         {
-          url: "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/timeliness",
+          value:
+            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/timeliness",
           name: "Data Quality - Timeliness",
-          additionalInfoText: "",
         },
         {
-          url: "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/uniqueness",
+          value:
+            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/uniqueness",
           name: "Data Quality - Uniqueness",
-          additionalInfoText: "",
         },
         {
-          url: "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/accuracy",
+          value:
+            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/accuracy",
           name: "Data Quality - Accuracy",
-          additionalInfoText: "",
         },
         {
-          url: "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/completeness",
+          value:
+            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/completeness",
           name: "Data Quality - Completeness",
-          additionalInfoText: "",
         },
         {
-          url: "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/consistency",
+          value:
+            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/consistency",
           name: "Data Quality - Consistency",
-          additionalInfoText: "",
         },
         {
-          url: "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/integrity",
+          value:
+            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/integrity",
           name: "Data Quality - Integrity",
-          additionalInfoText: "",
         },
         {
-          url: "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/reasonability",
+          value:
+            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/reasonability",
           name: "Data Quality - Reasonability",
-          additionalInfoText: "",
         },
         {
-          url: "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/validity",
+          value:
+            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/validity",
           name: "Data Quality - Validity",
-          attribuadditionalInfoTexttedByText: "",
         },
         {
-          url: "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/custom",
+          value:
+            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/custom",
           name: "Custom Reason",
-          additionalInfoText: "",
         },
       ],
     };
@@ -164,9 +151,8 @@ export default {
       if (val && typeof val === "object") {
         this.computedDestroyclaimReason = {
           ...val,
-          additionalInfoText: this.additionalInfoText ?? "",
         };
-        this.url = val.url;
+        this.value = val.value;
         this.name = val.name;
       } else {
         this.onEdit(val, prop);
@@ -184,5 +170,4 @@ export default {
   },
 };
 </script>
-
 <style scoped></style>

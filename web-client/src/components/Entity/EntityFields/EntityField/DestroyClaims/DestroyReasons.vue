@@ -23,7 +23,7 @@
         "
       >
         <div>
-          No reason specified <br />
+          No Destroy Reason specified <br />
           <v-btn
             rounded
             text
@@ -32,7 +32,7 @@
             color="#2d68fc"
             @click="addMode = true"
           >
-            Add first reason
+            Add first Destroy Reason
             <v-icon small> add </v-icon>
           </v-btn>
         </div>
@@ -43,7 +43,7 @@
             <v-row v-if="addMode" class="mb-1 relative">
               <v-col cols="12" sm="12" md="6" lg="6" xl="6">
                 <div class="destroyclaim-reason-add-form">
-                  <destroyclaim-reason-edit
+                  <destroy-reasons-edit
                     :destroyclaimReason.sync="newDestroyclaimReason"
                   >
                     <template>
@@ -64,13 +64,13 @@
                         depressed
                         color="primary"
                         @click="addDestroyclaimReason"
-                        :disabled="!newDestroyclaimReason.url"
+                        :disabled="!newDestroyclaimReason.value"
                         :loading="loading"
                       >
-                        Add destroyclaim reason
+                        Add Destroy Reason
                       </v-btn>
                     </template>
-                  </destroyclaim-reason-edit>
+                  </destroy-reasons-edit>
                 </div>
               </v-col>
               <v-snackbar
@@ -104,7 +104,7 @@
             lg="6"
             xl="6"
             v-for="(destroyclaimReason, i) in localDestroyclaimReasons"
-            :key="`${destroyclaimReason.url}_${destroyclaimReason.name}_${destroyclaimReason.additionalInfoText}_${i}`"
+            :key="`${destroyclaimReason.value}_${destroyclaimReason.name}_${i}`"
           >
             <field-editor
               :data="{ destroyclaimReason: { ...destroyclaimReason } }"
@@ -127,32 +127,16 @@
                     </div>
                   </div>
                   <div class="destroyclaim-reason-info d-flex">
-                    <info-block-value>URL:</info-block-value>
-                    <div class="ellipsis">
-                      <info-block-value>
-                        <a
-                          class="general-destroyclaim-reason"
-                          :href="state.destroyclaimReason.url"
-                          target="_blank"
-                          @click.stop="() => {}"
-                        >
-                          {{ state.destroyclaimReason.url }}
-                        </a>
-                      </info-block-value>
-                    </div>
-                  </div>
-                  <div class="destroyclaim-reason-info">
-                    <info-block-value>Additional Information:</info-block-value>
                     <div>
                       <info-block-value>
-                        {{ state.destroyclaimReason.additionalInfoText || "-" }}
+                        {{ state.destroyclaimReason.value }}
                       </info-block-value>
                     </div>
                   </div>
                 </div>
               </template>
               <template #edit="{ setPatch, patch, disableEdit }">
-                <destroyclaim-reason-edit
+                <destroy-reasons-edit
                   :destroyclaimReason="patch.destroyclaimReason"
                   @update:destroyclaimReason="
                     setPatch({ destroyclaimReason: $event })
@@ -186,13 +170,12 @@ import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 import { useEntity } from "@/composables/entity";
 import { useSnackbar } from "@/composables/snackbar";
-import DestroyclaimReasonEdit from "@/components/Entity/EntityFields/EntityField/Destroyclaims/DestroyclaimReasonsEdit";
-
+import DestroyReasonsEdit from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyReasonsEdit";
 export default {
-  name: "DestroyclaimReasons",
+  name: "DestroyReasons",
   inheritAttrs: false,
   components: {
-    DestroyclaimReasonEdit,
+    DestroyReasonsEdit,
     FieldEditor,
     InfoBlock,
     InfoBlockTitle,
@@ -204,7 +187,7 @@ export default {
       type: String,
       required: true,
     },
-    destroyclaimReasons: {
+    destroyclaimDestroyReasons: {
       type: Array,
       required: true,
     },
@@ -235,11 +218,10 @@ export default {
   },
   data() {
     return {
-      localDestroyclaimReasons: this.destroyclaimReasons,
+      localDestroyclaimReasons: this.destroyclaimDestroyReasons,
       newDestroyclaimReason: {
-        url: "",
+        value: "",
         name: "",
-        additionalInfoText: "",
       },
       addMode: false,
     };
@@ -258,7 +240,7 @@ export default {
         patch.destroyclaimReason
       );
       return this.patch({
-        destroyclaimReasons: updatedTemporalDestroyclaimReasons,
+        destroyclaimDestroyReasons: updatedTemporalDestroyclaimReasons,
       }).then(() => {
         if (this.patchError) {
           this.show(
@@ -276,7 +258,7 @@ export default {
       ];
       updatedTemporalDestroyclaimReasons.splice(index, 1);
       return this.patch({
-        destroyclaimReasons: updatedTemporalDestroyclaimReasons,
+        destroyclaimDestroyReasons: updatedTemporalDestroyclaimReasons,
       }).then(() => {
         if (this.patchError) {
           this.show(
@@ -294,29 +276,27 @@ export default {
         this.newDestroyclaimReason,
         ...this.localDestroyclaimReasons,
       ];
-      this.patch({ destroyclaimReasons: newTemporalDestroyclaimReasons }).then(
-        () => {
-          if (this.patchError) {
-            this.show(
-              this.patchError?.response?.data?.message ?? this.patchError,
-              { color: "error" }
-            );
-            return;
-          }
-          this.localDestroyclaimReasons = newTemporalDestroyclaimReasons;
-          this.addMode = false;
-          this.newDestroyclaimReason = {
-            url: "",
-            name: "",
-            additionalInfoText: "",
-          };
+      this.patch({
+        destroyclaimDestroyReasons: newTemporalDestroyclaimReasons,
+      }).then(() => {
+        if (this.patchError) {
+          this.show(
+            this.patchError?.response?.data?.message ?? this.patchError,
+            { color: "error" }
+          );
+          return;
         }
-      );
+        this.localDestroyclaimReasons = newTemporalDestroyclaimReasons;
+        this.addMode = false;
+        this.newDestroyclaimReason = {
+          value: "",
+          name: "",
+        };
+      });
     },
   },
 };
 </script>
-
 <style scoped lang="scss">
 .destroyclaim-reason-add-card {
   min-height: 120px;

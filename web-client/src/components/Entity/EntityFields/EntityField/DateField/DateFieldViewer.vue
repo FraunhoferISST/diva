@@ -26,6 +26,7 @@ export default {
     ...entityFieldViewerInterfaces,
     value: {
       type: String,
+      default: "",
       required: true,
     },
   },

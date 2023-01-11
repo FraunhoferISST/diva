@@ -55,7 +55,7 @@
           </data-viewer>
         </template>
         <template #edit="{ setPatch, patch }">
-          <destroyclaim-refers-to-edit
+          <destroy-claim-refers-to-edit
             :resources="patch.resources"
             @update:resources="(newValue) => setPatch({ resources: newValue })"
           />
@@ -74,18 +74,18 @@ import { useRequest } from "@/composables/request";
 import { useApi } from "@/composables/api";
 import { useBus } from "@/composables/bus";
 import DataViewer from "@/components/DataFetchers/DataViewer";
-import DestroyclaimRefersToEdit from "@/components/Entity/EntityFields/EntityField/Destroyclaims/DestroyclaimRefersToEdit";
+import DestroyClaimRefersToEdit from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyClaimRefersToEdit";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import { ref } from "@vue/composition-api";
 
 export default {
-  name: "DestroyclaimRefersTo",
+  name: "DestroyClaimRefersTo",
   inheritAttrs: false,
   components: {
     InfoBlock,
     InfoBlockTitle,
-    DestroyclaimRefersToEdit,
+    DestroyClaimRefersToEdit,
     DataViewer,
     FieldEditor,
     EntityAvatar,

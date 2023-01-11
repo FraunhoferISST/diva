@@ -72,7 +72,7 @@ import { computed, ref } from "@vue/composition-api";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 
 export default {
-  name: "DestroyclaimRefersToEdit",
+  name: "DestroyClaimRefersToEdit",
   inheritAttrs: false,
   components: { EntityDetailsLink, EntityAvatar },
   props: {

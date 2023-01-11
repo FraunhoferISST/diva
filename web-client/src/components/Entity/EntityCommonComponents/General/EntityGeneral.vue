@@ -44,8 +44,8 @@ import Location from "@/components/Entity/EntityFields/EntityField/Location/Loca
 import Languages from "@/components/Entity/EntityFields/EntityField/Languages/Languages";
 import SingleRelation from "@/components/Entity/EntityFields/EntityField/SingleRelation/SingleRelation";
 import MultiRelation from "@/components/Entity/EntityFields/EntityField/MultiRelation/MultiRelation";
-import DestroyclaimRefersTo from "@/components/Entity/EntityFields/EntityField/Destroyclaims/DestroyclaimRefersTo";
-import DestroyclaimReasons from "@/components/Entity/EntityFields/EntityField/Destroyclaims/DestroyclaimReasons";
+import DestroyClaimRefersTo from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyClaimRefersTo";
+import DestroyReasons from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyReasons";
 import { useEntity } from "@/composables/entity";
 import { computed } from "@vue/composition-api";
 import { useBus } from "@/composables/bus";
@@ -59,8 +59,8 @@ export default {
     Location,
     SingleRelation,
     MultiRelation,
-    DestroyclaimRefersTo,
-    DestroyclaimReasons,
+    DestroyClaimRefersTo,
+    DestroyReasons,
     Licenses,
     Owners,
     EntityField,
