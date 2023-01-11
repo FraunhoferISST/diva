@@ -28,7 +28,7 @@
         },
         "_ui": {
           "view": "overview",
-          "position": 4,
+          "position": 2.2,
           "type": "select"
         }
       }

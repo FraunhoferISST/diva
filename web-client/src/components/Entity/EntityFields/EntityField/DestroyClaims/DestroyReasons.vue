@@ -40,7 +40,7 @@
         <v-row>
           <v-col cols="12" class="pb-0">
             <v-row v-if="addMode" class="mb-1 relative">
-              <v-col cols="12" sm="12" md="6" lg="6" xl="6">
+              <v-col cols="12" sm="12" md="12" lg="6" xl="6">
                 <div class="destroy-reason-add-form">
                   <destroy-reasons-edit :destroyReason.sync="newDestroyReason">
                     <template>
@@ -97,7 +97,7 @@
           <v-col
             cols="12"
             sm="12"
-            md="6"
+            md="12"
             lg="6"
             xl="6"
             v-for="(destroyReason, i) in localDestroyReasons"

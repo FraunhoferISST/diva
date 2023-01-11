@@ -74,6 +74,10 @@ export default {
       name: this.destroyReason.name,
       destroyReasonsList: [
         {
+          value: "tbd",
+          name: "Data Quality - Accessibility",
+        },
+        {
           value:
             "https://fraunhoferisst.github.io/destroys/docs/why/reasons/data-quality/timeliness",
           name: "Data Quality - Timeliness",

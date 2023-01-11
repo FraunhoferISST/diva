@@ -20,7 +20,7 @@
       "destroyclaimExpirationDate": {
         "type": "string",
         "title": "Destroy Claim Expiration Date",
-        "description": "Date of when the destroyclaim should expire",
+        "description": "Date of when the Destroy Claim should expire.",
         "examples": [
           "2023-08-01T00:00:00Z"
         ],
@@ -30,7 +30,7 @@
         },
         "_ui": {
           "view": "overview",
-          "position": 5,
+          "position": 2.3,
           "type": "date",
           "fallbackValue": ""
         }

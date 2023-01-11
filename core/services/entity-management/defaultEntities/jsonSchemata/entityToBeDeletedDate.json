@@ -14,7 +14,7 @@
       "entityToBeDeletedDate": {
         "type": "string",
         "title": "To be deleted date",
-        "description": "Date of when this entity should be deleted",
+        "description": "Date on which this entity is to be deleted from DIVA",
         "examples": [
           "2024-08-01T00:00:00Z"
         ],
