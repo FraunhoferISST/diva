@@ -18,8 +18,7 @@
     <template #value>
       <no-data-state
         v-if="
-          !addMode &&
-          (!localDestroyclaimReasons || localDestroyclaimReasons.length === 0)
+          !addMode && (!localDestroyReasons || localDestroyReasons.length === 0)
         "
       >
         <div>
@@ -42,10 +41,8 @@
           <v-col cols="12" class="pb-0">
             <v-row v-if="addMode" class="mb-1 relative">
               <v-col cols="12" sm="12" md="6" lg="6" xl="6">
-                <div class="destroyclaim-reason-add-form">
-                  <destroy-reasons-edit
-                    :destroyclaimReason.sync="newDestroyclaimReason"
-                  >
+                <div class="destroy-reason-add-form">
+                  <destroy-reasons-edit :destroyReason.sync="newDestroyReason">
                     <template>
                       <v-btn
                         rounded
@@ -63,8 +60,8 @@
                         small
                         depressed
                         color="primary"
-                        @click="addDestroyclaimReason"
-                        :disabled="!newDestroyclaimReason.value"
+                        @click="addDestroyReason"
+                        :disabled="!newDestroyReason.value"
                         :loading="loading"
                       >
                         Add Destroy Reason
@@ -93,7 +90,7 @@
               color="#2d68fc"
               @click="addMode = true"
             >
-              Add new destroyclaim reason
+              Add new destroy reason
               <v-icon small> add </v-icon>
             </v-btn>
           </v-col>
@@ -103,33 +100,31 @@
             md="6"
             lg="6"
             xl="6"
-            v-for="(destroyclaimReason, i) in localDestroyclaimReasons"
-            :key="`${destroyclaimReason.value}_${destroyclaimReason.name}_${i}`"
+            v-for="(destroyReason, i) in localDestroyReasons"
+            :key="`${destroyReason.value}_${destroyReason.name}_${i}`"
           >
             <field-editor
-              :data="{ destroyclaimReason: { ...destroyclaimReason } }"
-              :on-save="
-                (editorPatch) => updateDestroyclaimReason(editorPatch, i)
-              "
+              :data="{ destroyReason: { ...destroyReason } }"
+              :on-save="(editorPatch) => updateDestroyReason(editorPatch, i)"
             >
               <template #view="{ state }">
-                <div class="destroyclaim-reason-card pa-3">
+                <div class="destroy-reason-card pa-3">
                   <div
-                    class="destroyclaim-reason-info d-flex"
-                    v-if="state.destroyclaimReason.name"
+                    class="destroy-reason-info d-flex"
+                    v-if="state.destroyReason.name"
                   >
                     <div class="ellipsis">
                       <info-block-value>
-                        <h1 class="destroyclaim-reason-title mb-2 ellipsis">
-                          {{ state.destroyclaimReason.name }}
+                        <h1 class="destroy-reason-title mb-2 ellipsis">
+                          {{ state.destroyReason.name }}
                         </h1>
                       </info-block-value>
                     </div>
                   </div>
-                  <div class="destroyclaim-reason-info d-flex">
+                  <div class="destroy-reason-info d-flex">
                     <div>
                       <info-block-value>
-                        {{ state.destroyclaimReason.value }}
+                        {{ state.destroyReason.value }}
                       </info-block-value>
                     </div>
                   </div>
@@ -137,11 +132,9 @@
               </template>
               <template #edit="{ setPatch, patch, disableEdit }">
                 <destroy-reasons-edit
-                  :destroyclaimReason="patch.destroyclaimReason"
-                  @update:destroyclaimReason="
-                    setPatch({ destroyclaimReason: $event })
-                  "
-                  @remove="() => removeDestroyclaimReason(i, disableEdit)"
+                  :destroyReason="patch.destroyReason"
+                  @update:destroyReason="setPatch({ destroyReason: $event })"
+                  @remove="() => removeDestroyReason(i, disableEdit)"
                 />
                 <v-snackbar
                   absolute
@@ -218,8 +211,8 @@ export default {
   },
   data() {
     return {
-      localDestroyclaimReasons: this.destroyclaimDestroyReasons,
-      newDestroyclaimReason: {
+      localDestroyReasons: this.destroyclaimDestroyReasons,
+      newDestroyReason: {
         value: "",
         name: "",
       },
@@ -227,20 +220,14 @@ export default {
     };
   },
   methods: {
-    updateNewDestroyclaimReason({ reason }) {
-      this.newDestroyclaimReason = reason;
+    updateNewDestroyReason({ reason }) {
+      this.newDestroyReason = reason;
     },
-    updateDestroyclaimReason(patch, index) {
-      const updatedTemporalDestroyclaimReasons = [
-        ...this.localDestroyclaimReasons,
-      ];
-      updatedTemporalDestroyclaimReasons.splice(
-        index,
-        1,
-        patch.destroyclaimReason
-      );
+    updateDestroyReason(patch, index) {
+      const updatedTemporalDestroyReasons = [...this.localDestroyReasons];
+      updatedTemporalDestroyReasons.splice(index, 1, patch.destroyReason);
       return this.patch({
-        destroyclaimDestroyReasons: updatedTemporalDestroyclaimReasons,
+        destroyclaimDestroyReasons: updatedTemporalDestroyReasons,
       }).then(() => {
         if (this.patchError) {
           this.show(
@@ -249,16 +236,14 @@ export default {
           );
           return;
         }
-        this.localDestroyclaimReasons = updatedTemporalDestroyclaimReasons;
+        this.localDestroyReasons = updatedTemporalDestroyReasons;
       });
     },
-    removeDestroyclaimReason(index, disableEdit) {
-      const updatedTemporalDestroyclaimReasons = [
-        ...this.localDestroyclaimReasons,
-      ];
-      updatedTemporalDestroyclaimReasons.splice(index, 1);
+    removeDestroyReason(index, disableEdit) {
+      const updatedTemporalDestroyReasons = [...this.localDestroyReasons];
+      updatedTemporalDestroyReasons.splice(index, 1);
       return this.patch({
-        destroyclaimDestroyReasons: updatedTemporalDestroyclaimReasons,
+        destroyclaimDestroyReasons: updatedTemporalDestroyReasons,
       }).then(() => {
         if (this.patchError) {
           this.show(
@@ -268,16 +253,16 @@ export default {
           return;
         }
         disableEdit();
-        this.localDestroyclaimReasons = updatedTemporalDestroyclaimReasons;
+        this.localDestroyReasons = updatedTemporalDestroyReasons;
       });
     },
-    addDestroyclaimReason() {
-      const newTemporalDestroyclaimReasons = [
-        this.newDestroyclaimReason,
-        ...this.localDestroyclaimReasons,
+    addDestroyReason() {
+      const newTemporalDestroyReasons = [
+        this.newDestroyReason,
+        ...this.localDestroyReasons,
       ];
       this.patch({
-        destroyclaimDestroyReasons: newTemporalDestroyclaimReasons,
+        destroyclaimDestroyReasons: newTemporalDestroyReasons,
       }).then(() => {
         if (this.patchError) {
           this.show(
@@ -286,9 +271,9 @@ export default {
           );
           return;
         }
-        this.localDestroyclaimReasons = newTemporalDestroyclaimReasons;
+        this.localDestroyReasons = newTemporalDestroyReasons;
         this.addMode = false;
-        this.newDestroyclaimReason = {
+        this.newDestroyReason = {
           value: "",
           name: "",
         };
@@ -298,26 +283,26 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.destroyclaim-reason-add-card {
+.destroy-reason-add-card {
   min-height: 120px;
   border: 2px #5e94ff dashed;
   @include border-radius();
 }
-.destroyclaim-reason-add-form {
+.destroy-reason-add-form {
   background-color: $bg_card_secondary;
   @include border-radius-half();
 }
-.destroyclaim-reason-card {
+.destroy-reason-card {
   border: 2px solid $bg_card_secondary;
   @include border-radius();
 }
-.destroyclaim-reason-title {
+.destroy-reason-title {
   font-size: 1rem !important;
 }
-.destroyclaim-reason-info {
+.destroy-reason-info {
   gap: 15px;
 }
-.general-destroyclaim-reason {
+.general-destroy-reason {
   transition: 0.3s;
   color: $c_accent_primary;
   &:hover {

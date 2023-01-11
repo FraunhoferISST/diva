@@ -4,10 +4,10 @@
       <v-col cols="12">
         <v-combobox
           v-model="name"
-          label="Destroyclaim name"
+          label="Destroy Reason Name"
           type="text"
-          placeholder="Add a title for the destroyclaim name"
-          :items="destroyclaimReasonsList"
+          placeholder="The name of the Destroy Reason"
+          :items="destroyReasonsList"
           hide-details
           clearable
           outlined
@@ -32,7 +32,7 @@
       <v-col cols="12">
         <v-combobox
           v-model="value"
-          :items="destroyclaimReasonsList"
+          :items="destroyReasonsList"
           hide-details="auto"
           label="Destroy Reason Value"
           placeholder="Specify a Destroy Reason Value"
@@ -61,7 +61,7 @@
       <v-col cols="12" class="d-flex justify-end">
         <slot>
           <v-btn rounded small text color="error" @click="emitRemove">
-            Remove destroyclaim reason
+            Remove Destroy Reason
           </v-btn>
         </slot>
       </v-col>
@@ -75,71 +75,70 @@ export default {
   inheritAttrs: false,
   components: {},
   props: {
-    destroyclaimReason: {
+    destroyReason: {
       type: Object,
       required: true,
     },
   },
   data() {
     return {
-      value: this.destroyclaimReason.value,
-      name: this.destroyclaimReason.name,
-      destroyclaimReasonsList: [
+      value: this.destroyReason.value,
+      name: this.destroyReason.name,
+      destroyReasonsList: [
         {
           value:
-            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/timeliness",
+            "https://fraunhoferisst.github.io/destroys/docs/why/reasons/data-quality/timeliness",
           name: "Data Quality - Timeliness",
         },
         {
           value:
-            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/uniqueness",
+            "https://fraunhoferisst.github.io/destroys/docs/why/reasons/data-quality/uniqueness",
           name: "Data Quality - Uniqueness",
         },
         {
           value:
-            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/accuracy",
+            "https://fraunhoferisst.github.io/destroys/docs/why/reasons/data-quality/accuracy",
           name: "Data Quality - Accuracy",
         },
         {
           value:
-            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/completeness",
+            "https://fraunhoferisst.github.io/destroys/docs/why/reasons/data-quality/completeness",
           name: "Data Quality - Completeness",
         },
         {
           value:
-            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/consistency",
+            "https://fraunhoferisst.github.io/destroys/docs/why/reasons/data-quality/consistency",
           name: "Data Quality - Consistency",
         },
         {
           value:
-            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/integrity",
+            "https://fraunhoferisst.github.io/destroys/docs/why/reasons/data-quality/integrity",
           name: "Data Quality - Integrity",
         },
         {
           value:
-            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/reasonability",
+            "https://fraunhoferisst.github.io/destroys/docs/why/reasons/data-quality/reasonability",
           name: "Data Quality - Reasonability",
         },
         {
           value:
-            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/data-quality/validity",
+            "https://fraunhoferisst.github.io/destroys/docs/why/reasons/data-quality/validity",
           name: "Data Quality - Validity",
         },
         {
-          value:
-            "https://fraunhoferisst.github.io/destroyclaims/docs/why/reasons/custom",
+          value: "",
           name: "Custom Reason",
         },
       ],
     };
   },
   computed: {
-    computedDestroyclaimReason: {
+    computedDestroyReason: {
       get() {
-        return this.destroyclaimReason;
+        return this.destroyReason;
       },
       set(val) {
-        this.$emit("update:destroyclaimReason", val);
+        this.$emit("update:destroyReason", val);
       },
     },
   },
@@ -149,7 +148,7 @@ export default {
     },
     onSelect(val, prop) {
       if (val && typeof val === "object") {
-        this.computedDestroyclaimReason = {
+        this.computedDestroyReason = {
           ...val,
         };
         this.value = val.value;
@@ -159,8 +158,8 @@ export default {
       }
     },
     onEdit(val, prop) {
-      this.computedDestroyclaimReason = {
-        ...this.computedDestroyclaimReason,
+      this.computedDestroyReason = {
+        ...this.computedDestroyReason,
         [prop]: val ?? "",
       };
     },
