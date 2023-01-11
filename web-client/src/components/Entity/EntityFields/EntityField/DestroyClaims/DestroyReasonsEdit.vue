@@ -2,21 +2,19 @@
   <v-container fluid>
     <v-row dense>
       <v-col cols="12">
-        <v-combobox
-          v-model="name"
-          label="Destroy Reason Name"
+        <v-select
+          v-model="computedDestroyReason.name"
+          label="Destroy Reason"
           type="text"
           placeholder="The name of the Destroy Reason"
           :items="destroyReasonsList"
           hide-details
-          clearable
           outlined
           hide-no-data
           @input="($event) => onSelect($event, 'name')"
           dense
           item-text="name"
           item-value="name"
-          full-width
         >
           <template #item="data">
             <template>
@@ -27,36 +25,27 @@
               </v-list-item-content>
             </template>
           </template>
-        </v-combobox>
+        </v-select>
       </v-col>
       <v-col cols="12">
-        <v-combobox
-          v-model="value"
-          :items="destroyReasonsList"
+        <v-text-field
+          v-model="computedDestroyReason.value"
+          v-show="computedDestroyReason.name === 'Custom Reason'"
           hide-details="auto"
-          label="Destroy Reason Value"
-          placeholder="Specify a Destroy Reason Value"
+          label="Custom Reason"
+          placeholder="Specify a custom Destroy Reason"
           clearable
           outlined
           hide-no-data
           type="text"
           required
-          :rules="[(value) => !!value || 'required']"
+          :rules="[
+            (value) => !!value || 'required',
+            (value) => value.length > 1 || 'minimum of 2 characters required',
+          ]"
           @input="($event) => onSelect($event, 'value')"
           dense
-          item-text="value"
-          item-value="value"
-        >
-          <template #item="data">
-            <template>
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ truncateText(data.item.value) }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </template>
-          </template>
-        </v-combobox>
+        ></v-text-field>
       </v-col>
       <v-col cols="12" class="d-flex justify-end">
         <slot>
@@ -82,7 +71,6 @@ export default {
   },
   data() {
     return {
-      value: this.destroyReason.value,
       name: this.destroyReason.name,
       destroyReasonsList: [
         {
@@ -147,21 +135,21 @@ export default {
       return text.length > 50 ? `${text.slice(0, 50)}...` : text;
     },
     onSelect(val, prop) {
-      if (val && typeof val === "object") {
-        this.computedDestroyReason = {
-          ...val,
-        };
-        this.value = val.value;
-        this.name = val.name;
-      } else {
-        this.onEdit(val, prop);
-      }
+      this.onEdit(val, prop);
     },
     onEdit(val, prop) {
-      this.computedDestroyReason = {
-        ...this.computedDestroyReason,
-        [prop]: val ?? "",
-      };
+      if (prop === "name") {
+        this.computedDestroyReason = {
+          name: val,
+          value: this.destroyReasonsList.find((e) => e.name === val).value,
+        };
+      }
+      if (prop === "value") {
+        this.computedDestroyReason = {
+          name: this.computedDestroyReason.name,
+          value: val,
+        };
+      }
     },
     emitRemove() {
       this.$emit("remove");

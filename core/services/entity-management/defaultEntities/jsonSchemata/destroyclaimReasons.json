@@ -34,6 +34,7 @@
               "title": "Destroy Reason Value",
               "description": "A Destroy Reason",
               "type": "string",
+              "minLength": 2,
               "examples": [
                 "https://fraunhoferisst.github.io/destroyclaims/docs/Why/Reasons/Data-Quality/why-data-quality-timeliness",
                 "not needed anymore"

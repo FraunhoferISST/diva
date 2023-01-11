@@ -26,8 +26,9 @@
           },
           "_ui": {
             "view": "overview",
-            "position": 7,
-            "type": "boolean"
+            "position": 1.1,
+            "type": "boolean",
+            "fallbackValue": false
         }
       }
     }
