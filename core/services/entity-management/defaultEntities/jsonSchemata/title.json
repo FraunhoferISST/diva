@@ -47,6 +47,7 @@
       "title": {
         "type": "string",
         "title": "Title",
+        "minLength": 1,
         "description": "The title of the entity",
         "examples": [
           "Financial Report 2019",
