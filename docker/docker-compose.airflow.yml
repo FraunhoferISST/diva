@@ -11,7 +11,7 @@ x-mongodb-env: &mongodb-env
 
 x-airflow-common:
   &airflow-common
-  image: ghcr.io/fraunhoferisst/diva/diva-airflow:5.3.0
+  image: ghcr.io/fraunhoferisst/diva/diva-airflow:5.4.0
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
