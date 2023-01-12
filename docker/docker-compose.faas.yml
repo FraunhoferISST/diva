@@ -78,10 +78,10 @@ services:
   # DIVA Bots
   entity-archive-bot:
     container_name: entity-archive-bot
-    image: ${REGISTRY}entity-archive-bot:0.1.0
+    image: ${REGISTRY}entity-archive-bot:0.1.1
   entity-delete-bot:
     container_name: entity-delete-bot
-    image: ${REGISTRY}entity-delete-bot:0.1.0
+    image: ${REGISTRY}entity-delete-bot:0.1.1
   similarity-network-bot:
     container_name: similarity-network-bot
     image: ${REGISTRY}similarity-network-bot:0.1.0  
