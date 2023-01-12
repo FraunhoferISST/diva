@@ -1,7 +1,9 @@
-const { MongoClient } = require("mongodb");
-const axios = require("axios");
-const urljoin = require("url-join");
-const { serviceId } = require("./package.json");
+import urljoin from "url-join";
+import { MongoClient } from "mongodb";
+import axios from "axios";
+import packageJson from "./package.json" assert { type: "json" };
+
+const { serviceId } = packageJson;
 
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://admin:admin@localhost:27017";
