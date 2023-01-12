@@ -45,7 +45,6 @@ export default {
       default: "primary",
       validator: (val) => {
         if (!alowedColors.includes(val)) {
-          console.warn("Color must be one of ", alowedColors);
           return false;
         }
         return true;

@@ -1,6 +1,7 @@
-const axios = require("axios");
-const fs = require("fs-extra");
-const urljoin = require("url-join");
+import urljoin from "url-join";
+import axios from "axios";
+import fs from "fs-extra";
+import handle from "./specificHandlers.mjs";
 
 const ENTITY_MANAGEMENT_URL =
   process.env.ENTITY_MANAGEMENT_URL || "http://localhost:3000";
@@ -18,10 +19,12 @@ const patchData = async () => {
     console.log(`Content to be patched: ${content}`);
   }
 
-  if (Object.keys(parsed).length > 0) {
+  const data = await handle(parsed);
+
+  if (Object.keys(data).length > 0) {
     return axios.patch(
       urljoin(ENTITY_MANAGEMENT_URL, entityPath, entityId),
-      parsed,
+      data,
       {
         headers: {
           "x-diva": JSON.stringify({
