@@ -105,7 +105,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
     # PATCHES
     upload_meta = DivaLakeOperator(
         task_id='upload_meta',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -120,7 +120,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
 
     upload_sample = DivaLakeOperator(
         task_id='upload_sample',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -135,7 +135,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
 
     upload_stats = DivaLakeOperator(
         task_id='upload_stats',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,
@@ -150,7 +150,7 @@ with DAG('tabledata', default_args=default_args, schedule_interval=None, catchup
 
     upload_schema = DivaLakeOperator(
         task_id='upload_schema',
-        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.0.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-management-sink:1.1.0',
         api_version='auto',
         auto_remove=True,
         upload_output=False,

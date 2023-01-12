@@ -69,7 +69,7 @@ services:
 
   entity-management-sink:
     container_name: entity-management-sink
-    image: ${REGISTRY}entity-management-sink:1.0.0
+    image: ${REGISTRY}entity-management-sink:1.1.0
 
   keywords-similarity-hash-generator:
     container_name: keywords-similarity-hash-generator

@@ -2,6 +2,11 @@
     "plugins": ["prettier"],
     "extends": ["airbnb-base", "prettier"],
     "parserOptions": { "ecmaVersion": 2021 },
+    "settings": {
+        "import/resolver": {
+          "node": { "extensions": [".js", ".mjs"] }
+        }
+      },
     "rules": {
         "consistent-return": "off",
         "prettier/prettier": ["error"],
@@ -10,9 +15,13 @@
         "class-methods-use-this": "off",
         "no-underscore-dangle": "off",
         "no-restricted-syntax": [
-        "error",
-        "LabeledStatement",
-        "WithStatement"
-        ]
+            "error",
+            "LabeledStatement",
+            "WithStatement"
+        ],
+        "import/extensions": ["error", "always", {
+            "js": "never",
+            "mjs": "always"
+        }]
     }
 }
