@@ -137,12 +137,12 @@
                   @remove="() => removeDestroyReason(i, disableEdit)"
                 />
                 <v-snackbar
+                  closeable
                   absolute
                   top
                   text
                   v-model="snackbar"
                   :color="color"
-                  :timeout="0"
                 >
                   {{ message }}
                 </v-snackbar>
@@ -234,7 +234,7 @@ export default {
             this.patchError?.response?.data?.message ?? this.patchError,
             { color: "error" }
           );
-          return;
+          throw this.patchError;
         }
         this.localDestroyReasons = updatedTemporalDestroyReasons;
       });
