@@ -4,6 +4,8 @@
 
 A simple service to PATCH workflow results in our `entity-management`.
 
+> If `keywords` is to be patched, the old keywords will be merged with the new ones.
+
 ## Accepted MIME Types
 
 + `application/json`
