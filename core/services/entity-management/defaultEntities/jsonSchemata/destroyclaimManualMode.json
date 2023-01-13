@@ -1,7 +1,7 @@
 {
   "id": "schema:uuid:570dcf1d-fe6e-496e-8655-09d2774dd32d",
   "title": "Manual Mode",
-  "schemaName": "manualMode",
+  "schemaName": "destroyclaimManualMode",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "isPatchable": true,
@@ -16,7 +16,7 @@
     "type": "object",
     "title": "Manual Mode",
     "properties": {
-      "manualMode": {
+      "destroyclaimManualMode": {
         "type": "boolean",
         "default": false,
         "title": "Manual Mode",

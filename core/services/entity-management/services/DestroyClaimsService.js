@@ -44,19 +44,19 @@ class DestroyClaimService extends EntityService {
       throw entityNotFoundError;
     }));
 
-    return contacts;
+    return contacts.length > 0 ? contacts : undefined;
   }
 
   async #resolveDestroyClaim(destroyclaim) {
     return {
       id: shortenDivaId(destroyclaim.id),
       isActive: destroyclaim.isActive,
-      modelVersion: destroyclaim.modelVersion,
+      modelVersion: destroyclaim.destroyclaimModelVersion,
       expirationDate: destroyclaim.destroyclaimExpirationDate,
-      strictMode: destroyclaim.strictMode,
-      simulationMode: destroyclaim.simulationMode,
-      notificationMode: destroyclaim.notificationMode,
-      manualMode: destroyclaim.manualMode,
+      strictMode: destroyclaim.destroyclaimStrictMode,
+      simulationMode: destroyclaim.destroyclaimSimulationMode,
+      notificationMode: destroyclaim.destroyclaimNotificationMode,
+      manualMode: destroyclaim.destroyclaimManualMode,
       issued: destroyclaim.createdAt,
       modified: destroyclaim.modifiedAt,
       title: destroyclaim.title,

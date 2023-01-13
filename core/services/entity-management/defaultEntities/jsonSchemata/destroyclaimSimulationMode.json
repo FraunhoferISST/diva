@@ -1,7 +1,7 @@
 {
   "id": "schema:uuid:3db2c2a9-97ec-417b-a9fc-01d7e9fe7f8f",
   "title": "Simulation Mode",
-  "schemaName": "simulationMode",
+  "schemaName": "destroyclaimSimulationMode",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "isPatchable": true,
@@ -16,7 +16,7 @@
     "type": "object",
     "title": "Simulation Mode",
     "properties": {
-      "simulationMode": {
+      "destroyclaimSimulationMode": {
         "type": "boolean",
         "default": false,
         "title": "Simulation Mode",

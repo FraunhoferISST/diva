@@ -1,7 +1,7 @@
 {
   "id": "schema:uuid:3739982d-d055-4750-8413-f0f32fbe5334",
   "title": "Model Version",
-  "schemaName": "modelVersion",
+  "schemaName": "destroyclaimModelVersion",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "isPatchable": false,
@@ -16,7 +16,7 @@
     "type": "object",
     "title": "Model Version",
     "properties": {
-      "modelVersion": {
+      "destroyclaimModelVersion": {
         "type": "string",
         "enum": [
           "1.0.0"
