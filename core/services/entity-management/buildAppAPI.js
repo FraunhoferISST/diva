@@ -24,6 +24,8 @@ const policiesService = require("./services/PoliciesService");
 const dataNetworkService = require("./services/DataNetworkService");
 const dataNetworkRouter = require("./routes/dataNetwork");
 const { serviceId } = require("./package.json");
+const DestroyClaimsService = require("./services/DestroyClaimsService");
+const DestroyClaimController = require("./controllers/DestroyClaimController");
 
 const entitiesTopic = "entity.events";
 const dataNetworkTopic = "datanetwork.events";
@@ -89,8 +91,8 @@ const predefinedEntities = {
   },
   [collectionsNames.DESTROY_CLAIM_COLLECTION_NAME]: {
     collection: collectionsNames.DESTROY_CLAIM_COLLECTION_NAME,
-    controller: null,
-    service: null,
+    controller: DestroyClaimController,
+    service: DestroyClaimsService,
     entityType: entityTypes.DESTROY_CLAIM,
   },
   [collectionsNames.FOLDERS_COLLECTION_NAME]: {
@@ -200,7 +202,7 @@ module.exports = async (server) => {
 
   router.get(
     `/destroyclaims/resolved/:id`,
-    destroyclaimsController.getByName.bind(destroyclaimsController)
+    destroyclaimsController.getAndResolveById.bind(destroyclaimsController)
   );
 
   const openApiSpec = buildOpenApiSpec(Object.keys(predefinedEntities));
