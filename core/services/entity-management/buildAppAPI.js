@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 const express = require("express");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const buildOpenApiSpec = require("./utils/buildOpenApiSpec");
@@ -17,6 +18,7 @@ const schemataService = require("./services/SchemataService");
 const schemataController = require("./controllers/SchemataController");
 const asyncapisService = require("./services/AsyncapisService");
 const asyncapisController = require("./controllers/AsyncapisController");
+const destroyclaimsController = require("./controllers/DestroyClaimController");
 const rulesService = require("./services/RulesService");
 const policiesService = require("./services/PoliciesService");
 const dataNetworkService = require("./services/DataNetworkService");
@@ -196,12 +198,18 @@ module.exports = async (server) => {
     asyncapisController.getByName.bind(asyncapisController)
   );
 
+  router.get(
+    `/destroyclaims/resolved/:id`,
+    destroyclaimsController.getByName.bind(destroyclaimsController)
+  );
+
   const openApiSpec = buildOpenApiSpec(Object.keys(predefinedEntities));
   server.initBasicMiddleware();
   server.addOpenApiValidatorMiddleware(openApiSpec);
   server.addPolicyValidatorMiddleware();
   server.addMiddleware((req, res, next) => {
     if (req.files) {
+      // eslint-disable-next-line prefer-destructuring
       req.file = req.files[0];
       delete req.body.image;
     }
