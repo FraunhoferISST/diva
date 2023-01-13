@@ -90,7 +90,7 @@
                         info_outline
                       </v-icon>
                     </template>
-                    <span>{{ schema.entityToBeDeletedDate.description }}</span>
+                    <span>{{ entityToBeDeletedDateDescription }}</span>
                   </v-tooltip>
                 </template>
               </info-block-title>
@@ -112,7 +112,7 @@
                         info_outline
                       </v-icon>
                     </template>
-                    <span>{{ schema.entityToBeArchivedDate.description }}</span>
+                    <span>{{ entityToBeArchivedDateDescription }}</span>
                   </v-tooltip>
                 </template>
               </info-block-title>
@@ -228,11 +228,17 @@ export default {
     const entityToBeDeletedDateTitle = computed(() => {
       return schema?.value?.entityToBeDeletedDate?.title || "";
     });
+    const entityToBeDeletedDateDescription = computed(() => {
+      return schema?.value?.entityToBeDeletedDate?.description || "";
+    });
     const showEntityToBeArchivedDate = computed(() => {
       return Object.keys(schema.value || {}).includes("entityToBeArchivedDate");
     });
     const entityToBeArchivedDateTitle = computed(() => {
       return schema?.value?.entityToBeArchivedDate?.title || "";
+    });
+    const entityToBeArchivedDateDescription = computed(() => {
+      return schema?.value?.entityToBeArchivedDate?.description || "";
     });
     const computedShow = computed({
       get: () => props.show,
@@ -296,7 +302,9 @@ export default {
       entityToBeDeletedDate,
       entityToBeArchivedDate,
       entityToBeDeletedDateTitle,
+      entityToBeDeletedDateDescription,
       entityToBeArchivedDateTitle,
+      entityToBeArchivedDateDescription,
       isAdmin,
       computedShow,
       patchLoading,
