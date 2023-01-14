@@ -6,6 +6,7 @@ const ElasticsearchConnector = require("@diva/common/databases/ElasticsearchConn
 const allowedFields = [
   "id",
   "title",
+  "summary",
   "resourceType",
   "entityType",
   "mimeType",
