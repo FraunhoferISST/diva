@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:a73a1aa6-067e-42ff-8680-3b99ae78966a",
-  "title": "Root entity schema",
+  "title": "Root Entity Schema",
   "schemaName": "entity",
   "description": "This is the root schema and the instance of all entities. All field definitions will be injected on runtime",
   "entityType": "systemEntity",

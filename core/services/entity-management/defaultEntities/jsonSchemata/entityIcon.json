@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:fa75f406-8d85-4d9d-8dcd-71dc098fcaa7",
-  "title": "Entity icon",
+  "title": "Entity Icon",
   "schemaName": "entityIcon",
   "description": "The source of the entity icon image",
   "systemEntityType": "schema",
@@ -9,10 +9,10 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Entity icon",
+    "title": "Entity Icon",
     "properties": {
       "entityIcon": {
-        "title": "Entity icon",
+        "title": "Entity Icon",
         "description": "The source of the entity icon image",
         "anyOf": [
           {
