@@ -25,6 +25,8 @@ export default {
           return `/resources/${this.id}${this.postfix}`;
         case this.id.startsWith("user"):
           return `/users/${this.id}${this.postfix}`;
+        case this.id.startsWith("destroyclaim"):
+          return `/destroyclaims/${this.id}${this.postfix}`;
         default:
           return `/entities/${this.id}${this.postfix}`;
       }

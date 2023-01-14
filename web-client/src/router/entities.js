@@ -24,9 +24,10 @@ const generateDefaultEntityDetailsRoutes = (prefix = "entity", filterBy = []) =>
     }))
     .filter(({ title }) => !filterBy.includes(title));
 
-const ASSET_PREFIX = "asset";
 const RESOURCE_PREFIX = "resource";
+const ASSET_PREFIX = "asset";
 const USER_PREFIX = "user";
+const DESTROYCLAIM_PREFIX = "destroyclaim";
 const ENTITY_PREFIX = "entity";
 
 const entityCommonRoutes = (prefix = ENTITY_PREFIX) => [
@@ -170,5 +171,31 @@ usersConfig.children.push({
   props: true,
 });
 
+const destroyclaimConfig = entityRoutesFactory({
+  collection: "destroyclaims",
+  prefix: DESTROYCLAIM_PREFIX,
+  routes: [
+    ...generateDefaultEntityDetailsRoutes(DESTROYCLAIM_PREFIX),
+    {
+      title: "Claim Model",
+      icon: "delete",
+      name: "destroyclaim_details_model",
+    },
+  ],
+});
+//Destroyclaim specific routes
+destroyclaimConfig.children.push({
+  path: "model",
+  name: "destroyclaim_details_model",
+  component: AssetEntities,
+  props: true,
+});
+
 const entityConfig = entityRoutesFactory();
-export default [resourceConfig, assetConfig, usersConfig, entityConfig];
+export default [
+  resourceConfig,
+  assetConfig,
+  usersConfig,
+  destroyclaimConfig,
+  entityConfig,
+];
