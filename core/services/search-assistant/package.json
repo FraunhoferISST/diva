@@ -1,6 +1,6 @@
 {
   "name": "search-assistant",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "serviceId": "service:uuid:284d6d0e-d796-430c-82e7-60f998c1d7b8",
   "description": "A service helping in doing search queries against elasticsearch",
   "main": "index.js",
