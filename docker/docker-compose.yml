@@ -177,7 +177,7 @@ services:
   elasticsearch-connector:
     <<: *base-core-service
     <<: *extra-hosts
-    image: ${REGISTRY}elasticsearch-connector:0.2.8
+    image: ${REGISTRY}elasticsearch-connector:0.2.9
     container_name: elasticsearch-connector
     depends_on:
       - broker
