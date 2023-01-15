@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:0d47f346-8105-46e9-90cd-f6ca4e853b06",
-  "title": "To be deleted date",
+  "title": "Entity to be deleted Date",
   "schemaName": "entityToBeDeletedDate",
   "description": "Date of when this entity should be deleted",
   "systemEntityType": "schema",
@@ -9,11 +9,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "To be deleted date",
+    "title": "Entity to be deleted Date",
     "properties": {
       "entityToBeDeletedDate": {
         "type": "string",
-        "title": "To be deleted date",
+        "title": "Entity to be deleted Date",
         "description": "Date of when this entity should be deleted",
         "examples": [
           "2024-08-01T00:00:00Z"
