@@ -5,7 +5,7 @@ from airflow.models import Variable
 
 default_args = {
     'owner': 'airflow',
-    'description': 'GDPR Relevancy Forwarder',
+    'description': 'Property Forwarder',
     'depend_on_past': False,
     'start_date': datetime(2022, 1, 1),
     'email_on_failure': False,
@@ -13,7 +13,7 @@ default_args = {
     'retries': 0
 }
 
-with DAG('gdpr_relevancy_forwarder', default_args=default_args, schedule_interval=None, catchup=False) as dag:
+with DAG('property_forwarder', default_args=default_args, schedule_interval=None, catchup=False) as dag:
     profiling_args = {
         "MONGODB_URI": Variable.get("mongodb_uri"),
         "NEO4J_URL": Variable.get("neo4j_url"),
@@ -24,9 +24,9 @@ with DAG('gdpr_relevancy_forwarder', default_args=default_args, schedule_interva
         "ACTOR_ID": "{{ dag_run.conf['actorId'] }}"
     }
 
-    gdpr_relevancy_forwarder_task = DockerOperator(
-        task_id='gdpr-relevancy-forwarder',
-        image='ghcr.io/fraunhoferisst/diva/gdpr-relevancy-forwarder:0.1.0',
+    property_forwarder_task = DockerOperator(
+        task_id='property-forwarder',
+        image='ghcr.io/fraunhoferisst/diva/property-forwarder:0.1.0',
         api_version='auto',
         auto_remove=True,
         docker_url="unix://var/run/docker.sock",
@@ -36,4 +36,4 @@ with DAG('gdpr_relevancy_forwarder', default_args=default_args, schedule_interva
         },
     )
 
-    gdpr_relevancy_forwarder_task
+    property_forwarder_task
