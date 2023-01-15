@@ -144,4 +144,34 @@ module.exports = [
       },
     ],
   },
+  {
+    id: "rule:uuid:89d95d13-5f41-4ec6-a75c-2ff75b671edc",
+    title: "Trigger GDPR Relevancy Forwarder when gdprRelevancy field change",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      channel: "entity.events",
+      "payload.type": "update",
+      "payload.object.affectedFields": '("gdprRelevancy")',
+    },
+    condition: true,
+    actions: [
+      {
+        headers: {
+          "x-diva": { actorId: "{{serviceId}}" },
+        },
+        method: "POST",
+        endpoint:
+          "{{profiling-assistant}}/profiling/run/gdpr_relevancy_forwarder",
+        body: {
+          entityId: "{{payload.object.id}}",
+        },
+        ignoreErrors: [
+          {
+            statusCode: 403, // forbidden is forbidden, try not to write rules that confront with the policies
+          },
+        ],
+      },
+    ],
+  },
 ];
