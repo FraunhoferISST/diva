@@ -12,8 +12,12 @@
 
 <br />
 
-![GitHub](https://img.shields.io/badge/diva-v4.0.0-grün)
-![GitHub](https://img.shields.io/github/license/FraunhoferISST/diva)
+![GitHub](https://img.shields.io/badge/diva-v4.1.0-grün?style=flat-square)
+![GitHub](https://img.shields.io/github/license/FraunhoferISST/diva?style=flat-square)
+![open issues](https://img.shields.io/github/issues/FraunhoferISST/diva?style=flat-square)
+![last-commit](https://img.shields.io/github/last-commit/FraunhoferISST/diva?style=flat-square)
+![code-size](https://img.shields.io/github/languages/code-size/FraunhoferISST/diva?style=flat-square)
+
 <br />
 
 <div align="center" style="text-align: center;">
