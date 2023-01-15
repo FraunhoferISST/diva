@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:cf2a62cf-254c-414f-a0be-0523328544a2",
-  "title": "The Schema of a table",
+  "title": "The Schema of a Table",
   "schemaName": "tableSchema",
   "isPatchable": true,
   "scope": [
@@ -17,11 +17,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "The Schema of a table",
+    "title": "The Schema of a Table",
     "properties": {
       "tableSchema": {
         "type": "array",
-        "title": "Column list",
+        "title": "The Schema of a Table",
         "description": "The column headers of the resource",
         "minItems": 1,
         "items": {

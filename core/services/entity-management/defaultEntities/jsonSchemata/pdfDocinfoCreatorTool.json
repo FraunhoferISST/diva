@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:f4bc627d-7687-4fff-a3d7-952ee0c2d835",
-  "title": "PDF creator Tool",
+  "title": "PDF Creator Tool",
   "schemaName": "pdfDocinfoCreatorTool",
   "description": "Tool, which was used to create the pdf",
   "systemEntityType": "schema",
@@ -15,11 +15,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "pdfDocinfoCreatorTool",
+    "title": "PDF Creator Tool",
     "properties": {
       "pdfDocinfoCreatorTool": {
         "type": "string",
-        "title": "pdfDocinfoCreatorTool",
+        "title": "PDF Creator Tool",
         "description": "Tool, which was used to create the pdf",
         "default": "",
         "minLength": 1,

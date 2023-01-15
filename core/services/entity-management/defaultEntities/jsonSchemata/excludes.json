@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:6c5711ed-37cb-466d-ab59-ef888583bfe2",
-  "title": "excludes",
+  "title": "Excludes",
   "schemaName": "excludes",
   "systemEntityType": "schema",
   "entityType": "systemEntity",

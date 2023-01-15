@@ -1,6 +1,7 @@
 {
   "id": "schema:uuid:28c98a85-4e8d-4df2-ab72-bec612c0b3d9",
-  "title": "Data classification",
+  "title": "Data Classification",
+  "description": "Data classification according to the predefined types",
   "schemaName": "dataClassification",
   "isPatchable": true,
   "scope": [
@@ -17,11 +18,12 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Data classification",
+    "title": "Data Classification",
+    "description": "Data classification according to the predefined types",
     "properties": {
       "dataClassification": {
         "type": "string",
-        "title": "Data classification",
+        "title": "Data Classification",
         "description": "Data classification according to the predefined types",
         "minLength": 1,
         "enum": [

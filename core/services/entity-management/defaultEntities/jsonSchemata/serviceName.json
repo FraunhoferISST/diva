@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:eea438dd-1111-4223-b1e5-2189923e77da",
-  "title": "Service name",
+  "title": "Service Name",
   "schemaName": "serviceName",
   "description": "A short identifying name of the service",
   "isPatchable": false,
