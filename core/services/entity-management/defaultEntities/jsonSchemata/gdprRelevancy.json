@@ -1,0 +1,40 @@
+{
+  "id": "schema:uuid:570dcf1d-fe6e-496e-8655-09d2774dd32d",
+  "title": "GDPR Relevancy",
+  "schemaName": "gdprRelevancy",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "GDPR Relevancy",
+    "properties": {
+      "gdprRelevancy": {
+        "type": "boolean",
+        "default": false,
+        "title": "GDPR Relevancy",
+        "description": "Indicates, if this entity is GDPR relevant and should be checked from time to time.",
+        "_elasticsearch": {
+            "type": "boolean"
+          },
+          "_ui": {
+            "view": "overview",
+            "position": 4,
+            "type": "boolean",
+            "fallbackValue": false
+        }
+      }
+    }
+  }
+}
