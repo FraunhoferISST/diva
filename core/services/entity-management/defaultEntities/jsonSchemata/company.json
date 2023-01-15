@@ -1,6 +1,7 @@
 {
   "id": "schema:uuid:deefe682-5f24-428c-9e73-4da90fc0a391",
   "title": "Company Name",
+  "description": "The name of the company a user works for",
   "schemaName": "company",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
@@ -15,10 +16,12 @@
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
     "title": "Company Name",
+    "description": "The name of the company a user works for",
     "properties": {
       "company": {
         "type": "string",
         "title": "Company Name",
+        "description": "The name of the company a user works for",
         "examples": [
           "Example Company GmbH"
         ],

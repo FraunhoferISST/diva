@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:dcf2084b-4087-4c30-bc73-c3f28867362c",
-  "title": "PDF version",
+  "title": "PDF Version",
   "schemaName": "pdfVersion",
   "description": "Version of the PDF compiler",
   "systemEntityType": "schema",
@@ -15,11 +15,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "pdfVersion",
+    "title": "PDF Version",
     "properties": {
       "pdfVersion": {
         "type": "string",
-        "title": "pdfVersion",
+        "title": "PDF Version",
         "description": "Version of the PDF compiler",
         "default": "",
         "minLength": 1,

@@ -17,7 +17,7 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Sample rows of a table",
+    "title": "Array of Sample Rows",
     "properties": {
       "tableSample": {
         "type": "array",

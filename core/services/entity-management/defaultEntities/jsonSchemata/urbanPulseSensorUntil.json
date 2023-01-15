@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:1cc29a00-32da-4a77-941a-78488585a7e8",
-  "title": "Until date",
+  "title": "Until Date",
   "schemaName": "urbanPulseSensorUntil",
   "description": "The end of the date range of the retrieved sensor data",
   "systemEntityType": "schema",
@@ -15,14 +15,14 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Until date",
+    "title": "Until Date",
     "required": [
       "urbanPulseSensorUntil"
     ],
     "properties": {
       "urbanPulseSensorUntil": {
         "type": "string",
-        "title": "Until date",
+        "title": "Until Date",
         "description": "The end of the date range of the retrieved sensor data",
         "minLength": 1,
         "examples": [

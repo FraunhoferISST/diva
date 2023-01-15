@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:8c295e60-74b5-4d56-ae75-9d6d8d3f1173",
-  "title": "Statistics of a table data",
+  "title": "Statistics of Table Data",
   "schemaName": "columnStatistics",
   "isPatchable": true,
   "scope": [
@@ -17,11 +17,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Sample rows of a table",
+    "title": "Statistics of Table Data",
     "properties": {
       "columnStatistics": {
         "type": "array",
-        "title": "The columnstatistics Schema",
+        "title": "Statistics of Table Data",
         "items": {
           "type": "object",
           "title": "The Items Schema",
@@ -39,7 +39,7 @@
             "numberOfNumbers": {
               "type": "integer",
               "title": "Number of Numbers",
-              "description": "the number of numbers in a vector",
+              "description": "The number of numbers in a vector",
               "default": 0,
               "examples": [
                 201
@@ -48,7 +48,7 @@
             "numberOfStrings": {
               "type": "integer",
               "title": "Number of Strings",
-              "description": "the number of strings in a vector",
+              "description": "The number of strings in a vector",
               "default": 0,
               "examples": [
                 40
@@ -56,7 +56,7 @@
             },
             "numberOfNullElements": {
               "type": "integer",
-              "title": "NullElements",
+              "title": "Number of Null Elements",
               "description": "Number of intentionally empty fields.",
               "default": 0,
               "examples": [
@@ -66,7 +66,7 @@
             "numberOfRows": {
               "type": "integer",
               "title": "Number of Rows",
-              "description": "the number of terms in a vector",
+              "description": "The number of terms in a vector",
               "default": 0,
               "examples": [
                 228
@@ -74,8 +74,8 @@
             },
             "maxNumberOfRows": {
               "type": "integer",
-              "title": "Max number of rows",
-              "description": "the max number of terms the vector could have in regards to other vectors compared",
+              "title": "Max Number of Rows",
+              "description": "The max number of terms the vector could have in regards to other vectors compared",
               "default": 0,
               "examples": [
                 230
@@ -84,7 +84,7 @@
             "dataType": {
               "type": "string",
               "title": "Data Type",
-              "description": "the data type used in a vector",
+              "description": "The data type used in a vector",
               "default": 0,
               "examples": [
                 "string",
@@ -98,12 +98,12 @@
             },
             "frequencyNumbers": {
               "type": "array",
-              "title": "Frequency",
+              "title": "Number Frequency",
               "description": "Array with frequency per number value",
               "items": {
                 "type": "object",
                 "title": "Items",
-                "description": "the value and its number of appearance",
+                "description": "The value and its number of appearance",
                 "required": [
                   "token",
                   "count"
@@ -130,12 +130,12 @@
             },
             "frequencyStrings": {
               "type": "array",
-              "title": "FrequencyStrings",
+              "title": "String Frequency",
               "description": "Array with frequency per string value",
               "items": {
                 "type": "object",
                 "title": "Items",
-                "description": "the value and its number of appearance",
+                "description": "The value and its number of appearance",
                 "required": [
                   "token",
                   "count"
@@ -164,7 +164,7 @@
               "type": "integer",
               "minimum": 0,
               "title": "Minimum Character Length",
-              "description": "the number of characters of the shortest string in a vector",
+              "description": "The number of characters of the shortest string in a vector",
               "default": 0,
               "examples": [
                 2
@@ -173,8 +173,8 @@
             "maxCharLength": {
               "type": "integer",
               "minimum": 0,
-              "title": "Maximal Character Length",
-              "description": "the number of characters of the longest string in a vector",
+              "title": "Maximum Character Length",
+              "description": "The number of characters of the longest string in a vector",
               "default": 0,
               "examples": [
                 312532
@@ -183,7 +183,7 @@
             "sum": {
               "type": "number",
               "title": "Sum",
-              "description": "the sum of a vector or matrix columns",
+              "description": "The sum of a vector or matrix columns",
               "default": 0,
               "examples": [
                 26106
@@ -192,7 +192,7 @@
             "sumSquared": {
               "type": "number",
               "title": "Sum Squared",
-              "description": "the sum squared of a vector or matrix columns",
+              "description": "The sum squared of a vector or matrix columns",
               "default": 0,
               "examples": [
                 3976814.12
@@ -201,7 +201,7 @@
             "sumSquaredError": {
               "type": "number",
               "title": "Sum Squared Error",
-              "description": "the sum of squared errors of prediction of a vector",
+              "description": "The sum of squared errors of prediction of a vector",
               "default": 0,
               "examples": [
                 987677
@@ -209,8 +209,8 @@
             },
             "minValue": {
               "type": "number",
-              "title": "minValue",
-              "description": "the minimum value of a vector",
+              "title": "Minimal Value",
+              "description": "The minimum value of a vector",
               "default": 0,
               "examples": [
                 0.023
@@ -218,8 +218,8 @@
             },
             "maxValue": {
               "type": "number",
-              "title": "Max Value",
-              "description": "the maximum value of a vector",
+              "title": "Maximum Value",
+              "description": "The maximum value of a vector",
               "default": 0,
               "examples": [
                 228.23
@@ -228,7 +228,7 @@
             "mean": {
               "type": "number",
               "title": "Mean Value",
-              "description": "the mean of a vector",
+              "description": "The mean of a vector",
               "default": 0,
               "examples": [
                 114.5
@@ -237,7 +237,7 @@
             "meanSquaredError": {
               "type": "number",
               "title": "Mean Squared Error",
-              "description": "the mean squared error of a vector",
+              "description": "The mean squared error of a vector",
               "default": 0,
               "examples": [
                 4331.916666666667
@@ -246,7 +246,7 @@
             "median": {
               "type": "number",
               "title": "Median Value",
-              "description": "the median of a vector",
+              "description": "The median of a vector",
               "default": 0,
               "examples": [
                 114.5
@@ -255,7 +255,7 @@
             "variancePopulation": {
               "type": "number",
               "title": "Variance Population",
-              "description": "the variance of a vector (population)",
+              "description": "The variance of a vector (population)",
               "default": 0,
               "examples": [
                 4331.916666666667
@@ -264,7 +264,7 @@
             "varianceSample": {
               "type": "number",
               "title": "Variance Sample",
-              "description": "the variance of a vector (sample)",
+              "description": "The variance of a vector (sample)",
               "default": 0,
               "examples": [
                 4351
@@ -273,7 +273,7 @@
             "standardDeviationPopulation": {
               "type": "number",
               "title": "Standard Deviation Population",
-              "description": "the standard deviation of a vector (population)",
+              "description": "The standard deviation of a vector (population)",
               "default": 0,
               "examples": [
                 65.81729762506713
@@ -282,7 +282,7 @@
             "standardDeviationSample": {
               "type": "number",
               "title": "Standard Deviation Sample",
-              "description": "the standard deviation of a vector (sample)",
+              "description": "The standard deviation of a vector (sample)",
               "default": 0,
               "examples": [
                 65.96211033616193
@@ -291,7 +291,7 @@
             "meanDeviation": {
               "type": "number",
               "title": "Mean Deviation",
-              "description": "the mean absolute deviation of a vector",
+              "description": "The mean absolute deviation of a vector",
               "default": 0,
               "examples": [
                 57.01
@@ -300,7 +300,7 @@
             "medianDeviation": {
               "type": "number",
               "title": "Median Deviation",
-              "description": "the median absolute deviation of a vector",
+              "description": "The median absolute deviation of a vector",
               "default": 0,
               "examples": [
                 57.22
@@ -309,7 +309,7 @@
             "skewness": {
               "type": "number",
               "title": "Skewness",
-              "description": "the skewness of a vector (third standardized moment)",
+              "description": "The skewness of a vector (third standardized moment)",
               "default": 0,
               "examples": [
                 -1.1686558153949016e-17
@@ -318,7 +318,7 @@
             "excessKurtosis": {
               "type": "number",
               "title": "Excess Kurtosis",
-              "description": "the excess kurtosis of a vector (fourth standardized moment - 3)",
+              "description": "The excess kurtosis of a vector (fourth standardized moment - 3)",
               "default": 0,
               "examples": [
                 -1.2000461689398456
@@ -327,7 +327,7 @@
             "coefficientVariation": {
               "type": "number",
               "title": "Coefficient Variation",
-              "description": "the coefficient of variation of a vector",
+              "description": "The coefficient of variation of a vector",
               "default": 0,
               "examples": [
                 0.5748235600442544
@@ -336,7 +336,7 @@
             "quantileQ1": {
               "type": "number",
               "title": "Quantile Q1",
-              "description": "the 1-th percentile of values in a range",
+              "description": "The 1-th percentile of values in a range",
               "default": 0,
               "examples": [
                 57.75
@@ -345,7 +345,7 @@
             "quantileQ2": {
               "type": "number",
               "title": "Quantile Q2",
-              "description": "the 2-th percentile of values in a range",
+              "description": "The 2-th percentile of values in a range",
               "default": 0,
               "examples": [
                 114.5
@@ -354,7 +354,7 @@
             "quantileQ3": {
               "type": "number",
               "title": "Quantile Q3",
-              "description": "the 3-th percentile of values in a range",
+              "description": "The 3-th percentile of values in a range",
               "default": 0,
               "examples": [
                 171.25
@@ -374,7 +374,8 @@
             },
             "id": {
               "type": "string",
-              "title": "Unique ID of a column",
+              "title": "Unique ID of a Column",
+              "description": "The unique id of a column",
               "examples": [
                 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855#1#col1"
               ],
@@ -386,7 +387,7 @@
             "columnIndex": {
               "type": "integer",
               "title": "Column Index",
-              "description": "the index of the vector in a matrix",
+              "description": "The index of the vector in a matrix",
               "minimum": 0,
               "examples": [
                 0
