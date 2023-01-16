@@ -9,8 +9,6 @@ version: '3.9'
 x-mongodb-env: &mongodb-env
   AIRFLOW_VAR_MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@documentstore:${MONGODB_PORT}
 
-
-
 x-airflow-common:
   &airflow-common
   image: ghcr.io/fraunhoferisst/diva/diva-airflow:5.5.0
