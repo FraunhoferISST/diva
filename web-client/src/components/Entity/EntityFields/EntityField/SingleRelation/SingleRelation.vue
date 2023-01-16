@@ -23,7 +23,9 @@
         <template #view="{ state }">
           <data-viewer :loading="loading" :error="error">
             <div v-if="state.entity">
-              <entity-link :entity="state.entity" />
+              <v-chip class="ml-1 mt-0" label small
+                ><entity-link :entity="state.entity" :showAvatar="true"
+              /></v-chip>
             </div>
             <no-data-state v-else text="Assign entity" />
           </data-viewer>

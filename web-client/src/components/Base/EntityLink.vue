@@ -1,9 +1,11 @@
 <template>
   <div>
     <entity-avatar
+      v-if="showAvatar"
       :image-id="imageId"
       :entity-id="entity.id"
       :entity-title="entity.title || entity.username"
+      :size="32"
     />
     <entity-details-link v-if="id" :id="entity.id" class="entity-link-name">
       {{ entity.title || entity.username }}
@@ -23,6 +25,10 @@ export default {
     entity: {
       type: Object,
       required: true,
+    },
+    showAvatar: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {
