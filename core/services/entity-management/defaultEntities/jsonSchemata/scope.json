@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:e43d43a7-f15d-4790-ad32-e4d00e24a8f8",
-  "title": "Policy scope",
+  "title": "Policy Scope",
   "schemaName": "scope",
   "description": "Defines the API request scope to which the rule applies",
   "systemEntityType": "schema",
@@ -19,14 +19,14 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Policy scope",
+    "title": "Policy Scope",
     "required": [
       "scope"
     ],
     "properties": {
       "scope": {
         "type": "object",
-        "title": "Policy scope",
+        "title": "Policy Scope",
         "description": "Defines the API request scope to which the rule applies",
         "_elasticsearch": {
           "enabled": false

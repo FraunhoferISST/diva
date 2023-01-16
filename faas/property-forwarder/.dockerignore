@@ -1,0 +1,8 @@
+.eslintrc
+.git
+.gitignore
+Dockerfile
+node_modules
+README.md
+test_output.json
+bom.json
