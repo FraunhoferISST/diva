@@ -2,13 +2,13 @@
   <div>
     <entity-avatar
       :image-id="imageId"
-      :entity-id="user.id"
-      :entity-title="user.username"
+      :entity-id="entity.id"
+      :entity-title="entity.title || entity.username"
     />
-    <entity-details-link v-if="id" :id="user.id" class="user-link-name">
-      {{ user.username }}
+    <entity-details-link v-if="id" :id="entity.id" class="entity-link-name">
+      {{ entity.title || entity.username }}
     </entity-details-link>
-    <info-block-value class="ml-2" v-else> Unknown user </info-block-value>
+    <info-block-value class="ml-2" v-else> Unknown entity </info-block-value>
   </div>
 </template>
 
@@ -17,27 +17,27 @@ import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
 export default {
-  name: "UserLink",
+  name: "EntityLink",
   components: { EntityAvatar, InfoBlockValue, EntityDetailsLink },
   props: {
-    user: {
+    entity: {
       type: Object,
       required: true,
     },
   },
   computed: {
     imageId() {
-      return this.user?.entityIcon || "";
+      return this.entity?.entityIcon || "";
     },
     id() {
-      return this.user?.id;
+      return this.entity?.id;
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.user-link-name {
+.entity-link-name {
   text-decoration: none;
   padding: 5px 10px;
 }

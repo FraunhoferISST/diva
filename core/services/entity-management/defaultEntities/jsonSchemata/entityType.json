@@ -26,7 +26,8 @@
           "history",
           "service",
           "systemEntity",
-          "folder"
+          "folder",
+          "destroyclaim"
         ],
         "_elasticsearch": {
           "type": "keyword"

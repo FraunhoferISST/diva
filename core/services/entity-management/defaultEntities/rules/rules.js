@@ -43,8 +43,7 @@ module.exports = [
     isEditable: true,
     scope: {
       channel: "entity.events",
-      "payload.attributedTo[0].object.id":
-        "(resource|asset|service|rule|policy|schema):.*",
+      "payload.attributedTo[0].object.id": "[a-zA-Z]+:.*",
       "payload.type": "create",
       "payload.object.id": "review:.*",
     },
