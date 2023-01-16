@@ -18,6 +18,10 @@
     {
       "key": "entityType",
       "value": "service"
+    },
+    {
+      "key": "entityType",
+      "value": "destroyclaim"
     }
   ],
   "schema": {

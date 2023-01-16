@@ -21,12 +21,6 @@
         "format": "date-time",
         "_elasticsearch": {
           "type": "date"
-        },
-        "_ui": {
-          "view": "overview",
-          "position": 7,
-          "type": "date",
-          "fallbackValue": ""
         }
       }
     }

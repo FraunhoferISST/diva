@@ -1,0 +1,36 @@
+{
+  "id": "schema:uuid:13987be1-30fd-45b1-af8c-a46cf6de7e24",
+  "title": "Strict Mode",
+  "schemaName": "destroyclaimStrictMode",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "destroyclaim"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Strict Mode",
+    "properties": {
+      "destroyclaimStrictMode": {
+        "type": "boolean",
+        "default": false,
+        "title": "Strict Mode",
+        "description": "Run Destroy Claim in strict mode.",
+        "_elasticsearch": {
+            "type": "boolean"
+          },
+          "_ui": {
+            "view": "overview",
+            "position": 2.1,
+            "type": "boolean",
+            "fallbackValue": false
+        }
+      }
+    }
+  }
+}
