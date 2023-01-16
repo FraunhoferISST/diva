@@ -184,7 +184,7 @@ class DataNetworkService {
 
     if (toNodeType && toNodeType.length > 1) {
       where = " WHERE";
-      whereToNodeType = ` (${toNodeType.map((t) => `n:${t}`).join(" OR ")})`;
+      whereToNodeType = ` (${toNodeType.map((t) => `m:${t}`).join(" OR ")})`;
     }
 
     if (whereFromNodeType !== "" && whereToNodeType !== "") {
@@ -195,9 +195,6 @@ class DataNetworkService {
     where += whereFromAndTo;
     where += whereToNodeType;
 
-    console.log(
-      `MATCH (${fromNode}) ${relationship} (${toNode})${where} RETURN count(r)`
-    );
     let limitStr = pageSize < 0 ? "" : `LIMIT ${pageSize}`;
     let page = 1;
     let limit = pageSize;
