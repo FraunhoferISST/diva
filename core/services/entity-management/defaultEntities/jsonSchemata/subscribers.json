@@ -34,6 +34,7 @@
             "view": "overview",
             "position": 3,
             "component": "MultiRelation",
+            "fullWidth": true,
             "MultiRelation": {
               "entityType": "user,service",
               "edgeType": "isSubscriberOf",
