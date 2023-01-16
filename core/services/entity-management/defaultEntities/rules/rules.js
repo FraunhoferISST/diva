@@ -161,10 +161,10 @@ module.exports = [
           "x-diva": { actorId: "{{serviceId}}" },
         },
         method: "POST",
-        endpoint:
-          "{{profiling-assistant}}/profiling/run/gdpr_relevancy_forwarder",
+        endpoint: "{{profiling-assistant}}/profiling/run/property_forwarder",
         body: {
           entityId: "{{payload.object.id}}",
+          patchedProperty: "gdprRelevancy",
         },
         ignoreErrors: [
           {
