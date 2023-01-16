@@ -32,6 +32,7 @@
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
     "title": "Description",
+    "description": "The description of the entity",
     "properties": {
       "description": {
         "type": "string",

@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:5aec03cd-ab62-4d8b-acec-41ca50ef1415",
-  "title": "Last modified",
+  "title": "Last Modified",
   "schemaName": "fileModifiedAt",
   "description": "Date the file was modified",
   "systemEntityType": "schema",
@@ -15,11 +15,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Last modified",
+    "title": "Last Modified",
     "properties": {
       "fileModifiedAt": {
         "type": "string",
-        "title": "Last modified",
+        "title": "Last Modified",
         "description": "Date the file was modified",
         "default": "",
         "minLength": 1,

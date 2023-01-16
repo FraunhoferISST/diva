@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:194a2449-36bc-4df7-a410-b073959535e4",
-  "title": "Review text",
+  "title": "Review Text",
   "schemaName": "reviewText",
   "description": "Creators comment to the review",
   "systemEntityType": "schema",
@@ -15,14 +15,14 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Review text",
+    "title": "Review Text",
     "required": [
       "reviewText"
     ],
     "properties": {
       "reviewText": {
         "type": "string",
-        "title": "Review text",
+        "title": "Review Text",
         "description": "Creators comment to the review",
         "examples": [
           "This resource was super helpful!",

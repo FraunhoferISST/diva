@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:9007469e-8ae3-497f-9f31-7195503a7d13",
-  "title": "Delta of metadata",
+  "title": "Delta of Metadata",
   "schemaName": "delta",
   "description": "Delta of metadata of the entity this belongs to",
   "systemEntityType": "schema",
@@ -15,14 +15,15 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Delta of metadata",
+    "title": "Delta of Metadata",
+    "description": "Delta of metadata of the entity this belongs to",
     "required": [
       "delta"
     ],
     "properties": {
       "delta": {
         "type": "object",
-        "title": "Delta of metadata",
+        "title": "Delta of Metadata",
         "description": "Delta of metadata of the entity this belongs to",
         "_elasticsearch": {
           "enabled": false

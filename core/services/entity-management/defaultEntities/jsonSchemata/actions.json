@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:bc5ff46a-449a-4335-9cb4-e7eb562252e6",
-  "title": "Rule actions",
+  "title": "Rule Actions",
   "schemaName": "actions",
   "description": "Rule actions to execute. Actions are executed as HTTP requests",
   "systemEntityType": "schema",
@@ -15,11 +15,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Rule actions",
+    "title": "Rule Actions",
     "properties": {
       "actions": {
         "type": "array",
-        "title": "Rule actions",
+        "title": "Rule Actions",
         "description": "Rule actions to execute. Actions are executed as HTTP requests",
         "minItems": 1,
         "items": {
@@ -32,17 +32,17 @@
           ],
           "properties": {
             "headers": {
-              "title": "Request headers",
+              "title": "Request Headers",
               "description": "Headers that should be added to the action request",
               "type": "object"
             },
             "body": {
-              "title": "Request body",
+              "title": "Request Body",
               "description": "Data that should be supplied within the action request",
               "type": "object"
             },
             "method": {
-              "title": "Request method",
+              "title": "Request Method",
               "description": "Action request HTTP method",
               "type": "string",
               "enum": [

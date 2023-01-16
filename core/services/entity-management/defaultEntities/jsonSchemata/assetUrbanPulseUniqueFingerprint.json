@@ -1,6 +1,7 @@
 {
   "id": "schema:uuid:5a5f3b69-64d0-4126-96ba-8e314bf6c6cf",
-  "title": "byteSize",
+  "title": "Unique Urban Pulse Identifier",
+  "description": "Unique urban pulse identifier using the hashed baseUrl where the Urban Pulse can be accessed",
   "schemaName": "assetUrbanPulseUniqueFingerprint",
   "isPatchable": false,
   "scope": [
@@ -13,7 +14,8 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "General Urban Pulse Asset Data",
+    "title": "Unique Urban Pulse Identifier",
+    "description": "Unique urban pulse identifier using the hashed baseUrl where the Urban Pulse can be accessed",
     "required": [
       "uniqueFingerprint"
     ],
@@ -21,7 +23,7 @@
       "uniqueFingerprint": {
         "type": "string",
         "title": "Unique Urban Pulse Identifier",
-        "description": "Unique urban pulse identifier using the hashed baseUrl where the UP can be accessed",
+        "description": "Unique urban pulse identifier using the hashed baseUrl where the Urban Pulse can be accessed",
         "pattern": "^[A-Fa-f0-9]{64}$",
         "examples": [
           "7103cd78f9f78e778f3c2b8d902c8c1e936b10c39aeb6e47d2b9a16b82093e6c"
