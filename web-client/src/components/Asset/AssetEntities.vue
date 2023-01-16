@@ -1,11 +1,6 @@
 <template>
   <section id="asset-edges-list">
-    <network-nodes-list
-      :id="id"
-      edge-types="isPartOf"
-      bidirectional
-      :show-counter="false"
-    >
+    <network-nodes-list :toId="id" edge-types="isPartOf" :show-counter="false">
       <template #default="{ totalNetworkEntitiesCount, load, entities }">
         <v-container fluid class="pa-0">
           <v-row>

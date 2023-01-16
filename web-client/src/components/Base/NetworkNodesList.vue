@@ -76,7 +76,11 @@ export default {
   props: {
     id: {
       type: String,
-      required: true,
+      required: false,
+    },
+    toId: {
+      type: String,
+      required: false,
     },
     edgeTypes: {
       type: String,
@@ -118,6 +122,7 @@ export default {
       datanetwork
         .getEdges({
           from: props.id,
+          to: props.toId,
           edgeTypes: props.edgeTypes,
           pageSize: props.maxItems ?? 20,
           bidirectional: props.bidirectional,
@@ -134,7 +139,9 @@ export default {
                 properties: { id: edgeId },
               }) => {
                 const toId =
-                  toEntityId === props.id ? fromEntityId : toEntityId;
+                  fromEntityId === props.id || toEntityId !== props.toId
+                    ? toEntityId
+                    : fromEntityId;
                 return getEntityApiById(toId)
                   .getByIdIgnoringErrors(toId, {
                     onIgnoredError: () => ({
