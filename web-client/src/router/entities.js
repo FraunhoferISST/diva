@@ -176,20 +176,22 @@ const destroyclaimConfig = entityRoutesFactory({
   prefix: DESTROYCLAIM_PREFIX,
   routes: [
     ...generateDefaultEntityDetailsRoutes(DESTROYCLAIM_PREFIX),
+    /*
     {
       title: "Claim Model",
       icon: "delete",
       name: "destroyclaim_details_model",
-    },
+    },*/
   ],
 });
 //Destroyclaim specific routes
+/*
 destroyclaimConfig.children.push({
   path: "model",
   name: "destroyclaim_details_model",
   component: AssetEntities,
   props: true,
-});
+});*/
 
 const entityConfig = entityRoutesFactory();
 export default [
