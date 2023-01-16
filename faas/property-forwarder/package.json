@@ -1,0 +1,25 @@
+{
+  "name": "property-forwarder",
+  "version": "0.1.0",
+  "serviceId": "service:uuid:78cfe5c6-3cfa-46b5-b6ae-953d709739f1",
+  "private": true,
+  "scripts": {
+    "start": "node app.mjs",
+    "dev": "nodemon app.mjs",
+    "eslint-fix": "eslint --fix *js"
+  },
+  "dependencies": {
+    "axios": "^1.2.2",
+    "url-join": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/plugin-syntax-import-assertions": "^7.20.0",
+    "eslint": "^8.32.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.3"
+  }
+}
