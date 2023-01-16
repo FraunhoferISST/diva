@@ -133,6 +133,7 @@ components:
                 - isPartOf
                 - isOwnerOf
                 - isReviewOf
+                - isSubscriberOf
                 - likes
                 - keywordsSimilarity
                 - textContentSimilarity

@@ -35,12 +35,12 @@
           :size="5"
           :image-id="data.item.entityIcon"
           :entity-id="data.item.id"
-          :entity-title="data.item.title"
+          :entity-title="data.item.title || data.item.username"
           class="mr-2"
           style="margin-left: -12px"
         />
         <entity-details-link class="pr-2" :id="data.item.id" target="_blank">
-          {{ data.item.title }}
+          {{ data.item.title || data.item.username }}
         </entity-details-link>
       </v-chip>
     </template>
@@ -50,12 +50,12 @@
           :size="35"
           :image-id="data.item.entityIcon"
           :entity-id="data.item.id"
-          :entity-title="data.item.title"
+          :entity-title="data.item.title || data.item.username"
         />
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title>
-          {{ data.item.title }}
+          {{ data.item.title || data.item.username }}
         </v-list-item-title>
         <v-list-item-subtitle>
           {{ data.item.entityType }}

@@ -43,7 +43,7 @@
                       <entity-avatar
                         :image-id="entity.entityIcon || ''"
                         :entity-id="entity.id"
-                        :entity-title="entity.title"
+                        :entity-title="entity.title || entity.username"
                       />
                     </div>
                   </div>
@@ -114,16 +114,15 @@ export default {
     const { loading, error, request } = useRequest();
 
     const query = {
-      edgeTypes: props.fieldSchema._ui.SingleRelation.edgeType,
-      toNodeType: props.fieldSchema._ui.SingleRelation.entityType,
+      edgeTypes: props.fieldSchema._ui.MultiRelation.edgeType,
+      toNodeType: props.fieldSchema._ui.MultiRelation.entityType,
     };
 
-    if (props.fieldSchema._ui.SingleRelation.edgeDirection === "from") {
+    if (props.fieldSchema._ui.MultiRelation.edgeDirection === "from") {
       query.to = props.id;
     } else {
       query.from = props.id;
     }
-
     const loadEntities = () =>
       request(
         datanetwork.getEdges(query).then(async ({ data: { collection } }) => {
@@ -131,15 +130,14 @@ export default {
             await Promise.all(
               collection.map(
                 ({
-                  to: { entityIdTo },
-                  from: { entityIdFrom },
+                  to: { entityId: entityIdTo },
+                  from: { entityId: entityIdFrom },
                   properties: { id: edgeId },
                 }) => {
                   let entityId = "";
 
                   if (
-                    props.fieldSchema._ui.SingleRelation.edgeDirection ===
-                    "from"
+                    props.fieldSchema._ui.MultiRelation.edgeDirection === "from"
                   ) {
                     entityId = entityIdFrom;
                   } else {
@@ -183,20 +181,24 @@ export default {
         })
       );
       return Promise.all([
-        ...newEntities.map(({ id }) =>
-          datanetwork
-            .createEdge({
-              from: props.id,
-              to: id,
-              edgeType: "refersTo",
-            })
-            .catch((e) => {
-              if (e?.response?.data?.code === 409) {
-                return true;
-              }
-              throw e;
-            })
-        ),
+        ...newEntities.map(({ id }) => {
+          const query = {
+            edgeType: props.fieldSchema._ui.MultiRelation.edgeType,
+          };
+          if (props.fieldSchema._ui.MultiRelation.edgeDirection === "from") {
+            query.to = props.id;
+            query.from = id;
+          } else {
+            query.from = props.id;
+            query.to = id;
+          }
+          return datanetwork.createEdge(query).catch((e) => {
+            if (e?.response?.data?.code === 409) {
+              return true;
+            }
+            throw e;
+          });
+        }),
         ...removePromises,
       ]);
     };

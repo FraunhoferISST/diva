@@ -1,0 +1,47 @@
+{
+    "id": "schema:uuid:e522932e-58e7-4a24-ae3f-344665ec6bfc",
+    "title": "Subscribers",
+    "schemaName": "subscribers",
+    "description": "Subscribers to this entity",
+    "systemEntityType": "schema",
+    "entityType": "systemEntity",
+    "isPatchable": false,
+    "scope": [
+      {
+        "key": "entityType",
+        "value": "resource"
+      }
+    ],
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2019-09/schema",
+      "type": "object",
+      "title": "Subscribers",
+      "description": "Subscribers to this entity",
+      "properties": {
+        "subscribers": {
+          "type": "array",
+          "title": "Subscribers",
+          "description": "Subscribers to this entity",
+          "default": [],
+          "items": {
+            "uniqueItems": true,
+            "type": "object",
+            "_elasticsearch": {
+              "enabled": false
+            }
+          },
+          "_ui": {
+            "view": "overview",
+            "position": 3,
+            "component": "MultiRelation",
+            "MultiRelation": {
+              "entityType": "user,service",
+              "edgeType": "isSubscriberOf",
+              "edgeDirection": "from"
+            },
+            "fallbackValue": []
+          }
+        }
+      }
+    }
+  }

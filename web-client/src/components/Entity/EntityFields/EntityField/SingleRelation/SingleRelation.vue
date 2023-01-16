@@ -141,19 +141,23 @@ export default {
       }
 
       if (entity && entity.id) {
+        const query = {
+          from: entity.id,
+          edgeType: props.fieldSchema._ui.SingleRelation.edgeType,
+        };
+        if (props.fieldSchema._ui.SingleRelation.edgeDirection === "from") {
+          query.to = props.id;
+        } else {
+          query.from = props.id;
+        }
+
         promises.push(
-          datanetwork
-            .createEdge({
-              to: props.id,
-              from: entity.id,
-              edgeType: props.fieldSchema._ui.SingleRelation.edgeType,
-            })
-            .catch((e) => {
-              if (e?.response?.data?.code === 409) {
-                return true;
-              }
-              throw e;
-            })
+          datanetwork.createEdge(query).catch((e) => {
+            if (e?.response?.data?.code === 409) {
+              return true;
+            }
+            throw e;
+          })
         );
       }
 
