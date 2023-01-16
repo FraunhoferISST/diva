@@ -64,6 +64,15 @@ module.exports = [
     entityType: "service",
   },
   {
+    title: "Property Forwarder",
+    description:
+      "Can be triggered through airflow to set properties on related entities.",
+    serviceName: "property-forwarder",
+    id: "service:uuid:78cfe5c6-3cfa-46b5-b6ae-953d709739f1",
+    serviceType: "faas",
+    entityType: "service",
+  },
+  {
     title: "Entity Management Sink",
     description:
       "Service that can patch an entities analytics results from a workflow.",
