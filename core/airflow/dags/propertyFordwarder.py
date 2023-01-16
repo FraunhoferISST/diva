@@ -15,13 +15,9 @@ default_args = {
 
 with DAG('property_forwarder', default_args=default_args, schedule_interval=None, catchup=False) as dag:
     profiling_args = {
-        "MONGODB_URI": Variable.get("mongodb_uri"),
-        "NEO4J_URL": Variable.get("neo4j_url"),
-        "NEO4J_ROOT_USERNAME": Variable.get("neo4j_root_username"),
-        "NEO4J_ROOT_PASSWORD": Variable.get("neo4j_root_password"),
         "ENTITY_MANAGEMENT_URL": Variable.get("entity_management_url"),
         "ENTITY_ID": "{{ dag_run.conf['entityId'] }}",
-        "ACTOR_ID": "{{ dag_run.conf['actorId'] }}"
+        "PATCHED_PROPERTY": "{{ dag_run.conf['patchedProperty'] }}"
     }
 
     property_forwarder_task = DockerOperator(
