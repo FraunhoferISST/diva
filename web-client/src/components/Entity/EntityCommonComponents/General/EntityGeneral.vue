@@ -38,7 +38,6 @@ import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import CustomHeader from "@/components/Base/CustomHeader";
 import EntityDataViewer from "@/components/Entity/EntityDataViewer";
 import EntityField from "@/components/Entity/EntityFields/EntityField/EntityField";
-import Owners from "@/components/Entity/EntityFields/EntityField/Owners/Owners";
 import Licenses from "@/components/Entity/EntityFields/EntityField/Licenses/Licenses";
 import Location from "@/components/Entity/EntityFields/EntityField/Location/Location";
 import Languages from "@/components/Entity/EntityFields/EntityField/Languages/Languages";
@@ -62,7 +61,6 @@ export default {
     DestroyClaimRefersTo,
     DestroyReasons,
     Licenses,
-    Owners,
     EntityField,
     EntityDataViewer,
     CustomHeader,
