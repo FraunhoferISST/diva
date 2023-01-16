@@ -6,16 +6,14 @@ const {
   entityTypes: { DESTROY_CLAIM },
 } = require("../utils/constants");
 
-const shortenDivaId = (divaId) => {
-    return divaId.split(":").pop();
-}
+const shortenDivaId = (divaId) => divaId.split(":").pop();
 
 class DestroyClaimService extends EntityService {
   async init() {
     await super.init();
   }
 
-  async #resolveDestroyContacts(destroyclaim) {
+  async resolveDestroyContacts(destroyclaim) {
     const destroyclaimOwners = await DataNetworkService.getEdges({
       edgeTypes: ["isOwnerOf"],
       to: destroyclaim.id,
@@ -23,31 +21,33 @@ class DestroyClaimService extends EntityService {
       toNodeType: "destroyclaim",
     });
 
-    const contacts = await Promise.all(destroyclaimOwners.collection.map(async (u) => {
-      const entity = await this.collection.findOne(
-        {
-          id: u.from.entityId,
-        },
-        { projection: { _id: false } }
-      );
-      if (entity) {
-        return {
-          id: shortenDivaId(entity.id),
-          name: "std:agent",
-          payload: {
-            name: entity.username,
-            mbox: entity.email,
+    const contacts = await Promise.all(
+      destroyclaimOwners.collection.map(async (u) => {
+        const entity = await this.collection.findOne(
+          {
+            id: u.from.entityId,
           },
-          refs: [shortenDivaId(destroyclaim.id)],
-        };
-      }
-      throw entityNotFoundError;
-    }));
+          { projection: { _id: false } }
+        );
+        if (entity) {
+          return {
+            id: shortenDivaId(entity.id),
+            name: "std:agent",
+            payload: {
+              name: entity.username,
+              mbox: entity.email,
+            },
+            refs: [shortenDivaId(destroyclaim.id)],
+          };
+        }
+        throw entityNotFoundError;
+      })
+    );
 
     return contacts.length > 0 ? contacts : undefined;
   }
 
-  async #resolveDestroyClaim(destroyclaim) {
+  async resolveDestroyClaim(destroyclaim) {
     return {
       id: shortenDivaId(destroyclaim.id),
       isActive: destroyclaim.isActive,
@@ -62,8 +62,10 @@ class DestroyClaimService extends EntityService {
       title: destroyclaim.title,
       description: destroyclaim.description,
       keywords: destroyclaim.keywords,
-      destroyReasons: destroyclaim.destroyclaimDestroyReasons?.map((r) => r.value),
-      destroyContacts: await this.#resolveDestroyContacts(destroyclaim),
+      destroyReasons: destroyclaim.destroyclaimDestroyReasons?.map(
+        (r) => r.value
+      ),
+      destroyContacts: await this.resolveDestroyContacts(destroyclaim),
     };
   }
 
@@ -75,7 +77,7 @@ class DestroyClaimService extends EntityService {
       { projection: { _id: false } }
     );
     if (entity) {
-      return this.#resolveDestroyClaim(entity);
+      return this.resolveDestroyClaim(entity);
     }
     throw entityNotFoundError;
   }
