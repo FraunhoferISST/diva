@@ -23,33 +23,17 @@
         <template #view="{ state }">
           <data-viewer :loading="loading" :error="error">
             <div v-if="state.entities.length > 0">
-              <template v-if="state.entities.length > 1">
+              <template>
                 <div
                   class="data-entity-avatar d-inline-block"
                   v-for="entity in state.entities"
                   :key="entity.id"
                 >
-                  <div
-                    style="width: 20px; overflow: visible; position: relative"
-                  >
-                    <div
-                      style="
-                        width: 36px;
-                        border-radius: 50%;
-                        padding: 2px;
-                        background-color: white;
-                      "
-                    >
-                      <entity-avatar
-                        :image-id="entity.entityIcon || ''"
-                        :entity-id="entity.id"
-                        :entity-title="entity.title"
-                      />
-                    </div>
-                  </div>
+                  <v-chip class="ml-1 mt-0" label small
+                    ><entity-link :entity="entity" :showAvatar="true"
+                  /></v-chip>
                 </div>
               </template>
-              <entity-link v-else :entity="state.entities[0]" />
             </div>
             <no-data-state v-else text="Assign entity" />
           </data-viewer>
@@ -69,7 +53,6 @@
 <script>
 import NoDataState from "@/components/Base/NoDataState";
 import EntityLink from "@/components/Base/EntityLink";
-import EntityAvatar from "@/components/Entity/EntityAvatar";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 import { useRequest } from "@/composables/request";
 import { useApi } from "@/composables/api";
@@ -89,7 +72,6 @@ export default {
     MultiRelationEdit,
     DataViewer,
     FieldEditor,
-    EntityAvatar,
     EntityLink,
     NoDataState,
   },
@@ -114,16 +96,16 @@ export default {
     const { loading, error, request } = useRequest();
 
     const query = {
-      edgeTypes: props.fieldSchema._ui.SingleRelation.edgeType,
-      toNodeType: props.fieldSchema._ui.SingleRelation.entityType,
+      edgeTypes: props.fieldSchema._ui.MultiRelation.edgeType,
     };
 
-    if (props.fieldSchema._ui.SingleRelation.edgeDirection === "from") {
+    if (props.fieldSchema._ui.MultiRelation.edgeDirection === "from") {
       query.to = props.id;
+      query.fromNodeType = props.fieldSchema._ui.MultiRelation.entityType;
     } else {
       query.from = props.id;
+      query.toNodeType = props.fieldSchema._ui.MultiRelation.entityType;
     }
-
     const loadEntities = () =>
       request(
         datanetwork.getEdges(query).then(async ({ data: { collection } }) => {
@@ -131,15 +113,14 @@ export default {
             await Promise.all(
               collection.map(
                 ({
-                  to: { entityIdTo },
-                  from: { entityIdFrom },
+                  to: { entityId: entityIdTo },
+                  from: { entityId: entityIdFrom },
                   properties: { id: edgeId },
                 }) => {
                   let entityId = "";
 
                   if (
-                    props.fieldSchema._ui.SingleRelation.edgeDirection ===
-                    "from"
+                    props.fieldSchema._ui.MultiRelation.edgeDirection === "from"
                   ) {
                     entityId = entityIdFrom;
                   } else {
@@ -183,20 +164,24 @@ export default {
         })
       );
       return Promise.all([
-        ...newEntities.map(({ id }) =>
-          datanetwork
-            .createEdge({
-              from: props.id,
-              to: id,
-              edgeType: "refersTo",
-            })
-            .catch((e) => {
-              if (e?.response?.data?.code === 409) {
-                return true;
-              }
-              throw e;
-            })
-        ),
+        ...newEntities.map(({ id }) => {
+          const query = {
+            edgeType: props.fieldSchema._ui.MultiRelation.edgeType,
+          };
+          if (props.fieldSchema._ui.MultiRelation.edgeDirection === "from") {
+            query.to = props.id;
+            query.from = id;
+          } else {
+            query.from = props.id;
+            query.to = id;
+          }
+          return datanetwork.createEdge(query).catch((e) => {
+            if (e?.response?.data?.code === 409) {
+              return true;
+            }
+            throw e;
+          });
+        }),
         ...removePromises,
       ]);
     };

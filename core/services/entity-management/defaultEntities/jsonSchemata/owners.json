@@ -48,7 +48,13 @@
         "_ui": {
           "view": "overview",
           "position": 3,
-          "component": "Owners",
+          "component": "MultiRelation",
+          "fullWidth": true,
+          "MultiRelation": {
+            "entityType": "user",
+            "edgeType": "isOwnerOf",
+            "edgeDirection": "from"
+          },
           "fallbackValue": []
         }
       }

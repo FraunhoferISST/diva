@@ -23,7 +23,9 @@
         <template #view="{ state }">
           <data-viewer :loading="loading" :error="error">
             <div v-if="state.entity">
-              <entity-link :entity="state.entity" />
+              <v-chip class="ml-1 mt-0" label small
+                ><entity-link :entity="state.entity" :showAvatar="true"
+              /></v-chip>
             </div>
             <no-data-state v-else text="Assign entity" />
           </data-viewer>
@@ -141,19 +143,23 @@ export default {
       }
 
       if (entity && entity.id) {
+        const query = {
+          from: entity.id,
+          edgeType: props.fieldSchema._ui.SingleRelation.edgeType,
+        };
+        if (props.fieldSchema._ui.SingleRelation.edgeDirection === "from") {
+          query.to = props.id;
+        } else {
+          query.from = props.id;
+        }
+
         promises.push(
-          datanetwork
-            .createEdge({
-              to: props.id,
-              from: entity.id,
-              edgeType: props.fieldSchema._ui.SingleRelation.edgeType,
-            })
-            .catch((e) => {
-              if (e?.response?.data?.code === 409) {
-                return true;
-              }
-              throw e;
-            })
+          datanetwork.createEdge(query).catch((e) => {
+            if (e?.response?.data?.code === 409) {
+              return true;
+            }
+            throw e;
+          })
         );
       }
 
