@@ -71,6 +71,10 @@ services:
     build:
       context: ../faas/keywords-similarity-hash-generator  
 
+  property-forwarder:
+    build:
+      context: ../faas/property-forwarder    
+
   # DIVA Bots
   entity-archive-bot:
     build:

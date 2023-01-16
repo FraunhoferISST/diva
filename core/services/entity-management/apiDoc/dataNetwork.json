@@ -18,7 +18,6 @@
             "name": "from",
             "in": "query",
             "description": "The `id` of the entity for wich the relationships will be fetched",
-            "required": true,
             "allowReserved": true,
             "schema": {
               "$ref": "#/components/schemas/EntityId"
