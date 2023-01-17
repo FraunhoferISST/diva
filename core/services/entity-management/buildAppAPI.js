@@ -19,13 +19,12 @@ const schemataController = require("./controllers/SchemataController");
 const asyncapisService = require("./services/AsyncapisService");
 const asyncapisController = require("./controllers/AsyncapisController");
 const destroyclaimsController = require("./controllers/DestroyClaimController");
+const destroyclaimsService = require("./services/DestroyClaimsService");
 const rulesService = require("./services/RulesService");
 const policiesService = require("./services/PoliciesService");
 const dataNetworkService = require("./services/DataNetworkService");
 const dataNetworkRouter = require("./routes/dataNetwork");
 const { serviceId } = require("./package.json");
-const DestroyClaimsService = require("./services/DestroyClaimsService");
-const DestroyClaimController = require("./controllers/DestroyClaimController");
 
 const entitiesTopic = "entity.events";
 const dataNetworkTopic = "datanetwork.events";
@@ -77,6 +76,12 @@ const predefinedEntities = {
     service: usersService,
     entityType: entityTypes.USER,
   },
+  [collectionsNames.PUBLISHERS_COLLECTION_NAME]: {
+    collection: collectionsNames.PUBLISHERS_COLLECTION_NAME,
+    controller: null,
+    service: null,
+    entityType: entityTypes.PUBLISHER,
+  },
   [collectionsNames.SERVICES_COLLECTION_NAME]: {
     collection: collectionsNames.SERVICES_COLLECTION_NAME,
     controller: null,
@@ -91,8 +96,8 @@ const predefinedEntities = {
   },
   [collectionsNames.DESTROY_CLAIM_COLLECTION_NAME]: {
     collection: collectionsNames.DESTROY_CLAIM_COLLECTION_NAME,
-    controller: DestroyClaimController,
-    service: DestroyClaimsService,
+    controller: destroyclaimsController,
+    service: destroyclaimsService,
     entityType: entityTypes.DESTROY_CLAIM,
   },
   [collectionsNames.FOLDERS_COLLECTION_NAME]: {

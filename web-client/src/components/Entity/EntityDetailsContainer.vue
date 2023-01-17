@@ -326,6 +326,7 @@ export default {
           data.value.serviceType,
           data.value.systemEntityType,
           data.value.assetType,
+          data.value.publisherType,
           data.value.destroyclaimType,
           data.value.mimeType,
         ]

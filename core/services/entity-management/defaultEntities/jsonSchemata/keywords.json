@@ -21,6 +21,10 @@
     },
     {
       "key": "entityType",
+      "value": "publisher"
+    },
+    {
+      "key": "entityType",
       "value": "destroyclaim"
     }
   ],
