@@ -65,6 +65,12 @@ export default {
         fullWidth: false,
       },
       {
+        title: "Add new Publisher",
+        description: "Add a new publisher",
+        icon: "resource.svg",
+        routeName: "create_publisher",
+      },
+      {
         title: "Add new Destroy Claim",
         description: "Add a new destroy claim",
         icon: "resource.svg",

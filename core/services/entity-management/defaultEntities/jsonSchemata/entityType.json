@@ -22,6 +22,7 @@
           "resource",
           "asset",
           "user",
+          "publisher",
           "review",
           "history",
           "service",

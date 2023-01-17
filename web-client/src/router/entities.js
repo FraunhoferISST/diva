@@ -27,6 +27,7 @@ const generateDefaultEntityDetailsRoutes = (prefix = "entity", filterBy = []) =>
 const RESOURCE_PREFIX = "resource";
 const ASSET_PREFIX = "asset";
 const USER_PREFIX = "user";
+const PUBLISHER_PREFIX = "publisher";
 const DESTROYCLAIM_PREFIX = "destroyclaim";
 const ENTITY_PREFIX = "entity";
 
@@ -171,6 +172,12 @@ usersConfig.children.push({
   props: true,
 });
 
+const publisherConfig = entityRoutesFactory({
+  collection: "publishers",
+  prefix: PUBLISHER_PREFIX,
+  routes: [...generateDefaultEntityDetailsRoutes(PUBLISHER_PREFIX)],
+});
+
 const destroyclaimConfig = entityRoutesFactory({
   collection: "destroyclaims",
   prefix: DESTROYCLAIM_PREFIX,
@@ -198,6 +205,7 @@ export default [
   resourceConfig,
   assetConfig,
   usersConfig,
+  publisherConfig,
   destroyclaimConfig,
   entityConfig,
 ];

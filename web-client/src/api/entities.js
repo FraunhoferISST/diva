@@ -3,6 +3,7 @@ const entityTypes = [
   "resource",
   "asset",
   "user",
+  "publisher",
   "review",
   "service",
   "folder",

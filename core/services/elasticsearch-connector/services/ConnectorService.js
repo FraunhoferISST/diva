@@ -15,6 +15,7 @@ const edgesTypes = [
   "isCreatorOf",
   "isPartOf",
   "isOwnerOf",
+  "isPublisherOf",
   "isReviewOf",
   "isSubscriberOf",
   "isAlternativeOf",
