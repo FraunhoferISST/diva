@@ -2,17 +2,15 @@
   <v-container class="pa-0 fluid">
     <v-row>
       <v-col cols="12">
-        <custom-header
-          text="Specify project title and project id for new GitLab Project"
-        />
+        <custom-header text="Specify URL of new GitHub Project" />
       </v-col>
       <v-col cols="12">
         <v-row dense v-for="(resource, i) in computedSource.resources" :key="i">
           <v-col cols="12" :md="12">
             <div class="d-flex align-center pb-2">
               <source-text-input
-                label="GitLab URL"
-                :value.sync="resource.gitLabUrl"
+                label="GitHub Project URL"
+                :value.sync="resource.gitHubProjectUrl"
                 :rules="urlValidationRules"
               />
               <v-tooltip top open-delay="600" max-width="400px" v-if="i === 0">
@@ -21,39 +19,8 @@
                     info_outline
                   </v-icon>
                 </template>
-                <span>E.g. "https://gitlab.my-company.com"</span>
+                <span>E.g. "https://github.com/myuser/myproject"</span>
               </v-tooltip>
-            </div>
-          </v-col>
-          <v-col cols="6" :md="6">
-            <div class="d-flex align-center pb-8">
-              <source-text-input
-                label="GitLab Project Title"
-                :value.sync="resource.title"
-                :rules="projectnameValidationRules"
-              />
-            </div>
-          </v-col>
-          <v-col cols="6" :md="6">
-            <div class="d-flex align-center">
-              <source-text-input
-                label="GitLab Project ID"
-                :value.sync="resource.gitLabProjectId"
-                :rules="idValidationRules"
-              />
-              <v-tooltip top open-delay="600" max-width="400px" v-if="i === 0">
-                <template #activator="{ on, attrs }">
-                  <v-icon color="primary" large v-bind="attrs" v-on="on">
-                    info_outline
-                  </v-icon>
-                </template>
-                <span>ID looks like this: 4356</span>
-              </v-tooltip>
-              <div class="pl-2" v-if="computedSource.resources.length > 1">
-                <v-btn icon color="error" @click="() => onRemoveTab(i)">
-                  <v-icon small color="error"> close </v-icon>
-                </v-btn>
-              </div>
             </div>
           </v-col>
         </v-row>
@@ -65,9 +32,8 @@
       </v-col>
       <v-col cols="12">
         <v-alert text dense type="info" class="ma-0">
-          Your can add multiple GitLab Projects at once. We require a project
-          name and the project id. Later you can enrich it with more useful
-          metadata.
+          Your can add multiple GitHub Projects at once. We require just a
+          project URL. Later you can enrich it with more useful metadata.
         </v-alert>
       </v-col>
     </v-row>
@@ -78,7 +44,7 @@
 import CustomHeader from "@/components/Base/CustomHeader";
 import SourceTextInput from "@/components/Resource/Create/SourceSelection/SourceCreationFields/SourceTextInput";
 export default {
-  name: "GitLabProjectSource",
+  name: "GitHubAccountSource",
   components: {
     SourceTextInput,
     CustomHeader,
@@ -92,9 +58,8 @@ export default {
   data: () => ({
     gitLabAccountResource: {
       title: "",
-      gitLabProjectId: "",
-      gitLabUrl: "",
-      resourceType: "gitlab:project",
+      gitHubProjectUrl: "",
+      resourceType: "github:project",
       entityType: "resource",
       error: "",
       warning: "",
@@ -102,7 +67,7 @@ export default {
       loading: true,
     },
     urlValidationRules: [
-      (value) => !!value || "GitLab URL is required",
+      (value) => !!value || "GitHub Project URL is required",
       (value) => {
         let url;
         try {
@@ -110,22 +75,12 @@ export default {
         } catch (_) {
           return false;
         }
+        const gitHubTest = url.hostname.includes("github.com");
         return (
-          url.protocol === "http:" ||
-          url.protocol === "https:" ||
-          "GitLab URL is not valid"
+          (gitHubTest && url.protocol === "http:") ||
+          (gitHubTest && url.protocol === "https:") ||
+          "GitHub URL is not valid"
         );
-      },
-    ],
-    projectnameValidationRules: [
-      (value) => {
-        return value.length > 1 || "Invalid GitLab Project Name";
-      },
-    ],
-    idValidationRules: [
-      (value) => {
-        const pattern = /^[0-9]+$/g;
-        return pattern.test(value) || "Invalid GitLab Project ID";
       },
     ],
   }),
@@ -137,8 +92,7 @@ export default {
   computed: {
     isReady() {
       return this.computedSource.resources.every(
-        ({ title, gitLabProjectId, gitLabUrl }) =>
-          title && gitLabProjectId && gitLabUrl
+        ({ gitHubProjectUrl }) => gitHubProjectUrl
       );
     },
     computedSource: {
@@ -159,18 +113,12 @@ export default {
           resource.warning = "";
           resource.error = "";
 
-          const {
-            title,
-            gitLabProjectId,
-            gitLabUrl,
-            resourceType,
-            entityType,
-          } = resource;
+          const { gitHubProjectUrl, resourceType, entityType } = resource;
+          resource.title = gitHubProjectUrl;
           return this.$api.resources
             .create({
-              title,
-              gitLabProjectId,
-              gitLabUrl,
+              title: gitHubProjectUrl,
+              gitHubProjectUrl,
               resourceType,
               entityType,
             })
