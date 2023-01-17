@@ -43,8 +43,7 @@ module.exports = [
     isEditable: true,
     scope: {
       channel: "entity.events",
-      "payload.attributedTo[0].object.id":
-        "(resource|asset|service|rule|policy|schema):.*",
+      "payload.attributedTo[0].object.id": "[a-zA-Z]+:.*",
       "payload.type": "create",
       "payload.object.id": "review:.*",
     },
@@ -135,6 +134,36 @@ module.exports = [
         endpoint: "{{profiling-assistant}}/profiling/run/keywords_similarity",
         body: {
           entityId: "{{payload.object.id}}",
+        },
+        ignoreErrors: [
+          {
+            statusCode: 403, // forbidden is forbidden, try not to write rules that confront with the policies
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "rule:uuid:89d95d13-5f41-4ec6-a75c-2ff75b671edc",
+    title: "Trigger GDPR Relevancy Forwarder when gdprRelevancy field change",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      channel: "entity.events",
+      "payload.type": "update",
+      "payload.object.affectedFields": '("gdprRelevancy")',
+    },
+    condition: true,
+    actions: [
+      {
+        headers: {
+          "x-diva": { actorId: "{{serviceId}}" },
+        },
+        method: "POST",
+        endpoint: "{{profiling-assistant}}/profiling/run/property_forwarder",
+        body: {
+          entityId: "{{payload.object.id}}",
+          patchedProperty: "gdprRelevancy",
         },
         ignoreErrors: [
           {

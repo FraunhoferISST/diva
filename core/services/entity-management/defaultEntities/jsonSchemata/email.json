@@ -1,6 +1,7 @@
 {
   "id": "schema:uuid:ecd6e016-5e37-4138-8e5f-15fab743a86b",
-  "title": "The Email Schema ",
+  "title": "Email Schema",
+  "description": "An Email address",
   "schemaName": "email",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
@@ -14,7 +15,8 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "The Email Schema ",
+    "title": "Email",
+    "description": "An Email address",
     "required": [
       "email"
     ],
@@ -22,7 +24,8 @@
       "email": {
         "type": "string",
         "format": "email",
-        "title": "The Email Schema ",
+        "title": "Email",
+        "description": "An Email address",
         "examples": [
           "muster@mann.de"
         ]

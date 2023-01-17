@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:8a493b85-af9f-45d3-86b6-6a39f55f67d5",
-  "title": "The SHA256 hash unique identifier",
+  "title": "The SHA256 Hash Unique Identifier",
   "schemaName": "resourceFileUniqueFingerprint",
   "isPatchable": false,
   "scope": [
@@ -13,14 +13,14 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "The SHA256 hash unique identifier",
+    "title": "The SHA256 Hash Unique Identifier",
     "required": [
       "uniqueFingerprint"
     ],
     "properties": {
       "uniqueFingerprint": {
         "type": "string",
-        "title": "The SHA256 hash unique identifier",
+        "title": "The SHA256 Hash Unique Identifier",
         "description": "The SHA256 hash of the file content that uniquely indicates a resource",
         "default": "",
         "examples": [

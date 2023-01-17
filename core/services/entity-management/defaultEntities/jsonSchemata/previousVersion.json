@@ -1,0 +1,46 @@
+{
+    "id": "schema:uuid:44f525d4-4fc4-4242-a1b9-a1967e9cbc89",
+    "title": "Previous Version",
+    "schemaName": "previousVersion",
+    "description": "Previous version of the entity",
+    "systemEntityType": "schema",
+    "entityType": "systemEntity",
+    "isPatchable": false,
+    "scope": [
+      {
+        "key": "entityType",
+        "value": "resource"
+      }
+    ],
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2019-09/schema",
+      "type": "object",
+      "title": "Previous Version",
+      "properties": {
+        "previousVersion": {
+          "type": "array",
+          "title": "Previous Version",
+          "description": "Previous version of the entity",
+          "default": [],
+          "items": {
+            "uniqueItems": true,
+            "type": "object",
+            "_elasticsearch": {
+              "enabled": false
+            }
+          },
+          "_ui": {
+            "view": "overview",
+            "position": 3,
+            "component": "SingleRelation",
+            "SingleRelation": {
+              "entityType": "resource",
+              "edgeType": "isPreviousVersionOf",
+              "edgeDirection": "from"
+            },
+            "fallbackValue": []
+          }
+        }
+      }
+    }
+  }

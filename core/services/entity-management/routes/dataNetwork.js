@@ -8,7 +8,7 @@ router.get(
   dataNetworkController.getEdges.bind(dataNetworkController)
 );
 router.get(
-  "/edges/:id", 
+  "/edges/:id",
   dataNetworkController.getEdgeById.bind(dataNetworkController)
 );
 router.post(

@@ -1,5 +1,20 @@
 <template>
-  <info-block title="Licenses">
+  <info-block :title="fieldSchema.title">
+    <template #title v-if="fieldSchema.description">
+      <info-block-title class="d-flex justify-space-between">
+        {{ fieldSchema.title }}
+        <template #info>
+          <v-tooltip top open-delay="600" max-width="400px">
+            <template #activator="{ on, attrs }">
+              <v-icon color="primary" dense v-bind="attrs" v-on="on">
+                info_outline
+              </v-icon>
+            </template>
+            <span>{{ fieldSchema.description }}</span>
+          </v-tooltip>
+        </template>
+      </info-block-title>
+    </template>
     <template #value>
       <no-data-state
         v-if="!addMode && (!localLicenses || localLicenses.length === 0)"
@@ -161,6 +176,7 @@
 import NoDataState from "@/components/Base/NoDataState";
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
+import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 import { useEntity } from "@/composables/entity";
 import { useSnackbar } from "@/composables/snackbar";
@@ -174,6 +190,7 @@ export default {
     FieldEditor,
     InfoBlock,
     InfoBlockValue,
+    InfoBlockTitle,
     NoDataState,
   },
   props: {
@@ -187,6 +204,10 @@ export default {
     },
     editable: {
       type: Boolean,
+      required: true,
+    },
+    fieldSchema: {
+      type: Object,
       required: true,
     },
   },

@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:66f18411-742b-43c4-9809-8aa4ff7c04ff",
-  "title": "Number of columns",
+  "title": "Number of Columns",
   "schemaName": "numberOfColumns",
   "isPatchable": true,
   "scope": [
@@ -17,11 +17,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Number of Columns of a Table",
+    "title": "Number of Columns",
     "properties": {
       "numberOfColumns": {
         "type": "integer",
-        "title": "Number of columns",
+        "title": "Number of Columns",
         "description": "the number of existing columns in the csv file",
         "default": 0,
         "examples": [

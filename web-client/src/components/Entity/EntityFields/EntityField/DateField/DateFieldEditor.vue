@@ -9,18 +9,17 @@
       min-width="auto"
     >
       <template #activator="{ on, attrs }">
-        <v-combobox
+        <v-text-field
           outlined
           dense
           hide-details
           v-model="computedValue"
-          chips
-          small-chips
           :label="title"
           readonly
           v-bind="attrs"
           v-on="on"
-        ></v-combobox>
+          :clearable="clearable"
+        ></v-text-field>
       </template>
       <v-date-picker v-model="computedValue" no-title scrollable>
       </v-date-picker>
@@ -39,11 +38,15 @@ export default {
     },
     value: {
       type: [String, Number],
-      required: true,
+      required: false,
     },
     title: {
       type: String,
       required: true,
+    },
+    clearable: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({
@@ -55,7 +58,11 @@ export default {
         return this.value;
       },
       set(value) {
-        this.$emit("update:value", new Date(value).toISOString());
+        if (value === null) {
+          this.$emit("update:value", null);
+        } else {
+          this.$emit("update:value", new Date(value).toISOString());
+        }
       },
     },
   },
