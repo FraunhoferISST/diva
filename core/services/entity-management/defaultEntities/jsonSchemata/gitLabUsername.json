@@ -1,0 +1,43 @@
+{
+  "id": "schema:uuid:d11f2e3f-ef31-425d-b5ad-d7607ef0042f",
+  "title": "GitLab Username",
+  "schemaName": "gitLabUsername",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "gitlab:account"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "GitLab Username",
+    "required": [
+      "gitLabUsername"
+    ],
+    "properties": {
+      "gitLabUsername": {
+        "type": "string",
+        "title": "GitLab Username",
+        "minLength": 1,
+        "description": "The name of the GitLab user",
+        "examples": [
+          "@testuser"
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "diva_analyzer"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 2,
+          "type": "text",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

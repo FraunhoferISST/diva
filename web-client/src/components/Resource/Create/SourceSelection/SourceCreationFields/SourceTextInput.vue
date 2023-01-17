@@ -8,7 +8,6 @@
     dense
     rounded
     hide-details
-    autofocus
     background-color="transparent"
   >
   </v-text-field>

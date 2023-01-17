@@ -27,7 +27,9 @@
           "file",
           "urbanPulseSensor",
           "vmware:vm",
-          "virtualbox:vm"
+          "virtualbox:vm",
+          "gitlab:account",
+          "gitlab:project"
         ],
         "_elasticsearch": {
           "type": "keyword"

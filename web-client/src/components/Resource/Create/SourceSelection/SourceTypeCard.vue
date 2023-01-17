@@ -2,9 +2,9 @@
   <div class="source-type-card-container text-center pt-4" @click="emitSelect">
     <div class="mb-2 d-flex justify-center">
       <v-img
-        height="40"
+        height="50"
         contain
-        width="150"
+        width="120"
         :src="require(`@/assets/sourceTypeIcons/${source.icon}`)"
       />
     </div>
