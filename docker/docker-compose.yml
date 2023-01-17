@@ -115,7 +115,7 @@ services:
   entity-management:
     <<: *base-core-service
     <<: *extra-hosts
-    image: ${REGISTRY}entity-management:1.7.0
+    image: ${REGISTRY}entity-management:1.7.1
     container_name: entity-management
     depends_on:
       - broker
@@ -243,7 +243,7 @@ services:
 
   history-assistant:
     <<: *extra-hosts
-    image: ${REGISTRY}history-assistant:0.1.4
+    image: ${REGISTRY}history-assistant:0.1.5
     container_name: history-assistant
     environment:
       <<: *base-core-service-env

@@ -59,8 +59,9 @@ const createProjectionObject = (projectionQuery, policyProjection) => {
 };
 
 const createNextPageQuery = (id) => ({ _id: { $lt: ObjectId(id) } });
-const createNextCursor = async (currentDoc, collection) => {
+const createNextCursor = async (currentDoc, collection, query) => {
   const nextDoc = await collection.findOne({
+    ...query,
     _id: { $lt: ObjectId(currentDoc._id) },
   });
   return nextDoc ? encodeCursor(`${currentDoc._id}`) : undefined;
@@ -216,7 +217,8 @@ class EntityService {
     if (collection.length === parsedPageSize) {
       nextCursor = await createNextCursor(
         collection[collection.length - 1],
-        this.collection
+        this.collection,
+        query
       );
     }
     return {
