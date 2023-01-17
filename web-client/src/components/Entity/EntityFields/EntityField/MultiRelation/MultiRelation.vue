@@ -29,7 +29,7 @@
                   v-for="entity in state.entities"
                   :key="entity.id"
                 >
-                  <v-chip class="ml-1 mt-0" label small
+                  <v-chip class="ml-1 mb-1" label small
                     ><entity-link :entity="entity" :showAvatar="true"
                   /></v-chip>
                 </div>
@@ -40,6 +40,7 @@
         </template>
         <template #edit="{ setPatch, patch }">
           <multi-relation-edit
+            :id="id"
             :entities="patch.entities"
             :entityType="fieldSchema._ui.MultiRelation.entityType"
             @update:entities="(newValue) => setPatch({ entities: newValue })"
@@ -106,6 +107,11 @@ export default {
       query.from = props.id;
       query.toNodeType = props.fieldSchema._ui.MultiRelation.entityType;
     }
+
+    if (props.fieldSchema._ui.MultiRelation.bidirectional) {
+      query.bidirectional = true;
+    }
+
     const loadEntities = () =>
       request(
         datanetwork.getEdges(query).then(async ({ data: { collection } }) => {
@@ -119,13 +125,13 @@ export default {
                 }) => {
                   let entityId = "";
 
-                  if (
-                    props.fieldSchema._ui.MultiRelation.edgeDirection === "from"
-                  ) {
-                    entityId = entityIdFrom;
+                  // always show what is not the main entity
+                  if (props.id === entityIdFrom) {
+                    entityId = entityIdTo;
                   } else {
-                    entityId = entityIdTo; // SingleRelation -> there should only be one edge
+                    entityId = entityIdFrom;
                   }
+
                   return getEntityApiById(entityId)
                     .getByIdIfExists(entityId, {
                       fields: "id, title, username, entityIcon",

@@ -23,7 +23,7 @@
         <template #view="{ state }">
           <data-viewer :loading="loading" :error="error">
             <div v-if="state.entity">
-              <v-chip class="ml-1 mt-0" label small
+              <v-chip class="ml-1 mb-1" label small
                 ><entity-link :entity="state.entity" :showAvatar="true"
               /></v-chip>
             </div>
@@ -32,6 +32,7 @@
         </template>
         <template #edit="{ setPatch, patch }">
           <single-relation-edit
+            :id="id"
             :entity="patch.entity"
             :entityType="fieldSchema._ui.SingleRelation.entityType"
             @update:entity="(newValue) => setPatch({ entity: newValue })"
@@ -89,13 +90,18 @@ export default {
 
     const query = {
       edgeTypes: props.fieldSchema._ui.SingleRelation.edgeType,
-      toNodeType: props.fieldSchema._ui.SingleRelation.entityType,
     };
 
     if (props.fieldSchema._ui.SingleRelation.edgeDirection === "from") {
       query.to = props.id;
+      query.fromNodeType = props.fieldSchema._ui.SingleRelation.entityType;
     } else {
       query.from = props.id;
+      query.toNodeType = props.fieldSchema._ui.SingleRelation.entityType;
+    }
+
+    if (props.fieldSchema._ui.SingleRelation.bidirectional) {
+      query.bidirectional = true;
     }
 
     const loadEntity = () =>
@@ -104,11 +110,19 @@ export default {
           if (collection.length > 0) {
             let entityId = "";
             const edgeId = collection[0].properties.id;
+
+            // always show what is not the main entity
+            if (props.id === collection[0].from.entityId) {
+              entityId = collection[0].to.entityId;
+            } else {
+              entityId = collection[0].from.entityId;
+            }
+            /*
             if (props.fieldSchema._ui.SingleRelation.edgeDirection === "from") {
               entityId = collection[0].from.entityId;
             } else {
               entityId = collection[0].to.entityId; // SingleRelation -> there should only be one edge
-            }
+            }*/
 
             loadedEntity.value = await getEntityApiById(entityId)
               .getByIdIfExists(entityId, {

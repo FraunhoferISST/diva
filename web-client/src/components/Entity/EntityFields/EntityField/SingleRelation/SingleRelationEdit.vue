@@ -68,6 +68,10 @@ export default {
   inheritAttrs: false,
   components: { EntityDetailsLink, EntityAvatar },
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     entity: {
       type: Object,
     },
@@ -93,7 +97,9 @@ export default {
       searchInput,
       computedEntity,
       searchResult: computed(() => [
-        ...(data.value?.collection ?? []).map(({ doc }) => doc),
+        ...(data.value?.collection ?? [])
+          .map(({ doc }) => doc)
+          .filter((doc) => doc.id !== props.id),
       ]),
       searchEntities: (input) =>
         search(input, {
