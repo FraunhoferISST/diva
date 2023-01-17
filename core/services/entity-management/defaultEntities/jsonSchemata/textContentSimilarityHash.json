@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:ec36ac0e-1a2c-42bf-9faa-9ff8e3dd841c",
-  "title": "Text Content Similarity hash",
+  "title": "Text Content Similarity Hash",
   "schemaName": "textContentSimilarityHash",
   "isPatchable": true,
   "scope": [
@@ -25,10 +25,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Text Content Similarity hash",
+    "title": "Text Content Similarity Hash",
     "properties": {
       "textContentSimilarityHash": {
         "type": "string",
+        "title": "Text Content Similarity Hash",
         "description": "256bit Hash in Hex that is used to calculate similarity between texts",
         "minLength": 64,
         "maxLength": 64,

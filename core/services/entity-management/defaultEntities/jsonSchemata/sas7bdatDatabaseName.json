@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:e4619c16-c614-4064-9280-7fa0ca8a0b1e",
-  "title": "SAS database name",
+  "title": "SAS Database Name",
   "schemaName": "sas7bdatDatabaseName",
   "description": "The name of the sas7bdat database",
   "systemEntityType": "schema",
@@ -15,11 +15,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "SAS database name",
+    "title": "SAS Database Name",
     "properties": {
       "sas7bdatDatabaseName": {
         "type": "string",
-        "title": "SAS database name",
+        "title": "SAS Database Name",
         "description": "The name of the sas7bdat database",
         "default": "",
         "minLength": 1,

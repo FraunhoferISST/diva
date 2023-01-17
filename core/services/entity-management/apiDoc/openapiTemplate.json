@@ -88,6 +88,56 @@
         }
       }
     },
+    "/destroyclaims/resolved/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/actoridParam"
+        },
+        {
+          "$ref": "#/components/parameters/divaHeader"
+        }
+      ],
+      "get": {
+        "tags": [
+          "destroyclaims"
+        ],
+        "summary": "Get resolved Destroy Claim by id",
+        "description": "Returns the resolved Destroy Claim.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the Destroy Claim to resolve",
+            "required": true,
+            "explode": true,
+            "allowReserved": true,
+            "schema": {
+              "type": "string",
+              "example": "destroyclaim:uuid:f59fcdd1-2545-41d9-8b80-00ae8167501d"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resolved Destroy Claim response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Resolved Destroy Claim",
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "4XX": {
+            "$ref": "#/components/responses/BadRequestError"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    },
     "/scopedSchemata": {
       "parameters": [
         {

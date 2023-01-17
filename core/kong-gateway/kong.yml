@@ -148,14 +148,28 @@ services:
           - name: jwt-keycloak
             config:
               allowed_iss: ["http://172.17.0.1:7000/auth/realms/diva-kc-realm"]
+      - name: entities-destroyclaims-resolved-route
+        paths:
+          - '/destroyclaims/resolved/destroyclaim:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
+        methods:
+          - GET
+          - OPTIONS
+        protocols:
+          - "http"
+          - "https"
+        strip_path: false
+        plugins:
+          - name: jwt-keycloak
+            config:
+              allowed_iss: ["http://172.17.0.1:7000/auth/realms/diva-kc-realm"]        
       - name: entity-images-route
         methods:
           - POST
           - DELETE
           - OPTIONS
         paths:
-          - '/(users|resources|reviews|services|assets|destroyclaims|rules|schemata|asyncapis|policies)/(user|resource|review|service|asset|destroyclaim|rule|schema|policy|asyncapi):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/*$'
-          - '/(users|resources|reviews|services|assets|destroyclaims|rules|schemata|asyncapis|policies)/(user|resource|review|service|asset|destroyclaim|rule|schema|policy|asyncapi):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
+          - '/(users|resources|reviews|services|assets|folders|destroyclaims|rules|schemata|asyncapis|policies)/(user|resource|review|service|asset|folder|destroyclaim|rule|schema|policy|asyncapi):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/*$'
+          - '/(users|resources|reviews|services|assets|folders|destroyclaims|rules|schemata|asyncapis|policies)/(user|resource|review|service|asset|folder|destroyclaim|rule|schema|policy|asyncapi):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
         protocols:
           - "http"
           - "https"
@@ -169,7 +183,7 @@ services:
           - GET
           - OPTIONS
         paths:
-          - '/(users|resources|reviews|services|assets|destroyclaims|rules|schemata|asyncapis|policies)/(user|resource|review|service|asset|destroyclaim|rule|schema|policy|asyncapi):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
+          - '/(users|resources|reviews|services|assets|folders|destroyclaims|rules|schemata|asyncapis|policies)/(user|resource|review|service|asset|folder|destroyclaim|rule|schema|policy|asyncapi):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/images/image:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/*$'
         protocols:
           - "http"
           - "https"

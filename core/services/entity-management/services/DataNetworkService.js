@@ -154,20 +154,52 @@ class DataNetworkService {
     toNodeType,
     bidirectional = false,
   }) {
-    const fromNode = `n${fromNodeType ? `:${fromNodeType}` : ""} ${
-      from ? `{ entityId: '${from}' }` : ""
-    }`;
     const relationshipTypes = edgeTypes ? `r:${edgeTypes.join("|")}` : "r";
     const relationship = `-[${relationshipTypes}]-${bidirectional ? "" : ">"}`;
-    const toNode = `m${toNodeType ? `:${toNodeType}` : ""} ${
-      to ? `{ entityId: '${to}' }` : ""
-    }`;
+    let fromNode = "n";
+    let toNode = "m";
+    let where = " ";
+    let whereFromNodeType = "";
+    let whereFromAndTo = "";
+    let whereToNodeType = "";
+
+    if (fromNodeType && fromNodeType.length === 1) {
+      fromNode += `${fromNodeType ? `:${fromNodeType}` : ""}`;
+    }
+
+    fromNode += `${from ? ` { entityId: '${from}' }` : ""}`;
+
+    if (toNodeType && toNodeType.length === 1) {
+      toNode += `${toNodeType ? `:${toNodeType}` : ""}`;
+    }
+
+    toNode += `${to ? ` { entityId: '${to}' }` : ""}`;
+
+    if (fromNodeType && fromNodeType.length > 1) {
+      where = " WHERE";
+      whereFromNodeType = ` (${fromNodeType
+        .map((t) => `n:${t}`)
+        .join(" OR ")})`;
+    }
+
+    if (toNodeType && toNodeType.length > 1) {
+      where = " WHERE";
+      whereToNodeType = ` (${toNodeType.map((t) => `m:${t}`).join(" OR ")})`;
+    }
+
+    if (whereFromNodeType !== "" && whereToNodeType !== "") {
+      whereFromAndTo = " AND";
+    }
+
+    where += whereFromNodeType;
+    where += whereFromAndTo;
+    where += whereToNodeType;
 
     let limitStr = pageSize < 0 ? "" : `LIMIT ${pageSize}`;
     let page = 1;
     let limit = pageSize;
     const count = await this.count(
-      `MATCH (${fromNode}) ${relationship} (${toNode}) RETURN count(r)`
+      `MATCH (${fromNode}) ${relationship} (${toNode}) ${where} RETURN count(r)`
     );
     if (cursor && count > pageSize) {
       const decodedCursor = JSON.parse(decodeCursor(cursor));

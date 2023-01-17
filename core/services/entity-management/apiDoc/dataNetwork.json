@@ -18,7 +18,7 @@
             "name": "from",
             "in": "query",
             "description": "The `id` of the entity for wich the relationships will be fetched",
-            "required": true,
+            "required": false,
             "allowReserved": true,
             "schema": {
               "$ref": "#/components/schemas/EntityId"
@@ -37,8 +37,9 @@
           {
             "name": "edgeTypes",
             "in": "query",
-            "description": "The types of the relations to be fetched. Is a coma separeted list of known types. If not specified, all types will be fetched",
+            "description": "The types of the relations to be fetched. Is a comma separeted list of known types. If not specified, all types will be fetched",
             "required": false,
+            "allowReserved": true,
             "schema": {
               "$ref": "#/components/schemas/EdgeType"
             }
@@ -77,6 +78,7 @@
             "in": "query",
             "description": "The specific type of the node (e.g, user, resource, review)",
             "required": false,
+            "allowReserved": true,
             "schema": {
               "type": "string"
             }
@@ -86,6 +88,7 @@
             "in": "query",
             "description": "The specific type of the node (e.g, user, resource, review)",
             "required": false,
+            "allowReserved": true,
             "schema": {
               "type": "string"
             }
@@ -452,9 +455,12 @@
           "isPartOf",
           "isOwnerOf",
           "isReviewOf",
+          "isSubscriberOf",
           "likes",
           "keywordsSimilarity",
           "textContentSimilarity",
+          "refersTo",
+          "isPreviousVersionOf",
           "acquired"
         ]
       }
