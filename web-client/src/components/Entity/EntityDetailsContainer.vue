@@ -13,15 +13,19 @@
           <div class="entity-details-overview">
             <entity-controls :show.sync="showControls" :entity="data" />
             <v-container ref="overviewContainer" class="pa-0 pt-0 pb-0">
+              <entity-media :entity="{ ...data, title }" type="banner" />
               <v-expand-transition>
                 <v-container
                   v-if="tab.includes('/general')"
                   class="entity-details-overview-container px-3 px-md-12 pt-0 pb-0"
                 >
-                  <div class="pt-3 pt-md-12">
+                  <div class="pt-1 pt-md-6">
                     <div class="d-flex justify-center align-center flex-column">
                       <div class="relative">
-                        <entity-media :entity="{ ...data, title }" />
+                        <entity-media
+                          :entity="{ ...data, title }"
+                          v-bind:class="avatarOverlap"
+                        />
                         <v-tooltip
                           bottom
                           :open-delay="600"
@@ -68,11 +72,14 @@
                         </v-tooltip>
                       </div>
                       <div class="pt-2">
-                        <entity-rating :id="data.id" />
+                        <entity-rating
+                          :id="data.id"
+                          v-bind:class="avatarOverlap"
+                        />
                       </div>
                     </div>
                   </div>
-                  <div class="pt-3 pt-md-12">
+                  <div class="pt-3 pt-md-6">
                     <div class="entity-details-header">
                       <div>
                         <h1 class="entity-details-title">{{ title }}</h1>
@@ -319,12 +326,17 @@ export default {
           data.value.serviceType,
           data.value.systemEntityType,
           data.value.assetType,
+          data.value.publisherType,
+          data.value.destroyclaimType,
           data.value.mimeType,
         ]
           .filter((t) => t)
           .map((t) => (t.length > 40 ? `${t.slice(0, 40)}...` : t))
       ),
       showSnackbar,
+      avatarOverlap: computed(() => {
+        return data.value.entityBanner ? "avatar-overlap" : "";
+      }),
       reloadEntity,
     };
   },
@@ -351,6 +363,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.avatar-overlap {
+  z-index: 1;
+  position: relative;
+  bottom: 70px;
+}
+
 .entity-details-overview-container {
   display: grid;
   grid-template-columns: max-content 1fr;

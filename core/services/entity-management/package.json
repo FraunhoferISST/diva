@@ -1,6 +1,6 @@
 {
   "name": "entity-management",
-  "version": "1.0.0",
+  "version": "1.7.0",
   "serviceId": "service:uuid:f1bfc29c-6cda-4e38-b5ef-1c6ba8134ff3",
   "description": "Manages metadata of entities and publishes CRUD events to kafka",
   "repository": {

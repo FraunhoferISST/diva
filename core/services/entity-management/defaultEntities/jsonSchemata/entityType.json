@@ -22,11 +22,13 @@
           "resource",
           "asset",
           "user",
+          "publisher",
           "review",
           "history",
           "service",
           "systemEntity",
-          "folder"
+          "folder",
+          "destroyclaim"
         ],
         "_elasticsearch": {
           "type": "keyword"

@@ -1,7 +1,6 @@
 import { computed, ref } from "@vue/composition-api";
 import api from "@/api/index";
 import kc from "@/api/keycloak";
-import { useEvents } from "@/composables/events";
 
 let user = {
   email: "",
@@ -18,8 +17,6 @@ let user = {
 };
 
 let recentlyViewed = [];
-// indicator to only once register the websocket event listener application wide
-let isListeningEvents = false;
 
 const loginUser = async ({ id, username, email, token, roles, groups }) => {
   localStorage.setItem("jwt", token);
@@ -36,13 +33,6 @@ export const useUser = () => {
   const loading = ref(false);
 
   const isAdmin = computed(() => (user.value.roles ?? []).includes("admin"));
-
-  if (!isListeningEvents) {
-    useEvents(user.value.id, user.value.id, {
-      onUpdate: () => load(),
-    });
-    isListeningEvents = true;
-  }
 
   const load = (query = {}) => {
     loading.value = true;

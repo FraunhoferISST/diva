@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:645f4052-3c4c-4ad8-80a7-25e4ef1aeaec",
-  "title": "Geometry",
+  "title": "Location",
   "schemaName": "location",
   "isPatchable": true,
   "scope": [
@@ -15,7 +15,7 @@
   ],
   "systemEntityType": "schema",
   "schema": {
-    "title": "Geometry",
+    "title": "Location",
     "description": "One geometry as defined by GeoJSON",
     "type": "object",
     "definitions": {

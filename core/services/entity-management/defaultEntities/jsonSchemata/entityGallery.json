@@ -1,19 +1,20 @@
 {
   "id": "schema:uuid:55e31f19-cad9-45be-b1f3-3de30caa5bfd",
-  "title": "Entity gallery",
-  "schemaName": "entityGallery",
+  "title": "Entity Gallery",
   "description": "The collection of images sources as entity gallery",
+  "schemaName": "entityGallery",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "isPatchable": true,
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Entity gallery",
+    "title": "Entity Gallery",
+    "description": "The collection of images sources as entity gallery",
     "properties": {
       "entityGallery": {
         "type": "array",
-        "title": "Entity gallery",
+        "title": "Entity Gallery",
         "description": "The collection of images sources as entity gallery",
         "items": {
           "anyOf": [

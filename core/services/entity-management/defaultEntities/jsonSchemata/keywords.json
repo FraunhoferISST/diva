@@ -18,6 +18,14 @@
     {
       "key": "entityType",
       "value": "service"
+    },
+    {
+      "key": "entityType",
+      "value": "publisher"
+    },
+    {
+      "key": "entityType",
+      "value": "destroyclaim"
     }
   ],
   "schema": {

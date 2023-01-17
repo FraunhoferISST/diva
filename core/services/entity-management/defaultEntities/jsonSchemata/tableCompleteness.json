@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:c93f16a3-443e-47d7-9e85-d5221f7453d1",
-  "title": "Table data completeness",
+  "title": "Table Data Completeness",
   "schemaName": "tableCompleteness",
   "isPatchable": true,
   "scope": [
@@ -17,11 +17,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Number of Columns of a Table",
+    "title": "Table Data Completeness",
     "properties": {
       "tableCompleteness": {
         "type": "number",
-        "title": "Table data completeness",
+        "title": "Table Data Completeness",
         "description": "The portion of complete fields in percent",
         "default": 0,
         "minimum": 0,

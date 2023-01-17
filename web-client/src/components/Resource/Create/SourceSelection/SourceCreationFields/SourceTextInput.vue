@@ -3,6 +3,7 @@
     v-model="computedValue"
     :label="label"
     :placeholder="placeholder"
+    :rules="rules"
     outlined
     dense
     rounded
@@ -29,6 +30,10 @@ export default {
     value: {
       type: String,
       required: true,
+    },
+    rules: {
+      type: Array,
+      required: false,
     },
   },
   computed: {

@@ -16,6 +16,7 @@
                 :is="field._ui.component"
                 :id="id"
                 :editable="!!field.isPatchable"
+                :field-schema="field"
               />
               <entity-field
                 v-else
@@ -37,10 +38,13 @@ import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import CustomHeader from "@/components/Base/CustomHeader";
 import EntityDataViewer from "@/components/Entity/EntityDataViewer";
 import EntityField from "@/components/Entity/EntityFields/EntityField/EntityField";
-import Owners from "@/components/Entity/EntityFields/EntityField/Owners/Owners";
 import Licenses from "@/components/Entity/EntityFields/EntityField/Licenses/Licenses";
 import Location from "@/components/Entity/EntityFields/EntityField/Location/Location";
 import Languages from "@/components/Entity/EntityFields/EntityField/Languages/Languages";
+import SingleRelation from "@/components/Entity/EntityFields/EntityField/SingleRelation/SingleRelation";
+import MultiRelation from "@/components/Entity/EntityFields/EntityField/MultiRelation/MultiRelation";
+import DestroyClaimRefersTo from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyClaimRefersTo";
+import DestroyReasons from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyReasons";
 import { useEntity } from "@/composables/entity";
 import { computed } from "@vue/composition-api";
 import { useBus } from "@/composables/bus";
@@ -52,8 +56,11 @@ export default {
     DataViewer,
     Languages,
     Location,
+    SingleRelation,
+    MultiRelation,
+    DestroyClaimRefersTo,
+    DestroyReasons,
     Licenses,
-    Owners,
     EntityField,
     EntityDataViewer,
     CustomHeader,

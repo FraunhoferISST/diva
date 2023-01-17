@@ -19,29 +19,31 @@
         <v-row>
           <v-col cols="12">
             <v-list subheader two-line three-line flat class="px-md-10">
-              <v-subheader>Visibility</v-subheader>
-              <v-list-item v-for="(item, i) in visibilitySettings" :key="i">
-                <template>
-                  <v-list-item-action>
-                    <v-switch
-                      dense
-                      inset
-                      hide-details
-                      v-model="item.value"
-                      color="primary"
-                      :loading="patchLoading"
-                      @change="(value) => patchVisibility(item, i, value)"
-                    />
-                  </v-list-item-action>
+              <v-subheader>Entity Options</v-subheader>
+              <div v-for="(item, i) in visibilitySettings" :key="i">
+                <v-list-item v-if="item.show">
+                  <template>
+                    <v-list-item-action>
+                      <v-switch
+                        dense
+                        inset
+                        hide-details
+                        v-model="item.value"
+                        color="primary"
+                        :loading="patchLoading"
+                        @change="(value) => patchVisibility(item, i, value)"
+                      />
+                    </v-list-item-action>
 
-                  <v-list-item-content>
-                    <v-list-item-title> {{ item.title }}</v-list-item-title>
-                    <v-list-item-subtitle>
-                      {{ item.description }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </template>
-              </v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title> {{ item.title }}</v-list-item-title>
+                      <v-list-item-subtitle>
+                        {{ item.description }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </template>
+                </v-list-item>
+              </div>
             </v-list>
             <v-divider v-if="isAdmin"></v-divider>
             <v-list two-line subheader v-if="isAdmin" class="pb-0">
@@ -77,6 +79,51 @@
                 </v-list-item-content>
               </v-list-item>
             </v-list>
+            <v-divider></v-divider>
+            <div class="ma-6">
+              <info-block-title class="mb-3 d-flex justify-space-between">
+                {{ entityToBeDeletedDateTitle }}
+                <template #info>
+                  <v-tooltip top open-delay="600" max-width="400px">
+                    <template #activator="{ on, attrs }">
+                      <v-icon color="primary" dense v-bind="attrs" v-on="on">
+                        info_outline
+                      </v-icon>
+                    </template>
+                    <span>{{ entityToBeDeletedDateDescription }}</span>
+                  </v-tooltip>
+                </template>
+              </info-block-title>
+              <date-field-editor
+                v-if="showEntityToBeDeletedDate"
+                :title="schema.entityToBeDeletedDate.title"
+                :clearable="true"
+                :property="schema.entityToBeDeletedDate.schemaName"
+                :value.sync="entityToBeDeletedDate"
+              />
+            </div>
+            <div class="ma-6">
+              <info-block-title class="mb-3 d-flex justify-space-between">
+                {{ entityToBeArchivedDateTitle }}
+                <template #info>
+                  <v-tooltip top open-delay="600" max-width="400px">
+                    <template #activator="{ on, attrs }">
+                      <v-icon color="primary" dense v-bind="attrs" v-on="on">
+                        info_outline
+                      </v-icon>
+                    </template>
+                    <span>{{ entityToBeArchivedDateDescription }}</span>
+                  </v-tooltip>
+                </template>
+              </info-block-title>
+              <date-field-editor
+                v-if="showEntityToBeArchivedDate"
+                :title="schema.entityToBeArchivedDate.title"
+                :clearable="true"
+                :property="schema.entityToBeArchivedDate.schemaName"
+                :value.sync="entityToBeArchivedDate"
+              />
+            </div>
           </v-col>
         </v-row>
         <confirmation-dialog :show.sync="confirmationDialog">
@@ -109,7 +156,13 @@
 import Card from "@/components/Base/Card";
 import ConfirmationDialog from "@/components/Base/ConfirmationDialog";
 import EntityFieldCreationDialog from "@/components/Entity/EntityFieldCreationDialog";
-import { computed, ref } from "@vue/composition-api/dist/vue-composition-api";
+import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
+import DateFieldEditor from "@/components/Entity/EntityFields/EntityField/DateField/DateFieldEditor";
+import {
+  computed,
+  ref,
+  watch,
+} from "@vue/composition-api/dist/vue-composition-api";
 import { useUser } from "@/composables/user";
 import { useSnackbar } from "@/composables/snackbar";
 import { useEntity } from "@/composables/entity";
@@ -119,6 +172,8 @@ export default {
     EntityFieldCreationDialog,
     ConfirmationDialog,
     Card,
+    InfoBlockTitle,
+    DateFieldEditor,
   },
   props: {
     entity: {
@@ -130,11 +185,61 @@ export default {
       required: true,
     },
   },
+  watcher: {},
   setup(props, { emit, root }) {
+    const { isAdmin } = useUser();
+    const {
+      color,
+      show: showSnackbar,
+      message,
+      snackbar,
+      timeout,
+    } = useSnackbar();
+    const {
+      load,
+      patch,
+      patchLoading,
+      patchError,
+      deleteEntity,
+      deleteLoading,
+      deleteError,
+      schema,
+    } = useEntity(props.entity.id, {
+      reactive: false,
+    });
     const confirmationDialog = ref(false);
     const fieldCreationDialog = ref(false);
     const showControls = ref(false);
+    const entityToBeDeletedDate = ref(props.entity.entityToBeDeletedDate);
+    const entityToBeArchivedDate = ref(props.entity.entityToBeArchivedDate);
 
+    const showIsPrivate = computed(() => {
+      return Object.keys(schema.value || {}).includes("isPrivate");
+    });
+    const showIsArchived = computed(() => {
+      return Object.keys(schema.value || {}).includes("isArchived");
+    });
+    const showIsActive = computed(() => {
+      return Object.keys(schema.value || {}).includes("isActive");
+    });
+    const showEntityToBeDeletedDate = computed(() => {
+      return Object.keys(schema.value || {}).includes("entityToBeDeletedDate");
+    });
+    const entityToBeDeletedDateTitle = computed(() => {
+      return schema?.value?.entityToBeDeletedDate?.title || "";
+    });
+    const entityToBeDeletedDateDescription = computed(() => {
+      return schema?.value?.entityToBeDeletedDate?.description || "";
+    });
+    const showEntityToBeArchivedDate = computed(() => {
+      return Object.keys(schema.value || {}).includes("entityToBeArchivedDate");
+    });
+    const entityToBeArchivedDateTitle = computed(() => {
+      return schema?.value?.entityToBeArchivedDate?.title || "";
+    });
+    const entityToBeArchivedDateDescription = computed(() => {
+      return schema?.value?.entityToBeArchivedDate?.description || "";
+    });
     const computedShow = computed({
       get: () => props.show,
       set: (val) => emit("update:show", val),
@@ -146,31 +251,44 @@ export default {
         description: `Access to the private entities is restricted through the policies and is probably allowed only for the creators, owners and admins`,
         value: !!props.entity.isPrivate,
         property: "isPrivate",
+        show: showIsPrivate.value,
       },
       {
         title: "Archived",
         description: "Mark the the entity as archived",
         value: !!props.entity.isArchived,
         property: "isArchived",
+        show: showIsArchived.value,
+      },
+      {
+        title: "Active",
+        description: "Set entity as active",
+        value: !!props.entity.isActive,
+        property: "isActive",
+        show: showIsActive.value,
       },
     ]);
-
-    const { isAdmin } = useUser();
-    const {
-      color,
-      show: showSnackbar,
-      message,
-      snackbar,
-      timeout,
-    } = useSnackbar();
-    const {
-      patch,
-      patchLoading,
-      patchError,
-      deleteEntity,
-      deleteLoading,
-      deleteError,
-    } = useEntity(props.entity.id);
+    watch(entityToBeDeletedDate, async (value) => {
+      patch({
+        entityToBeDeletedDate: value,
+      }).then(() => {
+        if (patchError.value) {
+          entityToBeDeletedDate.value = props.entity.entityToBeDeletedDate;
+          showSnackbar(patchError.value, { color: "error" });
+        }
+      });
+    });
+    watch(entityToBeArchivedDate, async (value) => {
+      patch({
+        entityToBeArchivedDate: value,
+      }).then(() => {
+        if (patchError.value) {
+          entityToBeArchivedDate.value = props.entity.entityToBeArchivedDate;
+          showSnackbar(patchError.value, { color: "error" });
+        }
+      });
+    });
+    load();
     return {
       showControls,
       confirmationDialog,
@@ -181,10 +299,17 @@ export default {
       snackbar,
       deleteError,
       deleteLoading,
+      entityToBeDeletedDate,
+      entityToBeArchivedDate,
+      entityToBeDeletedDateTitle,
+      entityToBeDeletedDateDescription,
+      entityToBeArchivedDateTitle,
+      entityToBeArchivedDateDescription,
       isAdmin,
       computedShow,
       patchLoading,
       patchError,
+      schema,
       schemaScope: computed(() => [
         !props.entity
           ? []
@@ -198,6 +323,11 @@ export default {
               .map(([key, value]) => ({ key: key, value: value }))
               .filter(({ value }) => value)[0],
       ]),
+      showIsPrivate,
+      showIsArchived,
+      showIsActive,
+      showEntityToBeDeletedDate,
+      showEntityToBeArchivedDate,
       showSnackbar,
       visibilitySettings,
       patchVisibility: (item, position, val) => {

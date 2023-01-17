@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:234d0984-fbf3-420f-ab6a-8d1a1052aa61",
-  "title": "Creation date",
+  "title": "Creation Date",
   "schemaName": "createdAt",
   "description": "Date of creation of the entity",
   "systemEntityType": "schema",
@@ -9,14 +9,15 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Creation date",
+    "title": "Creation Date",
+    "description": "Date of creation of the entity",
     "required": [
       "createdAt"
     ],
     "properties": {
       "createdAt": {
         "type": "string",
-        "title": "Creation date",
+        "title": "Creation Date",
         "description": "Date of creation of the entity",
         "examples": [
           "2018-11-08T13:55:45Z"

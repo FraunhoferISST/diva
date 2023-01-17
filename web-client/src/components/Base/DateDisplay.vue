@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 export default {
   name: "DateDisplay",
   props: {
@@ -15,12 +15,12 @@ export default {
     },
     format: {
       type: String,
-      default: "DD.MM.YYYY HH:mm",
+      default: "dd.MM.yyyy HH:mm",
     },
   },
   computed: {
     dateString() {
-      return format(this.date, this.format);
+      return format(parseISO(this.date), this.format);
     },
   },
 };

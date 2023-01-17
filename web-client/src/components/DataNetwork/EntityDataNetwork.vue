@@ -69,14 +69,16 @@ import entityTypeById from "@/utils/entityTypeById";
 import routeHelper from "@/utils/routeHelper";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 
-const nodeColors = randomColor(100);
+const nodeColors = randomColor();
 
 const entityColorMap = {
   resource: nodeColors[0],
-  asset: nodeColors[1],
-  user: nodeColors[2],
-  service: nodeColors[3],
-  review: nodeColors[4],
+  asset: nodeColors[100],
+  user: nodeColors[200],
+  service: nodeColors[300],
+  review: nodeColors[400],
+  destroyclaim: nodeColors[500],
+  publisher: nodeColors[800],
 };
 
 const createNodeObject = (entityData, level) => ({
@@ -267,7 +269,7 @@ export default {
 div.datanetwork {
   @include border-radius;
   //overflow: visible;
-  height: calc(100vh - 315px);
+  height: calc(65vh);
   width: 100%;
   border: 2px solid #f0f4f9;
   position: relative;

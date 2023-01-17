@@ -104,6 +104,7 @@ export default {
         .create({
           title: this.title,
           serviceType: "generic",
+          isActive: false,
         })
         .then(({ data: id }) => {
           this.$router.push({

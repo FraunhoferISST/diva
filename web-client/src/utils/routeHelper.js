@@ -6,6 +6,10 @@ export default (id, postfix = "") => {
       return `/resources/${id}${postfix}`;
     case id.startsWith("user"):
       return `/users/${id}${postfix}`;
+    case id.startsWith("publisher"):
+      return `/publishers/${id}${postfix}`;
+    case id.startsWith("destroyclaim"):
+      return `/destroyclaims/${id}${postfix}`;
     default:
       return `/entities/${id}${postfix}`;
   }

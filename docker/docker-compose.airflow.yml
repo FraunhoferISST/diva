@@ -11,7 +11,7 @@ x-mongodb-env: &mongodb-env
 
 x-airflow-common:
   &airflow-common
-  image: ghcr.io/fraunhoferisst/diva/diva-airflow:5.2.0
+  image: ghcr.io/fraunhoferisst/diva/diva-airflow:5.5.0
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -28,6 +28,9 @@ x-airflow-common:
     AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_WEBSERVER_SECRET_KEY}
     AIRFLOW_CONN_MINIO: s3://${DIVA_LAKE_USERNAME}:${DIVA_LAKE_PASSWORD}@diva-lake:${DIVALAKE_PORT}?host=http://diva-lake:${DIVALAKE_PORT}
     <<: *mongodb-env
+    AIRFLOW_VAR_NEO4J_URL: bolt://neo4j:${NEO4J_BOLT_PORT}
+    AIRFLOW_VAR_NEO4J_ROOT_USERNAME: ${NEO4J_ROOT_USERNAME}
+    AIRFLOW_VAR_NEO4J_ROOT_PASSWORD: ${NEO4J_ROOT_PASSWORD}
     AIRFLOW_VAR_ENTITY_MANAGEMENT_URL: http://${DOCKER_IP:-entity-management}:${ENTITY_MANAGEMENT_PORT}
   extra_hosts:
     - diva:${DOCKER_IP:-172.17.0.1}

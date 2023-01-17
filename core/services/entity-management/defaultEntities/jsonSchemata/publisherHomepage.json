@@ -1,0 +1,43 @@
+{
+  "id": "schema:uuid:f594c83f-a37f-458f-94d3-c2d6e4f17e50",
+  "title": "Publisher Homepage",
+  "description": "The homepage of the publisher",
+  "schemaName": "publisherHomepage",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "publisher"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Publisher Homepage",
+    "description": "The homepage of the publisher",
+    "properties": {
+      "publisherHomepage": {
+        "type": "string",
+        "format": "uri",
+        "title": "Publisher Homepage",
+        "description": "The homepage of the publisher",
+        "examples": [
+          "https://the-address-of-publisher.com"
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "diva_analyzer"
+        },
+        "_ui": {
+          "view": "overview",
+          "position": 4,
+          "type": "text",
+          "fullWidth": false,
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

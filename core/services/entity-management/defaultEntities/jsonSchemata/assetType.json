@@ -16,6 +16,7 @@
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
     "title": "Asset Type",
+    "description": "The type of the asset",
     "required": [
       "assetType"
     ],

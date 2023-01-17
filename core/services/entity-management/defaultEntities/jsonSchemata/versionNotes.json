@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:41f32073-9b3b-44ce-bd2b-58d55e1b48ce",
-  "title": "Version notes",
+  "title": "Version Notes",
   "schemaName": "versionNotes",
   "description": "A string describing the version of the entity",
   "systemEntityType": "schema",
@@ -27,11 +27,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Version notes",
+    "title": "Version Notes",
     "properties": {
       "versionNotes": {
         "type": "string",
-        "title": "Version notes",
+        "title": "Version Notes",
         "description": "A string describing the version of the entity",
         "default": "",
         "examples": [

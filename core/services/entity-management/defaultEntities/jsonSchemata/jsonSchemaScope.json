@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:652f00bc-a156-4ffc-8f99-11462fe77fbb",
-  "title": "JSON Schema scope",
+  "title": "JSON Schema Scope",
   "schemaName": "jsonSchemaScope",
   "description": "Defines the API request scope to which the rule applies",
   "systemEntityType": "schema",
@@ -15,14 +15,14 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "JSON Schema scope",
+    "title": "JSON Schema Scope",
     "_elasticsearch": {
       "enabled": false
     },
     "properties": {
       "scope": {
         "type": "array",
-        "title": "JSON Schema scope",
+        "title": "JSON Schema Scope",
         "description": "Defines to which (sub-)entity the schema applies. If not specified, the schema is included as the root property of an entity",
         "items": {
           "type": "object",

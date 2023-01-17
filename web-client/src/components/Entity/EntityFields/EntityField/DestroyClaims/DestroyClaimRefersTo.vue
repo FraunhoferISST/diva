@@ -1,18 +1,33 @@
 <template>
-  <info-block title="Owners">
+  <info-block :title="fieldSchema.title">
+    <template #title v-if="fieldSchema.description">
+      <info-block-title class="d-flex justify-space-between">
+        {{ fieldSchema.title }}
+        <template #info>
+          <v-tooltip top open-delay="600" max-width="400px">
+            <template #activator="{ on, attrs }">
+              <v-icon color="primary" dense v-bind="attrs" v-on="on">
+                info_outline
+              </v-icon>
+            </template>
+            <span>{{ fieldSchema.description }}</span>
+          </v-tooltip>
+        </template>
+      </info-block-title>
+    </template>
     <template #value>
       <field-editor
-        :data="{ owners: loadedOwners }"
-        :on-save="(patch) => connectOwner(patch)"
+        :data="{ resources: loadedResources }"
+        :on-save="(patch) => connectResource(patch)"
       >
         <template #view="{ state }">
           <data-viewer :loading="loading" :error="error">
-            <div v-if="state.owners.length > 0">
-              <template v-if="state.owners.length > 1">
+            <div v-if="state.resources.length > 0">
+              <template v-if="state.resources.length > 1">
                 <div
-                  class="data-owner-avatar d-inline-block"
-                  v-for="owner in state.owners"
-                  :key="owner.id"
+                  class="data-entity-avatar d-inline-block"
+                  v-for="resource in state.resources"
+                  :key="resource.id"
                 >
                   <div
                     style="width: 20px; overflow: visible; position: relative"
@@ -26,23 +41,23 @@
                       "
                     >
                       <entity-avatar
-                        :image-id="owner.entityIcon || ''"
-                        :entity-id="owner.id"
-                        :entity-title="owner.username"
+                        :image-id="resource.entityIcon || ''"
+                        :entity-id="resource.id"
+                        :entity-title="resource.title"
                       />
                     </div>
                   </div>
                 </div>
               </template>
-              <user-link v-else :user="state.owners[0]" />
+              <entity-link v-else :entity="state.resources[0]" />
             </div>
-            <no-data-state v-else text="Assign owners" />
+            <no-data-state v-else text="Assign resources" />
           </data-viewer>
         </template>
         <template #edit="{ setPatch, patch }">
-          <owners-edit
-            :owners="patch.owners"
-            @update:owners="(newValue) => setPatch({ owners: newValue })"
+          <destroy-claim-refers-to-edit
+            :resources="patch.resources"
+            @update:resources="(newValue) => setPatch({ resources: newValue })"
           />
         </template>
       </field-editor>
@@ -52,27 +67,29 @@
 
 <script>
 import NoDataState from "@/components/Base/NoDataState";
-import UserLink from "@/components/Base/UserLink";
+import EntityLink from "@/components/Base/EntityLink";
 import EntityAvatar from "@/components/Entity/EntityAvatar";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 import { useRequest } from "@/composables/request";
 import { useApi } from "@/composables/api";
 import { useBus } from "@/composables/bus";
 import DataViewer from "@/components/DataFetchers/DataViewer";
-import OwnersEdit from "@/components/Entity/EntityFields/EntityField/Owners/OwnersEdit";
+import DestroyClaimRefersToEdit from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyClaimRefersToEdit";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
+import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import { ref } from "@vue/composition-api";
 
 export default {
-  name: "Owners",
+  name: "DestroyClaimRefersTo",
   inheritAttrs: false,
   components: {
     InfoBlock,
-    OwnersEdit,
+    InfoBlockTitle,
+    DestroyClaimRefersToEdit,
     DataViewer,
     FieldEditor,
     EntityAvatar,
-    UserLink,
+    EntityLink,
     NoDataState,
   },
   props: {
@@ -84,60 +101,63 @@ export default {
       type: Boolean,
       required: true,
     },
+    fieldSchema: {
+      type: Object,
+      required: true,
+    },
   },
   setup(props) {
-    const loadedOwners = ref([]);
+    const loadedResources = ref([]);
     const { on } = useBus();
-    const { datanetwork, users } = useApi();
+    const { datanetwork, resources } = useApi();
     const { loading, error, request } = useRequest();
 
-    const loadOwners = () =>
+    const loadResources = () =>
       request(
         datanetwork
           .getEdges({
             from: props.id,
-            edgeTypes: "isOwnerOf",
+            edgeTypes: "refersTo",
             bidirectional: true,
-            toNodeType: "user",
+            toNodeType: "resource",
           })
           .then(async ({ data: { collection } }) => {
-            loadedOwners.value = (
+            loadedResources.value = (
               await Promise.all(
-                // remember: user - isOwnerOf -> entity, so from contains the user id
                 collection.map(
                   ({
-                    from: { entityId: userId },
+                    to: { entityId: resourceId },
                     properties: { id: edgeId },
                   }) =>
-                    users
-                      .getByIdIfExists(userId, {
-                        fields: "id, email, username, entityIcon",
+                    resources
+                      .getByIdIfExists(resourceId, {
+                        fields: "id, title, entityIcon",
                       })
                       .then(({ data }) => ({ ...data, edgeId }))
                       .catch((e) => {
                         if (e?.response?.data?.code === 403) {
                           return {
                             edgeId,
-                            userId,
+                            resourceId,
                           };
                         }
                         throw e;
                       })
                 )
               )
-            ).filter((owner) => owner);
+            ).filter((resource) => resource);
           })
       );
-    const connectOwner = ({ owners }) => {
-      const removedOwners = loadedOwners.value.filter(
-        ({ id }) => !owners.map((o) => o.id).includes(id)
+    const connectResource = ({ resources }) => {
+      const removedResources = loadedResources.value.filter(
+        ({ id }) => !resources.map((o) => o.id).includes(id)
       );
 
-      const newOwners = owners.filter(
-        ({ id }) => !loadedOwners.value.map((o) => o.id).includes(id)
+      const newResources = resources.filter(
+        ({ id }) => !loadedResources.value.map((o) => o.id).includes(id)
       );
 
-      const removePromises = removedOwners.map(({ edgeId }) =>
+      const removePromises = removedResources.map(({ edgeId }) =>
         datanetwork.deleteEdgeById(edgeId).catch((e) => {
           if (e?.response?.data?.code === 404) {
             return true;
@@ -146,12 +166,12 @@ export default {
         })
       );
       return Promise.all([
-        ...newOwners.map(({ id }) =>
+        ...newResources.map(({ id }) =>
           datanetwork
             .createEdge({
-              from: id,
-              to: props.id,
-              edgeType: "isOwnerOf",
+              from: props.id,
+              to: id,
+              edgeType: "refersTo",
             })
             .catch((e) => {
               if (e?.response?.data?.code === 409) {
@@ -164,20 +184,20 @@ export default {
       ]);
     };
 
-    on("reload", loadOwners);
-    loadOwners();
+    on("reload", loadResources);
+    loadResources();
     return {
-      loadedOwners,
+      loadedResources,
       error,
       loading,
-      connectOwner,
+      connectResource,
     };
   },
 };
 </script>
 
 <style scoped lang="scss">
-.owner-avatar {
+.entity-avatar {
   width: 22px;
 }
 </style>
