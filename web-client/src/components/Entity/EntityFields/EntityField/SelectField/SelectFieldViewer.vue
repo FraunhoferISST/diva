@@ -2,7 +2,7 @@
   <div v-if="hasValues">
     <div>
       <v-chip
-        class="ml-1 mt-0"
+        class="ml-1 mb-1"
         small
         label
         v-for="(option, i) in preparedValue"

@@ -11,7 +11,20 @@ const esConnector = new ElasticsearchConnector();
 const mongoConnector = new MongoDBConnector(DIVA_DB_NAME, ["entities"]);
 const neo4jConnector = new Neo4jConnector();
 
-const edgesTypes = ["isCreatorOf", "isOwnerOf", "isPartOf"];
+const edgesTypes = [
+  "isCreatorOf",
+  "isPartOf",
+  "isOwnerOf",
+  "isReviewOf",
+  "isSubscriberOf",
+  "isAlternativeOf",
+  "likes",
+  "keywordsSimilarity",
+  "textContentSimilarity",
+  "refersTo",
+  "isPreviousVersionOf",
+  "acquired",
+];
 
 const getEntity = (dbName, collection, id) =>
   mongoConnector.client
