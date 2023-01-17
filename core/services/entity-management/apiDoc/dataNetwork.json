@@ -456,6 +456,7 @@
           "isOwnerOf",
           "isReviewOf",
           "isSubscriberOf",
+          "isAlternativeOf",
           "likes",
           "keywordsSimilarity",
           "textContentSimilarity",
