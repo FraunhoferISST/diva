@@ -30,8 +30,8 @@
           "type": "keyword"
         },
         "_ui": {
-          "view": "overview",
-          "position": 100.2,
+          "view": "details",
+          "position": 2.0,
           "type": "select"
         }
       }
