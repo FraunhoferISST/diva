@@ -47,7 +47,7 @@
 
 <script>
 import EditActivateTransition from "@/components/Transitions/EditActivateTransition";
-import CostPeriodEdit from "@/components/Entity/EntityCommonComponents/Costs/CostPeriodEdit";
+import CostPeriodEdit from "@/components/Entity/EntityFields/EntityField/Costs/CostPeriodEdit";
 
 export default {
   name: "CostEdit",

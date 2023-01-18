@@ -7,7 +7,6 @@ import AssetEntities from "@/components/Asset/AssetEntities.vue";
 import UserGeneral from "@/components/User/UserGeneral/";
 import UserActivities from "@/components/User/UserActivities/";
 //Entity common views
-import EntityCosts from "@/components/Entity/EntityCommonComponents/Costs/EntityCosts";
 import EntityHistory from "@/components/Entity/EntityCommonComponents/History/EntityHistory";
 import EntityReviews from "@/components/Entity/EntityCommonComponents/Reviews/EntityReviews";
 import EntityDetails from "@/views/EntityDetails";
@@ -34,12 +33,6 @@ const DESTROYCLAIM_PREFIX = "destroyclaim";
 const ENTITY_PREFIX = "entity";
 
 const entityCommonRoutes = (prefix = ENTITY_PREFIX) => [
-  {
-    path: "costs",
-    name: `${prefix}_details_costs`,
-    component: EntityCosts,
-    props: true,
-  },
   {
     path: "history",
     name: `${prefix}_details_history`,
@@ -103,11 +96,6 @@ const resourceConfig = entityRoutesFactory({
   routes: [
     ...generateDefaultEntityDetailsRoutes(RESOURCE_PREFIX),
     {
-      title: "Costs",
-      icon: "attach_money",
-      name: "resource_details_costs",
-    },
-    {
       title: "Profiling",
       icon: "developer_board",
       name: "resource_details_profiling",
@@ -140,11 +128,6 @@ const assetConfig = entityRoutesFactory({
   prefix: ASSET_PREFIX,
   routes: [
     ...generateDefaultEntityDetailsRoutes(ASSET_PREFIX),
-    {
-      title: "Costs",
-      icon: "attach_money",
-      name: "asset_details_costs",
-    },
     {
       title: "Entities",
       icon: "topic",
