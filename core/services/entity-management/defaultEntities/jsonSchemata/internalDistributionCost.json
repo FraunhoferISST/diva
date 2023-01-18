@@ -94,14 +94,7 @@
             "description": "Distribution cost of a resource",
             "default": "0.00"
           }
-        ],
-        "_ui": {
-          "view": "details",
-          "position": 0,
-          "component": "text",
-          "fallbackValue": "",
-          "fullWidth": true
-        }
+        ]
       }
     }
   }

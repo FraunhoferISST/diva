@@ -4,9 +4,9 @@
       <v-container
         fluid
         v-if="costs.internalCosts || costs.externalCost"
-        class="pa-0"
+        class="pa-0 mt-0"
       >
-        <v-row class="mb-0">
+        <v-row class="pa-0">
           <v-col cols="12">
             <custom-header text="Costs" />
           </v-col>
@@ -190,4 +190,8 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.maxWidth {
+  width: 100%;
+}
+</style>

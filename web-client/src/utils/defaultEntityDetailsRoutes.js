@@ -7,7 +7,7 @@ export default [
   {
     title: "Details",
     icon: "loupe",
-    name: "entity_details_general_details",
+    name: "entity_details_details",
   },
   {
     title: "History",

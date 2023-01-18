@@ -80,8 +80,8 @@ const entityRoutesFactory = ({
         props: true,
       },
       {
-        path: "general-details",
-        name: `${prefix}_details_general_details`,
+        path: "details",
+        name: `${prefix}_details_details`,
         component: generalDetailsView,
         props: true,
       },

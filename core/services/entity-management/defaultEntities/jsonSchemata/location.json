@@ -1,6 +1,7 @@
 {
   "id": "schema:uuid:645f4052-3c4c-4ad8-80a7-25e4ef1aeaec",
   "title": "Location",
+  "description": "Location which an entity is referring to",
   "schemaName": "location",
   "isPatchable": true,
   "scope": [
@@ -16,7 +17,7 @@
   "systemEntityType": "schema",
   "schema": {
     "title": "Location",
-    "description": "One geometry as defined by GeoJSON",
+    "description": "Location which an entity is referring to",
     "type": "object",
     "definitions": {
       "coordinates": {
@@ -479,7 +480,7 @@
         ],
         "_ui": {
           "view": "details",
-          "position": 1000,
+          "position": 200,
           "component": "Location",
           "fallbackValue": {},
           "fullWidth": true
