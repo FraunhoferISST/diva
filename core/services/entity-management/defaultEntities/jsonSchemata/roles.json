@@ -31,13 +31,15 @@
           }
         },
         "_ui": {
-          "view": "overview",
+          "view": "details",
+          "position": 30,
           "type": "select",
           "multiple": true,
           "readOnly": true,
           "options": [],
           "allowCustom": false,
-          "fallbackValue": []
+          "fallbackValue": [],
+          "fullWidth": true
         }
       }
     }  

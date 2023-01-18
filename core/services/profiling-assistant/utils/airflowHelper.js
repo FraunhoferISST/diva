@@ -25,16 +25,26 @@ const dags = [
       distributionTypes: ["divaLake"],
     },
   },
+  {
+    title: "github",
+    criteria: {
+      resourceTypes: ["github:project"],
+      mimeTypes: [],
+      distributionTypes: [],
+    },
+  },
 ];
 
 const getDag = (resource) => {
   const matchingDag = dags.filter(
     ({ criteria }) =>
-      criteria.resourceTypes.includes(resource.resourceType) &&
-      criteria.mimeTypes.includes(resource.mimeType) &&
-      resource.distributions?.some(({ type }) =>
-        criteria.distributionTypes.includes(type)
-      )
+      (criteria.resourceTypes.includes(resource.resourceType) &&
+        criteria.mimeTypes.includes(resource.mimeType) &&
+        resource.distributions?.some(({ type }) =>
+          criteria.distributionTypes.includes(type)
+        )) ||
+      (criteria.resourceTypes.includes(resource.resourceType) &&
+        resource.resourceType === "github:project")
   )[0];
 
   if (matchingDag) return matchingDag;

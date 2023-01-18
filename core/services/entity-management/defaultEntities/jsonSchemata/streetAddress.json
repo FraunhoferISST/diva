@@ -1,6 +1,7 @@
 {
   "id": "schema:uuid:209bdc0b-86b3-443d-9485-be370e2c7641",
   "title": "Street Address",
+  "description": "Street and house number",
   "schemaName": "streetAddress",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
@@ -19,9 +20,10 @@
       "streetAddress": {
         "type": "string",
         "title": "Street Address",
+        "description": "Street and house number",
         "_ui": {
-          "view": "overview",
-          "position": 3,
+          "view": "details",
+          "position": 70,
           "type": "text",
           "fallbackValue": ""
         }

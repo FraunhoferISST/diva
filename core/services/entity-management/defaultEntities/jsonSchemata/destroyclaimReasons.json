@@ -58,7 +58,7 @@
         },
         "_ui": {
           "view": "overview",
-          "position": 7,
+          "position": 100,
           "component": "DestroyReasons",
           "fallbackValue": [],
           "fullWidth": true

@@ -35,7 +35,7 @@
         },
         "_ui": {
           "view": "overview",
-          "position": 2,
+          "position": 100,
           "type": "textArea",
           "fullWidth": true,
           "fallbackValue": ""

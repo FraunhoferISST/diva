@@ -47,7 +47,7 @@
         },
         "_ui": {
           "view": "overview",
-          "position": 3,
+          "position": 30,
           "component": "MultiRelation",
           "fullWidth": true,
           "MultiRelation": {

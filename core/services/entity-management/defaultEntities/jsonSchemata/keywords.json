@@ -49,7 +49,7 @@
         },
         "_ui": {
           "view": "overview",
-          "position": 2,
+          "position": 20,
           "type": "select",
           "allowCustom": true,
           "fullWidth": true,

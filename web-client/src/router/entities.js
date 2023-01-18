@@ -12,6 +12,8 @@ import EntityHistory from "@/components/Entity/EntityCommonComponents/History/En
 import EntityReviews from "@/components/Entity/EntityCommonComponents/Reviews/EntityReviews";
 import EntityDetails from "@/views/EntityDetails";
 import EntityGeneral from "@/components/Entity/EntityCommonComponents/General/EntityGeneral";
+import EntityGeneralDetails from "@/components/Entity/EntityCommonComponents/General/EntityGeneralDetails";
+
 import EntityDataNetwork from "@/components/DataNetwork/EntityDataNetwork";
 
 import defaultEntityDetailsRoutes from "@/utils/defaultEntityDetailsRoutes";
@@ -63,6 +65,7 @@ const entityRoutesFactory = ({
   prefix = ENTITY_PREFIX,
   startView = EntityDetails,
   generalView = EntityGeneral,
+  generalDetailsView = EntityGeneralDetails,
   routes = defaultEntityDetailsRoutes,
 } = {}) => {
   return {
@@ -81,6 +84,12 @@ const entityRoutesFactory = ({
         path: "general",
         name: `${prefix}_details_general`,
         component: generalView,
+        props: true,
+      },
+      {
+        path: "general-details",
+        name: `${prefix}_details_general_details`,
+        component: generalDetailsView,
         props: true,
       },
       ...entityCommonRoutes(prefix),

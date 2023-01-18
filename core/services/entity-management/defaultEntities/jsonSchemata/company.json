@@ -26,8 +26,8 @@
           "Example Company GmbH"
         ],
         "_ui": {
-          "view": "overview",
-          "position": 3,
+          "view": "details",
+          "position": 10,
           "type": "text",
           "fallbackValue": ""
         },

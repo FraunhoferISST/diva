@@ -20,8 +20,8 @@
         "type": "string",
         "title": "Post Office Box Number",
         "_ui": {
-          "view": "overview",
-          "position": 3,
+          "view": "details",
+          "position": 80,
           "type": "text",
           "fallbackValue": ""
         }

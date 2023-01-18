@@ -1,7 +1,7 @@
 {
-  "id": "schema:uuid:1c3f5444-7741-4faf-83b7-38fe4f99a7a5",
-  "title": "Address Region",
-  "schemaName": "addressRegion",
+  "id": "schema:uuid:6618e79d-16e1-4e09-b750-87f1bae3117f",
+  "title": "Address Country",
+  "schemaName": "addressCountry",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "isPatchable": true,
@@ -14,18 +14,19 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Address Region",
+    "title": "Address Country",
     "properties": {
-      "addressRegion": {
+      "addressCountry": {
         "type": "string",
-        "title": "Address Region (State)",
+        "title": "Address Country",
+        "description": "Country where the user lives",
         "examples": [
-          "NRW",
-          "TX"
+          "Germany",
+          "Japan"
         ],
         "_ui": {
           "view": "details",
-          "position": 50,
+          "position": 40,
           "type": "text",
           "fallbackValue": ""
         }

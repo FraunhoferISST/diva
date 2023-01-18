@@ -27,8 +27,8 @@
           "lorem ipsum dolor sit amet..."
         ],
         "_ui": {
-          "view": "overview",
-          "position": 4,
+          "view": "details",
+          "position": 140,
           "type": "textArea",
           "fullWidth": true,
           "fallbackValue": ""

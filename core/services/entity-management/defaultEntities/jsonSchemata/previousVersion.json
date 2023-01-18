@@ -30,8 +30,8 @@
             }
           },
           "_ui": {
-            "view": "overview",
-            "position": 3,
+            "view": "details",
+            "position": 30,
             "component": "SingleRelation",
             "SingleRelation": {
               "entityType": "resource",

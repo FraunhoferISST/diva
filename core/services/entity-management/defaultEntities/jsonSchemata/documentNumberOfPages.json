@@ -28,7 +28,7 @@
         ],
         "_ui": {
           "view": "profiling",
-          "position": 3,
+          "position": 100,
           "type": "number",
           "fallbackValue": 0
         }

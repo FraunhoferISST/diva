@@ -5,6 +5,11 @@ export default [
     name: "entity_details_general",
   },
   {
+    title: "Details",
+    icon: "loupe",
+    name: "entity_details_general_details",
+  },
+  {
     title: "History",
     icon: "history",
     name: "entity_details_history",

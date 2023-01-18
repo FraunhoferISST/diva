@@ -44,8 +44,8 @@
           "type": "text"
         },
         "_ui": {
-          "view": "overview",
-          "position": 4,
+          "view": "details",
+          "position": 10,
           "type": "text",
           "fallbackValue": ""
         }

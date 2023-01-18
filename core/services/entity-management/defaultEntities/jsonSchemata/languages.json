@@ -95,8 +95,8 @@
           }
         },
         "_ui": {
-          "view": "overview",
-          "position": 4,
+          "view": "details",
+          "position": 110,
           "fallbackValue": [],
           "component": "Languages"
         }

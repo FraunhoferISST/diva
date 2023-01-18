@@ -1,7 +1,10 @@
 {
-  "id": "schema:uuid:d3c0683f-54d0-4ae9-9719-db8d87261e62",
-  "title": "Distribution Costs",
-  "schemaName": "internalDistributionCost",
+  "id": "schema:uuid:c4a31ddf-fbcf-44d3-959a-f004208165b8",
+  "title": "Internal Test Costs",
+  "schemaName": "internalTestCosts",
+  "description": "Internal costs for testing",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
   "isPatchable": true,
   "scope": [
     {
@@ -13,15 +16,16 @@
       "value": "asset"
     }
   ],
-  "systemEntityType": "schema",
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Distribution Costs",
-    "definitions": {
-      "cost": {
-        "title": "Costs",
+    "title": "Internal Test Costs",
+    "description": "Internal costs for testing",
+    "properties": {
+      "internalTestCosts": {
         "type": "object",
+        "title": "Internal Test Costs",
+        "description": "Internal costs for testing",
         "properties": {
           "value": {
             "title": "Value",
@@ -76,30 +80,11 @@
             }
           }
         },
-        "additionalProperties": false,
-        "required": [
-          "value",
-          "currency"
-        ]
-      }
-    },
-    "properties": {
-      "internalDistributionCost": {
-        "allOf": [
-          {
-            "$ref": "#/definitions/cost"
-          },
-          {
-            "title": "Distribution Costs",
-            "description": "Distribution cost of a resource",
-            "default": "0.00"
-          }
-        ],
         "_ui": {
           "view": "details",
           "position": 0,
-          "component": "text",
-          "fallbackValue": "",
+          "component": "Costs",
+          "fallbackValue": {},
           "fullWidth": true
         }
       }

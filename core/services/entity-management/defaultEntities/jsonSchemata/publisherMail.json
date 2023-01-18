@@ -32,7 +32,7 @@
         },
         "_ui": {
           "view": "overview",
-          "position": 4,
+          "position": 100,
           "type": "text",
           "fullWidth": false,
           "fallbackValue": ""

@@ -24,7 +24,7 @@
         "description": "The general type of the service",
         "_ui": {
           "view": "overview",
-          "position": 3,
+          "position": 100,
           "type": "select",
           "allowCustom": true,
           "options": [
