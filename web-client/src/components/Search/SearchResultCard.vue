@@ -1,5 +1,5 @@
 <template>
-  <entity-details-link :id="doc.id" target="_blank">
+  <entity-details-link :id="doc.id" target="">
     <div class="search-card-container fill-height d-flex py-8 pa-3 pa-md-10">
       <div class="search-card">
         <div class="search-card-header">
