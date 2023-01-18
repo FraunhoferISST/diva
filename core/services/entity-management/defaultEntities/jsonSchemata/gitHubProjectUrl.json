@@ -34,8 +34,8 @@
           "analyzer": "diva_analyzer"
         },
         "_ui": {
-          "view": "overview",
-          "position": 100,
+          "view": "details",
+          "position": 400,
           "type": "text",
           "fullWidth": false,
           "fallbackValue": ""
