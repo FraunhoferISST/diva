@@ -11,7 +11,7 @@
 <script>
 import TabledataResourceSample from "@/components/Resource/Sample/Types/TabledataResourceSample";
 import ImageResourceSample from "@/components/Resource/Sample/Types/ImageResourceSample";
-import NotSupportedType from "@/components/Resource/Profiling/Types/NotSupportedType";
+import NotSupportedType from "@/components/Resource/Sample/Types/NotSupportedType";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useEntity } from "@/composables/entity";
 import { useBus } from "@/composables/bus";
