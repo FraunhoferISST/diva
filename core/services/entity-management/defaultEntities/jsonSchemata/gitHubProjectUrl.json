@@ -35,9 +35,10 @@
         },
         "_ui": {
           "view": "details",
-          "position": 400,
+          "position": 0,
           "type": "text",
           "fullWidth": false,
+          "break": true,
           "fallbackValue": ""
         }
       }

@@ -1,7 +1,8 @@
 {
-  "id": "schema:uuid:d11f2e3f-ef31-425d-b5ad-d7607ef0042f",
-  "title": "GitLab Username",
-  "schemaName": "gitLabUsername",
+  "id": "schema:uuid:4fa48d5f-d9be-4b7e-a7be-9ce8dcbf8e30",
+  "title": "GitLab Account URL",
+  "description": "The URL of the GitLab Account",
+  "schemaName": "gitLabAccountUrl",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "isPatchable": true,
@@ -14,27 +15,29 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "GitLab Username",
+    "title": "GitLab Account URL",
+    "description": "The URL of the GitLab Account",
     "required": [
-      "gitLabUsername"
+      "gitLabAccountUrl"
     ],
     "properties": {
-      "gitLabUsername": {
+      "gitLabAccountUrl": {
         "type": "string",
-        "title": "GitLab Username",
-        "minLength": 1,
-        "description": "The name of the GitLab user",
+        "format": "uri",
+        "title": "GitLab Account URL",
+        "description": "The URL of the GitLab Account",
         "examples": [
-          "@testuser"
+          "https://github.com/test/test-project"
         ],
         "_elasticsearch": {
           "type": "text",
           "analyzer": "diva_analyzer"
         },
         "_ui": {
-          "view": "overview",
-          "position": 100,
+          "view": "details",
+          "position": 0,
           "type": "text",
+          "fullWidth": false,
           "fallbackValue": ""
         }
       }

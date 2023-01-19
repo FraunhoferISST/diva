@@ -8,11 +8,11 @@
       </v-col>
       <v-col cols="12">
         <v-row dense v-for="(resource, i) in computedSource.resources" :key="i">
-          <v-col cols="12" :md="12">
+          <v-col cols="12" :md="6">
             <div class="d-flex align-center pb-2">
               <source-text-input
-                label="GitLab URL"
-                :value.sync="resource.gitLabUrl"
+                label="GitLab Account URL"
+                :value.sync="resource.gitLabAccountUrl"
                 :rules="urlValidationRules"
               />
               <v-tooltip top open-delay="600" max-width="400px" v-if="i === 0">
@@ -21,24 +21,7 @@
                     info_outline
                   </v-icon>
                 </template>
-                <span>E.g. "https://gitlab.my-company.com"</span>
-              </v-tooltip>
-            </div>
-          </v-col>
-          <v-col cols="6" :md="6">
-            <div class="d-flex align-center pb-5">
-              <source-text-input
-                label="GitLab Account Username"
-                :value.sync="resource.gitLabUsername"
-                :rules="usernameValidationRules"
-              />
-              <v-tooltip top open-delay="600" max-width="400px" v-if="i === 0">
-                <template #activator="{ on, attrs }">
-                  <v-icon color="primary" large v-bind="attrs" v-on="on">
-                    info_outline
-                  </v-icon>
-                </template>
-                <span>looks like this: @username</span>
+                <span>E.g. "https://gitlab.my-company.com/myuser"</span>
               </v-tooltip>
             </div>
           </v-col>
@@ -98,6 +81,7 @@ export default {
   },
   data: () => ({
     gitLabAccountResource: {
+      title: "",
       gitLabUrl: "",
       gitLabUsername: "",
       gitLabUserId: "",
@@ -120,13 +104,8 @@ export default {
         return (
           url.protocol === "http:" ||
           url.protocol === "https:" ||
-          "GitLab URL is not valid"
+          "GitLab Account URL is not valid"
         );
-      },
-    ],
-    usernameValidationRules: [
-      (value) => {
-        return value.length > 1 || "Invalid GitLab Username";
       },
     ],
     idValidationRules: [
@@ -144,8 +123,7 @@ export default {
   computed: {
     isReady() {
       return this.computedSource.resources.every(
-        ({ gitLabUsername, gitLabUserId, gitLabUrl }) =>
-          gitLabUsername && gitLabUserId && gitLabUrl
+        ({ gitLabUserId, gitLabAccountUrl }) => gitLabUserId && gitLabAccountUrl
       );
     },
     computedSource: {
@@ -166,20 +144,14 @@ export default {
           resource.warning = "";
           resource.error = "";
 
-          const {
-            gitLabUsername,
-            gitLabUserId,
-            gitLabUrl,
-            resourceType,
-            entityType,
-          } = resource;
-          resource.title = `${gitLabUsername} GitLab Account`;
+          const { gitLabUserId, gitLabAccountUrl, resourceType, entityType } =
+            resource;
+          resource.title = gitLabAccountUrl;
           return this.$api.resources
             .create({
-              title: resource.title,
-              gitLabUsername,
+              title: gitLabAccountUrl,
+              gitLabAccountUrl,
               gitLabUserId,
-              gitLabUrl,
               resourceType,
               entityType,
             })
