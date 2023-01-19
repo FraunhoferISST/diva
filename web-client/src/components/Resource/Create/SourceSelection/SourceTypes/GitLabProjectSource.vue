@@ -8,11 +8,11 @@
       </v-col>
       <v-col cols="12">
         <v-row dense v-for="(resource, i) in computedSource.resources" :key="i">
-          <v-col cols="12" :md="12">
+          <v-col cols="12" :md="6">
             <div class="d-flex align-center pb-2">
               <source-text-input
-                label="GitLab URL"
-                :value.sync="resource.gitLabUrl"
+                label="GitLab Project URL"
+                :value.sync="resource.gitLabProjectUrl"
                 :rules="urlValidationRules"
               />
               <v-tooltip top open-delay="600" max-width="400px" v-if="i === 0">
@@ -23,15 +23,6 @@
                 </template>
                 <span>E.g. "https://gitlab.my-company.com"</span>
               </v-tooltip>
-            </div>
-          </v-col>
-          <v-col cols="6" :md="6">
-            <div class="d-flex align-center pb-8">
-              <source-text-input
-                label="GitLab Project Title"
-                :value.sync="resource.title"
-                :rules="projectnameValidationRules"
-              />
             </div>
           </v-col>
           <v-col cols="6" :md="6">
@@ -93,7 +84,7 @@ export default {
     gitLabAccountResource: {
       title: "",
       gitLabProjectId: "",
-      gitLabUrl: "",
+      gitLabProjectUrl: "",
       resourceType: "gitlab:project",
       entityType: "resource",
       error: "",
@@ -102,7 +93,7 @@ export default {
       loading: true,
     },
     urlValidationRules: [
-      (value) => !!value || "GitLab URL is required",
+      (value) => !!value || "GitLab Project URL is required",
       (value) => {
         let url;
         try {
@@ -113,13 +104,8 @@ export default {
         return (
           url.protocol === "http:" ||
           url.protocol === "https:" ||
-          "GitLab URL is not valid"
+          "GitLab Project URL is not valid"
         );
-      },
-    ],
-    projectnameValidationRules: [
-      (value) => {
-        return value.length > 1 || "Invalid GitLab Project Name";
       },
     ],
     idValidationRules: [
@@ -137,8 +123,8 @@ export default {
   computed: {
     isReady() {
       return this.computedSource.resources.every(
-        ({ title, gitLabProjectId, gitLabUrl }) =>
-          title && gitLabProjectId && gitLabUrl
+        ({ gitLabProjectId, gitLabProjectUrl }) =>
+          gitLabProjectId && gitLabProjectUrl
       );
     },
     computedSource: {
@@ -160,17 +146,17 @@ export default {
           resource.error = "";
 
           const {
-            title,
             gitLabProjectId,
-            gitLabUrl,
+            gitLabProjectUrl,
             resourceType,
             entityType,
           } = resource;
+          resource.title = gitLabProjectUrl;
           return this.$api.resources
             .create({
-              title,
+              title: gitLabProjectUrl,
               gitLabProjectId,
-              gitLabUrl,
+              gitLabProjectUrl,
               resourceType,
               entityType,
             })
