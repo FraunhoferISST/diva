@@ -1,0 +1,50 @@
+{
+  "id": "schema:uuid:c4a31ddf-fbcf-44d3-959a-f004208165b8",
+  "title": "Destroy Claim Data",
+  "schemaName": "destroyclaimData",
+  "description": "Main data of the Destroy Claim",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "destroyclaim"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Destroy Claim Data",
+    "description": "Main data of the Destroy Claim",
+    "properties": {
+      "destroyclaimData": {
+        "type": "array",
+        "title": "Destroy Claim Data",
+        "description": "Main data of the Destroy Claim",
+        "properties": {
+          "value": {
+            "title": "Destroy Reason Value",
+            "description": "A Destroy Reason",
+            "type": "string",
+            "minLength": 2,
+            "examples": [
+              "https://fraunhoferisst.github.io/destroyclaims/docs/Why/Reasons/Data-Quality/why-data-quality-timeliness",
+              "not needed anymore"
+            ],
+            "_elasticsearch": {
+              "type": "text"
+            }
+          }
+        },
+        "_ui": {
+          "view": "details",
+          "position": 3,
+          "component": "DestroyClaimData",
+          "fallbackValue": [],
+          "fullWidth": true
+        }
+      }
+    }
+  }
+}

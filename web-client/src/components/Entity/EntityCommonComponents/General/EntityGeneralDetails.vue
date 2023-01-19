@@ -46,6 +46,7 @@ import SingleRelation from "@/components/Entity/EntityFields/EntityField/SingleR
 import MultiRelation from "@/components/Entity/EntityFields/EntityField/MultiRelation/MultiRelation";
 import DestroyClaimRefersTo from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyClaimRefersTo";
 import DestroyReasons from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyReasons";
+import DestroyClaimData from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyClaimData";
 import { useEntity } from "@/composables/entity";
 import { computed } from "@vue/composition-api";
 import { useBus } from "@/composables/bus";
@@ -62,6 +63,7 @@ export default {
     MultiRelation,
     DestroyClaimRefersTo,
     DestroyReasons,
+    DestroyClaimData,
     Licenses,
     EntityField,
     EntityDataViewer,
