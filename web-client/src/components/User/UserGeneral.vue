@@ -1,6 +1,5 @@
 <template>
   <section id="user-general">
-    <entity-general :id="id" />
     <data-viewer
       :loading="loading"
       :error="error"
@@ -8,9 +7,9 @@
     >
       <template v-if="data">
         <v-container class="pa-0 ma-0" fluid>
-          <v-row class="pt-5">
+          <v-row class="pt-0">
             <v-col cols="12">
-              <custom-header text="Account information" />
+              <custom-header text="Account Information" />
             </v-col>
             <v-col cols="12" v-if="user.id === id">
               <v-row>
