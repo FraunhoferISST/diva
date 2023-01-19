@@ -1,6 +1,7 @@
 {
   "id": "schema:uuid:c0f04732-07c1-4cb3-a7b1-6c63f562c010",
   "title": "Languages",
+  "description": "Language of the entities content",
   "schemaName": "languages",
   "isPatchable": true,
   "scope": [
@@ -18,11 +19,12 @@
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
     "title": "Languages",
+    "description": "Language of the entities content",
     "properties": {
       "languages": {
         "type": "array",
         "title": "Languages",
-        "description": "Detected Languages of a text file",
+        "description": "Language of the entities content",
         "items": {
           "type": "object",
           "title": "Items",
@@ -95,8 +97,8 @@
           }
         },
         "_ui": {
-          "view": "overview",
-          "position": 4,
+          "view": "details",
+          "position": 110,
           "fallbackValue": [],
           "component": "Languages"
         }

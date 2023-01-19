@@ -1,0 +1,47 @@
+{
+  "id": "schema:uuid:4fd3a863-72af-41e3-89c4-ef7a78852fd1",
+  "title": "GitHub Project URL",
+  "description": "The URL of the GitHub Project",
+  "schemaName": "gitHubProjectUrl",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "github:project"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "GitHub Project URL",
+    "description": "The URL of the GitHub Project",
+    "required": [
+      "gitHubProjectUrl"
+    ],
+    "properties": {
+      "gitHubProjectUrl": {
+        "type": "string",
+        "format": "uri",
+        "title": "GitHub Project URL",
+        "description": "The URL of the GitHub Project",
+        "examples": [
+          "https://github.com/test/test-project"
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "diva_analyzer"
+        },
+        "_ui": {
+          "view": "details",
+          "position": 0,
+          "type": "text",
+          "fullWidth": false,
+          "break": true,
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

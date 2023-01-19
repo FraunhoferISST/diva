@@ -1,0 +1,40 @@
+{
+  "id": "schema:uuid:c4a31ddf-fbcf-44d3-959a-f004208165b8",
+  "title": "Costs",
+  "schemaName": "costs",
+  "description": "Costs field. Used to render Custom component (deprecated and should be changed someday)",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    },
+    {
+      "key": "entityType",
+      "value": "asset"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Costs",
+    "description": "Internal costs for testing",
+    "properties": {
+      "costs": {
+        "type": "object",
+        "title": "Costs",
+        "description": "Internal costs for testing",
+        "properties": {},
+        "_ui": {
+          "view": "details",
+          "position": 300,
+          "component": "Costs",
+          "fallbackValue": {},
+          "fullWidth": true
+        }
+      }
+    }
+  }
+}

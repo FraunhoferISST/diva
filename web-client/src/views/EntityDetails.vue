@@ -29,6 +29,11 @@ export default {
           name: "entity_details_general",
         },
         {
+          title: "Details",
+          icon: "short_text",
+          name: "entity_details_details",
+        },
+        {
           title: "History",
           icon: "history",
           name: "entity_details_history",

@@ -32,12 +32,14 @@
           }
         },
         "_ui": {
-          "view": "overview",
+          "view": "details",
+          "position": 110,
           "type": "select",
           "multiple": true,
           "options": [],
           "allowCustom": true,
-          "fallbackValue": []
+          "fallbackValue": [],
+          "fullWidth": true
         }
       }
     }  

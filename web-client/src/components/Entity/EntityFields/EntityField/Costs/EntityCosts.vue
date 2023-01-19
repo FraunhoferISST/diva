@@ -4,11 +4,11 @@
       <v-container
         fluid
         v-if="costs.internalCosts || costs.externalCost"
-        class="pa-0"
+        class="pa-0 mt-0"
       >
-        <v-row class="mb-2">
+        <v-row class="pa-0">
           <v-col cols="12">
-            <custom-header text="Internal costs" />
+            <custom-header text="Costs" />
           </v-col>
         </v-row>
         <v-row dense>
@@ -46,10 +46,8 @@
         </v-row>
         <v-row>
           <v-col cols="12">
-            <custom-header text="External costs" />
-          </v-col>
-          <v-col cols="12">
             <field-editor
+              class="full-width"
               :data="{
                 externalCost: costs.externalCost,
               }"
@@ -76,8 +74,8 @@
 </template>
 
 <script>
-import CostCard from "@/components/Entity/EntityCommonComponents/Costs/CostCard";
-import CostEdit from "@/components/Entity/EntityCommonComponents/Costs/CostEdit";
+import CostCard from "@/components/Entity/EntityFields/EntityField/Costs/CostCard";
+import CostEdit from "@/components/Entity/EntityFields/EntityField/Costs/CostEdit";
 import CustomHeader from "@/components/Base/CustomHeader";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { useEntity } from "@/composables/entity";
@@ -112,15 +110,15 @@ export default {
     const costs = ref({
       internalCosts: {
         internalMaintenanceCost: {
-          title: "Maintenance cost",
+          title: "Internal maintenance cost",
           ...emptyCostData,
         },
         internalStorageCost: {
-          title: "Storage cost",
+          title: "Internal storage cost",
           ...emptyCostData,
         },
         internalDistributionCost: {
-          title: "Distribution cost",
+          title: "Internal distribution cost",
           ...emptyCostData,
         },
         externalCost: { title: "External cost", ...emptyCostData },
@@ -134,15 +132,15 @@ export default {
     const setLoadedCosts = () => {
       costs.value.internalCosts = {
         internalDistributionCost: {
-          title: "Distribution cost",
+          title: "Internal distribution cost",
           ...(data.value?.internalDistributionCost ?? emptyCostData),
         },
         internalStorageCost: {
-          title: "Storage cost",
+          title: "Internal storage cost",
           ...(data.value?.internalStorageCost ?? emptyCostData),
         },
         internalMaintenanceCost: {
-          title: "Maintenance cost",
+          title: "Internal maintenance cost",
           ...(data.value?.internalMaintenanceCost ?? emptyCostData),
         },
       };
@@ -192,4 +190,8 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.maxWidth {
+  width: 100%;
+}
+</style>

@@ -1,5 +1,5 @@
 {
-  "id": "schema:uuid:f594c83f-a37f-458f-94d3-c2d6e4f17e50",
+  "id": "schema:uuid:7e0c834c-423d-4236-a591-c72b355d1dec",
   "title": "Publisher Homepage",
   "description": "The homepage of the publisher",
   "schemaName": "publisherHomepage",
@@ -31,8 +31,8 @@
           "analyzer": "diva_analyzer"
         },
         "_ui": {
-          "view": "overview",
-          "position": 4,
+          "view": "details",
+          "position": 100,
           "type": "text",
           "fullWidth": false,
           "fallbackValue": ""

@@ -38,7 +38,7 @@
         },
         "_ui": {
           "view": "overview",
-          "position": 3,
+          "position": 100,
           "type": "number",
           "fallbackValue": 0
         }

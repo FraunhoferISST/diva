@@ -37,8 +37,8 @@
         },
         "_required": false,
         "_ui": {
-          "view": "overview",
-          "position": 4,
+          "view": "details",
+          "position": 70,
           "fullWidth": false,
           "type": "select",
           "multiple": false,

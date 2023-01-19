@@ -119,6 +119,9 @@ import GenericSource from "@/components/Resource/Create/SourceSelection/SourceTy
 import UrbanPulseSource from "@/components/Resource/Create/SourceSelection/SourceTypes/UrbanPulseSource";
 import VMWareSource from "@/components/Resource/Create/SourceSelection/SourceTypes/VMWareSource";
 import VirtualBoxSource from "@/components/Resource/Create/SourceSelection/SourceTypes/VirtualBoxSource";
+import GitLabAccountSource from "@/components/Resource/Create/SourceSelection/SourceTypes/GitLabAccountSource";
+import GitLabProjectSource from "@/components/Resource/Create/SourceSelection/SourceTypes/GitLabProjectSource";
+import GitHubProjectSource from "@/components/Resource/Create/SourceSelection/SourceTypes/GitHubProjectSource";
 import FadeIn from "@/components/Transitions/FadeIn";
 import ColoredCard from "@/components/Base/ColoredCard";
 import EntityCreationImportingOverlay from "@/components/Entity/EntityCreation/EntityCreationImportingOverlay";
@@ -136,6 +139,10 @@ export default {
     FileUploadSource,
     UrbanPulseSource,
     VMWareSource,
+    VirtualBoxSource,
+    GitLabAccountSource,
+    GitLabProjectSource,
+    GitHubProjectSource,
     GenericSource,
   },
   data: () => ({
@@ -188,6 +195,39 @@ export default {
         resources: [],
         component: VirtualBoxSource,
         icon: "virtualbox.svg",
+        isReady: false,
+        totalCount: null,
+        processedCount: null,
+        onCreate: () => {},
+        onCancel: () => {},
+      },
+      {
+        title: "GitLab Account",
+        resources: [],
+        component: GitLabAccountSource,
+        icon: "gitlab.svg",
+        isReady: false,
+        totalCount: null,
+        processedCount: null,
+        onCreate: () => {},
+        onCancel: () => {},
+      },
+      {
+        title: "GitLab Project",
+        resources: [],
+        component: GitLabProjectSource,
+        icon: "gitlab.svg",
+        isReady: false,
+        totalCount: null,
+        processedCount: null,
+        onCreate: () => {},
+        onCancel: () => {},
+      },
+      {
+        title: "GitHub Project",
+        resources: [],
+        component: GitHubProjectSource,
+        icon: "github.svg",
         isReady: false,
         totalCount: null,
         processedCount: null,

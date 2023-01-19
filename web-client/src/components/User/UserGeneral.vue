@@ -16,11 +16,30 @@
               <v-row>
                 <v-col cols="12">
                   <v-row>
-                    <v-col cols="12" md="6">
+                    <v-col cols="4">
+                      <entity-field
+                        :id="id"
+                        :field-schema="{
+                          title: 'Username',
+                          propertyName: 'username',
+                          isPatchable: true,
+                          schema: {
+                            properties: {
+                              username: {
+                                type: 'string',
+                              },
+                            },
+                          },
+                        }"
+                        :value.sync="data.username"
+                        mutate-source
+                      />
+                    </v-col>
+                    <v-col cols="12" md="4">
                       <info-block title="Email" :value="data.email">
                       </info-block>
                     </v-col>
-                    <v-col cols="12" md="6">
+                    <v-col cols="12" md="4">
                       <info-block title="Password" value="********">
                       </info-block>
                     </v-col>
@@ -33,29 +52,10 @@
                     </v-col>
                   </v-row>
                 </v-col>
-                <v-col cols="12">
-                  <entity-field
-                    :id="id"
-                    :field-schema="{
-                      title: 'Username',
-                      propertyName: 'username',
-                      isPatchable: true,
-                      schema: {
-                        properties: {
-                          username: {
-                            type: 'string',
-                          },
-                        },
-                      },
-                    }"
-                    :value.sync="data.username"
-                    mutate-source
-                  />
-                </v-col>
               </v-row>
             </v-col>
             <v-col cols="12" v-if="user.id === id || isAdmin">
-              <v-alert text color="error" class="my-4">
+              <v-alert text color="error" class="my-2">
                 You can delete this DIVA account. Please note that the data
                 cannot be restored. The data in Keycloak will not be affected by
                 deleting this DIVA account.

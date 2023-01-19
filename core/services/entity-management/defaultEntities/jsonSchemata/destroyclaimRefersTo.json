@@ -31,7 +31,7 @@
           },
           "_ui": {
             "view": "overview",
-            "position": 3,
+            "position": 100,
             "component": "DestroyClaimRefersTo",
             "fallbackValue": []
           }

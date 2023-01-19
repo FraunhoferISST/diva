@@ -136,7 +136,14 @@ export default {
     const { search, data, loading, error, cursor, loadNextPage } = useSearch();
     const menu = ref(false);
     const searchInput = ref("");
-    const entityTypes = ref(["resource", "user", "asset", "service"]);
+    const entityTypes = ref([
+      "resource",
+      "user",
+      "asset",
+      "service",
+      "destroyclaim",
+      "publisher",
+    ]);
     const selectedEntityTypes = ref([...entityTypes.value]);
     const searchEntities = () =>
       search(searchInput.value, {

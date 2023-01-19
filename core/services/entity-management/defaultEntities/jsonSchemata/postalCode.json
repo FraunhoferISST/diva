@@ -20,8 +20,8 @@
         "type": "string",
         "title": "Postal Code",
         "_ui": {
-          "view": "overview",
-          "position": 3,
+          "view": "details",
+          "position": 60,
           "type": "text",
           "fallbackValue": ""
         }

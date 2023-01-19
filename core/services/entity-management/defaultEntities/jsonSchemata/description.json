@@ -48,7 +48,7 @@
         ],
         "_ui": {
           "view": "overview",
-          "position": 5,
+          "position": 50,
           "type": "richText",
           "fullWidth": true,
           "fallbackValue": ""

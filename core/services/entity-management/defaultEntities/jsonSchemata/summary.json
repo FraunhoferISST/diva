@@ -41,7 +41,7 @@
         "maxLength": 255,
         "_ui": {
           "view": "overview",
-          "position": 5,
+          "position": 40,
           "type": "textArea",
           "fullWidth": true,
           "fallbackValue": ""

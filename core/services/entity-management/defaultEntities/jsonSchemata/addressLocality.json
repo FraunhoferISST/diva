@@ -18,14 +18,14 @@
     "properties": {
       "addressLocality": {
         "type": "string",
-        "title": "Address Locality",
+        "title": "Address Locality (City)",
         "examples": [
           "Dortmund",
           "New York"
         ],
         "_ui": {
-          "view": "overview",
-          "position": 1,
+          "view": "details",
+          "position": 60,
           "type": "text",
           "fallbackValue": ""
         }

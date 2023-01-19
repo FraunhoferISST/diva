@@ -37,8 +37,8 @@
           "type": "keyword"
         },
         "_ui": {
-          "view": "overview",
-          "position": 4,
+          "view": "details",
+          "position": 100,
           "type": "select",
           "fallbackValue": ""
         }

@@ -73,7 +73,11 @@ services:
 
   property-forwarder:
     build:
-      context: ../faas/property-forwarder    
+      context: ../faas/property-forwarder
+
+  github-metadata-extractor:
+    build:
+      context: ../faas/github-metadata-extractor  
 
   # DIVA Bots
   entity-archive-bot:

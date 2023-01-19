@@ -75,10 +75,13 @@ services:
     container_name: keywords-similarity-hash-generator
     image: ${REGISTRY}keywords-similarity-hash-generator:0.1.0
 
-  
   property-forwarder:
     container_name: property-forwarder
     image: ${REGISTRY}property-forwarder:0.1.0
+
+  github-metadata-extractor:
+    container_name: github-metadata-extractor
+    image: ${REGISTRY}github-metadata-extractor:0.1.0  
 
   # DIVA Bots
   entity-archive-bot:

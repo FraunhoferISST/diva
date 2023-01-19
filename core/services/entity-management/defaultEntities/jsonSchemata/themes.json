@@ -62,8 +62,8 @@
           }
         },
         "_ui": {
-          "view": "overview",
-          "position": 4,
+          "view": "details",
+          "position": 90,
           "type": "select",
           "multiple": true,
           "fallbackValue": ""

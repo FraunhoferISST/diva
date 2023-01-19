@@ -18,14 +18,14 @@
     "properties": {
       "addressRegion": {
         "type": "string",
-        "title": "Address Region",
+        "title": "Address Region (State)",
         "examples": [
           "NRW",
           "TX"
         ],
         "_ui": {
-          "view": "overview",
-          "position": 2,
+          "view": "details",
+          "position": 50,
           "type": "text",
           "fallbackValue": ""
         }

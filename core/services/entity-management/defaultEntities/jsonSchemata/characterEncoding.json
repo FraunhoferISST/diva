@@ -44,7 +44,7 @@
         "pattern": "^(.*)$",
         "_ui": {
           "view": "profiling",
-          "position": 2,
+          "position": 100,
           "type": "text",
           "fallbackValue": ""
         }

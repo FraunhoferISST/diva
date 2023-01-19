@@ -32,7 +32,7 @@
         "_ui": {
           "type": "date",
           "view": "overview",
-          "position": 2,
+          "position": 100,
           "fallbackValue": ""
         }
       }
