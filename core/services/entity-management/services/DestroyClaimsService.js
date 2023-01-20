@@ -17,8 +17,8 @@ class DestroyClaimService extends EntityService {
     const destroyclaimOwners = await DataNetworkService.getEdges({
       edgeTypes: ["isOwnerOf"],
       to: destroyclaim.id,
-      fromNodeType: "user",
-      toNodeType: "destroyclaim",
+      fromNodeType: ["user"],
+      toNodeType: ["destroyclaim"],
     });
 
     const contacts = await Promise.all(

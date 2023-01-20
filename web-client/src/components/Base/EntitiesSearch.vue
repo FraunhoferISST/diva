@@ -215,6 +215,6 @@ export default {
   max-height: 300px;
 }
 .entities-search-input {
-  z-index: 11;
+  z-index: 0;
 }
 </style>
