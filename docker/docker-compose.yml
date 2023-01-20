@@ -115,7 +115,7 @@ services:
   entity-management:
     <<: *base-core-service
     <<: *extra-hosts
-    image: ${REGISTRY}entity-management:1.8.0
+    image: ${REGISTRY}entity-management:1.9.0
     container_name: entity-management
     depends_on:
       - broker
@@ -177,7 +177,7 @@ services:
   elasticsearch-connector:
     <<: *base-core-service
     <<: *extra-hosts
-    image: ${REGISTRY}elasticsearch-connector:0.3.0
+    image: ${REGISTRY}elasticsearch-connector:0.4.0
     container_name: elasticsearch-connector
     depends_on:
       - broker

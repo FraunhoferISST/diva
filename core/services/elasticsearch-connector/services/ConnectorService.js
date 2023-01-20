@@ -22,7 +22,7 @@ const edgesTypes = [
   "likes",
   "keywordsSimilarity",
   "textContentSimilarity",
-  "refersTo",
+  "isDestroySubjectOf",
   "isPreviousVersionOf",
   "acquired",
 ];

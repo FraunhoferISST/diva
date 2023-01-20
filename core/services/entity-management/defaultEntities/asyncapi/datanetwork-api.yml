@@ -139,7 +139,7 @@ components:
                 - likes
                 - keywordsSimilarity
                 - textContentSimilarity
-                - refersTo
+                - isDestroySubjectOf
                 - isPreviousVersionOf
                 - acquired
         attributedTo:

@@ -3,7 +3,11 @@
     <data-viewer :loading="loading" :updating="updating" :error="error">
       <template v-if="data">
         <v-container class="pa-0 ma-0" fluid v-if="data.id">
-          <v-row v-for="group in groupedFields" :key="group" class="mb-12">
+          <v-row
+            v-for="group in groupedFields"
+            :key="group.propertyName"
+            class="mb-12"
+          >
             <v-col
               cols="12"
               :md="field._ui.fullWidth ? '12' : '4'"
@@ -44,7 +48,6 @@ import Languages from "@/components/Entity/EntityFields/EntityField/Languages/La
 import Costs from "@/components/Entity/EntityFields/EntityField/Costs/EntityCosts";
 import SingleRelation from "@/components/Entity/EntityFields/EntityField/SingleRelation/SingleRelation";
 import MultiRelation from "@/components/Entity/EntityFields/EntityField/MultiRelation/MultiRelation";
-import DestroyClaimRefersTo from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyClaimRefersTo";
 import DestroyReasons from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyReasons";
 import DestroyClaimData from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyClaimData";
 import { useEntity } from "@/composables/entity";
@@ -61,7 +64,6 @@ export default {
     Location,
     SingleRelation,
     MultiRelation,
-    DestroyClaimRefersTo,
     DestroyReasons,
     DestroyClaimData,
     Licenses,

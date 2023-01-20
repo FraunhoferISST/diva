@@ -131,19 +131,23 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    includeEntityTypes: {
+      type: Array,
+      default: () => [
+        "resource",
+        "user",
+        "asset",
+        "service",
+        "destroyclaim",
+        "publisher",
+      ],
+    },
   },
   setup(props) {
     const { search, data, loading, error, cursor, loadNextPage } = useSearch();
     const menu = ref(false);
     const searchInput = ref("");
-    const entityTypes = ref([
-      "resource",
-      "user",
-      "asset",
-      "service",
-      "destroyclaim",
-      "publisher",
-    ]);
+    const entityTypes = ref(props.includeEntityTypes);
     const selectedEntityTypes = ref([...entityTypes.value]);
     const searchEntities = () =>
       search(searchInput.value, {
