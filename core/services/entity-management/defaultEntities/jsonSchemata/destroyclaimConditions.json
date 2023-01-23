@@ -27,6 +27,13 @@
         "description": "Conditions field of a Destroy Claim.",
         "_elasticsearch": {
           "enabled": false
+        },
+        "_ui": {
+          "view": "details",
+          "position": 4,
+          "type": "json",
+          "fallbackValue": "",
+          "fullWidth": true
         }
       }
     }

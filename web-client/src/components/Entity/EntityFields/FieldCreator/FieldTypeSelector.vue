@@ -127,6 +127,17 @@ export default {
         selected: false,
       },
       {
+        title: "JSON",
+        description: "JSON Editor",
+        value: {
+          uiType: "json",
+          type: "boolean",
+          fallBackValue: false,
+          testValue: false,
+        },
+        selected: false,
+      },
+      {
         title: "Number",
         description: "Any Number input",
         value: {
