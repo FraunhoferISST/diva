@@ -30,11 +30,13 @@ import CustomHeader from "@/components/Base/CustomHeader";
 import { useRequest } from "@/composables/request";
 import { useApi } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
+import StdFromPointInTime from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdFromPointInTime";
 
 export default {
   name: "DestroyConditions",
   components: {
     CustomHeader,
+    StdFromPointInTime,
   },
   props: {
     id: {

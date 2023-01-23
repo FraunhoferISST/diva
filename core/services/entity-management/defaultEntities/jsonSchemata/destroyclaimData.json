@@ -8,8 +8,8 @@
   "isPatchable": true,
   "scope": [
     {
-      "key": "entityType",
-      "value": "destroyclaim"
+      "key": "destroyclaimType",
+      "value": "generic"
     }
   ],
   "schema": {
@@ -19,24 +19,9 @@
     "description": "Main data of the Destroy Claim",
     "properties": {
       "destroyclaimData": {
-        "type": "array",
+        "type": "object",
         "title": "Destroy Claim Data",
         "description": "Main data of the Destroy Claim",
-        "properties": {
-          "value": {
-            "title": "Destroy Reason Value",
-            "description": "A Destroy Reason",
-            "type": "string",
-            "minLength": 2,
-            "examples": [
-              "https://fraunhoferisst.github.io/destroyclaims/docs/Why/Reasons/Data-Quality/why-data-quality-timeliness",
-              "not needed anymore"
-            ],
-            "_elasticsearch": {
-              "type": "text"
-            }
-          }
-        },
         "_ui": {
           "view": "details",
           "position": 3,

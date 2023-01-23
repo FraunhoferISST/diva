@@ -23,6 +23,9 @@ const edgesTypes = [
   "keywordsSimilarity",
   "textContentSimilarity",
   "isDestroySubjectOf",
+  "isDestroyConditionOf",
+  "isDestroyActionOf",
+  "refersTo",
   "isPreviousVersionOf",
   "acquired",
 ];

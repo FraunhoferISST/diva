@@ -8,8 +8,8 @@
   "isPatchable": true,
   "scope": [
     {
-      "key": "entityType",
-      "value": "destroyclaim"
+      "key": "destroyclaimType",
+      "value": "generic"
     }
   ],
   "schema": {

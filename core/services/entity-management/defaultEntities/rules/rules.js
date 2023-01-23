@@ -173,4 +173,128 @@ module.exports = [
       },
     ],
   },
+  {
+    id: "rule:uuid:3625de58-9028-4f0b-ad65-6d60d4296250",
+    title:
+      "Connect a Destroy Subject with the corresponding entity on creation",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      channel: "entity.events",
+      "payload.attributedTo[0].object.id": "destroyclaim:.*",
+      "payload.attributedTo[1].object.id": "resource:.*",
+      "payload.type": "create",
+      "payload.object.id": "destroyclaim:.*",
+    },
+    condition: {
+      and: [
+        {
+          mongo: {
+            query: {
+              id: "{{payload.object.id}}",
+              destroyclaimType: "destroySubject",
+            },
+          },
+        },
+      ],
+    },
+    actions: [
+      {
+        headers: {
+          "x-diva": { actorId: "{{payload.actor.id}}" },
+        },
+        method: "POST",
+        endpoint: "{{entity-management}}/edges",
+        body: {
+          from: "{{payload.object.id}}",
+          to: "{{payload.attributedTo[0].object.id}}",
+          edgeType: "isDestroySubjectOf",
+        },
+        ignoreErrors: [
+          {
+            statusCode: 409, // edge already exists
+          },
+          {
+            statusCode: 404, // one of the nodes does not exist
+          },
+          {
+            statusCode: 403, // forbidden is forbidden, try not to write rules that confront with the policies
+          },
+        ],
+      },
+      {
+        headers: {
+          "x-diva": { actorId: "{{payload.actor.id}}" },
+        },
+        method: "POST",
+        endpoint: "{{entity-management}}/edges",
+        body: {
+          from: "{{payload.object.id}}",
+          to: "{{payload.attributedTo[1].object.id}}",
+          edgeType: "refersTo",
+        },
+        ignoreErrors: [
+          {
+            statusCode: 409, // edge already exists
+          },
+          {
+            statusCode: 404, // one of the nodes does not exist
+          },
+          {
+            statusCode: 403, // forbidden is forbidden, try not to write rules that confront with the policies
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "rule:uuid:3625de58-9028-4f0b-ad65-6d60d4296250",
+    title:
+      "Remove a Destroy Subject when Destroy Claim or Resource was deleted",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      channel: "datanetwork.events",
+      "payload.type": "delete",
+      "payload.object.id": "edge:.*",
+      "payload.attributedTo[0].object.id": "destroyclaim:.*",
+    },
+    condition: {
+      or: [
+        {
+          cypher: {
+            query:
+              "MATCH (n:destroyclaim {id:'{{payload.attributedTo[0].object.id}}'})-[r:isDestroySubjectOf]->(:destroyclaim) RETURN (count(r)=0) as ruleMet",
+          },
+        },
+        {
+          cypher: {
+            query:
+              "MATCH (n:destroyclaim {id:'{{payload.attributedTo[0].object.id}}'})-[r:refersTo]->(:resource) RETURN (count(r)=0) as ruleMet",
+          },
+        },
+      ],
+    },
+    actions: [
+      {
+        headers: {
+          "x-diva": { actorId: "{{payload.actor.id}}" },
+        },
+        method: "DELETE",
+        endpoint:
+          "{{entity-management}}/destroyclaims/{{payload.attributedTo[0].object.id}}",
+        ignoreErrors: [
+          {
+            statusCode: 409, // edge already exists
+          },
+          {
+            statusCode: 404, // one of the nodes does not exist
+          },
+          {
+            statusCode: 403, // forbidden is forbidden, try not to write rules that confront with the policies
+          },
+        ],
+      },
+    ],
+  },
 ];

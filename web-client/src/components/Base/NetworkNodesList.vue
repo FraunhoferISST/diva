@@ -12,7 +12,7 @@
             <no-data-state />
           </v-col>
         </v-row>
-        <v-row dense v-else class="mt-3">
+        <v-row dense v-else class="mt-0">
           <v-col cols="12" class="py-3" v-if="showCounter">
             {{ totalNetworkEntitiesCount }} in total
           </v-col>

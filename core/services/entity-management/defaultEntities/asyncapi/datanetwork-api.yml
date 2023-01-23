@@ -140,6 +140,9 @@ components:
                 - keywordsSimilarity
                 - textContentSimilarity
                 - isDestroySubjectOf
+                - isDestroyConditionOf
+                - isDestroyActionOf
+                - refersTo
                 - isPreviousVersionOf
                 - acquired
         attributedTo:

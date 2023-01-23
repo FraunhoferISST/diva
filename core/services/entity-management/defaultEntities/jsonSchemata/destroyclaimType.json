@@ -2,7 +2,7 @@
   "id": "schema:uuid:f951dd00-5586-4444-86a0-4869427571c2",
   "title": "Destroy Claim Type",
   "schemaName": "destroyclaimType",
-  "description": "The type of the destroy claim",
+  "description": "The type of the Destroy Claim",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
   "isPatchable": false,
@@ -23,9 +23,10 @@
       "destroyclaimType": {
         "type": "string",
         "title": "Destroy Claim Type",
-        "description": "The type of the destroy claim",
+        "description": "The type of the Destroy Claim",
         "enum": [
-          "generic"
+          "generic",
+          "destroySubject"
         ],
         "_elasticsearch": {
           "type": "keyword"

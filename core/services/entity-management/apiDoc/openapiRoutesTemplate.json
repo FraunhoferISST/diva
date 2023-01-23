@@ -134,7 +134,7 @@
             "allowReserved": true,
             "example": "resource:uuid:ad0016df-6b85-0465-0e85-9e3784d342e8",
             "schema": {
-              "$ref": "#/components/schemas/EntityId"
+              "type": "string"
             }
           },
           {

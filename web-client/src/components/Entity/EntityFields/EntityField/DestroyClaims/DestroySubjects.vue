@@ -14,7 +14,7 @@
             <v-col cols="12">
               <entities-search
                 title="Add new Destroy Subject to Destroy Claim"
-                :includeEntityTypes="['resource', 'asset']"
+                :includeEntityTypes="['resource']"
               >
                 <template #action="{ entity, updateEntity }">
                   <v-icon v-if="entity.added" dense color="green" right>
@@ -61,22 +61,22 @@
       </template>
       <template #item="{ entity, load }">
         <div class="destroy-subject-item full-width relative">
-          <entity-mini-card
-            class="fill-height full-width"
-            :entity="entity"
-            :visible="entity.visible"
-          />
-          <div class="destroy-subject-item-btn d-flex justify-center">
-            <v-btn
-              small
-              rounded
-              color="error"
-              :loading="loading"
-              @click="() => removeFromDestroySubjects(entity.edgeId, load)"
-            >
-              Remove
-            </v-btn>
-          </div>
+          <network-nodes-list
+            :id="entity.id"
+            edge-types="refersTo"
+            :show-counter="false"
+            :fullWidth="true"
+          >
+            <template #item="{ entity: innerEntity }">
+              <destroy-subject-mini-card
+                class="fill-height full-width"
+                :entity="innerEntity"
+                :destroySubject="entity"
+                :visible="innerEntity.visible"
+                :load="load"
+              />
+            </template>
+          </network-nodes-list>
         </div>
       </template>
     </network-nodes-list>
@@ -93,12 +93,12 @@ import EntitiesSearch from "@/components/Base/EntitiesSearch";
 import { useRequest } from "@/composables/request";
 import { useApi } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
-import EntityMiniCard from "@/components/Entity/EntityMiniCard";
+import DestroySubjectMiniCard from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroySubjectMiniCard";
 
 export default {
   name: "DestroySubjects",
   components: {
-    EntityMiniCard,
+    DestroySubjectMiniCard,
     EntitiesSearch,
     CustomHeader,
     NetworkNodesList,
@@ -112,7 +112,7 @@ export default {
   setup(props) {
     const { snackbar, message, color, show } = useSnackbar();
     const { request, loading, error } = useRequest();
-    const { datanetwork } = useApi();
+    const { datanetwork, entityApi } = useApi(props.id);
     const removeFromDestroySubjects = (edgeId, reloadListMethod) => {
       return request(datanetwork.deleteEdgeById(edgeId)).then(() => {
         const unacceptableError =
@@ -130,13 +130,19 @@ export default {
       snackbar,
       message,
       color,
-      addToDestroySubjects: (entity, updateEntityMethod, reloadListMethod) => {
+      addToDestroySubjects: async (
+        entity,
+        updateEntityMethod,
+        reloadListMethod
+      ) => {
         updateEntityMethod({ doc: { ...entity, loading: true } });
+
         return request(
-          datanetwork.createEdge({
-            from: entity.id,
-            to: props.id,
-            edgeType: "isDestroySubjectOf",
+          entityApi.create({
+            title: `Destroy Subject of ${entity.id}`,
+            destroyclaimType: "destroySubject",
+            entityType: "destroyclaim",
+            attributedTo: `${props.id},${entity.id}`,
           })
         ).then(() => {
           const unacceptableError =
@@ -168,7 +174,7 @@ export default {
 .destroy-subject-item {
   &:hover {
     .destroy-subject-item-btn {
-      bottom: 10px;
+      bottom: 25px;
       opacity: 1;
     }
   }
