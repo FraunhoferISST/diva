@@ -1,9 +1,10 @@
 <template>
   <info-block-value v-if="typeof value !== 'undefined'">
     <CodeEditor
-      :value="value"
+      :value="JSON.stringify(JSON.parse(value), null, 3)"
       :languages="[['json', 'JSON']]"
       :read_only="true"
+      :copy_code="false"
       width="100%"
     ></CodeEditor>
   </info-block-value>
@@ -33,25 +34,8 @@ export default {
       type: String,
       required: true,
     },
-    height: {
-      type: Number,
-      default: 500,
-    },
   },
 };
 </script>
 
-<style scoped lang="scss">
-.code-editor {
-  overflow-y: auto;
-  width: 100%;
-  @include border-radius();
-  border: 2px $bg_card_secondary solid;
-  code {
-    background-color: white;
-  }
-}
-.hljs {
-  padding: 0;
-}
-</style>
+<style scoped lang="scss"></style>

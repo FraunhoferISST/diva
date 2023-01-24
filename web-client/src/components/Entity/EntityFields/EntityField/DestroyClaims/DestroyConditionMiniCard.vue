@@ -1,20 +1,20 @@
 <template>
-  <component :is="wrapperComponent" :id="entity.id" target="_self">
+  <component :is="wrapperComponent" :id="destroyCondition.id" target="_self">
     <div
       class="entity-mini-card-container pa-3 full-width fill-height"
       :class="{ interactive: visible }"
     >
       <entity-avatar
-        :entity-id="entity.id"
-        :image-id="entity.entityIcon"
+        :entity-id="destroyCondition.id"
+        :image-id="destroyCondition.entityIcon"
         :entity-title="entityTitle"
       />
       <div>
         <div class="d-flex justify-space-between align-center">
           <div v-if="entityTitle" style="flex: 1; width: 1px">
             <h2 class="entity-mini-card-title">
-              <entity-details-link :id="entity.id">{{
-                entityTitle
+              <entity-details-link :id="destroyCondition.id">{{
+                destroyCondition.title
               }}</entity-details-link>
             </h2>
           </div>
@@ -22,10 +22,10 @@
             class="entity-mini-card-title-placeholder d-block pa-2 mt-2 full-width"
             v-else-if="!visible"
           ></span>
-          <entity-like-button small :id="entity.id" class="pl-3" />
+          <entity-like-button small :id="destroyCondition.id" class="pl-3" />
         </div>
-        <div v-if="visible">
-          <div class="mt-2">
+        <div v-if="visible" class="mt-2">
+          <div>
             <v-chip
               class="mr-2"
               small
@@ -39,7 +39,7 @@
           </div>
           <div>
             <v-alert
-              v-show="destroySubject.id"
+              v-show="destroyCondition.id"
               color="warning"
               border="left"
               text
@@ -48,24 +48,59 @@
             >
               <span class="font-weight-bold">Expert only:</span>
               {{
-                destroySubject.id.substr(
-                  destroySubject.id.lastIndexOf(":") + 1,
-                  destroySubject.id.length
+                destroyCondition.id.substr(
+                  destroyCondition.id.lastIndexOf(":") + 1,
+                  destroyCondition.id.length
                 )
               }}
             </v-alert>
           </div>
           <div class="mt-4">
+            <CodeEditor
+              :value="
+                JSON.stringify(
+                  destroyCondition.destroyclaimExtensionPayload,
+                  null,
+                  3
+                )
+              "
+              :languages="[['json', 'Extension Payload']]"
+              :read_only="true"
+              :copy_code="false"
+              :wrap_code="true"
+              font_size="12px"
+              width="auto"
+            ></CodeEditor>
+          </div>
+          <div class="mt-4" v-if="destroyCondition.destroyclaimConditions">
             <v-row>
-              <v-col sm="4">
-                <v-btn color="primary" class="gprimary" rounded block>
-                  Destroy Action
-                </v-btn>
+              <v-col>
+                <CodeEditor
+                  :value="
+                    JSON.stringify(
+                      JSON.parse(destroyCondition.destroyclaimConditions),
+                      null,
+                      3
+                    )
+                  "
+                  :languages="[['json', 'Extension Conditions']]"
+                  :read_only="true"
+                  :copy_code="false"
+                  :wrap_code="true"
+                  font_size="12px"
+                  width="auto"
+                ></CodeEditor>
               </v-col>
-              <v-col sm="4">
-                <entity-details-link :id="destroySubject.id" postfix="/details"
+            </v-row>
+          </div>
+          <div class="mt-4">
+            <v-row>
+              <v-col sm="4" offset-sm="4">
+                <entity-details-link
+                  :id="destroyCondition.id"
+                  postfix="/details"
                   ><v-btn color="primary" class="gprimary" rounded block>
-                    Conditions
+                    Edit Conditions
                   </v-btn></entity-details-link
                 >
               </v-col>
@@ -75,7 +110,8 @@
                   rounded
                   block
                   @click="
-                    () => removeFromDestroySubjects(destroySubject.edgeId, load)
+                    () =>
+                      removeFromDestroyConditions(destroyCondition.edgeId, load)
                   "
                 >
                   Remove
@@ -101,17 +137,14 @@ import CustomHeader from "@/components/Base/CustomHeader";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import EntityLikeButton from "@/components/Entity/EntityLikeButton";
 import { useRequest } from "@/composables/request";
-import { useApi } from "@/composables/api";
+import { useApi, computed } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
+import CodeEditor from "simple-code-editor";
 
 export default {
-  name: "DestroySubjectMiniCard",
+  name: "DestroyConditionMiniCard",
   props: {
-    entity: {
-      type: Object,
-      required: true,
-    },
-    destroySubject: {
+    destroyCondition: {
       type: Object,
       required: true,
     },
@@ -129,20 +162,19 @@ export default {
     EntityDetailsLink,
     CustomHeader,
     EntityAvatar,
+    CodeEditor,
   },
   computed: {
     wrapperComponent() {
       return this.visible ? "div" : "div";
     },
     entityTitle() {
-      return this.entity.title || this.entity.username;
+      return this.destroyCondition.title || this.destroyCondition.username;
     },
     entityTags() {
       return [
-        this.entity.entityType,
-        this.entity.resourceType,
-        this.entity.assetType,
-        this.entity.mimeType,
+        this.destroyCondition.entityType,
+        this.destroyCondition.destroyclaimType,
       ]
         .filter((t) => t)
         .map((t) => (t.length > 40 ? `${t.slice(0, 40)}...` : t));
@@ -152,7 +184,26 @@ export default {
     const { snackbar, message, color, show } = useSnackbar();
     const { request, loading, error } = useRequest();
     const { datanetwork } = useApi(props.id);
-    const removeFromDestroySubjects = (edgeId, reloadListMethod) => {
+
+    const conditionExtensions = [
+      {
+        name: "std:fromPointInTime",
+        displayName: "From Point In Time",
+        componentName: "",
+      },
+      {
+        name: "std:alpha3CountryCode",
+        displayName: "Alpha3 Country Code",
+        componentName: "",
+      },
+      {
+        name: "std:geoLocation",
+        displayName: "Geo Location",
+        componentName: "",
+      },
+    ];
+
+    const removeFromDestroyConditions = (edgeId, reloadListMethod) => {
       return request(datanetwork.deleteEdgeById(edgeId)).then(() => {
         const unacceptableError =
           error.value && error.value?.response?.status !== 404;
@@ -169,7 +220,8 @@ export default {
       snackbar,
       message,
       color,
-      removeFromDestroySubjects,
+      conditionExtensions,
+      removeFromDestroyConditions,
     };
   },
 };

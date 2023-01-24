@@ -2,6 +2,7 @@
   <CodeEditor
     v-model="computedValue"
     :languages="[['json', 'JSON']]"
+    :copy_code="false"
     width="100%"
   ></CodeEditor>
 </template>
@@ -43,10 +44,15 @@ export default {
           JSON.parse(value);
           this.$emit("update:value", value);
         } catch (e) {
-          console.log(e);
+          if (value === "") {
+            this.$emit("update:value", value);
+          }
         }
       },
     },
+  },
+  beforeMount() {
+    this.computedValue = JSON.stringify(JSON.parse(this.value), null, 3);
   },
 };
 </script>
