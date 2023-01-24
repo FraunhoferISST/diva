@@ -18,6 +18,10 @@
     {
       "key": "destroyclaimType",
       "value": "destroySubject"
+    },
+    {
+      "key": "destroyclaimType",
+      "value": "destroyCondition"
     }
   ],
   "schema": {

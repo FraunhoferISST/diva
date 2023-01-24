@@ -20,7 +20,10 @@
     </v-row>
     <v-row>
       <v-col cols="12" md="8" offset-md="2">
-        <component v-bind:is="renderDestroyConditionComponent"></component>
+        <component
+          v-bind:is="renderDestroyConditionComponent"
+          @update:payload="setPayload"
+        ></component>
       </v-col>
     </v-row>
     <v-row class="mt-8">
@@ -31,6 +34,8 @@
           rounded
           block
           v-show="selectedDestroyCondition"
+          :disabled="!addable"
+          @click="addNewDestroyCondition"
         >
           Add new Destroy Condition
         </v-btn>
@@ -63,7 +68,7 @@ export default {
   setup(props) {
     const { snackbar, message, color, show } = useSnackbar();
     const { request, loading, error } = useRequest();
-    const { datanetwork } = useApi();
+    const { datanetwork, entityApi } = useApi(props.id);
 
     const conditionExtensions = [
       {
@@ -87,13 +92,43 @@ export default {
         componentName: StdFromPointInTimeEditor,
       },
     ];
+    const addable = ref(false);
     const selectedDestroyCondition = ref("");
+    const payload = reactive({});
     const renderDestroyConditionComponent = computed(() => {
-      console.log("Fired");
       return conditionExtensions.find(
         (e) => e.name === selectedDestroyCondition.value
       ).componentName;
     });
+    const setPayload = (e) => {
+      payload.value = e;
+      addable.value = true;
+      console.log(payload.value);
+    };
+    const addNewDestroyCondition = () => {
+      return request(
+        entityApi.create({
+          title: `Destroy Condition of ${props.id}`,
+          destroyclaimType: "destroyCondition",
+          entityType: "destroyclaim",
+          attributedTo: `${props.id}`,
+          destroyclaimExtensionName: selectedDestroyCondition.value,
+          destroyclaimExtensionPayload: payload.value,
+        })
+      ).then(() => {
+        const unacceptableError =
+          error.value && error.value?.response?.status !== 409;
+        if (unacceptableError) {
+          show(error.value, { color: "error" });
+        } else {
+          //reloadListMethod();
+        }
+        /*
+        updateEntityMethod({
+          doc: { ...entity, loading: false, added: !unacceptableError },
+        });*/
+      });
+    };
     return {
       loading,
       error,
@@ -103,6 +138,9 @@ export default {
       conditionExtensions,
       selectedDestroyCondition,
       renderDestroyConditionComponent,
+      setPayload,
+      addable,
+      addNewDestroyCondition,
     };
   },
 };

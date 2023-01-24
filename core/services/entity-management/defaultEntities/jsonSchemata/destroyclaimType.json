@@ -26,7 +26,8 @@
         "description": "The type of the Destroy Claim",
         "enum": [
           "generic",
-          "destroySubject"
+          "destroySubject",
+          "destroyCondition"
         ],
         "_elasticsearch": {
           "type": "keyword"

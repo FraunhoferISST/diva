@@ -257,7 +257,8 @@ module.exports = [
       channel: "datanetwork.events",
       "payload.type": "delete",
       "payload.object.id": "edge:.*",
-      "payload.attributedTo[0].object.id": "destroyclaim:.*",
+      "payload.attributedTo[0].object.id": "destroyclaim:.*", // destroySubject
+      "payload.attributedTo[1].object.id": "(destroyclaim:.*|resource:.*)",
     },
     condition: {
       or: [
@@ -271,6 +272,100 @@ module.exports = [
           cypher: {
             query:
               "MATCH (n:destroyclaim {id:'{{payload.attributedTo[0].object.id}}'})-[r:refersTo]->(:resource) RETURN (count(r)=0) as ruleMet",
+          },
+        },
+      ],
+    },
+    actions: [
+      {
+        headers: {
+          "x-diva": { actorId: "{{payload.actor.id}}" },
+        },
+        method: "DELETE",
+        endpoint:
+          "{{entity-management}}/destroyclaims/{{payload.attributedTo[0].object.id}}",
+        ignoreErrors: [
+          {
+            statusCode: 409, // edge already exists
+          },
+          {
+            statusCode: 404, // one of the nodes does not exist
+          },
+          {
+            statusCode: 403, // forbidden is forbidden, try not to write rules that confront with the policies
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "rule:uuid:b7bddf3c-15fc-450a-9a37-59a732fd03cd",
+    title:
+      "Connect a Destroy Condition with the corresponding Destroy Claim on creation",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      channel: "entity.events",
+      "payload.attributedTo[0].object.id": "destroyclaim:.*",
+      "payload.type": "create",
+      "payload.object.id": "destroyclaim:.*",
+    },
+    condition: {
+      and: [
+        {
+          mongo: {
+            query: {
+              id: "{{payload.object.id}}",
+              destroyclaimType: "destroyCondition",
+            },
+          },
+        },
+      ],
+    },
+    actions: [
+      {
+        headers: {
+          "x-diva": { actorId: "{{payload.actor.id}}" },
+        },
+        method: "POST",
+        endpoint: "{{entity-management}}/edges",
+        body: {
+          from: "{{payload.object.id}}",
+          to: "{{payload.attributedTo[0].object.id}}",
+          edgeType: "isDestroyConditionOf",
+        },
+        ignoreErrors: [
+          {
+            statusCode: 409, // edge already exists
+          },
+          {
+            statusCode: 404, // one of the nodes does not exist
+          },
+          {
+            statusCode: 403, // forbidden is forbidden, try not to write rules that confront with the policies
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "rule:uuid:60966238-2afe-4e95-b291-594254df692f",
+    title: "Remove a Destroy Condition when related Destroy Claim was deleted",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      channel: "datanetwork.events",
+      "payload.type": "delete",
+      "payload.object.id": "edge:.*",
+      "payload.attributedTo[0].object.id": "destroyclaim:.*", // destroyCondition (from)
+      "payload.attributedTo[1].object.id": "destroyclaim:.*", // destroyClaim (to)
+    },
+    condition: {
+      and: [
+        {
+          cypher: {
+            query:
+              "MATCH (n:destroyclaim {id:'{{payload.attributedTo[0].object.id}}'})-[r:isDestroyConditionOf]->(:destroyclaim) RETURN (count(r)=0) as ruleMet",
           },
         },
       ],

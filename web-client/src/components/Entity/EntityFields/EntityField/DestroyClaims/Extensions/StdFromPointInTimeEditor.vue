@@ -15,6 +15,7 @@
           next-icon="mdi-skip-next"
           elevation="15"
           header-color="primary"
+          @change="payloadChange"
         ></v-date-picker>
       </v-col>
     </v-row>
@@ -34,12 +35,18 @@ export default {
     CustomHeader,
   },
   props: {},
-  setup(props) {
+  setup(props, context) {
     const { snackbar, message, color, show } = useSnackbar();
     const { request, loading, error } = useRequest();
     const { datanetwork } = useApi();
 
     const picker = ref("");
+
+    const payloadChange = () => {
+      context.emit("update:payload", {
+        from: new Date(picker.value).toISOString(),
+      });
+    };
 
     return {
       loading,
@@ -48,6 +55,7 @@ export default {
       message,
       color,
       picker,
+      payloadChange,
     };
   },
 };
