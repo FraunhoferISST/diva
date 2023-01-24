@@ -1,10 +1,11 @@
 <template>
   <info-block-value v-if="typeof value !== 'undefined'">
-    <pre class="code-editor px-0" :style="{ maxHeight: this.height + 'px' }">
-      <code class="hljs" ref="editor">
-        {{ JSON.stringify(value) }}
-      </code>
-    </pre>
+    <CodeEditor
+      :value="value"
+      :languages="[['json', 'JSON']]"
+      :read_only="true"
+      width="100%"
+    ></CodeEditor>
   </info-block-value>
   <no-data-state v-else>
     <span v-if="editable">Add {{ title }}</span>
@@ -16,6 +17,7 @@
 import InfoBlockValue from "@/components/Base/InfoBlock/InfoBlockValue";
 import NoDataState from "@/components/Base/NoDataState";
 import entityFieldViewerInterfaces from "@/components/Entity/EntityFields/EntityField/entityFieldViewerInterface";
+import CodeEditor from "simple-code-editor";
 
 export default {
   name: "JsonFieldViewer",
@@ -23,11 +25,12 @@ export default {
   components: {
     NoDataState,
     InfoBlockValue,
+    CodeEditor,
   },
   props: {
     ...entityFieldViewerInterfaces,
     value: {
-      type: [Boolean, Object],
+      type: String,
       required: true,
     },
     height: {

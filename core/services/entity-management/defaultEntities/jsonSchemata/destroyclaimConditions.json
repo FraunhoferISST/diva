@@ -12,7 +12,7 @@
     },
     {
       "key": "destroyclaimType",
-      "value": "destroyclaimSubject"
+      "value": "destroySubject"
     }
   ],
   "schema": {
@@ -21,10 +21,10 @@
     "title": "Destroy Claim Conditions",
     "properties": {
       "destroyclaimConditions": {
-        "type": ["boolean", "object"],
+        "type": "string",
         "default": false,
-        "title": "Destroy Claim Conditions",
-        "description": "Conditions field of a Destroy Claim.",
+        "title": "Destroy Claim Boolean Conditions (Expert Only)",
+        "description": "Conditions field of a Destroy Claim. Use Boolean algebra to customize conditions.",
         "_elasticsearch": {
           "enabled": false
         },

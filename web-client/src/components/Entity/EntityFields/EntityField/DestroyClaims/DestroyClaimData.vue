@@ -4,6 +4,7 @@
     <destroy-subjects :id="id" class="mt-5"></destroy-subjects>
     <v-divider class="mt-5"></v-divider>
     <destroy-conditions :id="id" class="mt-5"></destroy-conditions>
+    <v-divider class="my-5"></v-divider>
   </div>
 </template>
 

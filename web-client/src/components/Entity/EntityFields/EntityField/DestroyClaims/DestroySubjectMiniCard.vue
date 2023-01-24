@@ -13,7 +13,9 @@
         <div class="d-flex justify-space-between align-center">
           <div v-if="entityTitle" style="flex: 1; width: 1px">
             <h2 class="entity-mini-card-title">
-              {{ entityTitle }}
+              <entity-details-link :id="entity.id">{{
+                entityTitle
+              }}</entity-details-link>
             </h2>
           </div>
           <span
@@ -37,14 +39,20 @@
           </div>
           <div>
             <v-alert
-              v-show="entity.summary"
-              color="info"
+              v-show="destroySubject.id"
+              color="warning"
               border="left"
               text
               dense
               class="mb-0 mt-2"
             >
-              {{ entity.summary }}
+              <span class="font-weight-bold">Expert only:</span>
+              {{
+                destroySubject.id.substr(
+                  destroySubject.id.lastIndexOf(":") + 1,
+                  destroySubject.id.length
+                )
+              }}
             </v-alert>
           </div>
           <div class="mt-4">
@@ -61,9 +69,11 @@
                 </v-btn>
               </v-col>
               <v-col sm="4">
-                <v-btn color="primary" class="gprimary" rounded block>
-                  Conditions
-                </v-btn>
+                <entity-details-link :id="destroySubject.id" postfix="/details"
+                  ><v-btn color="primary" class="gprimary" rounded block>
+                    Conditions
+                  </v-btn></entity-details-link
+                >
               </v-col>
               <v-col sm="4">
                 <v-btn
