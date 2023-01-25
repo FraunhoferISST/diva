@@ -34,7 +34,7 @@
                 info_outline
               </v-icon>
             </template>
-            <span>Click here to show or hide details</span>
+            <span>Click here to show or hide details (Experts Only)</span>
           </v-tooltip>
         </div>
         <div v-if="visible">

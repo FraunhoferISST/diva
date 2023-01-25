@@ -11,6 +11,7 @@
           :items="conditionExtensions"
           item-text="displayName"
           item-value="name"
+          label="Add new Destroy Condition to Destroy Claim"
           outlined
           dense
           plac
@@ -19,7 +20,7 @@
         </v-select>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row v-show="selectedDestroyCondition">
       <v-col cols="12" md="8" offset-md="2">
         <component
           v-bind:is="renderDestroyConditionComponent"
@@ -58,6 +59,7 @@
                 :destroyCondition="destroyCondition"
                 :visible="destroyCondition.visible"
                 :load="load"
+                :renderComponents="conditionExtensions"
                 @update="() => updateNodeList + 1"
               />
             </template>
@@ -81,6 +83,7 @@ import NetworkNodesList from "@/components/Base/NetworkNodesList";
 import DestroyConditionMiniCard from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyConditionMiniCard";
 
 import StdFromPointInTimeEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdFromPointInTimeEditor";
+import StdFromPointInTimeViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdFromPointInTimeViewer";
 
 export default {
   name: "DestroyConditions",
@@ -105,22 +108,23 @@ export default {
       {
         name: "",
         displayName: "",
-        componentName: "",
+        editorComponent: "",
       },
       {
         name: "std:fromPointInTime",
         displayName: "From Point In Time",
-        componentName: StdFromPointInTimeEditor,
+        editorComponent: StdFromPointInTimeEditor,
+        viewerComponent: StdFromPointInTimeViewer,
       },
       {
         name: "std:alpha3CountryCode",
         displayName: "Alpha3 Country Code",
-        componentName: StdFromPointInTimeEditor,
+        editorComponent: StdFromPointInTimeEditor,
       },
       {
         name: "std:geoLocation",
         displayName: "Geo Location",
-        componentName: StdFromPointInTimeEditor,
+        editorComponent: StdFromPointInTimeEditor,
       },
     ];
     const addable = ref(false);
@@ -130,7 +134,7 @@ export default {
     const renderDestroyConditionComponent = computed(() => {
       return conditionExtensions.find(
         (e) => e.name === selectedDestroyCondition.value
-      ).componentName;
+      ).editorComponent;
     });
     const setPayload = (e) => {
       payload.value = e;
@@ -168,7 +172,11 @@ export default {
 
         return request(
           entityApi.create({
-            title: `${selectedDestroyCondition.value} Destroy Condition`,
+            title: `${
+              conditionExtensions.find(
+                (e) => e.name === selectedDestroyCondition.value
+              ).displayName
+            }`,
             destroyclaimType: "destroyCondition",
             entityType: "destroyclaim",
             attributedTo: `${props.id}`,

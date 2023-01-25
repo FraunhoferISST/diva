@@ -34,7 +34,7 @@
                 info_outline
               </v-icon>
             </template>
-            <span>Click here to show or hide details</span>
+            <span>Click here to show or hide details (Experts Only)</span>
           </v-tooltip>
         </div>
         <div v-if="visible" class="mt-2">
@@ -49,6 +49,16 @@
             >
               {{ tag }}
             </v-chip>
+          </div>
+          <div class="mt-4">
+            <component
+              v-bind:is="
+                renderComponents.find(
+                  (e) => e.name === destroyCondition.destroyclaimExtensionName
+                ).viewerComponent
+              "
+              :value="destroyCondition.destroyclaimExtensionPayload"
+            ></component>
           </div>
           <div v-if="showDetails">
             <v-alert
@@ -68,7 +78,7 @@
               }}
             </v-alert>
           </div>
-          <div class="mt-4">
+          <div class="mt-4" v-if="showDetails">
             <CodeEditor
               :value="
                 JSON.stringify(
@@ -150,7 +160,7 @@ import CustomHeader from "@/components/Base/CustomHeader";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import EntityLikeButton from "@/components/Entity/EntityLikeButton";
 import { useRequest } from "@/composables/request";
-import { useApi, computed } from "@/composables/api";
+import { useApi, reactive } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
 import CodeEditor from "simple-code-editor";
 
@@ -167,6 +177,10 @@ export default {
     },
     load: {
       type: Function,
+      required: true,
+    },
+    renderComponents: {
+      type: Array,
       required: true,
     },
   },
@@ -203,24 +217,6 @@ export default {
     const { request, loading, error } = useRequest();
     const { datanetwork } = useApi(props.id);
 
-    const conditionExtensions = [
-      {
-        name: "std:fromPointInTime",
-        displayName: "From Point In Time",
-        componentName: "",
-      },
-      {
-        name: "std:alpha3CountryCode",
-        displayName: "Alpha3 Country Code",
-        componentName: "",
-      },
-      {
-        name: "std:geoLocation",
-        displayName: "Geo Location",
-        componentName: "",
-      },
-    ];
-
     const removeFromDestroyConditions = (edgeId, reloadListMethod) => {
       return request(datanetwork.deleteEdgeById(edgeId)).then(() => {
         const unacceptableError =
@@ -239,7 +235,6 @@ export default {
       snackbar,
       message,
       color,
-      conditionExtensions,
       removeFromDestroyConditions,
     };
   },
