@@ -122,8 +122,8 @@
                 <entity-details-link
                   :id="destroyCondition.id"
                   postfix="/details"
-                  ><v-btn color="primary" class="gprimary" rounded block>
-                    Edit Conditions
+                  ><v-btn color="warning" rounded block>
+                    Expert Conditions
                   </v-btn></entity-details-link
                 >
               </v-col>

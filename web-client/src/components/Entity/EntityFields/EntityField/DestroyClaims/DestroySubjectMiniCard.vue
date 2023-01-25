@@ -98,8 +98,8 @@
               </v-col>
               <v-col sm="4">
                 <entity-details-link :id="destroySubject.id" postfix="/details"
-                  ><v-btn color="primary" class="gprimary" rounded block>
-                    Edit Conditions
+                  ><v-btn color="warning" rounded block>
+                    Expert Conditions
                   </v-btn></entity-details-link
                 >
               </v-col>

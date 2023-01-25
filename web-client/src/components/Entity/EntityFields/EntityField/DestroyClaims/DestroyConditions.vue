@@ -1,8 +1,29 @@
 <template>
   <v-container class="pa-0">
     <v-row>
-      <v-col cols="12">
+      <v-col cols="12" class="d-flex justify-space-between">
         <custom-header> Destroy Conditions </custom-header>
+        <v-tooltip top open-delay="600" max-width="400px">
+          <template #activator="{ on, attrs }">
+            <v-icon
+              @click="
+                showDestroyConditionExplanation = !showDestroyConditionExplanation
+              "
+              color="primary"
+              dense
+              v-bind="attrs"
+              v-on="on"
+            >
+              info_outline
+            </v-icon>
+          </template>
+          <span>Click here to show or hide explanation</span>
+        </v-tooltip>
+      </v-col>
+      <v-col v-if="showDestroyConditionExplanation">
+        <v-alert border="left" colored-border color="primary" elevation="5">
+          TBD
+        </v-alert>
       </v-col>
     </v-row>
     <v-row>
@@ -98,6 +119,11 @@ export default {
       type: String,
       required: true,
     },
+  },
+  data: () => {
+    return {
+      showDestroyConditionExplanation: false,
+    };
   },
   setup(props) {
     const { snackbar, message, color, show } = useSnackbar();

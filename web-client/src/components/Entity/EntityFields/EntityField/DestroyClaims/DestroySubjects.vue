@@ -8,8 +8,53 @@
       <template #default="{ totalNetworkEntitiesCount, load, entities }">
         <v-container fluid class="pa-0">
           <v-row>
-            <v-col cols="12">
+            <v-col cols="12" class="d-flex justify-space-between">
               <custom-header> Destroy Subjects </custom-header>
+
+              <v-tooltip top open-delay="600" max-width="400px">
+                <template #activator="{ on, attrs }">
+                  <v-icon
+                    @click="
+                      showDestroySubjectExplanation =
+                        !showDestroySubjectExplanation
+                    "
+                    color="primary"
+                    dense
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    info_outline
+                  </v-icon>
+                </template>
+                <span>Click here to show or hide explanation</span>
+              </v-tooltip>
+            </v-col>
+            <v-col v-if="showDestroySubjectExplanation">
+              <v-alert
+                border="left"
+                colored-border
+                color="primary"
+                elevation="5"
+              >
+                Resources whose life cycle end is to be modeled can be selected
+                using the search field below. Added resources are displayed as
+                tiles. Resources can be removed by clicking the Remove button.
+                <br /><br />
+                If multiple resources are selected, then as many of them as
+                possible are to be deleted (DIVA will internally model it this
+                way). If you want to delete only if all resources are present
+                (e.g. on the personal computer) then this must be explicitly be
+                modeled via Boolean algebra under "Destroy Claim Boolean
+                Conditions (Expert Only)". This should only be done by someone
+                who understands the underlying Destroy Claim Model
+                Specification.
+                <br /><br />
+                Whether individual resources are selected as to be deleted can
+                also be modeled with the expert conditions. To do this, click on
+                the yellow "Expert Conditions" button. You will be redirected to
+                the detail page of the DestroySubject. There you can perform the
+                corresponding modeling. This should only be done by an expert.
+              </v-alert>
             </v-col>
             <v-col cols="12">
               <entities-search
@@ -91,7 +136,7 @@ import NetworkNodesList from "@/components/Base/NetworkNodesList";
 import CustomHeader from "@/components/Base/CustomHeader";
 import EntitiesSearch from "@/components/Base/EntitiesSearch";
 import { useRequest } from "@/composables/request";
-import { useApi } from "@/composables/api";
+import { useApi, ref } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
 import DestroySubjectMiniCard from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroySubjectMiniCard";
 
@@ -108,6 +153,11 @@ export default {
       type: String,
       required: true,
     },
+  },
+  data: () => {
+    return {
+      showDestroySubjectExplanation: false,
+    };
   },
   setup(props) {
     const { snackbar, message, color, show } = useSnackbar();
