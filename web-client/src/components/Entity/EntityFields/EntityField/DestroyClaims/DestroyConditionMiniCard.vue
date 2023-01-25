@@ -46,7 +46,7 @@
               dense
               class="mb-0 mt-2"
             >
-              <span class="font-weight-bold">Expert only:</span>
+              <span class="font-weight-bold">ID:</span>
               {{
                 destroyCondition.id.substr(
                   destroyCondition.id.lastIndexOf(":") + 1,
@@ -180,7 +180,7 @@ export default {
         .map((t) => (t.length > 40 ? `${t.slice(0, 40)}...` : t));
     },
   },
-  setup(props) {
+  setup(props, context) {
     const { snackbar, message, color, show } = useSnackbar();
     const { request, loading, error } = useRequest();
     const { datanetwork } = useApi(props.id);
@@ -212,6 +212,7 @@ export default {
         } else {
           reloadListMethod();
         }
+        context.emit("update");
       });
     };
     return {

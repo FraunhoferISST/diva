@@ -46,7 +46,7 @@
               dense
               class="mb-0 mt-2"
             >
-              <span class="font-weight-bold">Expert only:</span>
+              <span class="font-weight-bold">ID:</span>
               {{
                 destroySubject.id.substr(
                   destroySubject.id.lastIndexOf(":") + 1,
@@ -54,6 +54,27 @@
                 )
               }}
             </v-alert>
+          </div>
+          <div class="mt-4" v-if="destroySubject.destroyclaimConditions">
+            <v-row>
+              <v-col>
+                <CodeEditor
+                  :value="
+                    JSON.stringify(
+                      JSON.parse(destroySubject.destroyclaimConditions),
+                      null,
+                      3
+                    )
+                  "
+                  :languages="[['json', 'Extension Conditions']]"
+                  :read_only="true"
+                  :copy_code="false"
+                  :wrap_code="true"
+                  font_size="12px"
+                  width="auto"
+                ></CodeEditor>
+              </v-col>
+            </v-row>
           </div>
           <div class="mt-4">
             <v-row>
@@ -65,7 +86,7 @@
               <v-col sm="4">
                 <entity-details-link :id="destroySubject.id" postfix="/details"
                   ><v-btn color="primary" class="gprimary" rounded block>
-                    Conditions
+                    Edit Conditions
                   </v-btn></entity-details-link
                 >
               </v-col>
@@ -100,6 +121,7 @@ import EntityAvatar from "@/components/Entity/EntityAvatar";
 import CustomHeader from "@/components/Base/CustomHeader";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import EntityLikeButton from "@/components/Entity/EntityLikeButton";
+import CodeEditor from "simple-code-editor";
 import { useRequest } from "@/composables/request";
 import { useApi } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
@@ -129,6 +151,7 @@ export default {
     EntityDetailsLink,
     CustomHeader,
     EntityAvatar,
+    CodeEditor,
   },
   computed: {
     wrapperComponent() {

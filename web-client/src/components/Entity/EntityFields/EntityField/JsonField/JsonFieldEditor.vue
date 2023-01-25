@@ -52,7 +52,11 @@ export default {
     },
   },
   beforeMount() {
-    this.computedValue = JSON.stringify(JSON.parse(this.value), null, 3);
+    try {
+      this.computedValue = JSON.stringify(JSON.parse(this.value), null, 3);
+    } catch (e) {
+      this.computedValue = this.value;
+    }
   },
 };
 </script>

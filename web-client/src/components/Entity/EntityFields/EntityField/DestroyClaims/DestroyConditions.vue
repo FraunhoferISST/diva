@@ -13,6 +13,7 @@
           item-value="name"
           outlined
           dense
+          plac
           @change="(value) => (selectedDestroyCondition = value)"
         >
         </v-select>
@@ -35,7 +36,7 @@
           block
           v-show="selectedDestroyCondition"
           :disabled="!addable"
-          @click="() => addToDestroyCondition(entity, updateEntity, load)"
+          @click="() => addToDestroyCondition()"
         >
           Add new Destroy Condition
         </v-btn>
@@ -49,6 +50,7 @@
             edge-types="isDestroyConditionOf"
             :show-counter="false"
             :fullWidth="false"
+            :key="updateNodeList"
           >
             <template #item="{ entity: destroyCondition, load }">
               <destroy-condition-mini-card
@@ -56,12 +58,16 @@
                 :destroyCondition="destroyCondition"
                 :visible="destroyCondition.visible"
                 :load="load"
+                @update="() => updateNodeList + 1"
               />
             </template>
           </network-nodes-list>
         </div>
       </v-col>
     </v-row>
+    <v-snackbar v-model="snackbar" :color="color" fixed top>
+      <b>{{ message }}</b>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -120,6 +126,7 @@ export default {
     const addable = ref(false);
     const selectedDestroyCondition = ref("");
     const payload = reactive({});
+    const updateNodeList = ref(0);
     const renderDestroyConditionComponent = computed(() => {
       return conditionExtensions.find(
         (e) => e.name === selectedDestroyCondition.value
@@ -128,7 +135,6 @@ export default {
     const setPayload = (e) => {
       payload.value = e;
       addable.value = true;
-      console.log(payload.value);
     };
     const removeFromDestroyConditions = (edgeId, reloadListMethod) => {
       return request(datanetwork.deleteEdgeById(edgeId)).then(() => {
@@ -151,6 +157,7 @@ export default {
       selectedDestroyCondition,
       renderDestroyConditionComponent,
       setPayload,
+      updateNodeList,
       addable,
       addToDestroyCondition: async (
         entity,
@@ -174,7 +181,10 @@ export default {
           if (unacceptableError) {
             show(error.value, { color: "error" });
           } else {
-            //reloadListMethod();
+            // it takes some time to create edges in backend. No indication of creation in client available...
+            setTimeout(function () {
+              updateNodeList.value += 1;
+            }, 1000);
           }
 
           /*updateEntityMethod({

@@ -150,7 +150,9 @@ export default {
           if (unacceptableError) {
             show(error.value, { color: "error" });
           } else {
-            reloadListMethod();
+            setTimeout(function () {
+              reloadListMethod();
+            }, 1000);
           }
           updateEntityMethod({
             doc: { ...entity, loading: false, added: !unacceptableError },

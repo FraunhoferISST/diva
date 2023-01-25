@@ -1,5 +1,5 @@
 <template>
-  <info-block-value v-if="typeof value !== 'undefined'">
+  <info-block-value v-if="value">
     <CodeEditor
       :value="JSON.stringify(JSON.parse(value), null, 3)"
       :languages="[['json', 'JSON']]"
