@@ -25,6 +25,7 @@
           <v-tooltip top open-delay="600" max-width="400px">
             <template #activator="{ on, attrs }">
               <v-icon
+                v-show="!showDetails"
                 @click="showDetails = !showDetails"
                 color="primary"
                 dense
@@ -32,6 +33,16 @@
                 v-on="on"
               >
                 info_outline
+              </v-icon>
+              <v-icon
+                v-show="showDetails"
+                @click="showDetails = !showDetails"
+                color="primary"
+                dense
+                v-bind="attrs"
+                v-on="on"
+              >
+                info
               </v-icon>
             </template>
             <span>Click here to show or hide details (Experts Only)</span>

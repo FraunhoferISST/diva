@@ -131,32 +131,34 @@ export default {
         })
         .then(async ({ data: { collection, ...rest } }) => ({
           ...rest,
-          collection: await Promise.all(
-            collection.map(
-              ({
-                to: { entityId: toEntityId },
-                from: { entityId: fromEntityId },
-                properties: { id: edgeId },
-              }) => {
-                const toId =
-                  fromEntityId === props.id || toEntityId !== props.toId
-                    ? toEntityId
-                    : fromEntityId;
-                return getEntityApiById(toId)
-                  .getByIdIgnoringErrors(toId, {
-                    onIgnoredError: () => ({
+          collection: (
+            await Promise.all(
+              collection.map(
+                ({
+                  to: { entityId: toEntityId },
+                  from: { entityId: fromEntityId },
+                  properties: { id: edgeId },
+                }) => {
+                  const toId =
+                    fromEntityId === props.id || toEntityId !== props.toId
+                      ? toEntityId
+                      : fromEntityId;
+                  return getEntityApiById(toId)
+                    .getByIdIgnoringErrors(toId, {
+                      onIgnoredError: () => ({
+                        id: toId,
+                        visible: false,
+                      }),
+                    })
+                    .then((response) => ({
                       id: toId,
-                      visible: false,
-                    }),
-                  })
-                  .then((response) => ({
-                    id: toId,
-                    ...(response?.data ?? response ?? {}),
-                    edgeId,
-                  }));
-              }
+                      ...(response?.data ?? response ?? {}),
+                      edgeId,
+                    }));
+                }
+              )
             )
-          ),
+          ).sort((e1, e2) => e1.modifiedAt - e2.modifiedAt),
         }));
     const load = () =>
       request(

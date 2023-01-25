@@ -1,0 +1,89 @@
+<template>
+  <v-container class="pa-0">
+    <v-row>
+      <v-col cols="12">
+        <custom-header> Alpha3 Country Code </custom-header>
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-col cols="12" md="12">
+        <v-autocomplete
+          v-model="selected"
+          :items="items"
+          item-text="name"
+          item-value="alpha-3"
+          outlined
+          dense
+          chips
+          small-chips
+          label="Select Country"
+          @change="payloadChange"
+        ></v-autocomplete>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-radio-group v-model="scope" @change="payloadChange">
+          <v-radio
+            label="Apply within selected country"
+            value="inside"
+          ></v-radio>
+          <v-radio
+            label="Apply outside selected country"
+            value="outside"
+          ></v-radio>
+        </v-radio-group>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+import CustomHeader from "@/components/Base/CustomHeader";
+import { useRequest } from "@/composables/request";
+import { useApi } from "@/composables/api";
+import { useSnackbar } from "@/composables/snackbar";
+import { ref, reactive, computed } from "@vue/composition-api";
+
+import countries from "@/utils/countriesAll.json";
+
+export default {
+  name: "StdAlpha3CountryCodeEditor",
+  components: {
+    CustomHeader,
+  },
+  props: {},
+  setup(props, context) {
+    const { snackbar, message, color, show } = useSnackbar();
+    const { request, loading, error } = useRequest();
+    const { datanetwork } = useApi();
+
+    const items = reactive(countries);
+    const selected = ref("");
+    const scope = ref("inside");
+
+    const payloadChange = () => {
+      if (selected.value !== "") {
+        context.emit("update:payload", {
+          code: selected.value,
+          scope: scope.value,
+        });
+      }
+    };
+
+    return {
+      loading,
+      error,
+      snackbar,
+      message,
+      color,
+      items,
+      selected,
+      scope,
+      payloadChange,
+    };
+  },
+};
+</script>
+
+<style scoped lang="scss"></style>

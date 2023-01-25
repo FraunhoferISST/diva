@@ -22,7 +22,8 @@
       "destroyclaimExtensionName": {
         "type": "string",
         "enum": [
-          "std:fromPointInTime"
+          "std:fromPointInTime",
+          "std:alpha3CountryCode"
         ],
         "title": "Destroy Claim Extension Name",
         "_elasticsearch": {

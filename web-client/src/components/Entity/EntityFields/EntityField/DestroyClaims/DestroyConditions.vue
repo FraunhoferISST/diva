@@ -6,8 +6,10 @@
         <v-tooltip top open-delay="600" max-width="400px">
           <template #activator="{ on, attrs }">
             <v-icon
+              v-show="!showDestroyConditionExplanation"
               @click="
-                showDestroyConditionExplanation = !showDestroyConditionExplanation
+                showDestroyConditionExplanation =
+                  !showDestroyConditionExplanation
               "
               color="primary"
               dense
@@ -15,6 +17,19 @@
               v-on="on"
             >
               info_outline
+            </v-icon>
+            <v-icon
+              v-show="showDestroyConditionExplanation"
+              @click="
+                showDestroyConditionExplanation =
+                  !showDestroyConditionExplanation
+              "
+              color="primary"
+              dense
+              v-bind="attrs"
+              v-on="on"
+            >
+              info
             </v-icon>
           </template>
           <span>Click here to show or hide explanation</span>
@@ -35,7 +50,6 @@
           label="Add new Destroy Condition to Destroy Claim"
           outlined
           dense
-          plac
           @change="(value) => (selectedDestroyCondition = value)"
         >
         </v-select>
@@ -106,6 +120,9 @@ import DestroyConditionMiniCard from "@/components/Entity/EntityFields/EntityFie
 import StdFromPointInTimeEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdFromPointInTimeEditor";
 import StdFromPointInTimeViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdFromPointInTimeViewer";
 
+import StdAlpha3CountryCodeEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdAlpha3CountryCodeEditor";
+import StdAlpha3CountryCodeViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdAlpha3CountryCodeViewer";
+
 export default {
   name: "DestroyConditions",
   components: {
@@ -113,6 +130,7 @@ export default {
     NetworkNodesList,
     DestroyConditionMiniCard,
     StdFromPointInTimeEditor,
+    StdAlpha3CountryCodeEditor,
   },
   props: {
     id: {
@@ -138,18 +156,19 @@ export default {
       },
       {
         name: "std:fromPointInTime",
-        displayName: "From Point In Time",
+        displayName: "Destroy Claim valid from Date",
         editorComponent: StdFromPointInTimeEditor,
         viewerComponent: StdFromPointInTimeViewer,
       },
       {
         name: "std:alpha3CountryCode",
-        displayName: "Alpha3 Country Code",
-        editorComponent: StdFromPointInTimeEditor,
+        displayName: "Destroy Claim valid inside/outside Country",
+        editorComponent: StdAlpha3CountryCodeEditor,
+        viewerComponent: StdAlpha3CountryCodeViewer,
       },
       {
         name: "std:geoLocation",
-        displayName: "Geo Location",
+        displayName: "Destroy Claim valid inside/outside Geo Location",
         editorComponent: StdFromPointInTimeEditor,
       },
     ];
