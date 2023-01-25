@@ -22,7 +22,20 @@
             class="entity-mini-card-title-placeholder d-block pa-2 mt-2 full-width"
             v-else-if="!visible"
           ></span>
-          <entity-like-button small :id="destroyCondition.id" class="pl-3" />
+          <v-tooltip top open-delay="600" max-width="400px">
+            <template #activator="{ on, attrs }">
+              <v-icon
+                @click="showDetails = !showDetails"
+                color="primary"
+                dense
+                v-bind="attrs"
+                v-on="on"
+              >
+                info_outline
+              </v-icon>
+            </template>
+            <span>Click here to show or hide details</span>
+          </v-tooltip>
         </div>
         <div v-if="visible" class="mt-2">
           <div>
@@ -37,7 +50,7 @@
               {{ tag }}
             </v-chip>
           </div>
-          <div>
+          <div v-if="showDetails">
             <v-alert
               v-show="destroyCondition.id"
               color="warning"
@@ -157,6 +170,11 @@ export default {
       required: true,
     },
   },
+  data: () => {
+    return {
+      showDetails: false,
+    };
+  },
   components: {
     EntityLikeButton,
     EntityDetailsLink,
@@ -239,7 +257,7 @@ export default {
   &.interactive {
     cursor: pointer;
     &:hover {
-      background-color: $bg_card_secondary;
+      /*background-color: $bg_card_secondary;*/
     }
   }
 }

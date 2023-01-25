@@ -22,7 +22,20 @@
             class="entity-mini-card-title-placeholder d-block pa-2 mt-2 full-width"
             v-else-if="!visible"
           ></span>
-          <entity-like-button small :id="entity.id" class="pl-3" />
+          <v-tooltip top open-delay="600" max-width="400px">
+            <template #activator="{ on, attrs }">
+              <v-icon
+                @click="showDetails = !showDetails"
+                color="primary"
+                dense
+                v-bind="attrs"
+                v-on="on"
+              >
+                info_outline
+              </v-icon>
+            </template>
+            <span>Click here to show or hide details</span>
+          </v-tooltip>
         </div>
         <div v-if="visible">
           <div class="mt-2">
@@ -37,7 +50,7 @@
               {{ tag }}
             </v-chip>
           </div>
-          <div>
+          <div v-if="showDetails">
             <v-alert
               v-show="destroySubject.id"
               color="warning"
@@ -123,7 +136,7 @@ import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import EntityLikeButton from "@/components/Entity/EntityLikeButton";
 import CodeEditor from "simple-code-editor";
 import { useRequest } from "@/composables/request";
-import { useApi } from "@/composables/api";
+import { useApi, ref } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
 
 export default {
@@ -152,6 +165,11 @@ export default {
     CustomHeader,
     EntityAvatar,
     CodeEditor,
+  },
+  data: () => {
+    return {
+      showDetails: false,
+    };
   },
   computed: {
     wrapperComponent() {
@@ -209,7 +227,7 @@ export default {
   &.interactive {
     cursor: pointer;
     &:hover {
-      background-color: $bg_card_secondary;
+      /*background-color: $bg_card_secondary;*/
     }
   }
 }
