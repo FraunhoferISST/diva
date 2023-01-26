@@ -12,6 +12,8 @@ const allowedFields = [
   "mimeType",
   "assetType",
   "serviceType",
+  "publisherType",
+  "destroyclaimType",
   "systemEntityType",
   "username",
   "email",
@@ -21,6 +23,8 @@ const allowedFields = [
   "roles",
   "isPrivate",
   "isArchived",
+  "isActive",
+  "entityIcon",
 ];
 
 const buildESQuery = (query, rest, facetsOperator) => {
