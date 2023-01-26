@@ -5,7 +5,7 @@
         <v-list-item two-line>
           <v-list-item-content>
             <v-list-item-title
-              ><h2>Destroy Claim valid from Date</h2></v-list-item-title
+              ><h2>Destroy Claim valid to Date</h2></v-list-item-title
             >
             <v-list-item-subtitle>
               <h2>{{ dateString }}</h2>
@@ -23,7 +23,7 @@ import { useSnackbar } from "@/composables/snackbar";
 import { format, parseISO } from "date-fns";
 
 export default {
-  name: "StdFromPointInTimeEditor",
+  name: "StdToPointInTimeEditor",
   props: {
     value: {
       type: Object,
@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     dateString() {
-      return format(parseISO(this.value.from), this.format);
+      return format(parseISO(this.value.to), this.format);
     },
   },
   setup() {

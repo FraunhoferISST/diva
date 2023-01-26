@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12">
         <custom-header>
-          Destroy Claim valid from Date (std:fromPointInTime)
+          Destroy Claim valid to Date (std:toPointInTime)
         </custom-header>
       </v-col>
     </v-row>
@@ -31,7 +31,7 @@ import { useSnackbar } from "@/composables/snackbar";
 import { ref } from "@vue/composition-api";
 
 export default {
-  name: "StdFromPointInTimeEditor",
+  name: "StdToPointInTimeEditor",
   components: {
     CustomHeader,
   },
@@ -44,7 +44,7 @@ export default {
 
     const payloadChange = () => {
       context.emit("update:payload", {
-        from: new Date(picker.value).toISOString(),
+        to: new Date(picker.value).toISOString(),
       });
     };
 

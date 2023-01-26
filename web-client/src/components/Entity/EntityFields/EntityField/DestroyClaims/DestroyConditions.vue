@@ -56,7 +56,7 @@
       </v-col>
     </v-row>
     <v-row v-show="selectedDestroyCondition">
-      <v-col cols="12" md="8" offset-md="2">
+      <v-col cols="12">
         <component
           v-bind:is="renderDestroyConditionComponent"
           @update:payload="setPayload"
@@ -64,7 +64,7 @@
       </v-col>
     </v-row>
     <v-row class="mt-8" v-show="selectedDestroyCondition">
-      <v-col cols="12" md="4" offset-md="6">
+      <v-col cols="12" md="4" offset-md="8">
         <v-btn
           color="primary"
           class="gprimary"
@@ -119,7 +119,8 @@ import DestroyConditionMiniCard from "@/components/Entity/EntityFields/EntityFie
 
 import StdFromPointInTimeEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdFromPointInTimeEditor";
 import StdFromPointInTimeViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdFromPointInTimeViewer";
-
+import StdToPointInTimeEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdToPointInTimeEditor";
+import StdToPointInTimeViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdToPointInTimeViewer";
 import StdAlpha3CountryCodeEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdAlpha3CountryCodeEditor";
 import StdAlpha3CountryCodeViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdAlpha3CountryCodeViewer";
 
@@ -159,6 +160,12 @@ export default {
         displayName: "Destroy Claim valid from Date",
         editorComponent: StdFromPointInTimeEditor,
         viewerComponent: StdFromPointInTimeViewer,
+      },
+      {
+        name: "std:toPointInTime",
+        displayName: "Destroy Claim valid to Date",
+        editorComponent: StdToPointInTimeEditor,
+        viewerComponent: StdToPointInTimeViewer,
       },
       {
         name: "std:alpha3CountryCode",

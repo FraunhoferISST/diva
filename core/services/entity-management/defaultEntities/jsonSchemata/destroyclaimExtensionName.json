@@ -23,6 +23,7 @@
         "type": "string",
         "enum": [
           "std:fromPointInTime",
+          "std:toPointInTime",
           "std:alpha3CountryCode"
         ],
         "title": "Destroy Claim Extension Name",
