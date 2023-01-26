@@ -24,7 +24,8 @@
         "enum": [
           "std:fromPointInTime",
           "std:toPointInTime",
-          "std:alpha3CountryCode"
+          "std:alpha3CountryCode",
+          "std:geoLocation"
         ],
         "title": "Destroy Claim Extension Name",
         "_elasticsearch": {

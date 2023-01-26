@@ -123,6 +123,8 @@ import StdToPointInTimeEditor from "@/components/Entity/EntityFields/EntityField
 import StdToPointInTimeViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdToPointInTimeViewer";
 import StdAlpha3CountryCodeEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdAlpha3CountryCodeEditor";
 import StdAlpha3CountryCodeViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdAlpha3CountryCodeViewer";
+import StdGeoLocationEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdGeoLocationEditor";
+import StdGeoLocationViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdGeoLocationViewer";
 
 export default {
   name: "DestroyConditions",
@@ -176,7 +178,8 @@ export default {
       {
         name: "std:geoLocation",
         displayName: "Destroy Claim valid inside/outside Geo Location",
-        editorComponent: StdFromPointInTimeEditor,
+        editorComponent: StdGeoLocationEditor,
+        viewerComponent: StdGeoLocationViewer,
       },
     ];
     const addable = ref(false);

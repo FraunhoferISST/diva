@@ -12,9 +12,9 @@
         </v-list-item>
         <v-list-item two-line>
           <v-list-item-content>
-            <v-list-item-title><h2>Country</h2></v-list-item-title>
+            <v-list-item-title><h2>Location</h2></v-list-item-title>
             <v-list-item-subtitle>
-              <h2>{{ country }}</h2>
+              <location-map :location="value.location" :editable="false" />
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -26,10 +26,13 @@
 <script>
 import { useRequest } from "@/composables/request";
 import { useSnackbar } from "@/composables/snackbar";
-import countries from "@/utils/countriesAll.json";
+import LocationMap from "@/components/Charts/LocationMap";
 
 export default {
   name: "StdFromPointInTimeEditor",
+  components: {
+    LocationMap,
+  },
   props: {
     value: {
       type: Object,
@@ -39,16 +42,13 @@ export default {
   setup(props) {
     const { snackbar, message, color } = useSnackbar();
     const { loading, error } = useRequest();
-    const country = countries.find(
-      (e) => e["alpha-3"] === props.value.code
-    ).name;
+
     return {
       loading,
       error,
       snackbar,
       message,
       color,
-      country,
     };
   },
 };

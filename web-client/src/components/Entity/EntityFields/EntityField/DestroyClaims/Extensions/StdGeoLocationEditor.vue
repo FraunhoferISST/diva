@@ -3,25 +3,20 @@
     <v-row>
       <v-col>
         <custom-header>
-          Destroy Claim valid inside/outside Country (std:alpha3CountryCode)
+          Destroy Claim valid inside/outside Geo Location (std:geoLocation)
         </custom-header>
       </v-col>
     </v-row>
     <v-row>
-      <v-col md="4">
-        <v-autocomplete
-          v-model="selected"
-          :items="items"
-          item-text="name"
-          item-value="alpha-3"
-          outlined
-          dense
-          chips
-          small-chips
-          label="Select Country"
-          @change="payloadChange"
-        ></v-autocomplete>
+      <v-col md="12">
+        <location-map
+          :location="location"
+          :editable="true"
+          @change="locationChange"
+        />
       </v-col>
+    </v-row>
+    <v-row>
       <v-col md="4">
         <v-radio-group v-model="scope" @change="payloadChange" :column="false">
           <v-radio
@@ -41,34 +36,36 @@
 <script>
 import CustomHeader from "@/components/Base/CustomHeader";
 import { useRequest } from "@/composables/request";
-import { useApi } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
-import { ref, reactive, computed } from "@vue/composition-api";
-
-import countries from "@/utils/countriesAll.json";
+import { ref, reactive } from "@vue/composition-api";
+import LocationMap from "@/components/Charts/LocationMap";
 
 export default {
-  name: "StdAlpha3CountryCodeEditor",
+  name: "StdGeoLocationEditor",
   components: {
     CustomHeader,
+    LocationMap,
   },
   props: {},
   setup(props, context) {
-    const { snackbar, message, color, show } = useSnackbar();
-    const { request, loading, error } = useRequest();
-    const { datanetwork } = useApi();
+    const { snackbar, message, color } = useSnackbar();
+    const { loading, error } = useRequest();
 
-    const items = reactive(countries);
-    const selected = ref("");
+    let location = reactive({});
     const scope = ref("inside");
 
     const payloadChange = () => {
-      if (selected.value !== "") {
+      if (Object.keys(location ?? {}).length > 0) {
         context.emit("update:payload", {
-          code: selected.value,
+          location: location,
           scope: scope.value,
         });
       }
+    };
+
+    const locationChange = (data) => {
+      location = data;
+      payloadChange();
     };
 
     return {
@@ -77,10 +74,10 @@ export default {
       snackbar,
       message,
       color,
-      items,
-      selected,
       scope,
+      location,
       payloadChange,
+      locationChange,
     };
   },
 };
