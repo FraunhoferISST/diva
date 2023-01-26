@@ -4,9 +4,9 @@
       <v-col cols="12" md="12">
         <v-list-item two-line>
           <v-list-item-content>
-            <v-list-item-title
-              ><h2>Destroy Claim valid from Date</h2></v-list-item-title
-            >
+            <v-list-item-title>
+              <h2>Destroy Claim valid from Date:</h2>
+            </v-list-item-title>
             <v-list-item-subtitle>
               <h2>{{ dateString }}</h2>
             </v-list-item-subtitle>

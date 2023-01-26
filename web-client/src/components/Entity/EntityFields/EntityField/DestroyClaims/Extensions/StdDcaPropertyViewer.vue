@@ -2,12 +2,18 @@
   <v-container class="pa-0">
     <v-row justify="center">
       <v-col cols="12" md="12">
-        <h2>
-          {{ text }}
-          <v-chip>
-            {{ value.property }}
-          </v-chip>
-        </h2>
+        <v-list-item two-line>
+          <v-list-item-content>
+            <v-list-item-title>
+              <h2>Destroy Claim valid when {{ text }}</h2>
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              <h2>
+                {{ value.property }}
+              </h2>
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
       </v-col>
     </v-row>
   </v-container>
