@@ -125,6 +125,8 @@ import StdAlpha3CountryCodeEditor from "@/components/Entity/EntityFields/EntityF
 import StdAlpha3CountryCodeViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdAlpha3CountryCodeViewer";
 import StdGeoLocationEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdGeoLocationEditor";
 import StdGeoLocationViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdGeoLocationViewer";
+import StdDcaPropertyEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdDcaPropertyEditor";
+import StdDcaPropertyViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdDcaPropertyViewer";
 
 export default {
   name: "DestroyConditions",
@@ -180,6 +182,12 @@ export default {
         displayName: "Destroy Claim valid inside/outside Geo Location",
         editorComponent: StdGeoLocationEditor,
         viewerComponent: StdGeoLocationViewer,
+      },
+      {
+        name: "std:dcaProperty",
+        displayName: "Destroy Claim valid when DCA has (not) Property",
+        editorComponent: StdDcaPropertyEditor,
+        viewerComponent: StdDcaPropertyViewer,
       },
     ];
     const addable = ref(false);

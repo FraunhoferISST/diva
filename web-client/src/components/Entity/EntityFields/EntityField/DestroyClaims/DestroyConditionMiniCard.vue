@@ -48,7 +48,7 @@
             <span>Click here to show or hide details (Experts Only)</span>
           </v-tooltip>
         </div>
-        <div v-if="visible" class="mt-2">
+        <div v-if="visible" class="mt-2 d-flex flex-column">
           <div>
             <v-chip
               class="mr-2"
@@ -127,7 +127,7 @@
               </v-col>
             </v-row>
           </div>
-          <div class="mt-4">
+          <div class="mt-8">
             <v-row>
               <v-col sm="4" offset-sm="4">
                 <entity-details-link

@@ -29,7 +29,7 @@ import { useSnackbar } from "@/composables/snackbar";
 import countries from "@/utils/countriesAll.json";
 
 export default {
-  name: "StdFromPointInTimeEditor",
+  name: "StdAlpha3CountryCodeViewer",
   props: {
     value: {
       type: Object,

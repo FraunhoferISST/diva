@@ -100,7 +100,7 @@
               </v-col>
             </v-row>
           </div>
-          <div class="mt-4">
+          <div class="mt-8">
             <v-row>
               <v-col sm="4">
                 <v-btn color="primary" class="gprimary" rounded block>
