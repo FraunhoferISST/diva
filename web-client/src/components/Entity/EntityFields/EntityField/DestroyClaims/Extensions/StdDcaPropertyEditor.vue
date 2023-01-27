@@ -8,11 +8,12 @@
     <v-row>
       <v-col>
         <v-alert border="left" colored-border type="info" elevation="2">
-          A DCA can have user-defined properties. You can use these properties
-          to decide whether a Destroy Claim should be executed.
+          A DCA (Destroy Claim Agent) may have labels that further describe or
+          classify it. You can use these labels to decide whether a Destroy
+          Claim should be executed by that specific DCA.
           <br />
-          Please insert a property and decide whether the property must be set
-          or must not be set in the DCA.
+          Please enter a label and decide whether the label must be set or must
+          not be set by the DCA.
         </v-alert>
       </v-col>
     </v-row>
@@ -20,19 +21,24 @@
       <v-col md="4">
         <v-text-field
           class="pt-5"
-          v-model="tag"
+          v-model="label"
           outlined
           dense
-          label="insert a property"
-          prepend-inner-icon="mdi-tag"
+          label="enter label"
+          prepend-inner-icon="mdi-label-outline"
           @change="payloadChange"
         ></v-text-field>
       </v-col>
       <v-col md="4">
         <v-radio-group v-model="has" @change="payloadChange" :column="false">
-          <v-radio label="Apply when property is set" value="true"></v-radio>
           <v-radio
-            label="Apply when property is not set"
+            class="px-3"
+            label="label must be set"
+            value="true"
+          ></v-radio>
+          <v-radio
+            class="px-3"
+            label="label must not be set"
             value="false"
           ></v-radio>
         </v-radio-group>
@@ -60,13 +66,13 @@ export default {
     const { loading, error } = useRequest();
 
     const items = reactive(countries);
-    const tag = ref("");
+    const label = ref("");
     const has = ref("true");
 
     const payloadChange = () => {
-      if (tag.value !== "") {
+      if (label.value !== "") {
         context.emit("update:payload", {
-          property: tag.value,
+          label: label.value,
           has: has.value === "true" ? true : false,
         });
       }
@@ -79,7 +85,7 @@ export default {
       message,
       color,
       items,
-      tag,
+      label,
       has,
       payloadChange,
     };

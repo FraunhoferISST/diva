@@ -2,16 +2,10 @@
   <v-container class="pa-0">
     <v-row justify="center">
       <v-col cols="12" md="12">
-        <v-list-item two-line>
-          <v-list-item-content>
-            <v-list-item-title>
-              <h2>Destroy Claim valid from Date:</h2>
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              <h2>{{ dateString }}</h2>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+        <h2>
+          Condition is fulfilled on <v-chip label>{{ dateString }}</v-chip
+          >.
+        </h2>
       </v-col>
     </v-row>
   </v-container>

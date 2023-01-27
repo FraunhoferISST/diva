@@ -2,9 +2,14 @@
   <v-container class="pa-0">
     <v-row>
       <v-col cols="12">
-        <custom-header>
-          Destroy Claim valid from Date (std:fromPointInTime)
-        </custom-header>
+        <custom-header> Valid from Date (std:fromPointInTime) </custom-header>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-alert border="left" colored-border type="info" elevation="2">
+          Set a date from which on the Destroy Claim is valid.
+        </v-alert>
       </v-col>
     </v-row>
     <v-row justify="center">

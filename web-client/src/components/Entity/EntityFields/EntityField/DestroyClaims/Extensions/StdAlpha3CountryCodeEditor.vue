@@ -3,13 +3,22 @@
     <v-row>
       <v-col>
         <custom-header>
-          Destroy Claim valid inside/outside Country (std:alpha3CountryCode)
+          Valid inside/outside Country (std:alpha3CountryCode)
         </custom-header>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-alert border="left" colored-border type="info" elevation="2">
+          You can determine whether a Destroy Claim should be valid within or
+          outside a certain country.
+        </v-alert>
       </v-col>
     </v-row>
     <v-row>
       <v-col md="4">
         <v-autocomplete
+          class="pt-5"
           v-model="selected"
           :items="items"
           item-text="name"
@@ -25,11 +34,11 @@
       <v-col md="4">
         <v-radio-group v-model="scope" @change="payloadChange" :column="false">
           <v-radio
-            label="Apply within selected country"
+            label="valid within selected country"
             value="inside"
           ></v-radio>
           <v-radio
-            label="Apply outside selected country"
+            label="valid outside selected country"
             value="outside"
           ></v-radio>
         </v-radio-group>

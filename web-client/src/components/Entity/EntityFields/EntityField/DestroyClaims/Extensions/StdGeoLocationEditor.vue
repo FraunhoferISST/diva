@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <custom-header>
-          Destroy Claim valid inside/outside Geo Location (std:geoLocation)
+          Valid inside/outside Geo Location (std:geoLocation)
         </custom-header>
       </v-col>
     </v-row>
@@ -17,14 +17,14 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col md="4">
+      <v-col md="6">
         <v-radio-group v-model="scope" @change="payloadChange" :column="false">
           <v-radio
-            label="Apply within selected country"
+            label="valid within selected geo location"
             value="inside"
           ></v-radio>
           <v-radio
-            label="Apply outside selected country"
+            label="valid outside selected geo location"
             value="outside"
           ></v-radio>
         </v-radio-group>

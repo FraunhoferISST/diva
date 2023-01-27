@@ -2,24 +2,10 @@
   <v-container class="pa-0">
     <v-row justify="center">
       <v-col cols="12" md="12">
-        <v-list-item two-line>
-          <v-list-item-content>
-            <v-list-item-title
-              ><h2>Destroy Claim valid when DCA is</h2></v-list-item-title
-            >
-            <v-list-item-subtitle>
-              <h2>{{ value.scope }}</h2>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item two-line>
-          <v-list-item-content>
-            <v-list-item-title><h2>Country</h2></v-list-item-title>
-            <v-list-item-subtitle>
-              <h2>{{ country }}</h2>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+        <h2>
+          Condition is fulfilled <v-chip label>{{ value.scope }}</v-chip> of
+          <v-chip label>{{ country }}</v-chip>
+        </h2>
       </v-col>
     </v-row>
   </v-container>

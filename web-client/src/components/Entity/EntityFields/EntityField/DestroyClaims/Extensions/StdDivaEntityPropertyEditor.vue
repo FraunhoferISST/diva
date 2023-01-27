@@ -5,6 +5,18 @@
         <custom-header> DIVA Entity Property (std:divaProperty) </custom-header>
       </v-col>
     </v-row>
+    <v-row
+      ><v-col
+        ><v-alert border="left" colored-border type="info" elevation="2">
+          Whether a Destroy Claim is to be executed can be controlled with the
+          help of the metadata stored in DIVA.
+          <br />
+          First, you need to select an entity. It is then possible to select one
+          of the available metadata fields. Finally, a comparison operator and
+          the value to be compared must be entered.
+        </v-alert></v-col
+      ></v-row
+    >
     <v-row>
       <v-col md="4">
         <v-autocomplete
@@ -69,6 +81,8 @@
           </template>
         </v-autocomplete>
       </v-col>
+    </v-row>
+    <v-row>
       <v-col md="4" v-if="!keyDisabled">
         <v-autocomplete
           class="pt-3"
@@ -82,7 +96,6 @@
           small-chips
           hide-details
           label="Select Property"
-          prepend-inner-icon="mdi-key"
           :disabled="keyDisabled"
           @change="
             () => {
@@ -93,14 +106,30 @@
         ></v-autocomplete>
       </v-col>
       <v-col md="4" v-if="!valueDisabled">
+        <v-select
+          v-model="selectedOperator"
+          class="pt-3"
+          :items="computedOperators"
+          item-text="display"
+          item-value="value"
+          outlined
+          dense
+          label="Select Operator"
+          @change="
+            () => {
+              payloadChange();
+            }
+          "
+        ></v-select>
+      </v-col>
+      <v-col md="4" v-if="!valueDisabled">
         <v-text-field
           class="pt-3"
           v-if="typeOfField === 'string'"
           v-model="fieldValue"
           outlined
           dense
-          label="input value"
-          prepend-inner-icon="mdi-database"
+          label="Enter Value"
           :disabled="valueDisabled"
           @change="
             () => {
@@ -114,8 +143,7 @@
           v-model="fieldValue"
           outlined
           dense
-          label="input value"
-          prepend-inner-icon="mdi-database"
+          label="Enter Value"
           type="number"
           :disabled="valueDisabled"
           @change="
@@ -129,7 +157,7 @@
           v-model="fieldValue"
           inset
           dense
-          :label="`Must be ${fieldValue}`"
+          :label="`${fieldValue ? 'set' : 'not set'}`"
           @change="
             () => {
               payloadChange();
@@ -148,18 +176,13 @@
         >
       </v-col>
     </v-row>
-    <v-row>
-      <v-col md="6">
-        <v-radio-group v-model="has" @change="payloadChange" :column="false">
-          <v-radio
-            label="Apply when DIVA entity has Property"
-            value="true"
-          ></v-radio>
-          <v-radio
-            label="Apply when DIVA entity not has Property"
-            value="false"
-          ></v-radio>
-        </v-radio-group>
+    <v-row v-if="selectedOperator === 'matches'">
+      <v-col md="12">
+        <v-alert border="left" colored-border type="warning" elevation="2">
+          A regular expression can be specified here. The regex should be
+          JavaScript compliant. The pattern must not been enclosed between
+          slashes!
+        </v-alert>
       </v-col>
     </v-row>
   </v-container>
@@ -187,11 +210,27 @@ export default {
     const { snackbar, message, color } = useSnackbar();
     const { load: loadSchema, schema } = useSchema();
 
+    const operators = [
+      {
+        value: "equal",
+        display: "equals",
+        types: ["string", "number", "boolean"],
+      },
+      {
+        value: "not equal",
+        display: "does not equal",
+        types: ["string", "number", "boolean"],
+      },
+      { value: "includes", display: "includes", types: ["string"] },
+      { value: "matches", display: "matches", types: ["string"] },
+    ];
+
     const searchInput = ref("");
     const selectedEntity = ref({});
     const schemaData = ref([]);
     const selectedField = ref("");
     const typeOfField = ref(null);
+    const selectedOperator = ref(null);
     const fieldValue = ref(null);
     const has = ref("true");
 
@@ -221,6 +260,10 @@ export default {
       }
     };
 
+    const computedOperators = computed(() => {
+      return operators.filter((o) => o.types.includes(typeOfField.value));
+    });
+
     const requestSchema = async () => {
       if (selectedEntity.value !== null && "id" in selectedEntity.value) {
         await loadSchema(selectedEntity.value);
@@ -233,13 +276,14 @@ export default {
         selectedEntity.value !== null &&
         "id" in selectedEntity.value &&
         selectedField.value !== null &&
+        selectedOperator.value !== null &&
         fieldValue.value !== null
       ) {
         context.emit("update:payload", {
           entityId: selectedEntity.value.id,
           field: selectedField.value,
+          operator: selectedOperator,
           value: fieldValue.value,
-          has: has.value === "true" ? true : false,
         });
       } else {
         context.emit("update:payload", null);
@@ -274,6 +318,8 @@ export default {
       fieldValue,
       getTypeOfField,
       typeOfField,
+      selectedOperator,
+      computedOperators,
       requestSchema,
     };
   },

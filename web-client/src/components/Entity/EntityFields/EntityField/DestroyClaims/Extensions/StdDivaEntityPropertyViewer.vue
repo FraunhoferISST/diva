@@ -3,13 +3,13 @@
     <v-row justify="center">
       <v-col cols="12" md="12">
         <h2>
-          Condition is fulfilled if the field
+          Condition is fulfilled if
           <v-chip label>{{ value.field }}</v-chip>
           in entity
           <entity-details-link :id="entityId">{{
             entityTitle
           }}</entity-details-link>
-          {{ isSet }}
+          {{ operatorText }}
           <v-chip label>{{ value.value }}</v-chip>
         </h2>
       </v-col>
@@ -40,6 +40,21 @@ export default {
     const { loading, error } = useRequest();
     const { getEntityApiById } = useApi();
 
+    const operators = [
+      {
+        value: "equal",
+        display: "equals",
+        types: ["string", "number", "boolean"],
+      },
+      {
+        value: "not equal",
+        display: "does not equal",
+        types: ["string", "number", "boolean"],
+      },
+      { value: "includes", display: "includes", types: ["string"] },
+      { value: "matches", display: "matches", types: ["string"] },
+    ];
+
     const entityTitle = ref("");
     const entityId = ref("");
 
@@ -57,7 +72,9 @@ export default {
     };
 
     getEntity(props.value.entityId);
-    const isSet = `${props.value.has ? "is set to" : "is not set to"}`;
+    const operatorText = operators.find(
+      (o) => o.value === props.value.operator
+    ).display;
     return {
       loading,
       error,
@@ -66,7 +83,7 @@ export default {
       color,
       entityTitle,
       entityId,
-      isSet,
+      operatorText,
     };
   },
 };
