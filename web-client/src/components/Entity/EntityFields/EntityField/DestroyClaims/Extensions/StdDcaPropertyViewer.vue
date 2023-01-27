@@ -2,18 +2,14 @@
   <v-container class="pa-0">
     <v-row justify="center">
       <v-col cols="12" md="12">
-        <v-list-item two-line>
-          <v-list-item-content>
-            <v-list-item-title>
-              <h2>Destroy Claim valid when {{ text }}</h2>
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              <h2>
-                {{ value.property }}
-              </h2>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+        <h2>
+          Condition is fulfilled, if property
+          <v-chip label>
+            {{ value.property }}
+          </v-chip>
+          {{ isSet }}
+          in the executing DCA.
+        </h2>
       </v-col>
     </v-row>
   </v-container>
@@ -34,14 +30,14 @@ export default {
   setup(props) {
     const { snackbar, message, color } = useSnackbar();
     const { loading, error } = useRequest();
-    const text = `DCA has ${props.value.has ? "" : "not "}Property `;
+    const isSet = `${props.value.has ? "is set" : "is not set"}`;
     return {
       loading,
       error,
       snackbar,
       message,
       color,
-      text,
+      isSet,
     };
   },
 };

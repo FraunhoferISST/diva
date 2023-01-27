@@ -2,10 +2,7 @@
   <v-container class="pa-0">
     <v-row>
       <v-col>
-        <custom-header>
-          Destroy Claim valid when DIVA entity has (not) Property
-          (std:divaProperty)
-        </custom-header>
+        <custom-header> DIVA Entity Property (std:divaProperty) </custom-header>
       </v-col>
     </v-row>
     <v-row>
@@ -242,6 +239,7 @@ export default {
           entityId: selectedEntity.value.id,
           field: selectedField.value,
           value: fieldValue.value,
+          has: has.value === "true" ? true : false,
         });
       } else {
         context.emit("update:payload", null);

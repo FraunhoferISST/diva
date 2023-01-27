@@ -2,27 +2,37 @@
   <v-container class="pa-0">
     <v-row>
       <v-col>
-        <custom-header>
-          Destroy Claim valid when DCA has (not) Property (std:dcaProperty)
-        </custom-header>
+        <custom-header> DCA Property (std:dcaProperty) </custom-header>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-alert border="left" colored-border type="info" elevation="2">
+          A DCA can have user-defined properties. You can use these properties
+          to decide whether a Destroy Claim should be executed.
+          <br />
+          Please insert a property and decide whether the property must be set
+          or must not be set in the DCA.
+        </v-alert>
       </v-col>
     </v-row>
     <v-row>
       <v-col md="4">
         <v-text-field
+          class="pt-5"
           v-model="tag"
           outlined
           dense
-          label="input a tag"
+          label="insert a property"
           prepend-inner-icon="mdi-tag"
           @change="payloadChange"
         ></v-text-field>
       </v-col>
       <v-col md="4">
         <v-radio-group v-model="has" @change="payloadChange" :column="false">
-          <v-radio label="Apply when DCA has Property" value="true"></v-radio>
+          <v-radio label="Apply when property is set" value="true"></v-radio>
           <v-radio
-            label="Apply when DCA not has Property"
+            label="Apply when property is not set"
             value="false"
           ></v-radio>
         </v-radio-group>

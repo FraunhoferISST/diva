@@ -2,44 +2,16 @@
   <v-container class="pa-0">
     <v-row justify="center">
       <v-col cols="12" md="12">
-        <v-list-item two-line>
-          <v-list-item-content>
-            <v-list-item-title>
-              <h2>Destroy Claim valid when</h2>
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              <h2>
-                <entity-details-link :id="entityId">{{
-                  entityTitle
-                }}</entity-details-link>
-              </h2>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item two-line>
-          <v-list-item-content>
-            <v-list-item-title>
-              <h2>has Value</h2>
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              <h2>
-                {{ value.value }}
-              </h2>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item two-line>
-          <v-list-item-content>
-            <v-list-item-title>
-              <h2>in Field</h2>
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              <h2>
-                {{ value.field }}
-              </h2>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+        <h2>
+          Condition is fulfilled if the field
+          <v-chip label>{{ value.field }}</v-chip>
+          in entity
+          <entity-details-link :id="entityId">{{
+            entityTitle
+          }}</entity-details-link>
+          {{ isSet }}
+          <v-chip label>{{ value.value }}</v-chip>
+        </h2>
       </v-col>
     </v-row>
   </v-container>
@@ -85,7 +57,7 @@ export default {
     };
 
     getEntity(props.value.entityId);
-
+    const isSet = `${props.value.has ? "is set to" : "is not set to"}`;
     return {
       loading,
       error,
@@ -94,6 +66,7 @@ export default {
       color,
       entityTitle,
       entityId,
+      isSet,
     };
   },
 };
