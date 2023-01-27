@@ -127,6 +127,8 @@ import StdGeoLocationEditor from "@/components/Entity/EntityFields/EntityField/D
 import StdGeoLocationViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdGeoLocationViewer";
 import StdDcaPropertyEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdDcaPropertyEditor";
 import StdDcaPropertyViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdDcaPropertyViewer";
+import StdDivaEntityPropertyEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdDivaEntityPropertyEditor";
+import StdDivaEntityPropertyViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdDivaEntityPropertyViewer";
 
 export default {
   name: "DestroyConditions",
@@ -189,10 +191,16 @@ export default {
         editorComponent: StdDcaPropertyEditor,
         viewerComponent: StdDcaPropertyViewer,
       },
+      {
+        name: "diva:entityProperty",
+        displayName: "Destroy Claim valid when DIVA entity has (not) Property",
+        editorComponent: StdDivaEntityPropertyEditor,
+        viewerComponent: StdDivaEntityPropertyViewer,
+      },
     ];
     const addable = ref(false);
     const selectedDestroyCondition = ref("");
-    const payload = reactive({});
+    const payload = ref(null);
     const updateNodeList = ref(0);
     const renderDestroyConditionComponent = computed(() => {
       return conditionExtensions.find(
@@ -200,8 +208,8 @@ export default {
       ).editorComponent;
     });
     const setPayload = (e) => {
+      addable.value = e !== null;
       payload.value = e;
-      addable.value = true;
     };
     const removeFromDestroyConditions = (edgeId, reloadListMethod) => {
       return request(datanetwork.deleteEdgeById(edgeId)).then(() => {

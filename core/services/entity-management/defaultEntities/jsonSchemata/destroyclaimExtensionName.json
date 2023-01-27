@@ -26,7 +26,9 @@
           "std:toPointInTime",
           "std:alpha3CountryCode",
           "std:geoLocation",
-          "std:dcaProperty"
+          "std:dcaProperty",
+          "diva:entityProperty",
+          "diva:entityRelation"
         ],
         "title": "Destroy Claim Extension Name",
         "_elasticsearch": {
