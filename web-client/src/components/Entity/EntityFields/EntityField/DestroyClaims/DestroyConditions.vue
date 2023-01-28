@@ -129,6 +129,8 @@ import StdDcaPropertyEditor from "@/components/Entity/EntityFields/EntityField/D
 import StdDcaPropertyViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdDcaPropertyViewer";
 import StdDivaEntityPropertyEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdDivaEntityPropertyEditor";
 import StdDivaEntityPropertyViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdDivaEntityPropertyViewer";
+import StdDivaEntityRelationEditor from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdDivaEntityRelationEditor";
+import StdDivaEntityRelationViewer from "@/components/Entity/EntityFields/EntityField/DestroyClaims/Extensions/StdDivaEntityRelationViewer";
 
 export default {
   name: "DestroyConditions",
@@ -196,6 +198,12 @@ export default {
         displayName: "DIVA Entity Property",
         editorComponent: StdDivaEntityPropertyEditor,
         viewerComponent: StdDivaEntityPropertyViewer,
+      },
+      {
+        name: "diva:entityRelation",
+        displayName: "DIVA Entity Relation",
+        editorComponent: StdDivaEntityRelationEditor,
+        viewerComponent: StdDivaEntityRelationViewer,
       },
     ];
     const addable = ref(false);

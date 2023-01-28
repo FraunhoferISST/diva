@@ -25,7 +25,7 @@ import { ref } from "@vue/composition-api";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 
 export default {
-  name: "StdDivaPropertyViewer",
+  name: "StdDivaEntityPropertyViewer",
   components: {
     EntityDetailsLink,
   },

@@ -8,6 +8,14 @@
       </v-col>
     </v-row>
     <v-row>
+      <v-col>
+        <v-alert border="left" colored-border type="info" elevation="2">
+          You can specify whether a Destroy Claim should be valid when the
+          executing DCA is within or outside a certain location.
+        </v-alert>
+      </v-col>
+    </v-row>
+    <v-row>
       <v-col md="12">
         <location-map
           :location="location"
