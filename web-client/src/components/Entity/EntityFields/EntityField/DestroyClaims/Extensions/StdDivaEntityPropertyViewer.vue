@@ -6,9 +6,11 @@
           Condition is fulfilled if
           <v-chip label>{{ value.field }}</v-chip>
           in entity
-          <entity-details-link :id="entityId">{{
-            entityTitle
-          }}</entity-details-link>
+          <v-chip label
+            ><entity-details-link :id="entityId">{{
+              entityTitle
+            }}</entity-details-link></v-chip
+          >
           {{ operatorText }}
           <v-chip label>{{ value.value }}</v-chip>
         </h2>

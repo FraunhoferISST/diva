@@ -79,7 +79,12 @@
               }}
             </v-alert>
           </div>
-          <div class="mt-4" v-if="destroySubject.destroyclaimConditions">
+          <div
+            class="mt-4"
+            v-if="
+              destroySubject.destroyclaimConditions && !expertConditionsEditMode
+            "
+          >
             <v-row>
               <v-col>
                 <CodeEditor
@@ -90,8 +95,22 @@
                       3
                     )
                   "
-                  :languages="[['json', 'Extension Conditions']]"
+                  :languages="[['json', 'Expert Conditions']]"
                   :read_only="true"
+                  :copy_code="false"
+                  :wrap_code="true"
+                  font_size="12px"
+                  width="auto"
+                ></CodeEditor>
+              </v-col>
+            </v-row>
+          </div>
+          <div class="mt-4" v-if="expertConditionsEditMode">
+            <v-row>
+              <v-col>
+                <CodeEditor
+                  v-model="expertConditions"
+                  :languages="[['json', 'Expert Conditions Edit Mode']]"
                   :copy_code="false"
                   :wrap_code="true"
                   font_size="12px"
@@ -107,14 +126,33 @@
                   Destroy Action
                 </v-btn>
               </v-col>
-              <v-col sm="4">
-                <entity-details-link :id="destroySubject.id" postfix="/details"
-                  ><v-btn color="warning" rounded block>
-                    Expert Conditions
-                  </v-btn></entity-details-link
+              <v-col sm="5" v-if="!expertConditionsEditMode">
+                <v-btn
+                  color="warning"
+                  rounded
+                  block
+                  @click="expertConditionsEditMode = !expertConditionsEditMode"
                 >
+                  Edit Expert Conditions
+                </v-btn>
               </v-col>
-              <v-col sm="4">
+              <v-col sm="5" v-if="expertConditionsEditMode">
+                <v-btn
+                  color="warning"
+                  rounded
+                  block
+                  :disabled="!expertConditionsIsValid"
+                  @click="
+                    () => {
+                      expertConditionsEditMode = !expertConditionsEditMode;
+                      saveExpertConditions();
+                    }
+                  "
+                >
+                  Save Expert Conditions
+                </v-btn>
+              </v-col>
+              <v-col sm="3">
                 <v-btn
                   color="error"
                   rounded
@@ -147,7 +185,7 @@ import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import EntityLikeButton from "@/components/Entity/EntityLikeButton";
 import CodeEditor from "simple-code-editor";
 import { useRequest } from "@/composables/request";
-import { useApi, ref } from "@/composables/api";
+import { useApi, ref, computed } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
 
 export default {
@@ -180,7 +218,14 @@ export default {
   data: () => {
     return {
       showDetails: false,
+      expertConditionsEditMode: false,
+      expertConditions: "",
     };
+  },
+  methods: {
+    saveExpertConditions() {
+      console.log(this.expertConditions);
+    },
   },
   computed: {
     wrapperComponent() {
@@ -199,6 +244,25 @@ export default {
         .filter((t) => t)
         .map((t) => (t.length > 40 ? `${t.slice(0, 40)}...` : t));
     },
+    expertConditionsIsValid() {
+      try {
+        JSON.parse(this.expertConditions);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    },
+  },
+  beforeMount() {
+    try {
+      this.expertConditions = JSON.stringify(
+        JSON.parse(this.destroySubject.destroyclaimConditions),
+        null,
+        3
+      );
+    } catch (e) {
+      this.expertConditions = "";
+    }
   },
   setup(props) {
     const { snackbar, message, color, show } = useSnackbar();

@@ -4,9 +4,12 @@
       <v-col cols="12" md="12">
         <h2>Condition is fulfilled if{{ evaluationMethodText }}:</h2>
         <h2>
-          <entity-details-link v-if="fromEntityId !== ''" :id="fromEntityId">{{
-            fromEntityTitle
-          }}</entity-details-link>
+          <v-chip v-if="fromEntityId !== ''" label
+            ><entity-details-link :id="fromEntityId">{{
+              fromEntityTitle
+            }}</entity-details-link></v-chip
+          >
+
           <v-chip v-if="fromEntityId === ''" label>{{ fromNodeText }}</v-chip>
           has a
           <v-chip label>{{ relationText }}</v-chip>
