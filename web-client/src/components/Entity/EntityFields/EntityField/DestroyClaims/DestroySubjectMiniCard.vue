@@ -145,7 +145,7 @@
                   @click="
                     () => {
                       expertConditionsEditMode = !expertConditionsEditMode;
-                      saveExpertConditions();
+                      saveExpertConditions(load);
                     }
                   "
                 >
@@ -185,7 +185,7 @@ import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import EntityLikeButton from "@/components/Entity/EntityLikeButton";
 import CodeEditor from "simple-code-editor";
 import { useRequest } from "@/composables/request";
-import { useApi, ref, computed } from "@/composables/api";
+import { useApi } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
 
 export default {
@@ -222,11 +222,6 @@ export default {
       expertConditions: "",
     };
   },
-  methods: {
-    saveExpertConditions() {
-      console.log(this.expertConditions);
-    },
-  },
   computed: {
     wrapperComponent() {
       return this.visible ? "div" : "div";
@@ -249,8 +244,23 @@ export default {
         JSON.parse(this.expertConditions);
         return true;
       } catch (e) {
-        return false;
+        if (this.expertConditions === "") {
+          return true;
+        }
       }
+      return false;
+    },
+  },
+  methods: {
+    saveExpertConditions(reloadListMethod) {
+      const { entityApi } = useApi(this.destroySubject.id);
+      entityApi
+        .patch(this.destroySubject.id, {
+          destroyclaimConditions: this.expertConditions,
+        })
+        .then(() => {
+          reloadListMethod();
+        });
     },
   },
   beforeMount() {
@@ -267,7 +277,8 @@ export default {
   setup(props) {
     const { snackbar, message, color, show } = useSnackbar();
     const { request, loading, error } = useRequest();
-    const { datanetwork } = useApi(props.id);
+    const { datanetwork } = useApi();
+
     const removeFromDestroySubjects = (edgeId, reloadListMethod) => {
       return request(datanetwork.deleteEdgeById(edgeId)).then(() => {
         const unacceptableError =

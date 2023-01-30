@@ -106,7 +106,13 @@
               width="auto"
             ></CodeEditor>
           </div>
-          <div class="mt-4" v-if="destroyCondition.destroyclaimConditions">
+          <div
+            class="mt-4"
+            v-if="
+              destroyCondition.destroyclaimConditions &&
+              !expertConditionsEditMode
+            "
+          >
             <v-row>
               <v-col>
                 <CodeEditor
@@ -117,8 +123,22 @@
                       3
                     )
                   "
-                  :languages="[['json', 'Extension Conditions']]"
+                  :languages="[['json', 'Expert Conditions']]"
                   :read_only="true"
+                  :copy_code="false"
+                  :wrap_code="true"
+                  font_size="12px"
+                  width="auto"
+                ></CodeEditor>
+              </v-col>
+            </v-row>
+          </div>
+          <div class="mt-4" v-if="expertConditionsEditMode">
+            <v-row>
+              <v-col>
+                <CodeEditor
+                  v-model="expertConditions"
+                  :languages="[['json', 'Expert Conditions Edit Mode']]"
                   :copy_code="false"
                   :wrap_code="true"
                   font_size="12px"
@@ -129,16 +149,33 @@
           </div>
           <div class="mt-8">
             <v-row>
-              <v-col sm="4" offset-sm="4">
-                <entity-details-link
-                  :id="destroyCondition.id"
-                  postfix="/details"
-                  ><v-btn color="warning" rounded block>
-                    Expert Conditions
-                  </v-btn></entity-details-link
+              <v-col sm="5" offset-sm="4" v-if="!expertConditionsEditMode">
+                <v-btn
+                  color="warning"
+                  rounded
+                  block
+                  @click="expertConditionsEditMode = !expertConditionsEditMode"
                 >
+                  Edit Expert Conditions
+                </v-btn>
               </v-col>
-              <v-col sm="4">
+              <v-col sm="5" offset-sm="4" v-if="expertConditionsEditMode">
+                <v-btn
+                  color="warning"
+                  rounded
+                  block
+                  :disabled="!expertConditionsIsValid"
+                  @click="
+                    () => {
+                      expertConditionsEditMode = !expertConditionsEditMode;
+                      saveExpertConditions(load);
+                    }
+                  "
+                >
+                  Save Expert Conditions
+                </v-btn>
+              </v-col>
+              <v-col sm="3">
                 <v-btn
                   color="error"
                   rounded
@@ -171,7 +208,7 @@ import CustomHeader from "@/components/Base/CustomHeader";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 import EntityLikeButton from "@/components/Entity/EntityLikeButton";
 import { useRequest } from "@/composables/request";
-import { useApi, reactive } from "@/composables/api";
+import { useApi } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
 import CodeEditor from "simple-code-editor";
 
@@ -198,6 +235,8 @@ export default {
   data: () => {
     return {
       showDetails: false,
+      expertConditionsEditMode: false,
+      expertConditions: "",
     };
   },
   components: {
@@ -222,6 +261,40 @@ export default {
         .filter((t) => t)
         .map((t) => (t.length > 40 ? `${t.slice(0, 40)}...` : t));
     },
+    expertConditionsIsValid() {
+      try {
+        JSON.parse(this.expertConditions);
+        return true;
+      } catch (e) {
+        if (this.expertConditions === "") {
+          return true;
+        }
+      }
+      return false;
+    },
+  },
+  methods: {
+    saveExpertConditions(reloadListMethod) {
+      const { entityApi } = useApi(this.destroyCondition.id);
+      entityApi
+        .patch(this.destroyCondition.id, {
+          destroyclaimConditions: this.expertConditions,
+        })
+        .then(() => {
+          reloadListMethod();
+        });
+    },
+  },
+  beforeMount() {
+    try {
+      this.expertConditions = JSON.stringify(
+        JSON.parse(this.destroyCondition.destroyclaimConditions),
+        null,
+        3
+      );
+    } catch (e) {
+      this.expertConditions = "";
+    }
   },
   setup(props, context) {
     const { snackbar, message, color, show } = useSnackbar();
