@@ -38,9 +38,15 @@ const resolveDeepMapping = [
   {
     entityType: "user",
     resolveDeep: "std:agent",
-    buildExtension: () => {
-      
-    },
+    buildExtension: (user, refs) => ({
+      id: shortenDivaId(user.id),
+      name: "std:agent",
+      payload: {
+        name: user.username,
+        mbox: user.email,
+      },
+      refs,
+    }),
   },
 ];
 
@@ -53,7 +59,9 @@ const buildDestroySubjectExtension = (
     const mapping = resolveDeepMapping.find(
       (m) => m.resourceType === resource.resourceType
     );
-    return mapping.buildExtension(destroySubject, resource);
+    if (mapping) {
+      return mapping.buildExtension(destroySubject, resource);
+    }
   }
   return {
     id: shortenDivaId(destroySubject.id),
@@ -70,7 +78,9 @@ const buildDestroyContactExtension = (user, refs, deepResolve = false) => {
     const mapping = resolveDeepMapping.find(
       (m) => m.entityType === user.entityType
     );
-    return mapping.buildExtension(destroyContact, user);
+    if (mapping) {
+      return mapping.buildExtension(user, refs);
+    }
   }
   return {
     id: shortenDivaId(user.id),
@@ -78,8 +88,25 @@ const buildDestroyContactExtension = (user, refs, deepResolve = false) => {
     payload: {
       id: user.id,
     },
-    refs: [shortenDivaId(destroyclaim.id)],
+    refs,
   };
+};
+
+const mergeDestroyContactExtensions = (destroyContacts) => {
+  const newDestroyContacts = [];
+  destroyContacts.forEach((destroyContact) => {
+    const existingDestroyContact = newDestroyContacts.find(
+      (ndc) => ndc.id === destroyContact.id
+    );
+    if (existingDestroyContact) {
+      existingDestroyContact.refs = [
+        ...new Set([...existingDestroyContact.refs, ...destroyContact.refs]),
+      ];
+    } else {
+      newDestroyContacts.push(destroyContact);
+    }
+  });
+  return newDestroyContacts;
 };
 
 class DestroyClaimService extends EntityService {
@@ -87,33 +114,7 @@ class DestroyClaimService extends EntityService {
     await super.init();
   }
 
-  async resolveOwnerOf(entity) {
-    const { collection: edges } = await DataNetworkService.getEdges({
-      edgeTypes: ["isOwnerOf"],
-      to: entity.id,
-      fromNodeType: ["user"],
-      toNodeType: ["destroyclaim"],
-    });
-
-    const users = await Promise.all(
-      edges.map(async (u) => {
-        const res = await this.collection.findOne(
-          {
-            id: u.to.entityId,
-          },
-          { projection: { _id: false } }
-        );
-        if (res) {
-          return res;
-        }
-        throw entityNotFoundError;
-      })
-    );
-
-    return users;
-  }
-
-  async resolveDestroyContacts(destroyclaim, resolveDeep = false) {
+  async resolveDestroyClaimOwners(destroyclaim, resolveDeep = false) {
     const { collection: destroyclaimOwnersEdges } =
       await DataNetworkService.getEdges({
         edgeTypes: ["isOwnerOf"],
@@ -121,6 +122,30 @@ class DestroyClaimService extends EntityService {
         fromNodeType: ["user"],
         toNodeType: ["destroyclaim"],
       });
+
+    const destroyclaimOwners = await Promise.all(
+      destroyclaimOwnersEdges.map(async (u) => {
+        const user = await this.collection.findOne(
+          {
+            id: u.from.entityId,
+          },
+          { projection: { _id: false } }
+        );
+        if (user) {
+          return buildDestroyContactExtension(
+            user,
+            [shortenDivaId(destroyclaim.id)],
+            resolveDeep
+          );
+        }
+        throw entityNotFoundError;
+      })
+    );
+
+    return destroyclaimOwners;
+  }
+
+  async resolveDestroySubjectOwners(destroyclaim, resolveDeep = false) {
     const { collection: destroySubjectsEdges } =
       await DataNetworkService.getEdges({
         edgeTypes: ["isDestroySubjectOf"],
@@ -129,38 +154,84 @@ class DestroyClaimService extends EntityService {
         toNodeType: ["destroyclaim"],
       });
 
-    const destroySubjectsContacts = await Promise.all(
+    const destroySubjectsResource = await Promise.all(
       destroySubjectsEdges.map(async (u) => {
-        const entity = await this.collection.findOne(
+        const subject = await this.collection.findOne(
           {
             id: u.from.entityId,
           },
           { projection: { _id: false } }
         );
-        if (entity) {
-          const resource = await this.resolveResource(entity);
-          const { collection: resourceOwnersEdges } =
-            await DataNetworkService.getEdges({
-              edgeTypes: ["isOwnerOf"],
-              to: resource.id,
-              fromNodeType: ["user"],
-              toNodeType: ["resource"],
-            });
-          return {
-            refId: shortenDivaId(entity.id),
-            owners: resourceOwnersEdges,
-          };
+        if (subject) {
+          const resource = await this.resolveResource(subject);
+          return { subject, resource };
         }
         throw entityNotFoundError;
       })
     );
 
-    const destroyclaimOwner = await this.resolveOwnerOf(destroyclaim);
-    const destroyclaimOwnerExtensions = destroyclaimOwner.map((o) =>
-      buildDestroyContactExtension(o, destroyclaim)
+    const allData = await Promise.all(
+      destroySubjectsResource.map(async (elem) => {
+        const { collection: edges } = await DataNetworkService.getEdges({
+          edgeTypes: ["isOwnerOf"],
+          to: elem.resource.id,
+          fromNodeType: ["user"],
+          toNodeType: ["resource"],
+        });
+
+        const users = await Promise.all(
+          edges.map(async (u) => {
+            const res = await this.collection.findOne(
+              {
+                id: u.from.entityId,
+              },
+              { projection: { _id: false } }
+            );
+            if (res) {
+              return res;
+            }
+            throw entityNotFoundError;
+          })
+        );
+
+        return { ...elem, users };
+      })
     );
 
-    return contacts.length > 0 ? contacts : undefined;
+    const destroyContactsResources = [
+      ...allData.map((a) => [
+        ...a.users.map((u) =>
+          buildDestroyContactExtension(
+            u,
+            [shortenDivaId(a.subject.id)],
+            resolveDeep
+          )
+        ),
+      ]),
+    ].flat();
+
+    return destroyContactsResources;
+  }
+
+  async resolveDestroyContacts(destroyclaim, resolveDeep = false) {
+    // resolve direct Owners
+    const destroyclaimOwners = await this.resolveDestroyClaimOwners(
+      destroyclaim,
+      resolveDeep
+    );
+
+    // resolve destroySubject Owners
+    const destroySubjectOwners = await this.resolveDestroySubjectOwners(
+      destroyclaim,
+      resolveDeep
+    );
+
+    const all = mergeDestroyContactExtensions([
+      ...destroyclaimOwners,
+      ...destroySubjectOwners,
+    ]);
+
+    return all.length > 0 ? all : undefined;
   }
 
   async resolveResource(destroySubject) {
@@ -253,10 +324,7 @@ class DestroyClaimService extends EntityService {
 
   async resolveDestroyClaim(destroyclaim) {
     const destroySubjects = await this.resolveDestroySubjects(destroyclaim);
-    const destroyContacts = await this.resolveDestroyContacts(
-      destroyclaim,
-      destroySubjects
-    );
+    const destroyContacts = await this.resolveDestroyContacts(destroyclaim);
     const destroyConditions = await this.resolveDestroyConditions(destroyclaim);
     const destroyActions = await this.resolveDestroyActions(destroyclaim);
     return {
@@ -280,6 +348,7 @@ class DestroyClaimService extends EntityService {
       destroySubjects,
       destroyConditions,
       destroyActions,
+      conditions: sanitizeConditions(destroyclaim.destroyclaimConditions),
     };
   }
 
