@@ -49,7 +49,10 @@ const buildESQuery = (query, rest, facetsOperator) => {
         .zeroTermsQuery(query ? "none" : "all"),
       esb.boolQuery()[facetsOperator](queries),
     ])
-    .mustNot(esb.termQuery("entityType", "review"));
+    .mustNot(esb.termQuery("entityType", "review"))
+    .mustNot(esb.termQuery("destroyclaimType", "destroySubject"))
+    .mustNot(esb.termQuery("destroyclaimType", "destroyCondition"))
+    .mustNot(esb.termQuery("destroyclaimType", "destroyAction"));
 };
 
 const buildFacetsAggregation = (facets) => {

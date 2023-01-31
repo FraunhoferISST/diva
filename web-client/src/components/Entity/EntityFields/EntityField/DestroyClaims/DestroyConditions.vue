@@ -81,7 +81,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="mt-0">
       <v-col cols="12" md="12">
         <div class="destroy-subject-item full-width relative">
           <network-nodes-list

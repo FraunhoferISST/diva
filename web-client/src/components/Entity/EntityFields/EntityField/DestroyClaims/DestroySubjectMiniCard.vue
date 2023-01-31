@@ -81,6 +81,32 @@
           </div>
           <div
             class="mt-4"
+            v-if="destroySubject.destroyclaimAction && !actionEditMode"
+          >
+            <v-row>
+              <v-col sm="12">
+                <v-alert
+                  v-show="destroySubject.id"
+                  color="info"
+                  border="left"
+                  icon="mdi-broom"
+                  prominent
+                  text
+                  dense
+                  class="mb-0 mt-2"
+                >
+                  <h2>Destroy Action applied:</h2>
+                  {{
+                    actions.find(
+                      (a) => a.value === destroySubject.destroyclaimAction
+                    ).display
+                  }}
+                </v-alert>
+              </v-col>
+            </v-row>
+          </div>
+          <div
+            class="mt-4"
             v-if="
               destroySubject.destroyclaimConditions && !expertConditionsEditMode
             "
@@ -118,17 +144,113 @@
                 ></CodeEditor>
               </v-col>
             </v-row>
-          </div>
-          <div class="mt-8">
             <v-row>
-              <v-col sm="4">
-                <v-btn color="primary" class="gprimary" rounded block>
-                  Destroy Action
+              <v-col sm="6">
+                <v-btn
+                  color="success"
+                  rounded
+                  block
+                  :disabled="!expertConditionsIsValid"
+                  @click="
+                    () => {
+                      expertConditionsEditMode = !expertConditionsEditMode;
+                      saveExpertConditions(load);
+                    }
+                  "
+                >
+                  Save Expert Conditions
+                </v-btn>
+              </v-col>
+              <v-col sm="6">
+                <v-btn
+                  color="error"
+                  rounded
+                  block
+                  @click="
+                    () => {
+                      expertConditionsEditMode = !expertConditionsEditMode;
+                      expertConditions = '';
+                    }
+                  "
+                >
+                  Dissmiss
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+          <div class="mt-8" v-if="actionEditMode">
+            <v-row>
+              <v-col sm="12">
+                <v-alert color="warning" border="left" text dense class="mb-5">
+                  Not all Destroy Actions may be supported by all DCAs.
+                </v-alert>
+              </v-col>
+            </v-row>
+            <v-row class="mt-0">
+              <v-col sm="12">
+                <v-select
+                  v-model="selectedAction"
+                  :items="actions"
+                  item-text="display"
+                  item-value="value"
+                  label="Destroy Action"
+                  outlined
+                  dense
+                  :clearable="true"
+                ></v-select>
+              </v-col>
+            </v-row>
+            <v-row class="mt-0">
+              <v-col sm="6">
+                <v-btn
+                  color="success"
+                  rounded
+                  block
+                  :disabled="!actionIsValid"
+                  @click="
+                    () => {
+                      actionEditMode = !actionEditMode;
+                      saveAction(load);
+                    }
+                  "
+                >
+                  Save Action
+                </v-btn>
+              </v-col>
+              <v-col sm="6">
+                <v-btn
+                  color="error"
+                  rounded
+                  block
+                  @click="
+                    () => {
+                      actionEditMode = !actionEditMode;
+                      selectedAction = null;
+                    }
+                  "
+                >
+                  Dissmiss
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+          <div class="mt-8" v-if="!actionEditMode && !expertConditionsEditMode">
+            <v-row>
+              <v-col sm="4" v-if="!actionEditMode">
+                <v-btn
+                  color="primary"
+                  class="gprimary"
+                  rounded
+                  block
+                  @click="actionEditMode = !actionEditMode"
+                >
+                  Edit Action
                 </v-btn>
               </v-col>
               <v-col sm="5" v-if="!expertConditionsEditMode">
                 <v-btn
-                  color="warning"
+                  color="primary"
+                  class="gprimary"
                   rounded
                   block
                   @click="expertConditionsEditMode = !expertConditionsEditMode"
@@ -138,7 +260,7 @@
               </v-col>
               <v-col sm="5" v-if="expertConditionsEditMode">
                 <v-btn
-                  color="warning"
+                  color="success"
                   rounded
                   block
                   :disabled="!expertConditionsIsValid"
@@ -220,6 +342,34 @@ export default {
       showDetails: false,
       expertConditionsEditMode: false,
       expertConditions: "",
+      actionEditMode: false,
+      actions: [
+        {
+          value: null,
+          display: "None",
+        },
+        {
+          value: "recycled",
+          display: "Recycle Data",
+        },
+        {
+          value: "deleted",
+          display: "Delete Data",
+        },
+        {
+          value: "metadata destroyed",
+          display: "Delete Data and Metadata",
+        },
+        {
+          value: "wiped",
+          display: "Wipe Data",
+        },
+        {
+          value: "physically destroyed",
+          display: "Physically Destroyed Data (Device, Hard drive, ...)",
+        },
+      ],
+      selectedAction: null,
     };
   },
   computed: {
@@ -250,6 +400,9 @@ export default {
       }
       return false;
     },
+    actionIsValid() {
+      return true;
+    },
   },
   methods: {
     saveExpertConditions(reloadListMethod) {
@@ -259,6 +412,17 @@ export default {
           destroyclaimConditions: this.expertConditions,
         })
         .then(() => {
+          reloadListMethod();
+        });
+    },
+    saveAction(reloadListMethod) {
+      const { entityApi } = useApi(this.destroySubject.id);
+      entityApi
+        .patch(this.destroySubject.id, {
+          destroyclaimAction: this.selectedAction,
+        })
+        .then(() => {
+          this.selectedAction = null;
           reloadListMethod();
         });
     },

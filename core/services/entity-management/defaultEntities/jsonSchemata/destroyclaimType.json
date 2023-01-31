@@ -27,7 +27,8 @@
         "enum": [
           "generic",
           "destroySubject",
-          "destroyCondition"
+          "destroyCondition",
+          "destroyAction"
         ],
         "_elasticsearch": {
           "type": "keyword"

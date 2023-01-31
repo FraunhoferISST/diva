@@ -1,4 +1,5 @@
 const { entityNotFoundError } = require("@diva/common/Error");
+const { v4 } = require("uuid");
 const DataNetworkService = require("./DataNetworkService");
 
 const EntityService = require("./EntityService");
@@ -53,6 +54,7 @@ const resolveDeepMapping = [
 const buildDestroySubjectExtension = (
   destroySubject,
   resource,
+  action,
   deepResolve = false
 ) => {
   if (deepResolve) {
@@ -69,6 +71,7 @@ const buildDestroySubjectExtension = (
     payload: {
       id: resource.id,
     },
+    action: action ? action.id : undefined,
     conditions: sanitizeConditions(destroySubject.destroyclaimConditions),
   };
 };
@@ -108,6 +111,14 @@ const mergeDestroyContactExtensions = (destroyContacts) => {
   });
   return newDestroyContacts;
 };
+
+const buildDestroyActionExtension = (action) => ({
+  id: v4(),
+  name: "std:destructionLevel",
+  payload: {
+    destructionLevel: action,
+  },
+});
 
 class DestroyClaimService extends EntityService {
   async init() {
@@ -260,7 +271,11 @@ class DestroyClaimService extends EntityService {
     return resource[0];
   }
 
-  async resolveDestroySubjects(destroyclaim, resolveDeep = false) {
+  async resolveDestroySubjects(
+    destroyclaim,
+    destroyActions,
+    resolveDeep = false
+  ) {
     const { collection: edges } = await DataNetworkService.getEdges({
       edgeTypes: ["isDestroySubjectOf"],
       to: destroyclaim.id,
@@ -278,7 +293,15 @@ class DestroyClaimService extends EntityService {
         );
         if (entity) {
           const resource = await this.resolveResource(entity);
-          return buildDestroySubjectExtension(entity, resource, resolveDeep);
+          const action = destroyActions.find(
+            (a) => a.payload.destructionLevel === entity.destroyclaimAction
+          );
+          return buildDestroySubjectExtension(
+            entity,
+            resource,
+            action,
+            resolveDeep
+          );
         }
         throw entityNotFoundError;
       })
@@ -315,18 +338,54 @@ class DestroyClaimService extends EntityService {
       })
     );
 
-    return destroyConditions;
+    return destroyConditions.length > 0 ? destroyConditions : undefined;
   }
 
   async resolveDestroyActions(destroyclaim) {
-    return undefined;
+    const { collection: edges } = await DataNetworkService.getEdges({
+      edgeTypes: ["isDestroySubjectOf"],
+      to: destroyclaim.id,
+      fromNodeType: ["destroyclaim"],
+      toNodeType: ["destroyclaim"],
+    });
+
+    const destroySubjects = await Promise.all(
+      edges.map(async (u) => {
+        const entity = await this.collection.findOne(
+          {
+            id: u.from.entityId,
+          },
+          { projection: { _id: false } }
+        );
+        if (entity) {
+          return entity;
+        }
+        throw entityNotFoundError;
+      })
+    );
+    const destroyActions = [
+      ...new Set(
+        destroySubjects
+          .filter((ds) => ds.destroyclaimAction)
+          .map((ds) => ds.destroyclaimAction)
+      ),
+    ].map((a) => buildDestroyActionExtension(a));
+
+    return destroyActions.length > 0 ? destroyActions : undefined;
   }
 
-  async resolveDestroyClaim(destroyclaim) {
-    const destroySubjects = await this.resolveDestroySubjects(destroyclaim);
-    const destroyContacts = await this.resolveDestroyContacts(destroyclaim);
-    const destroyConditions = await this.resolveDestroyConditions(destroyclaim);
+  async resolveDestroyClaim(destroyclaim, resolveDeep = false) {
     const destroyActions = await this.resolveDestroyActions(destroyclaim);
+    const destroySubjects = await this.resolveDestroySubjects(
+      destroyclaim,
+      destroyActions,
+      resolveDeep
+    );
+    const destroyContacts = await this.resolveDestroyContacts(
+      destroyclaim,
+      resolveDeep
+    );
+    const destroyConditions = await this.resolveDestroyConditions(destroyclaim);
     return {
       id: shortenDivaId(destroyclaim.id),
       isActive: destroyclaim.isActive,
