@@ -146,12 +146,46 @@
                 ></CodeEditor>
               </v-col>
             </v-row>
+            <v-row>
+              <v-col sm="6">
+                <v-btn
+                  color="success"
+                  rounded
+                  block
+                  :disabled="!expertConditionsIsValid"
+                  @click="
+                    () => {
+                      expertConditionsEditMode = !expertConditionsEditMode;
+                      saveExpertConditions(load);
+                    }
+                  "
+                >
+                  Save Expert Conditions
+                </v-btn>
+              </v-col>
+              <v-col sm="6">
+                <v-btn
+                  color="error"
+                  rounded
+                  block
+                  @click="
+                    () => {
+                      expertConditionsEditMode = !expertConditionsEditMode;
+                      expertConditions = '';
+                    }
+                  "
+                >
+                  Dissmiss
+                </v-btn>
+              </v-col>
+            </v-row>
           </div>
-          <div class="mt-8">
+          <div class="mt-8" v-if="!expertConditionsEditMode">
             <v-row>
               <v-col sm="5" offset-sm="4" v-if="!expertConditionsEditMode">
                 <v-btn
-                  color="warning"
+                  color="primary"
+                  class="gprimary"
                   rounded
                   block
                   @click="expertConditionsEditMode = !expertConditionsEditMode"

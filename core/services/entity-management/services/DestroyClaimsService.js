@@ -293,9 +293,11 @@ class DestroyClaimService extends EntityService {
         );
         if (entity) {
           const resource = await this.resolveResource(entity);
-          const action = destroyActions.find(
-            (a) => a.payload.destructionLevel === entity.destroyclaimAction
-          );
+          const action = destroyActions
+            ? destroyActions.find(
+                (a) => a.payload.destructionLevel === entity.destroyclaimAction
+              )
+            : undefined;
           return buildDestroySubjectExtension(
             entity,
             resource,
