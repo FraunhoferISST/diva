@@ -50,24 +50,25 @@
                 color="primary"
                 elevation="5"
               >
-                Resources whose life cycle end is to be modeled can be selected
-                using the search field below. Added resources are displayed as
-                tiles. Resources can be removed by clicking the Remove button.
+                Destroy subjects mean resources that have a defined end of life
+                cycle. Resources that should be added as destroy subjects can be
+                selected via the search field below. For each added resource, a
+                new tile is created. Resources can be removed by using the
+                "Remove" button.
                 <br /><br />
-                If multiple resources are selected, then as many of them as
-                possible are to be deleted (DIVA will internally model it this
-                way). If you want to delete only if all resources are present
-                (e.g. on the personal computer) then this must be explicitly be
-                modeled via Boolean algebra under "Destroy Claim Boolean
-                Conditions (Expert Only)". This should only be done by someone
-                who understands the underlying Destroy Claim Model
-                Specification.
+                When multiple resources are selected, a Destroy Claim Agent
+                (DCA) will only start operations if it has access to all
+                resources. If you want to delete an arbitrary number of
+                resources (not necessarily all at once, e.g.,on a personal
+                computer), this must be explicitly modelled via Boolean algebra
+                under "Destroy Claim Boolean Conditions (Expert Only)". Please
+                note that this should only be done by users that understand the
+                underlying Destroy Claim Model Specification.
                 <br /><br />
-                Whether individual resources are selected as to be deleted can
-                also be modeled with the expert conditions. To do this, click on
-                the yellow "Expert Conditions" button. You will be redirected to
-                the detail page of the DestroySubject. There you can perform the
-                corresponding modeling. This should only be done by an expert.
+                Selecting single resources as "to be deleted" can also be
+                modelled with expert conditions. To do this, use the "Expert
+                Conditions" button. Next, a JSON editor pop-up allows to define
+                mentioned conditions.
               </v-alert>
             </v-col>
             <v-col cols="12">

@@ -8,7 +8,7 @@
     <v-row>
       <v-col>
         <v-alert border="left" colored-border type="info" elevation="2">
-          Set a date from which on the Destroy Claim is valid.
+          Set a start date for the validity of the Destroy Claim.
         </v-alert>
       </v-col>
     </v-row>

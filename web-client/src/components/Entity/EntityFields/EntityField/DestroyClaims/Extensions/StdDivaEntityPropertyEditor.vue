@@ -11,9 +11,9 @@
           Whether a Destroy Claim is to be executed can be controlled with the
           help of the metadata stored in DIVA.
           <br />
-          First, you need to select an entity. It is then possible to select one
-          of the available metadata fields. Finally, a comparison operator and
-          the value to be compared must be entered.
+          First, you need to select an entity. Afterwards, it is possible to
+          select one of the available metadata fields. Finally, a comparison
+          operator and the value to be compared must be set.
         </v-alert></v-col
       ></v-row
     >

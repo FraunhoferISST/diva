@@ -38,9 +38,9 @@
       <v-col v-if="showDestroyConditionExplanation">
         <v-alert border="left" colored-border color="primary" elevation="5">
           Conditions can be used to model the end of the data life cycle in
-          advance. If no specifications are made in the Expert Conditions of the
-          Subjects, all conditions must be fulfilled for the Destroy Calim to be
-          valid.
+          advance. If no specifications are made using the expert conditions of
+          the Destroy Subjects, all conditions must be fulfilled for the Destroy
+          Calim to be executed by a DCA.
         </v-alert>
       </v-col>
     </v-row>
