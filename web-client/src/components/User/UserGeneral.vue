@@ -109,14 +109,12 @@ import { useEntity } from "@/composables/entity";
 import { useUser } from "@/composables/user";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { computed } from "@vue/composition-api/dist/vue-composition-api";
-import EntityGeneral from "@/components/Entity/EntityCommonComponents/General/EntityGeneral";
 import { useSnackbar } from "@/composables/snackbar";
 import { ref } from "@vue/composition-api";
 
 export default {
   name: "UserGeneral",
   components: {
-    EntityGeneral,
     DataViewer,
     EntityField,
     ConfirmationDialog,

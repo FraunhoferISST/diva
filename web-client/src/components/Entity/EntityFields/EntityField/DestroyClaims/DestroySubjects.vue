@@ -151,7 +151,7 @@ import NetworkNodesList from "@/components/Base/NetworkNodesList";
 import CustomHeader from "@/components/Base/CustomHeader";
 import EntitiesSearch from "@/components/Base/EntitiesSearch";
 import { useRequest } from "@/composables/request";
-import { useApi, ref } from "@/composables/api";
+import { useApi } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
 import DestroySubjectMiniCard from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroySubjectMiniCard";
 
