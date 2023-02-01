@@ -1,6 +1,6 @@
 {
   "name": "web-client",
-  "version": "19.9.0",
+  "version": "19.10.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
