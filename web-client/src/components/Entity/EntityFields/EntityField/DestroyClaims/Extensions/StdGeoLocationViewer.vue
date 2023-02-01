@@ -6,7 +6,11 @@
           Condition is fulfilled <v-chip label>{{ value.scope }}</v-chip> of geo
           location:
         </h2>
-        <location-map class="mt-4" :location="value.location" :editable="false" />
+        <location-map
+          class="mt-4"
+          :location="value.location"
+          :editable="false"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -28,7 +32,7 @@ export default {
       required: true,
     },
   },
-  setup(props) {
+  setup() {
     const { snackbar, message, color } = useSnackbar();
     const { loading, error } = useRequest();
 

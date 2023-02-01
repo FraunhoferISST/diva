@@ -29,7 +29,7 @@
 import { useRequest } from "@/composables/request";
 import { useSnackbar } from "@/composables/snackbar";
 import { useApi } from "@/composables/api";
-import { ref, computed } from "@vue/composition-api";
+import { ref } from "@vue/composition-api";
 import EntityDetailsLink from "@/components/Entity/EntityDetailsLink";
 
 export default {

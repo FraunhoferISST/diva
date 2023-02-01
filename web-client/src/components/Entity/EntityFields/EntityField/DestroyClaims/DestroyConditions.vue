@@ -116,7 +116,7 @@ import CustomHeader from "@/components/Base/CustomHeader";
 import { useRequest } from "@/composables/request";
 import { useApi } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
-import { ref, reactive, computed } from "@vue/composition-api";
+import { ref, computed } from "@vue/composition-api";
 import NetworkNodesList from "@/components/Base/NetworkNodesList";
 import DestroyConditionMiniCard from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyConditionMiniCard";
 
@@ -245,13 +245,7 @@ export default {
       setPayload,
       updateNodeList,
       addable,
-      addToDestroyCondition: async (
-        entity,
-        updateEntityMethod,
-        reloadListMethod
-      ) => {
-        //updateEntityMethod({ doc: { ...entity, loading: true } });
-
+      addToDestroyCondition: async () => {
         return request(
           entityApi.create({
             title: `${
@@ -277,9 +271,6 @@ export default {
             }, 1000);
           }
 
-          /*updateEntityMethod({
-            doc: { ...entity, loading: false, added: !unacceptableError },
-          });*/
           addable.value = false;
           payload.value = {};
           selectedDestroyCondition.value = "";

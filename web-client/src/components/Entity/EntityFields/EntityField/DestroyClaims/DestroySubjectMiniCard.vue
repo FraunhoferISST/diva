@@ -438,7 +438,7 @@ export default {
       this.expertConditions = "";
     }
   },
-  setup(props) {
+  setup() {
     const { snackbar, message, color, show } = useSnackbar();
     const { request, loading, error } = useRequest();
     const { datanetwork } = useApi();
@@ -476,9 +476,6 @@ export default {
   @include border-radius;
   &.interactive {
     cursor: pointer;
-    &:hover {
-      /*background-color: $bg_card_secondary;*/
-    }
   }
 }
 .entity-mini-card-title {

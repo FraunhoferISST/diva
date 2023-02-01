@@ -50,9 +50,8 @@
 <script>
 import CustomHeader from "@/components/Base/CustomHeader";
 import { useRequest } from "@/composables/request";
-import { useApi } from "@/composables/api";
 import { useSnackbar } from "@/composables/snackbar";
-import { ref, reactive, computed } from "@vue/composition-api";
+import { ref, reactive } from "@vue/composition-api";
 
 import countries from "@/utils/countriesAll.json";
 
@@ -63,9 +62,8 @@ export default {
   },
   props: {},
   setup(props, context) {
-    const { snackbar, message, color, show } = useSnackbar();
-    const { request, loading, error } = useRequest();
-    const { datanetwork } = useApi();
+    const { snackbar, message, color } = useSnackbar();
+    const { loading, error } = useRequest();
 
     const items = reactive(countries);
     const selected = ref("");

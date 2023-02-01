@@ -369,9 +369,6 @@ export default {
   @include border-radius;
   &.interactive {
     cursor: pointer;
-    &:hover {
-      /*background-color: $bg_card_secondary;*/
-    }
   }
 }
 .entity-mini-card-title {
