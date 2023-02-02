@@ -23,16 +23,30 @@
           <entity-like-button small :id="entity.id" class="pl-3" />
         </div>
         <div v-if="visible">
-          <v-chip
-            class="mr-2"
-            x-small
-            label
-            color="#EFF3F7FF"
-            v-for="tag in entityTags"
-            :key="tag"
-          >
-            {{ tag }}
-          </v-chip>
+          <div>
+            <v-chip
+              class="mr-2"
+              x-small
+              label
+              color="#EFF3F7FF"
+              v-for="tag in entityTags"
+              :key="tag"
+            >
+              {{ tag }}
+            </v-chip>
+          </div>
+          <div>
+            <v-alert
+              v-show="entity.summary"
+              color="info"
+              border="left"
+              text
+              dense
+              class="mb-0 mt-2"
+            >
+              {{ entity.summary }}
+            </v-alert>
+          </div>
         </div>
         <div v-else>
           <v-alert color="warning" text dense class="mb-0 mt-2">

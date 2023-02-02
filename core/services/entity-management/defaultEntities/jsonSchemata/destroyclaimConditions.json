@@ -1,0 +1,45 @@
+{
+  "id": "schema:uuid:13987be1-30fd-45b1-af8c-a46cf6de7e24",
+  "title": "Destroy Claim Conditions",
+  "schemaName": "destroyclaimConditions",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "destroyclaimType",
+      "value": "generic"
+    },
+    {
+      "key": "destroyclaimType",
+      "value": "destroySubject"
+    },
+    {
+      "key": "destroyclaimType",
+      "value": "destroyCondition"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Destroy Claim Conditions",
+    "properties": {
+      "destroyclaimConditions": {
+        "type": "string",
+        "default": false,
+        "title": "Destroy Claim Boolean Conditions (Expert Only)",
+        "description": "Conditions field of a Destroy Claim. Use Boolean algebra to customize conditions.",
+        "_elasticsearch": {
+          "enabled": false
+        },
+        "_ui": {
+          "view": "details",
+          "position": 4,
+          "type": "json",
+          "fallbackValue": "",
+          "fullWidth": true
+        }
+      }
+    }
+  }
+}

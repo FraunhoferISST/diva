@@ -155,9 +155,11 @@ export default {
       return [
         this.doc.entityType,
         this.doc.resourceType,
+        this.doc.mimeType,
         this.doc.serviceType,
         this.doc.assetType,
-        this.doc.mimeType,
+        this.doc.publisherType,
+        this.doc.destroyclaimType,
       ]
         .filter((label) => label)
         .map((label) =>

@@ -8,7 +8,7 @@
 # ######################################################################################################################
 
 
-# Buld service binary
+# Build service binary
 FROM node:16.14.0-alpine3.15 as builder
 LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
 

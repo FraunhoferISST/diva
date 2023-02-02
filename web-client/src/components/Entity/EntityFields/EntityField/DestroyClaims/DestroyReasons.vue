@@ -124,7 +124,7 @@
                   <div class="destroy-reason-info d-flex">
                     <div>
                       <info-block-value>
-                        {{ state.destroyReason.value }}
+                        Reason: {{ state.destroyReason.value }}
                       </info-block-value>
                     </div>
                   </div>

@@ -3,11 +3,15 @@
     <data-viewer :loading="loading" :updating="updating" :error="error">
       <template v-if="data">
         <v-container class="pa-0 ma-0" fluid v-if="data.id">
-          <v-row>
+          <v-row
+            v-for="group in groupedFields"
+            :key="group.propertyName"
+            class="mb-12"
+          >
             <v-col
               cols="12"
               :md="field._ui.fullWidth ? '12' : '4'"
-              v-for="field in fields"
+              v-for="field in group"
               :key="field.propertyName"
             >
               <component
@@ -44,8 +48,8 @@ import Languages from "@/components/Entity/EntityFields/EntityField/Languages/La
 import Costs from "@/components/Entity/EntityFields/EntityField/Costs/EntityCosts";
 import SingleRelation from "@/components/Entity/EntityFields/EntityField/SingleRelation/SingleRelation";
 import MultiRelation from "@/components/Entity/EntityFields/EntityField/MultiRelation/MultiRelation";
-import DestroyClaimRefersTo from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyClaimRefersTo";
 import DestroyReasons from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyReasons";
+import DestroyClaimData from "@/components/Entity/EntityFields/EntityField/DestroyClaims/DestroyClaimData";
 import { useEntity } from "@/composables/entity";
 import { computed } from "@vue/composition-api";
 import { useBus } from "@/composables/bus";
@@ -60,8 +64,8 @@ export default {
     Location,
     SingleRelation,
     MultiRelation,
-    DestroyClaimRefersTo,
     DestroyReasons,
+    DestroyClaimData,
     Licenses,
     EntityField,
     EntityDataViewer,
@@ -94,8 +98,8 @@ export default {
       error,
       data,
       schema,
-      fields: computed(() =>
-        Object.entries(schema.value ?? {})
+      groupedFields: computed(() => {
+        const fields = Object.entries(schema.value ?? {})
           .map(([_, v]) => ({ ...v }))
           .filter(
             (schemaEntity) =>
@@ -118,8 +122,21 @@ export default {
               schemaEntity.schema?.items?.default ??
               schemaEntity._ui.fallbackValue,
           }))
-          .sort((a, b) => a._ui.position - b._ui.position)
-      ),
+          .sort((a, b) => a._ui.position - b._ui.position);
+
+        const groupedFields = [];
+        let group = [];
+
+        for (const field of fields) {
+          group.push(field);
+          if (field._ui.break) {
+            groupedFields.push(group);
+            group = [];
+          }
+        }
+        groupedFields.push(group);
+        return groupedFields;
+      }),
     };
   },
 };

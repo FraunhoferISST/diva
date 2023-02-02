@@ -1,0 +1,43 @@
+{
+  "id": "schema:uuid:da85d4dd-a023-4762-97a5-ed67c95caaa9",
+  "title": "Destroy Claim Action",
+  "schemaName": "destroyclaimAction",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": false,
+  "scope": [
+    {
+      "key": "destroyclaimType",
+      "value": "destroySubject"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Destroy Claim Action",
+    "properties": {
+      "destroyclaimAction": {
+        "type": "string",
+        "enum": [
+          "recycled",
+          "deleted",
+          "metadata destroyed",
+          "wiped",
+          "physically destroyed"
+        ],
+        "title": "Destroy Claim Action",
+        "_elasticsearch": {
+          "enabled": false
+        },
+        "_ui": {
+          "view": "details",
+          "position": 1,
+          "fullWidth": false,
+          "type": "select",
+          "multiple": false,
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

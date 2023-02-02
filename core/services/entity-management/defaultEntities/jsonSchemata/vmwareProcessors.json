@@ -29,8 +29,9 @@
             "type": "integer"
           },
           "_ui": {
-            "view": "overview",
-            "position": 100,
+            "view": "details",
+            "position": 0.4,
+            "break": true,
             "type": "number",
             "fallbackValue": ""
           }

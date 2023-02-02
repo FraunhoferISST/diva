@@ -1,6 +1,5 @@
 <template>
   <section id="user-general">
-    <entity-general :id="id" />
     <data-viewer
       :loading="loading"
       :error="error"
@@ -8,9 +7,9 @@
     >
       <template v-if="data">
         <v-container class="pa-0 ma-0" fluid>
-          <v-row class="pt-5">
+          <v-row class="pt-0">
             <v-col cols="12">
-              <custom-header text="Account information" />
+              <custom-header text="Account Information" />
             </v-col>
             <v-col cols="12" v-if="user.id === id">
               <v-row>
@@ -110,14 +109,12 @@ import { useEntity } from "@/composables/entity";
 import { useUser } from "@/composables/user";
 import DataViewer from "@/components/DataFetchers/DataViewer";
 import { computed } from "@vue/composition-api/dist/vue-composition-api";
-import EntityGeneral from "@/components/Entity/EntityCommonComponents/General/EntityGeneral";
 import { useSnackbar } from "@/composables/snackbar";
 import { ref } from "@vue/composition-api";
 
 export default {
   name: "UserGeneral",
   components: {
-    EntityGeneral,
     DataViewer,
     EntityField,
     ConfirmationDialog,

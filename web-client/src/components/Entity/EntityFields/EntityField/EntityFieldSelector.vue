@@ -15,6 +15,8 @@ import SelectFieldEditor from "@/components/Entity/EntityFields/EntityField/Sele
 import { computed } from "@vue/composition-api";
 import MarkdownFieldEditor from "@/components/Entity/EntityFields/EntityField/MarkdownField/MarkdownFieldEditor";
 import MarkdownFieldViewer from "@/components/Entity/EntityFields/EntityField/MarkdownField/MarkdownFieldViewer";
+import JsonFieldEditor from "@/components/Entity/EntityFields/EntityField/JsonField/JsonFieldEditor";
+import JsonFieldViewer from "@/components/Entity/EntityFields/EntityField/JsonField/JsonFieldViewer";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
 import BooleanFieldEditor from "@/components/Entity/EntityFields/EntityField/BooleanField/BooleanEditor";
 import BooleanFieldViewer from "@/components/Entity/EntityFields/EntityField/BooleanField/BooleanFieldViewer";
@@ -33,6 +35,8 @@ export default {
     InfoBlock,
     MarkdownFieldViewer,
     MarkdownFieldEditor,
+    JsonFieldViewer,
+    JsonFieldEditor,
     SelectFieldEditor,
     SelectFieldViewer,
     PrimitiveFieldViewer,
@@ -50,6 +54,10 @@ export default {
   },
   setup(props) {
     const configMap = {
+      json: {
+        viewer: JsonFieldViewer,
+        editor: JsonFieldEditor,
+      },
       richText: {
         viewer: MarkdownFieldViewer,
         editor: MarkdownFieldEditor,

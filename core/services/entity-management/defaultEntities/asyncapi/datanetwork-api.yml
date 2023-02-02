@@ -139,6 +139,9 @@ components:
                 - likes
                 - keywordsSimilarity
                 - textContentSimilarity
+                - isDestroySubjectOf
+                - isDestroyConditionOf
+                - isDestroyActionOf
                 - refersTo
                 - isPreviousVersionOf
                 - acquired

@@ -1,5 +1,5 @@
 module.exports = {
-    plugins: ["prettier"],
+    plugins: ["prettier", "@babel/plugin-proposal-private-methods"],
     extends: ["airbnb-base", "prettier"],
     parserOptions: { ecmaVersion: 2021 },
     rules: {

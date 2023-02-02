@@ -19,8 +19,8 @@
       "value": "service"
     },
     {
-      "key": "entityType",
-      "value": "destroyclaim"
+      "key": "destroyclaimType",
+      "value": "generic"
     }
   ],
   "schema": {

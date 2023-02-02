@@ -71,7 +71,7 @@ services:
 
   web-client:
     container_name: web-client
-    image: ${REGISTRY}web-client:19.8.0
+    image: ${REGISTRY}web-client:19.10.0
     ports:
       - ${WEB_CLIENT_PORT}:80
     restart: always
@@ -115,7 +115,7 @@ services:
   entity-management:
     <<: *base-core-service
     <<: *extra-hosts
-    image: ${REGISTRY}entity-management:1.8.0
+    image: ${REGISTRY}entity-management:1.9.0
     container_name: entity-management
     depends_on:
       - broker
@@ -131,7 +131,7 @@ services:
       - core
 
   # ####################################################################################################################
-  # Reviews Management Service
+  # Document Store
   # ####################################################################################################################
 
   documentstore:
@@ -177,7 +177,7 @@ services:
   elasticsearch-connector:
     <<: *base-core-service
     <<: *extra-hosts
-    image: ${REGISTRY}elasticsearch-connector:0.3.0
+    image: ${REGISTRY}elasticsearch-connector:0.5.0
     container_name: elasticsearch-connector
     depends_on:
       - broker
@@ -198,7 +198,7 @@ services:
 
   search-assistant:
     <<: *extra-hosts
-    image: ${REGISTRY}search-assistant:0.2.0
+    image: ${REGISTRY}search-assistant:0.5.0
     container_name: search-assistant
     environment:
       <<: *elasticsearch-env

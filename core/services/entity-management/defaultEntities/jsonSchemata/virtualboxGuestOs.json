@@ -28,8 +28,8 @@
           "analyzer": "diva_analyzer"
         },
         "_ui": {
-          "view": "overview",
-          "position": 100,
+          "view": "details",
+          "position": 0.1,
           "type": "text",
           "fallbackValue": ""
         }

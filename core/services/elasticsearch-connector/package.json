@@ -1,6 +1,6 @@
 {
   "name": "elasticsearch-connector",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "serviceId": "service:uuid:0a777e67-5ed7-4f1e-82d3-2078a7643ebd",
   "description": "This service looks for entity events. Updates are propagated to an elasticsearch instance.",
   "repository": {
@@ -24,6 +24,6 @@
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",
-    "pkg": "^5.3.1"
+    "pkg": "^5.8.0"
   }
 }

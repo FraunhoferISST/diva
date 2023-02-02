@@ -12,6 +12,8 @@ const allowedFields = [
   "mimeType",
   "assetType",
   "serviceType",
+  "publisherType",
+  "destroyclaimType",
   "systemEntityType",
   "username",
   "email",
@@ -21,6 +23,8 @@ const allowedFields = [
   "roles",
   "isPrivate",
   "isArchived",
+  "isActive",
+  "entityIcon",
 ];
 
 const buildESQuery = (query, rest, facetsOperator) => {
@@ -45,7 +49,10 @@ const buildESQuery = (query, rest, facetsOperator) => {
         .zeroTermsQuery(query ? "none" : "all"),
       esb.boolQuery()[facetsOperator](queries),
     ])
-    .mustNot(esb.termQuery("entityType", "review"));
+    .mustNot(esb.termQuery("entityType", "review"))
+    .mustNot(esb.termQuery("destroyclaimType", "destroySubject"))
+    .mustNot(esb.termQuery("destroyclaimType", "destroyCondition"))
+    .mustNot(esb.termQuery("destroyclaimType", "destroyAction"));
 };
 
 const buildFacetsAggregation = (facets) => {

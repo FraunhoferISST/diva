@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:389d583a-1a25-4130-acbf-1c3fba531051",
-  "title": "Publisher",
+  "title": "Creator Id (deprecated)",
   "schemaName": "creatorId",
   "description": "The person who created this entity (deprecated)",
   "systemEntityType": "schema",
@@ -9,12 +9,13 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Publisher",
+    "title": "Creator Id (deprecated)",
+    "description": "The person who created this entity (deprecated)",
     "properties": {
       "creatorId": {
         "type": "string",
-        "title": "Publisher",
-        "description": "The person who created this entity",
+        "title": "Creator Id (deprecated)",
+        "description": "The person who created this entity (deprecated)",
         "examples": [
           "user:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
         ],

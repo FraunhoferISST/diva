@@ -1,0 +1,35 @@
+{
+  "id": "schema:uuid:c4a31ddf-fbcf-44d3-959a-f004208165b8",
+  "title": "Destroy Claim Data",
+  "schemaName": "destroyclaimData",
+  "description": "Main data of the Destroy Claim",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "destroyclaimType",
+      "value": "generic"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Destroy Claim Data",
+    "description": "Main data of the Destroy Claim",
+    "properties": {
+      "destroyclaimData": {
+        "type": "object",
+        "title": "Destroy Claim Data",
+        "description": "Main data of the Destroy Claim",
+        "_ui": {
+          "view": "details",
+          "position": 3,
+          "component": "DestroyClaimData",
+          "fallbackValue": [],
+          "fullWidth": true
+        }
+      }
+    }
+  }
+}

@@ -14,6 +14,14 @@
     {
       "key": "entityType",
       "value": "review"
+    },
+    {
+      "key": "destroyclaimType",
+      "value": "destroySubject"
+    },
+    {
+      "key": "destroyclaimType",
+      "value": "destroyCondition"
     }
   ],
   "schema": {
@@ -29,9 +37,9 @@
         "title": "Belongs To",
         "description": "The uuid of the entity id to which this history entry belongs to. Can be any possible entity like resource, asset, user or review. Could also be history entity itself, but seems not recommended",
         "examples": [
-          "resource:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9"
-        ],
-        "pattern": "^.+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$"
+          "resource:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9",
+          "resource:uuid:4600ea84-485a-49b3-8f15-85fc5ce2e0f9,resource:uuid:39fcecbf-3026-4e06-8c23-d4eeb4c03aad"
+        ]
       }
     }
   }
