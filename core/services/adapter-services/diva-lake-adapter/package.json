@@ -1,6 +1,6 @@
 {
   "name": "diva-lake-adapter",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "serviceId": "service:uuid:c494d8c8-df34-4628-bc22-e64491398786",
   "description": "Adapter for our DIVA Lake",
   "keywords": [
@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",
-    "pkg": "^5.3.1"
+    "pkg": "^5.8.0"
   },
   "pkg": {
     "assets": [

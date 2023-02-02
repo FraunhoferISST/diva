@@ -1,0 +1,36 @@
+{
+  "id": "schema:uuid:6618e79d-16e1-4e09-b750-87f1bae3117f",
+  "title": "Address Country",
+  "schemaName": "addressCountry",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "user"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Address Country",
+    "properties": {
+      "addressCountry": {
+        "type": "string",
+        "title": "Address Country",
+        "description": "Country where the user lives",
+        "examples": [
+          "Germany",
+          "Japan"
+        ],
+        "_ui": {
+          "view": "details",
+          "position": 40,
+          "type": "text",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

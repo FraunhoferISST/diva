@@ -22,6 +22,10 @@
     {
       "key": "entityType",
       "value": "service"
+    },
+    {
+      "key": "entityType",
+      "value": "destroyclaim"
     }
   ],
   "schema": {
@@ -43,8 +47,14 @@
         },
         "_ui": {
           "view": "overview",
-          "position": 3,
-          "component": "Owners",
+          "position": 30,
+          "component": "MultiRelation",
+          "fullWidth": true,
+          "MultiRelation": {
+            "entityType": "user",
+            "edgeType": "isOwnerOf",
+            "edgeDirection": "from"
+          },
           "fallbackValue": []
         }
       }

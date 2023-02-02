@@ -132,10 +132,19 @@ components:
                 - isCreatorOf
                 - isPartOf
                 - isOwnerOf
+                - isPublisherOf
                 - isReviewOf
+                - isSubscriberOf
+                - isAlternativeOf
                 - likes
                 - keywordsSimilarity
                 - textContentSimilarity
+                - isDestroySubjectOf
+                - isDestroyConditionOf
+                - isDestroyActionOf
+                - refersTo
+                - isPreviousVersionOf
+                - acquired
         attributedTo:
           title: Related entites
           description: The Array contains the id's of the entities that are related or referenced by the original event. For
@@ -172,7 +181,7 @@ components:
       title: Entity id
       description: Unique entity uuid v4 identifier
       type: string
-      pattern: (edge|user|resource|asset|review|service|schema|rule|policy|asyncapi):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
+      pattern: ^[a-z]+:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$
       example: resource:uuid:1fbfb29b-2905-40c5-a8a4-48a5e5684180
     ActorId:
       title: Actor id

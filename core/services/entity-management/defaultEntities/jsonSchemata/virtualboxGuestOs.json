@@ -1,0 +1,39 @@
+{
+  "id": "schema:uuid:1c970c8c-0b6b-4849-bdfc-d67439bf763a",
+  "title": "Virtualbox Guest OS Schema",
+  "schemaName": "virtualboxGuestOs",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "virtualbox:vm"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Virtualbox Guest OS",
+    "properties": {
+      "virtualboxGuestOs": {
+        "type": "string",
+        "title": "Virtualbox Guest OS",
+        "description": "The Guest OS installed inside the Virtualbox VM",
+        "examples": [
+          "Ubuntu 22.04 64-bit"
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "diva_analyzer"
+        },
+        "_ui": {
+          "view": "details",
+          "position": 0.1,
+          "type": "text",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

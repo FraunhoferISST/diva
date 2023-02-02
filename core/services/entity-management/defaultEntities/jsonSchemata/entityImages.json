@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:0da11216-8f51-4542-8d90-fb446fdffeec",
-  "title": "Entity Images id's",
+  "title": "Entity Images ID's",
   "schemaName": "entityImages",
   "description": "The collection of images id's that represents uploaded images associated with an entity. This images can also be used as icon, banner or imag gallery",
   "systemEntityType": "schema",
@@ -9,11 +9,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Entity Images id's",
+    "title": "Entity Images ID's",
     "properties": {
       "entityImages": {
         "type": "array",
-        "title": "Entity Images id's",
+        "title": "Entity Images ID's",
         "description": "The collection of images id's that represents uploaded images associated with an entity. This images can also be used as icon, banner or imag gallery",
         "maxItems": 15,
         "items": {

@@ -1,0 +1,56 @@
+{
+  "id": "schema:uuid:86f25f91-c24c-43b7-aba8-6f8dee5db88c",
+  "title": "Update Frequency",
+  "schemaName": "updateFrequency",
+  "description": "Indicates how often a resource is updated (see https://www.dublincore.org/specifications/dublin-core/collection-description/frequency/)",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Update Frequency",
+    "description": "Indicates how often a resource is updated (see https://www.dublincore.org/specifications/dublin-core/collection-description/frequency/)",
+    "properties": {
+      "updateFrequency": {
+        "type": "string",
+        "title": "Update Frequency",
+        "description": "Indicates how often a resource is updated (see https://www.dublincore.org/specifications/dublin-core/collection-description/frequency/)",
+        "enum": [
+          "Triennial",
+          "Biennial",
+          "Annual",
+          "Semiannual",
+          "Three times a year",
+          "Quarterly",
+          "Bimonthly",
+          "Monthly",
+          "Semimonthly",
+          "Biweekly",
+          "Three times a month",
+          "Weekly",
+          "Semiweekly",
+          "Three times a week",
+          "Daily",
+          "Continuous",
+          "Irregular"
+        ],
+        "_elasticsearch": {
+          "type": "keyword"
+        },
+        "_ui": {
+          "view": "details",
+          "position": 40,
+          "type": "select",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 const express = require("express");
 const jsonSchemaValidator = require("@diva/common/JsonSchemaValidator");
 const buildOpenApiSpec = require("./utils/buildOpenApiSpec");
@@ -17,6 +18,8 @@ const schemataService = require("./services/SchemataService");
 const schemataController = require("./controllers/SchemataController");
 const asyncapisService = require("./services/AsyncapisService");
 const asyncapisController = require("./controllers/AsyncapisController");
+const destroyclaimsController = require("./controllers/DestroyClaimController");
+const destroyclaimsService = require("./services/DestroyClaimsService");
 const rulesService = require("./services/RulesService");
 const policiesService = require("./services/PoliciesService");
 const dataNetworkService = require("./services/DataNetworkService");
@@ -73,6 +76,12 @@ const predefinedEntities = {
     service: usersService,
     entityType: entityTypes.USER,
   },
+  [collectionsNames.PUBLISHERS_COLLECTION_NAME]: {
+    collection: collectionsNames.PUBLISHERS_COLLECTION_NAME,
+    controller: null,
+    service: null,
+    entityType: entityTypes.PUBLISHER,
+  },
   [collectionsNames.SERVICES_COLLECTION_NAME]: {
     collection: collectionsNames.SERVICES_COLLECTION_NAME,
     controller: null,
@@ -84,6 +93,18 @@ const predefinedEntities = {
     controller: null,
     service: null,
     entityType: entityTypes.REVIEW,
+  },
+  [collectionsNames.DESTROY_CLAIM_COLLECTION_NAME]: {
+    collection: collectionsNames.DESTROY_CLAIM_COLLECTION_NAME,
+    controller: destroyclaimsController,
+    service: destroyclaimsService,
+    entityType: entityTypes.DESTROY_CLAIM,
+  },
+  [collectionsNames.FOLDERS_COLLECTION_NAME]: {
+    collection: collectionsNames.FOLDERS_COLLECTION_NAME,
+    controller: null,
+    service: null,
+    entityType: entityTypes.FOLDER,
   },
 };
 
@@ -184,12 +205,18 @@ module.exports = async (server) => {
     asyncapisController.getByName.bind(asyncapisController)
   );
 
+  router.get(
+    `/destroyclaims/resolved/:id`,
+    destroyclaimsController.getAndResolveById.bind(destroyclaimsController)
+  );
+
   const openApiSpec = buildOpenApiSpec(Object.keys(predefinedEntities));
   server.initBasicMiddleware();
   server.addOpenApiValidatorMiddleware(openApiSpec);
   server.addPolicyValidatorMiddleware();
   server.addMiddleware((req, res, next) => {
     if (req.files) {
+      // eslint-disable-next-line prefer-destructuring
       req.file = req.files[0];
       delete req.body.image;
     }

@@ -27,8 +27,8 @@
           "analyzer": "simple"
         },
         "_ui": {
-          "view": "overview",
-          "position": 3,
+          "view": "details",
+          "position": 20,
           "type": "text",
           "fallbackValue": ""
         }

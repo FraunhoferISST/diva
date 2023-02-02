@@ -17,7 +17,7 @@ const SERVICE_NAME = require(path.join(`${workDir}`, "/package.json")).name;
 const corsDefaults = {
   origin: process.env.CORS_ALLOW_ORIGIN || "*",
   methods: ["GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "x-actorid", "Authorization"],
+  allowedHeaders: ["Content-Type", "x-diva", "Authorization"],
 };
 
 const hideReqCredentials = (req) => ({

@@ -1,0 +1,40 @@
+{
+  "id": "schema:uuid:3739982d-d055-4750-8413-f0f32fbe5334",
+  "title": "Destroy Claim Model Version",
+  "schemaName": "destroyclaimModelVersion",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": false,
+  "scope": [
+    {
+      "key": "destroyclaimType",
+      "value": "generic"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Destroy Claim Model Version",
+    "required": [
+      "destroyclaimModelVersion"
+    ],
+    "properties": {
+      "destroyclaimModelVersion": {
+        "type": "string",
+        "enum": [
+          "1.0.0"
+        ],
+        "title": "Destroy Claim Model Version",
+        "description": "Destroy Claim model version to be used",
+        "_elasticsearch": {
+          "type": "keyword"
+        },
+        "_ui": {
+          "view": "details",
+          "position": 2.0,
+          "type": "select"
+        }
+      }
+    }
+  }
+}

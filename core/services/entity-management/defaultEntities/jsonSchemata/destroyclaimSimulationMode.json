@@ -1,0 +1,36 @@
+{
+  "id": "schema:uuid:3db2c2a9-97ec-417b-a9fc-01d7e9fe7f8f",
+  "title": "Simulation Mode",
+  "schemaName": "destroyclaimSimulationMode",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "destroyclaimType",
+      "value": "generic"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Simulation Mode",
+    "properties": {
+      "destroyclaimSimulationMode": {
+        "type": "boolean",
+        "default": false,
+        "title": "Simulation Mode",
+        "description": "Run Destroy Claim in simulation mode.",
+        "_elasticsearch": {
+            "type": "boolean"
+          },
+          "_ui": {
+            "view": "details",
+            "position": 1.1,
+            "type": "boolean",
+            "fallbackValue": false
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:f24aaff0-7310-4530-b9e7-75754c5dd5ef",
-  "title": "SAS platform",
+  "title": "SAS Platform",
   "schemaName": "sas7bdatPlatform",
   "description": "The platform of the sas7bdat database",
   "systemEntityType": "schema",
@@ -15,11 +15,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "SAS platform",
+    "title": "SAS Platform",
     "properties": {
       "sas7bdatPlatform": {
         "type": "string",
-        "title": "SAS platform",
+        "title": "SAS Platform",
         "description": "The platform of the sas7bdat database",
         "default": "",
         "minLength": 1,
@@ -29,7 +29,7 @@
         "pattern": "^(.*)$",
         "_ui": {
           "view": "profiling",
-          "position": 3,
+          "position": 100,
           "type": "text",
           "fallbackValue": ""
         }

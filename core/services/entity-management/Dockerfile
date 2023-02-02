@@ -1,5 +1,5 @@
 # Buld service binary
-FROM node:14.16.0-alpine as builder
+FROM node:18.12.0-alpine as builder
 LABEL org.opencontainers.image.source=https://github.com/fraunhoferisst/diva
 ARG SERVICE_NAME=resource-management
 

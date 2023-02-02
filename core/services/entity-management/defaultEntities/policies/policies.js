@@ -329,12 +329,13 @@ module.exports = [
   },
   {
     id: "policy:uuid:468db289-3ebf-4f93-8d64-d56117875266",
-    title: "Allow anybody to create entities (excluding users and reviews)",
+    title:
+      "Allow anybody to create entities (excluding users, reviews, policies, rules and schemata)",
     isActive: true,
     isEditable: true,
     scope: {
       "headers.serviceName": "entity-management",
-      path: "^/((?!.*users|reviews.*)[a-zA-Z0-9]+)/?$",
+      path: "^/((?!.*users|reviews|policies|rules|schemata.*)[a-zA-Z0-9]+)/?$",
       method: "POST",
     },
     condition: {
@@ -768,6 +769,33 @@ module.exports = [
         "(analytics-assistant|diva-lake-adapter|urban-pulse-adapter|search-assistant)",
       path: "^/.+",
       method: "(GET|POST|OPTIONS)",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+      ],
+    },
+  },
+  
+  /*
+   * Destroy Claim resolve route not limited
+   */
+  {
+    id: "policy:uuid:6a42283f-3a4e-43f1-86bd-2e8cf2c78ca6",
+    title: "Logged in users have access to Destroy Claim resolve route",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/destroyclaims/resolved/destroyclaim:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/?$",
+      method: "GET",
     },
     condition: {
       and: [

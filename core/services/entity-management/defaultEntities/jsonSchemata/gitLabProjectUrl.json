@@ -1,0 +1,46 @@
+{
+  "id": "schema:uuid:4fa48d5f-d9be-4b7e-a7be-9ce8dcbf8e30",
+  "title": "GitLab Project URL",
+  "description": "The URL of the GitLab Project",
+  "schemaName": "gitLabProjectUrl",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "gitlab:project"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "GitLab Project URL",
+    "description": "The URL of the GitLab Project",
+    "required": [
+      "gitLabProjectUrl"
+    ],
+    "properties": {
+      "gitLabProjectUrl": {
+        "type": "string",
+        "format": "uri",
+        "title": "GitLab Project URL",
+        "description": "The URL of the GitLab Project",
+        "examples": [
+          "https://github.com/test/test-project"
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "diva_analyzer"
+        },
+        "_ui": {
+          "view": "details",
+          "position": 0,
+          "type": "text",
+          "fullWidth": false,
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

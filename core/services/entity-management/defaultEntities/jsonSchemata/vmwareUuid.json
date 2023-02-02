@@ -1,0 +1,43 @@
+{
+  "id": "schema:uuid:ec21e8d9-93d4-43d9-896d-c29ca5a0946d",
+  "title": "VMWare UUID Schema",
+  "schemaName": "vmwareUuid",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "vmware:vm"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "VMWare UUID",
+    "required": [
+      "vmwareUuid"
+    ],
+    "properties": {
+      "vmwareUuid": {
+        "type": "string",
+        "pattern": "^([0-9a-f]{2} ){7}[0-9a-f]{2}-[0-9a-f]{2} ([0-9a-f]{2} ){6}[0-9a-f]{2}$",
+        "title": "VMWare UUID",
+        "description": "The UUID of the VMWare VM",
+        "examples": [
+          "56 4d d1 4a 8e 46 d6 79-87 7c dc 0d d7 4f ef e9"
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "diva_analyzer"
+        },
+        "_ui": {
+          "view": "details",
+          "position": 0,
+          "type": "text",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

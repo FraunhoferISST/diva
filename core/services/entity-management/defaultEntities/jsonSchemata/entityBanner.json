@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:025006b9-9104-4970-9c78-cd93af21d668",
-  "title": "Entity banner",
+  "title": "Entity Banner",
   "schemaName": "entityBanner",
   "description": "The source of the entity banner image",
   "systemEntityType": "schema",
@@ -9,10 +9,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Entity banner",
+    "title": "Entity Banner",
+    "description": "The source of the entity banner image",
     "properties": {
       "entityBanner": {
-        "title": "Entity banner",
+        "title": "Entity Banner",
         "description": "The source of the entity banner image",
         "anyOf": [
           {

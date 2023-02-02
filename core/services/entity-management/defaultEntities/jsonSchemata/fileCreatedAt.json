@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:818b5d50-8ce3-42aa-843b-17ef9e238e9a",
-  "title": "File creation data",
+  "title": "File Creation Data",
   "schemaName": "fileCreatedAt",
   "description": "Date the file was created",
   "systemEntityType": "schema",
@@ -15,11 +15,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "File creation data",
+    "title": "File Creation Data",
     "properties": {
       "fileCreatedAt": {
         "type": "string",
-        "title": "File creation data",
+        "title": "File Creation Data",
         "description": "Date the file was created",
         "default": "",
         "minLength": 1,
@@ -32,7 +32,7 @@
         },
         "_ui": {
           "view": "profiling",
-          "position": 2,
+          "position": 100,
           "type": "date",
           "fallbackValue": ""
         }

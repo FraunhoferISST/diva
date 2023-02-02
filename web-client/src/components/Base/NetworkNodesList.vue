@@ -12,7 +12,7 @@
             <no-data-state />
           </v-col>
         </v-row>
-        <v-row dense v-else class="mt-3">
+        <v-row dense v-else class="mt-0">
           <v-col cols="12" class="py-3" v-if="showCounter">
             {{ totalNetworkEntitiesCount }} in total
           </v-col>
@@ -76,7 +76,11 @@ export default {
   props: {
     id: {
       type: String,
-      required: true,
+      required: false,
+    },
+    toId: {
+      type: String,
+      required: false,
     },
     edgeTypes: {
       type: String,
@@ -118,6 +122,7 @@ export default {
       datanetwork
         .getEdges({
           from: props.id,
+          to: props.toId,
           edgeTypes: props.edgeTypes,
           pageSize: props.maxItems ?? 20,
           bidirectional: props.bidirectional,
@@ -126,30 +131,34 @@ export default {
         })
         .then(async ({ data: { collection, ...rest } }) => ({
           ...rest,
-          collection: await Promise.all(
-            collection.map(
-              ({
-                to: { entityId: toEntityId },
-                from: { entityId: fromEntityId },
-                properties: { id: edgeId },
-              }) => {
-                const toId =
-                  toEntityId === props.id ? fromEntityId : toEntityId;
-                return getEntityApiById(toId)
-                  .getByIdIgnoringErrors(toId, {
-                    onIgnoredError: () => ({
+          collection: (
+            await Promise.all(
+              collection.map(
+                ({
+                  to: { entityId: toEntityId },
+                  from: { entityId: fromEntityId },
+                  properties: { id: edgeId },
+                }) => {
+                  const toId =
+                    fromEntityId === props.id || toEntityId !== props.toId
+                      ? toEntityId
+                      : fromEntityId;
+                  return getEntityApiById(toId)
+                    .getByIdIgnoringErrors(toId, {
+                      onIgnoredError: () => ({
+                        id: toId,
+                        visible: false,
+                      }),
+                    })
+                    .then((response) => ({
                       id: toId,
-                      visible: false,
-                    }),
-                  })
-                  .then((response) => ({
-                    id: toId,
-                    ...(response?.data ?? response ?? {}),
-                    edgeId,
-                  }));
-              }
+                      ...(response?.data ?? response ?? {}),
+                      edgeId,
+                    }));
+                }
+              )
             )
-          ),
+          ).sort((e1, e2) => e1.modifiedAt - e2.modifiedAt),
         }));
     const load = () =>
       request(

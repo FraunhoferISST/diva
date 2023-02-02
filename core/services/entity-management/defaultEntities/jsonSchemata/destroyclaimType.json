@@ -1,0 +1,39 @@
+{
+  "id": "schema:uuid:f951dd00-5586-4444-86a0-4869427571c2",
+  "title": "Destroy Claim Type",
+  "schemaName": "destroyclaimType",
+  "description": "The type of the Destroy Claim",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": false,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "destroyclaim"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Destroy Claim Type",
+    "required": [
+      "destroyclaimType"
+    ],
+    "properties": {
+      "destroyclaimType": {
+        "type": "string",
+        "title": "Destroy Claim Type",
+        "description": "The type of the Destroy Claim",
+        "enum": [
+          "generic",
+          "destroySubject",
+          "destroyCondition",
+          "destroyAction"
+        ],
+        "_elasticsearch": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

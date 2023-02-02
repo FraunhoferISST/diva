@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-const urlJoin = require("url-join");
+import urlJoin from "url-join";
 
 const endpoint = process.env.VUE_APP_API_GATEWAY_URL || "http://localhost:8000";
 

@@ -1,6 +1,7 @@
 {
   "id": "schema:uuid:362ffb74-1346-43b4-99a9-6b426f672157",
-  "title": "condition",
+  "title": "Policy and Rule Condition",
+  "description": "Condition of a policy or rule that must be applied",
   "schemaName": "condition",
   "systemEntityType": "schema",
   "entityType": "systemEntity",
@@ -18,6 +19,8 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
+    "title": "Policy and Rule Condition",
+    "description": "Condition of a policy or rule that must be applied",
     "required": [
       "condition"
     ],

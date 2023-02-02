@@ -14,6 +14,7 @@
           :property="fieldDefinition.propertyName"
           :value="fieldDefinition.value"
           :title="fieldDefinition.title"
+          :type="fieldDefinition.type"
           :options="fieldDefinition.options"
           :allowCustom="fieldDefinition.allowCustom"
           :multiple="fieldDefinition._ui.multiple"

@@ -1,0 +1,44 @@
+{
+  "id": "schema:uuid:0b457b8c-daf9-45b2-98ed-645344d60d64",
+  "title": "GitLab Project ID",
+  "schemaName": "gitLabProjectId",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "resourceType",
+      "value": "gitlab:project"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "GitLab Project ID",
+    "required": [
+      "gitLabProjectId"
+    ],
+    "properties": {
+      "gitLabProjectId": {
+        "type": "string",
+        "pattern": "^[0-9]+$",
+        "title": "GitLab Project ID",
+        "description": "The ID of the GitLab project",
+        "examples": [
+          "1234"
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "diva_analyzer"
+        },
+        "_ui": {
+          "view": "details",
+          "position": 0.1,
+          "break": true,
+          "type": "text",
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

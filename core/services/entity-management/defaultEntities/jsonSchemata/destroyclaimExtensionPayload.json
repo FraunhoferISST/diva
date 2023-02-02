@@ -1,0 +1,38 @@
+{
+  "id": "schema:uuid:0a10816e-58a0-416a-84c3-cc68a69105f8",
+  "title": "Destroy Claim Extension Payload",
+  "schemaName": "destroyclaimExtensionPayload",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": false,
+  "scope": [
+    {
+      "key": "destroyclaimType",
+      "value": "destroyCondition"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Destroy Claim Extension Payload",
+    "required": [
+      "destroyclaimExtensionPayload"
+    ],
+    "properties": {
+      "destroyclaimExtensionPayload": {
+        "type": "object",
+        "title": "Destroy Claim Extension Payload",
+        "_elasticsearch": {
+          "enabled": false
+        },
+        "_ui": {
+          "view": "details",
+          "position": 4,
+          "type": "json",
+          "fallbackValue": "",
+          "fullWidth": true
+        }
+      }
+    }
+  }
+}

@@ -69,19 +69,27 @@ services:
 
   entity-management-sink:
     container_name: entity-management-sink
-    image: ${REGISTRY}entity-management-sink:1.0.0
+    image: ${REGISTRY}entity-management-sink:1.1.0
 
   keywords-similarity-hash-generator:
     container_name: keywords-similarity-hash-generator
     image: ${REGISTRY}keywords-similarity-hash-generator:0.1.0
 
+  property-forwarder:
+    container_name: property-forwarder
+    image: ${REGISTRY}property-forwarder:0.1.0
+
+  github-metadata-extractor:
+    container_name: github-metadata-extractor
+    image: ${REGISTRY}github-metadata-extractor:0.1.0  
+
   # DIVA Bots
   entity-archive-bot:
     container_name: entity-archive-bot
-    image: ${REGISTRY}entity-archive-bot:0.1.0
+    image: ${REGISTRY}entity-archive-bot:0.1.1
   entity-delete-bot:
     container_name: entity-delete-bot
-    image: ${REGISTRY}entity-delete-bot:0.1.0
+    image: ${REGISTRY}entity-delete-bot:0.1.1
   similarity-network-bot:
     container_name: similarity-network-bot
     image: ${REGISTRY}similarity-network-bot:0.1.0  

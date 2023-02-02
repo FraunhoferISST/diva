@@ -1,24 +1,24 @@
 {
   "name": "entity-archive-bot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "serviceId": "service:uuid:cfca72e0-4db4-47ea-bba5-0881be5e670a",
   "private": true,
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "start": "node app.mjs",
+    "dev": "nodemon app.mjs",
     "eslint-fix": "eslint --fix *js"
   },
   "dependencies": {
-    "axios": "^0.26.0",
+    "axios": "^1.2.2",
     "mongodb": "^4.3.1",
-    "url-join": "^4.0.1"
+    "url-join": "^5.0.0"
   },
   "devDependencies": {
-    "eslint": "^7.24.0",
-    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint": "^8.31.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.2.0",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.2.1"
   }
 }

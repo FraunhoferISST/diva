@@ -1,5 +1,5 @@
 <template>
-  <entity-details-link :id="doc.id" target="_blank">
+  <entity-details-link :id="doc.id" target="">
     <div class="search-card-container fill-height d-flex py-8 pa-3 pa-md-10">
       <div class="search-card">
         <div class="search-card-header">
@@ -74,9 +74,9 @@
             </v-chip>
           </div>
           <markdown-viewer
-            class="search-card-description ma-0 mt-2"
-            v-if="doc.description"
-            :markdown="description"
+            class="search-card-summary ma-0 mt-2"
+            v-if="doc.summary"
+            :markdown="summary"
           />
           <v-container fluid class="pa-0 mt-4">
             <v-row dense>
@@ -155,18 +155,20 @@ export default {
       return [
         this.doc.entityType,
         this.doc.resourceType,
+        this.doc.mimeType,
         this.doc.serviceType,
         this.doc.assetType,
-        this.doc.mimeType,
+        this.doc.publisherType,
+        this.doc.destroyclaimType,
       ]
         .filter((label) => label)
         .map((label) =>
           label.length > 30 ? `${label.slice(0, 30)}...` : label
         );
     },
-    description() {
-      const desc = this.doc.description ?? "";
-      return desc.length > 250 ? `${desc.slice(0, 250)}... ` : desc;
+    summary() {
+      const sum = this.doc.summary ?? "";
+      return sum.length > 250 ? `${sum.slice(0, 250)}... ` : sum;
     },
     keywords() {
       return (this.doc.keywords ?? []).slice(0, 25);
@@ -215,7 +217,7 @@ export default {
   @include font-style(1.2rem, $font_header, normal, $font_primary_color);
 }
 
-.search-card-description {
+.search-card-summary {
   @include font-style(1rem, $font_body, normal, $font_secondary_color);
 }
 

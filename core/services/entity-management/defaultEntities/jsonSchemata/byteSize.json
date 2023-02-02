@@ -1,6 +1,7 @@
 {
   "id": "schema:uuid:910d5547-a648-4a86-b25e-ad8f4305246c",
-  "title": "byteSize",
+  "title": "Byte Size",
+  "description": "Size of the data in byte",
   "schemaName": "byteSize",
   "isPatchable": true,
   "scope": [
@@ -13,12 +14,13 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Generic File Resource Data",
+    "title": "Byte Size",
+    "description": "Size of the data in byte",
     "properties": {
       "byteSize": {
         "type": "integer",
-        "title": "ByteSize",
-        "description": "The size of the file in bytes",
+        "title": "Byte Size",
+        "description": "Size of the data in byte",
         "default": 0,
         "minimum": 0,
         "examples": [
@@ -28,7 +30,7 @@
         ],
         "_ui": {
           "view": "profiling",
-          "position": 2,
+          "position": 100,
           "type": "text",
           "fallbackValue": ""
         },

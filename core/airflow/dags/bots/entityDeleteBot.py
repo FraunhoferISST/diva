@@ -21,7 +21,7 @@ with DAG('entity_delete_bot', default_args=default_args, schedule_interval='* * 
 
     entity_delete_bot_task = DockerOperator(
         task_id='entity-delete-bot',
-        image='ghcr.io/fraunhoferisst/diva/entity-delete-bot:0.1.0',
+        image='ghcr.io/fraunhoferisst/diva/entity-delete-bot:0.1.1',
         api_version='auto',
         auto_remove=True,
         docker_url="unix://var/run/docker.sock",

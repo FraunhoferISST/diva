@@ -1,0 +1,37 @@
+{
+  "id": "schema:uuid:55ccf961-38f3-4fda-bed0-92475b7b042f",
+  "title": "Publisher Type",
+  "schemaName": "publisherType",
+  "description": "The type of the pubisher",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": false,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "publisher"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Publisher Type",
+    "description": "The type of the pubisher",
+    "required": [
+      "publisherType"
+    ],
+    "properties": {
+      "publisherType": {
+        "type": "string",
+        "title": "Publisher Type",
+        "description": "The type of the pubisher",
+        "enum": [
+          "generic"
+        ],
+        "_elasticsearch": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

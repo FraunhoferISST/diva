@@ -7,11 +7,12 @@ import AssetEntities from "@/components/Asset/AssetEntities.vue";
 import UserGeneral from "@/components/User/UserGeneral/";
 import UserActivities from "@/components/User/UserActivities/";
 //Entity common views
-import EntityCosts from "@/components/Entity/EntityCommonComponents/Costs/EntityCosts";
 import EntityHistory from "@/components/Entity/EntityCommonComponents/History/EntityHistory";
 import EntityReviews from "@/components/Entity/EntityCommonComponents/Reviews/EntityReviews";
 import EntityDetails from "@/views/EntityDetails";
 import EntityGeneral from "@/components/Entity/EntityCommonComponents/General/EntityGeneral";
+import EntityGeneralDetails from "@/components/Entity/EntityCommonComponents/General/EntityGeneralDetails";
+
 import EntityDataNetwork from "@/components/DataNetwork/EntityDataNetwork";
 
 import defaultEntityDetailsRoutes from "@/utils/defaultEntityDetailsRoutes";
@@ -24,18 +25,14 @@ const generateDefaultEntityDetailsRoutes = (prefix = "entity", filterBy = []) =>
     }))
     .filter(({ title }) => !filterBy.includes(title));
 
-const ASSET_PREFIX = "asset";
 const RESOURCE_PREFIX = "resource";
+const ASSET_PREFIX = "asset";
 const USER_PREFIX = "user";
+const PUBLISHER_PREFIX = "publisher";
+const DESTROYCLAIM_PREFIX = "destroyclaim";
 const ENTITY_PREFIX = "entity";
 
 const entityCommonRoutes = (prefix = ENTITY_PREFIX) => [
-  {
-    path: "costs",
-    name: `${prefix}_details_costs`,
-    component: EntityCosts,
-    props: true,
-  },
   {
     path: "history",
     name: `${prefix}_details_history`,
@@ -61,6 +58,7 @@ const entityRoutesFactory = ({
   prefix = ENTITY_PREFIX,
   startView = EntityDetails,
   generalView = EntityGeneral,
+  generalDetailsView = EntityGeneralDetails,
   routes = defaultEntityDetailsRoutes,
 } = {}) => {
   return {
@@ -81,6 +79,12 @@ const entityRoutesFactory = ({
         component: generalView,
         props: true,
       },
+      {
+        path: "details",
+        name: `${prefix}_details_details`,
+        component: generalDetailsView,
+        props: true,
+      },
       ...entityCommonRoutes(prefix),
     ],
   };
@@ -91,11 +95,6 @@ const resourceConfig = entityRoutesFactory({
   prefix: RESOURCE_PREFIX,
   routes: [
     ...generateDefaultEntityDetailsRoutes(RESOURCE_PREFIX),
-    {
-      title: "Costs",
-      icon: "attach_money",
-      name: "resource_details_costs",
-    },
     {
       title: "Profiling",
       icon: "developer_board",
@@ -129,11 +128,6 @@ const assetConfig = entityRoutesFactory({
   prefix: ASSET_PREFIX,
   routes: [
     ...generateDefaultEntityDetailsRoutes(ASSET_PREFIX),
-    {
-      title: "Costs",
-      icon: "attach_money",
-      name: "asset_details_costs",
-    },
     {
       title: "Entities",
       icon: "topic",
@@ -170,5 +164,40 @@ usersConfig.children.push({
   props: true,
 });
 
+const publisherConfig = entityRoutesFactory({
+  collection: "publishers",
+  prefix: PUBLISHER_PREFIX,
+  routes: [...generateDefaultEntityDetailsRoutes(PUBLISHER_PREFIX)],
+});
+
+const destroyclaimConfig = entityRoutesFactory({
+  collection: "destroyclaims",
+  prefix: DESTROYCLAIM_PREFIX,
+  routes: [
+    ...generateDefaultEntityDetailsRoutes(DESTROYCLAIM_PREFIX),
+    /*
+    {
+      title: "Claim Model",
+      icon: "delete",
+      name: "destroyclaim_details_model",
+    },*/
+  ],
+});
+//Destroyclaim specific routes
+/*
+destroyclaimConfig.children.push({
+  path: "model",
+  name: "destroyclaim_details_model",
+  component: AssetEntities,
+  props: true,
+});*/
+
 const entityConfig = entityRoutesFactory();
-export default [resourceConfig, assetConfig, usersConfig, entityConfig];
+export default [
+  resourceConfig,
+  assetConfig,
+  usersConfig,
+  publisherConfig,
+  destroyclaimConfig,
+  entityConfig,
+];

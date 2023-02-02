@@ -1,5 +1,20 @@
 <template>
-  <info-block title="Location">
+  <info-block :title="fieldSchema.title">
+    <template #title v-if="fieldSchema.description">
+      <info-block-title class="d-flex justify-space-between">
+        {{ fieldSchema.title }}
+        <template #info>
+          <v-tooltip top open-delay="600" max-width="400px">
+            <template #activator="{ on, attrs }">
+              <v-icon color="primary" dense v-bind="attrs" v-on="on">
+                info_outline
+              </v-icon>
+            </template>
+            <span>{{ fieldSchema.description }}</span>
+          </v-tooltip>
+        </template>
+      </info-block-title>
+    </template>
     <template #value>
       <field-editor
         :data="{ location }"
@@ -27,6 +42,7 @@
 import NoDataState from "@/components/Base/NoDataState";
 import LocationMap from "@/components/Charts/LocationMap";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
+import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 import LocationEdit from "@/components/Entity/EntityFields/EntityField/Location/LocationEdit";
 import { useEntity } from "@/composables/entity";
@@ -39,6 +55,7 @@ export default {
     LocationEdit,
     FieldEditor,
     InfoBlock,
+    InfoBlockTitle,
     LocationMap,
     NoDataState,
   },
@@ -53,6 +70,10 @@ export default {
     },
     editable: {
       type: Boolean,
+      required: true,
+    },
+    fieldSchema: {
+      type: Object,
       required: true,
     },
   },

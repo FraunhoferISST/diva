@@ -1,0 +1,48 @@
+{
+  "id": "schema:uuid:da85d4dd-a023-4762-97a5-ed67c95caaa9",
+  "title": "Destroy Claim Extension Name",
+  "schemaName": "destroyclaimExtensionName",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": false,
+  "scope": [
+    {
+      "key": "destroyclaimType",
+      "value": "destroyCondition"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Destroy Claim Extension Name",
+    "required": [
+      "destroyclaimExtensionName"
+    ],
+    "properties": {
+      "destroyclaimExtensionName": {
+        "type": "string",
+        "enum": [
+          "std:fromPointInTime",
+          "std:toPointInTime",
+          "std:alpha3CountryCode",
+          "std:geoLocation",
+          "std:dcaProperty",
+          "diva:entityProperty",
+          "diva:entityRelation"
+        ],
+        "title": "Destroy Claim Extension Name",
+        "_elasticsearch": {
+          "enabled": false
+        },
+        "_ui": {
+          "view": "details",
+          "position": 1,
+          "fullWidth": false,
+          "type": "select",
+          "multiple": false,
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

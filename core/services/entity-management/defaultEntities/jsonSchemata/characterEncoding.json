@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:a0df23ee-75ef-45b0-ae56-015ca2b98837",
-  "title": "Text Character Encoding",
+  "title": "Character Encoding",
   "schemaName": "characterEncoding",
   "isPatchable": true,
   "scope": [
@@ -29,7 +29,7 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Text Character Encoding",
+    "title": "Character Encoding",
     "properties": {
       "characterEncoding": {
         "type": "string",
@@ -44,7 +44,7 @@
         "pattern": "^(.*)$",
         "_ui": {
           "view": "profiling",
-          "position": 2,
+          "position": 100,
           "type": "text",
           "fallbackValue": ""
         }

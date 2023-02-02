@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="diva-airflow",
-    version="5.2.0",
+    version="5.6.0",
     author="Fraunhofer ISST",
     description="DIVA Airflow profiling workflows engine",
     classifiers=[

@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:ddfd4d62-99e3-4192-965b-7714e7d39d88",
-  "title": "PDF producer",
+  "title": "PDF Producer",
   "schemaName": "pdfDocinfoProducer",
   "description": "Producer of the PDF File",
   "systemEntityType": "schema",
@@ -15,11 +15,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "pdfDocinfoProducer",
+    "title": "PDF Producer",
     "properties": {
       "pdfDocinfoProducer": {
         "type": "string",
-        "title": "pdfDocinfoProducer",
+        "title": "PDF Producer",
         "description": "Producer of the PDF File",
         "default": "",
         "minLength": 1,
@@ -29,7 +29,7 @@
         "pattern": "^(.*)$",
         "_ui": {
           "view": "profiling",
-          "position": 3,
+          "position": 100,
           "type": "text",
           "fallbackValue": ""
         }

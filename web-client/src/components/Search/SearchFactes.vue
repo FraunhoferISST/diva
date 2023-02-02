@@ -115,16 +115,17 @@ export default {
           .join(","),
       });
       if (!searchError.value) {
-        computedFacets.value = Object.entries(fetchedFacets).map(
-          ([key, value]) => ({
+        computedFacets.value = Object.entries(fetchedFacets)
+          .map(([key, value]) => ({
             title: relevantFieldsSchemata.filter(
               ({ schemaName }) => schemaName === key.trim()
             )[0]?.title,
             type: key.trim(),
             options: value?.buckets ?? [],
             selected: [],
-          })
-        );
+          }))
+          .sort((x) => (x.title.includes("Type") ? -1 : 0))
+          .sort((x) => (x.title === "Entity Type" ? -1 : 0));
       }
     });
     return {

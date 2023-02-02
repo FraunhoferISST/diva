@@ -1,0 +1,36 @@
+{
+  "id": "schema:uuid:570dcf1d-fe6e-496e-8655-09d2774dd32d",
+  "title": "Manual Mode",
+  "schemaName": "destroyclaimManualMode",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "destroyclaimType",
+      "value": "generic"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Manual Mode",
+    "properties": {
+      "destroyclaimManualMode": {
+        "type": "boolean",
+        "default": false,
+        "title": "Manual Mode",
+        "description": "Run Destroy Claim in manual mode.",
+        "_elasticsearch": {
+            "type": "boolean"
+          },
+          "_ui": {
+            "view": "details",
+            "position": 1.3,
+            "type": "boolean",
+            "fallbackValue": false
+        }
+      }
+    }
+  }
+}

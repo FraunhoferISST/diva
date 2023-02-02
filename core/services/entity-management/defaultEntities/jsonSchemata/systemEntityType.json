@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:98199088-eb15-4533-945e-93080c04651d",
-  "title": "System entity type",
+  "title": "System Entity Type",
   "schemaName": "systemEntityType",
   "description": "The general type of the system entity",
   "systemEntityType": "schema",
@@ -15,14 +15,14 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "System entity type Type",
+    "title": "System Entity Type",
     "required": [
       "systemEntityType"
     ],
     "properties": {
       "systemEntityType": {
         "type": "string",
-        "title": "System entity type Type",
+        "title": "System Entity Type",
         "description": "The general type of the system entity",
         "enum": [
           "policy",

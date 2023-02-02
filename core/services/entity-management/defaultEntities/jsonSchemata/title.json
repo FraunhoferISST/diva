@@ -25,7 +25,19 @@
     },
     {
       "key": "entityType",
+      "value": "publisher"
+    },
+    {
+      "key": "entityType",
       "value": "review"
+    },
+    {
+      "key": "entityType",
+      "value": "folder"
+    },
+    {
+      "key": "entityType",
+      "value": "destroyclaim"
     }
   ],
   "schema": {
@@ -39,6 +51,7 @@
       "title": {
         "type": "string",
         "title": "Title",
+        "minLength": 1,
         "description": "The title of the entity",
         "examples": [
           "Financial Report 2019",
@@ -52,7 +65,7 @@
         },
         "_ui": {
           "view": "overview",
-          "position": 1,
+          "position": 10,
           "type": "text",
           "fullWidth": true,
           "fallbackValue": ""

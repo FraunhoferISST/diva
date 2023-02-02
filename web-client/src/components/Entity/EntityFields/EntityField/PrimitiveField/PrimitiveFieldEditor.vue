@@ -33,8 +33,8 @@ export default {
     },
     type: {
       type: String,
-      default: "text",
       validator: (val) => ["text", "number"].includes(val),
+      required: true,
     },
   },
   computed: {

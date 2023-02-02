@@ -21,6 +21,7 @@ const {
 const { serviceId } = require("../package.json");
 
 const ENTITY_ROOT_SCHEMA = process.env.ENTITY_ROOT_SCHEMA || "entity";
+const NODE_ENV = process.env.NODE_ENV || "production";
 
 const cleanUpEntity = (entity) => {
   let cleanEntity = {};
@@ -58,8 +59,9 @@ const createProjectionObject = (projectionQuery, policyProjection) => {
 };
 
 const createNextPageQuery = (id) => ({ _id: { $lt: ObjectId(id) } });
-const createNextCursor = async (currentDoc, collection) => {
+const createNextCursor = async (currentDoc, collection, query) => {
   const nextDoc = await collection.findOne({
+    ...query,
     _id: { $lt: ObjectId(currentDoc._id) },
   });
   return nextDoc ? encodeCursor(`${currentDoc._id}`) : undefined;
@@ -135,6 +137,7 @@ class EntityService {
                 entity.id
               })`
             );
+
             return this.insert(entity).then(() =>
               this.historyCollection.insertOne(
                 createHistoryEntity(
@@ -145,6 +148,16 @@ class EntityService {
               )
             );
           }
+          if (NODE_ENV === "development") {
+            logger.info(
+              `Replacing ${this.systemEntityType ?? this.entityType} (${
+                entity.id
+              })`
+            );
+
+            //return this.replace(entity.id, entity);
+          }
+
           logger.info(`${this.entityType} (${entity.id}) already loaded`);
         })
       )
@@ -204,7 +217,8 @@ class EntityService {
     if (collection.length === parsedPageSize) {
       nextCursor = await createNextCursor(
         collection[collection.length - 1],
-        this.collection
+        this.collection,
+        query
       );
     }
     return {
@@ -240,6 +254,7 @@ class EntityService {
       })
       .catch((err) => {
         if (err.code && err.code === 11000) {
+          console.log(entity);
           throw entityAlreadyExistsError;
         }
         throw err;

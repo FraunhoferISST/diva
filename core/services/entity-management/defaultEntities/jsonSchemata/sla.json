@@ -1,0 +1,43 @@
+{
+  "id": "schema:uuid:d84a2d83-032d-430b-8714-c67b708f1bdc",
+  "title": "Service Level Agreement",
+  "schemaName": "sla",
+  "description": "The service level agreement",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "resource"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Service Level Agreement",
+    "description": "The service level agreement",
+    "properties": {
+      "sla": {
+        "type": "string",
+        "title": "Service Level Agreement",
+        "description": "The service level agreement",
+        "default": "",
+        "examples": [
+          "lorem ipsum dolor sit amet..."
+        ],
+        "_ui": {
+          "view": "details",
+          "position": 140,
+          "type": "textArea",
+          "fullWidth": true,
+          "fallbackValue": ""
+        },
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "standard"
+        }
+      }
+    }
+  }
+}

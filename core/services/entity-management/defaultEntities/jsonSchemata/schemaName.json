@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:3ca6c9d9-f631-497d-8a3d-9e4ace0903b7",
-  "title": "Schema name",
+  "title": "Schema Name",
   "schemaName": "schemaName",
   "description": "Unique name of the schema",
   "systemEntityType": "schema",
@@ -15,14 +15,14 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Schema name",
+    "title": "Schema Name",
     "required": [
       "schemaName"
     ],
     "properties": {
       "schemaName": {
         "type": "string",
-        "title": "Schema name",
+        "title": "Schema Name",
         "description": "Unique name of the schema",
         "examples": [
           "entity",

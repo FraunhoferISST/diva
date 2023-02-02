@@ -1,5 +1,20 @@
 <template>
-  <info-block title="Languages">
+  <info-block :title="fieldSchema.title">
+    <template #title v-if="fieldSchema.description">
+      <info-block-title class="d-flex justify-space-between">
+        {{ fieldSchema.title }}
+        <template #info>
+          <v-tooltip top open-delay="600" max-width="400px">
+            <template #activator="{ on, attrs }">
+              <v-icon color="primary" dense v-bind="attrs" v-on="on">
+                info_outline
+              </v-icon>
+            </template>
+            <span>{{ fieldSchema.description }}</span>
+          </v-tooltip>
+        </template>
+      </info-block-title>
+    </template>
     <template #value>
       <field-editor
         :data="{ languages }"
@@ -35,6 +50,7 @@
 <script>
 import NoDataState from "@/components/Base/NoDataState";
 import InfoBlock from "@/components/Base/InfoBlock/InfoBlock";
+import InfoBlockTitle from "@/components/Base/InfoBlock/InfoBlockTitle";
 import { useEntity } from "@/composables/entity";
 import LanguagesEdit from "@/components/Entity/EntityFields/EntityField/Languages/LanguagesEdit";
 import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
@@ -42,7 +58,13 @@ import FieldEditor from "@/components/Entity/EntityFields/FieldEditor";
 export default {
   name: "Languages",
   inheritAttrs: false,
-  components: { FieldEditor, LanguagesEdit, InfoBlock, NoDataState },
+  components: {
+    FieldEditor,
+    LanguagesEdit,
+    InfoBlock,
+    InfoBlockTitle,
+    NoDataState,
+  },
   props: {
     id: {
       type: String,
@@ -55,6 +77,10 @@ export default {
     editable: {
       type: Boolean,
       default: true,
+    },
+    fieldSchema: {
+      type: Object,
+      required: true,
     },
   },
   setup(props) {

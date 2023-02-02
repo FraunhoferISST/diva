@@ -1,0 +1,40 @@
+{
+    "id": "schema:uuid:1613318b-5f2f-46b2-81b8-3d63ec4ec9a7",
+    "title": "VMWare Memory",
+    "schemaName": "vmwareMemory",
+    "isPatchable": true,
+    "scope": [
+        {
+            "key": "resourceType",
+            "value": "vmware:vm"
+        }
+    ],
+    "systemEntityType": "schema",
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2019-09/schema",
+      "type": "object",
+      "title": "VMWare Memory",
+      "properties": {
+        "vmwareMemory": {
+          "type": "integer",
+          "title": "VMWare Memory",
+          "description": "Memory (RAM) of VM in MB",
+          "default": 0,
+          "minimum": 0,
+          "examples": [
+            1024,
+            16384
+          ],
+          "_elasticsearch": {
+            "type": "integer"
+          },
+          "_ui": {
+            "view": "details",
+            "position": 0.3,
+            "type": "number",
+            "fallbackValue": ""
+          }
+        }
+      }
+    }
+  }

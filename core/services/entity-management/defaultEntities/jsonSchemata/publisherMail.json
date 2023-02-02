@@ -1,0 +1,43 @@
+{
+  "id": "schema:uuid:f594c83f-a37f-458f-94d3-c2d6e4f17e50",
+  "title": "Publisher Contact Mail",
+  "description": "An Email address of the publisher",
+  "schemaName": "publisherEmail",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "entityType",
+      "value": "publisher"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Publisher Contact Mail",
+    "description": "An Email address of the publisher",
+    "properties": {
+      "publisherEmail": {
+        "type": "string",
+        "format": "email",
+        "title": "Publisher Contact Mail",
+        "description": "An Email address of the publisher",
+        "examples": [
+          "info@publisher.com"
+        ],
+        "_elasticsearch": {
+          "type": "text",
+          "analyzer": "diva_analyzer"
+        },
+        "_ui": {
+          "view": "details",
+          "position": 100,
+          "type": "text",
+          "fullWidth": false,
+          "fallbackValue": ""
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:86f25f91-c24c-43b7-aba8-6f8dee5db88c",
-  "title": "Political geocoding levels",
+  "title": "Political Geocoding Levels",
   "schemaName": "politicalGeocoding",
   "description": "For the coded specification of the respective principle management level from which the data structure was collected and set, the following six options with multiple selection are possible",
   "systemEntityType": "schema",
@@ -19,11 +19,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "Political geocoding levels",
+    "title": "Political Geocoding Levels",
     "properties": {
       "politicalGeocoding": {
         "type": "string",
-        "title": "Political geocoding levels",
+        "title": "Political Geocoding Levels",
         "description": "For the coded specification of the respective principle management level from which the data structure was collected and set, the following six options with multiple selection are possible",
         "enum": [
           "International",
@@ -37,8 +37,8 @@
           "type": "keyword"
         },
         "_ui": {
-          "view": "overview",
-          "position": 4,
+          "view": "details",
+          "position": 100,
           "type": "select",
           "fallbackValue": ""
         }

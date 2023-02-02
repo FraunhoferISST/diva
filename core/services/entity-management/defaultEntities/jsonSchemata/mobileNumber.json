@@ -23,8 +23,8 @@
           "+49 150 1111 2222"
         ],
         "_ui": {
-          "view": "overview",
-          "position": 3,
+          "view": "details",
+          "position": 100,
           "type": "text",
           "fallbackValue": ""
         }

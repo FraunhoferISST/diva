@@ -13,6 +13,14 @@
     {
       "key": "systemEntityType",
       "value": "rule"
+    },
+    {
+      "key": "entityType",
+      "value": "service"
+    },
+    {
+      "key": "destroyclaimType",
+      "value": "generic"
     }
   ],
   "schema": {

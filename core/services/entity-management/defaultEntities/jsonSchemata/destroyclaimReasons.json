@@ -1,0 +1,69 @@
+{
+  "id": "schema:uuid:c4a31ddf-fbcf-44d3-959a-f004208165b8",
+  "title": "Destroy Reasons",
+  "schemaName": "destroyclaimDestroyReasons",
+  "description": "Reasons why this Destroy Claim exists",
+  "systemEntityType": "schema",
+  "entityType": "systemEntity",
+  "isPatchable": true,
+  "scope": [
+    {
+      "key": "destroyclaimType",
+      "value": "generic"
+    }
+  ],
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Destroy Reasons",
+    "description": "Reasons why this destroy claim exists",
+    "properties": {
+      "destroyclaimDestroyReasons": {
+        "type": "array",
+        "title": "Destroy Reasons",
+        "description": "Reasons why this Destroy Claim exists",
+        "items": {
+          "title": "Destroy Reasons Information",
+          "description": "Detailed information about each destroyclaim reasons",
+          "type": "object",
+          "required": [
+            "value"
+          ],
+          "properties": {
+            "value": {
+              "title": "Destroy Reason Value",
+              "description": "A Destroy Reason",
+              "type": "string",
+              "minLength": 2,
+              "examples": [
+                "https://fraunhoferisst.github.io/destroyclaims/docs/Why/Reasons/Data-Quality/why-data-quality-timeliness",
+                "not needed anymore"
+              ],
+              "_elasticsearch": {
+                "type": "text"
+              }
+            },
+            "name": {
+              "title": "Destroyclaim Reason Name",
+              "description": "Descriptive destroy reason name",
+              "examples": [
+                "Data Quality - Timeliness"
+              ],
+              "type": "string",
+              "_elasticsearch": {
+                "type": "text"
+              }
+            }
+          }
+        },
+        "_ui": {
+          "view": "details",
+          "position": 3,
+          "component": "DestroyReasons",
+          "fallbackValue": [],
+          "fullWidth": true
+        }
+      }
+    }
+  }
+}

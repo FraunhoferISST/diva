@@ -18,7 +18,7 @@ const createSingleEntity = async (service, entity, actorId, entityType) =>
           newEntityId,
           actorId,
           "create",
-          entity.attributedTo ? [entity.attributedTo] : [],
+          entity.attributedTo ? entity.attributedTo.split(",") : [],
           { affectedFields: getAffectedFieldsFromDelta(delta) }
         ),
     ],
@@ -256,7 +256,7 @@ module.exports = class EntityController {
         req.params.id,
         actorId,
         "update",
-        attributedTo ? [attributedTo] : []
+        attributedTo ? attributedTo.split(",") : []
       );
     } catch (err) {
       return next(err);

@@ -1,6 +1,6 @@
 {
   "id": "schema:uuid:5b080891-a0d6-4be1-8647-ecdd36bdf9c3",
-  "title": "PDF encrypted",
+  "title": "PDF Encrypted",
   "schemaName": "pdfEncrypted",
   "description": "PDF is encrypted",
   "systemEntityType": "schema",
@@ -15,11 +15,11 @@
   "schema": {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "type": "object",
-    "title": "pdfEncrypted",
+    "title": "PDF Encrypted",
     "properties": {
       "pdfEncrypted": {
         "type": "boolean",
-        "title": "pdfEncrypted",
+        "title": "PDF Encrypted",
         "description": "PDF is encrypted",
         "examples": [
           true,
@@ -27,7 +27,7 @@
         ],
         "_ui": {
           "view": "profiling",
-          "position": 3,
+          "position": 100,
           "type": "boolean",
           "fallbackValue": false
         }
