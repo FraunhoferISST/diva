@@ -11,7 +11,7 @@
     "start": "NODE_ENV=production POLICY_MIDDLEWARE=inactive node index.js",
     "dev": "NODE_ENV=development POLICY_MIDDLEWARE=inactive node index.js",
     "eslint-fix": "eslint --fix . --ext .js",
-    "build:alpine": "pkg --config package.json -t node16-alpine-x64 --output index-alpine index.js",
+    "build:alpine": "pkg --config package.json -t node18-alpine-x64 --output index-alpine index.js",
     "build:linux": "pkg --config package.json -t node16-linux-x64 --output index-linux index.js",
     "test:e2e": "NODE_ENV=test mocha --recursive test/e2e/*.spec.js --colors=true"
   },
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@diva/eslint-config": "^0.1.0",
-    "pkg": "^5.3.1"
+    "pkg": "^5.8.0"
   },
   "pkg": {
     "assets": [

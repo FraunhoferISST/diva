@@ -783,4 +783,31 @@ module.exports = [
       ],
     },
   },
+  
+  /*
+   * Destroy Claim resolve route not limited
+   */
+  {
+    id: "policy:uuid:6a42283f-3a4e-43f1-86bd-2e8cf2c78ca6",
+    title: "Logged in users have access to Destroy Claim resolve route",
+    isActive: true,
+    isEditable: true,
+    scope: {
+      "headers.serviceName": "entity-management",
+      path: "^/destroyclaims/resolved/destroyclaim:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}/?$",
+      method: "GET",
+    },
+    condition: {
+      and: [
+        {
+          inputData: {
+            query: {
+              "headers.diva.actorId":
+                "(user|service):uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}",
+            },
+          },
+        },
+      ],
+    },
+  },
 ];
