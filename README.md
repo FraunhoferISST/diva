@@ -1,5 +1,5 @@
 <div align="center" style="text-align: center;">
-  <img src="https://owncloud.fraunhofer.de/index.php/s/aAuhMQl4gNiFDsa/download" />
+  <img src="https://owncloud.fraunhofer.de/index.php/s/bzmjFRTJTlf9CUl/download" width="10%"/>
 </div>
 <!-- START TOP README -->
 <h2 align="center">DIVA - Data Inventory and Valuation Approach</h1>
@@ -9,19 +9,17 @@
 <div align="center">
   Developed for evaluating the newest data management technologies in context of data transparency, data insight and data networking
 </div>
-
 <br />
 
 ![GitHub](https://img.shields.io/badge/diva-v4.1.0-grün?style=flat-square)
-![GitHub](https://img.shields.io/github/license/FraunhoferISST/diva?style=flat-square)
 ![open issues](https://img.shields.io/github/issues/FraunhoferISST/diva?style=flat-square)
-![last-commit](https://img.shields.io/github/last-commit/FraunhoferISST/diva?style=flat-square)
+![license](https://img.shields.io/github/license/FraunhoferISST/diva?style=flat-square)
 ![code-size](https://img.shields.io/github/languages/code-size/FraunhoferISST/diva?style=flat-square)
-
+![last-commit](https://img.shields.io/github/last-commit/FraunhoferISST/diva?style=flat-square)
 <br />
 
 <div align="center" style="text-align: center;">
-    <img src="https://owncloud.fraunhofer.de/index.php/s/YxWE4J5VWYODo2p/download" alt="Diva slide screenshot" width="850"/>
+    <img src="https://owncloud.fraunhofer.de/index.php/s/3yxR6feguuNiwkQ/download" alt="Diva slide screenshot" width="850"/>
 </div>
 
 <!-- END TOP README -->
@@ -33,6 +31,7 @@
 - [Features](#features)
 - [Technologies and Frameworks used](#technologies-and-frameworks-used)
 - [Quick start](#quick-start)
+- [Credits](#credits)
 - [Documentation](https://fraunhoferisst.github.io/diva-docs/)
 
 <!-- END TABLE OF CONTENT -->
