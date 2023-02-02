@@ -1,5 +1,5 @@
 <div align="center" style="text-align: center;">
-  <img src="https://owncloud.fraunhofer.de/index.php/s/bzmjFRTJTlf9CUl/download" width="10%"/>
+  <img src="https://owncloud.fraunhofer.de/index.php/s/o4WzRktvrHDxcxC/download" width="15%"/>
 </div>
 <!-- START TOP README -->
 <h2 align="center">DIVA - Data Inventory and Valuation Approach</h1>
